@@ -1,0 +1,23 @@
+version: '2.1'
+services:
+  wildfly:
+    build: docker/application-server/.
+    image: toystore
+    container_name: toystore
+    ports:
+      - "8080:8080" #APP
+      - "8787:8787" #DEBUG
+      - "8443:8443" #APP SSL
+      - "9990:9990" #MANAGEMENT
+    depends_on:
+      postgresql:
+        condition: service_started
+
+  postgresql:
+    build: docker/database-server/.
+    image: toystore-db
+    container_name: toystore-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ${DOCKER_BASE}/database-server/data:/var/lib/postgresql/data:rw
