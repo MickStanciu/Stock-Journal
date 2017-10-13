@@ -1,7 +1,5 @@
 package com.example.model;
 
-import com.example.repository.Attribute;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Set;

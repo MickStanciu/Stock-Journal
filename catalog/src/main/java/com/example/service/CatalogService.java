@@ -1,8 +1,7 @@
 package com.example.service;
 
 import com.example.model.ItemDto;
-import com.example.model.envelope.PageEnvelope;
-import com.example.repository.Attribute;
+import com.example.model.Attribute;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

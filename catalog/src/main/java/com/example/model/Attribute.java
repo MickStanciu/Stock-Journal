@@ -1,4 +1,4 @@
-package com.example.repository;
+package com.example.model;
 
 import java.io.Serializable;
 
