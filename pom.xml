@@ -11,6 +11,7 @@
 
     <modules>
         <module>catalog</module>
+        <module>shop</module>
     </modules>
 
     <properties>
