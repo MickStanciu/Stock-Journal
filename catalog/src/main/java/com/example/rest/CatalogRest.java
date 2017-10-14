@@ -5,6 +5,8 @@ import com.example.model.PaginationDto;
 import com.example.model.envelope.PageEnvelope;
 import com.example.model.envelope.ResponseEnvelope;
 import com.example.service.CatalogService;
+import com.example.sort.SortType;
+import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -19,6 +21,7 @@ import java.util.List;
 @Produces("application/json")
 public class CatalogRest {
 
+    private static final Logger log = Logger.getLogger(CatalogRest.class);
     private static final String MAX_ITEMS_PER_PAGE = "50";
 
 
@@ -51,15 +54,18 @@ public class CatalogRest {
     @GET
     public Response findAll(
             @QueryParam("limit") @DefaultValue(MAX_ITEMS_PER_PAGE) int limit,
-            @QueryParam("offset") @DefaultValue("0") int offset
+            @QueryParam("offset") @DefaultValue("0") int offset,
+            @QueryParam("sort") @DefaultValue("MODEL_ASC") String sort
             ) {
 
         if (limit < 0 || offset < 0) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        List<BigInteger> paginatedIds = catalogService.getIdList(limit, offset);
-        List<ItemDto> itemList = catalogService.getItemList(paginatedIds);
+        SortType sortType = SortType.lookup(sort.toUpperCase(), SortType.MODEL_ASC);
+
+        List<BigInteger> paginatedIds = catalogService.getIdList(limit, offset, sortType);
+        List<ItemDto> itemList = catalogService.getItemList(paginatedIds, sortType);
 
 
         PageEnvelope pageEnvelope = new PageEnvelope.PageEnvelopeBuilder<List<ItemDto>>()

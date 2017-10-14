@@ -2,6 +2,8 @@ package com.example.service;
 
 import com.example.model.ItemDto;
 import com.example.model.Attribute;
+import com.example.sort.SortType;
+import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -13,6 +15,8 @@ import java.util.*;
 
 @Stateless
 public class CatalogService {
+
+    private static final Logger log = Logger.getLogger(CatalogService.class);
 
     @PersistenceContext
     private EntityManager em;
@@ -36,8 +40,11 @@ public class CatalogService {
         return mapFromObject(results.get(0));
     }
 
-    public List<BigInteger> getIdList(int limit, int offset) {
-        Query q = em.createNativeQuery("SELECT id FROM item ORDER BY id ASC LIMIT :limit OFFSET :offset");
+    public List<BigInteger> getIdList(int limit, int offset, SortType sortType) {
+        String query = "SELECT id FROM item ORDER BY :sort LIMIT :limit OFFSET :offset";
+        query = query.replace(":sort", sortType.getName());
+
+        Query q = em.createNativeQuery(query);
         q.setParameter("limit", limit);
         q.setParameter("offset", offset);
 
@@ -48,16 +55,19 @@ public class CatalogService {
         return results;
     }
 
-    public List<ItemDto> getItemList(List<BigInteger> paginatedIds) {
-        Query q = em.createNativeQuery(
-                "SELECT i.id, i.model, i.sku, i.price, " +
-                        "a.description, ia.value " +
-                        "FROM item i " +
-                        "LEFT JOIN item_attribute ia ON ia.item_id = i.id " +
-                        "LEFT JOIN attribute a ON ia.attribute_id = a.id " +
-                        "WHERE i.id in :inclList " +
-                        "ORDER BY i.id ASC ");
+    public List<ItemDto> getItemList(List<BigInteger> paginatedIds, SortType sortType) {
 
+        String query = "SELECT i.id, i.model, i.sku, i.price, " +
+                "a.description, ia.value " +
+                "FROM item i " +
+                "LEFT JOIN item_attribute ia ON ia.item_id = i.id " +
+                "LEFT JOIN attribute a ON ia.attribute_id = a.id " +
+                "WHERE i.id in :inclList " +
+                "ORDER BY :sort";
+
+        query = query.replace(":sort", sortType.getName());
+
+        Query q = em.createNativeQuery(query);
         q.setParameter("inclList", paginatedIds);
 
         List<Object[]> results = q.getResultList();
@@ -65,7 +75,7 @@ public class CatalogService {
             return Collections.emptyList();
         }
 
-        Map<Integer, ItemDto> items = new HashMap<>();
+        Map<Integer, ItemDto> items = new LinkedHashMap<>();
         for(Object[] o : results) {
             ItemDto item = mapFromObject(o);
 
