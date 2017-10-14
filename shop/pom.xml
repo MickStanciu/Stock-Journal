@@ -11,6 +11,39 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>shop</artifactId>
+    <packaging>war</packaging>
+    <name>shop</name>
 
+    <properties>
+        <rewrite.version>3.4.1.Final</rewrite.version>
+    </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.ocpsoft.rewrite</groupId>
+            <artifactId>rewrite-servlet</artifactId>
+            <version>${rewrite.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.ocpsoft.rewrite</groupId>
+            <artifactId>rewrite-config-prettyfaces</artifactId>
+            <version>${rewrite.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>shop</finalName>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>${maven.war.version}</version>
+                <configuration>
+                    <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
