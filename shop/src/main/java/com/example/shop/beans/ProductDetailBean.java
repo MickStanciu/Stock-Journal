@@ -20,8 +20,7 @@ public class ProductDetailBean {
 
     @PostConstruct
     public void initialize() {
-        catalogGateway.getCatalogItem(2);
-        item = new CatalogItem(2, "model", "sku", new BigDecimal(123));
+        item = catalogGateway.getCatalogItem(2);
     }
 
     public void setCatalogGateway(CatalogGateway catalogGateway) {
