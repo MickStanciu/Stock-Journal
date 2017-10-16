@@ -14,13 +14,6 @@ public class CatalogItem {
     public CatalogItem() {
     }
 
-    public CatalogItem(int id, String model, String sku, BigDecimal price) {
-        this.id = id;
-        this.model = model;
-        this.sku = sku;
-        this.price = price;
-    }
-
     public int getId() {
         return id;
     }

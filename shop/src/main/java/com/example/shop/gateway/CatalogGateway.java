@@ -2,6 +2,7 @@ package com.example.shop.gateway;
 
 
 import com.example.shop.model.CatalogItem;
+import com.example.shop.model.CatalogItemResponse;
 import com.example.shop.utils.UrlUtils;
 
 import javax.ejb.Stateless;
