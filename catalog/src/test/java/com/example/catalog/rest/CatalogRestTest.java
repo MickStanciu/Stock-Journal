@@ -1,9 +1,9 @@
-package com.example.common.rest;
+package com.example.catalog.rest;
 
 import com.example.catalog.rest.CatalogRest;
 import com.example.common.rest.envelope.ResponseEnvelope;
-import com.example.model.ItemDto;
-import com.example.service.CatalogService;
+import com.example.catalog.model.ItemDto;
+import com.example.catalog.service.CatalogService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

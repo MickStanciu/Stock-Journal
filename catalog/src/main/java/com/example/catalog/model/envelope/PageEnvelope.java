@@ -1,7 +1,7 @@
-package com.example.model.envelope;
+package com.example.catalog.model.envelope;
 
 import com.example.common.rest.envelope.RestEnvelope;
-import com.example.model.PaginationDto;
+import com.example.catalog.model.PaginationDto;
 import com.example.common.rest.envelope.ErrorDto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreType;
