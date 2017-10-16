@@ -1,4 +1,4 @@
-package com.example.shop.catalog;
+package com.example;
 
 import javax.ws.rs.core.Application;
 

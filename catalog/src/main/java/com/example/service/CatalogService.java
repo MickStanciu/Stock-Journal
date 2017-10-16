@@ -1,8 +1,8 @@
-package com.example.shop.catalog.service;
+package com.example.service;
 
-import com.example.shop.catalog.model.ItemDto;
-import com.example.shop.catalog.model.Attribute;
-import com.example.shop.catalog.sort.SortType;
+import com.example.model.ItemDto;
+import com.example.model.Attribute;
+import com.example.sort.SortType;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;

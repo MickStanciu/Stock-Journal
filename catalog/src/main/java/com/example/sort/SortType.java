@@ -1,4 +1,4 @@
-package com.example.shop.catalog.sort;
+package com.example.sort;
 
 public enum SortType {
 

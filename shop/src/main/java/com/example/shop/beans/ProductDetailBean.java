@@ -1,7 +1,7 @@
 package com.example.shop.beans;
 
 import com.example.shop.gateway.CatalogGateway;
-import com.example.shop.catalog.model.CatalogItem;
+import com.example.shop.model.CatalogItem;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
