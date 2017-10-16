@@ -30,6 +30,12 @@
             <artifactId>rewrite-config-prettyfaces</artifactId>
             <version>${rewrite.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.jboss.resteasy</groupId>
+            <artifactId>resteasy-jaxrs</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

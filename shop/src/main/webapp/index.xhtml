@@ -7,5 +7,10 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <f:view>
     <h:outputLabel value="Hello, world"/>
+    <div>#{productDetailBean.item}</div>
+    <div>#{productDetailBean.item.id}</div>
+    <div>#{productDetailBean.item.model}</div>
+    <div>#{productDetailBean.item.sku}</div>
+    <div>#{productDetailBean.item.price}</div>
 </f:view>
 </html>
