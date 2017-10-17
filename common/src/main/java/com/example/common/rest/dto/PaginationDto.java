@@ -1,4 +1,4 @@
-package com.example.catalog.model;
+package com.example.common.rest.dto;
 
 import java.io.Serializable;
 
@@ -6,9 +6,9 @@ public class PaginationDto implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final int offset;
-    private final int limit;
-    private final int totalCount;
+    private int offset;
+    private int limit;
+    private int totalCount;
 
     //todo: not implemented
 //    private String nextPage;
@@ -19,6 +19,9 @@ public class PaginationDto implements Serializable {
         this.offset = offset;
         this.limit = limit;
         this.totalCount = totalCount;
+    }
+
+    public PaginationDto() {
     }
 
     public int getOffset() {

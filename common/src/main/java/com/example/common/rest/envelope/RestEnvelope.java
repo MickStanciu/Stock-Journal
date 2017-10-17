@@ -1,5 +1,7 @@
 package com.example.common.rest.envelope;
 
+import com.example.common.rest.dto.ErrorDto;
+
 import java.io.Serializable;
 import java.util.List;
 

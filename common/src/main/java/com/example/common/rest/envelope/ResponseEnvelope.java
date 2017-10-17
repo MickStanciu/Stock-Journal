@@ -1,5 +1,6 @@
 package com.example.common.rest.envelope;
 
+import com.example.common.rest.dto.ErrorDto;
 import com.fasterxml.jackson.annotation.JsonIgnoreType;
 
 import java.util.List;

@@ -4,9 +4,9 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.Response;
 
-public class HttpGateway<T> {
+class HttpGateway {
 
-    public T get(String url, Class<T> clazz) {
+    Object get(String url, Class clazz) {
         Client client = ClientBuilder.newClient();
 
         Response response = client.target(url).request().get();

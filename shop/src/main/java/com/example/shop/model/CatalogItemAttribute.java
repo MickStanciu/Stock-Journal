@@ -13,6 +13,9 @@ public class CatalogItemAttribute implements Serializable {
         this.value = value;
     }
 
+    public CatalogItemAttribute() {
+    }
+
     public String getName() {
         return name;
     }

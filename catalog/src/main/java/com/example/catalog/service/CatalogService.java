@@ -2,7 +2,7 @@ package com.example.catalog.service;
 
 import com.example.catalog.model.ItemDto;
 import com.example.catalog.model.Attribute;
-import com.example.catalog.sort.SortType;
+import com.example.common.sort.SortType;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;

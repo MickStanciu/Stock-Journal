@@ -1,6 +1,5 @@
-package com.example.catalog.sort;
+package com.example.common.sort;
 
-import com.example.catalog.sort.SortType;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

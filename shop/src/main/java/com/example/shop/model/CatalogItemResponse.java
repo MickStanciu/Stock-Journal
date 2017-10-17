@@ -1,6 +1,6 @@
 package com.example.shop.model;
 
-import com.example.common.rest.envelope.ErrorDto;
+import com.example.common.rest.dto.ErrorDto;
 
 import java.util.List;
 

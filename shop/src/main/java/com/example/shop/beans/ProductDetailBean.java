@@ -2,6 +2,7 @@ package com.example.shop.beans;
 
 import com.example.shop.gateway.CatalogGateway;
 import com.example.shop.model.CatalogItem;
+import com.example.shop.model.CatalogItemResponse;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -20,11 +21,8 @@ public class ProductDetailBean {
 
     @PostConstruct
     public void initialize() {
-        item = catalogGateway.getCatalogItem(2);
-    }
-
-    public void setCatalogGateway(CatalogGateway catalogGateway) {
-        this.catalogGateway = catalogGateway;
+        CatalogItemResponse response = catalogGateway.getCatalogItem(2);
+        item = response.getData();
     }
 
     public CatalogItem getItem() {

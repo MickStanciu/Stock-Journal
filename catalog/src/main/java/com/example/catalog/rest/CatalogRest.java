@@ -1,11 +1,11 @@
 package com.example.catalog.rest;
 
 import com.example.catalog.model.ItemDto;
-import com.example.catalog.model.PaginationDto;
-import com.example.catalog.model.envelope.PageEnvelope;
+import com.example.common.rest.dto.PaginationDto;
+import com.example.common.rest.envelope.PageEnvelope;
 import com.example.common.rest.envelope.ResponseEnvelope;
 import com.example.catalog.service.CatalogService;
-import com.example.catalog.sort.SortType;
+import com.example.common.sort.SortType;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
