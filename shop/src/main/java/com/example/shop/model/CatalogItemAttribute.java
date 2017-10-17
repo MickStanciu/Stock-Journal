@@ -21,5 +21,4 @@ public class CatalogItemAttribute implements Serializable {
         return value;
     }
 
-
 }
