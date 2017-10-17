@@ -5,12 +5,14 @@ import com.example.common.sort.SortType;
 import com.example.shop.model.CatalogItemResponse;
 import com.example.shop.model.PaginatedCatalogItemResponse;
 import com.example.shop.utils.UrlUtils;
+import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
 
 @Stateless
 public class CatalogGateway extends HttpGateway {
 
+    private static final Logger log = Logger.getLogger(CatalogGateway.class);
     private static String HTTP_PROTOCOL = "http";
     private static int HTTP_PORT = 8080;
     private static String HOST_URL = "localhost";
@@ -23,8 +25,9 @@ public class CatalogGateway extends HttpGateway {
     }
 
     public PaginatedCatalogItemResponse getPaginatedItems(int limit, int offset, SortType sortType) {
-        String serviceUrl = "/?offset=" + offset + "&limit=" + limit + "&sort=" + sortType.getName();
+        String serviceUrl = "/?offset=" + offset + "&limit=" + limit + "&sort=" + sortType;
         String fullUrl = UrlUtils.getServiceBaseURL(HTTP_PROTOCOL, HTTP_PORT, HOST_URL, SERVICE_BASE_URL);
+        log.info(fullUrl + serviceUrl);
         return (PaginatedCatalogItemResponse) get(fullUrl + serviceUrl, PaginatedCatalogItemResponse.class);
     }
 }

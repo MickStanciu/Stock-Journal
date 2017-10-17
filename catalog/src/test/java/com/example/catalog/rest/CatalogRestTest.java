@@ -1,6 +1,5 @@
 package com.example.catalog.rest;
 
-import com.example.catalog.rest.CatalogRest;
 import com.example.common.rest.envelope.ResponseEnvelope;
 import com.example.catalog.model.ItemDto;
 import com.example.catalog.service.CatalogService;

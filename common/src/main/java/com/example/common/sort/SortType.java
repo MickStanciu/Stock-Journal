@@ -7,14 +7,14 @@ public enum SortType {
     MODEL_ASC("model ASC"),
     MODEL_DESC("model DESC");
 
-    private String name;
+    private String sort;
 
-    SortType(String name) {
-        this.name = name;
+    SortType(String sort) {
+        this.sort = sort;
     }
 
-    public String getName() {
-        return name;
+    public String getSort() {
+        return sort;
     }
 
     static public SortType lookup(String id, SortType defaultValue) {
@@ -23,5 +23,10 @@ public enum SortType {
         } catch (IllegalArgumentException ex) {
             return defaultValue;
         }
+    }
+
+    @Override
+    public String toString() {
+        return this.name();
     }
 }

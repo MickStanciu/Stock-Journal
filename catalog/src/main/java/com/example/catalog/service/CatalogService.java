@@ -42,7 +42,7 @@ public class CatalogService {
 
     public List<BigInteger> getIdList(int limit, int offset, SortType sortType) {
         String query = "SELECT id FROM item ORDER BY :sort LIMIT :limit OFFSET :offset";
-        query = query.replace(":sort", sortType.getName());
+        query = query.replace(":sort", sortType.getSort());
 
         Query q = em.createNativeQuery(query);
         q.setParameter("limit", limit);
@@ -65,7 +65,7 @@ public class CatalogService {
                 "WHERE i.id in :inclList " +
                 "ORDER BY :sort";
 
-        query = query.replace(":sort", sortType.getName());
+        query = query.replace(":sort", sortType.getSort());
 
         Query q = em.createNativeQuery(query);
         q.setParameter("inclList", paginatedIds);

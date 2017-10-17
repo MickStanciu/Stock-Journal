@@ -10,14 +10,9 @@
     <ui:param name="pageTitle" value="La la la | Example.com"/>
 
     <ui:define name="panel-main">
-        <ui:repeat var="item" value="${homePageBean.items}">
-            <li>CA-CA</li>
+        <ui:repeat var="item" value="#{homePageBean.items}">
+            <li>#{item.id} ${item.model} ${item.price}</li>
         </ui:repeat>
-        <!--<div>#{productDetailBean.item.id}</div>-->
-        <!--<div>#{productDetailBean.item.model}</div>-->
-        <!--<div>#{productDetailBean.item.sku}</div>-->
-        <!--<div>#{productDetailBean.item.price}</div>-->
-
     </ui:define>
 </ui:composition>
 
