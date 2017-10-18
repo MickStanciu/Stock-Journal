@@ -11,7 +11,7 @@
 
     <ui:define name="panel-main">
         <ui:repeat var="item" value="#{homePageBean.items}">
-            <li>#{item.id} ${item.model} ${item.price}</li>
+            <ui:include src="WEB-INF/product/boxItem.xhtml"/>
         </ui:repeat>
     </ui:define>
 </ui:composition>
