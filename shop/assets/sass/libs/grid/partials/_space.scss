@@ -1,12 +1,17 @@
 /* Generic Spacing */
-$size-names-list: n s m l xl;
-$size-values-list: 0 5px 10px 15px 20px;
+$size-names-list: 0 1 2 3 4;
+$size-values-list: 0 0.3125rem 0.625rem 0.9375rem 1.25rem;
 
 @for $i from 1 through length($size-names-list) {
   $size: nth($size-names-list, $i);
   $value: nth($size-values-list, $i);
-  .pt#{$size} .pv#{$size} .pa#{$size} { padding-top: $value !important; }
-  .pb#{$size} .pv#{$size} .pa#{$size} { padding-bottom: $value !important; }
-  .pl#{$size} .ph#{$size} .pa#{$size} { padding-left: $value !important; }
-  .pr#{$size} .ph#{$size} .pa#{$size} { padding-right: $value !important; }
+  .pt-#{$size}, .pv-#{$size}, .pa-#{$size} { padding-top: $value !important; }
+  .pb-#{$size}, .pv-#{$size}, .pa-#{$size} { padding-bottom: $value !important; }
+  .pl-#{$size}, .ph-#{$size}, .pa-#{$size} { padding-left: $value !important; }
+  .pr-#{$size}, .ph-#{$size}, .pa-#{$size} { padding-right: $value !important; }
+
+  .mt-#{$size}, .mv-#{$size}, .ma-#{$size} { margin-top: $value !important; }
+  .mb-#{$size}, .mv-#{$size}, .ma-#{$size} { margin-bottom: $value !important; }
+  .ml-#{$size}, .mh-#{$size}, .ma-#{$size} { margin-left: $value !important; }
+  .mr-#{$size}, .mh-#{$size}, .ma-#{$size} { margin-right: $value !important; }
 }

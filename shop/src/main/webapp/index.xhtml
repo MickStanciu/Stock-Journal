@@ -10,9 +10,11 @@
     <ui:param name="pageTitle" value="La la la | Example.com"/>
 
     <ui:define name="panel-main">
-        <ui:repeat var="item" value="#{homePageBean.items}">
-            <ui:include src="WEB-INF/product/boxItem.xhtml"/>
-        </ui:repeat>
+        <div class="catalogItems">
+            <ui:repeat var="item" value="#{homePageBean.items}">
+                <ui:include src="WEB-INF/product/boxItem.xhtml"/>
+            </ui:repeat>
+        </div>
     </ui:define>
 </ui:composition>
 

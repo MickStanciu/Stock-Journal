@@ -1,3 +1,15 @@
 .catalogItem {
   background-color: $gray_light;
+  width: 10rem;
+  height: 10rem;
+  float: left;
+  display: block;
+}
+
+.catalogItem:after {
+  content: '.';
+  display: block;
+  clear: both;
+  height: 0;
+  visibility: hidden;
 }
