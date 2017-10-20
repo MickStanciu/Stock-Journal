@@ -13,6 +13,7 @@
         <module>catalog</module>
         <module>shop</module>
         <module>common</module>
+        <module>availability</module>
     </modules>
 
     <properties>
