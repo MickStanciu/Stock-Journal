@@ -36,7 +36,6 @@ public class CatalogService {
             return null;
         }
 
-
         return mapFromObject(results.get(0));
     }
 

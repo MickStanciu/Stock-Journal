@@ -42,7 +42,7 @@ public class CatalogRest {
         }
 
         ResponseEnvelope responseEnvelope = new ResponseEnvelope.ResponseEnvelopeBuilder<ItemDto>()
-                .data(catalogService.getItem(id))
+                .data(itemDto)
                 .errors(Collections.emptyList())
                 .build();
 
