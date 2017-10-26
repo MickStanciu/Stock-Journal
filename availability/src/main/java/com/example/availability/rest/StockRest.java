@@ -13,6 +13,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Stateless
 @Path("/")
@@ -39,6 +42,31 @@ public class StockRest {
 
         ResponseEnvelope responseEnvelope = new ResponseEnvelope.ResponseEnvelopeBuilder<Stock>()
                 .data(stockItem)
+                .errors(Collections.emptyList())
+                .build();
+
+        return Response.status(Response.Status.OK)
+                .entity(responseEnvelope)
+                .build();
+    }
+
+    @GET
+    @Path("/ids/{params}")
+    public Response findAll(@PathParam("params") String params) {
+        List<Integer> idList;
+        try {
+            idList = Stream.of(params.split(",")).map(Integer::new).collect(Collectors.toList());
+        } catch (Exception ex) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        List<Stock> stockList = stockService.getBulkStock(idList);
+        if (stockList.size() == 0) {
+            return Response.status(Response.Status.NO_CONTENT).build();
+        }
+
+        ResponseEnvelope responseEnvelope = new ResponseEnvelope.ResponseEnvelopeBuilder<List<Stock>>()
+                .data(stockList)
                 .errors(Collections.emptyList())
                 .build();
 

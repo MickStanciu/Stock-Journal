@@ -10,8 +10,10 @@ public class CatalogItem {
     private String sku;
     private BigDecimal price;
     private Set<CatalogItemAttribute> attributes;
+    private int quantity;
 
     public CatalogItem() {
+        quantity = 0;
     }
 
     public int getId() {
@@ -52,5 +54,13 @@ public class CatalogItem {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }
