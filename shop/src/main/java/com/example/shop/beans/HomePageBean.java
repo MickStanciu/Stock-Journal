@@ -4,6 +4,7 @@ import com.example.common.sort.SortType;
 import com.example.shop.gateway.CatalogGateway;
 import com.example.shop.model.CatalogItem;
 import com.example.shop.model.PaginatedCatalogItemResponse;
+import com.example.shop.service.ProductService;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -16,13 +17,13 @@ import java.util.List;
 public class HomePageBean {
 
     @Inject
-    private CatalogGateway catalogGateway;
+    private ProductService productService;
 
     private List<CatalogItem> items;
 
     @PostConstruct
     public void initialize() {
-        PaginatedCatalogItemResponse response = catalogGateway.getPaginatedItems(10,0, SortType.PRICE_DESC);
+        PaginatedCatalogItemResponse response = productService.getPaginatedItems(10,0, SortType.PRICE_DESC);
         items = response.getData();
     }
 
