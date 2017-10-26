@@ -1,3 +1,7 @@
+-- create user
+drop USER if EXISTS admin;
+create user admin with encrypted password 'secret';
+
 -- clean
 DROP TABLE IF EXISTS item_attribute;
 DROP TABLE IF EXISTS item;
