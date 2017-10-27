@@ -12,6 +12,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Stateless
@@ -23,14 +24,16 @@ public class ProductService {
     @Inject
     private AvailabilityGateway availabilityGateway;
 
+
     public PaginatedCatalogItemResponse getPaginatedItems(int limit, int offset, SortType sortType) {
         PaginatedCatalogItemResponse catalogResponse = catalogGateway.getPaginatedItems(limit, offset, sortType);
         List<CatalogItem> itemList = catalogResponse.getData();
-        AvailabilityItemResponse availabilityResponse = availabilityGateway.getBulkAvailability(getItemIds(itemList));
-        List<AvailabilityItem> availabilityList = availabilityResponse.getData();
+        Map<Integer, AvailabilityItem> availabilityResponse = availabilityGateway.getBulkAvailability(getItemIds(itemList));
 
         for (CatalogItem item : itemList) {
-            item.setQuantity(33);
+            if (availabilityResponse.containsKey(item.getId())) {
+                item.setQuantity(availabilityResponse.get(item.getId()).getQuantity());
+            }
         }
         return catalogResponse;
     }
