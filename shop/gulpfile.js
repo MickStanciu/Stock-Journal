@@ -11,8 +11,9 @@ var uglify = require('gulp-uglify');
 gulp.task('sass', function() {
     return gulp.src('assets/sass/site.scss')
         .pipe(sass({errLogToConsole: true}))
+        .on('error', onError)
         .pipe(rename('default.css'))
-        .pipe(gulp.dest('src/main/webapp/resources/default/css'));
+        .pipe(gulp.dest('src/main/webapp/resources/default/css'))
 });
 
 // watch
@@ -20,6 +21,11 @@ gulp.task('watch', function () {
     gulp.watch('assets/sass/**/*.scss', ['sass']);
     gulp.watch('assets/js/**/*.js', ['js']);
 });
+
+function onError(err) {
+    console.log(err);
+    this.emit('end');
+}
 
 // scripts
 // gulp.task('js', function () {

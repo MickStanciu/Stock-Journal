@@ -2,11 +2,11 @@
         xmlns="http://www.w3.org/1999/xhtml"
         xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
-    <div class="catalogItem ph-2 pv-3 ma-1">
-        <div class="model">${item.model}</div>
-        <div class="content">bla</div>
-        <div class="price">${item.price}</div>
-        <div class="qty">${item.quantity}</div>
-    </div>
+    <a class="catalogItem ph-2 pv-3 ma-1" href="#">
+        <div class="image"><img src="resources/default/images/iphone-7.jpg"/></div>
+        <div class="title pb-2">${item.model}</div>
+        <div class="content pb-4">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</div>
+        <div class="price">AUD ${item.price}</div>
+    </a>
 
 </ui:composition>

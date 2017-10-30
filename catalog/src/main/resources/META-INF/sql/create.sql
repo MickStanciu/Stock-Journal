@@ -10,6 +10,8 @@ DROP SEQUENCE IF EXISTS item_seq;
 DROP TABLE IF EXISTS attribute;
 DROP SEQUENCE IF EXISTS attribute_seq;
 
+DROP TABLE IF EXISTS seo;
+
 -- item
 CREATE SEQUENCE item_seq;
 GRANT ALL PRIVILEGES ON SEQUENCE item_seq TO admin;
@@ -19,6 +21,9 @@ CREATE TABLE item (
   model VARCHAR(64),
   sku VARCHAR(64) NOT NULL,
   price DECIMAL(15,4) NOT NULL DEFAULT '0.0000'
+  #hero photo url
+  #description long
+  #description short (64)
 );
 
 GRANT ALL PRIVILEGES ON TABLE item TO admin;
@@ -42,3 +47,11 @@ CREATE TABLE item_attribute (
   value VARCHAR(64)
 );
 GRANT ALL PRIVILEGES ON TABLE item_attribute TO admin;
+
+# -- seo
+# CREATE TABLE seo (
+#   item_id INT REFERENCES item (id) ON UPDATE CASCADE ON DELETE CASCADE,
+#   display_title VARCHAR(64),
+#   url_title VARCHAR(64)
+# );
+# GRANT ALL PRIVILEGES ON TABLE seo TO admin;
