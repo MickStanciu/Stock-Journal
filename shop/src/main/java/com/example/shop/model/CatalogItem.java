@@ -1,6 +1,7 @@
 package com.example.shop.model;
 
 import java.math.BigDecimal;
+import java.util.Currency;
 import java.util.Set;
 
 public class CatalogItem {
@@ -9,6 +10,7 @@ public class CatalogItem {
     private String model;
     private String sku;
     private BigDecimal price;
+    private Currency currency;
     private Set<CatalogItemAttribute> attributes;
     private int quantity;
 
@@ -62,5 +64,13 @@ public class CatalogItem {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(Currency currency) {
+        this.currency = currency;
     }
 }

@@ -1,8 +1,8 @@
 package com.example.catalog.rest;
 
-import com.example.common.rest.envelope.ResponseEnvelope;
 import com.example.catalog.model.ItemDto;
 import com.example.catalog.service.CatalogService;
+import com.example.common.rest.envelope.ResponseEnvelope;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -11,6 +11,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import javax.ws.rs.core.Response;
 import java.math.BigDecimal;
+import java.util.Currency;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
@@ -26,7 +27,7 @@ public class CatalogRestTest {
 
     @Test
     public void testGetItem() {
-        ItemDto itemFixture = new ItemDto(5, "iPhone 6s", "sku1234", new BigDecimal(1000.0005));
+        ItemDto itemFixture = new ItemDto(5, "iPhone 6s", "sku1234", new BigDecimal(1000.0005), Currency.getInstance("AUD"));
         when(catalogService.getItem(5)).thenReturn(itemFixture);
 
         Response response = catalogRest.find(5);

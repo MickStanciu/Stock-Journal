@@ -1,7 +1,7 @@
 package com.example.catalog.service;
 
-import com.example.catalog.model.ItemDto;
 import com.example.catalog.model.Attribute;
+import com.example.catalog.model.ItemDto;
 import com.example.common.sort.SortType;
 import org.apache.log4j.Logger;
 
@@ -11,7 +11,14 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Currency;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Stateless
 public class CatalogService {
@@ -23,9 +30,9 @@ public class CatalogService {
 
     public ItemDto getItem(Integer itemId) {
         Query q = em.createNativeQuery(
-                "SELECT i.id, i.model, i.sku, i.price, " +
-                    "a.description, ia.value " +
+                "SELECT i.id, i.model, i.sku, i.price, c.short_name, a.description, ia.value " +
                     "FROM item i " +
+                        "INNER JOIN currency c on c.id = i.currency_fk " +
                     "LEFT JOIN item_attribute ia ON ia.item_id = i.id " +
                     "LEFT JOIN attribute a ON ia.attribute_id = a.id " +
                     "WHERE i.id = ?");
@@ -56,9 +63,9 @@ public class CatalogService {
 
     public List<ItemDto> getItemList(List<BigInteger> paginatedIds, SortType sortType) {
 
-        String query = "SELECT i.id, i.model, i.sku, i.price, " +
-                "a.description, ia.value " +
+        String query = "SELECT i.id, i.model, i.sku, i.price, c.short_name, a.description, ia.value " +
                 "FROM item i " +
+                "INNER JOIN currency c on c.id = i.currency_fk " +
                 "LEFT JOIN item_attribute ia ON ia.item_id = i.id " +
                 "LEFT JOIN attribute a ON ia.attribute_id = a.id " +
                 "WHERE i.id in :inclList " +
@@ -96,8 +103,9 @@ public class CatalogService {
         String model = (String) result[1];
         String sku = (String) result[2];
         BigDecimal price = (BigDecimal) result[3];
+        Currency currency = Currency.getInstance((String) result[4]);
 
-        ItemDto item = new ItemDto(id, model, sku, price);
+        ItemDto item = new ItemDto(id, model, sku, price, currency);
         Set<Attribute> attributes = new HashSet<>();
         String name = (String) result[4];
         String value = (String) result[5];
