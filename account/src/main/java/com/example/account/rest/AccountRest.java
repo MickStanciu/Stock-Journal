@@ -1,15 +1,20 @@
 package com.example.account.rest;
 
+import com.example.account.exception.ExceptionCodes;
 import com.example.account.model.Account;
 import com.example.account.service.AccountService;
+import com.example.common.rest.dto.ErrorDto;
 import com.example.common.rest.envelope.ResponseEnvelope;
+import com.sun.tools.internal.ws.wsdl.document.jaxws.Exception;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 @Stateless
 @Path("/")
@@ -38,10 +43,14 @@ public class AccountRest {
         }
 
         Account account = accountService.getAccount(name, password, tenantId);
+        List<ErrorDto> errors = new ArrayList<>();
+        if (account == null) {
+            errors.add(new ErrorDto(ExceptionCodes.ACCOUNT_NOT_FOUND.name(), ExceptionCodes.ACCOUNT_NOT_FOUND.getMessage()));
+        }
 
         ResponseEnvelope responseEnvelope = new ResponseEnvelope.ResponseEnvelopeBuilder<Account>()
                 .data(account)
-                .errors(Collections.emptyList())
+                .errors(errors)
                 .build();
 
         return Response.status(Response.Status.OK)
