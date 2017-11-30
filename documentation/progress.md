@@ -40,4 +40,4 @@ connect catalog to the repository
   - [x] linked to tenants
   - [x] uuid primary key
   - [ ] linked to roles
-- [ ] create a user service
+- [x] create a user service
