@@ -5,7 +5,6 @@ import com.example.account.model.Account;
 import com.example.account.service.AccountService;
 import com.example.common.rest.dto.ErrorDto;
 import com.example.common.rest.envelope.ResponseEnvelope;
-import com.sun.tools.internal.ws.wsdl.document.jaxws.Exception;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
@@ -42,8 +41,15 @@ public class AccountRest {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        Account account = accountService.getAccount(name, password, tenantId);
         List<ErrorDto> errors = new ArrayList<>();
+        Account account;
+        try {
+            account = accountService.getAccount(name, password, tenantId);
+        } catch (Exception ex) {
+            log.error(ex);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+
         if (account == null) {
             errors.add(new ErrorDto(ExceptionCodes.ACCOUNT_NOT_FOUND.name(), ExceptionCodes.ACCOUNT_NOT_FOUND.getMessage()));
         }
