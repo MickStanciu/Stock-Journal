@@ -21,7 +21,10 @@ public class AccountService {
 
     public Account getAccount(String name, String password, String tenantId) {
         Query q = em.createNativeQuery(
-                "SELECT a.id, a.name, a.password, a.email FROM accounts a WHERE name = :name and password = :password and tenant_fk = CAST(:tenant_fk AS uuid)"
+                "SELECT a.id as account_id, a.name as account_name, a.password, a.email, CAST(t.id as VARCHAR(36)) as tenant_id, t.name as tenant_name\n" +
+                    "FROM accounts a\n" +
+                    "INNER JOIN tenants t on t.id = a.tenant_fk\n" +
+                    "WHERE a.name = :name and a.password = :password and a.tenant_fk = CAST(:tenant_fk AS uuid)"
         );
         q.setParameter("name", name);
         q.setParameter("password", password);
@@ -36,13 +39,14 @@ public class AccountService {
     }
 
     private Account mapFromObject(Object[] result) {
-        BigInteger id = ((BigInteger) result[0]);
+        BigInteger account_id = ((BigInteger) result[0]);
         String name = ((String) result[1]);
         String password = ((String) result[2]);
         String email = ((String) result[3]);
+        String tenant_id = ((String) result[4]);
+        String tenant_name = ((String) result[5]);
 
-        //temp Tenant
-        Tenant tenant = new Tenant(1, "DEMO");
-        return new Account(id, tenant, name, email, password);
+        Tenant tenant = new Tenant(tenant_id, tenant_name);
+        return new Account(account_id, tenant, name, email, password);
     }
 }

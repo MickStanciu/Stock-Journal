@@ -1,6 +1,6 @@
 # Missing Things
 - [ ] create user and database when initializing docker
-- [ ] move current db to another schema
+- [x] move current db to another schema
 
 ### Basic Currency Support
 
@@ -36,9 +36,10 @@ connect catalog to the repository
 
 **Todo**
 - [x] create a table with tenants
+  - [x] uuid primary key
+
 - [ ] create a table with roles
 - [x] create a table with users
   - [x] linked to tenants
-  - [x] uuid primary key
   - [ ] linked to roles
 - [x] create a user service
