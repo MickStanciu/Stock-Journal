@@ -1,5 +1,5 @@
 # Missing Things
-todos
+- [ ] create user and database when initializing docker
 
 ### Basic Currency Support
 
@@ -31,9 +31,13 @@ connect catalog to the repository
 **Solution**
 - [ ] one db per customer
 - [ ] same db, one schema per customer
-- [ ] same db, same schema, customer has a discriminator
+- [x] same db, same schema, customer has a discriminator
 
 **Todo**
-- [ ] create a table with tenants -uuid primary key-
-- [ ] create a table with users -linked to tenants-
+- [x] create a table with tenants
+- [ ] create a table with roles
+- [x] create a table with users
+  - [x] linked to tenants
+  - [x] uuid primary key
+  - [ ] linked to roles
 - [ ] create a user service

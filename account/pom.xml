@@ -10,9 +10,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>catalog</artifactId>
+    <artifactId>account</artifactId>
     <packaging>war</packaging>
-    <name>catalog</name>
+    <name>account</name>
 
     <dependencies>
         <dependency>
@@ -28,22 +28,13 @@
     </dependencies>
 
     <build>
-        <finalName>catalog</finalName>
+        <finalName>account</finalName>
 
         <plugins>
-            <!--<plugin>-->
-                <!--<groupId>org.wildfly.plugins</groupId>-->
-                <!--<artifactId>wildfly-maven-plugin</artifactId>-->
-                <!--<configuration>-->
-                    <!--<skip>false</skip>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
-
 </project>

@@ -14,6 +14,7 @@
         <module>shop</module>
         <module>common</module>
         <module>availability</module>
+        <module>account</module>
     </modules>
 
     <properties>
@@ -181,6 +182,7 @@
                     <version>${maven.war.version}</version>
                     <configuration>
                         <failOnMissingWebXml>false</failOnMissingWebXml>
+                        <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
                     </configuration>
                 </plugin>
             </plugins>
