@@ -1,0 +1,1 @@
+http://localhost:8080/account/api/c5624585-ed6a-4441-9508-1bc54215b190?name=mircea.stanciu&password=secret

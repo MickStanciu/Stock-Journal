@@ -12,8 +12,8 @@ services:
     depends_on:
       postgresql:
         condition: service_started
-      lizardfs:
-        condition: service_started
+#      lizardfs:
+#        condition: service_started
 
   postgresql:
     build: docker/database-server/.
@@ -24,7 +24,7 @@ services:
     volumes:
       - ${DOCKER_BASE}/database-server/data:/var/lib/postgresql/data:rw
 
-  lizardfs:
-    build: docker/storage-server/.
-    image: toystore-fs
-    container_name: toystore-fs
+#  lizardfs:
+#    build: docker/storage-server/.
+#    image: toystore-fs
+#    container_name: toystore-fs

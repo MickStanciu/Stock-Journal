@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response;
 import java.util.Collections;
 
 @Stateless
+@Path("/")
 @Produces("application/json")
 public class AccountRest {
 
@@ -20,19 +21,24 @@ public class AccountRest {
     @Inject
     private AccountService accountService;
 
+    @GET
+    public String test() {
+        return "It works";
+    }
 
     @GET
     @Path("/{tenantId}")
     public Response getAccount(
-            @PathParam("tenantId") @DefaultValue("0") int tenantId,
+            @PathParam("tenantId") @DefaultValue("0") String tenantId,
             @QueryParam("name") @DefaultValue("") String name,
             @QueryParam("password") @DefaultValue("") String password
     ) {
-        if (tenantId == 0 || name.length() == 0 || password.length() == 0) {
+        if (tenantId.length() == 0 || name.length() == 0 || password.length() == 0) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
         Account account = accountService.getAccount(name, password, tenantId);
+
         ResponseEnvelope responseEnvelope = new ResponseEnvelope.ResponseEnvelopeBuilder<Account>()
                 .data(account)
                 .errors(Collections.emptyList())

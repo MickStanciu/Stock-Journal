@@ -1,5 +1,6 @@
 # Missing Things
 - [ ] create user and database when initializing docker
+- [ ] move current db to another schema
 
 ### Basic Currency Support
 
