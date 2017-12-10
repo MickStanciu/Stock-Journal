@@ -21,9 +21,9 @@ public class AccountService {
 
     public Account getAccount(String name, String password, String tenantId) {
         Query q = em.createNativeQuery(
-                "SELECT a.id as account_id, a.name as account_name, a.password, a.email, CAST(t.id as VARCHAR(36)) as tenant_id, t.name as tenant_name\n" +
-                    "FROM accounts a\n" +
-                    "INNER JOIN tenants t on t.id = a.tenant_fk\n" +
+                "SELECT a.id as account_id, a.name as account_name, a.password, a.email, CAST(t.id as VARCHAR(36)) as tenant_id, t.name as tenant_name " +
+                    "FROM accounts a " +
+                    "INNER JOIN tenants t on t.id = a.tenant_fk " +
                     "WHERE a.name = :name and a.password = :password and a.tenant_fk = CAST(:tenant_fk AS uuid)"
         );
         q.setParameter("name", name);
