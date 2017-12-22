@@ -26,7 +26,7 @@ public class AccountRest {
 
     @GET
     public String test() {
-        return "It works";
+        return "It works!!!!!!!";
     }
 
     @GET
