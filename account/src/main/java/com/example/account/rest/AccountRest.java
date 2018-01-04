@@ -13,6 +13,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Stateless
 @Path("/")
@@ -41,16 +42,21 @@ public class AccountRest {
         }
 
         List<ErrorDto> errors = new ArrayList<>();
-        Account account;
+
+        //todo: catch all errors
+        Optional<Account> accountOptional = Optional.empty();
         try {
-            account = accountService.getAccount(name, password, tenantId);
+            accountOptional = accountService.getAccount(name, password, tenantId);
         } catch (Exception ex) {
             log.error(ex);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
-        if (account == null) {
+        Account account = null;
+        if (!accountOptional.isPresent()) {
             errors.add(new ErrorDto(ExceptionCodes.ACCOUNT_NOT_FOUND.name(), ExceptionCodes.ACCOUNT_NOT_FOUND.getMessage()));
+        } else {
+            account = accountOptional.get();
         }
 
         ResponseEnvelope responseEnvelope = new ResponseEnvelope.ResponseEnvelopeBuilder<Account>()

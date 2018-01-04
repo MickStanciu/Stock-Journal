@@ -41,5 +41,6 @@ connect catalog to the repository
 - [ ] create a table with roles
 - [x] create a table with users [done]
   - [x] linked to tenants [done]
-  - [ ] linked to roles -> customisable role names [work in progress]
+  - [x] linked to roles -> customisable role names [done]
 - [x] create a user service [done]
+- [ ] not sure we need account role name field
