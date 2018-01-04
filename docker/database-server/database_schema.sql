@@ -31,7 +31,11 @@ CREATE TABLE account_role_info (
 );
 
 INSERT INTO account_role_info (tenant_fk, role_fk, name) VALUES
-  ((SELECT id from tenants LIMIT 1), 1, 'Administrator');
+  ((SELECT id from tenants LIMIT 1), 1, 'Administrator'),
+  ((SELECT id from tenants LIMIT 1), 2, 'Supervisor'),
+  ((SELECT id from tenants LIMIT 1), 3, 'Team leader'),
+  ((SELECT id from tenants LIMIT 1), 4, 'User Level 2'),
+  ((SELECT id from tenants LIMIT 1), 5, 'User Level 1');
 
 GRANT ALL PRIVILEGES ON TABLE account_role_info TO admin;
 
