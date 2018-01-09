@@ -10,10 +10,10 @@
     <version>1.0-SNAPSHOT</version>
 
     <modules>
-        <module>catalog</module>
-        <module>shop</module>
+        <!--<module>catalog</module>-->
+        <!--<module>shop</module>-->
         <module>common</module>
-        <module>availability</module>
+        <!--<module>availability</module>-->
         <module>account</module>
     </modules>
 

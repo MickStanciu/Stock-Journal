@@ -1,8 +1,8 @@
 package com.example.account.dao;
 
-import com.example.account.model.Account;
-import com.example.account.model.Role;
-import com.example.account.model.Tenant;
+import com.example.account.model.response.Account;
+import com.example.account.model.response.Role;
+import com.example.account.model.response.Tenant;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;

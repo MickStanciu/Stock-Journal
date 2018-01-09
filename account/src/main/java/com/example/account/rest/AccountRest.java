@@ -1,7 +1,8 @@
 package com.example.account.rest;
 
 import com.example.account.exception.ExceptionCodes;
-import com.example.account.model.Account;
+import com.example.account.model.response.Account;
+import com.example.account.model.request.AccountDto;
 import com.example.account.service.AccountService;
 import com.example.common.rest.dto.ErrorDto;
 import com.example.common.rest.envelope.ResponseEnvelope;
@@ -26,11 +27,6 @@ public class AccountRest {
     private AccountService accountService;
 
     @GET
-    public String test() {
-        return "It works!!!!!!!";
-    }
-
-    @GET
     @Path("/{tenantId}")
     public Response getAccount(
             @PathParam("tenantId") @DefaultValue("0") String tenantId,
@@ -44,7 +40,7 @@ public class AccountRest {
         List<ErrorDto> errors = new ArrayList<>();
 
         //todo: catch all errors
-        Optional<Account> accountOptional = Optional.empty();
+        Optional<Account> accountOptional;
         try {
             accountOptional = accountService.getAccount(name, password, tenantId);
         } catch (Exception ex) {
@@ -68,4 +64,14 @@ public class AccountRest {
                 .entity(responseEnvelope)
                 .build();
     }
+
+    @POST
+    @Path("/{tenantId}")
+    @Consumes("application/json")
+    public Response createAccount(AccountDto accountDto) {
+        System.out.println(accountDto);
+        log.info(accountDto);
+        return Response.status(Response.Status.OK).build();
+    }
+
 }

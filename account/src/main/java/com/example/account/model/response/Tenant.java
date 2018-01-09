@@ -1,4 +1,4 @@
-package com.example.account.model;
+package com.example.account.model.response;
 
 import java.io.Serializable;
 
