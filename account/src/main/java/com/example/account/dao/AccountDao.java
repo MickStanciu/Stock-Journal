@@ -29,6 +29,9 @@ public class AccountDao {
     private static final String ACCOUNT_CREATE_QUERY = "INSERT INTO accounts (tenant_fk, role_fk, name, email, password) " +
             "VALUES (CAST(:tenant_fk AS uuid), :role_fk, :name, :email, :password)";
 
+    private static final String ACCOUNT_CHECK_QUERY = "SELECT id FROM accounts " +
+            "WHERE name = :name and tenant_fk = CAST(:tenant_fk AS uuid)";
+
     @PersistenceContext
     private EntityManager em;
 
@@ -45,6 +48,15 @@ public class AccountDao {
         }
 
         return Optional.of(mapFromObject(results.get(0)));
+    }
+
+    public boolean checkAccount(String name, String tenantId) {
+        Query q = em.createNativeQuery(ACCOUNT_CHECK_QUERY);
+        q.setParameter("name", name);
+        q.setParameter("tenant_fk", tenantId);
+
+        List<Object[]> results = q.getResultList();
+        return results.size() != 0;
     }
 
 

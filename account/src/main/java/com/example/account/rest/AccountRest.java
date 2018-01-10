@@ -91,8 +91,9 @@ public class AccountRest {
 
         Account account = null;
         if (!accountOptional.isPresent()) {
-            //?
-            errors.add(new ErrorDto(ExceptionCode.UNKNOWN.name(), ExceptionCode.UNKNOWN.getMessage()));
+            if (errors.isEmpty()) {
+                errors.add(new ErrorDto(ExceptionCode.UNKNOWN.name(), ExceptionCode.UNKNOWN.getMessage()));
+            }
         } else {
             account = accountOptional.get();
         }

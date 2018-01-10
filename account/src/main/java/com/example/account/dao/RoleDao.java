@@ -41,9 +41,9 @@ public class RoleDao {
     }
 
     private Role mapFromObject(Object[] result) {
-        Integer role_id = ((Integer) result[6]);
-        String role_name = ((String) result[7]);
-        String role_description = ((String) result[8]);
+        Integer role_id = ((Integer) result[0]);
+        String role_name = ((String) result[1]);
+        String role_description = ((String) result[2]);
 
         return new Role(role_id, role_name, role_description);
     }

@@ -34,7 +34,14 @@ public class AccountFacade {
             throw new AccountException(ExceptionCode.ROLE_NOT_FOUND);
         }
 
-        return accountService.createAccount(accountDto, tenantId);
+        //todo: add check if the account name already exists
+        if (accountService.checkAccount(accountDto.getName(), tenantId)) {
+            throw new AccountException(ExceptionCode.ACCOUNT_EXISTS);
+        }
+
+        accountService.createAccount(accountDto, tenantId);
+
+        return accountService.getAccount(accountDto.getName(), accountDto.getPassword(), tenantId);
     }
 
 }

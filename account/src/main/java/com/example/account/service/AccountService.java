@@ -23,10 +23,12 @@ public class AccountService {
         return accountDao.getAccount(name, password, tenantId);
     }
 
-    public Optional<Account> createAccount(AccountDto accountDto, String tenantId) throws AccountException {
-        accountDao.createAccount(accountDto.getName(), accountDto.getPassword(), accountDto.getPassword(), tenantId, accountDto.getRoleId());
-        return Optional.empty();
+    public boolean checkAccount(String name, String tenantId) {
+        return accountDao.checkAccount(name, tenantId);
     }
 
+    public void createAccount(AccountDto accountDto, String tenantId) {
+        accountDao.createAccount(accountDto.getName(), accountDto.getPassword(), accountDto.getPassword(), tenantId, accountDto.getRoleId());
+    }
 
 }
