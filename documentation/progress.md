@@ -54,16 +54,19 @@ GET http://localhost:8080/account/api/d79ec11a-2011-4423-ba01-3af8de0a3e10?name=
 - [x] create a user service [done]
 - [ ] not sure we need account role name field [selected for development]
 
-#### Create new account by Tenant / Name / Password [selected for development] ####
+#### Create new account by Tenant / Name / Password [done] ####
 
 POST http://localhost:8080/account/api/d79ec11a-2011-4423-ba01-3af8de0a3e10
 
 Payload [name, password]
 
 **Todo**
-- [ ] update the controller [selected for development]
-- [ ] create the service [selected for development]
-- [ ] update the sql [selected for development]
-  - [ ] make sure to search for invalid tenant
-  - [ ] make sure to search for duplicate names
-  - [ ] catch db errors in the controller
+- [x] update the controller [done]
+- [x] create the service [done]
+- [x] update the sql [done]
+  - [ ] make sure to search for invalid tenant [selected for development]
+  - [x] make sure to search for duplicate names [done]
+  - [ ] catch db errors in the controller [selected for development]
+
+#### Tech Debt [selected for development] ####
+- [ ] move Exception from controller to a default ExceptionMapper
