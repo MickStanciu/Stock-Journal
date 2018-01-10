@@ -7,21 +7,20 @@ import java.util.List;
 
 public class ResponseEnvelope<T> extends RestEnvelope<T> {
 
-    ResponseEnvelope(ResponseEnvelopeBuilder<T> builder) {
+    ResponseEnvelope(Builder<T> builder) {
         super(builder.data, builder.errors);
     }
 
-    @JsonIgnoreType
-    public static class ResponseEnvelopeBuilder<T> {
+    public static class Builder<T> {
         private T data;
         private List<ErrorDto> errors;
 
-        public ResponseEnvelopeBuilder data(T data) {
+        public Builder withData(T data) {
             this.data = data;
             return this;
         }
 
-        public ResponseEnvelopeBuilder errors(List<ErrorDto> errors) {
+        public Builder withErrors(List<ErrorDto> errors) {
             this.errors = errors;
             return this;
         }

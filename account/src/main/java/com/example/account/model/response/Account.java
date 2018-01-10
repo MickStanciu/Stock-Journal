@@ -93,6 +93,10 @@ public class Account implements Serializable {
             this.password = password;
             return this;
         }
+
+        public Account build() {
+            return new Account(this);
+        }
     }
 
 }

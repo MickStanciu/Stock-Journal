@@ -55,9 +55,9 @@ public class AccountRest {
             account = accountOptional.get();
         }
 
-        ResponseEnvelope responseEnvelope = new ResponseEnvelope.ResponseEnvelopeBuilder<Account>()
-                .data(account)
-                .errors(errors)
+        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<Account>()
+                .withData(account)
+                .withErrors(errors)
                 .build();
 
         return Response.status(Response.Status.OK)

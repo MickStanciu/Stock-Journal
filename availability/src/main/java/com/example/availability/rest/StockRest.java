@@ -40,7 +40,7 @@ public class StockRest {
             return Response.status(Response.Status.NO_CONTENT).build();
         }
 
-        ResponseEnvelope responseEnvelope = new ResponseEnvelope.ResponseEnvelopeBuilder<Stock>()
+        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<Stock>()
                 .data(stockItem)
                 .errors(Collections.emptyList())
                 .build();
@@ -65,7 +65,7 @@ public class StockRest {
             return Response.status(Response.Status.NO_CONTENT).build();
         }
 
-        ResponseEnvelope responseEnvelope = new ResponseEnvelope.ResponseEnvelopeBuilder<List<Stock>>()
+        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<List<Stock>>()
                 .data(stockList)
                 .errors(Collections.emptyList())
                 .build();

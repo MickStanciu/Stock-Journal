@@ -1,19 +1,23 @@
 -- init extensions
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
--- discrimination table Tenants
+-- clean up
+DROP TABLE IF EXISTS accounts;
+DROP TABLE IF EXISTS account_role_info;
+DROP TABLE IF EXISTS account_roles;
+DROP SEQUENCE IF EXISTS accounts_seq;
 DROP TABLE IF EXISTS tenants;
+
+-- discrimination table Tenants
 CREATE TABLE tenants (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   name VARCHAR(64) NOT NULL
 );
 
-INSERT INTO tenants (name) VALUES ('DEMO');
-
+INSERT INTO tenants (id, name) VALUES ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 'DEMO');
 GRANT ALL PRIVILEGES ON TABLE tenants TO admin;
 
 -- user roles table
-DROP TABLE IF EXISTS account_roles;
 CREATE TABLE account_roles (
   id INT PRIMARY KEY,
   name VARCHAR(10) NOT NULL
@@ -22,7 +26,6 @@ GRANT ALL PRIVILEGES ON TABLE account_roles TO admin;
 INSERT INTO account_roles (id, name) VALUES (1, 'L1'), (2, 'L2'), (3, 'L3'), (4, 'L4'), (5, 'L5');
 
 -- account role info
-DROP TABLE IF EXISTS account_role_info;
 CREATE TABLE account_role_info (
   tenant_fk UUID REFERENCES tenants(id) NOT NULL,
   role_fk INT REFERENCES account_roles(id) NOT NULL,
@@ -40,11 +43,9 @@ INSERT INTO account_role_info (tenant_fk, role_fk, name) VALUES
 GRANT ALL PRIVILEGES ON TABLE account_role_info TO admin;
 
 -- user accounts table
-DROP SEQUENCE IF EXISTS accounts_seq;
 CREATE SEQUENCE accounts_seq;
 GRANT ALL PRIVILEGES ON SEQUENCE accounts_seq TO admin;
 
-DROP TABLE IF EXISTS accounts;
 
 CREATE TABLE accounts (
   id BIGINT PRIMARY KEY DEFAULT nextval('accounts_seq'),

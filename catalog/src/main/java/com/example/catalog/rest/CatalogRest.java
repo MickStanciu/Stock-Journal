@@ -41,7 +41,7 @@ public class CatalogRest {
             return Response.status(Response.Status.NO_CONTENT).build();
         }
 
-        ResponseEnvelope responseEnvelope = new ResponseEnvelope.ResponseEnvelopeBuilder<ItemDto>()
+        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<ItemDto>()
                 .data(itemDto)
                 .errors(Collections.emptyList())
                 .build();
