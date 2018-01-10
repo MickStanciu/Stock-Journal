@@ -69,6 +69,7 @@ public class AccountRest {
     @Path("/{tenantId}")
     @Consumes("application/json")
     public Response createAccount(AccountDto accountDto) {
+        //sanitize the accountDto
         System.out.println(accountDto);
         log.info(accountDto);
         return Response.status(Response.Status.OK).build();
