@@ -1,6 +1,8 @@
 package com.example.account.service;
 
 import com.example.account.dao.AccountDao;
+import com.example.account.exception.AccountException;
+import com.example.account.model.request.AccountDto;
 import com.example.account.model.response.Account;
 import org.apache.log4j.Logger;
 
@@ -18,6 +20,10 @@ public class AccountService {
 
     public Optional<Account> getAccount(String name, String password, String tenantId) {
         return accountDao.getAccount(name, password, tenantId);
+    }
+
+    public Optional<Account> createAccount(AccountDto accountDto) throws AccountException {
+        return Optional.empty();
     }
 
 

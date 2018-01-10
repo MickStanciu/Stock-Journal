@@ -1,6 +1,8 @@
 package com.example.account.rest;
 
-import com.example.account.exception.ExceptionCodes;
+import com.example.account.exception.AccountException;
+import com.example.account.exception.ExceptionCode;
+import com.example.account.facade.AccountFacade;
 import com.example.account.model.response.Account;
 import com.example.account.model.request.AccountDto;
 import com.example.account.service.AccountService;
@@ -24,7 +26,7 @@ public class AccountRest {
     private static final Logger log = Logger.getLogger(AccountRest.class);
 
     @Inject
-    private AccountService accountService;
+    private AccountFacade accountFacade;
 
     @GET
     @Path("/{tenantId}")
@@ -42,7 +44,7 @@ public class AccountRest {
         //todo: catch all errors
         Optional<Account> accountOptional;
         try {
-            accountOptional = accountService.getAccount(name, password, tenantId);
+            accountOptional = accountFacade.getAccount(name, password, tenantId);
         } catch (Exception ex) {
             log.error(ex);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
@@ -50,7 +52,7 @@ public class AccountRest {
 
         Account account = null;
         if (!accountOptional.isPresent()) {
-            errors.add(new ErrorDto(ExceptionCodes.ACCOUNT_NOT_FOUND.name(), ExceptionCodes.ACCOUNT_NOT_FOUND.getMessage()));
+            errors.add(new ErrorDto(ExceptionCode.ACCOUNT_NOT_FOUND.name(), ExceptionCode.ACCOUNT_NOT_FOUND.getMessage()));
         } else {
             account = accountOptional.get();
         }
@@ -68,11 +70,40 @@ public class AccountRest {
     @POST
     @Path("/{tenantId}")
     @Consumes("application/json")
-    public Response createAccount(AccountDto accountDto) {
+    public Response createAccount(AccountDto accountDto,
+                                  @PathParam("tenantId") @DefaultValue("0") String tenantId) {
         //sanitize the accountDto
-        System.out.println(accountDto);
         log.info(accountDto);
-        return Response.status(Response.Status.OK).build();
+        Optional<Account> accountOptional;
+        List<ErrorDto> errors = new ArrayList<>();
+
+        try {
+            accountOptional = accountFacade.createAccount(accountDto, tenantId);
+        } catch (AccountException aex) {
+            log.error(aex);
+            errors.add(new ErrorDto(aex.getCode().name(), aex.getMessage()));
+            accountOptional = Optional.empty();
+        } catch (Exception ex) {
+            log.error(ex);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+
+        Account account = null;
+        if (!accountOptional.isPresent()) {
+            //?
+            errors.add(new ErrorDto(ExceptionCode.UNKNOWN.name(), ExceptionCode.UNKNOWN.getMessage()));
+        } else {
+            account = accountOptional.get();
+        }
+
+        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<Account>()
+                .withData(account)
+                .withErrors(errors)
+                .build();
+
+        return Response.status(Response.Status.OK)
+                .entity(responseEnvelope)
+                .build();
     }
 
 }
