@@ -70,9 +70,9 @@ public class AccountRest {
     @POST
     @Path("/{tenantId}")
     @Consumes("application/json")
-    public Response createAccount(AccountDto accountDto,
-                                  @PathParam("tenantId") @DefaultValue("0") String tenantId) {
-        //sanitize the accountDto
+    public Response createAccount(AccountDto accountDto, @PathParam("tenantId") @DefaultValue("0") String tenantId) {
+        //todo: sanitize the accountDto
+        //todo: catch bad params: com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException
         log.info(accountDto);
         Optional<Account> accountOptional;
         List<ErrorDto> errors = new ArrayList<>();
@@ -84,6 +84,7 @@ public class AccountRest {
             errors.add(new ErrorDto(aex.getCode().name(), aex.getMessage()));
             accountOptional = Optional.empty();
         } catch (Exception ex) {
+            //todo: move out all the Exceptions
             log.error(ex);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }

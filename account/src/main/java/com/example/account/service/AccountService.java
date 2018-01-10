@@ -4,6 +4,7 @@ import com.example.account.dao.AccountDao;
 import com.example.account.exception.AccountException;
 import com.example.account.model.request.AccountDto;
 import com.example.account.model.response.Account;
+import com.example.account.model.response.Role;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
@@ -22,7 +23,8 @@ public class AccountService {
         return accountDao.getAccount(name, password, tenantId);
     }
 
-    public Optional<Account> createAccount(AccountDto accountDto) throws AccountException {
+    public Optional<Account> createAccount(AccountDto accountDto, String tenantId) throws AccountException {
+        accountDao.createAccount(accountDto.getName(), accountDto.getPassword(), accountDto.getPassword(), tenantId, accountDto.getRoleId());
         return Optional.empty();
     }
 

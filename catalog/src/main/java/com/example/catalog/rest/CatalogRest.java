@@ -42,8 +42,8 @@ public class CatalogRest {
         }
 
         ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<ItemDto>()
-                .data(itemDto)
-                .errors(Collections.emptyList())
+                .withData(itemDto)
+                .withErrors(Collections.emptyList())
                 .build();
 
         return Response.status(Response.Status.OK)

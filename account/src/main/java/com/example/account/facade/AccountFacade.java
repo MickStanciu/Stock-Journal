@@ -1,6 +1,7 @@
 package com.example.account.facade;
 
 import com.example.account.exception.AccountException;
+import com.example.account.exception.ExceptionCode;
 import com.example.account.model.request.AccountDto;
 import com.example.account.model.response.Account;
 import com.example.account.model.response.Role;
@@ -25,11 +26,15 @@ public class AccountFacade {
     }
 
     public Optional<Account> createAccount(AccountDto accountDto, String tenantId) throws AccountException {
-        Optional<Role> role = roleService.getRole(accountDto.getRoleId(), tenantId);
-        if (role.isPresent()) {
+        //todo: externalize Tenant as rest service
 
+        //validate role
+        Optional<Role> role = roleService.getRole(accountDto.getRoleId(), tenantId);
+        if (!role.isPresent()) {
+            throw new AccountException(ExceptionCode.ROLE_NOT_FOUND);
         }
-        return Optional.empty();
+
+        return accountService.createAccount(accountDto, tenantId);
     }
 
 }

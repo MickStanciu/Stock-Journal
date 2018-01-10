@@ -17,8 +17,8 @@ import java.util.Optional;
 public class AccountDao {
     private static final Logger log = Logger.getLogger(AccountDao.class);
 
-    private static final String ACCOUNT_QRY = "SELECT a.id as account_id, a.name as account_name, a.password, a.email, " +
-            "CAST(t.id as VARCHAR(36)) as tenant_id, t.name as tenant_name, ar.id as role_id, ar.name as role_name, " +
+    private static final String ACCOUNT_READ_QUERY = "SELECT a.id as account_id, a.name as account_name, a.password, " +
+            "a.email, CAST(t.id as VARCHAR(36)) as tenant_id, t.name as tenant_name, ar.id as role_id, ar.name as role_name, " +
             "ari.name as role_description " +
             "FROM accounts a " +
             "INNER JOIN tenants t on t.id = a.tenant_fk " +
@@ -26,11 +26,14 @@ public class AccountDao {
             "INNER JOIN account_role_info ari ON ar.id = ari.role_fk and a.tenant_fk = ari.tenant_fk " +
             "WHERE a.name = :name and a.password = :password and a.tenant_fk = CAST(:tenant_fk AS uuid)";
 
+    private static final String ACCOUNT_CREATE_QUERY = "INSERT INTO accounts (tenant_fk, role_fk, name, email, password) " +
+            "VALUES (CAST(:tenant_fk AS uuid), :role_fk, :name, :email, :password)";
+
     @PersistenceContext
     private EntityManager em;
 
     public Optional<Account> getAccount(String name, String password, String tenantId) {
-        Query q = em.createNativeQuery(ACCOUNT_QRY);
+        Query q = em.createNativeQuery(ACCOUNT_READ_QUERY);
 
         q.setParameter("name", name);
         q.setParameter("password", password);
@@ -42,6 +45,19 @@ public class AccountDao {
         }
 
         return Optional.of(mapFromObject(results.get(0)));
+    }
+
+
+    public Optional<Account> createAccount(String name, String password, String email, String tenantId, int roleId) {
+        Query q = em.createNativeQuery(ACCOUNT_CREATE_QUERY);
+        q.setParameter("name", name);
+        q.setParameter("password", password);
+        q.setParameter("email", email);
+        q.setParameter("tenant_fk", tenantId);
+        q.setParameter("role_fk", roleId);
+        q.executeUpdate();
+
+        return Optional.empty();
     }
 
     private Account mapFromObject(Object[] result) {

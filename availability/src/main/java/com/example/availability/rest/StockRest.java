@@ -41,8 +41,8 @@ public class StockRest {
         }
 
         ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<Stock>()
-                .data(stockItem)
-                .errors(Collections.emptyList())
+                .withData(stockItem)
+                .withErrors(Collections.emptyList())
                 .build();
 
         return Response.status(Response.Status.OK)
@@ -66,8 +66,8 @@ public class StockRest {
         }
 
         ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<List<Stock>>()
-                .data(stockList)
-                .errors(Collections.emptyList())
+                .withData(stockList)
+                .withErrors(Collections.emptyList())
                 .build();
 
         return Response.status(Response.Status.OK)

@@ -34,7 +34,8 @@ connect catalog to the repository
 - [ ] same db, one schema per customer
 - [x] same db, same schema, customer has a discriminator [done]
 
-
+**Todo**
+- [ ] tenant service?
 
 
 ### Account Service
