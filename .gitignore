@@ -1,8 +1,4 @@
-
 /.idea/
 *.iml
-/target
+*/target
 shop/node_modules
-
-
-

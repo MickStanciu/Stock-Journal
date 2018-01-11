@@ -15,6 +15,7 @@
         <module>common</module>
         <!--<module>availability</module>-->
         <module>account</module>
+        <module>tenant</module>
     </modules>
 
     <properties>
