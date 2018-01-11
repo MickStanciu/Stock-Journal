@@ -35,6 +35,7 @@ public class AccountRest {
             @QueryParam("name") @DefaultValue("") String name,
             @QueryParam("password") @DefaultValue("") String password
     ) {
+        //todo: better check
         if (tenantId.length() == 0 || name.length() == 0 || password.length() == 0) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }

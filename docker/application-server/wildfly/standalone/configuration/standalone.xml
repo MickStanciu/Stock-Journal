@@ -152,8 +152,23 @@
                     </security>
                 </datasource>
 
-                <datasource jndi-name="java:jboss/datasources/CatalogDS" pool-name="CatalogDS" enabled="true" use-java-context="true">
-                    <connection-url>jdbc:postgresql://toystore-db:5432/cm?currentSchema=public</connection-url>
+                <datasource jndi-name="java:jboss/datasources/AccountDS" pool-name="AccountDS" enabled="true" use-java-context="true">
+                    <connection-url>jdbc:postgresql://toystore-db:5432/account?currentSchema=public</connection-url>
+                    <driver>postgresql</driver>
+                    <pool>
+                        <min-pool-size>5</min-pool-size>
+                        <initial-pool-size>5</initial-pool-size>
+                        <max-pool-size>100</max-pool-size>
+                        <prefill>true</prefill>
+                    </pool>
+                    <security>
+                        <user-name>admin</user-name>
+                        <password>secret</password>
+                    </security>
+                </datasource>
+
+                <datasource jndi-name="java:jboss/datasources/TenantDS" pool-name="TenantDS" enabled="true" use-java-context="true">
+                    <connection-url>jdbc:postgresql://toystore-db:5432/tenant?currentSchema=public</connection-url>
                     <driver>postgresql</driver>
                     <pool>
                         <min-pool-size>5</min-pool-size>

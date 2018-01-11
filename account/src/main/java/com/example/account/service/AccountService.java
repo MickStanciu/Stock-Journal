@@ -1,10 +1,8 @@
 package com.example.account.service;
 
 import com.example.account.dao.AccountDao;
-import com.example.account.exception.AccountException;
 import com.example.account.model.request.AccountDto;
 import com.example.account.model.response.Account;
-import com.example.account.model.response.Role;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;

@@ -35,8 +35,15 @@ connect catalog to the repository
 - [x] same db, same schema, customer has a discriminator [done]
 
 **Todo**
-- [ ] tenant service?
+- [ ] tenant service [selected for development]
 
+### Tenant Service
+GET http://localhost:8080/tenant/api/d79ec11a-2011-4423-ba01-3af8de0a3e10
+
+**Todo**
+- [ ] migrate tenant db from account
+- [ ] update account service not to use tenant
+- [ ] simplify account response
 
 ### Account Service
 #### Read account by Tenant / Name / Password [done] ####
