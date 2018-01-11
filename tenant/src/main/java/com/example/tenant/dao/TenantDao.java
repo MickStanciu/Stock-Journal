@@ -16,7 +16,7 @@ public class TenantDao {
 
     private static final String TENANT_READ_QUERY = "SELECT CAST(id as VARCHAR(36)) as tenant_id, name as tenant_name " +
             "FROM tenants " +
-            "WHERE tenant_id = CAST(:tenant_id AS uuid)";
+            "WHERE id = CAST(:tenant_id AS uuid)";
 
     @PersistenceContext
     private EntityManager em;

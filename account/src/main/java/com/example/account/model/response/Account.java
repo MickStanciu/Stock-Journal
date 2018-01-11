@@ -7,16 +7,16 @@ public class Account implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Tenant tenant;
     private Role role;
     private BigInteger id;
     private String name;
     private String email;
     private String password;
+    private String tenantId;
 
-    public Account(BigInteger id, Tenant tenant, Role role, String name, String email, String password) {
+    public Account(String tenantId, BigInteger id, Role role, String name, String email, String password) {
+        this.tenantId = tenantId;
         this.id = id;
-        this.tenant = tenant;
         this.role = role;
         this.name = name;
         this.email = email;
@@ -24,8 +24,8 @@ public class Account implements Serializable {
     }
 
     public Account(Builder builder) {
+        this.tenantId = builder.tenantId;
         this.id = builder.id;
-        this.tenant = builder.tenant;
         this.role = builder.role;
         this.name = builder.name;
         this.email = builder.name;
@@ -34,10 +34,6 @@ public class Account implements Serializable {
 
     public BigInteger getId() {
         return id;
-    }
-
-    public Tenant getTenant() {
-        return tenant;
     }
 
     public Role getRole() {
@@ -56,18 +52,17 @@ public class Account implements Serializable {
         return password;
     }
 
+    public String getTenantId() {
+        return tenantId;
+    }
+
     public static class Builder {
-        private Tenant tenant;
         private Role role;
         private BigInteger id;
         private String name;
         private String email;
         private String password;
-
-        public Builder withTenant(Tenant tenant) {
-            this.tenant = tenant;
-            return this;
-        }
+        private String tenantId;
 
         public Builder withRole(Role role) {
             this.role = role;
@@ -91,6 +86,11 @@ public class Account implements Serializable {
 
         public Builder withPassword(String password) {
             this.password = password;
+            return this;
+        }
+
+        public Builder withTenantId(String tenantId) {
+            this.tenantId = tenantId;
             return this;
         }
 

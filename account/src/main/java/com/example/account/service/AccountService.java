@@ -26,7 +26,7 @@ public class AccountService {
     }
 
     public void createAccount(AccountDto accountDto, String tenantId) {
-        accountDao.createAccount(accountDto.getName(), accountDto.getPassword(), accountDto.getPassword(), tenantId, accountDto.getRoleId());
+        accountDao.createAccount(accountDto.getName(), accountDto.getPassword(), accountDto.getEmail(), tenantId, accountDto.getRoleId());
     }
 
 }

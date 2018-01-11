@@ -104,7 +104,17 @@ public class AccountRest {
                 .withErrors(errors)
                 .build();
 
-        return Response.status(Response.Status.OK)
+        //todo: move this out
+        Response.Status status = Response.Status.CREATED;
+        if (errors.size() != 0) {
+            if (errors.get(0).getCode().equals("ACCOUNT_EXISTS")) {
+                status = Response.Status.CONFLICT;
+            } else {
+                status = Response.Status.BAD_REQUEST;
+            }
+        }
+
+        return Response.status(status)
                 .entity(responseEnvelope)
                 .build();
     }

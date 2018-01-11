@@ -18,10 +18,9 @@ public class AccountDao {
     private static final Logger log = Logger.getLogger(AccountDao.class);
 
     private static final String ACCOUNT_READ_QUERY = "SELECT a.id as account_id, a.name as account_name, a.password, " +
-            "a.email, CAST(t.id as VARCHAR(36)) as tenant_id, t.name as tenant_name, ar.id as role_id, ar.name as role_name, " +
+            "a.email, CAST(a.tenant_fk as VARCHAR(36)) as tenant_id, ar.id as role_id, ar.name as role_name, " +
             "ari.name as role_description " +
             "FROM accounts a " +
-            "INNER JOIN tenants t on t.id = a.tenant_fk " +
             "INNER JOIN account_roles ar ON a.role_fk = ar.id " +
             "INNER JOIN account_role_info ari ON ar.id = ari.role_fk and a.tenant_fk = ari.tenant_fk " +
             "WHERE a.name = :name and a.password = :password and a.tenant_fk = CAST(:tenant_fk AS uuid)";
@@ -60,7 +59,7 @@ public class AccountDao {
     }
 
 
-    public Optional<Account> createAccount(String name, String password, String email, String tenantId, int roleId) {
+    public void createAccount(String name, String password, String email, String tenantId, int roleId) {
         Query q = em.createNativeQuery(ACCOUNT_CREATE_QUERY);
         q.setParameter("name", name);
         q.setParameter("password", password);
@@ -68,8 +67,6 @@ public class AccountDao {
         q.setParameter("tenant_fk", tenantId);
         q.setParameter("role_fk", roleId);
         q.executeUpdate();
-
-        return Optional.empty();
     }
 
     private Account mapFromObject(Object[] result) {
@@ -79,14 +76,12 @@ public class AccountDao {
         String email = ((String) result[3]);
 
         String tenant_id = ((String) result[4]);
-        String tenant_name = ((String) result[5]);
 
-        Integer role_id = ((Integer) result[6]);
-        String role_name = ((String) result[7]);
-        String role_description = ((String) result[8]);
+        Integer role_id = ((Integer) result[5]);
+        String role_name = ((String) result[6]);
+        String role_description = ((String) result[7]);
 
-        Tenant tenant = new Tenant(tenant_id, tenant_name);
         Role role = new Role(role_id, role_name, role_description);
-        return new Account(account_id, tenant, role, name, email, password);
+        return new Account(tenant_id, account_id, role, name, email, password);
     }
 }
