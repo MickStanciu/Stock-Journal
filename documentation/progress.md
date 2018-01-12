@@ -35,15 +35,15 @@ connect catalog to the repository
 - [x] same db, same schema, customer has a discriminator [done]
 
 **Todo**
-- [ ] tenant service [selected for development]
+- [x] tenant service [done]
 
 ### Tenant Service
 GET http://localhost:8080/tenant/api/d79ec11a-2011-4423-ba01-3af8de0a3e10
 
 **Todo**
-- [ ] migrate tenant db from account
-- [ ] update account service not to use tenant
-- [ ] simplify account response
+- [x] migrate tenant db from account [done]
+- [x] update account service not to use tenant [done]
+- [x] simplify account response [done]
 
 ### Account Service
 #### Read account by Tenant / Name / Password [done] ####
@@ -71,7 +71,7 @@ Payload [name, password]
 - [x] update the controller [done]
 - [x] create the service [done]
 - [x] update the sql [done]
-  - [ ] make sure to search for invalid tenant [selected for development]
+  - [ ] make sure to search for invalid tenant [Gateway Api] [selected for development]
   - [x] make sure to search for duplicate names [done]
   - [ ] catch db errors in the controller [selected for development]
 

@@ -5,9 +5,10 @@ import com.example.account.exception.ExceptionCode;
 import com.example.account.facade.AccountFacade;
 import com.example.account.model.response.Account;
 import com.example.account.model.request.AccountDto;
-import com.example.account.service.AccountService;
 import com.example.common.rest.dto.ErrorDto;
 import com.example.common.rest.envelope.ResponseEnvelope;
+import com.example.common.validator.RuleType;
+import com.example.common.validator.Validation;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
@@ -36,7 +37,7 @@ public class AccountRest {
             @QueryParam("password") @DefaultValue("") String password
     ) {
         //todo: better check
-        if (tenantId.length() == 0 || name.length() == 0 || password.length() == 0) {
+        if (!validateGetAccount(tenantId, name, password)) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
@@ -66,6 +67,14 @@ public class AccountRest {
         return Response.status(Response.Status.OK)
                 .entity(responseEnvelope)
                 .build();
+    }
+
+    private Boolean validateGetAccount(String tenantId, String name, String password) {
+        Validation validation = new Validation();
+        validation.addRule(tenantId, RuleType.NOT_NULL);
+        validation.addRule(tenantId, RuleType.STRING_SIZE_EQ, 36);
+
+        return tenantId.length() != 0 && name.length() != 0 && password.length() != 0;
     }
 
     @POST
