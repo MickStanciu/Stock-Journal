@@ -14,6 +14,7 @@ import javax.ws.rs.core.Response;
 import java.math.BigInteger;
 import java.util.Optional;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -23,25 +24,25 @@ public class AccountRestTest {
     private AccountFacade accountFacade;
 
     @InjectMocks
-    private final AccountRest tenantRest = new AccountRest();
+    private final AccountRest accountRest = new AccountRest();
 
     @Test
     public void testGetAccount() {
         Account accountFixture = new Account.Builder()
                 .withId(BigInteger.ONE)
                 .withEmail("test@test.com")
-                .withName("Test")
+                .withName("test.account")
                 .withPassword("Password")
                 .withRole(new Role(1, "role", "description"))
                 .withTenantId("1")
                 .build();
 
-//        when(tenantService.getTenant("id")).thenReturn(Optional.of(tenantFixture));
-//
-//        Response response = tenantRest.getTenant("id");
-//        ResponseEnvelope responseEnvelope = (ResponseEnvelope) response.getEntity();
-//        Tenant item = (Tenant) responseEnvelope.getData();
-//
-//        assertEquals("Id should be equal to: \'id\'", "id", item.getId());
+        when(accountFacade.getAccount("test.account", "Password", "1")).thenReturn(Optional.of(accountFixture));
+
+        Response response = accountRest.getAccount("1", "test.account", "Password");
+        ResponseEnvelope responseEnvelope = (ResponseEnvelope) response.getEntity();
+        Account item = (Account) responseEnvelope.getData();
+
+        assertEquals("Id should be equal to: \'1\'", BigInteger.ONE, item.getId());
     }
 }
