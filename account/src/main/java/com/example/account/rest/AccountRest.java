@@ -7,8 +7,7 @@ import com.example.account.model.response.Account;
 import com.example.account.model.request.AccountDto;
 import com.example.common.rest.dto.ErrorDto;
 import com.example.common.rest.envelope.ResponseEnvelope;
-import com.example.common.validator.RuleType;
-import com.example.common.validator.Validation;
+import com.example.common.validator.StringValidator;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
@@ -70,11 +69,15 @@ public class AccountRest {
     }
 
     private Boolean validateGetAccount(String tenantId, String name, String password) {
-        Validation validation = new Validation();
-        validation.addRule(tenantId, RuleType.NOT_NULL);
-        validation.addRule(tenantId, RuleType.STRING_SIZE_EQ, 36);
+        StringValidator tenantValidator = new StringValidator(tenantId)
+                .notNull()
+                .sizeEqualTo(36);
 
-        return tenantId.length() != 0 && name.length() != 0 && password.length() != 0;
+        StringValidator nameValidator = new StringValidator(name).notNull();
+
+        StringValidator passwordValidator = new StringValidator(password).notNull();
+
+        return tenantValidator.isValid() && nameValidator.isValid() && passwordValidator.isValid();
     }
 
     @POST
