@@ -37,4 +37,13 @@ public class ValidatorTest {
         assertTrue("Should be TRUE", validator.sizeEqualTo(0).isValid());
         assertFalse("Should be FALSE", validator.sizeEqualTo(1).isValid());
     }
+
+    @Test
+    public void testStringLTE() {
+        String test = "123456789";
+        StringValidator validator = new StringValidator(test);
+        assertTrue("Should be TRUE", validator.sizeLessOrEqualTo(9).isValid());
+        assertTrue("Should be TRUE", validator.sizeLessOrEqualTo(10).isValid());
+        assertFalse("Should be FALSE", validator.sizeLessOrEqualTo(3).isValid());
+    }
 }

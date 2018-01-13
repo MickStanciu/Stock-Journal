@@ -20,6 +20,11 @@ public class StringValidator implements Validator {
         return this;
     }
 
+    public StringValidator sizeLessOrEqualTo(int size) {
+        this.result &= this.string != null && this.string.length() <= size;
+        return this;
+    }
+
     @Override
     public boolean isValid() {
         return this.result;

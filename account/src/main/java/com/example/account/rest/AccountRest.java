@@ -73,9 +73,13 @@ public class AccountRest {
                 .notNull()
                 .sizeEqualTo(36);
 
-        StringValidator nameValidator = new StringValidator(name).notNull();
+        StringValidator nameValidator = new StringValidator(name)
+                .notNull()
+                .sizeLessOrEqualTo(64);
 
-        StringValidator passwordValidator = new StringValidator(password).notNull();
+        StringValidator passwordValidator = new StringValidator(password)
+                .notNull()
+                .sizeLessOrEqualTo(64);
 
         return tenantValidator.isValid() && nameValidator.isValid() && passwordValidator.isValid();
     }
