@@ -60,7 +60,7 @@ GET http://localhost:8080/account/api/d79ec11a-2011-4423-ba01-3af8de0a3e10?name=
   - [x] linked to roles -> customisable role names [done]
 - [x] create a user service [done]
 - [ ] not sure we need account role name field [selected for development]
-- [ ] add GTE and LTE (name and password constraints) for validation and DB constraints [selected for development]
+- [x] add LTE (name and password constraints) for validation and DB constraints [done]
 
 #### Create new account by Tenant / Name / Password [done] ####
 

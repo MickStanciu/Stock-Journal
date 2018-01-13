@@ -68,22 +68,6 @@ public class AccountRest {
                 .build();
     }
 
-    private Boolean validateGetAccount(String tenantId, String name, String password) {
-        StringValidator tenantValidator = new StringValidator(tenantId)
-                .notNull()
-                .sizeEqualTo(36);
-
-        StringValidator nameValidator = new StringValidator(name)
-                .notNull()
-                .sizeLessOrEqualTo(64);
-
-        StringValidator passwordValidator = new StringValidator(password)
-                .notNull()
-                .sizeLessOrEqualTo(64);
-
-        return tenantValidator.isValid() && nameValidator.isValid() && passwordValidator.isValid();
-    }
-
     @POST
     @Path("/{tenantId}")
     @Consumes("application/json")
@@ -133,6 +117,23 @@ public class AccountRest {
         return Response.status(status)
                 .entity(responseEnvelope)
                 .build();
+    }
+
+
+    private Boolean validateGetAccount(String tenantId, String name, String password) {
+        StringValidator tenantValidator = new StringValidator(tenantId)
+                .notNull()
+                .sizeEqualTo(36);
+
+        StringValidator nameValidator = new StringValidator(name)
+                .notNull()
+                .sizeLessOrEqualTo(64);
+
+        StringValidator passwordValidator = new StringValidator(password)
+                .notNull()
+                .sizeLessOrEqualTo(64);
+
+        return tenantValidator.isValid() && nameValidator.isValid() && passwordValidator.isValid();
     }
 
 }
