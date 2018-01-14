@@ -76,7 +76,13 @@ Payload [name, password]
   - [ ] make sure to search for invalid tenant [Gateway Api] [selected for development]
   - [x] make sure to search for duplicate names [done]
   - [ ] catch db errors in the controller [selected for development]
-- [ ] update controller to accept only name and password [selected for development]
+- [x] update controller to accept only name and password [done]
+
+#### Update a account by Tenant / Id / [done] ####
+
+PUT http://localhost:8080/account/api/d79ec11a-2011-4423-ba01-3af8de0a3e10/5
+
+Payload [password, email, role, active ...]
 
 #### Tech Debt [selected for development] ####
 - [ ] move Exception from controller to a default ExceptionMapper
