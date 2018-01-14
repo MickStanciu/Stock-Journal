@@ -17,16 +17,16 @@ public class AccountService {
     @Inject
     private AccountDao accountDao;
 
-    public Optional<Account> getAccount(String name, String password, String tenantId) {
-        return accountDao.getAccount(name, password, tenantId);
+    public Optional<Account> getAccount(String tenantId, String name, String password) {
+        return accountDao.getAccount(tenantId, name, password);
     }
 
-    public boolean checkAccount(String name, String tenantId) {
-        return accountDao.checkAccount(name, tenantId);
+    public boolean checkAccount(String tenantId, String name) {
+        return accountDao.checkAccount(tenantId, name);
     }
 
-    public void createAccount(AccountDto accountDto, String tenantId) {
-        accountDao.createAccount(accountDto.getName(), accountDto.getPassword(), accountDto.getEmail(), tenantId, accountDto.getRoleId());
+    public void createAccount(String tenantId, String name, String password, String email, int roleId) {
+        accountDao.createAccount(tenantId, name, password, email, roleId);
     }
 
 }

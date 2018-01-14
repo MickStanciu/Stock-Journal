@@ -5,9 +5,9 @@ import com.example.account.exception.ExceptionCode;
 import com.example.account.facade.AccountFacade;
 import com.example.account.model.response.Account;
 import com.example.account.model.request.AccountDto;
+import com.example.account.validation.RequestValidation;
 import com.example.common.rest.dto.ErrorDto;
 import com.example.common.rest.envelope.ResponseEnvelope;
-import com.example.common.validator.StringValidator;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
@@ -35,7 +35,6 @@ public class AccountRest {
             @QueryParam("name") @DefaultValue("") String name,
             @QueryParam("password") @DefaultValue("") String password
     ) {
-        //todo: better check
         if (!validateGetAccount(tenantId, name, password)) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
@@ -45,7 +44,7 @@ public class AccountRest {
         //todo: catch all errors
         Optional<Account> accountOptional;
         try {
-            accountOptional = accountFacade.getAccount(name, password, tenantId);
+            accountOptional = accountFacade.getAccount(tenantId, name, password);
         } catch (Exception ex) {
             log.error(ex);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
@@ -74,12 +73,16 @@ public class AccountRest {
     public Response createAccount(AccountDto accountDto, @PathParam("tenantId") @DefaultValue("0") String tenantId) {
         //todo: sanitize the accountDto
         //todo: catch bad params: com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException
-        log.info(accountDto);
+
+        if (!validatePostAccount(tenantId, accountDto.getName(), accountDto.getPassword())) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
         Optional<Account> accountOptional;
         List<ErrorDto> errors = new ArrayList<>();
 
         try {
-            accountOptional = accountFacade.createAccount(accountDto, tenantId);
+            accountOptional = accountFacade.createAccount(tenantId, accountDto.getName(), accountDto.getPassword() );
         } catch (AccountException aex) {
             log.error(aex);
             errors.add(new ErrorDto(aex.getCode().name(), aex.getMessage()));
@@ -119,21 +122,13 @@ public class AccountRest {
                 .build();
     }
 
+    private boolean validatePostAccount(String tenantId, String name, String password) {
+        return RequestValidation.tenant(tenantId) && RequestValidation.accountName(name) && RequestValidation.accountPassword(password);
+    }
+
 
     private Boolean validateGetAccount(String tenantId, String name, String password) {
-        StringValidator tenantValidator = new StringValidator(tenantId)
-                .notNull()
-                .sizeEqualTo(36);
-
-        StringValidator nameValidator = new StringValidator(name)
-                .notNull()
-                .sizeLessOrEqualTo(64);
-
-        StringValidator passwordValidator = new StringValidator(password)
-                .notNull()
-                .sizeLessOrEqualTo(64);
-
-        return tenantValidator.isValid() && nameValidator.isValid() && passwordValidator.isValid();
+        return RequestValidation.tenant(tenantId) && RequestValidation.accountName(name) && RequestValidation.accountPassword(password);
     }
 
 }

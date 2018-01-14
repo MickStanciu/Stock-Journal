@@ -13,14 +13,16 @@ public class Account implements Serializable {
     private String email;
     private String password;
     private String tenantId;
+    private boolean active;
 
-    public Account(String tenantId, BigInteger id, Role role, String name, String email, String password) {
+    public Account(String tenantId, BigInteger id, Role role, String name, String email, String password, boolean active) {
         this.tenantId = tenantId;
         this.id = id;
         this.role = role;
         this.name = name;
         this.email = email;
         this.password = password;
+        this.active = active;
     }
 
     public Account(Builder builder) {
@@ -30,6 +32,7 @@ public class Account implements Serializable {
         this.name = builder.name;
         this.email = builder.name;
         this.password = builder.password;
+        this.active = builder.active;
     }
 
     public BigInteger getId() {
@@ -56,6 +59,10 @@ public class Account implements Serializable {
         return tenantId;
     }
 
+    public Boolean isActive() {
+        return active;
+    }
+
     public static class Builder {
         private Role role;
         private BigInteger id;
@@ -63,6 +70,7 @@ public class Account implements Serializable {
         private String email;
         private String password;
         private String tenantId;
+        private boolean active;
 
         public Builder withRole(Role role) {
             this.role = role;
@@ -91,6 +99,11 @@ public class Account implements Serializable {
 
         public Builder withTenantId(String tenantId) {
             this.tenantId = tenantId;
+            return this;
+        }
+
+        public Builder withFlagActive(boolean active) {
+            this.active = active;
             return this;
         }
 

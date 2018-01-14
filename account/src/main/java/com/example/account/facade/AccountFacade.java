@@ -15,33 +15,36 @@ import java.util.Optional;
 @Stateless
 public class AccountFacade {
 
+    private static int DEFAULT_ROLE_ID = 5;
+    private static String DEFAULT_EMAIL = "not.set@domain.com";
+
     @Inject
     private AccountService accountService;
 
     @Inject
     private RoleService roleService;
 
-    public Optional<Account> getAccount(String name, String password, String tenantId) {
-        return accountService.getAccount(name, password, tenantId);
+    public Optional<Account> getAccount(String tenantId, String name, String password) {
+        return accountService.getAccount(tenantId, name, password);
     }
 
-    public Optional<Account> createAccount(AccountDto accountDto, String tenantId) throws AccountException {
+    public Optional<Account> createAccount(String tenantId, String name, String password) throws AccountException {
         //todo: externalize Tenant as rest service
 
         //validate role
-        Optional<Role> role = roleService.getRole(accountDto.getRoleId(), tenantId);
-        if (!role.isPresent()) {
-            throw new AccountException(ExceptionCode.ROLE_NOT_FOUND);
-        }
+        //todo: find a way to obtain the lowest role.
+//        Optional<Role> role = roleService.getRole(accountDto.getRoleId(), tenantId);
+//        if (!role.isPresent()) {
+//            throw new AccountException(ExceptionCode.ROLE_NOT_FOUND);
+//        }
 
         //todo: add check if the account name already exists
-        if (accountService.checkAccount(accountDto.getName(), tenantId)) {
+        if (accountService.checkAccount(tenantId, name)) {
             throw new AccountException(ExceptionCode.ACCOUNT_EXISTS);
         }
 
-        accountService.createAccount(accountDto, tenantId);
-
-        return accountService.getAccount(accountDto.getName(), accountDto.getPassword(), tenantId);
+        accountService.createAccount(tenantId, name, password, DEFAULT_EMAIL, DEFAULT_ROLE_ID);
+        return accountService.getAccount(tenantId, name, password);
     }
 
 }

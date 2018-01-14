@@ -37,7 +37,7 @@ public class AccountRestTest {
 
     @Test
     public void testGetAccount() {
-        when(accountFacade.getAccount("test.account", "Password", "d79ec11a-2011-4423-ba01-3af8de0a3e10")).thenReturn(Optional.of(accountFixture));
+        when(accountFacade.getAccount("d79ec11a-2011-4423-ba01-3af8de0a3e10", "test.account", "Password")).thenReturn(Optional.of(accountFixture));
 
         Response response = accountRest.getAccount("d79ec11a-2011-4423-ba01-3af8de0a3e10", "test.account", "Password");
         assertEquals("Status", 200, response.getStatus());

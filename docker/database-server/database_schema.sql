@@ -65,12 +65,13 @@ CREATE TABLE accounts (
   role_fk INT REFERENCES account_roles(id) NOT NULL,
   name VARCHAR(64) NOT NULL,
   email VARCHAR(64) NOT NULL,
-  password VARCHAR(64) NOT NULL
+  password VARCHAR(64) NOT NULL,
+  active boolean DEFAULT false NOT NULL
 );
 
 
-INSERT INTO accounts (tenant_fk, role_fk, name, email, password) VALUES
-  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 1, 'mircea.stanciu', 'mick@jadebaboon.com', 'secret');
+INSERT INTO accounts (tenant_fk, role_fk, name, email, password, active) VALUES
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 1, 'mircea.stanciu', 'mick@jadebaboon.com', 'secret', true);
 GRANT ALL PRIVILEGES ON TABLE accounts TO admin;
 
 

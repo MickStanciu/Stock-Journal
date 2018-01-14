@@ -61,6 +61,7 @@ GET http://localhost:8080/account/api/d79ec11a-2011-4423-ba01-3af8de0a3e10?name=
 - [x] create a user service [done]
 - [ ] not sure we need account role name field [selected for development]
 - [x] add LTE (name and password constraints) for validation and DB constraints [done]
+- [x] add active flag [done]
 
 #### Create new account by Tenant / Name / Password [done] ####
 
@@ -75,6 +76,7 @@ Payload [name, password]
   - [ ] make sure to search for invalid tenant [Gateway Api] [selected for development]
   - [x] make sure to search for duplicate names [done]
   - [ ] catch db errors in the controller [selected for development]
+- [ ] update controller to accept only name and password [selected for development]
 
 #### Tech Debt [selected for development] ####
 - [ ] move Exception from controller to a default ExceptionMapper
