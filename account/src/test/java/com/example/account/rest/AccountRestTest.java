@@ -32,14 +32,15 @@ public class AccountRestTest {
             .withName("test.account")
             .withPassword("Password")
             .withRole(new Role(1, "role", "description"))
-            .withTenantId("1")
+            .withTenantId("d79ec11a-2011-4423-ba01-3af8de0a3e10")
             .build();
 
     @Test
     public void testGetAccount() {
-        when(accountFacade.getAccount("test.account", "Password", "1")).thenReturn(Optional.of(accountFixture));
+        when(accountFacade.getAccount("test.account", "Password", "d79ec11a-2011-4423-ba01-3af8de0a3e10")).thenReturn(Optional.of(accountFixture));
 
-        Response response = accountRest.getAccount("1", "test.account", "Password");
+        Response response = accountRest.getAccount("d79ec11a-2011-4423-ba01-3af8de0a3e10", "test.account", "Password");
+        assertEquals("Status", 200, response.getStatus());
         ResponseEnvelope responseEnvelope = (ResponseEnvelope) response.getEntity();
         Account item = (Account) responseEnvelope.getData();
 
