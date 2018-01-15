@@ -34,7 +34,7 @@ public class AccountRest {
             @QueryParam("name") @DefaultValue("") String name,
             @QueryParam("password") @DefaultValue("") String password
     ) {
-        if (!validateGetAccount(tenantId, name, password)) {
+        if (!RequestValidation.validateGetAccount(tenantId, name, password)) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
@@ -73,7 +73,7 @@ public class AccountRest {
         //todo: sanitize the accountDto
         //todo: catch bad params: com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException
 
-        if (!validatePostAccount(tenantId, account.getName(), account.getPassword())) {
+        if (!RequestValidation.validateCreateAccount(tenantId, account)) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
@@ -121,13 +121,21 @@ public class AccountRest {
                 .build();
     }
 
-    private boolean validatePostAccount(String tenantId, String name, String password) {
-        return RequestValidation.tenant(tenantId) && RequestValidation.accountName(name) && RequestValidation.accountPassword(password);
+
+    @PUT
+    @Path("/{tenantId}/{accountId}")
+    @Consumes("application/json")
+    public Response updateAccount(
+            Account account,
+            @PathParam("tenantId") @DefaultValue("0") String tenantId,
+            @PathParam("accountId") @DefaultValue("0") Integer accountId
+           ) {
+
+        if (!RequestValidation.validateUpdateAccount(tenantId, accountId, account)) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        return Response.status(Response.Status.OK).build();
     }
 
-
-    private Boolean validateGetAccount(String tenantId, String name, String password) {
-        return RequestValidation.tenant(tenantId) && RequestValidation.accountName(name) && RequestValidation.accountPassword(password);
-    }
 
 }

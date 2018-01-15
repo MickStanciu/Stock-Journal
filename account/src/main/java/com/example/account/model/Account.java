@@ -13,7 +13,7 @@ public class Account implements Serializable {
     private String email;
     private String password;
     private String tenantId;
-    private boolean active;
+    private Boolean active;
 
     public Account() {
         //required by Jackson
@@ -74,7 +74,7 @@ public class Account implements Serializable {
         private String email;
         private String password;
         private String tenantId;
-        private boolean active;
+        private Boolean active;
 
         public Builder withRole(Role role) {
             this.role = role;

@@ -46,4 +46,35 @@ public class ValidatorTest {
         assertTrue("Should be TRUE", validator.sizeLessOrEqualTo(10).isValid());
         assertFalse("Should be FALSE", validator.sizeLessOrEqualTo(3).isValid());
     }
+
+    @Test
+    public void testStringGTE() {
+        String test = "123456789";
+        StringValidator validator = new StringValidator(test);
+        assertTrue("Should be TRUE", validator.sizeGreaterOrEqualTo(9).isValid());
+        assertTrue("Should be TRUE", validator.sizeGreaterOrEqualTo(1).isValid());
+        assertFalse("Should be FALSE", validator.sizeGreaterOrEqualTo(100).isValid());
+    }
+
+
+    @Test
+    public void testIntegerNotNull() {
+        Integer test = 1;
+        IntegerValidator validator = new IntegerValidator(test);
+        assertTrue("Should be TRUE", validator.notNull().isValid());
+    }
+
+    @Test
+    public void testIntegerGreaterThanZero1() {
+        Integer test = 1;
+        IntegerValidator validator = new IntegerValidator(test);
+        assertTrue("Should be TRUE", validator.greaterThanZero().isValid());
+    }
+
+    @Test
+    public void testIntegerGreaterThanZero2() {
+        Integer test = 0;
+        IntegerValidator validator = new IntegerValidator(test);
+        assertFalse("Should be TRUE", validator.greaterThanZero().isValid());
+    }
 }
