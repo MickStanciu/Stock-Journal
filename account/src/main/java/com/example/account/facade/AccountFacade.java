@@ -2,9 +2,7 @@ package com.example.account.facade;
 
 import com.example.account.exception.AccountException;
 import com.example.account.exception.ExceptionCode;
-import com.example.account.model.request.AccountDto;
-import com.example.account.model.response.Account;
-import com.example.account.model.response.Role;
+import com.example.account.model.Account;
 import com.example.account.service.AccountService;
 import com.example.account.service.RoleService;
 

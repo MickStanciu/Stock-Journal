@@ -3,8 +3,7 @@ package com.example.account.rest;
 import com.example.account.exception.AccountException;
 import com.example.account.exception.ExceptionCode;
 import com.example.account.facade.AccountFacade;
-import com.example.account.model.response.Account;
-import com.example.account.model.request.AccountDto;
+import com.example.account.model.Account;
 import com.example.account.validation.RequestValidation;
 import com.example.common.rest.dto.ErrorDto;
 import com.example.common.rest.envelope.ResponseEnvelope;
@@ -70,11 +69,11 @@ public class AccountRest {
     @POST
     @Path("/{tenantId}")
     @Consumes("application/json")
-    public Response createAccount(AccountDto accountDto, @PathParam("tenantId") @DefaultValue("0") String tenantId) {
+    public Response createAccount(Account account, @PathParam("tenantId") @DefaultValue("0") String tenantId) {
         //todo: sanitize the accountDto
         //todo: catch bad params: com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException
 
-        if (!validatePostAccount(tenantId, accountDto.getName(), accountDto.getPassword())) {
+        if (!validatePostAccount(tenantId, account.getName(), account.getPassword())) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
@@ -82,7 +81,7 @@ public class AccountRest {
         List<ErrorDto> errors = new ArrayList<>();
 
         try {
-            accountOptional = accountFacade.createAccount(tenantId, accountDto.getName(), accountDto.getPassword() );
+            accountOptional = accountFacade.createAccount(tenantId, account.getName(), account.getPassword() );
         } catch (AccountException aex) {
             log.error(aex);
             errors.add(new ErrorDto(aex.getCode().name(), aex.getMessage()));
@@ -93,7 +92,7 @@ public class AccountRest {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
-        Account account = null;
+        account = null;
         if (!accountOptional.isPresent()) {
             if (errors.isEmpty()) {
                 errors.add(new ErrorDto(ExceptionCode.UNKNOWN.name(), ExceptionCode.UNKNOWN.getMessage()));

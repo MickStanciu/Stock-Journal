@@ -1,15 +1,12 @@
 package com.example.account.dao;
 
-import com.example.account.model.response.Account;
-import com.example.account.model.response.Role;
-import com.example.account.model.response.Tenant;
+import com.example.account.model.Role;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 

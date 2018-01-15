@@ -1,8 +1,7 @@
 package com.example.account.service;
 
-import com.example.account.dao.AccountDao;
 import com.example.account.dao.RoleDao;
-import com.example.account.model.response.Role;
+import com.example.account.model.Role;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;

@@ -1,8 +1,8 @@
 package com.example.account.rest;
 
 import com.example.account.facade.AccountFacade;
-import com.example.account.model.response.Account;
-import com.example.account.model.response.Role;
+import com.example.account.model.Account;
+import com.example.account.model.Role;
 import com.example.common.rest.envelope.ResponseEnvelope;
 import org.junit.Test;
 import org.junit.runner.RunWith;

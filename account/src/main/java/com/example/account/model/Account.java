@@ -1,4 +1,4 @@
-package com.example.account.model.response;
+package com.example.account.model;
 
 import java.io.Serializable;
 import java.math.BigInteger;
@@ -14,6 +14,10 @@ public class Account implements Serializable {
     private String password;
     private String tenantId;
     private boolean active;
+
+    public Account() {
+        //required by Jackson
+    }
 
     public Account(String tenantId, BigInteger id, Role role, String name, String email, String password, boolean active) {
         this.tenantId = tenantId;
