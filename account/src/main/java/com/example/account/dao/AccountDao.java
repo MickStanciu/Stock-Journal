@@ -38,6 +38,10 @@ public class AccountDao {
     private static final String ACCOUNT_CHECK_QUERY = "SELECT id FROM accounts " +
             "WHERE name = :name and tenant_fk = CAST(:tenant_fk AS uuid)";
 
+    private static final String ACCOUNT_UPDATE_QUERY = "UPDATE accounts SET " +
+            "name = :name, password = :password, email = :email " +
+            "WHERE tenant_fk = CAST(:tenant_fk AS uuid) and id = :account_id";
+
     @PersistenceContext
     private EntityManager em;
 
@@ -89,6 +93,18 @@ public class AccountDao {
         q.setParameter("role_fk", roleId);
         q.executeUpdate();
     }
+
+
+    public void updateAccount(String tenantId, BigInteger accountId, Account newAccount) {
+        Query q = em.createNativeQuery(ACCOUNT_UPDATE_QUERY);
+        q.setParameter("tenant_fk", tenantId);
+        q.setParameter("account_id", accountId);
+        q.setParameter("name", newAccount.getName());
+        q.setParameter("password", newAccount.getPassword());
+        q.setParameter("email", newAccount.getEmail());
+        q.executeUpdate();
+    }
+
 
     private Account mapFromObject(Object[] result) {
         BigInteger account_id = ((BigInteger) result[0]);

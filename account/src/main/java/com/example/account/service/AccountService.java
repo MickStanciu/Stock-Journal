@@ -36,7 +36,7 @@ public class AccountService {
     public void updateAccount(String tenantId, BigInteger accountId, Account originalAccount, Account account) {
         //transfer only allowed fields
         Account newAccount = copyAccount(tenantId, accountId, originalAccount, account);
-
+        accountDao.updateAccount(tenantId, accountId, newAccount);
     }
 
     protected Account copyAccount(String tenantId, BigInteger accountId, Account originalAccount, Account account) {
