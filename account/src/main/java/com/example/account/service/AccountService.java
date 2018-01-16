@@ -47,10 +47,9 @@ public class AccountService {
                 .withEmail(account.getEmail() == null ? originalAccount.getEmail() : account.getEmail())
                 .withName(account.getName() == null ? originalAccount.getName() : account.getName())
                 .withPassword(account.getPassword() == null ? originalAccount.getPassword() : account.getPassword())
+                .withFlagActive(account.isActive() == null ? originalAccount.isActive() : account.isActive())
 
                 .withRole(originalAccount.getRole())
-                .withFlagActive(originalAccount.isActive())
-
                 .build();
     }
 }

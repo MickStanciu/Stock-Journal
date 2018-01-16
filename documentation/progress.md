@@ -87,7 +87,7 @@ Payload [name, password, email]
 **Todo**
 - [x] update the controller [done]
 - [x] create unit tests for validation [done]
-- [ ] update for [active] [selected for development]
+- [x] update for [active] [done]
 - [ ] update for [role] [selected for development]
 
 #### Tech Debt [selected for development] ####

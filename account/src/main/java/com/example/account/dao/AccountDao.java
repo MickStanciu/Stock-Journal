@@ -39,7 +39,7 @@ public class AccountDao {
             "WHERE name = :name and tenant_fk = CAST(:tenant_fk AS uuid)";
 
     private static final String ACCOUNT_UPDATE_QUERY = "UPDATE accounts SET " +
-            "name = :name, password = :password, email = :email " +
+            "name = :name, password = :password, email = :email, active = :active " +
             "WHERE tenant_fk = CAST(:tenant_fk AS uuid) and id = :account_id";
 
     @PersistenceContext
@@ -102,6 +102,7 @@ public class AccountDao {
         q.setParameter("name", newAccount.getName());
         q.setParameter("password", newAccount.getPassword());
         q.setParameter("email", newAccount.getEmail());
+        q.setParameter("active", newAccount.isActive());
         q.executeUpdate();
     }
 

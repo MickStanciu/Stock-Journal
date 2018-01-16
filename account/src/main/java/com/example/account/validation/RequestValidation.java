@@ -91,7 +91,6 @@ public class RequestValidation {
             response = response && RequestValidation.accountEmail(account.getEmail());
         }
 
-//                && RequestValidation.accountActive(account.isActive())
 //                && RequestValidation.role(account.getRole());
 
         return response;
