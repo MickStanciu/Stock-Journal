@@ -89,6 +89,7 @@ Payload [name, password, email]
 - [x] create unit tests for validation [done]
 - [x] update for [active] [done]
 - [ ] update for [role] [selected for development]
+- [ ] check if the account name already exists
 
 #### Tech Debt [selected for development] ####
 - [ ] move Exception from controller to a default ExceptionMapper
