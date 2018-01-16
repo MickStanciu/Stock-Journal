@@ -6,6 +6,8 @@ import com.example.common.validator.IntegerValidator;
 import com.example.common.validator.StringValidator;
 
 import java.math.BigInteger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RequestValidation {
 
@@ -47,10 +49,17 @@ public class RequestValidation {
     }
 
     private static boolean accountEmail(String email) {
-        return new StringValidator(email)
+        boolean response = new StringValidator(email)
                 .notNull()
                 .sizeLessOrEqualTo(64)
                 .isValid();
+        if (!response) {
+            return false;
+        }
+
+        Pattern regexPattern = Pattern.compile("^[(a-zA-Z-0-9_+.)]+@[(a-z-A-z)]+\\.[(a-zA-z)]{2,3}$");
+        Matcher regMatcher   = regexPattern.matcher(email);
+        return regMatcher.matches();
     }
 
     private static boolean role(Role role) {

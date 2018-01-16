@@ -73,21 +73,20 @@ public class RequestValidationTest {
     @Test
     public void testValidateCreateAccountWhenAccountIsInvalid() {
         Role roleFixture = new Role(5, "L5", "");
-        Account accountFixture = new Account(null, null, roleFixture, DEFAULT_ACCOUNT_NAME,
+
+        //name
+        Account accountFixture = new Account(DEFAULT_TENANT_ID, null, roleFixture, null,
                 DEFAULT_ACCOUNT_EMAIL, DEFAULT_ACCOUNT_PASSWORD, true);
         boolean response = validateCreateAccount(DEFAULT_TENANT_ID, accountFixture);
-        assertTrue("Should be TRUE", response);
-
-        accountFixture = new Account(DEFAULT_TENANT_ID, null, roleFixture, null,
-                DEFAULT_ACCOUNT_EMAIL, DEFAULT_ACCOUNT_PASSWORD, true);
-        response = validateCreateAccount(DEFAULT_TENANT_ID, accountFixture);
         assertFalse("Should be FALSE", response);
 
+        //email
         accountFixture = new Account(DEFAULT_TENANT_ID, null, roleFixture, DEFAULT_ACCOUNT_NAME,
                 null, DEFAULT_ACCOUNT_PASSWORD, true);
         response = validateCreateAccount(DEFAULT_TENANT_ID, accountFixture);
         assertTrue("Should be TRUE", response);
 
+        //password
         accountFixture = new Account(DEFAULT_TENANT_ID, null, roleFixture, DEFAULT_ACCOUNT_NAME,
                 DEFAULT_ACCOUNT_EMAIL, null, true);
         response = validateCreateAccount(DEFAULT_TENANT_ID, accountFixture);
@@ -130,25 +129,24 @@ public class RequestValidationTest {
     @Test
     public void testValidateUpdateAccountWhenAccountIsInvalid() {
         Role roleFixture = new Role(5, "L5", "");
+
+        //name
         Account accountFixture = new Account(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, roleFixture, "a",
                 DEFAULT_ACCOUNT_EMAIL, DEFAULT_ACCOUNT_PASSWORD, true);
         boolean response = validateUpdateAccount(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, accountFixture);
         assertFalse("Should be FALSE", response);
 
-//        accountFixture = new Account(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, roleFixture, DEFAULT_ACCOUNT_NAME,
-//                "1", DEFAULT_ACCOUNT_PASSWORD, true);
-//        response = validateUpdateAccount(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, accountFixture);
-//        assertFalse("Should be FALSE", response);
+        //email
+        accountFixture = new Account(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, roleFixture, DEFAULT_ACCOUNT_NAME,
+                "1", DEFAULT_ACCOUNT_PASSWORD, true);
+        response = validateUpdateAccount(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, accountFixture);
+        assertFalse("Should be FALSE", response);
 
+        //password
         accountFixture = new Account(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, roleFixture, DEFAULT_ACCOUNT_NAME,
                 DEFAULT_ACCOUNT_EMAIL, "123", true);
         response = validateUpdateAccount(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, accountFixture);
         assertFalse("Should be FALSE", response);
-
-//        accountFixture = new Account(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, roleFixture, DEFAULT_ACCOUNT_NAME,
-//                DEFAULT_ACCOUNT_EMAIL, DEFAULT_ACCOUNT_PASSWORD, null);
-//        response = validateUpdateAccount(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, accountFixture);
-//        assertFalse("Should be FALSE", response);
     }
 
 }
