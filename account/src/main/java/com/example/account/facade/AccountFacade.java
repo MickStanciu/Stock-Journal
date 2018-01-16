@@ -8,6 +8,7 @@ import com.example.account.service.RoleService;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import java.math.BigInteger;
 import java.util.Optional;
 
 @Stateless
@@ -45,4 +46,14 @@ public class AccountFacade {
         return accountService.getAccount(tenantId, name, password);
     }
 
+    public Optional<Account> updateAccount(String tenantId, BigInteger accountId, Account newAccount) throws AccountException {
+        Optional<Account> originalAccount = accountService.getAccount(tenantId, accountId);
+
+        if (!originalAccount.isPresent()) {
+            throw new AccountException(ExceptionCode.ACCOUNT_NOT_FOUND);
+        }
+
+        accountService.updateAccount(tenantId, accountId, originalAccount.get(), newAccount);
+        return accountService.getAccount(tenantId, accountId);
+    }
 }

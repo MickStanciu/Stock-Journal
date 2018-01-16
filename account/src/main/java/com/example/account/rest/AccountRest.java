@@ -102,12 +102,8 @@ public class AccountRest {
             account = accountOptional.get();
         }
 
-        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<Account>()
-                .withData(account)
-                .withErrors(errors)
-                .build();
 
-        //todo: move this out
+
         Response.Status status = Response.Status.CREATED;
         if (errors.size() != 0) {
             if (errors.get(0).getCode().equals("ACCOUNT_EXISTS")) {
@@ -116,6 +112,11 @@ public class AccountRest {
                 status = Response.Status.BAD_REQUEST;
             }
         }
+
+        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<Account>()
+                .withData(account)
+                .withErrors(errors)
+                .build();
 
         return Response.status(status)
                 .entity(responseEnvelope)
@@ -135,7 +136,44 @@ public class AccountRest {
         if (!RequestValidation.validateUpdateAccount(tenantId, accountId, account)) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
-        return Response.status(Response.Status.OK).build();
+
+        Optional<Account> accountOptional;
+        List<ErrorDto> errors = new ArrayList<>();
+
+        try {
+            accountOptional = accountFacade.updateAccount(tenantId, accountId, account);
+        } catch (AccountException aex) {
+            log.error(aex);
+            errors.add(new ErrorDto(aex.getCode().name(), aex.getMessage()));
+            accountOptional = Optional.empty();
+        } catch (Exception ex) {
+            //todo: move out all the Exceptions
+            log.error(ex);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+
+        account = null;
+        if (!accountOptional.isPresent()) {
+            if (errors.isEmpty()) {
+                errors.add(new ErrorDto(ExceptionCode.UNKNOWN.name(), ExceptionCode.UNKNOWN.getMessage()));
+            }
+        } else {
+            account = accountOptional.get();
+        }
+
+        Response.Status status = Response.Status.ACCEPTED;
+        if (errors.size() != 0) {
+            status = Response.Status.BAD_REQUEST;
+        }
+
+        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<Account>()
+                .withData(account)
+                .withErrors(errors)
+                .build();
+
+        return Response.status(status)
+                .entity(responseEnvelope)
+                .build();
     }
 
 

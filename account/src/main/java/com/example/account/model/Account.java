@@ -34,7 +34,7 @@ public class Account implements Serializable {
         this.id = builder.id;
         this.role = builder.role;
         this.name = builder.name;
-        this.email = builder.name;
+        this.email = builder.email;
         this.password = builder.password;
         this.active = builder.active;
     }

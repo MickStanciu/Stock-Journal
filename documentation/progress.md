@@ -80,7 +80,7 @@ Payload [name, password]
 
 #### Update a account by Tenant / Id / [done] ####
 
-PUT http://localhost:8080/account/api/d79ec11a-2011-4423-ba01-3af8de0a3e10/5
+PUT http://localhost:8080/account/api/d79ec11a-2011-4423-ba01-3af8de0a3e10/36
 
 Payload [password, email, role, active ...]
 - [ ] update the controller [selected for development]

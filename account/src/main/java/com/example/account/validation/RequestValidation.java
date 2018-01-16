@@ -66,24 +66,33 @@ public class RequestValidation {
     }
 
     public static boolean validateUpdateAccount(String tenantId, BigInteger accountId, Account account) {
-        return RequestValidation.tenantId(tenantId) && RequestValidation.accountId(accountId)
-                && RequestValidation.account(account)
-                && RequestValidation.accountName(account.getName())
-                && RequestValidation.accountPassword(account.getPassword())
-                && RequestValidation.accountEmail(account.getEmail())
-                && RequestValidation.accountActive(account.isActive())
-                && RequestValidation.role(account.getRole());
+        boolean response =  RequestValidation.tenantId(tenantId) && RequestValidation.accountId(accountId)
+                && RequestValidation.account(account);
+
+        //validate optional fields
+        if (account.getName() != null) {
+            response = response && RequestValidation.accountName(account.getName());
+        }
+
+        if (account.getPassword() != null) {
+            response = response && RequestValidation.accountPassword(account.getPassword());
+        }
+
+        if (account.getEmail() != null) {
+            response = response && RequestValidation.accountEmail(account.getEmail());
+        }
+
+//                && RequestValidation.accountActive(account.isActive())
+//                && RequestValidation.role(account.getRole());
+
+        return response;
     }
 
     public static boolean validateCreateAccount(String tenantId, Account account) {
         return RequestValidation.tenantId(tenantId) && RequestValidation.account(account)
                 && RequestValidation.accountName(account.getName())
-                && RequestValidation.accountPassword(account.getPassword())
-                && RequestValidation.role(account.getRole());
+                && RequestValidation.accountPassword(account.getPassword());
     }
-
-
-
 
     public static Boolean validateGetAccount(String tenantId, String name, String password) {
         return RequestValidation.tenantId(tenantId) && RequestValidation.accountName(name)

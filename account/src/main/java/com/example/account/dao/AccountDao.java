@@ -16,13 +16,21 @@ import java.util.Optional;
 public class AccountDao {
     private static final Logger log = Logger.getLogger(AccountDao.class);
 
-    private static final String ACCOUNT_READ_QUERY = "SELECT a.id as account_id, a.name as account_name, a.password, " +
+    private static final String ACCOUNT_READ_BY_NAME_AND_PASSWORD_QUERY = "SELECT a.id as account_id, a.name as account_name, a.password, " +
             "a.email, CAST(a.tenant_fk as VARCHAR(36)) as tenant_id, a.active, ar.id as role_id, ar.name as role_name, " +
             "ari.name as role_description " +
             "FROM accounts a " +
             "INNER JOIN account_roles ar ON a.role_fk = ar.id " +
             "INNER JOIN account_role_info ari ON ar.id = ari.role_fk and a.tenant_fk = ari.tenant_fk " +
             "WHERE a.name = :name and a.password = :password and a.tenant_fk = CAST(:tenant_fk AS uuid)";
+
+    private static final String ACCOUNT_READ_BY_ID_QUERY = "SELECT a.id as account_id, a.name as account_name, a.password, " +
+            "a.email, CAST(a.tenant_fk as VARCHAR(36)) as tenant_id, a.active, ar.id as role_id, ar.name as role_name, " +
+            "ari.name as role_description " +
+            "FROM accounts a " +
+            "INNER JOIN account_roles ar ON a.role_fk = ar.id " +
+            "INNER JOIN account_role_info ari ON ar.id = ari.role_fk and a.tenant_fk = ari.tenant_fk " +
+            "WHERE a.tenant_fk = CAST(:tenant_fk AS uuid) and a.id = :account_id";
 
     private static final String ACCOUNT_CREATE_QUERY = "INSERT INTO accounts (tenant_fk, role_fk, name, email, password, active) " +
             "VALUES (CAST(:tenant_fk AS uuid), :role_fk, :name, :email, :password, false)";
@@ -34,7 +42,7 @@ public class AccountDao {
     private EntityManager em;
 
     public Optional<Account> getAccount(String tenantId, String name, String password) {
-        Query q = em.createNativeQuery(ACCOUNT_READ_QUERY);
+        Query q = em.createNativeQuery(ACCOUNT_READ_BY_NAME_AND_PASSWORD_QUERY);
         q.setParameter("tenant_fk", tenantId);
         q.setParameter("name", name);
         q.setParameter("password", password);
@@ -46,6 +54,21 @@ public class AccountDao {
 
         return Optional.of(mapFromObject(results.get(0)));
     }
+
+
+    public Optional<Account> getAccount(String tenantId, BigInteger accountId) {
+        Query q = em.createNativeQuery(ACCOUNT_READ_BY_ID_QUERY);
+        q.setParameter("tenant_fk", tenantId);
+        q.setParameter("account_id", accountId);
+
+        List<Object[]> results = q.getResultList();
+        if (results.size() == 0) {
+            return Optional.empty();
+        }
+
+        return Optional.of(mapFromObject(results.get(0)));
+    }
+
 
     public boolean checkAccount(String tenantId, String name) {
         Query q = em.createNativeQuery(ACCOUNT_CHECK_QUERY);

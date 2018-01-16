@@ -26,20 +26,28 @@ public class AccountRestTest {
     @InjectMocks
     private final AccountRest accountRest = new AccountRest();
 
+    private static String DEFAULT_TENANT_ID = "d79ec11a-2011-4423-ba01-3af8de0a3e10";
+    private static BigInteger DEFAULT_ACCOUNT_ID = BigInteger.ONE;
+    private static String DEFAULT_ACCOUNT_NAME = "name.surname";
+    private static String DEFAULT_ACCOUNT_PASSWORD = "secret";
+    private static String DEFAULT_ACCOUNT_EMAIL = "not.set@domain.com";
+
     private final Account accountFixture = new Account.Builder()
-            .withId(BigInteger.ONE)
-            .withEmail("test@test.com")
-            .withName("test.account")
-            .withPassword("Password")
-            .withRole(new Role(1, "role", "description"))
-            .withTenantId("d79ec11a-2011-4423-ba01-3af8de0a3e10")
+            .withTenantId(DEFAULT_TENANT_ID)
+            .withId(DEFAULT_ACCOUNT_ID)
+            .withEmail(DEFAULT_ACCOUNT_EMAIL)
+            .withName(DEFAULT_ACCOUNT_NAME)
+            .withPassword(DEFAULT_ACCOUNT_PASSWORD)
+            .withRole(new Role(5, "role", "description"))
+            .withFlagActive(true)
             .build();
 
     @Test
     public void testGetAccount() {
-        when(accountFacade.getAccount("d79ec11a-2011-4423-ba01-3af8de0a3e10", "test.account", "Password")).thenReturn(Optional.of(accountFixture));
+        when(accountFacade.getAccount(DEFAULT_TENANT_ID, "test.account", "Password"))
+                .thenReturn(Optional.of(accountFixture));
 
-        Response response = accountRest.getAccount("d79ec11a-2011-4423-ba01-3af8de0a3e10", "test.account", "Password");
+        Response response = accountRest.getAccount(DEFAULT_TENANT_ID, "test.account", "Password");
         assertEquals("Status", 200, response.getStatus());
         ResponseEnvelope responseEnvelope = (ResponseEnvelope) response.getEntity();
         Account item = (Account) responseEnvelope.getData();
