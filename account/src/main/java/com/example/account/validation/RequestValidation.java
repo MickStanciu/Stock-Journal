@@ -35,6 +35,7 @@ public class RequestValidation {
         return new StringValidator(password)
                 .notNull()
                 .sizeLessOrEqualTo(64)
+                .sizeGreaterOrEqualTo(5)
                 .isValid();
     }
 
@@ -70,8 +71,11 @@ public class RequestValidation {
     public static boolean validateCreateAccount(String tenantId, Account account) {
         return RequestValidation.tenantId(tenantId) && RequestValidation.account(account)
                 && RequestValidation.accountName(account.getName())
-                && RequestValidation.accountPassword(account.getPassword());
+                && RequestValidation.accountPassword(account.getPassword())
+                && RequestValidation.role(account.getRole());
     }
+
+
 
 
     public static Boolean validateGetAccount(String tenantId, String name, String password) {
