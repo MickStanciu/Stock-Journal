@@ -13,6 +13,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -128,7 +129,7 @@ public class AccountRest {
     public Response updateAccount(
             Account account,
             @PathParam("tenantId") @DefaultValue("0") String tenantId,
-            @PathParam("accountId") @DefaultValue("0") Integer accountId
+            @PathParam("accountId") @DefaultValue("0") BigInteger accountId
            ) {
 
         if (!RequestValidation.validateUpdateAccount(tenantId, accountId, account)) {

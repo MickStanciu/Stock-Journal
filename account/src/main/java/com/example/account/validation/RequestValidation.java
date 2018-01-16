@@ -5,6 +5,8 @@ import com.example.account.model.Role;
 import com.example.common.validator.IntegerValidator;
 import com.example.common.validator.StringValidator;
 
+import java.math.BigInteger;
+
 public class RequestValidation {
 
     private static boolean tenantId(String tenantId) {
@@ -14,8 +16,13 @@ public class RequestValidation {
                 .isValid();
     }
 
-    private static boolean accountId(Integer accountId) {
-        return new IntegerValidator(accountId)
+    private static boolean accountId(BigInteger accountId) {
+        if (accountId == null) {
+            return false;
+        }
+
+        Integer accountIdInt = accountId.intValue();
+        return new IntegerValidator(accountIdInt)
                 .notNull()
                 .greaterThanZero()
                 .isValid();
@@ -58,7 +65,7 @@ public class RequestValidation {
         return account != null;
     }
 
-    public static boolean validateUpdateAccount(String tenantId, Integer accountId, Account account) {
+    public static boolean validateUpdateAccount(String tenantId, BigInteger accountId, Account account) {
         return RequestValidation.tenantId(tenantId) && RequestValidation.accountId(accountId)
                 && RequestValidation.account(account)
                 && RequestValidation.accountName(account.getName())
@@ -72,8 +79,7 @@ public class RequestValidation {
         return RequestValidation.tenantId(tenantId) && RequestValidation.account(account)
                 && RequestValidation.accountName(account.getName())
                 && RequestValidation.accountPassword(account.getPassword())
-                && RequestValidation.role(account.getRole())
-                && account.isActive() != null;
+                && RequestValidation.role(account.getRole());
     }
 
 
