@@ -68,6 +68,7 @@ public class RequestValidationTest {
         assertTrue("Should be TRUE", response);
     }
 
+
     @Test
     public void testValidateCreateAccountWhenRoleIsInvalid() {
 
@@ -83,4 +84,33 @@ public class RequestValidationTest {
         assertFalse("Should be FALSE", response);
     }
 
+
+    @Test
+    public void testValidateCreateAccountWhenAccountIsInvalid() {
+        Role roleFixture = new Role(5, "L5", "");
+        Account accountFixture = new Account(null, null, roleFixture, DEFAULT_ACCOUNT_NAME,
+                DEFAULT_ACCOUNT_EMAIL, DEFAULT_ACCOUNT_PASSWORD, true);
+        boolean response = validateCreateAccount(DEFAULT_TENAND_ID, accountFixture);
+        assertTrue("Should be TRUE", response);
+
+        accountFixture = new Account(DEFAULT_TENAND_ID, null, roleFixture, null,
+                DEFAULT_ACCOUNT_EMAIL, DEFAULT_ACCOUNT_PASSWORD, true);
+        response = validateCreateAccount(DEFAULT_TENAND_ID, accountFixture);
+        assertFalse("Should be FALSE", response);
+
+        accountFixture = new Account(DEFAULT_TENAND_ID, null, roleFixture, DEFAULT_ACCOUNT_NAME,
+                null, DEFAULT_ACCOUNT_PASSWORD, true);
+        response = validateCreateAccount(DEFAULT_TENAND_ID, accountFixture);
+        assertTrue("Should be TRUE", response);
+
+        accountFixture = new Account(DEFAULT_TENAND_ID, null, roleFixture, DEFAULT_ACCOUNT_NAME,
+                DEFAULT_ACCOUNT_EMAIL, null, true);
+        response = validateCreateAccount(DEFAULT_TENAND_ID, accountFixture);
+        assertFalse("Should be FALSE", response);
+
+        accountFixture = new Account(DEFAULT_TENAND_ID, null, roleFixture, DEFAULT_ACCOUNT_NAME,
+                DEFAULT_ACCOUNT_EMAIL, DEFAULT_ACCOUNT_PASSWORD, null);
+        response = validateCreateAccount(DEFAULT_TENAND_ID, accountFixture);
+        assertFalse("Should be FALSE", response);
+    }
 }

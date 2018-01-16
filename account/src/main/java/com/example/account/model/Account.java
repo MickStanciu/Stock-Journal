@@ -19,7 +19,7 @@ public class Account implements Serializable {
         //required by Jackson
     }
 
-    public Account(String tenantId, BigInteger id, Role role, String name, String email, String password, boolean active) {
+    public Account(String tenantId, BigInteger id, Role role, String name, String email, String password, Boolean active) {
         this.tenantId = tenantId;
         this.id = id;
         this.role = role;

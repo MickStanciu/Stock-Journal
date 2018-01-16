@@ -72,7 +72,8 @@ public class RequestValidation {
         return RequestValidation.tenantId(tenantId) && RequestValidation.account(account)
                 && RequestValidation.accountName(account.getName())
                 && RequestValidation.accountPassword(account.getPassword())
-                && RequestValidation.role(account.getRole());
+                && RequestValidation.role(account.getRole())
+                && account.isActive() != null;
     }
 
 
