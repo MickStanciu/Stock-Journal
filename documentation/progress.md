@@ -82,9 +82,13 @@ Payload [name, password]
 
 PUT http://localhost:8080/account/api/d79ec11a-2011-4423-ba01-3af8de0a3e10/36
 
-Payload [password, email, role, active ...]
-- [ ] update the controller [selected for development]
-- [ ] create unit tests for validation [selected for development]
+Payload [name, password, email]
+
+**Todo**
+- [x] update the controller [done]
+- [x] create unit tests for validation [done]
+- [ ] update for [active] [selected for development]
+- [ ] update for [role] [selected for development]
 
 #### Tech Debt [selected for development] ####
 - [ ] move Exception from controller to a default ExceptionMapper
