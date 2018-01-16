@@ -28,16 +28,6 @@ public class AccountFacade {
     }
 
     public Optional<Account> createAccount(String tenantId, String name, String password) throws AccountException {
-        //todo: externalize Tenant as rest service
-
-        //validate role
-        //todo: find a way to obtain the lowest role.
-//        Optional<Role> role = roleService.getRole(accountDto.getRoleId(), tenantId);
-//        if (!role.isPresent()) {
-//            throw new AccountException(ExceptionCode.ROLE_NOT_FOUND);
-//        }
-
-        //todo: add check if the account name already exists
         if (accountService.checkAccount(tenantId, name)) {
             throw new AccountException(ExceptionCode.ACCOUNT_EXISTS);
         }
@@ -52,6 +42,18 @@ public class AccountFacade {
         if (!originalAccount.isPresent()) {
             throw new AccountException(ExceptionCode.ACCOUNT_NOT_FOUND);
         }
+
+        //todo: add check if the account name already exists
+//        if (accountService.checkAccount(tenantId, name)) {
+//            throw new AccountException(ExceptionCode.ACCOUNT_EXISTS);
+//        }
+
+        //validate role
+        //todo: find a way to obtain the lowest role.
+//        Optional<Role> role = roleService.getRole(accountDto.getRoleId(), tenantId);
+//        if (!role.isPresent()) {
+//            throw new AccountException(ExceptionCode.ROLE_NOT_FOUND);
+//        }
 
         accountService.updateAccount(tenantId, accountId, originalAccount.get(), newAccount);
         return accountService.getAccount(tenantId, accountId);

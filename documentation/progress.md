@@ -30,8 +30,8 @@ connect catalog to the repository
 **Problem:** Application has no support for multi-tenant
 
 **Solution**
-- [ ] one db per customer
-- [ ] same db, one schema per customer
+- [ ] one db per customer [will not be done]
+- [ ] same db, one schema per customer [will not be done]
 - [x] same db, same schema, customer has a discriminator [done]
 
 **Todo**
