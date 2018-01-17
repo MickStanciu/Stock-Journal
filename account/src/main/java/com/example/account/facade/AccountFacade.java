@@ -50,7 +50,7 @@ public class AccountFacade {
 
         //validate role
         if (newAccount.getRole() != null && newAccount.getRole().getId() != null) {
-            Optional<Role> role = roleService.getRole(newAccount.getRole().getId(), tenantId);
+            Optional<Role> role = roleService.getRole(tenantId, newAccount.getRole().getId());
             if (!role.isPresent()) {
                 throw new AccountException(ExceptionCode.ROLE_NOT_FOUND);
             }

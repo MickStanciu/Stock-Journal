@@ -16,7 +16,7 @@ public class RoleService {
     @Inject
     private RoleDao roleDao;
 
-    public Optional<Role> getRole(int roleId, String tenantId) {
-        return roleDao.getRole(roleId, tenantId);
+    public Optional<Role> getRole(String tenantId, int roleId) {
+        return roleDao.getRole(tenantId, roleId);
     }
 }

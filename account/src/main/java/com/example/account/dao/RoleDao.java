@@ -15,16 +15,20 @@ public class RoleDao {
 
     private static final Logger log = Logger.getLogger(RoleDao.class);
 
-    private static final String ROLE_QRY = "SELECT ar.id as role_id, ar.name as role_name, ari.name as role_description " +
+    private static final String ROLE_READ_QUERY = "SELECT ar.id as role_id, ar.name as role_name, ari.name as role_description " +
             "FROM account_roles ar " +
             "INNER JOIN account_role_info ari ON ar.id = ari.role_fk " +
             "WHERE ar.id = :role_id AND ari.tenant_fk = CAST(:tenant_fk AS uuid)";
 
+
+    //todo: not done
+    private static final String ROLE_UPDATE_QUERY = "";
+
     @PersistenceContext
     private EntityManager em;
 
-    public Optional<Role> getRole(int id, String tenantId) {
-        Query q = em.createNativeQuery(ROLE_QRY);
+    public Optional<Role> getRole(String tenantId, int id) {
+        Query q = em.createNativeQuery(ROLE_READ_QUERY);
 
         q.setParameter("role_id", id);
         q.setParameter("tenant_fk", tenantId);

@@ -99,6 +99,7 @@ public class AccountDao {
         Query q = em.createNativeQuery(ACCOUNT_UPDATE_QUERY);
         q.setParameter("tenant_fk", tenantId);
         q.setParameter("account_id", accountId);
+        q.setParameter("role_fk", newAccount.getRole().getId());
         q.setParameter("name", newAccount.getName());
         q.setParameter("password", newAccount.getPassword());
         q.setParameter("email", newAccount.getEmail());

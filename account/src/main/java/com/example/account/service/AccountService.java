@@ -44,6 +44,7 @@ public class AccountService {
                 .withTenantId(tenantId)
                 .withId(accountId)
 
+                .withRole(account.getRole() != null ? originalAccount.getRole() : account.getRole())
                 .withEmail(account.getEmail() == null ? originalAccount.getEmail() : account.getEmail())
                 .withName(account.getName() == null ? originalAccount.getName() : account.getName())
                 .withPassword(account.getPassword() == null ? originalAccount.getPassword() : account.getPassword())
