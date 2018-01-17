@@ -93,3 +93,11 @@ Payload [name, password, email]
 
 #### Tech Debt [selected for development] ####
 - [ ] move Exception from controller to a default ExceptionMapper
+
+
+### Client Service
+
+**Todo**
+- [ ] create db
+- [ ] create client table with basic info
+- [ ] create notes table liked many to one with client
