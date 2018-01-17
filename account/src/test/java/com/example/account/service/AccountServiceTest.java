@@ -44,18 +44,19 @@ public class AccountServiceTest {
             .withEmail("lola.white@domain.com")
             .withName("lola.white")
             .withPassword("123456")
-            .withRole(new Role(5, "role", "description"))
-            .withFlagActive(true)
+            .withRole(new Role(4, "role", "description"))
+            .withFlagActive(false)
             .build();
 
     @Test
     public void testCopyAccount() {
         Account newAccount = accountService.copyAccount(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, originalAccountFixture,
                 newAccountFixture);
-
         assertEquals("Test for name", newAccount.getName(), newAccountFixture.getName());
         assertEquals("Test for password", newAccount.getPassword(), newAccountFixture.getPassword());
         assertEquals("Test for email", newAccount.getEmail(), newAccountFixture.getEmail());
+        assertEquals("Test for active", newAccount.isActive(), newAccountFixture.isActive());
+        assertEquals("Test for role ID", newAccount.getRole().getId(), newAccountFixture.getRole().getId());
     }
 
     @Test

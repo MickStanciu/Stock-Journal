@@ -39,7 +39,7 @@ public class AccountDao {
             "WHERE name = :name and tenant_fk = CAST(:tenant_fk AS uuid)";
 
     private static final String ACCOUNT_UPDATE_QUERY = "UPDATE accounts SET " +
-            "name = :name, password = :password, email = :email, active = :active " +
+            "name = :name, password = :password, email = :email, active = :active, role_fk = :role_fk " +
             "WHERE tenant_fk = CAST(:tenant_fk AS uuid) and id = :account_id";
 
     @PersistenceContext
