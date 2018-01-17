@@ -43,10 +43,9 @@ public class AccountFacade {
             throw new AccountException(ExceptionCode.ACCOUNT_NOT_FOUND);
         }
 
-        //todo: add check if the account name already exists
-//        if (accountService.checkAccount(tenantId, name)) {
-//            throw new AccountException(ExceptionCode.ACCOUNT_EXISTS);
-//        }
+        if (newAccount.getName() != null && !newAccount.getName().equals(originalAccount.get().getName()) && accountService.checkAccount(tenantId, newAccount.getName())) {
+            throw new AccountException(ExceptionCode.ACCOUNT_EXISTS);
+        }
 
         //validate role
         //todo: find a way to obtain the lowest role.
