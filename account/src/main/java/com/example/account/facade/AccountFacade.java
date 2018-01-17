@@ -44,7 +44,7 @@ public class AccountFacade {
         }
 
         if (newAccount.getName() != null && !newAccount.getName().equals(originalAccount.get().getName()) && accountService.checkAccount(tenantId, newAccount.getName())) {
-            throw new AccountException(ExceptionCode.ACCOUNT_EXISTS);
+            throw new AccountException(ExceptionCode.ACCOUNT_NAME_EXISTS);
         }
 
         //validate role
