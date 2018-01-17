@@ -3,6 +3,7 @@ package com.example.account.facade;
 import com.example.account.exception.AccountException;
 import com.example.account.exception.ExceptionCode;
 import com.example.account.model.Account;
+import com.example.account.model.Role;
 import com.example.account.service.AccountService;
 import com.example.account.service.RoleService;
 
@@ -48,11 +49,12 @@ public class AccountFacade {
         }
 
         //validate role
-        //todo: find a way to obtain the lowest role.
-//        Optional<Role> role = roleService.getRole(accountDto.getRoleId(), tenantId);
-//        if (!role.isPresent()) {
-//            throw new AccountException(ExceptionCode.ROLE_NOT_FOUND);
-//        }
+        if (newAccount.getRole() != null && newAccount.getRole().getId() != null) {
+            Optional<Role> role = roleService.getRole(newAccount.getRole().getId(), tenantId);
+            if (!role.isPresent()) {
+                throw new AccountException(ExceptionCode.ROLE_NOT_FOUND);
+            }
+        }
 
         accountService.updateAccount(tenantId, accountId, originalAccount.get(), newAccount);
         return accountService.getAccount(tenantId, accountId);

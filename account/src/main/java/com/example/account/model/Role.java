@@ -11,6 +11,10 @@ public class Role implements Serializable {
     private String name;
     private String description;
 
+    public Role() {
+        //required by Jackson
+    }
+
     public Role(Integer id, String name, String description) {
         this.id = id;
         this.name = name;

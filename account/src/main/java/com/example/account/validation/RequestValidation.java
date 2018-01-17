@@ -91,7 +91,9 @@ public class RequestValidation {
             response = response && RequestValidation.accountEmail(account.getEmail());
         }
 
-//                && RequestValidation.role(account.getRole());
+        if (account.getRole() != null) {
+            response = response && RequestValidation.role(account.getRole());
+        }
 
         return response;
     }
