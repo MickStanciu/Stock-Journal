@@ -182,6 +182,21 @@
                     </security>
                 </datasource>
 
+                <datasource jndi-name="java:jboss/datasources/CustomerDS" pool-name="CustomerDS" enabled="true" use-java-context="true">
+                    <connection-url>jdbc:postgresql://toystore-db:5432/customer?currentSchema=public</connection-url>
+                    <driver>postgresql</driver>
+                    <pool>
+                        <min-pool-size>5</min-pool-size>
+                        <initial-pool-size>5</initial-pool-size>
+                        <max-pool-size>100</max-pool-size>
+                        <prefill>true</prefill>
+                    </pool>
+                    <security>
+                        <user-name>admin</user-name>
+                        <password>secret</password>
+                    </security>
+                </datasource>
+
                 <drivers>
                     <driver name="h2" module="com.h2database.h2">
                         <xa-datasource-class>org.h2.jdbcx.JdbcDataSource</xa-datasource-class>
