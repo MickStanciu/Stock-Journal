@@ -1,10 +1,13 @@
 -- user
-drop USER if EXISTS admin;
-create user admin with ENCRYPTED password 'secret';
+DROP USER IF EXISTS admin;
+CREATE USER admin WITH ENCRYPTED PASSWORD 'secret';
 
 -- database
 CREATE DATABASE account;
-grant all privileges on database account to admin;
+GRANT ALL PRIVILEGES ON DATABASE account TO admin;
 
 CREATE DATABASE tenant;
-grant all privileges on database tenant to admin;
+GRANT ALL PRIVILEGES ON DATABASE tenant TO admin;
+
+CREATE DATABASE customer;
+GRANT ALL PRIVILEGES ON DATABASE customer TO admin;

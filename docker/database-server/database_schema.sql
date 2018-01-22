@@ -75,4 +75,29 @@ INSERT INTO accounts (tenant_fk, role_fk, name, email, password, active) VALUES
 GRANT ALL PRIVILEGES ON TABLE accounts TO admin;
 
 
+-----------------------------------
+-- discrimination table Customer --
+-----------------------------------
 
+-- clean up
+DROP TABLE IF EXISTS customers;
+DROP SEQUENCE IF EXISTS customers_seq;
+
+-- customer table
+CREATE SEQUENCE customers_seq;
+GRANT ALL PRIVILEGES ON SEQUENCE customers_seq TO admin;
+
+CREATE TABLE customers (
+  id BIGINT PRIMARY KEY DEFAULT nextval('customers_seq'),
+  tenant_fk UUID NOT NULL,
+  first_name VARCHAR(64) DEFAULT 'unknown',
+  alias VARCHAR(64) DEFAULT '',
+  last_name VARCHAR(64) DEFAULT 'unknown',
+  email VARCHAR(64) DEFAULT 'unknown',
+  mobile DECIMAL(10),
+  birthdate DATE NOT NULL
+  -- guardian_fk
+  -- photo
+);
+
+GRANT ALL PRIVILEGES ON TABLE customers TO admin;

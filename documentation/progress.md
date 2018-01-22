@@ -98,6 +98,7 @@ Payload [name, password, email]
 ### Client Service
 
 **Todo**
-- [ ] create db
-- [ ] create client table with basic info
-- [ ] create notes table liked many to one with client
+- [x] create db [done]
+- [x] create client table with basic info [done]
+- [ ] create notes table liked many to one with client [selected for development]
+- [ ] create guardian ?
