@@ -1,4 +1,4 @@
-version: '2.1'
+version: '3.4'
 services:
   wildfly:
     build: docker/application-server/.
@@ -9,9 +9,9 @@ services:
       - "8787:8787" #DEBUG
       - "8443:8443" #APP SSL
       - "9990:9990" #MANAGEMENT
-    depends_on:
-      postgresql:
-        condition: service_started
+#    depends_on:
+#      postgresql:
+#        condition: service_started
 #      lizardfs:
 #        condition: service_started
 
