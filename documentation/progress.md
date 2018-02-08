@@ -45,57 +45,8 @@ GET http://localhost:8080/tenant/api/d79ec11a-2011-4423-ba01-3af8de0a3e10
 - [x] update account service not to use tenant [done]
 - [x] simplify account response [done]
 
-### Account Service
-#### Read account by Tenant / Name / Password [done] ####
 
-GET http://localhost:8080/account/api/d79ec11a-2011-4423-ba01-3af8de0a3e10?name=mircea.stanciu&password=secret
-
-**Todo**
-- [x] create a table with tenants [done]
-  - [x] uuid primary key [done]
-
-- [x] create a table with roles [done]
-- [x] create a table with users [done]
-  - [x] linked to tenants [done]
-  - [x] linked to roles -> customisable role names [done]
-- [x] create a user service [done]
-- [ ] not sure we need account role name field [selected for development]
-- [x] add LTE (name and password constraints) for validation and DB constraints [done]
-- [x] add active flag [done]
-
-#### Create new account by Tenant / Name / Password [done] ####
-
-POST http://localhost:8080/account/api/d79ec11a-2011-4423-ba01-3af8de0a3e10
-
-Payload [name, password]
-
-**Todo**
-- [x] update the controller [done]
-- [x] create the service [done]
-- [x] update the sql [done]
-  - [ ] make sure to search for invalid tenant [Gateway Api] [selected for development]
-  - [x] make sure to search for duplicate names [done]
-  - [ ] catch db errors in the controller [selected for development]
-- [x] update controller to accept only name and password [done]
-
-#### Update a account by Tenant / Id / [done] ####
-
-PUT http://localhost:8080/account/api/d79ec11a-2011-4423-ba01-3af8de0a3e10/36
-
-Payload [name, password, email]
-
-**Todo**
-- [x] update the controller [done]
-- [x] create unit tests for validation [done]
-- [x] update for [active] [done]
-- [x] update for [role] [done]
-- [x] check if the account name already exists
-
-#### Tech Debt [selected for development] ####
-- [ ] move Exception from controller to a default ExceptionMapper
-
-
-### Client Service
+### Customer Service
 
 **Todo**
 - [x] create db [done]
