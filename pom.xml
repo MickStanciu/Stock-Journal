@@ -18,6 +18,7 @@
         <module>tenant</module>
         <module>customer</module>
         <module>web</module>
+        <module>api</module>
     </modules>
 
     <properties>
