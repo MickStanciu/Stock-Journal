@@ -2,6 +2,7 @@
 *.iml
 */target
 shop/node_modules
+web/node_modules
 */deployments/*
 .rebel.xml.bak
 .rebel-remote.xml.bak

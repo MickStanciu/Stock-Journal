@@ -4,12 +4,17 @@
     "gulp": "gulp"
   },
   "devDependencies": {
+    "babelify": "^8.0.0",
+    "browserify": "^16.0.0",
     "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.1",
     "gulp-concat": "^2.6.1",
     "gulp-deporder": "^1.1.0",
     "gulp-install": "^1.1.0",
+    "gulp-newer": "^1.4.0",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.6.4",
     "gulp-strip-debug": "^1.1.0",
     "gulp-uglify": "^3.0.0"
   },
@@ -20,6 +25,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "babel-core": "^6.26.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0"
   }
