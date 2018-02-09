@@ -3,3 +3,5 @@
 */target
 shop/node_modules
 */deployments/*
+.rebel.xml.bak
+.rebel-remote.xml.bak
