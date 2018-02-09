@@ -5,10 +5,11 @@ services:
     image: gatewayapi
     container_name: gatewayapi
     ports:
-      - "8080:8080" #WildFly
-      - "9990:9990" #MANAGEMENT
+      - "8080:8080" #WildFly App
+      - "8787:8787" #WildFly Debug
     volumes:
       - ./gatewayapi/deployments:/opt/jboss/wildfly/standalone/deployments
+#      - ./gatewayapi/target/gatewayapi.war:/opt/jboss/wildfly/standalone/deployments/gatewayapi.war
 
 #  wildfly:
 #    build: docker/application-server/.

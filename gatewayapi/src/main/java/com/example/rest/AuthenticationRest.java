@@ -18,7 +18,6 @@ public class AuthenticationRest {
     @GET
     @Path("/ping")
     public Response pong() {
-        log.info("INFO PONG");
         return Response.status(Response.Status.OK).entity("Pong").build();
     }
 }
