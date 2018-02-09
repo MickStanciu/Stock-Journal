@@ -13,7 +13,7 @@
 
 	<web>
 		<link target="/">
-			<dir name="/Users/mick/Projects/personal/productapi/gatewayapi/src/main/webapp">
+			<dir name="${rebel.project.path}/src/main/webapp">
 			</dir>
 		</link>
 	</web>
