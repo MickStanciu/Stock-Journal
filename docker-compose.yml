@@ -1,28 +1,38 @@
 version: '3.4'
 services:
-  wildfly:
-    build: docker/application-server/.
-    image: toystore
-    container_name: toystore
+  gatewayapi:
+    build: gatewayapi/docker/.
+    image: gatewayapi
+    container_name: gatewayapi
     ports:
-      - "8080:8080" #APP
-      - "8787:8787" #DEBUG
-      - "8443:8443" #APP SSL
+      - "8080:8080" #WildFly
       - "9990:9990" #MANAGEMENT
+    volumes:
+      - ./gatewayapi/deployments:/opt/jboss/wildfly/standalone/deployments
+
+#  wildfly:
+#    build: docker/application-server/.
+#    image: toystore
+#    container_name: toystore
+#    ports:
+#      - "8080:8080" #APP
+#      - "8787:8787" #DEBUG
+#      - "8443:8443" #APP SSL
+#      - "9990:9990" #MANAGEMENT
 #    depends_on:
 #      postgresql:
 #        condition: service_started
 #      lizardfs:
 #        condition: service_started
 
-  postgresql:
-    build: docker/database-server/.
-    image: toystore-db
-    container_name: toystore-db
-    ports:
-      - "5432:5432"
-    volumes:
-      - ${DOCKER_BASE}/database-server/data:/var/lib/postgresql/data:rw
+#  postgresql:
+#    build: docker/database-server/.
+#    image: toystore-db
+#    container_name: toystore-db
+#    ports:
+#      - "5432:5432"
+#    volumes:
+#      - ${DOCKER_BASE}/database-server/data:/var/lib/postgresql/data:rw
 
 #  lizardfs:
 #    build: docker/storage-server/.

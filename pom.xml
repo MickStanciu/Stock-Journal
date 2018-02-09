@@ -18,7 +18,7 @@
         <module>tenant</module>
         <module>customer</module>
         <module>web</module>
-        <module>api</module>
+        <module>gatewayapi</module>
     </modules>
 
     <properties>
@@ -29,6 +29,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.war.version>3.1.0</maven.war.version>
         <maven.clean.version>3.0.0</maven.clean.version>
+        <maven.antrun.version>1.8</maven.antrun.version>
 
         <wildfly.maven.version>1.2.0.Final</wildfly.maven.version>
 
@@ -190,6 +191,13 @@
                         <webappDirectory>${project.build.directory}/${project.build.finalName}</webappDirectory>
                     </configuration>
                 </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <version>${maven.antrun.version}</version>
+                </plugin>
+
             </plugins>
         </pluginManagement>
 
@@ -204,21 +212,21 @@
                 <artifactId>maven-war-plugin</artifactId>
             </plugin>
 
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>deploy</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.wildfly.plugins</groupId>-->
+                <!--<artifactId>wildfly-maven-plugin</artifactId>-->
+                <!--<configuration>-->
+                    <!--<skip>true</skip>-->
+                <!--</configuration>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<phase>install</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>deploy</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
 
         </plugins>
     </build>
