@@ -9,18 +9,6 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
-    <modules>
-        <!--<module>catalog</module>-->
-        <!--<module>shop</module>-->
-        <module>common</module>
-        <!--<module>availability</module>-->
-        <!--<module>account</module>-->
-        <module>tenant</module>
-        <!--<module>customer</module>-->
-        <!--<module>web</module>-->
-        <module>gatewayapi</module>
-    </modules>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
@@ -40,6 +28,19 @@
         <log4j.version>1.2.17</log4j.version>
         <ehcache.version>3.4.0</ehcache.version>
     </properties>
+
+    <modules>
+        <!--<module>catalog</module>-->
+        <!--<module>shop</module>-->
+        <module>common</module>
+        <!--<module>availability</module>-->
+        <!--<module>account</module>-->
+        <module>tenant</module>
+        <!--<module>customer</module>-->
+        <module>gatewayapi</module>
+        <module>web</module>
+    </modules>
+
 
     <dependencyManagement>
         <dependencies>
@@ -217,23 +218,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
             </plugin>
-
-            <!--<plugin>-->
-                <!--<groupId>org.wildfly.plugins</groupId>-->
-                <!--<artifactId>wildfly-maven-plugin</artifactId>-->
-                <!--<configuration>-->
-                    <!--<skip>true</skip>-->
-                <!--</configuration>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<phase>install</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>deploy</goal>-->
-                        <!--</goals>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
-
         </plugins>
     </build>
 
