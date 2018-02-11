@@ -20,6 +20,7 @@
         <maven.antrun.version>1.8</maven.antrun.version>
 
         <wildfly.maven.version>1.2.0.Final</wildfly.maven.version>
+        <version.wildfly-swarm>2018.2.0.Final</version.wildfly-swarm>
 
         <resteasy.version>3.1.4.Final</resteasy.version>
         <jackson.annotations.version>2.9.2</jackson.annotations.version>
@@ -49,6 +50,14 @@
                 <artifactId>javaee-api</artifactId>
                 <version>8.0</version>
                 <scope>provided</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.wildfly.swarm</groupId>
+                <artifactId>bom</artifactId>
+                <version>${version.wildfly-swarm}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
 
             <dependency>

@@ -7,7 +7,7 @@ RUN /opt/jboss/wildfly/bin/add-user.sh admin secret --silent
 RUN curl http://dl.zeroturnaround.com/jrebel-stable-nosetup.zip -o /tmp/jrebel.zip
 RUN unzip /tmp/jrebel.zip -d /opt/jboss/
 ENV REBEL_HOME=/opt/jboss/jrebel
-RUN echo "JAVA_OPTS=\"\$JAVA_OPTS -Xms256m -Xmx512m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m -Drebel.remoting_plugin=true -agentpath:$REBEL_HOME/lib/libjrebel64.so\"" >> /opt/jboss/wildfly/bin/standalone.conf
+RUN echo "JAVA_OPTS=\"\$JAVA_OPTS -Xms256m -Xmx512m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m -Dconsul.host=127.0.0.1 -Drebel.remoting_plugin=true -agentpath:$REBEL_HOME/lib/libjrebel64.so\"" >> /opt/jboss/wildfly/bin/standalone.conf
 
 # add datasources
 RUN mkdir -p /opt/jboss/wildfly/modules/org/postgres/main
