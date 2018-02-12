@@ -38,7 +38,7 @@
         <!--<module>account</module>-->
         <module>tenant</module>
         <!--<module>customer</module>-->
-        <module>gatewayapi</module>
+        <!--<module>gatewayapi</module>-->
         <!--<module>web</module>-->
     </modules>
 
