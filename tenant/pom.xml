@@ -76,6 +76,9 @@
             <plugin>
                 <groupId>org.wildfly.swarm</groupId>
                 <artifactId>wildfly-swarm-plugin</artifactId>
+                <!--<configuration>-->
+                    <!--<mainClass>com.example.tenant.Main</mainClass>-->
+                <!--</configuration>-->
                 <executions>
                     <execution>
                         <goals>
