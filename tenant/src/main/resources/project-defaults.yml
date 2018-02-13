@@ -1,0 +1,13 @@
+swarm:
+  datasources:
+    jdbc-drivers:
+      org.postgresql:
+        driver-class-name: org.postgresql.Driver
+        xa-datasource-class-name: org.postgresql.Driver
+        driver-module-name: org.postgresql
+    data-sources:
+      TenantDS:
+        driver-name: org.postgresql
+        connection-url: jdbc:postgresql://localhost:5432/tenant?currentSchema=public
+        user-name: admin
+        password: secret

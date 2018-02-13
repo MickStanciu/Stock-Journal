@@ -6,3 +6,4 @@ web/node_modules
 */deployments/*
 .rebel.xml.bak
 .rebel-remote.xml.bak
+*/audit.log
