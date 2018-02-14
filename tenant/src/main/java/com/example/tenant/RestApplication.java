@@ -1,8 +1,8 @@
-package com.example.tenant;
-
-import javax.ws.rs.ApplicationPath;
-import javax.ws.rs.core.Application;
-
-@ApplicationPath("/api")
-public class RestApplication extends Application {
-}
+//package com.example.tenant;
+//
+//import javax.ws.rs.ApplicationPath;
+//import javax.ws.rs.core.Application;
+//
+//@ApplicationPath("/api")
+//public class RestApplication extends Application {
+//}

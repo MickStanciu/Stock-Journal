@@ -7,3 +7,4 @@ web/node_modules
 .rebel.xml.bak
 .rebel-remote.xml.bak
 */audit.log
+/audit.log
