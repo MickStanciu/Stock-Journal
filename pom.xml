@@ -241,6 +241,7 @@
                     <version>${wildfly-swarm.version}</version>
                     <configuration>
                         <hollow>true</hollow>
+                        <debug>4444</debug>
                     </configuration>
                     <executions>
                         <execution>
