@@ -12,11 +12,10 @@ public class HealthService {
 
     public HealthService() {
         health = new Health();
-        health.setRegistryOn(false);
     }
 
     public boolean isOk() {
-        return health.isRegistryOn();
+        return true;
     }
 
     public void failRegistryCheck() {

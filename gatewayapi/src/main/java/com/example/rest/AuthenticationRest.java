@@ -20,12 +20,6 @@ public class AuthenticationRest {
     private AuthenticationService authService;
 
     @GET
-    @Path("/ping")
-    public Response pong() {
-        return Response.status(Response.Status.OK).build();
-    }
-
-    @GET
     @Path("/{tenantId}")
     public Response getAccountDetails(
             @PathParam("tenantId") @DefaultValue("0") String tenantId,
