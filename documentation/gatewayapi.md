@@ -6,6 +6,6 @@
 
 **Todo**
 - create auth controller
-  - connect to tenant api
-  - connect to account api
+  - connect to tenant api [done]
+  - connect to account api [wip]
   
