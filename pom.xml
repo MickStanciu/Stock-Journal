@@ -242,21 +242,21 @@
                     <version>${maven.antrun.version}</version>
                 </plugin>
 
-                <!--<plugin>-->
-                    <!--<groupId>org.wildfly.swarm</groupId>-->
-                    <!--<artifactId>wildfly-swarm-plugin</artifactId>-->
-                    <!--<version>${wildfly-swarm.version}</version>-->
-                    <!--<configuration>-->
-                        <!--&lt;!&ndash;<debug>4444</debug>&ndash;&gt;-->
-                    <!--</configuration>-->
-                    <!--<executions>-->
-                        <!--<execution>-->
-                            <!--<goals>-->
-                                <!--<goal>package</goal>-->
-                            <!--</goals>-->
-                        <!--</execution>-->
-                    <!--</executions>-->
-                <!--</plugin>-->
+                <plugin>
+                    <groupId>org.wildfly.swarm</groupId>
+                    <artifactId>wildfly-swarm-plugin</artifactId>
+                    <version>${wildfly-swarm.version}</version>
+                    <configuration>
+                        <hollow>true</hollow>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>package</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
 
             </plugins>
         </pluginManagement>
@@ -265,11 +265,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

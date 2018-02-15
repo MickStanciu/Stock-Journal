@@ -70,7 +70,7 @@
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                     <execution>
-                        <phase>package</phase>
+                        <phase>install</phase>
                         <configuration>
                             <tasks>
                                 <copy file="${project.build.directory}/tenant.war" tofile="${project.basedir}/deployments/tenant.war" />
@@ -83,10 +83,10 @@
                 </executions>
             </plugin>
 
-            <!--<plugin>-->
-                <!--<groupId>org.wildfly.swarm</groupId>-->
-                <!--<artifactId>wildfly-swarm-plugin</artifactId>-->
-            <!--</plugin>-->
+            <plugin>
+                <groupId>org.wildfly.swarm</groupId>
+                <artifactId>wildfly-swarm-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
 </project>
