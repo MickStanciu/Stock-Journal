@@ -56,25 +56,25 @@
                 <scope>provided</scope>
             </dependency>
 
-            <dependency>
-                <groupId>org.wildfly.swarm</groupId>
-                <artifactId>bom-all</artifactId>
-                <version>${wildfly-swarm.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>org.wildfly.swarm</groupId>-->
+                <!--<artifactId>bom-all</artifactId>-->
+                <!--<version>${wildfly-swarm.version}</version>-->
+                <!--<type>pom</type>-->
+                <!--<scope>import</scope>-->
+            <!--</dependency>-->
 
-            <dependency>
-                <groupId>org.wildfly.swarm</groupId>
-                <artifactId>container-api</artifactId>
-                <version>${wildfly-swarm.container-api.version}</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>org.wildfly.swarm</groupId>-->
+                <!--<artifactId>container-api</artifactId>-->
+                <!--<version>${wildfly-swarm.container-api.version}</version>-->
+            <!--</dependency>-->
 
-            <dependency>
-                <groupId>org.wildfly.swarm</groupId>
-                <artifactId>jaxrs-api</artifactId>
-                <version>${wildfly-swarm.container-api.version}</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>org.wildfly.swarm</groupId>-->
+                <!--<artifactId>jaxrs-api</artifactId>-->
+                <!--<version>${wildfly-swarm.container-api.version}</version>-->
+            <!--</dependency>-->
 
             <dependency>
                 <groupId>org.jboss.resteasy</groupId>
@@ -143,23 +143,23 @@
                 <scope>test</scope>
             </dependency>
 
-            <dependency>
-                <groupId>org.ehcache</groupId>
-                <artifactId>ehcache</artifactId>
-                <version>${ehcache.version}</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>org.ehcache</groupId>-->
+                <!--<artifactId>ehcache</artifactId>-->
+                <!--<version>${ehcache.version}</version>-->
+            <!--</dependency>-->
 
-            <dependency>
-                <groupId>org.postgresql</groupId>
-                <artifactId>postgresql</artifactId>
-                <version>${postgresql.version}</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>org.postgresql</groupId>-->
+                <!--<artifactId>postgresql</artifactId>-->
+                <!--<version>${postgresql.version}</version>-->
+            <!--</dependency>-->
 
-            <dependency>
-                <groupId>com.ecwid.consul</groupId>
-                <artifactId>consul-api</artifactId>
-                <version>${consul.version}</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>com.ecwid.consul</groupId>-->
+                <!--<artifactId>consul-api</artifactId>-->
+                <!--<version>${consul.version}</version>-->
+            <!--</dependency>-->
 
         </dependencies>
     </dependencyManagement>
@@ -242,21 +242,21 @@
                     <version>${maven.antrun.version}</version>
                 </plugin>
 
-                <plugin>
-                    <groupId>org.wildfly.swarm</groupId>
-                    <artifactId>wildfly-swarm-plugin</artifactId>
-                    <version>${wildfly-swarm.version}</version>
-                    <configuration>
-                        <!--<debug>4444</debug>-->
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>package</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
+                <!--<plugin>-->
+                    <!--<groupId>org.wildfly.swarm</groupId>-->
+                    <!--<artifactId>wildfly-swarm-plugin</artifactId>-->
+                    <!--<version>${wildfly-swarm.version}</version>-->
+                    <!--<configuration>-->
+                        <!--&lt;!&ndash;<debug>4444</debug>&ndash;&gt;-->
+                    <!--</configuration>-->
+                    <!--<executions>-->
+                        <!--<execution>-->
+                            <!--<goals>-->
+                                <!--<goal>package</goal>-->
+                            <!--</goals>-->
+                        <!--</execution>-->
+                    <!--</executions>-->
+                <!--</plugin>-->
 
             </plugins>
         </pluginManagement>
