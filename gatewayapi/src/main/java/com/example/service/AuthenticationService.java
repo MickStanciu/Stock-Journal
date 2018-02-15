@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
+import java.util.Optional;
 
 @Stateless
 public class AuthenticationService {
@@ -19,14 +20,20 @@ public class AuthenticationService {
 
 
     public void getAccountDetails(String tenantId, String name, String password) throws GatewayApiException {
-        Tenant tenant = null;
+        Optional<Tenant> tenantOptional = getTenant(tenantId);
+        if (!tenantOptional.isPresent()) {
+            throw new GatewayApiException(ExceptionCode.TENANT_NOT_FOUND);
+        }
+        Tenant tenant = tenantOptional.get();
+    }
+
+    //todo: move it out if this class grows
+    private Optional<Tenant> getTenant(String tenantId) {
         try {
-            tenant = tenantGateway.getTenant(tenantId);
-            log.info(tenant.getId());
-            log.info(tenant.getName());
+            return Optional.of(tenantGateway.getTenant(tenantId));
         } catch (Exception ex) {
             log.error(ex.getMessage());
-            throw new GatewayApiException(ExceptionCode.TENANT_NOT_FOUND);
+            return Optional.empty();
         }
     }
 }
