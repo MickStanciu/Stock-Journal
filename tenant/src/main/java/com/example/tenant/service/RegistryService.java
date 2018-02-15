@@ -5,13 +5,12 @@ import com.ecwid.consul.v1.agent.model.NewService;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
-import java.net.UnknownHostException;
 
 @Stateless
 public class RegistryService {
 
     private static final Logger log = Logger.getLogger(RegistryService.class);
-    private static final String CONSUL_ADDRESS = "localhost";
+
     private static final String HOST_PROTOCOL = "http";
     private static final String HOST_NAME = "localhost";
     private static final int HOST_PORT = 8080;
@@ -30,7 +29,7 @@ public class RegistryService {
             newService.setAddress(HOST_NAME);
             newService.setPort(HOST_PORT);
 
-            ConsulClient client = new ConsulClient(CONSUL_ADDRESS);
+            ConsulClient client = new ConsulClient(getConsulAddress());
             client.agentServiceRegister(newService);
         } catch (Exception ex) {
             log.error("Could not connect to the registry", ex);
@@ -61,4 +60,7 @@ public class RegistryService {
         return serviceName + ":" + HOST_NAME + ":" + HOST_PORT;
     }
 
+    private String getConsulAddress() {
+        return System.getProperty("consul.host", "localhost");
+    }
 }
