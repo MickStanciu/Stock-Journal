@@ -11,3 +11,4 @@ GET http://localhost:8080/tenant/api/d79ec11a-2011-4423-ba01-3af8de0a3e10
 - [x] migrate tenant db from account [done]
 - [x] update account service not to use tenant [done]
 - [x] simplify account response [done]
+- [ ] add warm up for DB on startup
