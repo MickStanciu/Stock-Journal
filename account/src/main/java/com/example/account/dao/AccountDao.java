@@ -42,6 +42,11 @@ public class AccountDao {
             "name = :name, password = :password, email = :email, active = :active, role_fk = :role_fk " +
             "WHERE tenant_fk = CAST(:tenant_fk AS uuid) and id = :account_id";
 
+    private static final String ACCOUNT_READ_FIRST_QUERY = "SELECT a.id FROM accounts a " +
+            "INNER JOIN account_roles ar ON a.role_fk = ar.id " +
+            "INNER JOIN account_role_info ari ON ar.id = ari.role_fk " +
+            "LIMIT 1";
+
     @PersistenceContext
     private EntityManager em;
 
@@ -81,6 +86,13 @@ public class AccountDao {
 
         List<Object[]> results = q.getResultList();
         return results.size() != 0;
+    }
+
+
+    public boolean checkFirstRecord() {
+        Query q = em.createNativeQuery(ACCOUNT_READ_FIRST_QUERY);
+        List<Object[]> results = q.getResultList();
+        return results.size() == 1;
     }
 
 

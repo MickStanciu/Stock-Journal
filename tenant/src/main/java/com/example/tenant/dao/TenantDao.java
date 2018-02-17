@@ -18,6 +18,8 @@ public class TenantDao {
             "FROM tenants " +
             "WHERE id = CAST(:tenant_id AS uuid)";
 
+    private static final String TENANT_READ_FIRST_QUERY = "SELECT CAST(id as VARCHAR(36)) FROM tenants LIMIT 1;";
+
     @PersistenceContext
     private EntityManager em;
 
@@ -32,6 +34,14 @@ public class TenantDao {
 
         return Optional.of(mapFromObject(results.get(0)));
     }
+
+
+    public boolean checkFirstRecord() {
+        Query q = em.createNativeQuery(TENANT_READ_FIRST_QUERY);
+        List<Object[]> results = q.getResultList();
+        return results.size() == 1;
+    }
+
 
     private Tenant mapFromObject(Object[] result) {
         String tenant_id = ((String) result[0]);

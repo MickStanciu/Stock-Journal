@@ -1,6 +1,6 @@
-package com.example.tenant.rest;
+package com.example.account.rest;
 
-import com.example.tenant.service.HealthService;
+import com.example.account.service.HealthService;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
@@ -19,7 +19,7 @@ public class HealthRest {
 
     @GET
     @Path("/check")
-    public Response check() {
+    public Response checkFirstRecord() {
         Response.Status status = Response.Status.OK;
         if (!service.isOk()) {
             status = Response.Status.SERVICE_UNAVAILABLE;
@@ -33,4 +33,5 @@ public class HealthRest {
     public Response pong() {
         return Response.status(Response.Status.OK).build();
     }
+
 }
