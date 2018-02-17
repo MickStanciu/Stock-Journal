@@ -2,10 +2,10 @@ package com.example.service;
 
 import com.example.exception.ExceptionCode;
 import com.example.exception.GatewayApiException;
-import com.example.gateway.Account;
-import com.example.gateway.AccountGateway;
-import com.example.gateway.Tenant;
-import com.example.gateway.TenantGateway;
+import com.example.gateway.accountApi.Account;
+import com.example.gateway.accountApi.AccountGateway;
+import com.example.gateway.tenantApi.Tenant;
+import com.example.gateway.tenantApi.TenantGateway;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
