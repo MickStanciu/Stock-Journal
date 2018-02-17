@@ -45,3 +45,4 @@ Payload [name, password, email]
 - [x] check if the account name already exists
 - [ ] move Exception from controller to a default ExceptionMapper
 - [ ] add warm up for DB on startup
+- [x] add health check for first record [done]

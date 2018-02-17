@@ -20,8 +20,13 @@ public class HealthService {
     }
 
     public boolean isOk() {
-        boolean firstRecordOk = tenantDao.checkFirstRecord();
-        health.setFirstRecordOk(true);
+        boolean firstRecordOk;
+        try {
+            firstRecordOk = tenantDao.checkFirstRecord();
+        } catch (Exception e) {
+            firstRecordOk = false;
+        }
+        health.setFirstRecordOk(firstRecordOk);
         return firstRecordOk;
     }
 
