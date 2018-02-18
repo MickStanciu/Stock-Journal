@@ -5,7 +5,7 @@
              version="2.1">
 
     <persistence-unit name="customerPU" transaction-type="JTA">
-        <jta-data-source>java:jboss/datasources/CustomertDS</jta-data-source>
+        <jta-data-source>java:jboss/datasources/CustomerDS</jta-data-source>
 
         <properties>
             <property name="javax.persistence.schema-generation.database.action" value="none"/>

@@ -144,7 +144,7 @@
         <subsystem xmlns="urn:jboss:domain:datasources:4.0">
             <datasources>
                 <datasource jndi-name="java:jboss/datasources/CustomerDS" pool-name="CustomerDS" enabled="true" use-java-context="true">
-                    <connection-url>jdbc:postgresql://toystore-db:5432/account?currentSchema=public</connection-url>
+                    <connection-url>jdbc:postgresql://toystore-db:5432/customer?currentSchema=public</connection-url>
                     <driver>postgresql</driver>
                     <pool>
                         <min-pool-size>5</min-pool-size>
