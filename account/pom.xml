@@ -34,11 +34,6 @@
             <artifactId>common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
-        <!--<dependency>-->
-            <!--<groupId>org.jboss.resteasy</groupId>-->
-            <!--<artifactId>resteasy-jaxrs</artifactId>-->
-        <!--</dependency>-->
     </dependencies>
 
     <build>
@@ -50,22 +45,22 @@
                 <artifactId>maven-war-plugin</artifactId>
             </plugin>
 
-            <plugin>
-                <artifactId>maven-antrun-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>install</phase>
-                        <configuration>
-                            <tasks>
-                                <copy file="${project.build.directory}/account.war" tofile="${project.basedir}/deployments/account.war" />
-                            </tasks>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--<plugin>-->
+                <!--<artifactId>maven-antrun-plugin</artifactId>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<phase>install</phase>-->
+                        <!--<configuration>-->
+                            <!--<tasks>-->
+                                <!--<copy file="${project.build.directory}/account.war" tofile="${project.basedir}/deployments/account.war" />-->
+                            <!--</tasks>-->
+                        <!--</configuration>-->
+                        <!--<goals>-->
+                            <!--<goal>run</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
         </plugins>
     </build>
 </project>

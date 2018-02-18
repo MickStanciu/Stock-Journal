@@ -25,7 +25,7 @@ services:
     container_name: gatewayapi
     ports:
       - "8080:8080" #WildFly App
-      - "8787:8787" #WildFly Debug
+      - "8780:8787" #WildFly Debug
     volumes:
       - ./gatewayapi/target/gatewayapi.war:/opt/jboss/wildfly/standalone/deployments/gatewayapi.war
 
@@ -35,7 +35,7 @@ services:
     container_name: tenantapi
     ports:
       - "8081:8080" #WildFly App
-      - "8788:8787" #WildFly Debug
+      - "8781:8787" #WildFly Debug
     volumes:
       - ./tenant/target/tenant.war:/opt/jboss/wildfly/standalone/deployments/tenant.war
     depends_on:
@@ -47,9 +47,21 @@ services:
     container_name: accountapi
     ports:
       - "8082:8080" #WildFly App
-      - "8789:8787" #WildFly Debug
+      - "8782:8787" #WildFly Debug
     volumes:
       - ./account/target/account.war:/opt/jboss/wildfly/standalone/deployments/account.war
+    depends_on:
+      - postgresql
+
+  customerapi:
+    build: customer/docker/.
+    image: customerapi
+    container_name: customerapi
+    ports:
+      - "8083:8080" #WildFly App
+      - "8783:8787" #WildFly Debug
+    volumes:
+      - ./customer/target/customer.war:/opt/jboss/wildfly/standalone/deployments/customer.war
     depends_on:
       - postgresql
 

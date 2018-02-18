@@ -14,16 +14,25 @@
     <packaging>war</packaging>
     <name>customer</name>
 
+    <profiles>
+        <profile>
+            <id>swarm</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.wildfly.swarm</groupId>
+                        <artifactId>wildfly-swarm-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <dependencies>
         <dependency>
             <groupId>com.example</groupId>
             <artifactId>common</artifactId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.jboss.resteasy</groupId>
-            <artifactId>resteasy-jaxrs</artifactId>
         </dependency>
     </dependencies>
 
@@ -35,6 +44,25 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
             </plugin>
+
+            <!--<plugin>-->
+                <!--<artifactId>maven-antrun-plugin</artifactId>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<phase>install</phase>-->
+                        <!--<configuration>-->
+                            <!--<tasks>-->
+                                <!--<copy file="${project.build.directory}/customer.war" tofile="${project.basedir}/deployments/customer.war" />-->
+                            <!--</tasks>-->
+                        <!--</configuration>-->
+                        <!--<goals>-->
+                            <!--<goal>run</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
         </plugins>
     </build>
+
+
 </project>
