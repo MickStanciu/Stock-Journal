@@ -1,4 +1,4 @@
-package com.example.gateway.tenantApi;
+package com.example.gatewayapi.gateway.tenantApi;
 
 public class Tenant {
 

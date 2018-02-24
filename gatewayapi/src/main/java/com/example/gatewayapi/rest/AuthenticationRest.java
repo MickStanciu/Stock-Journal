@@ -1,7 +1,7 @@
-package com.example.rest;
+package com.example.gatewayapi.rest;
 
-import com.example.exception.GatewayApiException;
-import com.example.service.AuthenticationService;
+import com.example.gatewayapi.exception.GatewayApiException;
+import com.example.gatewayapi.service.AuthenticationService;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;

@@ -1,6 +1,6 @@
-package com.example.gateway.tenantApi;
+package com.example.gatewayapi.gateway.tenantApi;
 
-import com.example.gateway.ResponseEnvelope;
+import com.example.gatewayapi.gateway.ResponseEnvelope;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;

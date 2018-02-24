@@ -1,4 +1,4 @@
-package com.example.rest;
+package com.example.gatewayapi.rest;
 
 import javax.ejb.Stateless;
 import javax.ws.rs.GET;

@@ -1,4 +1,4 @@
-package com.example.gateway;
+package com.example.gatewayapi.gateway;
 
 import com.example.common.rest.dto.ErrorDto;
 

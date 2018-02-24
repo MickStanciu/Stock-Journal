@@ -1,4 +1,4 @@
-package com.example.gateway.accountApi;
+package com.example.gatewayapi.gateway.accountApi;
 
 public class Role {
 

@@ -1,6 +1,6 @@
-package com.example.gateway.tenantApi;
+package com.example.gatewayapi.gateway.tenantApi;
 
-import com.example.gateway.ResponseEnvelope;
+import com.example.gatewayapi.gateway.ResponseEnvelope;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
