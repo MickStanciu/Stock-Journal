@@ -8,4 +8,5 @@
 - create auth controller
   - connect to tenant api [done]
   - connect to account api [done]
+- create basic JWT token [done]
   
