@@ -1,4 +1,4 @@
-FROM jboss/wildfly:10.1.0.Final
+FROM jboss/wildfly:11.0.0.Final
 
 # create users
 RUN /opt/jboss/wildfly/bin/add-user.sh admin secret --silent
