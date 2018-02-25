@@ -1,7 +1,7 @@
 # Account Service
 ######Reads and account, creates an account and updates an account, for a given tenant
 
-####Can do:
+#### Can do:
 - read account by name and password
 - create an account
 - update an account
