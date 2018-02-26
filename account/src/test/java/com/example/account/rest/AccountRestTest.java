@@ -4,23 +4,20 @@
 //import com.example.account.model.Account;
 //import com.example.account.model.Role;
 //import com.example.common.rest.envelope.ResponseEnvelope;
-//import org.junit.Test;
 //import org.junit.jupiter.api.Test;
-//import org.junit.runner.RunWith;
+//import org.junit.jupiter.api.extension.ExtendWith;
 //import org.mockito.InjectMocks;
 //import org.mockito.Mock;
-//import org.mockito.junit.MockitoJUnitRunner;
 //
 //import javax.ws.rs.core.Response;
 //import java.math.BigInteger;
 //import java.util.Optional;
 //
-//import static org.junit.Assert.assertEquals;
 //import static org.junit.jupiter.api.Assertions.assertEquals;
 //import static org.mockito.Mockito.when;
 //
-//@RunWith(MockitoJUnitRunner.class)
-//public class AccountRestTest {
+//@ExtendWith(MockitoExtension.class)
+//class AccountRestTest {
 //
 //    @Mock
 //    private AccountFacade accountFacade;
@@ -45,7 +42,7 @@
 //            .build();
 //
 //    @Test
-//    public void testGetAccount() {
+//    void testGetAccount() {
 //        when(accountFacade.getAccount(DEFAULT_TENANT_ID, "test.account", "Password"))
 //                .thenReturn(Optional.of(accountFixture));
 //

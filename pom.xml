@@ -130,11 +130,18 @@
             </dependency>
 
             <dependency>
-                <groupId>org.powermock</groupId>
-                <artifactId>powermock-module-junit5</artifactId>
-                <version>${powermock.version}</version>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
+
+            <!--<dependency>-->
+                <!--<groupId>org.powermock</groupId>-->
+                <!--<artifactId>powermock-module-junit5</artifactId>-->
+                <!--<version>${powermock.version}</version>-->
+                <!--<scope>test</scope>-->
+            <!--</dependency>-->
 
             <dependency>
                 <groupId>org.mockito</groupId>
@@ -184,6 +191,12 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
         </dependency>
 
