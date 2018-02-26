@@ -19,21 +19,21 @@ class TokenFilterTest {
 
     private static Stream<Arguments> shouldSkipData() {
         return Stream.of(
-                Arguments.of("/health/check"),
-                Arguments.of("/health/check/"),
-                Arguments.of("/auth/123"),
-                Arguments.of("/error/401"),
-                Arguments.of("/error/401/")
+                Arguments.of("/api/health/check"),
+                Arguments.of("/api/health/check/"),
+                Arguments.of("/api/auth/123"),
+                Arguments.of("/api/error/401"),
+                Arguments.of("/api/error/401/")
         );
     }
 
     private static Stream<Arguments> shouldNotSkipData() {
         return Stream.of(
-                Arguments.of("/health"),
-                Arguments.of("/health/che"),
-                Arguments.of("/auth"),
-                Arguments.of("/auth/"),
-                Arguments.of("/bla")
+                Arguments.of("/api/health"),
+                Arguments.of("/api/health/che"),
+                Arguments.of("/api/auth"),
+                Arguments.of("/api/auth/"),
+                Arguments.of("/api/bla")
         );
     }
 

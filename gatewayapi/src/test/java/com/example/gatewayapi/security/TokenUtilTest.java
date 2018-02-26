@@ -6,16 +6,16 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TokenUtilTest {
-    private String tenantId = "testTenant";
-    private String accountName = "Rick and Morty";
-    private String roleName = "admin";
-    private String token = null;
-    private Claims claims;
+class TokenUtilTest {
+    private static String tenantId = "testTenant";
+    private static String accountName = "Rick and Morty";
+    private static String roleName = "admin";
+    private static String token = null;
+    private static Claims claims;
 
 
     @BeforeAll
-    public void setup() {
+    public static void setup() {
         token = TokenUtil.generateToken(tenantId, accountName, roleName);
         assertNotEquals(token, "");
         claims = TokenUtil.getClaims(token);

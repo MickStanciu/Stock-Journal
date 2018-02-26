@@ -23,13 +23,13 @@ public class TokenFilter extends HttpFilter {
 
     public TokenFilter() {
         absolutePath = new HashSet<>();
-        absolutePath.add("/health/check");
-        absolutePath.add("/health/check/");
-        absolutePath.add("/error/401");
-        absolutePath.add("/error/401/");
+        absolutePath.add("/api/health/check");
+        absolutePath.add("/api/health/check/");
+        absolutePath.add("/api/error/401");
+        absolutePath.add("/api/error/401/");
 
         startWithPath = new HashSet<>();
-        startWithPath.add("/auth/");
+        startWithPath.add("/api/auth/");
     }
 
     @Override
