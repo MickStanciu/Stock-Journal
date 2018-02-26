@@ -28,4 +28,9 @@
         <servlet-name>resteasy-servlet</servlet-name>
         <url-pattern>/api/*</url-pattern>
     </servlet-mapping>
+
+    <filter-mapping>
+        <filter-name>tokenFilter</filter-name>
+        <url-pattern>/api/*</url-pattern>
+    </filter-mapping>
 </web-app>
