@@ -1,12 +1,15 @@
 package com.example.gatewayapi.security;
 
 import io.jsonwebtoken.Claims;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotEquals;
+import static org.testng.Assert.assertTrue;
 
-class TokenUtilTest {
+public class TokenUtilTest {
     private static String tenantId = "testTenant";
     private static String accountName = "Rick and Morty";
     private static String roleName = "admin";
@@ -14,7 +17,7 @@ class TokenUtilTest {
     private static Claims claims;
 
 
-    @BeforeAll
+    @BeforeClass
     public static void setup() {
         token = TokenUtil.generateToken(tenantId, accountName, roleName);
         assertNotEquals(token, "");

@@ -1,11 +1,10 @@
 package com.example.common.validator;
 
 
-import org.junit.jupiter.api.Test;
+import org.testng.annotations.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 public class ValidatorTest {
 
@@ -55,7 +54,6 @@ public class ValidatorTest {
         assertTrue(validator.sizeGreaterOrEqualTo(1).isValid(), "Should be TRUE");
         assertFalse(validator.sizeGreaterOrEqualTo(100).isValid(), "Should be FALSE");
     }
-
 
     @Test
     public void testIntegerNotNull() {

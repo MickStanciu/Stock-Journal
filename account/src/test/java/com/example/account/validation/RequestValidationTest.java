@@ -2,17 +2,17 @@ package com.example.account.validation;
 
 import com.example.account.model.Account;
 import com.example.account.model.Role;
-import org.junit.jupiter.api.Test;
+import org.testng.annotations.Test;
 
 import java.math.BigInteger;
 
 import static com.example.account.validation.RequestValidation.validateCreateAccount;
 import static com.example.account.validation.RequestValidation.validateGetAccount;
 import static com.example.account.validation.RequestValidation.validateUpdateAccount;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
-class RequestValidationTest {
+public class RequestValidationTest {
 
     private static String DEFAULT_TENANT_ID = "d79ec11a-2011-4423-ba01-3af8de0a3e10";
     private static BigInteger DEFAULT_ACCOUNT_ID = BigInteger.ONE;
