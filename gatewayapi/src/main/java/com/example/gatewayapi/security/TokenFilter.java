@@ -27,9 +27,8 @@ public class TokenFilter extends HttpFilter {
             HttpServletRequest request = (HttpServletRequest) servletRequest;
             if(!bypassFilter.contains(request.getPathInfo())) {
                 System.out.println("lets check for token");
-            } else {
-                filterChain.doFilter(servletRequest, servletResponse);
             }
         }
+        filterChain.doFilter(servletRequest, servletResponse);
     }
 }
