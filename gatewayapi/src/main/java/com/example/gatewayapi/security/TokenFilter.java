@@ -13,15 +13,20 @@ import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Set;
 
 @WebFilter(filterName = "tokenFilter", urlPatterns = "/*")
 public class TokenFilter extends HttpFilter {
 
-    private static final List<String> bypassFilter = Arrays.asList("/health/check", "/error/401");
+    private static Set<String> absolutePath;
+    private static Set<String> startWithPath;
     private static final String AUTH_KEY = "authkey";
 
+    public TokenFilter() {
+        absolutePath.add("/health/check");
+        absolutePath.add("/error/401");
+        startWithPath.add("/auth/");
+    }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
@@ -40,6 +45,15 @@ public class TokenFilter extends HttpFilter {
     }
 
     boolean skipFilter(String uri) {
-        return true;
+        if (absolutePath.contains(uri)) {
+            return true;
+        }
+
+        for (String path : startWithPath) {
+            if (uri.startsWith(path)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
