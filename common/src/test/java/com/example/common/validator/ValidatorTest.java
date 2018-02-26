@@ -1,59 +1,59 @@
 package com.example.common.validator;
 
-import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 
 public class ValidatorTest {
-
 
     @Test
     public void testStringNotNull() {
         String test = "abc";
         StringValidator validator = new StringValidator(test);
-        assertTrue("Should be TRUE", validator.notNull().isValid());
+        assertTrue(validator.notNull().isValid(), "Should be TRUE");
     }
 
     @Test
     public void testNullStringNotNull() {
         StringValidator validator = new StringValidator(null);
-        assertFalse("Should be FALSE", validator.notNull().isValid());
+        assertFalse(validator.notNull().isValid(), "Should be FALSE");
     }
 
     @Test
     public void testStringSize() {
         String test = "abc";
         StringValidator validator = new StringValidator(test);
-        assertTrue("Should be TRUE", validator.sizeEqualTo(3).isValid());
-        assertFalse("Should be FALSE", validator.sizeEqualTo(0).isValid());
+        assertTrue(validator.sizeEqualTo(3).isValid(), "Should be TRUE");
+        assertFalse(validator.sizeEqualTo(0).isValid(), "Should be FALSE");
     }
 
     @Test
     public void testEmptyStringSize() {
         String test = "";
         StringValidator validator = new StringValidator(test);
-        assertTrue("Should be TRUE", validator.sizeEqualTo(0).isValid());
-        assertFalse("Should be FALSE", validator.sizeEqualTo(1).isValid());
+        assertTrue(validator.sizeEqualTo(0).isValid(), "Should be TRUE");
+        assertFalse(validator.sizeEqualTo(1).isValid(), "Should be FALSE");
     }
 
     @Test
     public void testStringLTE() {
         String test = "123456789";
         StringValidator validator = new StringValidator(test);
-        assertTrue("Should be TRUE", validator.sizeLessOrEqualTo(9).isValid());
-        assertTrue("Should be TRUE", validator.sizeLessOrEqualTo(10).isValid());
-        assertFalse("Should be FALSE", validator.sizeLessOrEqualTo(3).isValid());
+        assertTrue(validator.sizeLessOrEqualTo(9).isValid(), "Should be TRUE");
+        assertTrue(validator.sizeLessOrEqualTo(10).isValid(), "Should be TRUE");
+        assertFalse(validator.sizeLessOrEqualTo(3).isValid(), "Should be FALSE");
     }
 
     @Test
     public void testStringGTE() {
         String test = "123456789";
         StringValidator validator = new StringValidator(test);
-        assertTrue("Should be TRUE", validator.sizeGreaterOrEqualTo(9).isValid());
-        assertTrue("Should be TRUE", validator.sizeGreaterOrEqualTo(1).isValid());
-        assertFalse("Should be FALSE", validator.sizeGreaterOrEqualTo(100).isValid());
+        assertTrue(validator.sizeGreaterOrEqualTo(9).isValid(), "Should be TRUE");
+        assertTrue(validator.sizeGreaterOrEqualTo(1).isValid(), "Should be TRUE");
+        assertFalse(validator.sizeGreaterOrEqualTo(100).isValid(), "Should be FALSE");
     }
 
 
@@ -61,20 +61,20 @@ public class ValidatorTest {
     public void testIntegerNotNull() {
         Integer test = 1;
         IntegerValidator validator = new IntegerValidator(test);
-        assertTrue("Should be TRUE", validator.notNull().isValid());
+        assertTrue(validator.notNull().isValid(), "Should be TRUE");
     }
 
     @Test
     public void testIntegerGreaterThanZero1() {
         Integer test = 1;
         IntegerValidator validator = new IntegerValidator(test);
-        assertTrue("Should be TRUE", validator.greaterThanZero().isValid());
+        assertTrue(validator.greaterThanZero().isValid(), "Should be TRUE");
     }
 
     @Test
     public void testIntegerGreaterThanZero2() {
         Integer test = 0;
         IntegerValidator validator = new IntegerValidator(test);
-        assertFalse("Should be TRUE", validator.greaterThanZero().isValid());
+        assertFalse(validator.greaterThanZero().isValid(), "Should be TRUE");
     }
 }

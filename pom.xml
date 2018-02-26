@@ -26,7 +26,7 @@
         <resteasy.version>3.1.4.Final</resteasy.version>
         <jackson.annotations.version>2.9.2</jackson.annotations.version>
         <mockito.version>2.10.0</mockito.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>5.1.0</junit.version>
         <log4j.version>1.2.17</log4j.version>
         <ehcache.version>3.4.0</ehcache.version>
         <consul.version>1.1.10</consul.version>
@@ -53,6 +53,7 @@
                 <groupId>javax</groupId>
                 <artifactId>javaee-api</artifactId>
                 <version>8.0</version>
+                <scope>provided</scope>
             </dependency>
 
             <!--<dependency>-->
@@ -122,15 +123,15 @@
             </dependency>
 
             <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-params</artifactId>
                 <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
 
             <dependency>
                 <groupId>org.powermock</groupId>
-                <artifactId>powermock-module-junit4</artifactId>
+                <artifactId>powermock-module-junit5</artifactId>
                 <version>${powermock.version}</version>
                 <scope>test</scope>
             </dependency>
@@ -181,8 +182,15 @@
         </dependency>
 
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

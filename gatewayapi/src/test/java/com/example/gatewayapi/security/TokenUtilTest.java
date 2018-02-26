@@ -1,10 +1,10 @@
 package com.example.gatewayapi.security;
 
 import io.jsonwebtoken.Claims;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TokenUtilTest {
     private String tenantId = "testTenant";
@@ -14,7 +14,7 @@ public class TokenUtilTest {
     private Claims claims;
 
 
-    @Before
+    @BeforeAll
     public void setup() {
         token = TokenUtil.generateToken(tenantId, accountName, roleName);
         assertNotEquals(token, "");
@@ -22,37 +22,37 @@ public class TokenUtilTest {
     }
 
     @Test
-    public void testTokenIssuer() {
+    void testTokenIssuer() {
         assertEquals(TokenUtil.ISSUER, claims.getIssuer());
     }
 
     @Test
-    public void testTokenExpTime() {
+    void testTokenExpTime() {
         assertEquals(TokenUtil.TTL, claims.getExpiration().getTime() - claims.getIssuedAt().getTime());
     }
 
     @Test
-    public void testTokenTenant() {
+    void testTokenTenant() {
         assertEquals(tenantId, claims.get("tenantId"));
     }
 
     @Test
-    public void testTokenRole() {
+    void testTokenRole() {
         assertEquals(roleName, claims.get("roleName"));
     }
 
     @Test
-    public void testTokenName() {
+    void testTokenName() {
         assertEquals(accountName, claims.get("accountName"));
     }
 
     @Test
-    public void testValidateTruthy() {
+    void testValidateTruthy() {
         assertTrue(TokenUtil.validateToken(token));
     }
 
     @Test
-    public void testValidateFalsy() {
+    void testValidateFalsy() {
         assertFalse(TokenUtil.validateToken("x"));
         assertFalse(TokenUtil.validateToken(null));
     }
