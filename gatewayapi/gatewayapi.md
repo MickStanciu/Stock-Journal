@@ -17,5 +17,5 @@ GET http://localhost:8080/gatewayapi/api/auth/d79ec11a-2011-4423-ba01-3af8de0a3e
 - add URL filter in order to force token on certain urls except a whitelist [done]
 - migrate standalone.xml from v10 to v11 [done]
 - migrate tests to testng [done]
-- fix mockito [wip]
+- fix mockito [done]
   

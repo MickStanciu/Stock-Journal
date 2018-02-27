@@ -49,7 +49,7 @@ public class AccountRestTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    @Test(enabled = true)
+    @Test
     void testGetAccount() {
         when(accountFacade.getAccount(DEFAULT_TENANT_ID, "test.account", "Password"))
                 .thenReturn(Optional.of(accountFixture));
