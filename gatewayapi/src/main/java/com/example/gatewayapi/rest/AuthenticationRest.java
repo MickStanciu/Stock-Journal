@@ -1,6 +1,7 @@
 package com.example.gatewayapi.rest;
 
 import com.example.gatewayapi.exception.GatewayApiException;
+import com.example.gatewayapi.model.Token;
 import com.example.gatewayapi.service.AuthenticationService;
 import org.apache.log4j.Logger;
 
@@ -21,19 +22,17 @@ public class AuthenticationRest {
 
     @GET
     @Path("/{tenantId}")
-    public Response getAccountDetails(
+    public Response authenticate(
             @PathParam("tenantId") @DefaultValue("0") String tenantId,
             @QueryParam("name") @DefaultValue("") String name,
             @QueryParam("password") @DefaultValue("") String password
     ) {
         //todo validate input
         try {
-            authService.getAccountDetails(tenantId, name, password);
+            String token = authService.authenticate(tenantId, name, password);
+            return Response.status(Response.Status.OK).entity(new Token(token)).build();
         } catch (GatewayApiException e) {
-            //todo add error list to response envelope
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.UNAUTHORIZED).build();
         }
-
-        return Response.status(Response.Status.OK).build();
     }
 }

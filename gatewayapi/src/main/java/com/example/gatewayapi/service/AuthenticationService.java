@@ -6,6 +6,7 @@ import com.example.gatewayapi.gateway.accountApi.Account;
 import com.example.gatewayapi.gateway.accountApi.AccountGateway;
 import com.example.gatewayapi.gateway.tenantApi.Tenant;
 import com.example.gatewayapi.gateway.tenantApi.TenantGateway;
+import com.example.gatewayapi.security.TokenUtil;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
@@ -24,7 +25,7 @@ public class AuthenticationService {
     private AccountGateway accountGateway;
 
 
-    public void getAccountDetails(String tenantId, String name, String password) throws GatewayApiException {
+    public String authenticate(String tenantId, String name, String password) throws GatewayApiException {
         Optional<Tenant> tenantOptional = getTenant(tenantId);
         if (!tenantOptional.isPresent()) {
             throw new GatewayApiException(ExceptionCode.TENANT_NOT_FOUND);
@@ -36,6 +37,8 @@ public class AuthenticationService {
             throw new GatewayApiException(ExceptionCode.ACCOUNT_NOT_FOUND);
         }
         Account account = accountOptional.get();
+
+        return TokenUtil.generateToken(tenant.getId(), account.getName(), account.getRole().getName());
     }
 
     //todo: move it out if this class grows
