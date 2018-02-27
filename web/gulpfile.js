@@ -15,7 +15,7 @@ gulp.task('sass', function() {
         .pipe(sass({errLogToConsole: true}))
         .on('error', onError)
         .pipe(rename('default.css'))
-        .pipe(gulp.dest('src/main/webapp/resources/default/css'))
+        .pipe(gulp.dest('target/web/resources/default/css'))
 });
 
 // watch
@@ -36,8 +36,9 @@ gulp.task('js', function () {
         .pipe(concat('default.js'))
         // .pipe(stripdebug())
         // .pipe(uglify())
-        .pipe(gulp.dest('src/main/webapp/resources/default/js'));
+        .pipe(gulp.dest('target/web/resources/default/js'));
 });
 
 //default
-gulp.task('default', ['js', 'sass', 'watch']);
+gulp.task('build', ['js', 'sass']);
+gulp.task('dev', ['js', 'sass', 'watch']);

@@ -14,6 +14,10 @@
     <packaging>war</packaging>
     <name>web</name>
 
+    <properties>
+        <maven.frontend.version>1.6</maven.frontend.version>
+    </properties>
+
     <build>
         <finalName>web</finalName>
 
@@ -27,10 +31,12 @@
                 <artifactId>maven-antrun-plugin</artifactId>
                 <executions>
                     <execution>
-                        <phase>package</phase>
+                        <phase>generate-resources</phase>
                         <configuration>
                             <tasks>
-                                <copy file="${project.build.directory}/web.war" tofile="${project.basedir}/deployments/web.war" />
+                                <exec dir="${project.basedir}" executable="yarn" failonerror="true">
+                                    <arg line="gulp build"/>
+                                </exec>
                             </tasks>
                         </configuration>
                         <goals>
