@@ -17,7 +17,7 @@ CREATE TABLE customers (
   alias VARCHAR(64) DEFAULT '',
   last_name VARCHAR(64) DEFAULT 'unknown',
   email VARCHAR(64) DEFAULT 'unknown',
-  mobile DECIMAL(10),
+  mobile VARCHAR(10),
   birthdate DATE NOT NULL,
   active boolean DEFAULT false NOT NULL
   -- guardian_fk

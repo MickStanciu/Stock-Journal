@@ -34,23 +34,8 @@ connect catalog to the repository
 - [ ] same db, one schema per customer [will not be done]
 - [x] same db, same schema, customer has a discriminator [done]
 
-**Todo**
-- [x] tenant service [done]
 
-
-
-
-### Customer Service
 
 **Todo**
-- [x] create db [done]
-- [x] create client table with basic info [done]
-- [ ] create notes table liked many to one with client [selected for development]
-- [ ] create guardian ?
+- fix lost DB connection issues [not done]
 
-#### Read all clients by Tenant / ####
-
-GET http://localhost:8080/client/api/d79ec11a-2011-4423-ba01-3af8de0a3e10?active=true [selected for development]
-
-**Todo**
-- [ ] create rest service

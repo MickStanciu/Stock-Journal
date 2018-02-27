@@ -121,5 +121,9 @@ public class Customer implements Serializable {
             this.tenantId = tenantId;
             return this;
         }
+
+        public Customer build() {
+            return new Customer(this);
+        }
     }
 }
