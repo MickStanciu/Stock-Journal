@@ -9,15 +9,15 @@ services:
 #    ports:
 #      - "8500:8500"
 
-#  web:
-#    build: web/docker/.
-#    image: web
-#    container_name: web
-#    ports:
-#      - "80:8080" #WildFly App
-#      - "87:8787" #WildFly Debug
-#    volumes:
-#      - ./web/target/web.war:/opt/jboss/wildfly/standalone/deployments/web.war
+  web:
+    build: web/docker/.
+    image: web
+    container_name: web
+    ports:
+      - "80:8080" #WildFly App
+      - "87:8787" #WildFly Debug
+    volumes:
+      - ./web/target/web.war:/opt/jboss/wildfly/standalone/deployments/web.war
 
   gatewayapi:
     build: gatewayapi/docker/.
