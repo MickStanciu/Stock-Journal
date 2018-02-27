@@ -6,14 +6,19 @@ import com.example.account.model.Role;
 import com.example.common.rest.envelope.ResponseEnvelope;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoRule;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import javax.ws.rs.core.Response;
 import java.math.BigInteger;
 import java.util.Optional;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
+
 
 public class AccountRestTest {
 
@@ -39,7 +44,12 @@ public class AccountRestTest {
             .withFlagActive(true)
             .build();
 
-    @Test(enabled = false)
+    @BeforeClass
+    public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
+    }
+
+    @Test(enabled = true)
     void testGetAccount() {
         when(accountFacade.getAccount(DEFAULT_TENANT_ID, "test.account", "Password"))
                 .thenReturn(Optional.of(accountFixture));
