@@ -10,11 +10,26 @@
     <ui:param name="pageTitle" value="La la la | Example.com"/>
 
     <ui:define name="panel-main">
+        <div id="app" style="background-color: darkgoldenrod">
+            {{ message }}
+        </div>
+
         <div class="catalogItems">
             <ui:repeat var="item" value="#{homePageBean.items}">
                 <ui:include src="WEB-INF/product/boxItem.xhtml"/>
             </ui:repeat>
         </div>
+    </ui:define>
+
+    <ui:define name="bottom-js">
+        <script type="application/javascript">
+            var app = new Vue({
+                el: '#app',
+                data: {
+                    message: 'Hello Vue!'
+                }
+            })
+        </script>
     </ui:define>
 </ui:composition>
 
