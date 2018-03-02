@@ -29,13 +29,13 @@ RUN rm node-v$NODE_VERSION.tar.xz
 
 
 #YARN
-#ENV YARN_VERSION 1.5.1
-#RUN curl -SLO https://yarnpkg.com/downloads/$YARN_VERSION/yarn-v$YARN_VERSION.tar.gz
-#RUN mkdir -p /opt/yarn
-#RUN tar -xzf yarn-v$YARN_VERSION.tar.gz -C /opt/yarn --strip-components=1
-#RUN ln -s /opt/yarn/bin/yarn /usr/local/bin/yarn
-#RUN ln -s /opt/yarn/bin/yarn /usr/local/bin/yarnpkg
-#RUN rm yarn-v$YARN_VERSION.tar.gz
+ENV YARN_VERSION 1.5.1
+RUN curl -SLO https://yarnpkg.com/downloads/$YARN_VERSION/yarn-v$YARN_VERSION.tar.gz
+RUN mkdir -p /opt/yarn
+RUN tar -xzf yarn-v$YARN_VERSION.tar.gz -C /opt/yarn --strip-components=1
+RUN ln -s /opt/yarn/bin/yarn /usr/local/bin/yarn
+RUN ln -s /opt/yarn/bin/yarn /usr/local/bin/yarnpkg
+RUN rm yarn-v$YARN_VERSION.tar.gz
 
 #RUN apk del .build-deps
 
@@ -72,3 +72,4 @@ CMD ["node"]
 #docker run -it alpinetest sh
 #https://github.com/nginxinc/docker-nginx/blob/master/stable/alpine/Dockerfile
 #https://hub.docker.com/r/matriphe/alpine-nginx/~/dockerfile/
+#https://nodejs.org/en/docs/guides/nodejs-docker-webapp/
