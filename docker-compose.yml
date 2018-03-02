@@ -10,13 +10,14 @@ services:
 #      - "8500:8500"
 
   web:
-    build: vue/docker/.
+    build: vue/.
     image: vue
     container_name: vue
     ports:
       - "80:8080" #NodeJs App
     volumes:
-      - ./vue:/usr/src/app
+      - ./vue/app:/usr/app/
+      - /usr/app/node_modules
 
   gatewayapi:
     build: gatewayapi/docker/.

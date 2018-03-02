@@ -37,7 +37,15 @@ RUN ln -s /opt/yarn/bin/yarn /usr/local/bin/yarn
 RUN ln -s /opt/yarn/bin/yarn /usr/local/bin/yarnpkg
 RUN rm yarn-v$YARN_VERSION.tar.gz
 
-#RUN apk del .build-deps
+
+RUN apk del .build-deps
+
+#APP
+WORKDIR /usr/app
+COPY app/package.json .
+RUN yarn install
+COPY app/. .
+
 
 #RUN apk add --update openssl nginx tzdata
 #RUN mkdir -p /run/nginx
@@ -66,7 +74,7 @@ RUN rm yarn-v$YARN_VERSION.tar.gz
 #RUN apk del .build-deps
 
 #ENTRYPOINT ["/usr/local/nginx/sbin/nginx", "-g", "daemon off;"]
-CMD ["node"]
+CMD ["yarn", "run" ,"dev"]
 
 #docker build -t alpinetest .
 #docker run -it alpinetest sh

@@ -36,7 +36,7 @@
       </li>
     </ul>
 
-    <div>{{testMsg}} - x</div>
+    <div>{{testMsg}} - xyz</div>
   </div>
 </template>
 
