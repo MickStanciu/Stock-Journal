@@ -1,6 +1,7 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
+import Growler from './Growler'
 // import App from './App'
 // import router from './router'
 
@@ -15,7 +16,7 @@ Vue.config.productionTip = false
 //   template: '<App/>'
 // })
 var growler = new Vue({
-  el: '#growler',
-  data: {
-  }
+  el: '#app',
+  components: { Growler },
+  template: '<Growler/>'
 })
