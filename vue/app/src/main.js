@@ -15,7 +15,7 @@ Vue.config.productionTip = false
 //   components: { App },
 //   template: '<App/>'
 // })
-var growler = new Vue({
+new Vue({
   el: '#app',
   components: { Growler },
   template: '<Growler/>'
