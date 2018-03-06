@@ -8,3 +8,5 @@ web/node_modules
 .rebel-remote.xml.bak
 */audit.log
 /audit.log
+vue/yarn-error.log
+

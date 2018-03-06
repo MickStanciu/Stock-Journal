@@ -76,16 +76,16 @@ module.exports = {
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
       },
-      {
-        test: /\.(s?css)$/,
-        use: ExtractTextPlugin.extract({
-          fallback: "style-loader",
-          use: [
-            "css-loader",
-            "sass-loader"
-          ]
-        })
-      },
+      // {
+      //   test: /\.(s?css)$/,
+      //   use: ExtractTextPlugin.extract({
+      //     fallback: "style-loader",
+      //     use: [
+      //       "css-loader",
+      //       "sass-loader"
+      //     ]
+      //   })
+      // },
     ]
   },
   node: {
