@@ -1,12 +1,11 @@
 /.idea/
 *.iml
 */target
-shop/node_modules
-web/node_modules
 */deployments/*
 .rebel.xml.bak
 .rebel-remote.xml.bak
 */audit.log
 /audit.log
 vue/yarn-error.log
-
+/web/vue/node_modules
+/shop/node_modules
