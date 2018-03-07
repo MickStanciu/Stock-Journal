@@ -6,7 +6,6 @@
 .rebel-remote.xml.bak
 */audit.log
 /audit.log
-vue/yarn-error.log
-/web/vue/node_modules
-/web/vue/dist
-/shop/node_modules
+web/node_modules
+web/yarn-error.log
+shop/node_modules
