@@ -8,4 +8,5 @@
 /audit.log
 vue/yarn-error.log
 /web/vue/node_modules
+/web/vue/dist
 /shop/node_modules
