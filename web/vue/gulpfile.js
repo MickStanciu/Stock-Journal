@@ -21,8 +21,9 @@ gulp.task('vue', function () {
 });
 
 gulp.task('vueify', function () {
-  return gulp.src('components/**/*.vue')
+  return gulp.src('src/components/**/*.vue')
     .pipe(vueify())
+    .on('error', onError)
     .pipe(gulp.dest('./dist'));
 });
 
