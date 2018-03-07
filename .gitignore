@@ -9,3 +9,4 @@
 web/node_modules
 web/yarn-error.log
 shop/node_modules
+web/src/main/webapp/resources/default/css
