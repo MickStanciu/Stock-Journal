@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/Cellar/node@6/6.13.0/bin/node /usr/local/Cellar/yarn/1.5.1/libexec/bin/yarn.js gulp
+  /usr/local/Cellar/node@6/6.13.0/bin/node /usr/local/Cellar/yarn/1.5.1/libexec/bin/yarn.js add sass-concat
 
 PATH: 
   /usr/local/opt/node@6/bin:/Users/mick/anaconda/bin:/usr/local/var/rbenv/shims:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Java/JavaVirtualMachines/jdk1.8.0_161.jdk/Contents/Home
@@ -72,6 +72,8 @@ npm manifest:
       "file-loader": "^1.1.4",
       "friendly-errors-webpack-plugin": "^1.6.1",
       "gulp": "^3.9.1",
+      "gulp-rename": "^1.2.2",
+      "gulp-sass": "^3.1.0",
       "html-webpack-plugin": "^2.30.1",
       "jest": "^22.0.4",
       "jest-serializer-vue": "^0.3.0",
@@ -3958,7 +3960,21 @@ Lockfile:
     version "1.3.0"
     resolved "https://registry.yarnpkg.com/growly/-/growly-1.3.0.tgz#f10748cbe76af964b7c96c93c6bcc28af120c081"
   
-  gulp-util@^3.0.0:
+  gulp-rename@^1.2.2:
+    version "1.2.2"
+    resolved "https://registry.yarnpkg.com/gulp-rename/-/gulp-rename-1.2.2.tgz#3ad4428763f05e2764dec1c67d868db275687817"
+  
+  gulp-sass@^3.1.0:
+    version "3.1.0"
+    resolved "https://registry.yarnpkg.com/gulp-sass/-/gulp-sass-3.1.0.tgz#53dc4b68a1f5ddfe4424ab4c247655269a8b74b7"
+    dependencies:
+      gulp-util "^3.0"
+      lodash.clonedeep "^4.3.2"
+      node-sass "^4.2.0"
+      through2 "^2.0.0"
+      vinyl-sourcemaps-apply "^0.2.0"
+  
+  gulp-util@^3.0, gulp-util@^3.0.0:
     version "3.0.8"
     resolved "https://registry.yarnpkg.com/gulp-util/-/gulp-util-3.0.8.tgz#0054e1e744502e27c04c187c3ecc505dd54bbb4f"
     dependencies:
@@ -6308,7 +6324,7 @@ Lockfile:
       tar "^2.2.1"
       tar-pack "^3.4.0"
   
-  node-sass@^4.7.2:
+  node-sass@^4.2.0, node-sass@^4.7.2:
     version "4.7.2"
     resolved "https://registry.yarnpkg.com/node-sass/-/node-sass-4.7.2.tgz#9366778ba1469eb01438a9e8592f4262bcb6794e"
     dependencies:
@@ -8512,7 +8528,7 @@ Lockfile:
     version "0.4.0"
     resolved "https://registry.yarnpkg.com/source-map-url/-/source-map-url-0.4.0.tgz#3e935d7ddd73631b97659956d55128e87b5084a3"
   
-  source-map@0.5.x, source-map@^0.5.0, source-map@^0.5.3, source-map@^0.5.6, source-map@^0.5.7, source-map@~0.5.1:
+  source-map@0.5.x, source-map@^0.5.0, source-map@^0.5.1, source-map@^0.5.3, source-map@^0.5.6, source-map@^0.5.7, source-map@~0.5.1:
     version "0.5.7"
     resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.7.tgz#8a039d2d1021d22d1ea14c80d8ea468ba2ef3fcc"
   
@@ -9344,6 +9360,12 @@ Lockfile:
       through2 "^0.6.1"
       vinyl "^0.4.0"
   
+  vinyl-sourcemaps-apply@^0.2.0:
+    version "0.2.1"
+    resolved "https://registry.yarnpkg.com/vinyl-sourcemaps-apply/-/vinyl-sourcemaps-apply-0.2.1.tgz#ab6549d61d172c2b1b87be5c508d239c8ef87705"
+    dependencies:
+      source-map "^0.5.1"
+  
   vinyl@^0.4.0:
     version "0.4.6"
     resolved "https://registry.yarnpkg.com/vinyl/-/vinyl-0.4.6.tgz#2f356c87a550a255461f36bbeb2a5ba8bf784847"
@@ -9856,18 +9878,11 @@ Lockfile:
       fd-slicer "~1.0.1"
 
 Trace: 
-  Error: Command failed.
-  Exit code: 1
-  Command: sh
-  Arguments: -c /Users/mick/Projects/personal/productapi/web/vue/node_modules/.bin/gulp
-  Directory: /Users/mick/Projects/personal/productapi/web/vue
-  Output:
-  
-      at ProcessTermError.Error (native)
-      at ProcessTermError.MessageError (/usr/local/Cellar/yarn/1.5.1/libexec/lib/cli.js:186:110)
-      at new ProcessTermError (/usr/local/Cellar/yarn/1.5.1/libexec/lib/cli.js:226:113)
-      at ChildProcess.<anonymous> (/usr/local/Cellar/yarn/1.5.1/libexec/lib/cli.js:30281:17)
-      at emitTwo (events.js:106:13)
-      at ChildProcess.emit (events.js:191:7)
-      at maybeClose (internal/child_process.js:920:16)
-      at Process.ChildProcess._handle.onexit (internal/child_process.js:230:5)
+  Error: Couldn't find package "sass-concat" on the "npm" registry.
+      at MessageError.Error (native)
+      at new MessageError (/usr/local/Cellar/yarn/1.5.1/libexec/lib/cli.js:186:110)
+      at NpmResolver.<anonymous> (/usr/local/Cellar/yarn/1.5.1/libexec/lib/cli.js:51625:15)
+      at next (native)
+      at step (/usr/local/Cellar/yarn/1.5.1/libexec/lib/cli.js:98:30)
+      at /usr/local/Cellar/yarn/1.5.1/libexec/lib/cli.js:109:13
+      at process._tickCallback (internal/process/next_tick.js:109:7)

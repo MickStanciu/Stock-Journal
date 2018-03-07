@@ -1,16 +1,17 @@
 const gulp = require('gulp');
 const sass = require('gulp-sass');
 const rename = require('gulp-rename');
+var concat = require('gulp-concat');
 //vue
 
 //sass
 const global_sass_files = ['node_modules/bootstrap-4-grid/scss/grid.scss', 'src/assets/sass/main.scss'];
 gulp.task('sass', function() {
-  return gulp.src(global_sass_files, { base: '.' })
+  return gulp.src(global_sass_files)
     .pipe(sass())
     .on('error', onError)
-    // .pipe(rename('default.css'))
-    .pipe(gulp.dest('.'))
+    .pipe(concat('default.css'))
+    .pipe(gulp.dest('../src/main/webapp/resources/default/css'))
 });
 
 
