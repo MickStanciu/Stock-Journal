@@ -1,7 +1,8 @@
 const gulp = require('gulp');
 const sass = require('gulp-sass');
 const rename = require('gulp-rename');
-var concat = require('gulp-concat');
+const concat = require('gulp-concat');
+
 //vue
 
 //sass
