@@ -3,8 +3,6 @@ const sass = require('gulp-sass');
 const rename = require('gulp-rename');
 const concat = require('gulp-concat');
 
-//vue
-
 //sass
 const global_sass_files = ['node_modules/bootstrap-4-grid/scss/grid.scss', 'src/assets/sass/main.scss'];
 gulp.task('sass', function() {
@@ -15,15 +13,20 @@ gulp.task('sass', function() {
     .pipe(gulp.dest('../src/main/webapp/resources/default/css'))
 });
 
+//vue
+gulp.task('vue', function () {
 
-gulp.task('sass2', function() {
-  return gulp.src(['./foo/foo.scss', './bar/bar.scss'], { base: '.' })
-    .pipe(sass())
-    .pipe(gulp.dest('.'));
+});
+
+//watch
+gulp.task('watch', function () {
+  // gulp.watch('assets/sass/**/*.scss', ['sass']);
+  // gulp.watch('assets/js/**/*.js', ['js']);
 });
 
 //default
-gulp.task('default', ['sass']);
+gulp.task('default', ['sass', 'vue']);
+gulp.task('default-watch', ['sass', 'vue', 'watch']);
 
 
 function onError(err) {
