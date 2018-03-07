@@ -34,13 +34,9 @@ gulp.task('watch', function () {
 });
 
 //default
-// gulp.task('default', ['sass', 'vueify']);
+gulp.task('default', ['sass', 'vueify']);
 // gulp.task('default-watch', ['sass', 'vueify', 'watch']);
 
-gulp.task('default', gulp.series('sass', function() {
-  // default task code here
-  return runSequence(['sass']);
-}));
 
 function onError(err) {
   console.log(err);

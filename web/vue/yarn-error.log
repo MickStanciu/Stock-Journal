@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/Cellar/node/9.6.1/bin/node /usr/local/Cellar/yarn/1.5.1/libexec/bin/yarn.js make
+  /usr/local/Cellar/node/9.6.1/bin/node /usr/local/Cellar/yarn/1.5.1/libexec/bin/yarn.js install
 
 PATH: 
   /Users/mick/miniconda3/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/Cellar/maven/3.3.9/libexec/bin:/Library/Java/JavaVirtualMachines/jdk1.8.0_161.jdk/Contents/Home:/usr/local/opt/wildfly-as/libexec/bin
@@ -45,6 +45,7 @@ npm manifest:
       "bootstrap-4-grid": "^2.3.0",
       "css-loader": "^0.28.10",
       "gulp": "^4.0.0",
+      "gulp-cli": "^2.0.1",
       "gulp-babel": "^7.0.1",
       "gulp-concat": "^2.6.1",
       "gulp-rename": "^1.2.2",
@@ -70,6 +71,7 @@ npm manifest:
     },
     "license": "ISC"
   }
+  //https://github.com/gulpjs/gulp/blob/4.0/docs/getting-started.md
 
 yarn manifest: 
   No manifest
@@ -2297,7 +2299,7 @@ Lockfile:
       through2 "^2.0.0"
       vinyl-sourcemaps-apply "^0.2.0"
   
-  gulp-cli@^2.0.0:
+  gulp-cli@^2.0.0, gulp-cli@^2.0.1:
     version "2.0.1"
     resolved "https://registry.yarnpkg.com/gulp-cli/-/gulp-cli-2.0.1.tgz#7847e220cb3662f2be8a6d572bf14e17be5a994b"
     dependencies:
@@ -6260,16 +6262,10 @@ Lockfile:
       window-size "0.1.0"
 
 Trace: 
-  Error: Command failed.
-  Exit code: 1
-  Command: sh
-  Arguments: -c node node_modules/gulp/bin/gulp.js default
-  Directory: /Volumes/DATA/Projects/swarm/web/vue
-  Output:
-  
-      at ProcessTermError.MessageError (/usr/local/Cellar/yarn/1.5.1/libexec/lib/cli.js:186:110)
-      at new ProcessTermError (/usr/local/Cellar/yarn/1.5.1/libexec/lib/cli.js:226:113)
-      at ChildProcess.<anonymous> (/usr/local/Cellar/yarn/1.5.1/libexec/lib/cli.js:30281:17)
-      at ChildProcess.emit (events.js:127:13)
-      at maybeClose (internal/child_process.js:933:16)
-      at Process.ChildProcess._handle.onexit (internal/child_process.js:220:5)
+  SyntaxError: /Volumes/DATA/Projects/swarm/web/vue/package.json: Unexpected token / in JSON at position 1536
+      at JSON.parse (<anonymous>)
+      at /usr/local/Cellar/yarn/1.5.1/libexec/lib/cli.js:1036:59
+      at Generator.next (<anonymous>)
+      at step (/usr/local/Cellar/yarn/1.5.1/libexec/lib/cli.js:98:30)
+      at /usr/local/Cellar/yarn/1.5.1/libexec/lib/cli.js:109:13
+      at <anonymous>
