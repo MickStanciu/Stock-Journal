@@ -1,7 +1,9 @@
 const gulp = require('gulp');
 const sass = require('gulp-sass');
-const rename = require('gulp-rename');
+// const rename = require('gulp-rename');
 const concat = require('gulp-concat');
+// const babel = require('gulp-babel');
+const vueify = require('gulp-vueify');
 
 //sass
 const global_sass_files = ['node_modules/bootstrap-4-grid/scss/grid.scss', 'src/assets/sass/main.scss'];
@@ -15,7 +17,13 @@ gulp.task('sass', function() {
 
 //vue
 gulp.task('vue', function () {
+//.pipe(babel({presets: ['es2015']}))
+});
 
+gulp.task('vueify', function () {
+  return gulp.src('components/**/*.vue')
+    .pipe(vueify())
+    .pipe(gulp.dest('./dist'));
 });
 
 //watch
@@ -25,8 +33,8 @@ gulp.task('watch', function () {
 });
 
 //default
-gulp.task('default', ['sass', 'vue']);
-gulp.task('default-watch', ['sass', 'vue', 'watch']);
+gulp.task('default', ['sass', 'vueify']);
+gulp.task('default-watch', ['sass', 'vueify', 'watch']);
 
 
 function onError(err) {
