@@ -10,14 +10,13 @@ services:
 #      - "8500:8500"
 
   web:
-    build: vue/.
+    build: web/docker/.
     image: vue
-    container_name: vue
+    container_name: web
     ports:
-      - "80:8080" #NodeJs App
+      - "80:8080" #WildFly App
     volumes:
-      - ./vue/app:/usr/app/
-      - /usr/app/node_modules
+      - ./web/target/web.war:/opt/jboss/wildfly/standalone/deployments/web.war
 
   gatewayapi:
     build: gatewayapi/docker/.
