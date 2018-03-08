@@ -5,13 +5,13 @@ const concat = require('gulp-concat');
 // const babel = require('gulp-babel');
 
 //sass
-const global_sass_files = ['node_modules/bootstrap-4-grid/scss/grid.scss', 'src/assets/sass/main.scss'];
+const global_sass_files = ['node_modules/bootstrap-4-grid/scss/grid.scss', 'src/main/assets/sass/site.scss'];
 gulp.task('sass', function() {
     return gulp.src(global_sass_files)
         .pipe(sass())
         .on('error', onError)
         .pipe(concat('default.css'))
-        .pipe(gulp.dest('src/main/webapp/resources/default/css'))
+        .pipe(gulp.dest('target/resources/default/css'))
 });
 
 
