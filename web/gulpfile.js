@@ -11,7 +11,8 @@ gulp.task('sass', function() {
         .pipe(sass())
         .on('error', onError)
         .pipe(concat('default.css'))
-        .pipe(gulp.dest('target/web/resources/default/css'))
+        .pipe(gulp.dest('src/main/webapp/resources/default/css'))
+        // .pipe(gulp.dest('target/web/resources/default/css'))
 });
 
 

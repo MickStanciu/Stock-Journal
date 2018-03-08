@@ -7,25 +7,22 @@
 <application generated-by="intellij" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.zeroturnaround.com" xsi:schemaLocation="http://www.zeroturnaround.com http://update.zeroturnaround.com/jrebel/rebel-2_1.xsd">
 
 	<classpath>
-		<dir name="${rebel.project.path}/target/classes">
-		</dir>
+		<dir name="${rebel.project.path}/target/classes" />
 	</classpath>
 
 	<web>
         <link target="/">
-            <dir name="${rebel.project.path}/src/main/webapp">
-            </dir>
+            <dir name="${rebel.project.path}/src/main/webapp" />
         </link>
 
-		<link target="/resources/default/css">
-			<dir name="${rebel.project.path}/target/web/resources/default/css">
-			</dir>
-		</link>
+		<!--<link target="/resources/default/css">-->
+			<!--<dir name="${rebel.project.path}/target/web/resources/default/css" />-->
+		<!--</link>-->
 
-		<link target="/resources/default/js">
-			<dir name="${rebel.project.path}/target/web/resources/default/js">
-			</dir>
-		</link>
+		<!--<link target="/resources/default/js">-->
+			<!--<dir name="${rebel.project.path}/target/web/resources/default/js">-->
+			<!--</dir>-->
+		<!--</link>-->
 	</web>
 
 </application>
