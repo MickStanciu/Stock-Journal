@@ -5,7 +5,23 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
-<f:view>
-    <h:outputLabel value="Login Page"/>
-</f:view>
+
+<ui:composition template="WEB-INF/template/home-template.xhtml">
+    <ui:param name="pageTitle" value="Login | Example.com"/>
+
+    <ui:define name="panel-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4"><label for="email">E-mail</label></div>
+                <div class="col-sm-8"><input id="email"/></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4"><label for="password">Password</label></div>
+                <div class="col-sm-8"><input id="password" type="password"/></div>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>
+
 </html>
