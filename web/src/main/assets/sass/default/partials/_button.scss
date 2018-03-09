@@ -1,0 +1,17 @@
+.button {
+  height: 4rem;
+  background-color: cadetblue;
+  margin-top: 2rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+
+  .button-title {
+    color: white;
+    font-size: 2rem;
+    position: relative;
+    top: 0.6rem;
+  }
+}
