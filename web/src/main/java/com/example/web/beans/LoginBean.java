@@ -25,4 +25,10 @@ public class LoginBean {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public void submit() {
+        System.out.println("PLM");
+        System.out.println("Email: " + email);
+        System.out.println("Passw: " + password);
+    }
 }

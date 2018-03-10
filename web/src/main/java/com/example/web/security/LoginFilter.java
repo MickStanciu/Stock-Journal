@@ -26,6 +26,8 @@ public class LoginFilter extends HttpFilter {
         absolutePath.add("/login.xhtml");
 
         startWithPath = new HashSet<>();
+        startWithPath.add("/login.xhtml");
+        startWithPath.add("/javax.faces.resource");
     }
 
     @Override

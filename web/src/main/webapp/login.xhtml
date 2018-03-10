@@ -33,11 +33,13 @@
                 <div class="row">
                     <div class="col-2">&nbsp;</div>
                     <div class="col-8 align-self-center">
-                        <a href="#" class="button"><span class="button-title">Submit</span></a>
+                        <h:commandLink styleClass="button" action="#{LoginBean.submit}">
+                            <span class="button-title">Submit</span>
+                            <f:ajax execute="@form"/>
+                        </h:commandLink>
                     </div>
                     <div class="col-2">&nbsp;</div>
                 </div>
-
             </h:form>
         </div>
     </ui:define>
