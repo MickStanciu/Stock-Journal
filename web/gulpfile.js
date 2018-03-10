@@ -18,13 +18,13 @@ gulp.task('sass', function() {
 
 //watch
 gulp.task('watch', function () {
-    // gulp.watch('assets/sass/**/*.scss', ['sass']);
+    gulp.watch('src/main/assets/sass/**/*.scss', ['sass']);
     // gulp.watch('assets/js/**/*.js', ['js']);
 });
 
 //default
 gulp.task('default', ['sass']);
-// gulp.task('default-watch', ['sass', 'watch']);
+gulp.task('dev', ['sass', 'watch']);
 
 
 function onError(err) {

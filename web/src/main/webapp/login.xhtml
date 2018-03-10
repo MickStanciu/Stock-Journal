@@ -14,13 +14,30 @@
         <div class="login">
             <div class="login-title">Login</div>
             <h:form>
-                <div class="field">
-                    <h:inputText id="email" a:placeholder="eMail" maxlength="17" value="#{LoginBean.email}"/>
+                <div class="row">
+                    <div class="col-2">&nbsp;</div>
+                    <div class="col-8 align-self-center">
+                        <h:inputText id="email" a:placeholder="eMail" maxlength="17" value="#{LoginBean.email}"/>
+                    </div>
+                    <div class="col-2">&nbsp;</div>
                 </div>
-                <div class="field">
-                    <h:inputSecret id="password" a:placeholder="password" maxlength="17" value="#{LoginBean.password}"/>
+
+                <div class="row">
+                    <div class="col-2">&nbsp;</div>
+                    <div class="col-8 align-self-center">
+                        <h:inputSecret id="password" a:placeholder="password" maxlength="17" value="#{LoginBean.password}"/>
+                    </div>
+                    <div class="col-2">&nbsp;</div>
                 </div>
-                <div class="button"><span class="button-title">Submit</span></div>
+
+                <div class="row">
+                    <div class="col-2">&nbsp;</div>
+                    <div class="col-8 align-self-center">
+                        <a href="#" class="button"><span class="button-title">Submit</span></a>
+                    </div>
+                    <div class="col-2">&nbsp;</div>
+                </div>
+
             </h:form>
         </div>
     </ui:define>

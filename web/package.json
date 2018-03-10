@@ -1,7 +1,8 @@
 {
   "name": "web",
   "scripts": {
-    "gulp": "gulp"
+    "gulp": "gulp",
+    "dev": "gulp dev"
   },
   "devDependencies": {
     "gulp": "^3.9.1",

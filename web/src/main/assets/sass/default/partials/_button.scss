@@ -2,11 +2,12 @@
   height: 4rem;
   background-color: cadetblue;
   margin-top: 2rem;
-  margin-left: 1rem;
-  margin-right: 1rem;
   border-radius: 5px;
   text-align: center;
   cursor: pointer;
+  display: inline-block;
+  text-decoration: none;
+  width: 100%;
 
   .button-title {
     color: white;
