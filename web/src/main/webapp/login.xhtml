@@ -6,6 +6,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:v-on="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:v-bind="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <ui:composition template="WEB-INF/template/home-template.xhtml">
@@ -33,11 +34,16 @@
 
                 <div class="row">
                     <div class="col-2">&nbsp;</div>
-                    <div class="col-8 align-self-center" v-on:click="checkForm">
-                        <h:commandLink styleClass="button disabled" action="#{LoginBean.submit}" disabled="true">
-                            <span class="button-title">Submit</span>
-                            <f:ajax execute="@form"/>
-                        </h:commandLink>
+                    <div class="col-8 align-self-center">
+                        <div class="button" v-bind:class="{ disabled: !login_enabled }">
+                            <span v-if="login_enabled">
+                                <h:commandLink action="#{LoginBean.submit}">
+                                    <span class="button-title">Submit</span>
+                                    <f:ajax execute="@form"/>
+                                </h:commandLink>
+                            </span>
+                            <span v-if="!login_enabled" class="button-title">Submit</span>
+                        </div>
                     </div>
                     <div class="col-2">&nbsp;</div>
                 </div>
@@ -47,16 +53,31 @@
 
 
     <ui:define name="bottom-js">
-        <script type="application/javascript">
+        <script type="text/javascript">
             var app = new Vue({
                 el: '#app',
                 data: {
-                    email: null,
-                    password: null
+                    email: '',
+                    password: '',
+                    login_enabled: false,
+                    jsf_login_enabled: 'false',
                 },
-                methods:{
-                    checkForm:function(e) {
-                        console.log('bla')
+                methods: {
+                    checkForm: function() {
+                        this.login_enabled = this.email.length >= 5 &amp;&amp; this.password.length >= 3;
+                        if (this.login_enabled) {
+                            this.jsf_login_enabled = 'true';
+                        } else {
+                            this.jsf_login_enabled = 'false';
+                        }
+                    }
+                },
+                watch: {
+                    email: function (latest, original) {
+                        this.checkForm();
+                    },
+                    password: function (latest, original) {
+                        this.checkForm();
                     }
                 }
             })
