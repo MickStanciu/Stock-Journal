@@ -5,19 +5,20 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:v-on="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <ui:composition template="WEB-INF/template/home-template.xhtml">
     <ui:param name="pageTitle" value="Login | Example.com"/>
 
     <ui:define name="panel-main">
-        <div class="login">
+        <div id="app" class="login">
             <div class="login-title">Login</div>
             <h:form>
                 <div class="row">
                     <div class="col-2">&nbsp;</div>
                     <div class="col-8 align-self-center">
-                        <h:inputText id="email" a:placeholder="eMail" maxlength="17" value="#{LoginBean.email}"/>
+                        <h:inputText a:placeholder="eMail" maxlength="17" value="#{LoginBean.email}" a:v-model="email"/>
                     </div>
                     <div class="col-2">&nbsp;</div>
                 </div>
@@ -25,15 +26,15 @@
                 <div class="row">
                     <div class="col-2">&nbsp;</div>
                     <div class="col-8 align-self-center">
-                        <h:inputSecret id="password" a:placeholder="password" maxlength="17" value="#{LoginBean.password}"/>
+                        <h:inputSecret a:placeholder="password" maxlength="17" value="#{LoginBean.password}" a:v-model="password"/>
                     </div>
                     <div class="col-2">&nbsp;</div>
                 </div>
 
                 <div class="row">
                     <div class="col-2">&nbsp;</div>
-                    <div class="col-8 align-self-center">
-                        <h:commandLink styleClass="button" action="#{LoginBean.submit}">
+                    <div class="col-8 align-self-center" v-on:click="checkForm">
+                        <h:commandLink styleClass="button disabled" action="#{LoginBean.submit}" disabled="true">
                             <span class="button-title">Submit</span>
                             <f:ajax execute="@form"/>
                         </h:commandLink>
@@ -42,6 +43,24 @@
                 </div>
             </h:form>
         </div>
+    </ui:define>
+
+
+    <ui:define name="bottom-js">
+        <script type="application/javascript">
+            var app = new Vue({
+                el: '#app',
+                data: {
+                    email: null,
+                    password: null
+                },
+                methods:{
+                    checkForm:function(e) {
+                        console.log('bla')
+                    }
+                }
+            })
+        </script>
     </ui:define>
 
 </ui:composition>

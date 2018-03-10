@@ -15,12 +15,17 @@
     </h:head>
 
     <h:body>
-        <ui:insert name="panel-top"/>
-        <div class="container">
-            <ui:insert name="panel-main"/>
+        <div>
+            <ui:insert name="panel-top"/>
+
+            <div class="container">
+                <ui:insert name="panel-main"/>
+            </div>
+
+            <ui:insert name="panel-bottom"/>
+
+            <ui:insert name="bottom-js"/>
         </div>
-        <ui:insert name="panel-bottom"/>
-        <ui:insert name="bottom-js"/>
     </h:body>
 </f:view>
 </html>

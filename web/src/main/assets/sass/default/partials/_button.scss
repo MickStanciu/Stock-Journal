@@ -16,3 +16,8 @@
     top: 0.6rem;
   }
 }
+
+.disabled {
+  background-color: lightblue;
+  cursor: not-allowed;
+}
