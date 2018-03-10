@@ -60,16 +60,10 @@
                     email: '',
                     password: '',
                     login_enabled: false,
-                    jsf_login_enabled: 'false',
                 },
                 methods: {
                     checkForm: function() {
                         this.login_enabled = this.email.length >= 5 &amp;&amp; this.password.length >= 3;
-                        if (this.login_enabled) {
-                            this.jsf_login_enabled = 'true';
-                        } else {
-                            this.jsf_login_enabled = 'false';
-                        }
                     }
                 },
                 watch: {
