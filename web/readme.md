@@ -3,6 +3,10 @@
 
 **Todo**
 - install Vue [partially done]
-- upgrade wildfly [wip]
-- create login cookie [wip]
+- upgrade wildfly [done]
+- create a basic login page [wip]
+- front end validation for email [wip]
+- back end validation for the form [not done]
+- attempt login [not done]
+- create login cookie [not done]
 //https://github.com/gulpjs/gulp/blob/4.0/docs/getting-started.md
