@@ -1,5 +1,7 @@
 package com.example.web.beans;
 
+import org.apache.log4j.Logger;
+
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
@@ -7,8 +9,11 @@ import javax.inject.Named;
 @RequestScoped
 public class LoginBean {
 
+    private static final Logger log = Logger.getLogger(LoginBean.class);
+
     private String email;
     private String password;
+    private boolean displayValidationError = false;
 
     public String getEmail() {
         return email;
@@ -26,9 +31,18 @@ public class LoginBean {
         this.password = password;
     }
 
-    public void submit() {
-        System.out.println("PLM");
-        System.out.println("Email: " + email);
-        System.out.println("Passw: " + password);
+    public boolean isDisplayValidationError() {
+        return displayValidationError;
     }
+
+    public void submit() {
+//        if (validateForm()) {
+//            //create token
+//            System.out.println("SUCCESS");
+//        } else {
+//            log.error("Server validation error for email: " + email + " and password: " + password);
+//            displayValidationError = true;
+//        }
+    }
+
 }
