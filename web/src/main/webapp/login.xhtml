@@ -15,6 +15,8 @@
             <div class="login">
                 <div class="login-title">Login</div>
                 <h:form prependId="false">
+                    <f:event listener="#{LoginBean.validateForm}" type="postValidate" />
+
                     <div class="row">
                         Messages
                         <h:messages id="messages" style="color:red;margin:8px;" />
@@ -23,7 +25,7 @@
                     <div class="row">
                         <div class="col-2">&nbsp;</div>
                         <div class="col-8 align-self-center">
-                            <h:inputText id="email" a:placeholder="eMail" maxlength="35" value="#{LoginBean.email}" required="true" requiredMessage="Email Required">
+                            <h:inputText a:placeholder="eMail" maxlength="35" value="#{LoginBean.email}" required="true" requiredMessage="Email Required">
                                 <f:validateLength minimum="5" maximum="35" />
                                 <f:validator validatorId="emailValidator"/>
                                 <f:ajax render="messages"/>
@@ -36,7 +38,7 @@
                     <div class="row">
                         <div class="col-2">&nbsp;</div>
                         <div class="col-8 align-self-center">
-                            <h:inputSecret id="password" a:placeholder="password" maxlength="17" value="#{LoginBean.password}" required="true" requiredMessage="Password Required">
+                            <h:inputSecret a:placeholder="password" maxlength="17" value="#{LoginBean.password}" required="true" requiredMessage="Password Required">
                                 <f:validateLength minimum="3" maximum="17"/>
                                 <f:ajax render="messages"/>
                             </h:inputSecret>
@@ -44,11 +46,12 @@
                         <div class="col-2">&nbsp;</div>
                     </div>
 
+
                     <div class="row">
                         <div class="col-2">&nbsp;</div>
                         <div class="col-8 align-self-center">
-                            <h:panelGroup styleClass="#{LoginBean.loginEnabled ? 'button' : 'button disabled'}" layout="block">
-                                <h:commandLink action="#{LoginBean.submit}" disabled="#{!LoginBean.loginEnabled}">
+                            <h:panelGroup styleClass="button" layout="block">
+                                <h:commandLink action="#{LoginBean.submit}">
                                     <span class="button-title">Submit</span>
                                     <f:ajax execute="@form"/>
                                 </h:commandLink>
