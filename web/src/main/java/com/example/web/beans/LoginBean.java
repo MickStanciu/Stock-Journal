@@ -13,7 +13,7 @@ public class LoginBean {
 
     private String email;
     private String password;
-    private boolean displayValidationError = false;
+    private boolean loginEnabled = false;
 
     public String getEmail() {
         return email;
@@ -31,8 +31,13 @@ public class LoginBean {
         this.password = password;
     }
 
-    public boolean isDisplayValidationError() {
-        return displayValidationError;
+
+    public void setLoginEnabled(boolean loginEnabled) {
+        this.loginEnabled = loginEnabled;
+    }
+
+    public boolean isLoginEnabled() {
+        return loginEnabled;
     }
 
     public void submit() {

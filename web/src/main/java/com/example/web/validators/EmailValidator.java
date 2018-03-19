@@ -1,6 +1,8 @@
 package com.example.web.validators;
 
 
+import org.apache.log4j.Logger;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -10,10 +12,12 @@ import javax.faces.validator.ValidatorException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@FacesValidator("com.example.web.validators.EmailValidator")
+
+@FacesValidator("emailValidator")
 public class EmailValidator implements Validator {
 
-    private static final String EMAIL_PATTERN = "/^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$/;";
+    private static final Logger log = Logger.getLogger(EmailValidator.class);
+    private static final String EMAIL_PATTERN = "^[(a-zA-Z0-9-_+.)]+@[(a-z-A-z)]+\\.[(a-zA-z)]{2,3}$";
 
     private Pattern pattern;
 
@@ -24,9 +28,9 @@ public class EmailValidator implements Validator {
     @Override
     public void validate(FacesContext facesContext, UIComponent uiComponent, Object o) throws ValidatorException {
         Matcher matcher = pattern.matcher(o.toString());
-        System.out.println("XXX");
+        log.info("Validating Email ...");
         if(!matcher.matches()){
-            System.out.println("FAILED");
+            log.error("Email is not valid: " + o.toString());
             FacesMessage msg = new FacesMessage("Invalid E-mail format");
             msg.setSeverity(FacesMessage.SEVERITY_ERROR);
             throw new ValidatorException(msg);
