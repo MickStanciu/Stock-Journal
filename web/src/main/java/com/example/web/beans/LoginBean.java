@@ -47,6 +47,8 @@ public class LoginBean {
         log.info("VALIDATE FORM PHASE");
 
         FacesContext context = FacesContext.getCurrentInstance();
+
+        //todo: invoke custom validator to attempt login
         loginEnabled = !context.isValidationFailed();
     }
 

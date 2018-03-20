@@ -29,3 +29,16 @@
     }
   }
 }
+
+.login-error {
+  background-color: salmon;
+  padding: 2rem;
+  margin-top: 2rem;
+  border-radius: 5px;
+  text-align: left;
+
+  li {
+    color: white;
+    list-style-type: none;
+  }
+}
