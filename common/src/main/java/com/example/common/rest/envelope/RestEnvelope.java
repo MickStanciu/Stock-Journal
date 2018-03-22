@@ -12,7 +12,7 @@ public abstract class RestEnvelope<T> implements Serializable {
     private final T data;
     private final List<ErrorDto> errors;
 
-    public RestEnvelope(T data, List<ErrorDto> errors) {
+    RestEnvelope(T data, List<ErrorDto> errors) {
         this.data = data;
         this.errors = errors;
     }

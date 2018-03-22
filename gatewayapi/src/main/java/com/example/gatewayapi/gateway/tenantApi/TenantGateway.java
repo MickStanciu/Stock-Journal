@@ -11,7 +11,7 @@ import javax.ws.rs.core.UriBuilder;
 @Stateless
 public class TenantGateway {
 
-    private static final String SERVICE_URL = "http://tenantapi:8080";
+    private static final String SERVICE_URL = "http://tenantapi:8080/tenant";
     private TenantInterface proxy;
 
     public TenantGateway() {

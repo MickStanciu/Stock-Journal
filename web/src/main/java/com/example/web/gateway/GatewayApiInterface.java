@@ -1,7 +1,5 @@
 package com.example.web.gateway;
 
-import com.example.common.rest.envelope.ResponseEnvelope;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -15,7 +13,7 @@ public interface GatewayApiInterface {
     @GET
     @Path("/auth/{tenantId}")
     @Produces(MediaType.APPLICATION_JSON)
-    ResponseEnvelope<AuthToken> authenticate (
+    AuthToken authenticate (
         @PathParam("tenantId") String tenantId,
         @QueryParam("name") String name,
         @QueryParam("password") String password
