@@ -36,12 +36,12 @@ public class GatewayApi {
         }
 
         if (envelope.getData() != null) {
-            return getToken(envelope.getData());
+            return processData(envelope.getData());
         }
         return null;
     }
 
-    private AuthToken getToken(String data) {
+    private AuthToken processData(String data) {
         return new AuthToken(data);
     }
 
