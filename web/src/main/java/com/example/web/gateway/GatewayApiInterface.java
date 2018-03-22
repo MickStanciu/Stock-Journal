@@ -6,14 +6,15 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
-@Path("/api")
+@Path("/auth")
 public interface GatewayApiInterface {
 
     @GET
-    @Path("/auth/{tenantId}")
+    @Path("/{tenantId}")
     @Produces(MediaType.APPLICATION_JSON)
-    ResponseEnvelope<AuthToken> authenticate (
+    Response authenticate (
         @PathParam("tenantId") String tenantId,
         @QueryParam("name") String name,
         @QueryParam("password") String password

@@ -24,4 +24,9 @@ public class ErrorDto implements Serializable {
     public String getMessage() {
         return message;
     }
+
+    @Override
+    public String toString() {
+        return code + " - " + message;
+    }
 }
