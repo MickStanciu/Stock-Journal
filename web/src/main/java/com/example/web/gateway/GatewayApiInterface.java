@@ -13,7 +13,7 @@ public interface GatewayApiInterface {
     @GET
     @Path("/auth/{tenantId}")
     @Produces(MediaType.APPLICATION_JSON)
-    AuthToken authenticate (
+    ResponseEnvelope<AuthToken> authenticate (
         @PathParam("tenantId") String tenantId,
         @QueryParam("name") String name,
         @QueryParam("password") String password

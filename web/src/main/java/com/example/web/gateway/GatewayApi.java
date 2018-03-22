@@ -20,7 +20,8 @@ public class GatewayApi {
     }
 
     public AuthToken authenticate(String tenantId, String name, String password) {
-        return proxy.authenticate(tenantId, name, password);
+        ResponseEnvelope<AuthToken> authTokenResponseEnvelope = proxy.authenticate(tenantId, name, password);
+        return authTokenResponseEnvelope.getData();
     }
 }
 

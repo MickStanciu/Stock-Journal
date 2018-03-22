@@ -7,6 +7,10 @@ public class AuthToken {
         //required by jackson
     }
 
+    public AuthToken(String token) {
+        this.token = token;
+    }
+
     public String getToken() {
         return token;
     }

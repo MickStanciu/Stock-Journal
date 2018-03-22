@@ -1,7 +1,9 @@
 package com.example.gatewayapi.rest;
 
+import com.example.common.rest.dto.ErrorDto;
+import com.example.common.rest.envelope.ResponseEnvelope;
+import com.example.gatewayapi.exception.ExceptionCode;
 import com.example.gatewayapi.exception.GatewayApiException;
-import com.example.gatewayapi.model.Token;
 import com.example.gatewayapi.service.AuthenticationService;
 import org.apache.log4j.Logger;
 
@@ -9,6 +11,8 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
+import java.util.List;
 
 @Stateless
 @Path("/auth")
@@ -28,11 +32,26 @@ public class AuthenticationRest {
             @QueryParam("password") @DefaultValue("") String password
     ) {
         //todo validate input
+
+
+        List<ErrorDto> errors = new ArrayList<>();
+        Response.Status responseStatus = Response.Status.OK;
+
+        String token = null;
         try {
-            String token = authService.authenticate(tenantId, name, password);
-            return Response.status(Response.Status.OK).entity(new Token(token)).build();
+            token = authService.authenticate(tenantId, name, password);
         } catch (GatewayApiException e) {
-            return Response.status(Response.Status.UNAUTHORIZED).build();
+            errors.add(new ErrorDto(ExceptionCode.REQUEST_NOT_AUTHORIZED.name(), ExceptionCode.REQUEST_NOT_AUTHORIZED.getMessage()));
+            responseStatus = Response.Status.UNAUTHORIZED;
         }
+
+        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<String>()
+                .withData(token)
+                .withErrors(errors)
+                .build();
+
+        return Response.status(responseStatus)
+                .entity(responseEnvelope)
+                .build();
     }
 }
