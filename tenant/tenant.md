@@ -13,3 +13,4 @@ GET http://localhost:8080/tenant/api/d79ec11a-2011-4423-ba01-3af8de0a3e10
 - [x] simplify account response [done]
 - [ ] add warm up for DB on startup
 - [x] add health check for first record [done]
+- [ ] if uuid is malformed .. it crashes [selected for development]

@@ -16,11 +16,6 @@ public class LoginBean {
 
     private static final Logger log = Logger.getLogger(LoginBean.class);
 
-    //todo: temp
-    private static String tenantId = "d79ec11a-2011-4423-ba01-3af8de0a3e10";
-    private static String tname = "mircea.stanciu";
-    private static String tpassword = "secret";
-
     private String email;
     private String password;
     private boolean loginEnabled = false;
@@ -66,11 +61,19 @@ public class LoginBean {
     public void submit() {
         if (loginEnabled) {
             log.info("LOGIN WAS ENABLED");
+            String tenantId = "d79ec11a-2011-4423-ba01-3af8de0a3e10";
+            String tpassword = "secret2333";
+            String tname = "mircea.stanciu4444";
             AuthToken authToken = gatewayApi.authenticate(tenantId, tname, tpassword);
-            log.info(authToken.getToken());
+            if (authToken == null) {
+                log.info("plm");
+            } else {
+                log.info(authToken.getToken());
+            }
         } else {
             log.info("LOGIN WAS DISABLED");
         }
+
 //        if (validateForm()) {
 //            //create token
 //            System.out.println("SUCCESS");

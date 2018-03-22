@@ -7,9 +7,10 @@
 - create a basic login page [wip]
 - front end validation for email [done]
 - back end validation for the form [wip]
-- attempt login [not done]
+- attempt login [done]
 - create login cookie [not done]
-//https://github.com/gulpjs/gulp/blob/4.0/docs/getting-started.md
+- stop javax.ws.rs errors to be logged
+- deal with WebApplicationException errors from the client
 
 
 {
