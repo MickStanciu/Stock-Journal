@@ -63,7 +63,7 @@ public class LoginBean {
             log.info("LOGIN WAS ENABLED");
             String tenantId = "d79ec11a-2011-4423-ba01-3af8de0a3e10";
             String tpassword = "secret";
-            String tname = "mircea.stanciu22";
+            String tname = "mircea.stanciu";
             AuthToken authToken = gatewayApi.authenticate(tenantId, tname, tpassword);
             if (authToken == null) {
                 log.info("plm");

@@ -7,6 +7,7 @@ import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
 import javax.ejb.Stateless;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import java.util.List;
@@ -27,9 +28,7 @@ public class GatewayApi {
 
     public AuthToken authenticate(String tenantId, String name, String password) {
         Response response = proxy.authenticate(tenantId, name, password);
-
-        //todo: find a way to add the generic to it
-        ResponseEnvelope envelope = response.readEntity(ResponseEnvelope.class);
+        ResponseEnvelope<String> envelope = response.readEntity(new GenericType<ResponseEnvelope<String>>(){});
         response.close();
 
         if (response.getStatus() != 200) {
@@ -37,9 +36,13 @@ public class GatewayApi {
         }
 
         if (envelope.getData() != null) {
-            return new AuthToken((String) envelope.getData());
+            return getToken(envelope.getData());
         }
         return null;
+    }
+
+    private AuthToken getToken(String data) {
+        return new AuthToken(data);
     }
 
     private void processErrors(List<ErrorDto> errors) {
