@@ -11,7 +11,7 @@
 - create login cookie [not done]
 - stop javax.ws.rs errors to be logged
 - deal with WebApplicationException errors from the client
-- fix Caused by: java.lang.IllegalStateException: Connection is still allocated
+- fix Caused by: java.lang.IllegalStateException: Connection is still allocated 
 
 
 {

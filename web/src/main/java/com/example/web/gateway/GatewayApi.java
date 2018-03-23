@@ -25,7 +25,6 @@ public class GatewayApi {
         proxy = target.proxy(GatewayApiInterface.class);
     }
 
-
     public AuthToken authenticate(String tenantId, String name, String password) {
         Response response = proxy.authenticate(tenantId, name, password);
         ResponseEnvelope<String> envelope = response.readEntity(new GenericType<ResponseEnvelope<String>>(){});
