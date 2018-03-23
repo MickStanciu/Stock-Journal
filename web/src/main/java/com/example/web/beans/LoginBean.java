@@ -9,6 +9,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @Named("LoginBean")
 @RequestScoped
@@ -65,10 +68,11 @@ public class LoginBean {
             String tpassword = "secret";
             String tname = "mircea.stanciu";
             AuthToken authToken = gatewayApi.authenticate(tenantId, tname, tpassword);
-            if (authToken == null) {
-                log.info("plm");
-            } else {
+            if (authToken != null) {
                 log.info(authToken.getToken());
+                setCookie(authToken.getToken());
+            } else {
+                loginEnabled = false; //?
             }
         } else {
             log.info("LOGIN WAS DISABLED");
@@ -81,6 +85,15 @@ public class LoginBean {
 //            log.error("Server validation error for email: " + email + " and password: " + password);
 //            displayValidationError = true;
 //        }
+    }
+
+    private void setCookie(String value) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("maxAge", TimeUnit.DAYS.toSeconds(1));
+        properties.put("secure", false);
+        properties.put("path","/");
+        facesContext.getExternalContext().addResponseCookie("GW", value, properties);
     }
 
 }

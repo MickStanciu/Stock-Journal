@@ -5,13 +5,13 @@
 - install Vue [partially done]
 - upgrade wildfly [done]
 - create a basic login page [wip]
-- front end validation for email [done]
+- front end validation for email [wip]
 - back end validation for the form [wip]
 - attempt login [done]
 - create login cookie [not done]
 - stop javax.ws.rs errors to be logged
-- deal with WebApplicationException errors from the client
-- fix Caused by: java.lang.IllegalStateException: Connection is still allocated 
+- deal with WebApplicationException errors from the client [done]
+- fix Caused by: java.lang.IllegalStateException: Connection is still allocated [done]
 
 
 {
