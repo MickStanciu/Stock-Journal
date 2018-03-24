@@ -48,7 +48,7 @@
                             <h:panelGroup styleClass="button" layout="block">
                                 <h:commandLink action="#{LoginBean.submit}">
                                     <span class="button-title">Submit</span>
-                                    <f:ajax execute="@form"/>
+                                    <f:ajax execute="@form" render="@form"/>
                                 </h:commandLink>
                             </h:panelGroup>
                         </div>

@@ -9,9 +9,11 @@
 - back end validation for the form [wip]
 - attempt login [done]
 - create login cookie [not done]
-- stop javax.ws.rs errors to be logged
+- stop javax.ws.rs errors to be logged [not done]
 - deal with WebApplicationException errors from the client [done]
 - fix Caused by: java.lang.IllegalStateException: Connection is still allocated [done]
+- test when AuthToken is null -> redirect back with message [not done]
+- jsf remove jsessionid [not done]
 
 
 {

@@ -27,6 +27,7 @@ public class LoginFilter extends HttpFilter {
 
         startWithPath = new HashSet<>();
         startWithPath.add("/login.xhtml");
+        startWithPath.add("/xxx.xhtml");
         startWithPath.add("/javax.faces.resource");
     }
 
@@ -54,7 +55,7 @@ public class LoginFilter extends HttpFilter {
         }
 
         for (String path : startWithPath) {
-            if (uri.startsWith(path) && uri.length() > path.length()) {
+            if (uri.startsWith(path) && uri.length() >= path.length()) {
                 return true;
             }
         }
