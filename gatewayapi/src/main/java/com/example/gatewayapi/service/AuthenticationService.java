@@ -6,7 +6,7 @@ import com.example.gatewayapi.gateway.accountApi.Account;
 import com.example.gatewayapi.gateway.accountApi.AccountGateway;
 import com.example.gatewayapi.gateway.tenantApi.Tenant;
 import com.example.gatewayapi.gateway.tenantApi.TenantGateway;
-import com.example.gatewayapi.security.TokenUtil;
+import com.example.common.security.TokenUtil;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;

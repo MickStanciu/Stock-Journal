@@ -18,3 +18,4 @@
 - test when AuthToken is null -> redirect back with message [not done]
 - jsf remove jsessionid [not done]
 - adjust the filter to skip login if cookie is present and valid
+- check cookie for expired (?)

@@ -1,4 +1,4 @@
-package com.example.gatewayapi.security;
+package com.example.common.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -42,7 +42,7 @@ public class TokenUtil {
         }
     }
 
-    static Claims getClaims(String token) {
+    public static Claims getClaims(String token) {
         return Jwts.parser()
                 .setSigningKey(SIGNATURE)
                 .parseClaimsJws(token)

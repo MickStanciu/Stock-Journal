@@ -14,10 +14,6 @@
     <packaging>war</packaging>
     <name>gatewayapi</name>
 
-    <properties>
-        <jjwt.version>0.9.0</jjwt.version>
-    </properties>
-
     <profiles>
         <profile>
             <id>swarm</id>
@@ -42,12 +38,6 @@
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
             <artifactId>resteasy-client</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>${jjwt.version}</version>
         </dependency>
     </dependencies>
 

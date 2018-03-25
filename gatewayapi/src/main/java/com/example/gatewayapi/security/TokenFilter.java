@@ -2,6 +2,8 @@ package com.example.gatewayapi.security;
 
 
 
+import com.example.common.security.TokenUtil;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
