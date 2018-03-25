@@ -20,3 +20,4 @@
 - jsf remove jsessionid [not done]
 - check cookie for expired (? not sure if I need to, the browser should discard them)
 - create cookie that contains tenant information / logged in user information [wip]
+- align token expiry date with GW and LOGIN cookie expiry dates 
