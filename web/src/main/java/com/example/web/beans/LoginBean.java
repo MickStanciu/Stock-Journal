@@ -5,9 +5,9 @@ import com.example.web.gateway.GatewayApi;
 import org.apache.log4j.Logger;
 
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ComponentSystemEvent;
-import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.util.HashMap;
@@ -93,12 +93,13 @@ public class LoginBean {
     }
 
     private void setCookie(String value) {
-        FacesContext facesContext = FacesContext.getCurrentInstance();
         Map<String, Object> properties = new HashMap<>();
         properties.put("maxAge", (int) TimeUnit.DAYS.toSeconds(1));
         properties.put("secure", false);
         properties.put("path","/");
-        facesContext.getExternalContext().addResponseCookie("GW", value, properties);
+        ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
+        context.addResponseCookie("GW", value, properties);
+        context.addResponseCookie("MyTestCookie", "Hello Cookie", null);
     }
 
 }
