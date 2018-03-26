@@ -33,7 +33,6 @@ public class LoginFilter extends HttpFilter {
     @Override
     protected void doFilter(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
         if (req.getServletPath().contains(RESOURCES_PATH)) {
-            //skip
             chain.doFilter(req, res);
         }
 

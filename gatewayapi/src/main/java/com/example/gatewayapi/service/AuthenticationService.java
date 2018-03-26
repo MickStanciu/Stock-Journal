@@ -7,6 +7,7 @@ import com.example.gatewayapi.gateway.accountApi.AccountGateway;
 import com.example.gatewayapi.gateway.tenantApi.Tenant;
 import com.example.gatewayapi.gateway.tenantApi.TenantGateway;
 import com.example.common.security.TokenUtil;
+import com.example.gatewayapi.model.AuthToken;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
@@ -25,38 +26,31 @@ public class AuthenticationService {
     private AccountGateway accountGateway;
 
 
-    public String authenticate(String tenantId, String name, String password) throws GatewayApiException {
-        Optional<Tenant> tenantOptional = getTenant(tenantId);
+    public AuthToken getAuthResponse(String tenantId, String name, String password) throws GatewayApiException {
+        Tenant tenant = getTenant(tenantId);
+        Account account = getAccount(tenantId, name, password);
+
+        String token = TokenUtil.generateToken(tenant.getId(), account.getName(), account.getRole().getName());
+
+        return new AuthToken(token);
+    }
+
+    private Tenant getTenant(String tenantId) throws GatewayApiException {
+        Optional<Tenant> tenantOptional = tenantGateway.getTenant(tenantId);
         if (!tenantOptional.isPresent()) {
             throw new GatewayApiException(ExceptionCode.TENANT_NOT_FOUND);
         }
-        Tenant tenant = tenantOptional.get();
 
-        Optional<Account> accountOptional = getAccount(tenantId, name, password);
+        return tenantOptional.get();
+    }
+
+    private Account getAccount(String tenantId, String name, String password) throws GatewayApiException {
+        Optional<Account> accountOptional = accountGateway.getAccount(tenantId, name, password);
         if (!accountOptional.isPresent()) {
             throw new GatewayApiException(ExceptionCode.ACCOUNT_NOT_FOUND);
         }
-        Account account = accountOptional.get();
 
-        return TokenUtil.generateToken(tenant.getId(), account.getName(), account.getRole().getName());
+        return accountOptional.get();
     }
 
-    //todo: move it out if this class grows
-    private Optional<Tenant> getTenant(String tenantId) {
-        try {
-            return Optional.of(tenantGateway.getTenant(tenantId));
-        } catch (Exception ex) {
-            log.error(ex.getMessage());
-            return Optional.empty();
-        }
-    }
-
-    private Optional<Account> getAccount(String tenantId, String name, String password) {
-        try {
-            return Optional.of(accountGateway.getAccount(tenantId, name, password));
-        } catch (Exception ex) {
-            log.error(ex.getMessage());
-            return Optional.empty();
-        }
-    }
 }

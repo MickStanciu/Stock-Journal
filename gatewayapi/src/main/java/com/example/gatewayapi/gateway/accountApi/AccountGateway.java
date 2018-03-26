@@ -12,6 +12,7 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import java.util.List;
+import java.util.Optional;
 
 @Stateless
 public class AccountGateway {
@@ -26,23 +27,19 @@ public class AccountGateway {
         proxy = target.proxy(AccountInterface.class);
     }
 
-    public Account getAccount(String tenantId, String name, String password) {
+    public Optional<Account> getAccount(String tenantId, String name, String password) {
         Response response = proxy.accountByNameAndPassword(tenantId, name, password);
         ResponseEnvelope<Account> envelope = response.readEntity(new GenericType<ResponseEnvelope<Account>>(){});
         response.close();
 
-        if (response.getStatus() != 200) {
+        if (response.getStatus() != 200 && envelope.getErrors() != null) {
             processErrors(envelope.getErrors());
         }
 
-        if (envelope.getData() != null) {
-            return processData(envelope.getData());
+        if (response.getStatus() == 200 && envelope.getData() != null) {
+            return Optional.of(envelope.getData());
         }
-        return null;
-    }
-
-    private Account processData(Account data) {
-        return data;
+        return Optional.empty();
     }
 
     private void processErrors(List<ErrorDto> errors) {

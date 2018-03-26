@@ -1,14 +1,15 @@
 package com.example.gatewayapi.model;
 
+
 import java.io.Serializable;
 
-public class Token implements Serializable {
+public class AuthToken implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private String token;
 
-    public Token(String token) {
+    public AuthToken(String token) {
         this.token = token;
     }
 

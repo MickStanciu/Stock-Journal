@@ -4,6 +4,7 @@ import com.example.common.rest.dto.ErrorDto;
 import com.example.common.rest.envelope.ResponseEnvelope;
 import com.example.gatewayapi.exception.ExceptionCode;
 import com.example.gatewayapi.exception.GatewayApiException;
+import com.example.gatewayapi.model.AuthToken;
 import com.example.gatewayapi.service.AuthenticationService;
 import org.apache.log4j.Logger;
 
@@ -33,20 +34,19 @@ public class AuthenticationRest {
     ) {
         //todo validate input
 
-
         List<ErrorDto> errors = new ArrayList<>();
         Response.Status responseStatus = Response.Status.OK;
 
-        String token = null;
+        AuthToken response = null;
         try {
-            token = authService.authenticate(tenantId, name, password);
+            response = authService.getAuthResponse(tenantId, name, password);
         } catch (GatewayApiException e) {
             errors.add(new ErrorDto(ExceptionCode.REQUEST_NOT_AUTHORIZED.name(), ExceptionCode.REQUEST_NOT_AUTHORIZED.getMessage()));
             responseStatus = Response.Status.UNAUTHORIZED;
         }
 
-        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<String>()
-                .withData(token)
+        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<AuthToken>()
+                .withData(response)
                 .withErrors(errors)
                 .build();
 

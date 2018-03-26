@@ -9,6 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,7 +24,7 @@ public class TokenFilter extends HttpFilter {
     private static Set<String> startWithPath;
     private static final String AUTH_KEY = "authkey";
 
-    public TokenFilter() {
+    TokenFilter() {
         absolutePath = new HashSet<>();
         absolutePath.add("/api/health/check");
         absolutePath.add("/api/health/check/");
@@ -35,10 +36,8 @@ public class TokenFilter extends HttpFilter {
     }
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
+    public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws IOException, ServletException {
-        HttpServletRequest request = (HttpServletRequest) servletRequest;
-        HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         if(!skipFilter(request.getRequestURI())) {
             String token = request.getHeader(AUTH_KEY);
@@ -47,7 +46,8 @@ public class TokenFilter extends HttpFilter {
                 return;
             }
         }
-        filterChain.doFilter(servletRequest, servletResponse);
+
+        chain.doFilter(request, response);
     }
 
     boolean skipFilter(String uri) {
