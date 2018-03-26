@@ -9,6 +9,7 @@
 - fix Caused by: java.lang.IllegalStateException: Connection is still allocated [done]
 - create a basic login page [done]
 - adjust the filter to skip login if cookie is present and valid [done]
+- align token expiry date with GW and LOGIN cookie expiry dates [done]
 
 **Todo**
 - install Vue [partially done]
@@ -20,4 +21,3 @@
 - jsf remove jsessionid [not done]
 - check cookie for expired (? not sure if I need to, the browser should discard them)
 - create cookie that contains tenant information / logged in user information [wip]
-- align token expiry date with GW and LOGIN cookie expiry dates 

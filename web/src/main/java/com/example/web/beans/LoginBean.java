@@ -1,5 +1,6 @@
 package com.example.web.beans;
 
+import com.example.common.security.TokenUtil;
 import com.example.web.gateway.AuthToken;
 import com.example.web.gateway.GatewayApi;
 import org.apache.log4j.Logger;
@@ -94,7 +95,7 @@ public class LoginBean {
 
     private void setCookie(String value) {
         Map<String, Object> properties = new HashMap<>();
-        properties.put("maxAge", (int) TimeUnit.DAYS.toSeconds(1));
+        properties.put("maxAge", (int) TimeUnit.MILLISECONDS.toSeconds(TokenUtil.TTL));
         properties.put("secure", false);
         properties.put("path","/");
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
