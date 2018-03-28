@@ -5,6 +5,8 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:v-on="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:v-bind="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <ui:composition template="WEB-INF/template/home-template.xhtml">
@@ -20,7 +22,7 @@
                     <div class="row">
                         <div class="col-2">&nbsp;</div>
                         <div class="col-8 align-self-center">
-                            <h:inputText id="email" a:placeholder="eMail" maxlength="35" value="#{LoginBean.email}" required="true" requiredMessage="Email Required" validatorMessage="">
+                            <h:inputText id="email" a:placeholder="eMail" maxlength="35" value="#{LoginBean.email}" required="true" requiredMessage="Email Required" validatorMessage="" a:v-model="email">
                                 <f:validateLength minimum="5" maximum="35"  />
                                 <f:validator validatorId="emailValidator"/>
                                 <f:ajax render="messages"/>
@@ -33,7 +35,7 @@
                     <div class="row">
                         <div class="col-2">&nbsp;</div>
                         <div class="col-8 align-self-center">
-                            <h:inputSecret id="password" a:placeholder="password" maxlength="17" value="#{LoginBean.password}" required="true" requiredMessage="Password Required" validatorMessage="">
+                            <h:inputSecret id="password" a:placeholder="password" maxlength="17" value="#{LoginBean.password}" required="true" requiredMessage="Password Required" validatorMessage="" a:v-model="password">
                                 <f:validateLength minimum="3" maximum="17"/>
                                 <f:ajax render="messages"/>
                             </h:inputSecret>
@@ -45,12 +47,15 @@
                     <div class="row">
                         <div class="col-2">&nbsp;</div>
                         <div class="col-8 align-self-center">
-                            <h:panelGroup styleClass="button" layout="block">
-                                <h:commandLink action="#{LoginBean.submit}">
-                                    <span class="button-title">Submit</span>
-                                    <f:ajax execute="@form" render="@form"/>
-                                </h:commandLink>
-                            </h:panelGroup>
+                            <div class="button" v-bind:class="{ disabled: !login_enabled }">
+                                <span v-if="login_enabled">
+                                    <h:commandLink action="#{LoginBean.submit}">
+                                        <span class="button-title">Submit</span>
+                                        <f:ajax execute="@form" render="@form"/>
+                                    </h:commandLink>
+                                </span>
+                                <span v-if="!login_enabled" class="button-title">Submit</span>
+                            </div>
                         </div>
                         <div class="col-2">&nbsp;</div>
                     </div>
@@ -59,6 +64,32 @@
 
             <h:messages styleClass="login-error" id="messages" />
         </div>
+    </ui:define>
+
+    <ui:define name="bottom-js">
+        <script type="text/javascript">
+            var app = new Vue({
+                el: '#app',
+                data: {
+                    email: '',
+                    password: '',
+                    login_enabled: false,
+                },
+                methods: {
+                    checkForm: function() {
+                        this.login_enabled = this.email.length >= 5 &amp;&amp; this.password.length >= 3;
+                    }
+                },
+                watch: {
+                    email: function (latest, original) {
+                        this.checkForm();
+                    },
+                    password: function (latest, original) {
+                        this.checkForm();
+                    }
+                }
+            })
+        </script>
     </ui:define>
 
 </ui:composition>
