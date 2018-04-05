@@ -20,4 +20,4 @@ GET http://localhost:8080/gatewayapi/api/auth/d79ec11a-2011-4423-ba01-3af8de0a3e
 - fix mockito [done]
 
 **Todo**
-- implement get account details [wip]
+- implement get account details (account id, role id) [wip]

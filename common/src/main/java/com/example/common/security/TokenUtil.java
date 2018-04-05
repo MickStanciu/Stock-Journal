@@ -6,6 +6,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.TextCodec;
 import org.apache.log4j.Logger;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 public class TokenUtil {
@@ -16,7 +17,7 @@ public class TokenUtil {
     public static String ISSUER = "Bendis";
     public static long TTL = 3600000L;
 
-    public static String generateToken(String tenantId, String accountName, String role) {
+    public static String generateToken(String tenantId, BigInteger accountId, Integer roleId) {
 
         long nowMillis = System.currentTimeMillis();
 
@@ -24,8 +25,8 @@ public class TokenUtil {
                 .setIssuer(ISSUER)
                 .setSubject("auth")
                 .claim("tenantId", tenantId)
-                .claim("accountName", accountName)
-                .claim("roleName", role)
+                .claim("accountId", accountId)
+                .claim("roleId", roleId)
                 .setIssuedAt(new Date(nowMillis))
                 .setExpiration(new Date(nowMillis + TTL))
                 .signWith(ALGORITHM, TextCodec.BASE64.decode(SIGNATURE))

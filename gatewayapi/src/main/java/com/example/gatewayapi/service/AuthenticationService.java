@@ -30,7 +30,7 @@ public class AuthenticationService {
         Tenant tenant = getTenant(tenantId);
         Account account = getAccount(tenantId, name, password);
 
-        String token = TokenUtil.generateToken(tenant.getId(), account.getName(), account.getRole().getName());
+        String token = TokenUtil.generateToken(tenant.getId(), account.getId(), account.getRole().getId());
 
         return new AuthToken(token);
     }

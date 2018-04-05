@@ -19,5 +19,5 @@
 - stop javax.ws.rs errors to be logged [not done]
 - test when AuthToken is null -> redirect back with message [not done]
 - jsf remove jsessionid [not done]
-- check cookie for expired (? not sure if I need to, the browser should discard them)
+- check cookie for expired (? not sure if I need to, the browser should discard them) [not done - to investigate]
 - create cookie that contains tenant information / logged in user information [wip]
