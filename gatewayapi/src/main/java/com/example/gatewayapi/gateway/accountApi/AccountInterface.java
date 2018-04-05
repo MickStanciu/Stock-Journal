@@ -8,6 +8,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.math.BigInteger;
 
 @Path("/")
 public interface AccountInterface {
@@ -19,5 +20,13 @@ public interface AccountInterface {
             @PathParam("tenantId") String tenantId,
             @QueryParam("name") String name,
             @QueryParam("password") String password
+    );
+
+    @GET
+    @Path("/{tenantId}/{accountId}")
+    @Produces({MediaType.APPLICATION_JSON})
+    Response accountById(
+            @PathParam("tenantId") String tenantId,
+            @PathParam("accountId") BigInteger accountId
     );
 }

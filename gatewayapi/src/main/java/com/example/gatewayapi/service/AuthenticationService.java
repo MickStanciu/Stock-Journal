@@ -44,6 +44,7 @@ public class AuthenticationService {
         return tenantOptional.get();
     }
 
+    //todo: if grows, convert to façade and move this into AccountService
     private Account getAccount(String tenantId, String name, String password) throws GatewayApiException {
         Optional<Account> accountOptional = accountGateway.getAccount(tenantId, name, password);
         if (!accountOptional.isPresent()) {

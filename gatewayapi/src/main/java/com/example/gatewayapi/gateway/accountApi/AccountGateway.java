@@ -11,6 +11,7 @@ import javax.ejb.Stateless;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +30,21 @@ public class AccountGateway {
 
     public Optional<Account> getAccount(String tenantId, String name, String password) {
         Response response = proxy.accountByNameAndPassword(tenantId, name, password);
+        ResponseEnvelope<Account> envelope = response.readEntity(new GenericType<ResponseEnvelope<Account>>(){});
+        response.close();
+
+        if (response.getStatus() != 200 && envelope.getErrors() != null) {
+            processErrors(envelope.getErrors());
+        }
+
+        if (response.getStatus() == 200 && envelope.getData() != null) {
+            return Optional.of(envelope.getData());
+        }
+        return Optional.empty();
+    }
+
+    public Optional<Account> getAccount(String tenantId, BigInteger accountId) {
+        Response response = proxy.accountById(tenantId, accountId);
         ResponseEnvelope<Account> envelope = response.readEntity(new GenericType<ResponseEnvelope<Account>>(){});
         response.close();
 

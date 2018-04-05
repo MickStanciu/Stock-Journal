@@ -9,15 +9,13 @@
 GET http://localhost:8080/gatewayapi/api/auth/d79ec11a-2011-4423-ba01-3af8de0a3e10?name=mircea.stanciu&password=secret 
 
 **Done**
-- create auth controller
+-[x] create auth controller
   - connect to tenant api [done]
   - connect to account api [done]
-- create basic JWT token [done]
-- remove gatewayapi from the url [done]
-- add URL filter in order to force token on certain urls except a whitelist [done]
-- migrate standalone.xml from v10 to v11 [done]
-- migrate tests to testng [done]
-- fix mockito [done]
-
-**Todo**
-- implement get account details (account id, role id) [wip]
+-[x] create basic JWT token [done]
+-[x] remove gatewayapi from the url [done]
+-[x] add URL filter in order to force token on certain urls except a whitelist [done]
+-[x] migrate standalone.xml from v10 to v11 [done]
+-[x] migrate tests to testng [done]
+-[x] fix mockito [done]
+-[x] implement get account details [done]
