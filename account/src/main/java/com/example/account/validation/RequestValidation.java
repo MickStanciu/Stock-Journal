@@ -109,4 +109,8 @@ public class RequestValidation {
                 && RequestValidation.accountPassword(password);
     }
 
+    public static Boolean validateGetAccount(String tenantId, BigInteger accountId) {
+        return RequestValidation.tenantId(tenantId) && RequestValidation.accountId(accountId);
+    }
+
 }

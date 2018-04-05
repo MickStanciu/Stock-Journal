@@ -8,6 +8,7 @@
 
 #### Example reading an account
 GET http://localhost:8080/account/api/d79ec11a-2011-4423-ba01-3af8de0a3e10?name=mircea.stanciu&password=secret
+GET http://localhost:8080/account/api/d79ec11a-2011-4423-ba01-3af8de0a3e10/1
 
 #### Example creating an account
 POST http://localhost:8080/account/api/d79ec11a-2011-4423-ba01-3af8de0a3e10
@@ -46,3 +47,4 @@ Payload [name, password, email]
 - [ ] move Exception from controller to a default ExceptionMapper
 - [ ] add warm up for DB on startup
 - [x] add health check for first record [done]
+- [x] read account by ID [done]

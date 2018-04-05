@@ -28,6 +28,10 @@ public class AccountFacade {
         return accountService.getAccount(tenantId, name, password);
     }
 
+    public Optional<Account> getAccount(String tenantId, BigInteger accountId) {
+        return accountService.getAccount(tenantId, accountId);
+    }
+
     public Optional<Account> createAccount(String tenantId, String name, String password) throws AccountException {
         if (accountService.checkAccount(tenantId, name)) {
             throw new AccountException(ExceptionCode.ACCOUNT_EXISTS);

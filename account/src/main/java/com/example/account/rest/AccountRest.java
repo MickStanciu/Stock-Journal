@@ -67,6 +67,43 @@ public class AccountRest {
                 .build();
     }
 
+    @GET
+    @Path("/{tenantId}/{accountId}")
+    public Response getAccount(
+            @PathParam("tenantId") @DefaultValue("0") String tenantId,
+            @PathParam("accountId") @DefaultValue("0") BigInteger accountId
+    ) {
+        if (!RequestValidation.validateGetAccount(tenantId, accountId)) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        List<ErrorDto> errors = new ArrayList<>();
+
+        Optional<Account> accountOptional;
+        try {
+            accountOptional = accountFacade.getAccount(tenantId, accountId);
+        } catch (Exception ex) {
+            log.error(ex);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+
+        Account account = null;
+        if (!accountOptional.isPresent()) {
+            errors.add(new ErrorDto(ExceptionCode.ACCOUNT_NOT_FOUND.name(), ExceptionCode.ACCOUNT_NOT_FOUND.getMessage()));
+        } else {
+            account = accountOptional.get();
+        }
+
+        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<Account>()
+                .withData(account)
+                .withErrors(errors)
+                .build();
+
+        return Response.status(Response.Status.OK)
+                .entity(responseEnvelope)
+                .build();
+    }
+
     @POST
     @Path("/{tenantId}")
     @Consumes("application/json")
