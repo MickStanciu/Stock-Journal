@@ -2,14 +2,15 @@
 ######Interface between User and GatewayApi
 
 **Done**
-- upgrade wildfly [done]
-- attempt login [done]
-- create login cookie [done]
-- deal with WebApplicationException errors from the client [done]
-- fix Caused by: java.lang.IllegalStateException: Connection is still allocated [done]
-- create a basic login page [done]
-- adjust the filter to skip login if cookie is present and valid [done]
-- align token expiry date with GW and LOGIN cookie expiry dates [done]
+-[x] upgrade wildfly [done]
+-[x] attempt login [done]
+-[x] create login cookie [done]
+-[x] deal with WebApplicationException errors from the client [done]
+-[x] fix Caused by: java.lang.IllegalStateException: Connection is still allocated [done]
+-[x] create a basic login page [done]
+-[x] adjust the filter to skip login if cookie is present and valid [done]
+-[x] align token expiry date with GW and LOGIN cookie expiry dates [done]
+-[x] create cookie that contains tenant information [done]
 
 **Todo**
 - install Vue [partially done]
@@ -20,4 +21,4 @@
 - test when AuthToken is null -> redirect back with message [not done]
 - jsf remove jsessionid [not done]
 - check cookie for expired (? not sure if I need to, the browser should discard them) [not done - to investigate]
-- create cookie that contains tenant information / logged in user information [wip]
+- obtain account information and cache it for session [wip]

@@ -1,6 +1,6 @@
 package com.example.web.beans;
 
-import com.example.web.gateway.GatewayApi;
+import com.example.web.service.AccountService;
 import org.apache.log4j.Logger;
 
 import javax.enterprise.context.RequestScoped;
@@ -18,7 +18,7 @@ public class DashboardBean {
     private static final Logger log = Logger.getLogger(DashboardBean.class);
 
     @Inject
-    private GatewayApi gatewayApi;
+    private AccountService accountService;
 
 
     private Optional<String> getGwCookieToken() {
@@ -31,4 +31,5 @@ public class DashboardBean {
             return Optional.empty();
         }
     }
+
 }
