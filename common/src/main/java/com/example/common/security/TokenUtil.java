@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.Optional;
 
 public class TokenUtil {
 
@@ -40,6 +41,22 @@ public class TokenUtil {
         } catch (Exception ex) {
             log.error("Token validation error! " + ex.getMessage());
             return false;
+        }
+    }
+
+    public static Optional<TokenClaims> getTokenClaims(String token) {
+        try {
+            Claims claims = getClaims(token);
+            TokenClaims tokenClaims = new TokenClaims();
+            tokenClaims.setTenantId((String) claims.get("tenantId"));
+            Number tmp = (Number) claims.get("accountId");
+            tokenClaims.setAccountId(BigInteger.valueOf(tmp.longValue()));
+            tokenClaims.setRoleId((Integer) claims.get("roleId"));
+            tokenClaims.setIssuer(claims.getIssuer());
+            return Optional.of(tokenClaims);
+        } catch (Exception ex) {
+            log.error("Token validation error! " + ex.getMessage());
+            return Optional.empty();
         }
     }
 

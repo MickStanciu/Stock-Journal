@@ -1,6 +1,5 @@
-package com.example.gatewayapi.security;
+package com.example.common.security;
 
-import com.example.common.security.TokenUtil;
 import io.jsonwebtoken.Claims;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
