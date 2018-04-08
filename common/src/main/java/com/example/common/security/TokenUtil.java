@@ -15,7 +15,7 @@ public class TokenUtil {
     private static SignatureAlgorithm ALGORITHM = SignatureAlgorithm.HS256;
     private static String SIGNATURE = "e8SZbGZiw59dw7E4IXDDuA==";
     public static String ISSUER = "Bendis";
-    public static long TTL = 3600000L;
+    public static long TTL = 1209600000L; //14 days
 
     public static String generateToken(String tenantId, BigInteger accountId, Integer roleId) {
 
@@ -38,7 +38,7 @@ public class TokenUtil {
             Claims claims = getClaims(token);
             return ISSUER.equals(claims.getIssuer());
         } catch (Exception ex) {
-            log.error("Token validation error!");
+            log.error("Token validation error! " + ex.getMessage());
             return false;
         }
     }

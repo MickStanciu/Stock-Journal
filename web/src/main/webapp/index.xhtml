@@ -7,18 +7,22 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <ui:composition template="WEB-INF/template/home-template.xhtml">
-    <ui:param name="pageTitle" value="La la la | Example.com"/>
+    <ui:param name="pageTitle" value="Dashboard | Example.com"/>
+
+    <f:metadata>
+        <f:viewAction action="#{DashboardBean.onLoad}" />
+    </f:metadata>
 
     <ui:define name="panel-main">
         <div id="app" style="background-color: darkgoldenrod">
             {{ message }}
         </div>
 
-        <div class="catalogItems">
-            <ui:repeat var="item" value="#{homePageBean.items}">
-                <ui:include src="WEB-INF/product/boxItem.xhtml"/>
-            </ui:repeat>
-        </div>
+        <!--<div class="catalogItems">-->
+            <!--<ui:repeat var="item" value="#{homePageBean.items}">-->
+                <!--<ui:include src="WEB-INF/product/boxItem.xhtml"/>-->
+            <!--</ui:repeat>-->
+        <!--</div>-->
     </ui:define>
 
     <ui:define name="bottom-js">
@@ -26,7 +30,7 @@
             var app = new Vue({
                 el: '#app',
                 data: {
-                    message: 'Hello Vue!'
+                    message: 'Welcome to the new Dashboard!'
                 }
             })
         </script>

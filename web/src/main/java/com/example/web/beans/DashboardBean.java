@@ -21,6 +21,10 @@ public class DashboardBean {
     private AccountService accountService;
 
 
+    public void onLoad() {
+        System.out.println("ON LOAD");
+    }
+
     private Optional<String> getGwCookieToken() {
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         Map<String, Object> cookies = context.getRequestCookieMap();
