@@ -16,25 +16,19 @@ import java.util.Optional;
 @Stateless
 public class TokenService implements Serializable {
 
-    private Optional<String> getGwCookieToken() {
+    public String getGwCookieToken() throws WebException {
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         Map<String, Object> cookies = context.getRequestCookieMap();
         if (cookies.containsKey("GW")) {
             Cookie cookie = (Cookie) cookies.get("GW");
-            return Optional.of(cookie.getValue());
-            //todo: decode token
+            return cookie.getValue();
         } else {
-            return Optional.empty();
+            throw new WebException(ExceptionCode.MISSING_COOKIE);
         }
     }
 
-    public TokenClaims getTokenClaims() throws WebException {
-        Optional<String> cookieOptional = getGwCookieToken();
-        if (!cookieOptional.isPresent()) {
-            throw new WebException(ExceptionCode.MISSING_COOKIE);
-        }
-
-        Optional<TokenClaims> tokenClaimsOptional = TokenUtil.getTokenClaims(cookieOptional.get());
+    public TokenClaims getTokenClaims(String token) throws WebException {
+        Optional<TokenClaims> tokenClaimsOptional = TokenUtil.getTokenClaims(token);
         if (!tokenClaimsOptional.isPresent()) {
             throw new WebException(ExceptionCode.MISSING_TOKEN);
         }

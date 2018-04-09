@@ -11,6 +11,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Optional;
 
 @Named("DashboardBean")
 @SessionScoped
@@ -29,9 +30,11 @@ public class DashboardBean implements Serializable {
     public void onLoad() {
         System.out.println("ON LOAD");
 
+        String tokenRaw;
         TokenClaims tokenClaims;
         try {
-            tokenClaims = tokenService.getTokenClaims();
+            tokenRaw = tokenService.getGwCookieToken();
+            tokenClaims = tokenService.getTokenClaims(tokenRaw);
         } catch (WebException e) {
             log.error(e.getMessage());
 
@@ -45,7 +48,7 @@ public class DashboardBean implements Serializable {
 
         if (account == null) {
             try {
-                account = accountService.getAccount(tokenClaims.getRaw(), tokenClaims.getTenantId(), tokenClaims.getAccountId());
+                account = accountService.getAccount(tokenRaw, tokenClaims.getTenantId(), tokenClaims.getAccountId());
                 log.info("ACCOUNT LOADED");
             } catch (WebException e) {
                 log.error(e.getMessage());

@@ -19,3 +19,4 @@ GET http://localhost:8080/gatewayapi/api/auth/d79ec11a-2011-4423-ba01-3af8de0a3e
 -[x] migrate tests to testng [done]
 -[x] fix mockito [done]
 -[x] implement get account details [done]
+-[ ] decode token and extract tenantId [wip]
