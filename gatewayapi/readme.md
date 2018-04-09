@@ -6,7 +6,11 @@
 
 
 #### Example authentication
-GET http://localhost:8080/gatewayapi/api/auth/d79ec11a-2011-4423-ba01-3af8de0a3e10?name=mircea.stanciu&password=secret 
+GET http://localhost:8080/gatewayapi/api/auth/d79ec11a-2011-4423-ba01-3af8de0a3e10?name=mircea.stanciu&password=secret
+
+#### Example read account
+GET http://localhost:8080/api/account/1
+- headers will contain token. Tenant Id is extracted from the token
 
 **Done**
 -[x] create auth controller
@@ -19,4 +23,4 @@ GET http://localhost:8080/gatewayapi/api/auth/d79ec11a-2011-4423-ba01-3af8de0a3e
 -[x] migrate tests to testng [done]
 -[x] fix mockito [done]
 -[x] implement get account details [done]
--[ ] decode token and extract tenantId [wip]
+-[x] decode token and extract tenantId [done]

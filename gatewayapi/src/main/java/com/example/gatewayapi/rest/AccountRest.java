@@ -2,6 +2,8 @@ package com.example.gatewayapi.rest;
 
 import com.example.common.rest.dto.ErrorDto;
 import com.example.common.rest.envelope.ResponseEnvelope;
+import com.example.common.security.TokenClaims;
+import com.example.common.security.TokenUtil;
 import com.example.gatewayapi.exception.ExceptionCode;
 import com.example.gatewayapi.exception.GatewayApiException;
 import com.example.gatewayapi.gateway.accountApi.Account;
@@ -22,6 +24,7 @@ import javax.ws.rs.core.Response;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Stateless
 @Path("/account")
@@ -34,10 +37,9 @@ public class AccountRest {
     private AccountService accountService;
 
     @GET
-    @Path("/{tenantId}/{accountId}")
+    @Path("/{accountId}")
     public Response getAccountDetails(
             @HeaderParam("authkey") String token,
-            @PathParam("tenantId") @DefaultValue("0") String tenantId,
             @PathParam("accountId") @DefaultValue("0") BigInteger accountId
     ) {
         //todo validate input
@@ -46,8 +48,10 @@ public class AccountRest {
 
         Account response = null;
         try {
+            String tenantId = getTenantId(token);
             response = accountService.getAccount(tenantId, accountId);
         } catch (GatewayApiException e) {
+            log.error(e.getMessage());
             errors.add(new ErrorDto(ExceptionCode.ACCOUNT_NOT_FOUND.name(), ExceptionCode.ACCOUNT_NOT_FOUND.getMessage()));
             responseStatus = Response.Status.NOT_FOUND;
         }
@@ -60,5 +64,15 @@ public class AccountRest {
         return Response.status(responseStatus)
                 .entity(responseEnvelope)
                 .build();
+    }
+
+
+    private String getTenantId(String token) throws GatewayApiException {
+        Optional<TokenClaims> tokenClaimsOptional = TokenUtil.getTokenClaims(token);
+        if (!tokenClaimsOptional.isPresent()) {
+            throw new GatewayApiException(ExceptionCode.REQUEST_NOT_AUTHORIZED);
+        }
+
+        return tokenClaimsOptional.get().getTenantId();
     }
 }

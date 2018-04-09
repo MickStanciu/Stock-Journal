@@ -12,6 +12,7 @@
 -[x] align token expiry date with GW and LOGIN cookie expiry dates [done]
 -[x] create cookie that contains tenant information [done]
 -[x] obtain account information and cache it for session [done]
+-[x] get account info should not need tenant id anymore, use token for that! [done]
 
 **Todo**
 - install Vue [partially done]
@@ -22,4 +23,3 @@
 - test when AuthToken is null -> redirect back with message [not done]
 - jsf remove jsessionid [not done]
 - check cookie for expired (? not sure if I need to, the browser should discard them) [not done - to investigate]
-- get own account info should not need more than the token! [not done]
