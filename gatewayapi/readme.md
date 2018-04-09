@@ -19,8 +19,11 @@ GET http://localhost:8080/api/account/1
 -[x] create basic JWT token [done]
 -[x] remove gatewayapi from the url [done]
 -[x] add URL filter in order to force token on certain urls except a whitelist [done]
--[x] migrate standalone.xml from v10 to v11 [done]
+-[x] upgrade wildfly - migrate standalone.xml from v10 to v11 [done]
 -[x] migrate tests to testng [done]
 -[x] fix mockito [done]
 -[x] implement get account details [done]
 -[x] decode token and extract tenantId [done]
+
+
+**Todo**
