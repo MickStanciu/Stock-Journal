@@ -11,6 +11,7 @@
 -[x] adjust the filter to skip login if cookie is present and valid [done]
 -[x] align token expiry date with GW and LOGIN cookie expiry dates [done]
 -[x] create cookie that contains tenant information [done]
+-[x] obtain account information and cache it for session [done]
 
 **Todo**
 - install Vue [partially done]
@@ -21,5 +22,4 @@
 - test when AuthToken is null -> redirect back with message [not done]
 - jsf remove jsessionid [not done]
 - check cookie for expired (? not sure if I need to, the browser should discard them) [not done - to investigate]
-- obtain account information and cache it for session [done]
 - get own account info should not need more than the token! [not done]
