@@ -39,7 +39,6 @@ public class AccountRest {
             @PathParam("accountId") @DefaultValue("0") BigInteger accountId
     ) {
         //todo validate input
-
         List<ErrorDto> errors = new ArrayList<>();
         Response.Status responseStatus = Response.Status.OK;
 

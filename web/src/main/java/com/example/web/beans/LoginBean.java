@@ -66,11 +66,12 @@ public class LoginBean {
     public String submit() {
         if (loginEnabled) {
             log.info("LOGIN WAS ENABLED");
+
+            //todo: remove hard coded stuff
             String tenantId = "d79ec11a-2011-4423-ba01-3af8de0a3e10";
             String tpassword = "secret";
             String tname = "mircea.stanciu";
-//            AuthToken authToken = gatewayApi.authenticate(tenantId, tname, tpassword);
-            AuthToken authToken = new AuthToken("eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJCZW5kaXMiLCJzdWIiOiJhdXRoIiwidGVuYW50SWQiOiJkNzllYzExYS0yMDExLTQ0MjMtYmEwMS0zYWY4ZGUwYTNlMTAiLCJhY2NvdW50SWQiOjEsInJvbGVJZCI6MSwiaWF0IjoxNTIzMjIzMTY4LCJleHAiOjE1MjQ0MzI3Njh9.pQAHXs7FK1teZvAjrJXEm8Hos8aJTfrRsWe_Xi-cUqo");
+            AuthToken authToken = gatewayApi.authenticate(tenantId, tname, tpassword);
             if (authToken != null) {
                 log.info(authToken.getToken());
                 setCookie(authToken.getToken());

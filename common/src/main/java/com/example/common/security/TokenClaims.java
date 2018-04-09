@@ -7,6 +7,7 @@ public class TokenClaims {
     private BigInteger accountId;
     private Integer roleId;
     private String issuer;
+    private String raw;
 
     public String getTenantId() {
         return tenantId;
@@ -38,5 +39,13 @@ public class TokenClaims {
 
     public void setIssuer(String issuer) {
         this.issuer = issuer;
+    }
+
+    public String getRaw() {
+        return raw;
+    }
+
+    public void setRaw(String raw) {
+        this.raw = raw;
     }
 }

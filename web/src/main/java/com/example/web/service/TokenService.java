@@ -9,11 +9,12 @@ import javax.ejb.Stateless;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.Cookie;
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Optional;
 
 @Stateless
-public class TokenService {
+public class TokenService implements Serializable {
 
     private Optional<String> getGwCookieToken() {
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();

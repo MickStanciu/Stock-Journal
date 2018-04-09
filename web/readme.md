@@ -21,4 +21,5 @@
 - test when AuthToken is null -> redirect back with message [not done]
 - jsf remove jsessionid [not done]
 - check cookie for expired (? not sure if I need to, the browser should discard them) [not done - to investigate]
-- obtain account information and cache it for session [wip]
+- obtain account information and cache it for session [done]
+- get own account info should not need more than the token! [not done]

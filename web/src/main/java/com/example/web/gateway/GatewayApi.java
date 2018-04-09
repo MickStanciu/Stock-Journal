@@ -7,10 +7,13 @@ import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
 import javax.ejb.Stateless;
+import javax.swing.text.html.Option;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
+import java.math.BigInteger;
 import java.util.List;
+import java.util.Optional;
 
 @Stateless
 public class GatewayApi {
@@ -27,7 +30,7 @@ public class GatewayApi {
 
     public AuthToken authenticate(String tenantId, String name, String password) {
         Response response = proxy.authenticate(tenantId, name, password);
-        ResponseEnvelope<String> envelope = response.readEntity(new GenericType<ResponseEnvelope<String>>(){});
+        ResponseEnvelope<AuthToken> envelope = response.readEntity(new GenericType<ResponseEnvelope<AuthToken>>(){});
         response.close();
 
         if (response.getStatus() != 200) {
@@ -35,9 +38,25 @@ public class GatewayApi {
         }
 
         if (envelope.getData() != null) {
-            return processData(envelope.getData());
+            return envelope.getData();
         }
         return null;
+    }
+
+    public Optional<Account> getAccount(String token, String tenantId, BigInteger accountId) {
+        Response response = proxy.account(token, tenantId, accountId);
+        ResponseEnvelope<Account> envelope = response.readEntity(new GenericType<ResponseEnvelope<Account>>(){});
+        response.close();
+
+        if (response.getStatus() != 200 && envelope.getErrors() != null) {
+            processErrors(envelope.getErrors());
+        }
+
+        if (response.getStatus() == 200 && envelope.getData() != null) {
+            return Optional.of(envelope.getData());
+        }
+
+        return Optional.empty();
     }
 
     private AuthToken processData(String data) {

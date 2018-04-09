@@ -53,6 +53,7 @@ public class TokenUtil {
             tokenClaims.setAccountId(BigInteger.valueOf(tmp.longValue()));
             tokenClaims.setRoleId((Integer) claims.get("roleId"));
             tokenClaims.setIssuer(claims.getIssuer());
+            tokenClaims.setRaw(token);
             return Optional.of(tokenClaims);
         } catch (Exception ex) {
             log.error("Token validation error! " + ex.getMessage());

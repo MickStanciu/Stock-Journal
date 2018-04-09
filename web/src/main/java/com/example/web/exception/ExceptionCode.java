@@ -3,7 +3,8 @@ package com.example.web.exception;
 public enum ExceptionCode {
     UNKNOWN("Unknown"),
     MISSING_COOKIE("Missing Cookie"),
-    MISSING_TOKEN("Missing Token")
+    MISSING_TOKEN("Missing Token"),
+    ACCOUNT_NOT_FOUND("Account not found")
     ;
 
     private String message;
