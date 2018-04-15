@@ -32,7 +32,7 @@ public class TenantRest {
     @GET
     @Path("/{tenantId}")
     public Response getTenant(@PathParam("tenantId") @DefaultValue("0") String tenantId) {
-        //todo: better check
+        //todo: better check, use FieldValidator
         if (tenantId.length() == 0 || tenantId.equals("0")) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }

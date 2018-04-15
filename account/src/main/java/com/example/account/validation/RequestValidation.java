@@ -2,35 +2,14 @@ package com.example.account.validation;
 
 import com.example.account.model.Account;
 import com.example.account.model.Role;
-import com.example.common.validator.IntegerValidator;
+import com.example.common.validator.FieldValidator;
 import com.example.common.validator.StringValidator;
 
 import java.math.BigInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RequestValidation {
-
-    private static boolean tenantId(String tenantId) {
-        return new StringValidator(tenantId)
-                .notNull()
-                .sizeEqualTo(36)
-                .isValid();
-    }
-
-    private static boolean accountId(BigInteger accountId) {
-        if (accountId == null) {
-            return false;
-        }
-
-        Integer accountIdInt = accountId.intValue();
-        return new IntegerValidator(accountIdInt)
-                .notNull()
-                .greaterThanZero()
-                .isValid();
-    }
-
-
+public class RequestValidation extends FieldValidator {
 
     private static boolean accountName(String name) {
         return new StringValidator(name)

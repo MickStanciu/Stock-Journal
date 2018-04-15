@@ -6,9 +6,7 @@
 
 
 #### Example get jobs
-GET http://localhost:8080/core/api/jobs/tenantId/accountId
-- headers will contain token. Tenant Id is extracted from the token
-
+GET http://localhost:8080/core/api/job/tenantId/accountId
 
 **Done**
 -[x] build a TTD DB (title, description, created, expires, resolution) [done]
