@@ -26,7 +26,10 @@ CREATE TABLE jobs (
   expires_at DATE NOT NULL
 );
 
--- INSERT INTO jobs(id, tenant_fk, active, title, description, resolution, created_by, allocated_to, created_at, expires_at) VALUES
---   (1);
+INSERT INTO jobs(tenant_fk, active, title, description, resolution, created_by, allocated_to, created_at, expires_at) VALUES
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', true, 'Test Job 1', 'Test job ...', 'NOT_ALLOCATED', 1, 1, '2018-01-01', '2019-01-01'),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', true, 'Test Job 2', 'Test expired job ...', 'NOT_ALLOCATED', 1, 1, '2018-01-01', '2018-02-01'),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', true, 'Test Job 3', 'Test allocated job ...', 'IN_PROGRESS', 1, 36, '2018-01-01', '2018-10-01');
+
 
 GRANT ALL PRIVILEGES ON TABLE jobs TO admin;
