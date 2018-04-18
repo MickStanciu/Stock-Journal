@@ -29,7 +29,7 @@ public class AuthenticationRest {
     @Path("/{tenantId}")
     public Response authenticate(
             @PathParam("tenantId") @DefaultValue("0") String tenantId,
-            @QueryParam("name") @DefaultValue("") String name,
+            @QueryParam("email") @DefaultValue("") String email,
             @QueryParam("password") @DefaultValue("") String password
     ) {
         //todo validate input
@@ -39,7 +39,7 @@ public class AuthenticationRest {
 
         AuthToken response = null;
         try {
-            response = authService.getAuthResponse(tenantId, name, password);
+            response = authService.getAuthResponse(tenantId, email, password);
         } catch (GatewayApiException e) {
             errors.add(new ErrorDto(ExceptionCode.REQUEST_NOT_AUTHORIZED.name(), ExceptionCode.REQUEST_NOT_AUTHORIZED.getMessage()));
             responseStatus = Response.Status.UNAUTHORIZED;

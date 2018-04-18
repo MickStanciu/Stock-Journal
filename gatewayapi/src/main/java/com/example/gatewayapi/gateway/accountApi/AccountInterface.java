@@ -16,9 +16,9 @@ public interface AccountInterface {
     @GET
     @Path("/{tenantId}")
     @Produces({MediaType.APPLICATION_JSON})
-    Response accountByNameAndPassword(
+    Response accountByEmailAndPassword(
             @PathParam("tenantId") String tenantId,
-            @QueryParam("name") String name,
+            @QueryParam("email") String email,
             @QueryParam("password") String password
     );
 

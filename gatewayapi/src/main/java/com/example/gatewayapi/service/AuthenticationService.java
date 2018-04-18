@@ -26,9 +26,9 @@ public class AuthenticationService {
     private AccountGateway accountGateway;
 
 
-    public AuthToken getAuthResponse(String tenantId, String name, String password) throws GatewayApiException {
+    public AuthToken getAuthResponse(String tenantId, String email, String password) throws GatewayApiException {
         Tenant tenant = getTenant(tenantId);
-        Account account = getAccount(tenantId, name, password);
+        Account account = getAccount(tenantId, email, password);
 
         String token = TokenUtil.generateToken(tenant.getId(), account.getId(), account.getRole().getId());
 
@@ -45,8 +45,8 @@ public class AuthenticationService {
     }
 
     //todo: if grows, convert to façade and move this into AccountService
-    private Account getAccount(String tenantId, String name, String password) throws GatewayApiException {
-        Optional<Account> accountOptional = accountGateway.getAccount(tenantId, name, password);
+    private Account getAccount(String tenantId, String email, String password) throws GatewayApiException {
+        Optional<Account> accountOptional = accountGateway.getAccount(tenantId, email, password);
         if (!accountOptional.isPresent()) {
             throw new GatewayApiException(ExceptionCode.ACCOUNT_NOT_FOUND);
         }

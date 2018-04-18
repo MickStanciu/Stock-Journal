@@ -28,8 +28,8 @@ public class AccountGateway {
         proxy = target.proxy(AccountInterface.class);
     }
 
-    public Optional<Account> getAccount(String tenantId, String name, String password) {
-        Response response = proxy.accountByNameAndPassword(tenantId, name, password);
+    public Optional<Account> getAccount(String tenantId, String email, String password) {
+        Response response = proxy.accountByEmailAndPassword(tenantId, email, password);
         ResponseEnvelope<Account> envelope = response.readEntity(new GenericType<ResponseEnvelope<Account>>(){});
         response.close();
 
