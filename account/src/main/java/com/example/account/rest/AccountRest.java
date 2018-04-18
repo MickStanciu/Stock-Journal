@@ -32,10 +32,10 @@ public class AccountRest {
     @Path("/{tenantId}")
     public Response getAccount(
             @PathParam("tenantId") @DefaultValue("0") String tenantId,
-            @QueryParam("name") @DefaultValue("") String name,
+            @QueryParam("email") @DefaultValue("") String email,
             @QueryParam("password") @DefaultValue("") String password
     ) {
-        if (!RequestValidation.validateGetAccount(tenantId, name, password)) {
+        if (!RequestValidation.validateGetAccount(tenantId, email, password)) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
@@ -44,7 +44,7 @@ public class AccountRest {
         //todo: catch all errors
         Optional<Account> accountOptional;
         try {
-            accountOptional = accountFacade.getAccount(tenantId, name, password);
+            accountOptional = accountFacade.getAccount(tenantId, email, password);
         } catch (Exception ex) {
             log.error(ex);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
@@ -119,7 +119,7 @@ public class AccountRest {
         List<ErrorDto> errors = new ArrayList<>();
 
         try {
-            accountOptional = accountFacade.createAccount(tenantId, account.getName(), account.getPassword() );
+            accountOptional = accountFacade.createAccount(tenantId, account.getEmail(), account.getPassword() );
         } catch (AccountException aex) {
             log.error(aex);
             errors.add(new ErrorDto(aex.getCode().name(), aex.getMessage()));

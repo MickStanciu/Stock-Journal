@@ -16,13 +16,13 @@ import java.util.Optional;
 public class AccountDao {
     private static final Logger log = Logger.getLogger(AccountDao.class);
 
-    private static final String ACCOUNT_READ_BY_NAME_AND_PASSWORD_QUERY = "SELECT a.id as account_id, a.name as account_name, a.password, " +
+    private static final String ACCOUNT_READ_BY_EMAIL_AND_PASSWORD_QUERY = "SELECT a.id as account_id, a.name as account_name, a.password, " +
             "a.email, CAST(a.tenant_fk as VARCHAR(36)) as tenant_id, a.active, ar.id as role_id, ar.name as role_name, " +
             "ari.name as role_description " +
             "FROM accounts a " +
             "INNER JOIN account_roles ar ON a.role_fk = ar.id " +
             "INNER JOIN account_role_info ari ON ar.id = ari.role_fk and a.tenant_fk = ari.tenant_fk " +
-            "WHERE a.name = :name and a.password = :password and a.tenant_fk = CAST(:tenant_fk AS uuid)";
+            "WHERE a.email = :email and a.password = :password and a.tenant_fk = CAST(:tenant_fk AS uuid)";
 
     private static final String ACCOUNT_READ_BY_ID_QUERY = "SELECT a.id as account_id, a.name as account_name, a.password, " +
             "a.email, CAST(a.tenant_fk as VARCHAR(36)) as tenant_id, a.active, ar.id as role_id, ar.name as role_name, " +
@@ -36,7 +36,7 @@ public class AccountDao {
             "VALUES (CAST(:tenant_fk AS uuid), :role_fk, :name, :email, :password, false)";
 
     private static final String ACCOUNT_CHECK_QUERY = "SELECT id FROM accounts " +
-            "WHERE name = :name and tenant_fk = CAST(:tenant_fk AS uuid)";
+            "WHERE email = :email and tenant_fk = CAST(:tenant_fk AS uuid)";
 
     private static final String ACCOUNT_UPDATE_QUERY = "UPDATE accounts SET " +
             "name = :name, password = :password, email = :email, active = :active, role_fk = :role_fk " +
@@ -50,10 +50,10 @@ public class AccountDao {
     @PersistenceContext
     private EntityManager em;
 
-    public Optional<Account> getAccount(String tenantId, String name, String password) {
-        Query q = em.createNativeQuery(ACCOUNT_READ_BY_NAME_AND_PASSWORD_QUERY);
+    public Optional<Account> getAccount(String tenantId, String email, String password) {
+        Query q = em.createNativeQuery(ACCOUNT_READ_BY_EMAIL_AND_PASSWORD_QUERY);
         q.setParameter("tenant_fk", tenantId);
-        q.setParameter("name", name);
+        q.setParameter("email", email);
         q.setParameter("password", password);
 
         List<Object[]> results = q.getResultList();
@@ -79,10 +79,10 @@ public class AccountDao {
     }
 
 
-    public boolean checkAccount(String tenantId, String name) {
+    public boolean checkAccount(String tenantId, String email) {
         Query q = em.createNativeQuery(ACCOUNT_CHECK_QUERY);
         q.setParameter("tenant_fk", tenantId);
-        q.setParameter("name", name);
+        q.setParameter("email", email);
 
         List<Object[]> results = q.getResultList();
         return results.size() != 0;

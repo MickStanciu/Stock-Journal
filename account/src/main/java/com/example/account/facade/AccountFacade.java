@@ -24,21 +24,21 @@ public class AccountFacade {
     @Inject
     private RoleService roleService;
 
-    public Optional<Account> getAccount(String tenantId, String name, String password) {
-        return accountService.getAccount(tenantId, name, password);
+    public Optional<Account> getAccount(String tenantId, String email, String password) {
+        return accountService.getAccount(tenantId, email, password);
     }
 
     public Optional<Account> getAccount(String tenantId, BigInteger accountId) {
         return accountService.getAccount(tenantId, accountId);
     }
 
-    public Optional<Account> createAccount(String tenantId, String name, String password) throws AccountException {
-        if (accountService.checkAccount(tenantId, name)) {
+    public Optional<Account> createAccount(String tenantId, String email, String password) throws AccountException {
+        if (accountService.checkAccount(tenantId, email)) {
             throw new AccountException(ExceptionCode.ACCOUNT_EXISTS);
         }
 
-        accountService.createAccount(tenantId, name, password, DEFAULT_EMAIL, DEFAULT_ROLE_ID);
-        return accountService.getAccount(tenantId, name, password);
+        accountService.createAccount(tenantId, email, password, DEFAULT_EMAIL, DEFAULT_ROLE_ID);
+        return accountService.getAccount(tenantId, email, password);
     }
 
     public Optional<Account> updateAccount(String tenantId, BigInteger accountId, Account newAccount) throws AccountException {
