@@ -9,6 +9,7 @@ DROP TABLE IF EXISTS account_role_info;
 DROP TABLE IF EXISTS account_roles;
 DROP TYPE IF EXISTS role_priority;
 DROP SEQUENCE IF EXISTS accounts_seq;
+DROP EXTENSION if exists "uuid-ossp";
 
 -- init extensions
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
