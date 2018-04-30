@@ -21,7 +21,7 @@ GRANT ALL PRIVILEGES ON SEQUENCE account_roles_seq TO admin;
 
 CREATE TABLE account_roles (
   tenant_fk UUID NOT NULL,
-  id BIGINT PRIMARY KEY DEFAULT nextval('account_roles_seq'),
+  id INT PRIMARY KEY DEFAULT nextval('account_roles_seq'),
   name VARCHAR(64) NOT NULL
 );
 

@@ -106,7 +106,7 @@ public class AccountRest {
 
     @POST
     @Path("/{tenantId}")
-    @Consumes("application/json")
+    @Consumes("appliaccount_role_infocation/json")
     public Response createAccount(Account account, @PathParam("tenantId") @DefaultValue("0") String tenantId) {
         //todo: sanitize the accountDto
         //todo: catch bad params: com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException

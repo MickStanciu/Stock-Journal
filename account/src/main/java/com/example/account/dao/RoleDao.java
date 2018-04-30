@@ -15,9 +15,8 @@ public class RoleDao {
 
     private static final Logger log = Logger.getLogger(RoleDao.class);
 
-    private static final String ROLE_READ_QUERY = "SELECT ar.id as role_id, ar.name as role_name, ari.name as role_description " +
+    private static final String ROLE_READ_QUERY = "SELECT ar.id as role_id, ar.name as role_name " +
             "FROM account_roles ar " +
-            "INNER JOIN account_role_info ari ON ar.id = ari.role_fk " +
             "WHERE ar.id = :role_id AND ari.tenant_fk = CAST(:tenant_fk AS uuid)";
 
 
@@ -44,8 +43,7 @@ public class RoleDao {
     private Role mapFromObject(Object[] result) {
         Integer role_id = ((Integer) result[0]);
         String role_name = ((String) result[1]);
-        String role_description = ((String) result[2]);
 
-        return new Role(role_id, role_name, role_description);
+        return new Role(role_id, role_name);
     }
 }

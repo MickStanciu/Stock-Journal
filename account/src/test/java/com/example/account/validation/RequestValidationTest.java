@@ -62,7 +62,7 @@ public class RequestValidationTest {
 
     @Test
     void testValidateCreateAccountWhenValid() {
-        Role roleFixture = new Role(5, "L5", "");
+        Role roleFixture = new Role(5, "L5");
         Account accountFixture = new Account(null, null, roleFixture, DEFAULT_ACCOUNT_NAME,
                 DEFAULT_ACCOUNT_EMAIL, DEFAULT_ACCOUNT_PASSWORD, null);
         boolean response = validateCreateAccount(DEFAULT_TENANT_ID, accountFixture);
@@ -72,7 +72,7 @@ public class RequestValidationTest {
 
     @Test
     void testValidateCreateAccountWhenAccountIsInvalid() {
-        Role roleFixture = new Role(5, "L5", "");
+        Role roleFixture = new Role(5, "L5");
 
         //name
         Account accountFixture = new Account(DEFAULT_TENANT_ID, null, roleFixture, null,
@@ -96,7 +96,7 @@ public class RequestValidationTest {
 
     @Test
     void testValidateUpdateAccountWhenValid() {
-        Role roleFixture = new Role(5, "L5", "");
+        Role roleFixture = new Role(5, "L5");
         Account accountFixture = new Account(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, roleFixture, DEFAULT_ACCOUNT_NAME,
                 DEFAULT_ACCOUNT_EMAIL, DEFAULT_ACCOUNT_PASSWORD, true);
         boolean response = validateUpdateAccount(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, accountFixture);
@@ -106,7 +106,7 @@ public class RequestValidationTest {
 
     @Test
     void testValidateUpdateAccountWhenTenantIsInvalid() {
-        Role roleFixture = new Role(5, "L5", "");
+        Role roleFixture = new Role(5, "L5");
         Account accountFixture = new Account(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, roleFixture, DEFAULT_ACCOUNT_NAME,
                 DEFAULT_ACCOUNT_EMAIL, DEFAULT_ACCOUNT_PASSWORD, true);
 
@@ -117,7 +117,7 @@ public class RequestValidationTest {
 
     @Test
     void testValidateUpdateAccountWhenAccountIdIsInvalid() {
-        Role roleFixture = new Role(5, "L5", "");
+        Role roleFixture = new Role(5, "L5");
         Account accountFixture = new Account(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, roleFixture, DEFAULT_ACCOUNT_NAME,
                 DEFAULT_ACCOUNT_EMAIL, DEFAULT_ACCOUNT_PASSWORD, true);
 
@@ -128,7 +128,7 @@ public class RequestValidationTest {
 
     @Test
     void testValidateUpdateAccountWhenAccountIsInvalid() {
-        Role roleFixture = new Role(5, "L5", "");
+        Role roleFixture = new Role(5, "L5");
 
         //name
         Account accountFixture = new Account(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, roleFixture, "a",

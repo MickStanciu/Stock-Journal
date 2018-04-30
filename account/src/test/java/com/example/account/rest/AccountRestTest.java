@@ -40,7 +40,7 @@ public class AccountRestTest {
             .withEmail(DEFAULT_ACCOUNT_EMAIL)
             .withName(DEFAULT_ACCOUNT_NAME)
             .withPassword(DEFAULT_ACCOUNT_PASSWORD)
-            .withRole(new Role(5, "role", "description"))
+            .withRole(new Role(5, "role"))
             .withFlagActive(true)
             .build();
 

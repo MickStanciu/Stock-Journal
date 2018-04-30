@@ -9,16 +9,14 @@ public class Role implements Serializable {
 
     private Integer id;
     private String name;
-    private String description;
 
     public Role() {
         //required by Jackson
     }
 
-    public Role(Integer id, String name, String description) {
+    public Role(Integer id, String name) {
         this.id = id;
         this.name = name;
-        this.description = description;
     }
 
     public Integer getId() {
@@ -27,9 +25,5 @@ public class Role implements Serializable {
 
     public String getName() {
         return name;
-    }
-
-    public String getDescription() {
-        return description;
     }
 }

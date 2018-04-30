@@ -34,7 +34,7 @@ public class AccountServiceTest {
             .withEmail(DEFAULT_ACCOUNT_EMAIL)
             .withName(DEFAULT_ACCOUNT_NAME)
             .withPassword(DEFAULT_ACCOUNT_PASSWORD)
-            .withRole(new Role(5, "role", "description"))
+            .withRole(new Role(5, "role"))
             .withFlagActive(true)
             .build();
 
@@ -44,7 +44,7 @@ public class AccountServiceTest {
             .withEmail("lola.white@domain.com")
             .withName("lola.white")
             .withPassword("123456")
-            .withRole(new Role(4, "role", "description"))
+            .withRole(new Role(4, "role"))
             .withFlagActive(false)
             .build();
 
@@ -69,7 +69,7 @@ public class AccountServiceTest {
         Account newAccountFixture = new Account.Builder()
                 .withTenantId(DEFAULT_TENANT_ID)
                 .withId(DEFAULT_ACCOUNT_ID)
-                .withRole(new Role(5, "role", "description"))
+                .withRole(new Role(5, "role"))
                 .withFlagActive(true)
                 .build();
 
