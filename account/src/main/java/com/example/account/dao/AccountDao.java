@@ -1,7 +1,6 @@
 package com.example.account.dao;
 
 import com.example.account.model.Account;
-import com.example.account.model.Role;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
@@ -10,19 +9,18 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.math.BigInteger;
 import java.util.List;
-import java.util.Optional;
 
 @Stateless
 public class AccountDao {
     private static final Logger log = Logger.getLogger(AccountDao.class);
 
     private static final String ACCOUNT_READ_BY_EMAIL_AND_PASSWORD_QUERY = "SELECT a.id as account_id, a.name as account_name, a.password, " +
-            "a.email, CAST(a.tenant_fk as VARCHAR(36)) as tenant_id, a.active " +
+            "a.email, CAST(a.tenant_fk as VARCHAR(36)) as tenant_id, a.active, a.role_fk " +
             "FROM accounts a " +
             "WHERE a.email = :email and a.password = :password and a.tenant_fk = CAST(:tenant_fk AS uuid)";
 
     private static final String ACCOUNT_READ_BY_ID_QUERY = "SELECT a.id as account_id, a.name as account_name, a.password, " +
-            "a.email, CAST(a.tenant_fk as VARCHAR(36)) as tenant_id, a.active, " +
+            "a.email, CAST(a.tenant_fk as VARCHAR(36)) as tenant_id, a.active, a.role_fk " +
             "FROM accounts a " +
             "WHERE a.tenant_fk = CAST(:tenant_fk AS uuid) and a.id = :account_id";
 
@@ -43,7 +41,7 @@ public class AccountDao {
     @PersistenceContext
     private EntityManager em;
 
-    public Optional<Account> getAccount(String tenantId, String email, String password) {
+    public Account getAccount(String tenantId, String email, String password) {
         Query q = em.createNativeQuery(ACCOUNT_READ_BY_EMAIL_AND_PASSWORD_QUERY);
         q.setParameter("tenant_fk", tenantId);
         q.setParameter("email", email);
@@ -51,24 +49,24 @@ public class AccountDao {
 
         List<Object[]> results = q.getResultList();
         if (results.size() == 0) {
-            return Optional.empty();
+            return null;
         }
 
-        return Optional.of(mapFromObject(results.get(0)));
+        return mapFromObject(results.get(0));
     }
 
 
-    public Optional<Account> getAccount(String tenantId, BigInteger accountId) {
+    public Account getAccount(String tenantId, BigInteger accountId) {
         Query q = em.createNativeQuery(ACCOUNT_READ_BY_ID_QUERY);
         q.setParameter("tenant_fk", tenantId);
         q.setParameter("account_id", accountId);
 
         List<Object[]> results = q.getResultList();
         if (results.size() == 0) {
-            return Optional.empty();
+            return null;
         }
 
-        return Optional.of(mapFromObject(results.get(0)));
+        return mapFromObject(results.get(0));
     }
 
 
@@ -114,21 +112,16 @@ public class AccountDao {
 
 
     private Account mapFromObject(Object[] result) {
-        BigInteger account_id = ((BigInteger) result[0]);
-        String name = ((String) result[1]);
-        String password = ((String) result[2]);
-        String email = ((String) result[3]);
-        String tenant_id = ((String) result[4]);
-        Boolean active = ((Boolean) result[5]);
-
-        Account.Builder builder = new Account.Builder();
-        builder.havingPersonalDetails()
-            .withTenantId(tenant_id)
-            .withId(account_id)
-            .withName(name)
-            .withEmail(email)
-            .withPassword(password)
-            .withFlagActive(active);
-        return builder.build();
+        return Account.builder()
+                .havingPersonalDetails()
+                    .withTenantId(((String) result[4]))
+                    .withId(((BigInteger) result[0]))
+                    .withName(((String) result[1]))
+                    .withEmail(((String) result[3]))
+                    .withPassword(((String) result[2]))
+                    .withFlagActive(((Boolean) result[5]))
+                .havingRole()
+                    .withRoleId(((Integer) result[6]))
+                .build();
     }
 }

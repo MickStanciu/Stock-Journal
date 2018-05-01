@@ -5,10 +5,8 @@
 -- clean up
 DROP TABLE IF EXISTS account_relationships;
 DROP TABLE IF EXISTS accounts;
--- DROP TABLE IF EXISTS account_role_info;
 DROP TABLE IF EXISTS account_roles;
 DROP SEQUENCE IF EXISTS account_roles_seq;
--- DROP TYPE IF EXISTS role_priority;
 DROP SEQUENCE IF EXISTS accounts_seq;
 DROP TABLE IF EXISTS account_permissions;
 DROP EXTENSION if exists "uuid-ossp";

@@ -6,7 +6,6 @@ import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import java.util.Optional;
 
 @Stateless
 public class RoleService {
@@ -16,7 +15,7 @@ public class RoleService {
     @Inject
     private RoleDao roleDao;
 
-    public Optional<Role> getRole(String tenantId, int roleId) {
+    public Role getRole(String tenantId, int roleId) {
         return roleDao.getRole(tenantId, roleId);
     }
 }

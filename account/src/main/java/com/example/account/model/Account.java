@@ -2,7 +2,6 @@ package com.example.account.model;
 
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.util.Set;
 
 public class Account implements Serializable {
 
@@ -12,11 +11,12 @@ public class Account implements Serializable {
     private String name;
     private String email;
     private String password;
-    private String tenantId;
     private Boolean active;
 
+    private String tenantId;
+    private Integer roleId;
+
     private Role role;
-    private Set<RoleInfo> permissions;
 
     public Account() {
         //required by Jackson
@@ -46,12 +46,20 @@ public class Account implements Serializable {
         return tenantId;
     }
 
+    public Integer getRoleId() {
+        return roleId;
+    }
+
     public Boolean isActive() {
         return active;
     }
 
     public static Builder builder() {
         return new Builder();
+    }
+
+    public static Builder builder(Account account) {
+        return new Builder(account);
     }
 
     public static class Builder {
@@ -81,6 +89,11 @@ public class Account implements Serializable {
     public static class RoleBuilder extends Builder {
         RoleBuilder(Account account) {
             super(account);
+        }
+
+        public RoleBuilder withRoleId(Integer roleId) {
+            account.roleId = roleId;
+            return this;
         }
 
         public RoleBuilder withRole(Role role) {

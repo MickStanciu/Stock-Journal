@@ -37,7 +37,7 @@ public class AccountServiceTest {
                 .withPassword(DEFAULT_ACCOUNT_PASSWORD)
                 .withFlagActive(true)
             .havingRole()
-                .withRole(new Role(5, "role"))
+                .withRole(new Role(2, "role"))
             .build();
 
     private final Account newAccountFixture = new Account.Builder()
@@ -76,7 +76,7 @@ public class AccountServiceTest {
                 .withId(DEFAULT_ACCOUNT_ID)
                 .withFlagActive(true)
             .havingRole()
-                .withRole(new Role(5, "role"))
+                .withRole(new Role(2, "role"))
             .build();
 
         Account newAccount = accountService.copyAccount(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, originalAccountFixture,

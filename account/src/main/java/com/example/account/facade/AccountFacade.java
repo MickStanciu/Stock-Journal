@@ -15,7 +15,7 @@ import java.util.Optional;
 @Stateless
 public class AccountFacade {
 
-    private static int DEFAULT_ROLE_ID = 5;
+    private static int DEFAULT_ROLE_ID = 2;
     private static String DEFAULT_EMAIL = "not.set@domain.com";
 
     @Inject
@@ -25,20 +25,26 @@ public class AccountFacade {
     private RoleService roleService;
 
     public Optional<Account> getAccount(String tenantId, String email, String password) {
-        return accountService.getAccount(tenantId, email, password);
+        Account account = accountService.getAccount(tenantId, email, password);
+        addRoleInformation(account);
+        return Optional.ofNullable(account);
     }
 
     public Optional<Account> getAccount(String tenantId, BigInteger accountId) {
-        Optional<Account> accountOptional = accountService.getAccount(tenantId, accountId);
+        Account account = accountService.getAccount(tenantId, accountId);
+        addRoleInformation(account);
+        return Optional.ofNullable(account);
+    }
 
-        if (accountOptional.isPresent()) {
-            Optional<Role> roleOptional = roleService.getRole(tenantId, accountOptional.get().getRole().getId());
-            if (roleOptional.isPresent()) {
-//                accountOptional.get().
-            }
+    private void addRoleInformation(Account account) {
+        if (account == null) {
+            return;
         }
 
-        return accountService.getAccount(tenantId, accountId);
+        Role role = roleService.getRole(account.getTenantId(), account.getRoleId());
+        if (role != null) {
+            Account.builder(account).havingRole().withRole(role);
+        }
     }
 
     public Optional<Account> createAccount(String tenantId, String email, String password) throws AccountException {
@@ -47,29 +53,29 @@ public class AccountFacade {
         }
 
         accountService.createAccount(tenantId, email, password, DEFAULT_EMAIL, DEFAULT_ROLE_ID);
-        return accountService.getAccount(tenantId, email, password);
+        return Optional.ofNullable(accountService.getAccount(tenantId, email, password));
     }
 
     public Optional<Account> updateAccount(String tenantId, BigInteger accountId, Account newAccount) throws AccountException {
-        Optional<Account> originalAccount = accountService.getAccount(tenantId, accountId);
+        Account originalAccount = accountService.getAccount(tenantId, accountId);
 
-        if (!originalAccount.isPresent()) {
+        if (originalAccount == null) {
             throw new AccountException(ExceptionCode.ACCOUNT_NOT_FOUND);
         }
 
-        if (newAccount.getName() != null && !newAccount.getName().equals(originalAccount.get().getName()) && accountService.checkAccount(tenantId, newAccount.getName())) {
+        if (newAccount.getName() != null && !newAccount.getName().equals(originalAccount.getName()) && accountService.checkAccount(tenantId, newAccount.getName())) {
             throw new AccountException(ExceptionCode.ACCOUNT_NAME_EXISTS);
         }
 
         //validate role
         if (newAccount.getRole() != null && newAccount.getRole().getId() != null) {
-            Optional<Role> role = roleService.getRole(tenantId, newAccount.getRole().getId());
-            if (!role.isPresent()) {
+            Role role = roleService.getRole(tenantId, newAccount.getRole().getId());
+            if (role == null) {
                 throw new AccountException(ExceptionCode.ROLE_NOT_FOUND);
             }
         }
 
-        accountService.updateAccount(tenantId, accountId, originalAccount.get(), newAccount);
-        return accountService.getAccount(tenantId, accountId);
+        accountService.updateAccount(tenantId, accountId, originalAccount, newAccount);
+        return Optional.ofNullable(accountService.getAccount(tenantId, accountId));
     }
 }

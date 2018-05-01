@@ -7,7 +7,6 @@ import com.example.common.rest.envelope.ResponseEnvelope;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.MockitoRule;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -15,7 +14,6 @@ import javax.ws.rs.core.Response;
 import java.math.BigInteger;
 import java.util.Optional;
 
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 
@@ -43,7 +41,7 @@ public class AccountRestTest {
                 .withPassword(DEFAULT_ACCOUNT_PASSWORD)
                 .withFlagActive(true)
             .havingRole()
-                .withRole(new Role(5, "role"))
+                .withRole(new Role(2, "role"))
             .build();
 
     @BeforeClass

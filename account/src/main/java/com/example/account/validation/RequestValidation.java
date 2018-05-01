@@ -42,7 +42,7 @@ public class RequestValidation extends FieldValidator {
     }
 
     private static boolean role(Role role) {
-        return role != null && role.getId() != null && role.getId() >= 1 && role.getId() <= 5;
+        return role != null && role.getId() != null && role.getId() >= 1;
     }
 
     private static boolean accountActive(Boolean active) {

@@ -6,9 +6,7 @@ import org.testng.annotations.Test;
 
 import java.math.BigInteger;
 
-import static com.example.account.validation.RequestValidation.validateCreateAccount;
-import static com.example.account.validation.RequestValidation.validateGetAccount;
-import static com.example.account.validation.RequestValidation.validateUpdateAccount;
+import static com.example.account.validation.RequestValidation.*;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
@@ -62,7 +60,7 @@ public class RequestValidationTest {
 
     @Test
     void testValidateCreateAccountWhenValid() {
-        Role roleFixture = new Role(5, "L5");
+        Role roleFixture = new Role(2, "No Role");
         Account accountFixture = Account.builder()
                 .havingPersonalDetails()
                     .withName(DEFAULT_ACCOUNT_NAME)
@@ -79,7 +77,7 @@ public class RequestValidationTest {
 
     @Test
     void testValidateCreateAccountWhenAccountIsInvalid() {
-        Role roleFixture = new Role(5, "L5");
+        Role roleFixture = new Role(2, "No Role");
 
         //name
         Account accountFixture = Account.builder()
@@ -128,7 +126,8 @@ public class RequestValidationTest {
 
     @Test
     void testValidateUpdateAccountWhenValid() {
-        Role roleFixture = new Role(5, "L5");
+        Role roleFixture = new Role(2, "No Role");
+
         Account accountFixture = Account.builder()
                 .havingPersonalDetails()
                     .withTenantId(DEFAULT_TENANT_ID)
@@ -148,7 +147,7 @@ public class RequestValidationTest {
 
     @Test
     void testValidateUpdateAccountWhenTenantIsInvalid() {
-        Role roleFixture = new Role(5, "L5");
+        Role roleFixture = new Role(2, "No Role");
 
         Account accountFixture = Account.builder()
                 .havingPersonalDetails()
@@ -169,7 +168,7 @@ public class RequestValidationTest {
 
     @Test
     void testValidateUpdateAccountWhenAccountIdIsInvalid() {
-        Role roleFixture = new Role(5, "L5");
+        Role roleFixture = new Role(2, "No Role");
 
         Account accountFixture = Account.builder()
                 .havingPersonalDetails()
@@ -190,7 +189,7 @@ public class RequestValidationTest {
 
     @Test
     void testValidateUpdateAccountWhenAccountIsInvalid() {
-        Role roleFixture = new Role(5, "L5");
+        Role roleFixture = new Role(2, "No Role");
 
         //name
         Account accountFixture = Account.builder()

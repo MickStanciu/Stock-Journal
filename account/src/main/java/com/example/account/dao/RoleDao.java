@@ -3,7 +3,6 @@ package com.example.account.dao;
 import com.example.account.model.Role;
 import com.example.account.model.RoleInfo;
 import org.apache.log4j.Logger;
-import org.w3c.dom.css.Rect;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -11,7 +10,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @Stateless
@@ -30,7 +28,7 @@ public class RoleDao {
     @PersistenceContext
     private EntityManager em;
 
-    public Optional<Role> getRole(String tenantId, int id) {
+    public Role getRole(String tenantId, int id) {
         Query q = em.createNativeQuery(ROLE_READ_QUERY);
 
         q.setParameter("role_id", id);
@@ -38,10 +36,10 @@ public class RoleDao {
 
         List<Object[]> results = q.getResultList();
         if (results.size() == 0) {
-            return Optional.empty();
+            return null;
         }
 
-        return Optional.of(mapFromObject(results));
+        return mapFromObject(results);
     }
 
     private Role mapFromObject(List<Object[]> results) {
@@ -51,9 +49,13 @@ public class RoleDao {
 
         Set<RoleInfo> permissions = new HashSet<>();
         for(Object[] result : results) {
-
+            String permissionName = (String) result[2];
+            if (permissionName != null) {
+                permissions.add(RoleInfo.valueOf(permissionName));
+            }
         }
 
-        return role;
+        return Role.builder(role).withPermissions(permissions).build();
     }
+
 }
