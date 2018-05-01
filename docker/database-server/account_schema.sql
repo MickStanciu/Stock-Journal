@@ -10,6 +10,7 @@ DROP TABLE IF EXISTS account_roles;
 DROP SEQUENCE IF EXISTS account_roles_seq;
 -- DROP TYPE IF EXISTS role_priority;
 DROP SEQUENCE IF EXISTS accounts_seq;
+DROP TABLE IF EXISTS account_permissions;
 DROP EXTENSION if exists "uuid-ossp";
 
 -- init extensions
@@ -30,6 +31,22 @@ GRANT ALL PRIVILEGES ON TABLE account_roles TO admin;
 INSERT INTO account_roles (tenant_fk, name) VALUES
   ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 'Administrator'),
   ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 'No Role');
+
+
+-- account_permissions table
+-- todo: add PK
+CREATE TABLE account_permissions (
+  tenant_fk UUID NOT NULL,
+  role_fk INT REFERENCES account_roles(id) NOT NULL,
+  name VARCHAR(64) NOT NULL
+--   PRIMARY KEY(tenant_fk, role_fk)
+);
+
+GRANT ALL PRIVILEGES ON TABLE account_permissions TO admin;
+
+INSERT INTO account_permissions (tenant_fk, role_fk, name) VALUES
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 1, 'LOG_IN'),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 1, 'CREATE_ACCOUNT');
 
 
 -- accounts table

@@ -29,23 +29,27 @@ public class AccountServiceTest {
     private static String DEFAULT_ACCOUNT_EMAIL = "not.set@domain.com";
 
     private final Account originalAccountFixture = new Account.Builder()
-            .withTenantId(DEFAULT_TENANT_ID)
-            .withId(DEFAULT_ACCOUNT_ID)
-            .withEmail(DEFAULT_ACCOUNT_EMAIL)
-            .withName(DEFAULT_ACCOUNT_NAME)
-            .withPassword(DEFAULT_ACCOUNT_PASSWORD)
-            .withRole(new Role(5, "role"))
-            .withFlagActive(true)
+            .havingPersonalDetails()
+                .withTenantId(DEFAULT_TENANT_ID)
+                .withId(DEFAULT_ACCOUNT_ID)
+                .withEmail(DEFAULT_ACCOUNT_EMAIL)
+                .withName(DEFAULT_ACCOUNT_NAME)
+                .withPassword(DEFAULT_ACCOUNT_PASSWORD)
+                .withFlagActive(true)
+            .havingRole()
+                .withRole(new Role(5, "role"))
             .build();
 
     private final Account newAccountFixture = new Account.Builder()
-            .withTenantId(DEFAULT_TENANT_ID)
-            .withId(DEFAULT_ACCOUNT_ID)
-            .withEmail("lola.white@domain.com")
-            .withName("lola.white")
-            .withPassword("123456")
-            .withRole(new Role(4, "role"))
-            .withFlagActive(false)
+            .havingPersonalDetails()
+                .withTenantId(DEFAULT_TENANT_ID)
+                .withId(DEFAULT_ACCOUNT_ID)
+                .withEmail("lola.white@domain.com")
+                .withName("lola.white")
+                .withPassword("123456")
+                .withFlagActive(false)
+            .havingRole()
+                .withRole(new Role(4, "role"))
             .build();
 
     @BeforeClass
@@ -67,11 +71,13 @@ public class AccountServiceTest {
     @Test
     public void testCopyAccountNulls() {
         Account newAccountFixture = new Account.Builder()
+            .havingPersonalDetails()
                 .withTenantId(DEFAULT_TENANT_ID)
                 .withId(DEFAULT_ACCOUNT_ID)
-                .withRole(new Role(5, "role"))
                 .withFlagActive(true)
-                .build();
+            .havingRole()
+                .withRole(new Role(5, "role"))
+            .build();
 
         Account newAccount = accountService.copyAccount(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, originalAccountFixture,
                 newAccountFixture);

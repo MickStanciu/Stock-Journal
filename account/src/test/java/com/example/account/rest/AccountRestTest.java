@@ -34,14 +34,16 @@ public class AccountRestTest {
     private static String DEFAULT_ACCOUNT_PASSWORD = "secret";
     private static String DEFAULT_ACCOUNT_EMAIL = "not.set@domain.com";
 
-    private final Account accountFixture = new Account.Builder()
-            .withTenantId(DEFAULT_TENANT_ID)
-            .withId(DEFAULT_ACCOUNT_ID)
-            .withEmail(DEFAULT_ACCOUNT_EMAIL)
-            .withName(DEFAULT_ACCOUNT_NAME)
-            .withPassword(DEFAULT_ACCOUNT_PASSWORD)
-            .withRole(new Role(5, "role"))
-            .withFlagActive(true)
+    private final Account accountFixture = Account.builder()
+            .havingPersonalDetails()
+                .withTenantId(DEFAULT_TENANT_ID)
+                .withId(DEFAULT_ACCOUNT_ID)
+                .withEmail(DEFAULT_ACCOUNT_EMAIL)
+                .withName(DEFAULT_ACCOUNT_NAME)
+                .withPassword(DEFAULT_ACCOUNT_PASSWORD)
+                .withFlagActive(true)
+            .havingRole()
+                .withRole(new Role(5, "role"))
             .build();
 
     @BeforeClass

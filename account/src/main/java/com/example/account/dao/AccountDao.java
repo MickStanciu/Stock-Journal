@@ -17,15 +17,13 @@ public class AccountDao {
     private static final Logger log = Logger.getLogger(AccountDao.class);
 
     private static final String ACCOUNT_READ_BY_EMAIL_AND_PASSWORD_QUERY = "SELECT a.id as account_id, a.name as account_name, a.password, " +
-            "a.email, CAST(a.tenant_fk as VARCHAR(36)) as tenant_id, a.active, ar.id as role_id, ar.name as role_name " +
+            "a.email, CAST(a.tenant_fk as VARCHAR(36)) as tenant_id, a.active " +
             "FROM accounts a " +
-            "INNER JOIN account_roles ar ON a.role_fk = ar.id " +
             "WHERE a.email = :email and a.password = :password and a.tenant_fk = CAST(:tenant_fk AS uuid)";
 
     private static final String ACCOUNT_READ_BY_ID_QUERY = "SELECT a.id as account_id, a.name as account_name, a.password, " +
-            "a.email, CAST(a.tenant_fk as VARCHAR(36)) as tenant_id, a.active, ar.id as role_id, ar.name as role_name " +
+            "a.email, CAST(a.tenant_fk as VARCHAR(36)) as tenant_id, a.active, " +
             "FROM accounts a " +
-            "INNER JOIN account_roles ar ON a.role_fk = ar.id " +
             "WHERE a.tenant_fk = CAST(:tenant_fk AS uuid) and a.id = :account_id";
 
     private static final String ACCOUNT_CREATE_QUERY = "INSERT INTO accounts (tenant_fk, role_fk, name, email, password, active) " +
@@ -123,10 +121,14 @@ public class AccountDao {
         String tenant_id = ((String) result[4]);
         Boolean active = ((Boolean) result[5]);
 
-        Integer role_id = ((Integer) result[6]);
-        String role_name = ((String) result[7]);
-
-        Role role = new Role(role_id, role_name);
-        return new Account(tenant_id, account_id, role, name, email, password, active);
+        Account.Builder builder = new Account.Builder();
+        builder.havingPersonalDetails()
+            .withTenantId(tenant_id)
+            .withId(account_id)
+            .withName(name)
+            .withEmail(email)
+            .withPassword(password)
+            .withFlagActive(active);
+        return builder.build();
     }
 }

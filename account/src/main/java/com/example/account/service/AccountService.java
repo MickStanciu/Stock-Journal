@@ -40,16 +40,17 @@ public class AccountService {
     }
 
     protected Account copyAccount(String tenantId, BigInteger accountId, Account originalAccount, Account account) {
-        return new Account.Builder()
+        Account.Builder builder = new Account.Builder();
+        builder
+            .havingPersonalDetails()
                 .withTenantId(tenantId)
                 .withId(accountId)
-
-                .withRole(account.getRole() == null ? originalAccount.getRole() : account.getRole())
-                .withEmail(account.getEmail() == null ? originalAccount.getEmail() : account.getEmail())
                 .withName(account.getName() == null ? originalAccount.getName() : account.getName())
+                .withEmail(account.getEmail() == null ? originalAccount.getEmail() : account.getEmail())
                 .withPassword(account.getPassword() == null ? originalAccount.getPassword() : account.getPassword())
                 .withFlagActive(account.isActive() == null ? originalAccount.isActive() : account.isActive())
-
-                .build();
+            .havingRole()
+                .withRole(account.getRole() == null ? originalAccount.getRole() : account.getRole());
+        return builder.build();
     }
 }

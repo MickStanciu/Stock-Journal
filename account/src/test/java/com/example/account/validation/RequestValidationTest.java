@@ -63,8 +63,15 @@ public class RequestValidationTest {
     @Test
     void testValidateCreateAccountWhenValid() {
         Role roleFixture = new Role(5, "L5");
-        Account accountFixture = new Account(null, null, roleFixture, DEFAULT_ACCOUNT_NAME,
-                DEFAULT_ACCOUNT_EMAIL, DEFAULT_ACCOUNT_PASSWORD, null);
+        Account accountFixture = Account.builder()
+                .havingPersonalDetails()
+                    .withName(DEFAULT_ACCOUNT_NAME)
+                    .withEmail(DEFAULT_ACCOUNT_EMAIL)
+                    .withPassword(DEFAULT_ACCOUNT_PASSWORD)
+                .havingRole()
+                    .withRole(roleFixture)
+                .build();
+
         boolean response = validateCreateAccount(DEFAULT_TENANT_ID, accountFixture);
         assertTrue(response, "Should be TRUE");
     }
@@ -75,20 +82,45 @@ public class RequestValidationTest {
         Role roleFixture = new Role(5, "L5");
 
         //name
-        Account accountFixture = new Account(DEFAULT_TENANT_ID, null, roleFixture, null,
-                DEFAULT_ACCOUNT_EMAIL, DEFAULT_ACCOUNT_PASSWORD, true);
+        Account accountFixture = Account.builder()
+                .havingPersonalDetails()
+                    .withTenantId(DEFAULT_TENANT_ID)
+                    .withEmail(DEFAULT_ACCOUNT_EMAIL)
+                    .withPassword(DEFAULT_ACCOUNT_PASSWORD)
+                    .withFlagActive(true)
+                .havingRole()
+                    .withRole(roleFixture)
+                .build();
+
         boolean response = validateCreateAccount(DEFAULT_TENANT_ID, accountFixture);
         assertFalse(response, "Should be FALSE");
 
         //email
-        accountFixture = new Account(DEFAULT_TENANT_ID, null, roleFixture, DEFAULT_ACCOUNT_NAME,
-                null, DEFAULT_ACCOUNT_PASSWORD, true);
+        accountFixture = Account.builder()
+                .havingPersonalDetails()
+                    .withTenantId(DEFAULT_TENANT_ID)
+                    .withName(DEFAULT_ACCOUNT_NAME)
+                    .withPassword(DEFAULT_ACCOUNT_PASSWORD)
+                    .withFlagActive(true)
+                .havingRole()
+                    .withRole(roleFixture)
+                .build();
+
+
         response = validateCreateAccount(DEFAULT_TENANT_ID, accountFixture);
         assertTrue(response, "Should be TRUE");
 
         //password
-        accountFixture = new Account(DEFAULT_TENANT_ID, null, roleFixture, DEFAULT_ACCOUNT_NAME,
-                DEFAULT_ACCOUNT_EMAIL, null, true);
+        accountFixture = Account.builder()
+                .havingPersonalDetails()
+                    .withTenantId(DEFAULT_TENANT_ID)
+                    .withEmail(DEFAULT_ACCOUNT_EMAIL)
+                    .withName(DEFAULT_ACCOUNT_NAME)
+                    .withFlagActive(true)
+                .havingRole()
+                    .withRole(roleFixture)
+                .build();
+
         response = validateCreateAccount(DEFAULT_TENANT_ID, accountFixture);
         assertFalse(response, "Should be FALSE");
     }
@@ -97,8 +129,18 @@ public class RequestValidationTest {
     @Test
     void testValidateUpdateAccountWhenValid() {
         Role roleFixture = new Role(5, "L5");
-        Account accountFixture = new Account(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, roleFixture, DEFAULT_ACCOUNT_NAME,
-                DEFAULT_ACCOUNT_EMAIL, DEFAULT_ACCOUNT_PASSWORD, true);
+        Account accountFixture = Account.builder()
+                .havingPersonalDetails()
+                    .withTenantId(DEFAULT_TENANT_ID)
+                    .withId(DEFAULT_ACCOUNT_ID)
+                    .withEmail(DEFAULT_ACCOUNT_EMAIL)
+                    .withName(DEFAULT_ACCOUNT_NAME)
+                    .withPassword(DEFAULT_ACCOUNT_PASSWORD)
+                    .withFlagActive(true)
+                .havingRole()
+                    .withRole(roleFixture)
+                .build();
+
         boolean response = validateUpdateAccount(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, accountFixture);
         assertTrue(response, "Should be TRUE");
     }
@@ -107,8 +149,18 @@ public class RequestValidationTest {
     @Test
     void testValidateUpdateAccountWhenTenantIsInvalid() {
         Role roleFixture = new Role(5, "L5");
-        Account accountFixture = new Account(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, roleFixture, DEFAULT_ACCOUNT_NAME,
-                DEFAULT_ACCOUNT_EMAIL, DEFAULT_ACCOUNT_PASSWORD, true);
+
+        Account accountFixture = Account.builder()
+                .havingPersonalDetails()
+                .withTenantId(DEFAULT_TENANT_ID)
+                .withId(DEFAULT_ACCOUNT_ID)
+                .withEmail(DEFAULT_ACCOUNT_EMAIL)
+                .withName(DEFAULT_ACCOUNT_NAME)
+                .withPassword(DEFAULT_ACCOUNT_PASSWORD)
+                .withFlagActive(true)
+                .havingRole()
+                .withRole(roleFixture)
+                .build();
 
         boolean response = validateUpdateAccount(null, DEFAULT_ACCOUNT_ID, accountFixture);
         assertFalse(response, "Should be FALSE");
@@ -118,8 +170,18 @@ public class RequestValidationTest {
     @Test
     void testValidateUpdateAccountWhenAccountIdIsInvalid() {
         Role roleFixture = new Role(5, "L5");
-        Account accountFixture = new Account(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, roleFixture, DEFAULT_ACCOUNT_NAME,
-                DEFAULT_ACCOUNT_EMAIL, DEFAULT_ACCOUNT_PASSWORD, true);
+
+        Account accountFixture = Account.builder()
+                .havingPersonalDetails()
+                    .withTenantId(DEFAULT_TENANT_ID)
+                    .withId(DEFAULT_ACCOUNT_ID)
+                    .withEmail(DEFAULT_ACCOUNT_EMAIL)
+                    .withName(DEFAULT_ACCOUNT_NAME)
+                    .withPassword(DEFAULT_ACCOUNT_PASSWORD)
+                    .withFlagActive(true)
+                .havingRole()
+                    .withRole(roleFixture)
+                .build();
 
         boolean response = validateUpdateAccount(DEFAULT_TENANT_ID, null, accountFixture);
         assertFalse(response, "Should be FALSE");
@@ -131,20 +193,50 @@ public class RequestValidationTest {
         Role roleFixture = new Role(5, "L5");
 
         //name
-        Account accountFixture = new Account(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, roleFixture, "a",
-                DEFAULT_ACCOUNT_EMAIL, DEFAULT_ACCOUNT_PASSWORD, true);
+        Account accountFixture = Account.builder()
+                .havingPersonalDetails()
+                    .withTenantId(DEFAULT_TENANT_ID)
+                    .withId(DEFAULT_ACCOUNT_ID)
+                    .withEmail(DEFAULT_ACCOUNT_EMAIL)
+                    .withName("a")
+                    .withPassword(DEFAULT_ACCOUNT_PASSWORD)
+                    .withFlagActive(true)
+                .havingRole()
+                    .withRole(roleFixture)
+                .build();
+
         boolean response = validateUpdateAccount(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, accountFixture);
         assertFalse(response, "Should be FALSE");
 
         //email
-        accountFixture = new Account(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, roleFixture, DEFAULT_ACCOUNT_NAME,
-                "1", DEFAULT_ACCOUNT_PASSWORD, true);
+        accountFixture = Account.builder()
+                .havingPersonalDetails()
+                    .withTenantId(DEFAULT_TENANT_ID)
+                    .withId(DEFAULT_ACCOUNT_ID)
+                    .withEmail("1")
+                    .withName(DEFAULT_ACCOUNT_NAME)
+                    .withPassword(DEFAULT_ACCOUNT_PASSWORD)
+                    .withFlagActive(true)
+                .havingRole()
+                    .withRole(roleFixture)
+                .build();
+
         response = validateUpdateAccount(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, accountFixture);
         assertFalse(response, "Should be FALSE");
 
         //password
-        accountFixture = new Account(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, roleFixture, DEFAULT_ACCOUNT_NAME,
-                DEFAULT_ACCOUNT_EMAIL, "123", true);
+        accountFixture = Account.builder()
+                .havingPersonalDetails()
+                    .withTenantId(DEFAULT_TENANT_ID)
+                    .withId(DEFAULT_ACCOUNT_ID)
+                    .withEmail(DEFAULT_ACCOUNT_EMAIL)
+                    .withName(DEFAULT_ACCOUNT_NAME)
+                    .withPassword("123")
+                    .withFlagActive(true)
+                .havingRole()
+                    .withRole(roleFixture)
+                .build();
+
         response = validateUpdateAccount(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, accountFixture);
         assertFalse(response, "Should be FALSE");
     }

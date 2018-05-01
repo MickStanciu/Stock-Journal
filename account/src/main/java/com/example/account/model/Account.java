@@ -19,26 +19,6 @@ public class Account implements Serializable {
         //required by Jackson
     }
 
-    public Account(String tenantId, BigInteger id, Role role, String name, String email, String password, Boolean active) {
-        this.tenantId = tenantId;
-        this.id = id;
-        this.role = role;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.active = active;
-    }
-
-    public Account(Builder builder) {
-        this.tenantId = builder.tenantId;
-        this.id = builder.id;
-        this.role = builder.role;
-        this.name = builder.name;
-        this.email = builder.email;
-        this.password = builder.password;
-        this.active = builder.active;
-    }
-
     public BigInteger getId() {
         return id;
     }
@@ -67,52 +47,78 @@ public class Account implements Serializable {
         return active;
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
     public static class Builder {
-        private Role role;
-        private BigInteger id;
-        private String name;
-        private String email;
-        private String password;
-        private String tenantId;
-        private Boolean active;
+        protected Account account;
 
-        public Builder withRole(Role role) {
-            this.role = role;
-            return this;
+        public Builder() {
+            account = new Account();
         }
 
-        public Builder withId(BigInteger id) {
-            this.id = id;
-            return this;
-        }
-
-        public Builder withName(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public Builder withEmail(String email) {
-            this.email = email;
-            return this;
-        }
-
-        public Builder withPassword(String password) {
-            this.password = password;
-            return this;
-        }
-
-        public Builder withTenantId(String tenantId) {
-            this.tenantId = tenantId;
-            return this;
-        }
-
-        public Builder withFlagActive(boolean active) {
-            this.active = active;
-            return this;
+        public Builder(Account account) {
+            this.account = account;
         }
 
         public Account build() {
-            return new Account(this);
+            return account;
+        }
+
+        public RoleBuilder havingRole() {
+            return new RoleBuilder(account);
+        }
+
+        public AccountBuilder havingPersonalDetails() {
+            return new AccountBuilder(account);
+        }
+    }
+
+    public static class RoleBuilder extends Builder {
+        RoleBuilder(Account account) {
+            this.account = account;
+        }
+
+        public RoleBuilder withRole(Role role) {
+            account.role = role;
+            return this;
+        }
+    }
+
+    public static class AccountBuilder extends Builder {
+        AccountBuilder(Account account) {
+            this.account = account;
+        }
+
+        public AccountBuilder withId(BigInteger id) {
+            account.id = id;
+            return this;
+        }
+
+        public AccountBuilder withName(String name) {
+            account.name = name;
+            return this;
+        }
+
+        public AccountBuilder withEmail(String email) {
+            account.email = email;
+            return this;
+        }
+
+        public AccountBuilder withPassword(String password) {
+            account.password = password;
+            return this;
+        }
+
+        public AccountBuilder withTenantId(String tenantId) {
+            account.tenantId = tenantId;
+            return this;
+        }
+
+        public AccountBuilder withFlagActive(boolean active) {
+            account.active = active;
+            return this;
         }
     }
 

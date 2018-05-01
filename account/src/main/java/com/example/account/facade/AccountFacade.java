@@ -29,6 +29,15 @@ public class AccountFacade {
     }
 
     public Optional<Account> getAccount(String tenantId, BigInteger accountId) {
+        Optional<Account> accountOptional = accountService.getAccount(tenantId, accountId);
+
+        if (accountOptional.isPresent()) {
+            Optional<Role> roleOptional = roleService.getRole(tenantId, accountOptional.get().getRole().getId());
+            if (roleOptional.isPresent()) {
+//                accountOptional.get().
+            }
+        }
+
         return accountService.getAccount(tenantId, accountId);
     }
 
