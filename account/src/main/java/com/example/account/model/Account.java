@@ -2,18 +2,21 @@ package com.example.account.model;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.Set;
 
 public class Account implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Role role;
     private BigInteger id;
     private String name;
     private String email;
     private String password;
     private String tenantId;
     private Boolean active;
+
+    private Role role;
+    private Set<RoleInfo> permissions;
 
     public Account() {
         //required by Jackson
@@ -77,12 +80,18 @@ public class Account implements Serializable {
 
     public static class RoleBuilder extends Builder {
         RoleBuilder(Account account) {
-            this.account = account;
+            super(account);
         }
 
         public RoleBuilder withRole(Role role) {
             account.role = role;
             return this;
+        }
+    }
+
+    public static class PermissionBuilder extends Builder {
+        public PermissionBuilder(Account account) {
+            super(account);
         }
     }
 

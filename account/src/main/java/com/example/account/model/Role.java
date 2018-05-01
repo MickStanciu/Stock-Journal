@@ -12,7 +12,6 @@ public class Role implements Serializable {
 
     private Integer id;
     private String name;
-    private Set<RoleInfo> permissions;
 
     public Role() {
         //required by Jackson
@@ -21,8 +20,33 @@ public class Role implements Serializable {
     public Role(Integer id, String name) {
         this.id = id;
         this.name = name;
-        this.permissions = new HashSet<>();
     }
+
+//    public static class Builder {
+//        protected Role role;
+//
+//        public Builder() {
+//            role = new Role();
+//        }
+//
+//        public Builder(Role role) {
+//            this.role = role;
+//        }
+//
+//        public Role build() {
+//            return role;
+//        }
+//
+//        public Builder withId(Integer id) {
+//            role.id = id;
+//            return this;
+//        }
+//
+//        public Builder withName(String name) {
+//            role.name = name;
+//            return this;
+//        }
+//    }
 
     public Integer getId() {
         return id;
@@ -30,13 +54,5 @@ public class Role implements Serializable {
 
     public String getName() {
         return name;
-    }
-
-    public Set<RoleInfo> getPermissions() {
-        return permissions;
-    }
-
-    public void setPermissions(Set<RoleInfo> permissions) {
-        this.permissions = permissions;
     }
 }
