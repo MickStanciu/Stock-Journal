@@ -39,7 +39,6 @@ public class AccountRest {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        List<ErrorDto> errors = new ArrayList<>();
 
         //todo: catch all errors
         Optional<Account> accountOptional;
@@ -50,6 +49,7 @@ public class AccountRest {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
+        List<ErrorDto> errors = new ArrayList<>();
         Account account = null;
         if (!accountOptional.isPresent()) {
             errors.add(new ErrorDto(ExceptionCode.ACCOUNT_NOT_FOUND.name(), ExceptionCode.ACCOUNT_NOT_FOUND.getMessage()));
@@ -104,6 +104,41 @@ public class AccountRest {
                 .build();
     }
 
+    @GET
+    @Path("/relations/{tenantId}/{parentId}")
+    public Response getAccountByRelationship(
+            @PathParam("tenantId") @DefaultValue("0") String tenantId,
+            @PathParam("parentId") @DefaultValue("0") BigInteger parentId,
+            @QueryParam("depth") Integer depth
+    ) {
+        if (!RequestValidation.validateGetAccountsByRelationship(tenantId, parentId, depth)) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        List<Account> accountList;
+        try {
+            accountList = accountFacade.getAccountsByRelationship(tenantId, parentId, depth);
+        } catch (Exception ex) {
+            log.error(ex);
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+        }
+
+        List<ErrorDto> errors = new ArrayList<>();
+        if (accountList.isEmpty()) {
+            errors.add(new ErrorDto(ExceptionCode.ACCOUNTS_NOT_FOUND.name(), ExceptionCode.ACCOUNTS_NOT_FOUND.getMessage()));
+        }
+
+        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<List<Account>>()
+                .withData(accountList)
+                .withErrors(errors)
+                .build();
+
+        return Response.status(Response.Status.OK)
+                .entity(responseEnvelope)
+                .build();
+    }
+
+
     @POST
     @Path("/{tenantId}")
     @Consumes("appliaccount_role_infocation/json")
@@ -138,7 +173,6 @@ public class AccountRest {
         } else {
             account = accountOptional.get();
         }
-
 
 
         Response.Status status = Response.Status.CREATED;

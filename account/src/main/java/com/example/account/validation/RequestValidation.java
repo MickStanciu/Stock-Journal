@@ -49,6 +49,10 @@ public class RequestValidation extends FieldValidator {
         return active != null;
     }
 
+    private static boolean roleDepth(Integer depth) {
+        return depth != null && depth >= 0 && depth <= 100;
+    }
+
     private static boolean account(Account account) {
         return account != null;
     }
@@ -90,6 +94,11 @@ public class RequestValidation extends FieldValidator {
 
     public static Boolean validateGetAccount(String tenantId, BigInteger accountId) {
         return RequestValidation.tenantId(tenantId) && RequestValidation.accountId(accountId);
+    }
+
+    public static Boolean validateGetAccountsByRelationship(String tenantId, BigInteger accountId, Integer depth) {
+        return RequestValidation.tenantId(tenantId) && RequestValidation.accountId(accountId)
+                && RequestValidation.roleDepth(depth);
     }
 
 }

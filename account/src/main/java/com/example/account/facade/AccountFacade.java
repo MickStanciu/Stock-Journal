@@ -10,6 +10,7 @@ import com.example.account.service.RoleService;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Optional;
 
 @Stateless
@@ -34,6 +35,14 @@ public class AccountFacade {
         Account account = accountService.getAccount(tenantId, accountId);
         addRoleInformation(account);
         return Optional.ofNullable(account);
+    }
+
+    public List<Account> getAccountsByRelationship(String tenantId, BigInteger parentId, int depth) {
+        List<Account> accountList = accountService.getAccountByRelationShip(tenantId, parentId, depth);
+        for(Account account : accountList) {
+            addRoleInformation(account);
+        }
+        return accountList;
     }
 
     private void addRoleInformation(Account account) {

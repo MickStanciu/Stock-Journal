@@ -5,6 +5,7 @@ public enum ExceptionCode {
     ACCOUNT_NOT_FOUND("Account not found"),
     ACCOUNT_EXISTS("Account already exists"),
     ACCOUNT_NAME_EXISTS("Account name already exists"),
+    ACCOUNTS_NOT_FOUND("No accounts found for given request"),
     ROLE_NOT_FOUND("Role not found");
 
     private String message;

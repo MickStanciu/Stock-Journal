@@ -125,16 +125,18 @@ INSERT INTO account_relationships (tenant_fk, parent_fk, child_fk, depth) VALUES
   ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 10, 10, 0),
   ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 11, 11, 0);
 
--- CEO RELATIONSHIP
+-- RELATIONSHIPS
 INSERT INTO account_relationships (tenant_fk, parent_fk, child_fk, depth) VALUES
-  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 1, 2, 1),
-  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 1, 3, 2),
-  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 1, 4, 3),
-  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 1, 5, 4),
-  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 1, 6, 5),
-  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 1, 7, 6),
-  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 1, 8, 7),
-  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 1, 9, 8),
-  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 1, 10, 9),
-  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 1, 11, 10);
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 2, 3, 1),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 2, 4, 1),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 2, 5, 1),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 2, 8, 2),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 2, 6, 2),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 2, 7, 2),
+
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 4, 8, 1),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 5, 6, 1),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 5, 7, 1);
+
+
 

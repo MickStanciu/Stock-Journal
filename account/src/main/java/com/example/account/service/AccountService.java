@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.math.BigInteger;
+import java.util.List;
 
 @Stateless
 public class AccountService {
@@ -22,6 +23,10 @@ public class AccountService {
 
     public Account getAccount(String tenantId, BigInteger accountId) {
         return accountDao.getAccount(tenantId, accountId);
+    }
+
+    public List<Account> getAccountByRelationShip(String tenantId, BigInteger parentId, int depth) {
+        return accountDao.getAccountsByRelationship(tenantId, parentId, depth);
     }
 
     public boolean checkAccount(String tenantId, String email) {
