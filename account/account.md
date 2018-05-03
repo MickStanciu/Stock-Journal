@@ -20,33 +20,8 @@ PUT http://localhost:8080/account/api/d79ec11a-2011-4423-ba01-3af8de0a3e10/36
 
 Payload [name, password, email]
 
-**Done**
-- [x] create a table with tenants [done]
-  - [x] uuid primary key [done]
-- [x] create a table with roles [done]
-- [x] create a table with users [done]
-  - [x] linked to tenants [done]
-  - [x] linked to roles -> customisable role names [done]
-- [x] create a user service [done]
-- [x] add LTE (name and password constraints) for validation and DB constraints [done]
-- [x] add active flag [done]
-- [x] update the controller to create account [done]
-- [x] create the service to create account [done]
-- [x] update the sql [done]
-- [x] update controller to accept only name and password [done]
-- [x] update the controller to update account [done]
-- [x] create unit tests for validation [done]
-- [x] update for [active] [done]
-- [x] update for [role] [done]
-- [x] add health check for first record [done]
-- [x] read account by ID [done]
-- [x] check if the account name already exists [done]
-
 **Todo**
-- [ ] not sure we need account role name field [selected for development]
-  - [ ] make sure to search for invalid tenant [Gateway Api] [selected for development]
-  - [x] make sure to search for duplicate names [done]
+- [ ] not sure we need account role name field [selected for development] 
   - [ ] catch db errors in the controller [selected for development]
 - [ ] move Exception from controller to a default ExceptionMapper
 - [ ] add warm up for DB on startup
-- [ ] upgrade wildfly

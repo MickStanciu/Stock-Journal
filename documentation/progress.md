@@ -1,6 +1,5 @@
 # Missing Things
 - [ ] create user and database when initializing docker
-- [x] move current db to another schema [done]
 
 ### Basic Currency Support
 
@@ -19,23 +18,13 @@
 - [x] https://lizardfs.com/download/#toggle-id-1 [selected for development]
 - [ ] https://hub.docker.com/r/itherz/lizardfs-master/~/dockerfile/
 
-build docker file according to specs
-
-test files
-
-connect catalog to the repository
-
-
-### Multi-tenant Support
-**Problem:** Application has no support for multi-tenant
-
-**Solution**
-- [ ] one db per customer [will not be done]
-- [ ] same db, one schema per customer [will not be done]
-- [x] same db, same schema, customer has a discriminator [done]
+**ToDo**
+- [ ] build docker file according to specs
+- [ ] test files
+- [ ] connect catalog to the repository
 
 
-
-**Todo**
+### Other
+**ToDo**
 - fix lost DB connection issues [not done]
 
