@@ -3,33 +3,74 @@
 -----------------------
 
 -- clean up
-DROP TABLE IF EXISTS jobs;
-DROP SEQUENCE IF EXISTS jobs_seq;
-DROP TYPE IF EXISTS job_resolution;
+DROP TABLE IF EXISTS projects;
+DROP SEQUENCE IF EXISTS projects_seq;
+DROP TABLE IF EXISTS tasks;
+DROP SEQUENCE IF EXISTS tasks_seq;
+DROP TABLE IF EXISTS timesheet;
 
--- jobs table
-CREATE SEQUENCE jobs_seq;
-GRANT ALL PRIVILEGES ON SEQUENCE jobs_seq TO admin;
 
-CREATE TYPE job_resolution AS ENUM ('NOT_ALLOCATED', 'IN_PROGRESS', 'DONE');
+-- projects table
+CREATE SEQUENCE projects_seq;
+GRANT ALL PRIVILEGES ON SEQUENCE projects_seq TO admin;
 
-CREATE TABLE jobs (
-  id BIGINT PRIMARY KEY DEFAULT nextval('jobs_seq'),
+CREATE TABLE projects (
+  id BIGINT PRIMARY KEY DEFAULT nextval('projects_seq'),
   tenant_fk UUID NOT NULL,
   active boolean DEFAULT false NOT NULL,
   title VARCHAR(32) NOT NULL,
-  description TEXT,
-  resolution job_resolution,
-  created_by  BIGINT NOT NULL,
-  allocated_to  BIGINT NOT NULL,
-  created_at DATE NOT NULL,
-  expires_at DATE NOT NULL
+  description TEXT
 );
 
-INSERT INTO jobs(tenant_fk, active, title, description, resolution, created_by, allocated_to, created_at, expires_at) VALUES
-  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', true, 'Test Job 1', 'Test job ...', 'NOT_ALLOCATED', 1, 1, '2018-01-01', '2019-01-01'),
-  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', true, 'Test Job 2', 'Test expired job ...', 'NOT_ALLOCATED', 1, 1, '2018-01-01', '2018-02-01'),
-  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', true, 'Test Job 3', 'Test allocated job ...', 'IN_PROGRESS', 1, 36, '2018-01-01', '2018-10-01');
+GRANT ALL PRIVILEGES ON TABLE projects TO admin;
+
+INSERT INTO projects (tenant_fk, active, title, description) VALUES
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', true, 'Project 1', 'Project 1 description'),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', true, 'Project 2', 'Project 2 description');
+
+-- tasks table
+CREATE SEQUENCE tasks_seq;
+GRANT ALL PRIVILEGES ON SEQUENCE tasks_seq TO admin;
+
+CREATE TABLE tasks (
+  id BIGINT PRIMARY KEY DEFAULT nextval('tasks_seq'),
+  tenant_fk UUID NOT NULL,
+  project_fk BIGINT NOT NULL REFERENCES projects(id),
+  active boolean DEFAULT false NOT NULL,
+  title VARCHAR(32) NOT NULL,
+  description TEXT
+);
+
+GRANT ALL PRIVILEGES ON TABLE tasks TO admin;
 
 
-GRANT ALL PRIVILEGES ON TABLE jobs TO admin;
+INSERT INTO tasks (tenant_fk, project_fk, active, title, description) VALUES
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 1, true, 'task1', 'task 1 desc'),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 1, true, 'task2', 'task 2 desc'),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 1, true, 'task3', 'task 3 desc'),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 2, true, 'task1', 'task 1 desc'),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 2, true, 'task2', 'task 2 desc'),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 2, true, 'task3', 'task 3 desc');
+
+-- timesheet table yyyy-mm-dd
+CREATE TABLE timesheet (
+  -- id BIGINT PRIMARY KEY DEFAULT nextval('tasks_seq'),
+  tenant_fk UUID NOT NULL,
+  from_time TIMESTAMP NOT NULL,
+  to_time TIMESTAMP NOT NULL,
+  account_fk BIGINT NOT NULL,
+  project_fk BIGINT NOT NULL REFERENCES projects(id),
+  task_fk BIGINT NOT NULL REFERENCES tasks(id),
+  active boolean DEFAULT false NOT NULL,
+  title VARCHAR(32) NOT NULL
+);
+
+GRANT ALL PRIVILEGES ON TABLE timesheet TO admin;
+
+INSERT INTO timesheet (tenant_fk, from_time, to_time, account_fk, project_fk, task_fk, active, title) VALUES
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', '2018-05-01 08:01', '2018-05-01 08:30', 6, 1, 1, true, 'worked on bla'),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', '2018-05-01 08:31', '2018-05-01 09:30', 6, 1, 2, true, 'worked on bla 2'),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', '2018-05-02 10:31', '2018-05-01 11:30', 6, 2, 2, true, 'worked on bla 3'),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', '2018-04-01 08:01', '2018-04-01 08:30', 6, 1, 1, true, 'worked on bla 4'),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', '2018-04-01 08:31', '2018-04-01 09:30', 6, 1, 2, true, 'worked on bla 5'),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', '2018-04-02 10:31', '2018-04-01 11:30', 6, 2, 2, true, 'worked on bla 6');

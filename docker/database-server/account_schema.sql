@@ -9,10 +9,10 @@ DROP TABLE IF EXISTS account_permissions;
 DROP TABLE IF EXISTS account_roles;
 DROP SEQUENCE IF EXISTS account_roles_seq;
 DROP SEQUENCE IF EXISTS accounts_seq;
-DROP EXTENSION if exists "uuid-ossp";
+-- DROP EXTENSION if exists "uuid-ossp";
 
 -- init extensions
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+-- CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- account_roles table
 CREATE SEQUENCE account_roles_seq;
