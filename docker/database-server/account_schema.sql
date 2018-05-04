@@ -67,12 +67,26 @@ INSERT INTO account_permissions (tenant_fk, role_fk, name) VALUES
   ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 6, 'PAYROLL_APPROVE'),
   ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 6, 'PAYROLL_REQUEST_APPROVAL'),
   ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 7, 'LOG_IN'),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 7, 'TIMESHEET_APPROVE'),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 7, 'TIMESHEET_REJECT'),
   ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 8, 'LOG_IN'),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 8, 'TIMESHEET_APPROVE'),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 8, 'TIMESHEET_REJECT'),
   ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 9, 'LOG_IN'),
   ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 9, 'PAYROLL_REQUEST_APPROVAL'),
   ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 10, 'LOG_IN'),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 10, 'TIMESHEET_APPROVE'),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 10, 'TIMESHEET_REJECT'),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 10, 'TIMESHEET_INSERT'),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 10, 'TIMESHEET_UPDATE'),
   ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 11, 'LOG_IN'),
-  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 12, 'LOG_IN');
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 11, 'TIMESHEET_APPROVE'),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 11, 'TIMESHEET_REJECT'),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 11, 'TIMESHEET_INSERT'),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 11, 'TIMESHEET_UPDATE'),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 12, 'LOG_IN'),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 12, 'TIMESHEET_INSERT'),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 12, 'TIMESHEET_UPDATE');
 
 
 -- accounts table
