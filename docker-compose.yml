@@ -94,3 +94,12 @@ services:
 #    build: docker/storage-server/.
 #    image: toystore-fs
 #    container_name: toystore-fs
+
+#  memcache:
+#    build: docker/memcache-server/.
+#    container_name: memcache
+#    image: memcache
+#    restart: always
+#    hostname: memcache
+#    ports:
+#      - "11211:11211" #MEMCACHED SERVER
