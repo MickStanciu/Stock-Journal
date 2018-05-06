@@ -11,15 +11,15 @@ public class RequestValidation extends FieldValidator {
         return new StringValidator(date)
                 .notNull()
                 .isValid();
-        //todo: build up on this one
+        //todo: build up on this one  //todo: check regex for date
     }
     public static boolean validateGetJobs(String tenantId, BigInteger accountId) {
         return RequestValidation.tenantId(tenantId) && RequestValidation.accountId(accountId);
     }
 
     public static boolean validateGetTimesheet(String tenantId, BigInteger accountId, String from, String to) {
-        boolean response = RequestValidation.tenantId(tenantId) && RequestValidation.accountId(accountId);
-        return response && date(from) && date(to);
+        return RequestValidation.tenantId(tenantId) && RequestValidation.accountId(accountId);
+        //todo: make sure from  <  to
     }
 
 

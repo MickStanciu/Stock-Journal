@@ -73,4 +73,6 @@ INSERT INTO timesheet (tenant_fk, from_time, to_time, account_fk, project_fk, ta
   ('d79ec11a-2011-4423-ba01-3af8de0a3e10', '2018-05-02 10:31', '2018-05-01 11:30', 6, 2, 2, true, 'worked on bla 3'),
   ('d79ec11a-2011-4423-ba01-3af8de0a3e10', '2018-04-01 08:01', '2018-04-01 08:30', 6, 1, 1, true, 'worked on bla 4'),
   ('d79ec11a-2011-4423-ba01-3af8de0a3e10', '2018-04-01 08:31', '2018-04-01 09:30', 6, 1, 2, true, 'worked on bla 5'),
-  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', '2018-04-02 10:31', '2018-04-01 11:30', 6, 2, 2, true, 'worked on bla 6');
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', '2018-04-02 10:31', '2018-04-01 11:30', 6, 2, 2, true, 'worked on bla 6'),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', '2018-05-07 08:31', '2018-05-07 09:30', 6, 1, 2, true, 'worked on bla 7'),
+  ('d79ec11a-2011-4423-ba01-3af8de0a3e10', '2018-05-07 10:31', '2018-05-07 11:30', 6, 2, 2, true, 'worked on bla 8');

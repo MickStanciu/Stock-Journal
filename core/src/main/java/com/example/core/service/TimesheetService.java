@@ -1,13 +1,14 @@
 package com.example.core.service;
 
 import com.example.core.dao.TimesheetDao;
-import com.example.core.model.TimesheetEntry;
+import com.example.core.model.TimesheetEntryModel;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.math.BigInteger;
-import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 @Stateless
@@ -18,7 +19,7 @@ public class TimesheetService {
     @Inject
     private TimesheetDao timesheetDao;
 
-    public List<TimesheetEntry> getEntriesByIdAndTime(String tenantId, BigInteger accountId, Instant from, Instant to) {
-        return timesheetDao.getEntriesByIdAndTime(tenantId, accountId, from, to);
+    public List<TimesheetEntryModel> getEntriesByIdAndTime(String tenantId, BigInteger accountId, LocalDateTime from, LocalDateTime to) {
+        return timesheetDao.getEntriesByIdAndTime(tenantId, accountId, from.atZone(ZoneOffset.UTC).toInstant(), to.atZone(ZoneOffset.UTC).toInstant());
     }
 }

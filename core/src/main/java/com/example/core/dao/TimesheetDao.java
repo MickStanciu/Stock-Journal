@@ -2,7 +2,7 @@ package com.example.core.dao;
 
 import com.example.core.model.ProjectModel;
 import com.example.core.model.TaskModel;
-import com.example.core.model.TimesheetEntry;
+import com.example.core.model.TimesheetEntryModel;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
@@ -29,21 +29,27 @@ public class TimesheetDao {
             "FROM timesheet t " +
             "LEFT JOIN projects p on t.project_fk = p.id " +
             "LEFT JOIN tasks t2 on t.task_fk = t2.id " +
-            "WHERE t.tenant_fk = CAST(:tenant_fk AS uuid)";
+            "WHERE t.tenant_fk = CAST(:tenant_fk AS uuid) " +
+            "and t.account_fk = :account_fk " +
+            "and t.from_time = :from_time " +
+            "and t.to_time = :to_time";
 
     @PersistenceContext
     private EntityManager em;
 
-    public List<TimesheetEntry> getEntriesByIdAndTime(String tenantId, BigInteger accountId, Instant from, Instant to) {
+    public List<TimesheetEntryModel> getEntriesByIdAndTime(String tenantId, BigInteger accountId, Instant from, Instant to) {
         Query q = em.createNativeQuery(TIMESHEET_READ_BY_ACCOUNT);
         q.setParameter("tenant_fk", tenantId);
+        q.setParameter("account_fk", accountId);
+        q.setParameter("from_time", from);
+        q.setParameter("to_time", to);
 
         List<Object[]> results = q.getResultList();
         if (results.size() == 0) {
             return Collections.emptyList();
         }
 
-        List<TimesheetEntry> entryList = new ArrayList<>();
+        List<TimesheetEntryModel> entryList = new ArrayList<>();
         for(Object[] result : results) {
             entryList.add(mapFromObject(result));
         }
@@ -51,7 +57,7 @@ public class TimesheetDao {
     }
 
 
-    private TimesheetEntry mapFromObject(Object[] result) {
+    private TimesheetEntryModel mapFromObject(Object[] result) {
         ProjectModel project = ProjectModel.builder()
                 .withTenantId((String) result[3])
                 .withId((BigInteger) result[4])
@@ -69,7 +75,7 @@ public class TimesheetDao {
                 .withDescription((String) result[12])
                 .build();
 
-        return TimesheetEntry.builder()
+        return TimesheetEntryModel.builder()
                 .withAccountId((BigInteger) result[0])
                 .withTenantId((String) result[3])
                 .havingProject(project)

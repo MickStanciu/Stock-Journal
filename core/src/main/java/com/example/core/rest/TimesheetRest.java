@@ -2,15 +2,21 @@ package com.example.core.rest;
 
 import com.example.common.rest.dto.ErrorDto;
 import com.example.common.rest.envelope.ResponseEnvelope;
+import com.example.core.conversion.TimeConversion;
 import com.example.core.exception.ExceptionCode;
-import com.example.core.model.TimesheetEntry;
+import com.example.core.model.TimesheetEntryModel;
 import com.example.core.service.TimesheetService;
 import com.example.core.validation.RequestValidation;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ws.rs.*;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -31,17 +37,22 @@ public class TimesheetRest {
     public Response getAccount(
             @PathParam("tenantId") @DefaultValue("0") String tenantId,
             @PathParam("accountId") @DefaultValue("0") BigInteger accountId,
-            @QueryParam("from") @DefaultValue("") String from,
-            @QueryParam("to") @DefaultValue("") String to
+            @QueryParam("from") String from,
+            @QueryParam("to") String to
     ) {
+
+        if (from == null || to == null) {
+            from = TimeConversion.now();
+            to = TimeConversion.now();
+        }
         if (!RequestValidation.validateGetTimesheet(tenantId, accountId, from, to)) {
             return Response.status(Response.Status.BAD_REQUEST).build();
             //todo: validate from to
         }
 
-        List<TimesheetEntry> entryList;
+        List<TimesheetEntryModel> entryList;
         try {
-            entryList = timesheetService.getEntriesByIdAndTime(tenantId, accountId, null, null);
+            entryList = timesheetService.getEntriesByIdAndTime(tenantId, accountId, TimeConversion.fromString(from), TimeConversion.fromString(to));
         } catch (Exception ex) {
             log.error(ex);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
@@ -52,7 +63,7 @@ public class TimesheetRest {
             errors.add(new ErrorDto(ExceptionCode.TIMESHEET_NOT_FOUND.name(), ExceptionCode.TIMESHEET_NOT_FOUND.getMessage()));
         }
 
-        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<List<TimesheetEntry>>()
+        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<List<TimesheetEntryModel>>()
                 .withData(entryList)
                 .withErrors(errors)
                 .build();
