@@ -14,6 +14,7 @@ import java.util.List;
 
 @Stateless
 public class AccountDao {
+
     private static final Logger log = Logger.getLogger(AccountDao.class);
 
     private static final String ACCOUNT_READ_BY_EMAIL_AND_PASSWORD_QUERY = "SELECT a.id AS account_id, a.name AS account_name, " +
@@ -39,11 +40,6 @@ public class AccountDao {
     private static final String ACCOUNT_READ_FIRST_QUERY = "SELECT a.id FROM accounts a " +
             "INNER JOIN account_roles ar ON a.role_fk = ar.id AND CAST(ar.tenant_fk AS uuid) = CAST(a.tenant_fk AS uuid) " +
             "LIMIT 1";
-
-    private static final String ACCOUNTS_READ_BY_RELATIONSHIP_BETA = "SELECT a.id AS account_id, a.name AS account_name, " +
-            " '123' as password, " +
-            "a.email, CAST(a.tenant_fk AS VARCHAR(36)) AS tenant_id, a.active, a.role_fk " +
-            "FROM accounts a ";
 
     private static final String ACCOUNTS_READ_BY_RELATIONSHIP = "SELECT a.id AS account_id, a.name AS account_name, " +
             ":password as password, a.email, CAST(a.tenant_fk AS VARCHAR(36)) AS tenant_id, a.active, a.role_fk " +

@@ -58,7 +58,7 @@ public class RequestValidation extends FieldValidator {
     }
 
     public static boolean validateUpdateAccount(String tenantId, BigInteger accountId, Account account) {
-        boolean response =  RequestValidation.tenantId(tenantId) && RequestValidation.accountId(accountId)
+        boolean response = RequestValidation.tenantId(tenantId) && RequestValidation.accountId(accountId)
                 && RequestValidation.account(account);
 
         //validate optional fields
