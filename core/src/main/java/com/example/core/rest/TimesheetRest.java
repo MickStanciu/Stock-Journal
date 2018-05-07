@@ -11,12 +11,7 @@ import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
@@ -26,7 +21,7 @@ import java.util.List;
 @Stateless
 @Path("/")
 @Produces("application/json")
-public class TimesheetRest {
+public class TimesheetRest implements TimesheetInterface {
 
     private static final Logger log = Logger.getLogger(TimesheetRest.class);
 
@@ -35,7 +30,7 @@ public class TimesheetRest {
 
     @GET
     @Path("/{tenantId}/{accountId}")
-    public Response getAccount(
+    public Response getTimesheetEntries(
             @PathParam("tenantId") @DefaultValue("0") String tenantId,
             @PathParam("accountId") @DefaultValue("0") BigInteger accountId,
             @QueryParam("from") String from,

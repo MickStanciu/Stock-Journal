@@ -32,6 +32,7 @@ services:
       - CONSUL_ADDRESS=http://consul:8500
       - ACCOUNT_API_ADDRESS=http://accountapi:8080
       - TENANT_API_ADDRESS=http://tenantapi:8080
+      - TIMESHEET_API_ADDRESS=https://coreapi:8080
 
   tenantapi:
     build: tenant/docker/.

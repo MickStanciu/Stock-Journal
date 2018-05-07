@@ -1,8 +1,7 @@
-package com.example.gatewayapi.gateway.tenantApi;
+package com.example.gatewayapi.gateway;
 
-import com.example.gatewayapi.gateway.AbstractGateway;
-import com.example.gatewayapi.gateway.ResponseEnvelope;
-import com.example.gatewayapi.gateway.SystemProperty;
+import com.example.core.model.TimesheetEntryModel;
+import com.example.core.rest.TimesheetInterface;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
@@ -13,27 +12,29 @@ import javax.inject.Inject;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
-import java.util.Optional;
+import java.math.BigInteger;
+import java.util.Collections;
+import java.util.List;
 
 @Stateless
-public class TenantGateway extends AbstractGateway {
+public class TimesheetGateway extends AbstractGateway {
 
     @Inject
-    @SystemProperty("TENANT_API_ADDRESS")
+    @SystemProperty("TIMESHEET_API_ADDRESS")
     private String SERVICE_URL;
 
-    private TenantInterface proxy;
+    private TimesheetInterface proxy;
 
     @PostConstruct
     public void init() {
         ResteasyClient client = new ResteasyClientBuilder().build();
         ResteasyWebTarget target = client.target(UriBuilder.fromPath(SERVICE_URL + "/api"));
-        proxy = target.proxy(TenantInterface.class);
+        proxy = target.proxy(TimesheetInterface.class);
     }
 
-    public Optional<Tenant> getTenant(String tenantId) {
-        Response response = proxy.tenantByUUID(tenantId);
-        ResponseEnvelope<Tenant> envelope = response.readEntity(new GenericType<ResponseEnvelope<Tenant>>(){});
+    public List<TimesheetEntryModel> getTimesheetEntries(String tenantId, BigInteger accountId, String from, String to) {
+        Response response = proxy.getTimesheetEntries(tenantId, accountId, from, to);
+        ResponseEnvelope<List<TimesheetEntryModel>> envelope = response.readEntity(new GenericType<ResponseEnvelope<List<TimesheetEntryModel>>>(){});
         response.close();
 
         if (response.getStatus() != 200 && envelope.getErrors() != null) {
@@ -41,9 +42,10 @@ public class TenantGateway extends AbstractGateway {
         }
 
         if (response.getStatus() == 200 && envelope.getData() != null) {
-            return Optional.of(envelope.getData());
+            return envelope.getData();
         }
-        return Optional.empty();
+
+        return Collections.emptyList();
     }
 
 }

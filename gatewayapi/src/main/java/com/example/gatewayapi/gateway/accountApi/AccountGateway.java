@@ -1,9 +1,8 @@
 package com.example.gatewayapi.gateway.accountApi;
 
-import com.example.common.rest.dto.ErrorDto;
+import com.example.gatewayapi.gateway.AbstractGateway;
 import com.example.gatewayapi.gateway.ResponseEnvelope;
 import com.example.gatewayapi.gateway.SystemProperty;
-import org.apache.log4j.Logger;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
@@ -15,13 +14,10 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import java.math.BigInteger;
-import java.util.List;
 import java.util.Optional;
 
 @Stateless
-public class AccountGateway {
-
-    private static final Logger log = Logger.getLogger(AccountGateway.class);
+public class AccountGateway extends AbstractGateway {
 
     @Inject
     @SystemProperty("ACCOUNT_API_ADDRESS")
@@ -66,9 +62,4 @@ public class AccountGateway {
         return Optional.empty();
     }
 
-    private void processErrors(List<ErrorDto> errors) {
-        for (ErrorDto error : errors) {
-            log.error(error);
-        }
-    }
 }
