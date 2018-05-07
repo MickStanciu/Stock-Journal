@@ -31,8 +31,8 @@ public class TimesheetDao {
             "LEFT JOIN tasks t2 on t.task_fk = t2.id " +
             "WHERE t.tenant_fk = CAST(:tenant_fk AS uuid) " +
             "and t.account_fk = :account_fk " +
-            "and t.from_time = :from_time " +
-            "and t.to_time = :to_time";
+            "and t.from_time >= :from_time " +
+            "and t.to_time <= :to_time";
 
     @PersistenceContext
     private EntityManager em;
@@ -42,7 +42,7 @@ public class TimesheetDao {
         q.setParameter("tenant_fk", tenantId);
         q.setParameter("account_fk", accountId);
         q.setParameter("from_time", Timestamp.valueOf(from));
-        q.setParameter("to_time", Timestamp.valueOf(from));
+        q.setParameter("to_time", Timestamp.valueOf(to));
 
         List<Object[]> results = q.getResultList();
         if (results.size() == 0) {

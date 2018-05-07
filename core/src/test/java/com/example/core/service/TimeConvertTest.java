@@ -18,6 +18,7 @@ public class TimeConvertTest {
 
     @Test
     public void bla() {
+        //todo test this properly
         System.out.println(TimeConversion.getStartOfDay());
         System.out.println(TimeConversion.getEndOfDay());
     }
