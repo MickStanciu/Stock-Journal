@@ -2,8 +2,7 @@ package com.example.gatewayapi.gateway;
 
 import com.example.core.model.TimesheetEntryModel;
 import com.example.core.rest.TimesheetRestInterface;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.example.gatewayapi.JacksonObjectMapper;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
@@ -29,11 +28,8 @@ public class TimesheetGateway extends AbstractGateway {
 
     @PostConstruct
     public void init() {
-        ObjectMapper mapper = new ObjectMapper()
-                .registerModule(new JavaTimeModule());
-
         ResteasyClient client = new ResteasyClientBuilder()
-                .register(mapper)
+                .register(JacksonObjectMapper.class)
                 .build();
         ResteasyWebTarget target = client.target(UriBuilder.fromPath(SERVICE_URL + "/api"));
         proxy = target.proxy(TimesheetRestInterface.class);
