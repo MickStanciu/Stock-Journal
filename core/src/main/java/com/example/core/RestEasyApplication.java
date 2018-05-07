@@ -1,4 +1,4 @@
-package com.example.gatewayapi.rest;
+package com.example.core;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
