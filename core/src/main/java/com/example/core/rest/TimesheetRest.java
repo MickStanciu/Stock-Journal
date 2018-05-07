@@ -19,6 +19,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import java.math.BigInteger;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,19 +41,25 @@ public class TimesheetRest {
             @QueryParam("from") String from,
             @QueryParam("to") String to
     ) {
-
-        if (from == null || to == null) {
-            from = TimeConversion.now();
-            to = TimeConversion.now();
-        }
         if (!RequestValidation.validateGetTimesheet(tenantId, accountId, from, to)) {
             return Response.status(Response.Status.BAD_REQUEST).build();
             //todo: validate from to
         }
 
+        LocalDateTime fromDate;
+        LocalDateTime toDate;
+
+        if (from == null || to == null) {
+            fromDate = TimeConversion.getStartOfDay();
+            toDate = TimeConversion.getEndOfDay();
+        } else {
+            fromDate = TimeConversion.fromString(from);
+            toDate = TimeConversion.fromString(to);
+        }
+
         List<TimesheetEntryModel> entryList;
         try {
-            entryList = timesheetService.getEntriesByIdAndTime(tenantId, accountId, TimeConversion.fromString(from), TimeConversion.fromString(to));
+            entryList = timesheetService.getEntriesByIdAndTime(tenantId, accountId, fromDate, toDate);
         } catch (Exception ex) {
             log.error(ex);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();

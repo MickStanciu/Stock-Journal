@@ -15,4 +15,10 @@ public class TimeConvertTest {
         LocalDateTime localDateTime = TimeConversion.fromString(inputDate);
         Assert.assertEquals(localDateTime.toString(), "2018-05-07T00:00");
     }
+
+    @Test
+    public void bla() {
+        System.out.println(TimeConversion.getStartOfDay());
+        System.out.println(TimeConversion.getEndOfDay());
+    }
 }
