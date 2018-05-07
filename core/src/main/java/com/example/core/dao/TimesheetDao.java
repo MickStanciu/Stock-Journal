@@ -11,7 +11,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.math.BigInteger;
 import java.sql.Timestamp;
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,12 +37,12 @@ public class TimesheetDao {
     @PersistenceContext
     private EntityManager em;
 
-    public List<TimesheetEntryModel> getEntriesByIdAndTime(String tenantId, BigInteger accountId, Instant from, Instant to) {
+    public List<TimesheetEntryModel> getEntriesByIdAndTime(String tenantId, BigInteger accountId, LocalDateTime from, LocalDateTime to) {
         Query q = em.createNativeQuery(TIMESHEET_READ_BY_ACCOUNT);
         q.setParameter("tenant_fk", tenantId);
         q.setParameter("account_fk", accountId);
-        q.setParameter("from_time", from);
-        q.setParameter("to_time", to);
+        q.setParameter("from_time", Timestamp.valueOf(from));
+        q.setParameter("to_time", Timestamp.valueOf(from));
 
         List<Object[]> results = q.getResultList();
         if (results.size() == 0) {

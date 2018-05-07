@@ -8,7 +8,6 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.List;
 
 @Stateless
@@ -20,6 +19,6 @@ public class TimesheetService {
     private TimesheetDao timesheetDao;
 
     public List<TimesheetEntryModel> getEntriesByIdAndTime(String tenantId, BigInteger accountId, LocalDateTime from, LocalDateTime to) {
-        return timesheetDao.getEntriesByIdAndTime(tenantId, accountId, from.atZone(ZoneOffset.UTC).toInstant(), to.atZone(ZoneOffset.UTC).toInstant());
+        return timesheetDao.getEntriesByIdAndTime(tenantId, accountId, from, to);
     }
 }
