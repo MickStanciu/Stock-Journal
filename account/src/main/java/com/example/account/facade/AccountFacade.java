@@ -2,8 +2,8 @@ package com.example.account.facade;
 
 import com.example.account.exception.AccountException;
 import com.example.account.exception.ExceptionCode;
-import com.example.account.model.Account;
-import com.example.account.model.Role;
+import com.example.account.model.AccountModel;
+import com.example.account.model.RoleModel;
 import com.example.account.service.AccountService;
 import com.example.account.service.RoleService;
 
@@ -25,38 +25,38 @@ public class AccountFacade {
     @Inject
     private RoleService roleService;
 
-    public Optional<Account> getAccount(String tenantId, String email, String password) {
-        Account account = accountService.getAccount(tenantId, email, password);
+    public Optional<AccountModel> getAccount(String tenantId, String email, String password) {
+        AccountModel account = accountService.getAccount(tenantId, email, password);
         addRoleInformation(account);
         return Optional.ofNullable(account);
     }
 
-    public Optional<Account> getAccount(String tenantId, BigInteger accountId) {
-        Account account = accountService.getAccount(tenantId, accountId);
+    public Optional<AccountModel> getAccount(String tenantId, BigInteger accountId) {
+        AccountModel account = accountService.getAccount(tenantId, accountId);
         addRoleInformation(account);
         return Optional.ofNullable(account);
     }
 
-    public List<Account> getAccountsByRelationship(String tenantId, BigInteger parentId, int depth) {
-        List<Account> accountList = accountService.getAccountByRelationShip(tenantId, parentId, depth);
-        for(Account account : accountList) {
+    public List<AccountModel> getAccountsByRelationship(String tenantId, BigInteger parentId, int depth) {
+        List<AccountModel> accountList = accountService.getAccountByRelationShip(tenantId, parentId, depth);
+        for(AccountModel account : accountList) {
             addRoleInformation(account);
         }
         return accountList;
     }
 
-    private void addRoleInformation(Account account) {
+    private void addRoleInformation(AccountModel account) {
         if (account == null) {
             return;
         }
 
-        Role role = roleService.getRole(account.getTenantId(), account.getRoleId());
+        RoleModel role = roleService.getRole(account.getTenantId(), account.getRoleId());
         if (role != null) {
-            Account.builder(account).havingRole().withRole(role);
+            AccountModel.builder(account).havingRole().withRole(role);
         }
     }
 
-    public Optional<Account> createAccount(String tenantId, String email, String password) throws AccountException {
+    public Optional<AccountModel> createAccount(String tenantId, String email, String password) throws AccountException {
         if (accountService.checkAccount(tenantId, email)) {
             throw new AccountException(ExceptionCode.ACCOUNT_EXISTS);
         }
@@ -65,8 +65,8 @@ public class AccountFacade {
         return Optional.ofNullable(accountService.getAccount(tenantId, email, password));
     }
 
-    public Optional<Account> updateAccount(String tenantId, BigInteger accountId, Account newAccount) throws AccountException {
-        Account originalAccount = accountService.getAccount(tenantId, accountId);
+    public Optional<AccountModel> updateAccount(String tenantId, BigInteger accountId, AccountModel newAccount) throws AccountException {
+        AccountModel originalAccount = accountService.getAccount(tenantId, accountId);
 
         if (originalAccount == null) {
             throw new AccountException(ExceptionCode.ACCOUNT_NOT_FOUND);
@@ -78,7 +78,7 @@ public class AccountFacade {
 
         //validate role
         if (newAccount.getRole() != null && newAccount.getRole().getId() != null) {
-            Role role = roleService.getRole(tenantId, newAccount.getRole().getId());
+            RoleModel role = roleService.getRole(tenantId, newAccount.getRole().getId());
             if (role == null) {
                 throw new AccountException(ExceptionCode.ROLE_NOT_FOUND);
             }

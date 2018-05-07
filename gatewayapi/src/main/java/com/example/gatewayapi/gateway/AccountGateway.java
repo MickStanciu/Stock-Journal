@@ -1,8 +1,7 @@
-package com.example.gatewayapi.gateway.accountApi;
+package com.example.gatewayapi.gateway;
 
-import com.example.gatewayapi.gateway.AbstractGateway;
-import com.example.gatewayapi.gateway.ResponseEnvelope;
-import com.example.gatewayapi.gateway.SystemProperty;
+import com.example.account.model.AccountModel;
+import com.example.account.rest.AccountRestInterface;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
@@ -23,18 +22,18 @@ public class AccountGateway extends AbstractGateway {
     @SystemProperty("ACCOUNT_API_ADDRESS")
     private String SERVICE_URL;
 
-    private AccountInterface proxy;
+    private AccountRestInterface proxy;
 
     @PostConstruct
     public void init() {
         ResteasyClient client = new ResteasyClientBuilder().build();
         ResteasyWebTarget target = client.target(UriBuilder.fromPath(SERVICE_URL + "/api"));
-        proxy = target.proxy(AccountInterface.class);
+        proxy = target.proxy(AccountRestInterface.class);
     }
 
-    public Optional<Account> getAccount(String tenantId, String email, String password) {
+    public Optional<AccountModel> getAccount(String tenantId, String email, String password) {
         Response response = proxy.accountByEmailAndPassword(tenantId, email, password);
-        ResponseEnvelope<Account> envelope = response.readEntity(new GenericType<ResponseEnvelope<Account>>(){});
+        ResponseEnvelope<AccountModel> envelope = response.readEntity(new GenericType<ResponseEnvelope<AccountModel>>(){});
         response.close();
 
         if (response.getStatus() != 200 && envelope.getErrors() != null) {
@@ -47,9 +46,9 @@ public class AccountGateway extends AbstractGateway {
         return Optional.empty();
     }
 
-    public Optional<Account> getAccount(String tenantId, BigInteger accountId) {
+    public Optional<AccountModel> getAccount(String tenantId, BigInteger accountId) {
         Response response = proxy.accountById(tenantId, accountId);
-        ResponseEnvelope<Account> envelope = response.readEntity(new GenericType<ResponseEnvelope<Account>>(){});
+        ResponseEnvelope<AccountModel> envelope = response.readEntity(new GenericType<ResponseEnvelope<AccountModel>>(){});
         response.close();
 
         if (response.getStatus() != 200 && envelope.getErrors() != null) {

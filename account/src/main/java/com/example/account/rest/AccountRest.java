@@ -3,7 +3,7 @@ package com.example.account.rest;
 import com.example.account.exception.AccountException;
 import com.example.account.exception.ExceptionCode;
 import com.example.account.facade.AccountFacade;
-import com.example.account.model.Account;
+import com.example.account.model.AccountModel;
 import com.example.account.validation.RequestValidation;
 import com.example.common.rest.dto.ErrorDto;
 import com.example.common.rest.envelope.ResponseEnvelope;
@@ -21,7 +21,7 @@ import java.util.Optional;
 @Stateless
 @Path("/")
 @Produces("application/json")
-public class AccountRest {
+public class AccountRest implements AccountRestInterface {
 
     private static final Logger log = Logger.getLogger(AccountRest.class);
 
@@ -30,7 +30,7 @@ public class AccountRest {
 
     @GET
     @Path("/{tenantId}")
-    public Response getAccount(
+    public Response accountByEmailAndPassword(
             @PathParam("tenantId") @DefaultValue("0") String tenantId,
             @QueryParam("email") @DefaultValue("") String email,
             @QueryParam("password") @DefaultValue("") String password
@@ -41,7 +41,7 @@ public class AccountRest {
 
 
         //todo: catch all errors
-        Optional<Account> accountOptional;
+        Optional<AccountModel> accountOptional;
         try {
             accountOptional = accountFacade.getAccount(tenantId, email, password);
         } catch (Exception ex) {
@@ -50,14 +50,14 @@ public class AccountRest {
         }
 
         List<ErrorDto> errors = new ArrayList<>();
-        Account account = null;
+        AccountModel account = null;
         if (!accountOptional.isPresent()) {
             errors.add(new ErrorDto(ExceptionCode.ACCOUNT_NOT_FOUND.name(), ExceptionCode.ACCOUNT_NOT_FOUND.getMessage()));
         } else {
             account = accountOptional.get();
         }
 
-        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<Account>()
+        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<AccountModel>()
                 .withData(account)
                 .withErrors(errors)
                 .build();
@@ -69,7 +69,7 @@ public class AccountRest {
 
     @GET
     @Path("/{tenantId}/{accountId}")
-    public Response getAccount(
+    public Response accountById(
             @PathParam("tenantId") @DefaultValue("0") String tenantId,
             @PathParam("accountId") @DefaultValue("0") BigInteger accountId
     ) {
@@ -79,7 +79,7 @@ public class AccountRest {
 
         List<ErrorDto> errors = new ArrayList<>();
 
-        Optional<Account> accountOptional;
+        Optional<AccountModel> accountOptional;
         try {
             accountOptional = accountFacade.getAccount(tenantId, accountId);
         } catch (Exception ex) {
@@ -87,14 +87,14 @@ public class AccountRest {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
-        Account account = null;
+        AccountModel account = null;
         if (!accountOptional.isPresent()) {
             errors.add(new ErrorDto(ExceptionCode.ACCOUNT_NOT_FOUND.name(), ExceptionCode.ACCOUNT_NOT_FOUND.getMessage()));
         } else {
             account = accountOptional.get();
         }
 
-        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<Account>()
+        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<AccountModel>()
                 .withData(account)
                 .withErrors(errors)
                 .build();
@@ -115,7 +115,7 @@ public class AccountRest {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        List<Account> accountList;
+        List<AccountModel> accountList;
         try {
             accountList = accountFacade.getAccountsByRelationship(tenantId, parentId, depth);
         } catch (Exception ex) {
@@ -128,7 +128,7 @@ public class AccountRest {
             errors.add(new ErrorDto(ExceptionCode.ACCOUNTS_NOT_FOUND.name(), ExceptionCode.ACCOUNTS_NOT_FOUND.getMessage()));
         }
 
-        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<List<Account>>()
+        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<List<AccountModel>>()
                 .withData(accountList)
                 .withErrors(errors)
                 .build();
@@ -142,7 +142,7 @@ public class AccountRest {
     @POST
     @Path("/{tenantId}")
     @Consumes("appliaccount_role_infocation/json")
-    public Response createAccount(Account account, @PathParam("tenantId") @DefaultValue("0") String tenantId) {
+    public Response createAccount(AccountModel account, @PathParam("tenantId") @DefaultValue("0") String tenantId) {
         //todo: sanitize the accountDto
         //todo: catch bad params: com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException
 
@@ -150,7 +150,7 @@ public class AccountRest {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        Optional<Account> accountOptional;
+        Optional<AccountModel> accountOptional;
         List<ErrorDto> errors = new ArrayList<>();
 
         try {
@@ -184,7 +184,7 @@ public class AccountRest {
             }
         }
 
-        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<Account>()
+        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<AccountModel>()
                 .withData(account)
                 .withErrors(errors)
                 .build();
@@ -199,7 +199,7 @@ public class AccountRest {
     @Path("/{tenantId}/{accountId}")
     @Consumes("application/json")
     public Response updateAccount(
-            Account account,
+            AccountModel account,
             @PathParam("tenantId") @DefaultValue("0") String tenantId,
             @PathParam("accountId") @DefaultValue("0") BigInteger accountId
            ) {
@@ -208,7 +208,7 @@ public class AccountRest {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        Optional<Account> accountOptional;
+        Optional<AccountModel> accountOptional;
         List<ErrorDto> errors = new ArrayList<>();
 
         try {
@@ -237,7 +237,7 @@ public class AccountRest {
             status = Response.Status.BAD_REQUEST;
         }
 
-        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<Account>()
+        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<AccountModel>()
                 .withData(account)
                 .withErrors(errors)
                 .build();

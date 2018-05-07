@@ -3,7 +3,7 @@ package com.example.account.model;
 import java.io.Serializable;
 import java.math.BigInteger;
 
-public class Account implements Serializable {
+public class AccountModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -16,9 +16,9 @@ public class Account implements Serializable {
     private String tenantId;
     private Integer roleId;
 
-    private Role role;
+    private RoleModel role;
 
-    public Account() {
+    public AccountModel() {
         //required by Jackson
     }
 
@@ -26,7 +26,7 @@ public class Account implements Serializable {
         return id;
     }
 
-    public Role getRole() {
+    public RoleModel getRole() {
         return role;
     }
 
@@ -58,22 +58,22 @@ public class Account implements Serializable {
         return new Builder();
     }
 
-    public static Builder builder(Account account) {
+    public static Builder builder(AccountModel account) {
         return new Builder(account);
     }
 
     public static class Builder {
-        protected Account account;
+        protected AccountModel account;
 
         public Builder() {
-            account = new Account();
+            account = new AccountModel();
         }
 
-        public Builder(Account account) {
+        public Builder(AccountModel account) {
             this.account = account;
         }
 
-        public Account build() {
+        public AccountModel build() {
             return account;
         }
 
@@ -87,7 +87,7 @@ public class Account implements Serializable {
     }
 
     public static class RoleBuilder extends Builder {
-        RoleBuilder(Account account) {
+        RoleBuilder(AccountModel account) {
             super(account);
         }
 
@@ -96,20 +96,20 @@ public class Account implements Serializable {
             return this;
         }
 
-        public RoleBuilder withRole(Role role) {
+        public RoleBuilder withRole(RoleModel role) {
             account.role = role;
             return this;
         }
     }
 
     public static class PermissionBuilder extends Builder {
-        public PermissionBuilder(Account account) {
+        public PermissionBuilder(AccountModel account) {
             super(account);
         }
     }
 
     public static class AccountBuilder extends Builder {
-        AccountBuilder(Account account) {
+        AccountBuilder(AccountModel account) {
             this.account = account;
         }
 

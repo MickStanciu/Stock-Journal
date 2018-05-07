@@ -1,6 +1,6 @@
 package com.example.account.dao;
 
-import com.example.account.model.Account;
+import com.example.account.model.AccountModel;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
@@ -53,7 +53,7 @@ public class AccountDao {
     @PersistenceContext
     private EntityManager em;
 
-    public Account getAccount(String tenantId, String email, String password) {
+    public AccountModel getAccount(String tenantId, String email, String password) {
         Query q = em.createNativeQuery(ACCOUNT_READ_BY_EMAIL_AND_PASSWORD_QUERY);
         q.setParameter("tenant_fk", tenantId);
         q.setParameter("email", email);
@@ -68,7 +68,7 @@ public class AccountDao {
     }
 
 
-    public Account getAccount(String tenantId, BigInteger accountId) {
+    public AccountModel getAccount(String tenantId, BigInteger accountId) {
         Query q = em.createNativeQuery(ACCOUNT_READ_BY_ID_QUERY);
         q.setParameter("tenant_fk", tenantId);
         q.setParameter("account_id", accountId);
@@ -81,7 +81,7 @@ public class AccountDao {
         return mapFromObject(results.get(0));
     }
 
-    public List<Account> getAccountsByRelationship(String tenantId, BigInteger parentId, int depth) {
+    public List<AccountModel> getAccountsByRelationship(String tenantId, BigInteger parentId, int depth) {
         Query q = em.createNativeQuery(ACCOUNTS_READ_BY_RELATIONSHIP);
         q.setParameter("tenant_fk", tenantId);
         q.setParameter("parent_fk", parentId);
@@ -93,7 +93,7 @@ public class AccountDao {
             return Collections.emptyList();
         }
 
-        List<Account> accountList = new ArrayList<>();
+        List<AccountModel> accountList = new ArrayList<>();
         for(Object[] result : results) {
             accountList.add(mapFromObject(result));
         }
@@ -128,7 +128,7 @@ public class AccountDao {
     }
 
 
-    public void updateAccount(String tenantId, BigInteger accountId, Account newAccount) {
+    public void updateAccount(String tenantId, BigInteger accountId, AccountModel newAccount) {
         Query q = em.createNativeQuery(ACCOUNT_UPDATE_QUERY);
         q.setParameter("tenant_fk", tenantId);
         q.setParameter("account_id", accountId);
@@ -141,8 +141,8 @@ public class AccountDao {
     }
 
 
-    private Account mapFromObject(Object[] result) {
-        return Account.builder()
+    private AccountModel mapFromObject(Object[] result) {
+        return AccountModel.builder()
                 .havingPersonalDetails()
                     .withTenantId(((String) result[4]))
                     .withId(((BigInteger) result[0]))

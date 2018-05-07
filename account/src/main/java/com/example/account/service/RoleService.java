@@ -1,7 +1,7 @@
 package com.example.account.service;
 
 import com.example.account.dao.RoleDao;
-import com.example.account.model.Role;
+import com.example.account.model.RoleModel;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
@@ -15,7 +15,7 @@ public class RoleService {
     @Inject
     private RoleDao roleDao;
 
-    public Role getRole(String tenantId, int roleId) {
+    public RoleModel getRole(String tenantId, int roleId) {
         return roleDao.getRole(tenantId, roleId);
     }
 }

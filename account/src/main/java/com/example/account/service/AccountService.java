@@ -1,7 +1,7 @@
 package com.example.account.service;
 
 import com.example.account.dao.AccountDao;
-import com.example.account.model.Account;
+import com.example.account.model.AccountModel;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
@@ -17,15 +17,15 @@ public class AccountService {
     @Inject
     private AccountDao accountDao;
 
-    public Account getAccount(String tenantId, String email, String password) {
+    public AccountModel getAccount(String tenantId, String email, String password) {
         return accountDao.getAccount(tenantId, email, password);
     }
 
-    public Account getAccount(String tenantId, BigInteger accountId) {
+    public AccountModel getAccount(String tenantId, BigInteger accountId) {
         return accountDao.getAccount(tenantId, accountId);
     }
 
-    public List<Account> getAccountByRelationShip(String tenantId, BigInteger parentId, int depth) {
+    public List<AccountModel> getAccountByRelationShip(String tenantId, BigInteger parentId, int depth) {
         return accountDao.getAccountsByRelationship(tenantId, parentId, depth);
     }
 
@@ -37,14 +37,14 @@ public class AccountService {
         accountDao.createAccount(tenantId, name, password, email, roleId);
     }
 
-    public void updateAccount(String tenantId, BigInteger accountId, Account originalAccount, Account account) {
+    public void updateAccount(String tenantId, BigInteger accountId, AccountModel originalAccount, AccountModel account) {
         //transfer only allowed fields
-        Account newAccount = copyAccount(tenantId, accountId, originalAccount, account);
+        AccountModel newAccount = copyAccount(tenantId, accountId, originalAccount, account);
         accountDao.updateAccount(tenantId, accountId, newAccount);
     }
 
-    protected Account copyAccount(String tenantId, BigInteger accountId, Account originalAccount, Account account) {
-        Account.Builder builder = new Account.Builder();
+    protected AccountModel copyAccount(String tenantId, BigInteger accountId, AccountModel originalAccount, AccountModel account) {
+        AccountModel.Builder builder = new AccountModel.Builder();
         builder
             .havingPersonalDetails()
                 .withTenantId(tenantId)

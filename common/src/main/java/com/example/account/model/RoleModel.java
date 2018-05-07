@@ -4,19 +4,19 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Role implements Serializable {
+public class RoleModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private Integer id;
     private String name;
-    private Set<RoleInfo> permissions;
+    private Set<RoleInfoModel> permissions;
 
-    public Role() {
+    public RoleModel() {
         //required by Jackson
     }
 
-    public Role(Integer id, String name) {
+    public RoleModel(Integer id, String name) {
         this.id = id;
         this.name = name;
         this.permissions = new HashSet<>();
@@ -26,22 +26,22 @@ public class Role implements Serializable {
         return new Builder();
     }
 
-    public static Builder builder(Role role) {
+    public static Builder builder(RoleModel role) {
         return new Builder(role);
     }
 
     public static class Builder {
-        protected Role role;
+        protected RoleModel role;
 
         public Builder() {
-            role = new Role();
+            role = new RoleModel();
         }
 
-        public Builder(Role role) {
+        public Builder(RoleModel role) {
             this.role = role;
         }
 
-        public Role build() {
+        public RoleModel build() {
             if (role.permissions == null) {
                 role.permissions = new HashSet<>();
             }
@@ -58,7 +58,7 @@ public class Role implements Serializable {
             return this;
         }
 
-        public Builder withPermissions(Set<RoleInfo> permissions) {
+        public Builder withPermissions(Set<RoleInfoModel> permissions) {
             role.permissions = permissions;
             return this;
         }
@@ -72,7 +72,7 @@ public class Role implements Serializable {
         return name;
     }
 
-    public Set<RoleInfo> getPermissions() {
+    public Set<RoleInfoModel> getPermissions() {
         return permissions;
     }
 }

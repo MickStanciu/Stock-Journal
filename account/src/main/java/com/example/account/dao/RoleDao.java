@@ -1,7 +1,7 @@
 package com.example.account.dao;
 
-import com.example.account.model.Role;
-import com.example.account.model.RoleInfo;
+import com.example.account.model.RoleInfoModel;
+import com.example.account.model.RoleModel;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
@@ -28,7 +28,7 @@ public class RoleDao {
     @PersistenceContext
     private EntityManager em;
 
-    public Role getRole(String tenantId, int id) {
+    public RoleModel getRole(String tenantId, int id) {
         Query q = em.createNativeQuery(ROLE_READ_QUERY);
 
         q.setParameter("role_id", id);
@@ -42,20 +42,20 @@ public class RoleDao {
         return mapFromObject(results);
     }
 
-    private Role mapFromObject(List<Object[]> results) {
+    private RoleModel mapFromObject(List<Object[]> results) {
         Integer role_id = ((Integer) results.get(0)[0]);
         String role_name = ((String) results.get(0)[1]);
-        Role role = new Role(role_id, role_name);
+        RoleModel role = new RoleModel(role_id, role_name);
 
-        Set<RoleInfo> permissions = new HashSet<>();
+        Set<RoleInfoModel> permissions = new HashSet<>();
         for(Object[] result : results) {
             String permissionName = (String) result[2];
             if (permissionName != null) {
-                permissions.add(RoleInfo.valueOf(permissionName));
+                permissions.add(RoleInfoModel.valueOf(permissionName));
             }
         }
 
-        return Role.builder(role).withPermissions(permissions).build();
+        return RoleModel.builder(role).withPermissions(permissions).build();
     }
 
 }

@@ -1,8 +1,8 @@
 package com.example.account.rest;
 
 import com.example.account.facade.AccountFacade;
-import com.example.account.model.Account;
-import com.example.account.model.Role;
+import com.example.account.model.AccountModel;
+import com.example.account.model.RoleModel;
 import com.example.common.rest.envelope.ResponseEnvelope;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -32,7 +32,7 @@ public class AccountRestTest {
     private static String DEFAULT_ACCOUNT_PASSWORD = "secret";
     private static String DEFAULT_ACCOUNT_EMAIL = "not.set@domain.com";
 
-    private final Account accountFixture = Account.builder()
+    private final AccountModel accountFixture = AccountModel.builder()
             .havingPersonalDetails()
                 .withTenantId(DEFAULT_TENANT_ID)
                 .withId(DEFAULT_ACCOUNT_ID)
@@ -41,7 +41,7 @@ public class AccountRestTest {
                 .withPassword(DEFAULT_ACCOUNT_PASSWORD)
                 .withFlagActive(true)
             .havingRole()
-                .withRole(new Role(2, "role"))
+                .withRole(new RoleModel(2, "role"))
             .build();
 
     @BeforeClass
@@ -54,10 +54,10 @@ public class AccountRestTest {
         when(accountFacade.getAccount(DEFAULT_TENANT_ID, "test.account", "Password"))
                 .thenReturn(Optional.of(accountFixture));
 
-        Response response = accountRest.getAccount(DEFAULT_TENANT_ID, "test.account", "Password");
+        Response response = accountRest.accountByEmailAndPassword(DEFAULT_TENANT_ID, "test.account", "Password");
         assertEquals(200, response.getStatus(), "Status");
         ResponseEnvelope responseEnvelope = (ResponseEnvelope) response.getEntity();
-        Account item = (Account) responseEnvelope.getData();
+        AccountModel item = (AccountModel) responseEnvelope.getData();
 
         assertEquals(BigInteger.ONE, item.getId(), "Id should be equal to: \'1\'");
     }

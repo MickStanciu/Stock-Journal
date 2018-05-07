@@ -1,7 +1,7 @@
 package com.example.account.validation;
 
-import com.example.account.model.Account;
-import com.example.account.model.Role;
+import com.example.account.model.AccountModel;
+import com.example.account.model.RoleModel;
 import com.example.common.validator.FieldValidator;
 import com.example.common.validator.StringValidator;
 
@@ -41,7 +41,7 @@ public class RequestValidation extends FieldValidator {
         return regMatcher.matches();
     }
 
-    private static boolean role(Role role) {
+    private static boolean role(RoleModel role) {
         return role != null && role.getId() != null && role.getId() >= 1;
     }
 
@@ -53,11 +53,11 @@ public class RequestValidation extends FieldValidator {
         return depth != null && depth >= 0 && depth <= 100;
     }
 
-    private static boolean account(Account account) {
+    private static boolean account(AccountModel account) {
         return account != null;
     }
 
-    public static boolean validateUpdateAccount(String tenantId, BigInteger accountId, Account account) {
+    public static boolean validateUpdateAccount(String tenantId, BigInteger accountId, AccountModel account) {
         boolean response = RequestValidation.tenantId(tenantId) && RequestValidation.accountId(accountId)
                 && RequestValidation.account(account);
 
@@ -81,7 +81,7 @@ public class RequestValidation extends FieldValidator {
         return response;
     }
 
-    public static boolean validateCreateAccount(String tenantId, Account account) {
+    public static boolean validateCreateAccount(String tenantId, AccountModel account) {
         return RequestValidation.tenantId(tenantId) && RequestValidation.account(account)
                 && RequestValidation.accountName(account.getName())
                 && RequestValidation.accountPassword(account.getPassword());

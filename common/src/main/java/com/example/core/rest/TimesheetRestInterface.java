@@ -5,7 +5,7 @@ import javax.ws.rs.core.Response;
 import java.math.BigInteger;
 
 @Path("/")
-public interface TimesheetInterface {
+public interface TimesheetRestInterface {
 
     @GET
     @Path("/{tenantId}/{accountId}")

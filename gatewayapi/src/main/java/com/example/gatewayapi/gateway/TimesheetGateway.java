@@ -1,7 +1,7 @@
 package com.example.gatewayapi.gateway;
 
 import com.example.core.model.TimesheetEntryModel;
-import com.example.core.rest.TimesheetInterface;
+import com.example.core.rest.TimesheetRestInterface;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
@@ -23,13 +23,13 @@ public class TimesheetGateway extends AbstractGateway {
     @SystemProperty("TIMESHEET_API_ADDRESS")
     private String SERVICE_URL;
 
-    private TimesheetInterface proxy;
+    private TimesheetRestInterface proxy;
 
     @PostConstruct
     public void init() {
         ResteasyClient client = new ResteasyClientBuilder().build();
         ResteasyWebTarget target = client.target(UriBuilder.fromPath(SERVICE_URL + "/api"));
-        proxy = target.proxy(TimesheetInterface.class);
+        proxy = target.proxy(TimesheetRestInterface.class);
     }
 
     public List<TimesheetEntryModel> getTimesheetEntries(String tenantId, BigInteger accountId, String from, String to) {

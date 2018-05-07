@@ -1,7 +1,7 @@
 package com.example.account.validation;
 
-import com.example.account.model.Account;
-import com.example.account.model.Role;
+import com.example.account.model.AccountModel;
+import com.example.account.model.RoleModel;
 import org.testng.annotations.Test;
 
 import java.math.BigInteger;
@@ -60,8 +60,8 @@ public class RequestValidationTest {
 
     @Test
     void testValidateCreateAccountWhenValid() {
-        Role roleFixture = new Role(2, "No Role");
-        Account accountFixture = Account.builder()
+        RoleModel roleFixture = new RoleModel(2, "No RoleModel");
+        AccountModel accountFixture = AccountModel.builder()
                 .havingPersonalDetails()
                     .withName(DEFAULT_ACCOUNT_NAME)
                     .withEmail(DEFAULT_ACCOUNT_EMAIL)
@@ -77,10 +77,10 @@ public class RequestValidationTest {
 
     @Test
     void testValidateCreateAccountWhenAccountIsInvalid() {
-        Role roleFixture = new Role(2, "No Role");
+        RoleModel roleFixture = new RoleModel(2, "No RoleModel");
 
         //name
-        Account accountFixture = Account.builder()
+        AccountModel accountFixture = AccountModel.builder()
                 .havingPersonalDetails()
                     .withTenantId(DEFAULT_TENANT_ID)
                     .withEmail(DEFAULT_ACCOUNT_EMAIL)
@@ -94,7 +94,7 @@ public class RequestValidationTest {
         assertFalse(response, "Should be FALSE");
 
         //email
-        accountFixture = Account.builder()
+        accountFixture = AccountModel.builder()
                 .havingPersonalDetails()
                     .withTenantId(DEFAULT_TENANT_ID)
                     .withName(DEFAULT_ACCOUNT_NAME)
@@ -109,7 +109,7 @@ public class RequestValidationTest {
         assertTrue(response, "Should be TRUE");
 
         //password
-        accountFixture = Account.builder()
+        accountFixture = AccountModel.builder()
                 .havingPersonalDetails()
                     .withTenantId(DEFAULT_TENANT_ID)
                     .withEmail(DEFAULT_ACCOUNT_EMAIL)
@@ -126,9 +126,9 @@ public class RequestValidationTest {
 
     @Test
     void testValidateUpdateAccountWhenValid() {
-        Role roleFixture = new Role(2, "No Role");
+        RoleModel roleFixture = new RoleModel(2, "No RoleModel");
 
-        Account accountFixture = Account.builder()
+        AccountModel accountFixture = AccountModel.builder()
                 .havingPersonalDetails()
                     .withTenantId(DEFAULT_TENANT_ID)
                     .withId(DEFAULT_ACCOUNT_ID)
@@ -147,9 +147,9 @@ public class RequestValidationTest {
 
     @Test
     void testValidateUpdateAccountWhenTenantIsInvalid() {
-        Role roleFixture = new Role(2, "No Role");
+        RoleModel roleFixture = new RoleModel(2, "No RoleModel");
 
-        Account accountFixture = Account.builder()
+        AccountModel accountFixture = AccountModel.builder()
                 .havingPersonalDetails()
                 .withTenantId(DEFAULT_TENANT_ID)
                 .withId(DEFAULT_ACCOUNT_ID)
@@ -168,9 +168,9 @@ public class RequestValidationTest {
 
     @Test
     void testValidateUpdateAccountWhenAccountIdIsInvalid() {
-        Role roleFixture = new Role(2, "No Role");
+        RoleModel roleFixture = new RoleModel(2, "No RoleModel");
 
-        Account accountFixture = Account.builder()
+        AccountModel accountFixture = AccountModel.builder()
                 .havingPersonalDetails()
                     .withTenantId(DEFAULT_TENANT_ID)
                     .withId(DEFAULT_ACCOUNT_ID)
@@ -189,10 +189,10 @@ public class RequestValidationTest {
 
     @Test
     void testValidateUpdateAccountWhenAccountIsInvalid() {
-        Role roleFixture = new Role(2, "No Role");
+        RoleModel roleFixture = new RoleModel(2, "No RoleModel");
 
         //name
-        Account accountFixture = Account.builder()
+        AccountModel accountFixture = AccountModel.builder()
                 .havingPersonalDetails()
                     .withTenantId(DEFAULT_TENANT_ID)
                     .withId(DEFAULT_ACCOUNT_ID)
@@ -208,7 +208,7 @@ public class RequestValidationTest {
         assertFalse(response, "Should be FALSE");
 
         //email
-        accountFixture = Account.builder()
+        accountFixture = AccountModel.builder()
                 .havingPersonalDetails()
                     .withTenantId(DEFAULT_TENANT_ID)
                     .withId(DEFAULT_ACCOUNT_ID)
@@ -224,7 +224,7 @@ public class RequestValidationTest {
         assertFalse(response, "Should be FALSE");
 
         //password
-        accountFixture = Account.builder()
+        accountFixture = AccountModel.builder()
                 .havingPersonalDetails()
                     .withTenantId(DEFAULT_TENANT_ID)
                     .withId(DEFAULT_ACCOUNT_ID)

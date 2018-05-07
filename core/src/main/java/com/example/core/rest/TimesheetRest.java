@@ -21,7 +21,7 @@ import java.util.List;
 @Stateless
 @Path("/")
 @Produces("application/json")
-public class TimesheetRest implements TimesheetInterface {
+public class TimesheetRest implements TimesheetRestInterface {
 
     private static final Logger log = Logger.getLogger(TimesheetRest.class);
 

@@ -2,11 +2,11 @@ package com.example.account.exception;
 
 public enum ExceptionCode {
     UNKNOWN("Unknown"),
-    ACCOUNT_NOT_FOUND("Account not found"),
-    ACCOUNT_EXISTS("Account already exists"),
-    ACCOUNT_NAME_EXISTS("Account name already exists"),
+    ACCOUNT_NOT_FOUND("AccountModel not found"),
+    ACCOUNT_EXISTS("AccountModel already exists"),
+    ACCOUNT_NAME_EXISTS("AccountModel name already exists"),
     ACCOUNTS_NOT_FOUND("No accounts found for given request"),
-    ROLE_NOT_FOUND("Role not found");
+    ROLE_NOT_FOUND("RoleModel not found");
 
     private String message;
 

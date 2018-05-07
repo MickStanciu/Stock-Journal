@@ -1,6 +1,6 @@
 package com.example.account.model;
 
-public enum RoleInfo {
+public enum RoleInfoModel {
     LOG_IN,
     CREATE_ACCOUNT,
     PAYROLL_APPROVE,

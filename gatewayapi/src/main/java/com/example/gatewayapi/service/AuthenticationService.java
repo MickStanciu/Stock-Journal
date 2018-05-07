@@ -1,12 +1,12 @@
 package com.example.gatewayapi.service;
 
+import com.example.account.model.AccountModel;
+import com.example.common.security.TokenUtil;
 import com.example.gatewayapi.exception.ExceptionCode;
 import com.example.gatewayapi.exception.GatewayApiException;
-import com.example.gatewayapi.gateway.accountApi.Account;
-import com.example.gatewayapi.gateway.accountApi.AccountGateway;
+import com.example.gatewayapi.gateway.AccountGateway;
 import com.example.gatewayapi.gateway.tenantApi.Tenant;
 import com.example.gatewayapi.gateway.tenantApi.TenantGateway;
-import com.example.common.security.TokenUtil;
 import com.example.gatewayapi.model.AuthToken;
 import org.apache.log4j.Logger;
 
@@ -28,7 +28,7 @@ public class AuthenticationService {
 
     public AuthToken getAuthResponse(String tenantId, String email, String password) throws GatewayApiException {
         Tenant tenant = getTenant(tenantId);
-        Account account = getAccount(tenantId, email, password);
+        AccountModel account = getAccount(tenantId, email, password);
 
         String token = TokenUtil.generateToken(tenant.getId(), account.getId(), account.getRole().getId());
 
@@ -45,8 +45,8 @@ public class AuthenticationService {
     }
 
     //todo: if grows, convert to façade and move this into AccountService
-    private Account getAccount(String tenantId, String email, String password) throws GatewayApiException {
-        Optional<Account> accountOptional = accountGateway.getAccount(tenantId, email, password);
+    private AccountModel getAccount(String tenantId, String email, String password) throws GatewayApiException {
+        Optional<AccountModel> accountOptional = accountGateway.getAccount(tenantId, email, password);
         if (!accountOptional.isPresent()) {
             throw new GatewayApiException(ExceptionCode.ACCOUNT_NOT_FOUND);
         }

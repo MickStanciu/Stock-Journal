@@ -1,9 +1,9 @@
 package com.example.gatewayapi.service;
 
+import com.example.account.model.AccountModel;
 import com.example.gatewayapi.exception.ExceptionCode;
 import com.example.gatewayapi.exception.GatewayApiException;
-import com.example.gatewayapi.gateway.accountApi.Account;
-import com.example.gatewayapi.gateway.accountApi.AccountGateway;
+import com.example.gatewayapi.gateway.AccountGateway;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
@@ -19,8 +19,8 @@ public class AccountService {
     @Inject
     private AccountGateway accountGateway;
 
-    public Account getAccount(String tenantId, BigInteger accountId) throws GatewayApiException {
-        Optional<Account> accountOptional = accountGateway.getAccount(tenantId, accountId);
+    public AccountModel getAccount(String tenantId, BigInteger accountId) throws GatewayApiException {
+        Optional<AccountModel> accountOptional = accountGateway.getAccount(tenantId, accountId);
         if (!accountOptional.isPresent()) {
             throw new GatewayApiException(ExceptionCode.ACCOUNT_NOT_FOUND);
         }
