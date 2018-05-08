@@ -8,7 +8,7 @@ public enum ExceptionCode {
     ACCOUNTS_NOT_FOUND("No accounts found for given request"),
     ROLE_NOT_FOUND("RoleModel not found");
 
-    private String message;
+    private final String message;
 
     ExceptionCode(String message) {
         this.message = message;

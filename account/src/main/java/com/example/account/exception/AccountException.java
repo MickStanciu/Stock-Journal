@@ -1,7 +1,7 @@
 package com.example.account.exception;
 
 public class AccountException extends Exception {
-    private ExceptionCode code;
+    private final ExceptionCode code;
 
     public AccountException(ExceptionCode code) {
         super(code.getMessage());

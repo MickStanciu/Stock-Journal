@@ -16,7 +16,7 @@ import java.util.Optional;
 @Stateless
 public class AccountFacade {
 
-    private static int DEFAULT_ROLE_ID = 2;
+    private static final int DEFAULT_ROLE_ID = 2;
     private static String DEFAULT_EMAIL = "not.set@domain.com";
 
     @Inject

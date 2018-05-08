@@ -6,17 +6,19 @@ import org.testng.annotations.Test;
 
 import java.math.BigInteger;
 
-import static com.example.account.validation.RequestValidation.*;
+import static com.example.account.validation.RequestValidation.validateCreateAccount;
+import static com.example.account.validation.RequestValidation.validateGetAccount;
+import static com.example.account.validation.RequestValidation.validateUpdateAccount;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 public class RequestValidationTest {
 
-    private static String DEFAULT_TENANT_ID = "d79ec11a-2011-4423-ba01-3af8de0a3e10";
-    private static BigInteger DEFAULT_ACCOUNT_ID = BigInteger.ONE;
-    private static String DEFAULT_ACCOUNT_NAME = "name.surname";
-    private static String DEFAULT_ACCOUNT_PASSWORD = "secret";
-    private static String DEFAULT_ACCOUNT_EMAIL = "not.set@domain.com";
+    private static final String DEFAULT_TENANT_ID = "d79ec11a-2011-4423-ba01-3af8de0a3e10";
+    private static final BigInteger DEFAULT_ACCOUNT_ID = BigInteger.ONE;
+    private static final String DEFAULT_ACCOUNT_NAME = "name.surname";
+    private static final String DEFAULT_ACCOUNT_PASSWORD = "secret";
+    private static final String DEFAULT_ACCOUNT_EMAIL = "not.set@domain.com";
 
     @Test
     void testValidateGetAccountWhenValid() {

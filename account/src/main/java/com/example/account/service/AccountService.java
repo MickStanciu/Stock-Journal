@@ -43,7 +43,7 @@ public class AccountService {
         accountDao.updateAccount(tenantId, accountId, newAccount);
     }
 
-    protected AccountModel copyAccount(String tenantId, BigInteger accountId, AccountModel originalAccount, AccountModel account) {
+    AccountModel copyAccount(String tenantId, BigInteger accountId, AccountModel originalAccount, AccountModel account) {
         AccountModel.Builder builder = new AccountModel.Builder();
         builder
             .havingPersonalDetails()

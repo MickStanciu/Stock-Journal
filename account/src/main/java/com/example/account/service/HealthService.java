@@ -9,7 +9,7 @@ import javax.inject.Inject;
 @Stateful
 public class HealthService {
 
-    private HealthModel health;
+    private final HealthModel health;
 
     @Inject
     private AccountDao accountDao;
