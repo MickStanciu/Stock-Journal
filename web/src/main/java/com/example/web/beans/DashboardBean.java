@@ -1,8 +1,8 @@
 package com.example.web.beans;
 
+import com.example.account.model.AccountModel;
 import com.example.common.security.TokenClaims;
 import com.example.web.exception.WebException;
-import com.example.web.gateway.Account;
 import com.example.web.service.AccountService;
 import com.example.web.service.TokenService;
 import org.apache.log4j.Logger;
@@ -11,7 +11,6 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.Optional;
 
 @Named("DashboardBean")
 @SessionScoped
@@ -25,7 +24,7 @@ public class DashboardBean implements Serializable {
     @Inject
     private TokenService tokenService;
 
-    private Account account = null;
+    private AccountModel account = null;
 
     public void onLoad() {
         System.out.println("ON LOAD");
@@ -48,7 +47,7 @@ public class DashboardBean implements Serializable {
 
         if (account == null) {
             try {
-                account = accountService.getAccount(tokenRaw, tokenClaims.getTenantId(), tokenClaims.getAccountId());
+                account = accountService.getAccount(tokenRaw, tokenClaims.getAccountId());
                 log.info("ACCOUNT LOADED");
             } catch (WebException e) {
                 log.error(e.getMessage());

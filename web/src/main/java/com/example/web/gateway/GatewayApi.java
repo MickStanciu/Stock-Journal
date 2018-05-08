@@ -1,13 +1,16 @@
 package com.example.web.gateway;
 
+import com.example.account.model.AccountModel;
 import com.example.common.rest.dto.ErrorDto;
+import com.example.gatewayapi.rest.AccountRestInterface;
+import com.example.gatewayapi.rest.AuthenticationRestInterface;
 import org.apache.log4j.Logger;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
 import javax.ejb.Stateless;
-import javax.swing.text.html.Option;
+import javax.inject.Inject;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
@@ -18,18 +21,23 @@ import java.util.Optional;
 @Stateless
 public class GatewayApi {
 
+    @Inject
+    @SystemProperty("GATEWAY_API_ADDRESS")
+    private String SERVICE_URL;
+
     private static final Logger log = Logger.getLogger(GatewayApi.class);
-    private static final String SERVICE_URL = "http://gatewayapi:8080/api";
-    private GatewayApiInterface proxy;
+    private AuthenticationRestInterface authProxy;
+    private AccountRestInterface accountProxy;
 
     public GatewayApi() {
         ResteasyClient client = new ResteasyClientBuilder().build();
         ResteasyWebTarget target = client.target(UriBuilder.fromPath(SERVICE_URL));
-        proxy = target.proxy(GatewayApiInterface.class);
+        authProxy = target.proxy(AuthenticationRestInterface.class);
+        accountProxy = target.proxy(AccountRestInterface.class);
     }
 
     public AuthToken authenticate(String tenantId, String name, String password) {
-        Response response = proxy.authenticate(tenantId, name, password);
+        Response response = authProxy.authenticate(tenantId, name, password);
         ResponseEnvelope<AuthToken> envelope = response.readEntity(new GenericType<ResponseEnvelope<AuthToken>>(){});
         response.close();
 
@@ -43,9 +51,9 @@ public class GatewayApi {
         return null;
     }
 
-    public Optional<Account> getAccount(String token, String tenantId, BigInteger accountId) {
-        Response response = proxy.account(token, tenantId, accountId);
-        ResponseEnvelope<Account> envelope = response.readEntity(new GenericType<ResponseEnvelope<Account>>(){});
+    public Optional<AccountModel> getAccount(String token, BigInteger accountId) {
+        Response response = accountProxy.getAccountDetails(token, accountId);
+        ResponseEnvelope<AccountModel> envelope = response.readEntity(new GenericType<ResponseEnvelope<AccountModel>>(){});
         response.close();
 
         if (response.getStatus() != 200 && envelope.getErrors() != null) {
@@ -57,10 +65,6 @@ public class GatewayApi {
         }
 
         return Optional.empty();
-    }
-
-    private AuthToken processData(String data) {
-        return new AuthToken(data);
     }
 
     private void processErrors(List<ErrorDto> errors) {

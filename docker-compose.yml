@@ -9,15 +9,17 @@ services:
 #    ports:
 #      - "8500:8500" #HTTP SERVER
 
-#  web:
-#    build: web/docker/.
-#    image: web
-#    container_name: web
-#    ports:
-#      - "80:8080" #WildFly App
-#      - "87:8787" #WildFly Debug
-#    volumes:
-#      - ./web/target/web.war:/opt/jboss/wildfly/standalone/deployments/web.war
+  web:
+    build: web/docker/.
+    image: web
+    container_name: web
+    ports:
+      - "8085:8080" #WildFly App
+      - "8785:8787" #WildFly Debug
+    volumes:
+      - ./web/target/web.war:/opt/jboss/wildfly/standalone/deployments/web.war
+    environment:
+      - GATEWAY_API_ADDRESS=http://gatewayapi:8080
 
   gatewayapi:
     build: gatewayapi/docker/.

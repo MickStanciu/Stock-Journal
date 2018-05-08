@@ -11,14 +11,15 @@ import org.apache.log4j.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 
 @Stateless
 @Path("/auth")
-@Produces("application/json")
-public class AuthenticationRest {
+@Produces(MediaType.APPLICATION_JSON)
+public class AuthenticationRest implements AuthenticationRestInterface {
 
     private static final Logger log = Logger.getLogger(AuthenticationRest.class);
 

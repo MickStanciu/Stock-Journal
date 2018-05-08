@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -18,8 +19,8 @@ import java.util.List;
 
 @Stateless
 @Path("/account")
-@Produces("application/json")
-public class AccountRest extends AbstractRest {
+@Produces(MediaType.APPLICATION_JSON)
+public class AccountRest extends AbstractRest implements AccountRestInterface {
 
     private static final Logger log = Logger.getLogger(AccountRest.class);
 
