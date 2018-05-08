@@ -6,7 +6,7 @@ import com.example.gatewayapi.exception.ExceptionCode;
 import com.example.gatewayapi.exception.GatewayApiException;
 import com.example.gatewayapi.gateway.AccountGateway;
 import com.example.gatewayapi.gateway.TenantGateway;
-import com.example.gatewayapi.model.AuthToken;
+import com.example.gatewayapi.model.AuthTokenModel;
 import com.example.tenant.model.TenantModel;
 import org.apache.log4j.Logger;
 
@@ -26,13 +26,13 @@ public class AuthenticationService {
     private AccountGateway accountGateway;
 
 
-    public AuthToken getAuthResponse(String tenantId, String email, String password) throws GatewayApiException {
+    public AuthTokenModel getAuthResponse(String tenantId, String email, String password) throws GatewayApiException {
         TenantModel tenant = getTenant(tenantId);
         AccountModel account = getAccount(tenantId, email, password);
 
         String token = TokenUtil.generateToken(tenant.getId(), account.getId(), account.getRole().getId());
 
-        return new AuthToken(token);
+        return new AuthTokenModel(token);
     }
 
     private TenantModel getTenant(String tenantId) throws GatewayApiException {

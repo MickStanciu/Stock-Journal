@@ -1,7 +1,7 @@
 package com.example.web.beans;
 
 import com.example.common.security.TokenUtil;
-import com.example.web.gateway.AuthToken;
+import com.example.gatewayapi.model.AuthTokenModel;
 import com.example.web.gateway.GatewayApi;
 import org.apache.log4j.Logger;
 
@@ -71,7 +71,7 @@ public class LoginBean {
             String tenantId = "d79ec11a-2011-4423-ba01-3af8de0a3e10";
             String tpassword = "secret";
             String tname = "mircea.stanciu";
-            AuthToken authToken = gatewayApi.authenticate(tenantId, tname, tpassword);
+            AuthTokenModel authToken = gatewayApi.authenticate(tenantId, tname, tpassword);
             if (authToken != null) {
                 log.info(authToken.getToken());
                 setCookie(authToken.getToken());

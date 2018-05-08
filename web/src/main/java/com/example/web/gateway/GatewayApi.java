@@ -2,6 +2,8 @@ package com.example.web.gateway;
 
 import com.example.account.model.AccountModel;
 import com.example.common.rest.dto.ErrorDto;
+import com.example.common.rest.envelope.ResponseEnvelope;
+import com.example.gatewayapi.model.AuthTokenModel;
 import com.example.gatewayapi.rest.AccountRestInterface;
 import com.example.gatewayapi.rest.AuthenticationRestInterface;
 import org.apache.log4j.Logger;
@@ -36,9 +38,9 @@ public class GatewayApi {
         accountProxy = target.proxy(AccountRestInterface.class);
     }
 
-    public AuthToken authenticate(String tenantId, String name, String password) {
+    public AuthTokenModel authenticate(String tenantId, String name, String password) {
         Response response = authProxy.authenticate(tenantId, name, password);
-        ResponseEnvelope<AuthToken> envelope = response.readEntity(new GenericType<ResponseEnvelope<AuthToken>>(){});
+        ResponseEnvelope<AuthTokenModel> envelope = response.readEntity(new GenericType<ResponseEnvelope<AuthTokenModel>>(){});
         response.close();
 
         if (response.getStatus() != 200) {

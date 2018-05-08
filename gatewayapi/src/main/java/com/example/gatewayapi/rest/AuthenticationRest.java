@@ -4,13 +4,18 @@ import com.example.common.rest.dto.ErrorDto;
 import com.example.common.rest.envelope.ResponseEnvelope;
 import com.example.gatewayapi.exception.ExceptionCode;
 import com.example.gatewayapi.exception.GatewayApiException;
-import com.example.gatewayapi.model.AuthToken;
+import com.example.gatewayapi.model.AuthTokenModel;
 import com.example.gatewayapi.service.AuthenticationService;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ws.rs.*;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
@@ -38,7 +43,7 @@ public class AuthenticationRest implements AuthenticationRestInterface {
         List<ErrorDto> errors = new ArrayList<>();
         Response.Status responseStatus = Response.Status.OK;
 
-        AuthToken response = null;
+        AuthTokenModel response = null;
         try {
             response = authService.getAuthResponse(tenantId, email, password);
         } catch (GatewayApiException e) {
@@ -46,7 +51,7 @@ public class AuthenticationRest implements AuthenticationRestInterface {
             responseStatus = Response.Status.UNAUTHORIZED;
         }
 
-        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<AuthToken>()
+        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<AuthTokenModel>()
                 .withData(response)
                 .withErrors(errors)
                 .build();

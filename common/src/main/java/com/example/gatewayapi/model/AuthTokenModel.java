@@ -3,13 +3,17 @@ package com.example.gatewayapi.model;
 
 import java.io.Serializable;
 
-public class AuthToken implements Serializable {
+public class AuthTokenModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private String token;
 
-    public AuthToken(String token) {
+    public AuthTokenModel() {
+        //required by jackson
+    }
+
+    public AuthTokenModel(String token) {
         this.token = token;
     }
 
