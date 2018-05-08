@@ -22,7 +22,7 @@ public class Customer implements Serializable {
         //required by Jackson
     }
 
-    public Customer(Builder builder) {
+    private Customer(Builder builder) {
         this.id = builder.id;
         this.firstName = builder.firstName;
         this.lastName = builder.lastName;
