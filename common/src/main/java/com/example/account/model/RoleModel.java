@@ -12,7 +12,7 @@ public class RoleModel implements Serializable {
     private String name;
     private Set<RoleInfoModel> permissions;
 
-    public RoleModel() {
+    private RoleModel() {
         //required by Jackson
     }
 
@@ -31,9 +31,9 @@ public class RoleModel implements Serializable {
     }
 
     public static class Builder {
-        protected final RoleModel role;
+        final RoleModel role;
 
-        public Builder() {
+        Builder() {
             role = new RoleModel();
         }
 

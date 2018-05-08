@@ -13,7 +13,7 @@ public class ProjectModel implements Serializable {
     private String title;
     private String description;
 
-    public ProjectModel() {
+    private ProjectModel() {
         //required by Jackson
     }
 
@@ -53,7 +53,7 @@ public class ProjectModel implements Serializable {
     public static class Builder {
         final ProjectModel project;
 
-        public Builder() {
+        Builder() {
             project = new ProjectModel();
         }
 

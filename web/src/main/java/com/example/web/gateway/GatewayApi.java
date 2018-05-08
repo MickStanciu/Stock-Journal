@@ -29,7 +29,7 @@ public class GatewayApi {
 
     private static final Logger log = Logger.getLogger(GatewayApi.class);
     private final AuthenticationRestInterface authProxy;
-    private AccountRestInterface accountProxy;
+    private final AccountRestInterface accountProxy;
 
     public GatewayApi() {
         ResteasyClient client = new ResteasyClientBuilder().build();

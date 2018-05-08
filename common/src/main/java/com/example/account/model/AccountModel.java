@@ -18,7 +18,7 @@ public class AccountModel implements Serializable {
 
     private RoleModel role;
 
-    public AccountModel() {
+    private AccountModel() {
         //required by Jackson
     }
 
@@ -69,7 +69,7 @@ public class AccountModel implements Serializable {
             account = new AccountModel();
         }
 
-        public Builder(AccountModel account) {
+        Builder(AccountModel account) {
             this.account = account;
         }
 
@@ -102,7 +102,7 @@ public class AccountModel implements Serializable {
         }
     }
 
-    public static class PermissionBuilder extends Builder {
+    private static class PermissionBuilder extends Builder {
         public PermissionBuilder(AccountModel account) {
             super(account);
         }

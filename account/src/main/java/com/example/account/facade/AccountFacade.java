@@ -17,7 +17,7 @@ import java.util.Optional;
 public class AccountFacade {
 
     private static final int DEFAULT_ROLE_ID = 2;
-    private static String DEFAULT_EMAIL = "not.set@domain.com";
+    private static final String DEFAULT_EMAIL = "not.set@domain.com";
 
     @Inject
     private AccountService accountService;

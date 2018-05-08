@@ -27,10 +27,10 @@ public class AccountRestTest {
     private final AccountRest accountRest = new AccountRest();
 
     private static final String DEFAULT_TENANT_ID = "d79ec11a-2011-4423-ba01-3af8de0a3e10";
-    private static BigInteger DEFAULT_ACCOUNT_ID = BigInteger.ONE;
-    private static String DEFAULT_ACCOUNT_NAME = "name.surname";
-    private static String DEFAULT_ACCOUNT_PASSWORD = "secret";
-    private static String DEFAULT_ACCOUNT_EMAIL = "not.set@domain.com";
+    private static final BigInteger DEFAULT_ACCOUNT_ID = BigInteger.ONE;
+    private static final String DEFAULT_ACCOUNT_NAME = "name.surname";
+    private static final String DEFAULT_ACCOUNT_PASSWORD = "secret";
+    private static final String DEFAULT_ACCOUNT_EMAIL = "not.set@domain.com";
 
     private final AccountModel accountFixture = AccountModel.builder()
             .havingPersonalDetails()

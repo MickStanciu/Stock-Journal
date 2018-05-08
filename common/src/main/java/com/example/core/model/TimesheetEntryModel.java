@@ -18,7 +18,7 @@ public class TimesheetEntryModel implements Serializable {
     private ProjectModel project;
     private TaskModel task;
 
-    public TimesheetEntryModel() {
+    private TimesheetEntryModel() {
         //required by Jackson
     }
 
@@ -62,7 +62,7 @@ public class TimesheetEntryModel implements Serializable {
     public static class Builder {
         final TimesheetEntryModel timesheetEntry;
 
-        public Builder() {
+        Builder() {
             timesheetEntry = new TimesheetEntryModel();
         }
 

@@ -9,7 +9,7 @@ abstract class AbstractGateway {
 
     private static final Logger log = Logger.getLogger(AbstractGateway.class);
 
-    protected void processErrors(List<ErrorDto> errors) {
+    void processErrors(List<ErrorDto> errors) {
         for (ErrorDto error : errors) {
             log.error(error);
         }

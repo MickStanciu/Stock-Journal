@@ -14,7 +14,7 @@ public class TaskModel implements Serializable {
     private String title;
     private String description;
 
-    public TaskModel() {
+    private TaskModel() {
         //required by Jackson
     }
 
@@ -56,7 +56,7 @@ public class TaskModel implements Serializable {
     }
 
     public static class Builder {
-        protected final TaskModel task;
+        final TaskModel task;
 
         Builder() {
             task = new TaskModel();
