@@ -51,7 +51,7 @@ public class ProjectModel implements Serializable {
     }
 
     public static class Builder {
-        protected ProjectModel project;
+        final ProjectModel project;
 
         public Builder() {
             project = new ProjectModel();

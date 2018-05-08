@@ -60,7 +60,7 @@ public class TimesheetEntryModel implements Serializable {
     }
 
     public static class Builder {
-        protected TimesheetEntryModel timesheetEntry;
+        final TimesheetEntryModel timesheetEntry;
 
         public Builder() {
             timesheetEntry = new TimesheetEntryModel();

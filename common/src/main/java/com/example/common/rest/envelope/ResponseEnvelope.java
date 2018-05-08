@@ -6,7 +6,7 @@ import java.util.List;
 
 public class ResponseEnvelope<T> extends RestEnvelope<T> {
 
-    ResponseEnvelope(Builder<T> builder) {
+    private ResponseEnvelope(Builder<T> builder) {
         super(builder.data, builder.errors);
     }
 

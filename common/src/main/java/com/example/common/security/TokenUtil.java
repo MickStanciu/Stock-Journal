@@ -13,10 +13,10 @@ import java.util.Optional;
 public class TokenUtil {
 
     private static final Logger log = Logger.getLogger(TokenUtil.class);
-    private static SignatureAlgorithm ALGORITHM = SignatureAlgorithm.HS256;
-    private static String SIGNATURE = "e8SZbGZiw59dw7E4IXDDuA==";
-    public static String ISSUER = "Bendis";
-    public static long TTL = 1209600000L; //14 days
+    private static final SignatureAlgorithm ALGORITHM = SignatureAlgorithm.HS256;
+    private static final String SIGNATURE = "e8SZbGZiw59dw7E4IXDDuA==";
+    public static final String ISSUER = "Bendis";
+    public static final long TTL = 1209600000L; //14 days
 
     public static String generateToken(String tenantId, BigInteger accountId, Integer roleId) {
 

@@ -1,6 +1,6 @@
 package com.example.common.validator;
 
-public interface Validator {
+interface Validator {
 
     boolean isValid();
 }

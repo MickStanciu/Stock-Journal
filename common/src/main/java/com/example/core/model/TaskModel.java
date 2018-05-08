@@ -56,9 +56,9 @@ public class TaskModel implements Serializable {
     }
 
     public static class Builder {
-        protected TaskModel task;
+        protected final TaskModel task;
 
-        public Builder() {
+        Builder() {
             task = new TaskModel();
         }
 

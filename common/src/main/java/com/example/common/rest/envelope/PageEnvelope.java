@@ -11,7 +11,7 @@ public class PageEnvelope<T> extends RestEnvelope<T> {
     private final PaginationDto pagination;
 
 
-    PageEnvelope(PageEnvelopeBuilder<T> builder) {
+    private PageEnvelope(PageEnvelopeBuilder<T> builder) {
         super(builder.data, builder.errors);
         this.pagination = builder.pagination;
     }

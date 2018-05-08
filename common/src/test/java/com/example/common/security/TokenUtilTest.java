@@ -12,9 +12,9 @@ import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertTrue;
 
 public class TokenUtilTest {
-    private static String tenantId = "testTenant";
+    private static final String tenantId = "testTenant";
     private static BigInteger accountId;
-    private static Integer roleId = 44;
+    private static final Integer roleId = 44;
     private static String token = null;
     private static Claims claims;
 

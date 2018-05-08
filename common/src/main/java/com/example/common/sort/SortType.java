@@ -7,7 +7,7 @@ public enum SortType {
     MODEL_ASC("model ASC"),
     MODEL_DESC("model DESC");
 
-    private String sort;
+    private final String sort;
 
     SortType(String sort) {
         this.sort = sort;

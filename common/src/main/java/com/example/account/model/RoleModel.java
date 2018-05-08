@@ -31,13 +31,13 @@ public class RoleModel implements Serializable {
     }
 
     public static class Builder {
-        protected RoleModel role;
+        protected final RoleModel role;
 
         public Builder() {
             role = new RoleModel();
         }
 
-        public Builder(RoleModel role) {
+        Builder(RoleModel role) {
             this.role = role;
         }
 

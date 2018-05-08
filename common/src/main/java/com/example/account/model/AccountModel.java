@@ -63,7 +63,7 @@ public class AccountModel implements Serializable {
     }
 
     public static class Builder {
-        protected AccountModel account;
+        AccountModel account;
 
         public Builder() {
             account = new AccountModel();
