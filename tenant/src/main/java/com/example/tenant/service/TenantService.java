@@ -1,7 +1,7 @@
 package com.example.tenant.service;
 
 import com.example.tenant.dao.TenantDao;
-import com.example.tenant.model.Tenant;
+import com.example.tenant.model.TenantModel;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
@@ -16,7 +16,7 @@ public class TenantService {
     @Inject
     private TenantDao tenantDao;
 
-    public Optional<Tenant> getTenant(String id) {
+    public Optional<TenantModel> getTenant(String id) {
         //todo: add validation for id
         return tenantDao.getTenant(id);
     }

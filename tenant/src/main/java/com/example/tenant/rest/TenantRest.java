@@ -3,7 +3,7 @@ package com.example.tenant.rest;
 import com.example.common.rest.dto.ErrorDto;
 import com.example.common.rest.envelope.ResponseEnvelope;
 import com.example.tenant.exception.ExceptionCode;
-import com.example.tenant.model.Tenant;
+import com.example.tenant.model.TenantModel;
 import com.example.tenant.service.TenantService;
 import org.apache.log4j.Logger;
 
@@ -22,7 +22,7 @@ import java.util.Optional;
 @Stateless
 @Path("/")
 @Produces("application/json")
-public class TenantRest {
+public class TenantRest implements TenantRestInterface {
 
     private static final Logger log = Logger.getLogger(TenantRest.class);
 
@@ -31,7 +31,7 @@ public class TenantRest {
 
     @GET
     @Path("/{tenantId}")
-    public Response getTenant(@PathParam("tenantId") @DefaultValue("0") String tenantId) {
+    public Response tenantByUUID(@PathParam("tenantId") @DefaultValue("0") String tenantId) {
         //todo: better check, use FieldValidator
         if (tenantId.length() == 0 || tenantId.equals("0")) {
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -40,7 +40,7 @@ public class TenantRest {
         List<ErrorDto> errors = new ArrayList<>();
 
         //todo: catch all errors
-        Optional<Tenant> tenantOptional;
+        Optional<TenantModel> tenantOptional;
         try {
             tenantOptional = tenantService.getTenant(tenantId);
         } catch (Exception ex) {
@@ -48,14 +48,14 @@ public class TenantRest {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
-        Tenant tenant = null;
+        TenantModel tenant = null;
         if (!tenantOptional.isPresent()) {
             errors.add(new ErrorDto(ExceptionCode.TENANT_NOT_FOUND.name(), ExceptionCode.TENANT_NOT_FOUND.getMessage()));
         } else {
             tenant = tenantOptional.get();
         }
 
-        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<Tenant>()
+        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<TenantModel>()
                 .withData(tenant)
                 .withErrors(errors)
                 .build();

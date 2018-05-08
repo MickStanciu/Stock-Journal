@@ -1,6 +1,6 @@
 package com.example.tenant.dao;
 
-import com.example.tenant.model.Tenant;
+import com.example.tenant.model.TenantModel;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
@@ -23,7 +23,7 @@ public class TenantDao {
     @PersistenceContext
     private EntityManager em;
 
-    public Optional<Tenant> getTenant(String id) {
+    public Optional<TenantModel> getTenant(String id) {
         Query q = em.createNativeQuery(TENANT_READ_QUERY);
         q.setParameter("tenant_id", id);
 
@@ -43,10 +43,10 @@ public class TenantDao {
     }
 
 
-    private Tenant mapFromObject(Object[] result) {
+    private TenantModel mapFromObject(Object[] result) {
         String tenant_id = ((String) result[0]);
         String tenant_name = ((String) result[1]);
 
-        return new Tenant(tenant_id, tenant_name);
+        return new TenantModel(tenant_id, tenant_name);
     }
 }

@@ -1,7 +1,7 @@
 package com.example.account.service;
 
 import com.example.account.dao.AccountDao;
-import com.example.account.model.Health;
+import com.example.account.model.HealthModel;
 
 import javax.ejb.Stateful;
 import javax.inject.Inject;
@@ -9,13 +9,13 @@ import javax.inject.Inject;
 @Stateful
 public class HealthService {
 
-    private Health health;
+    private HealthModel health;
 
     @Inject
     private AccountDao accountDao;
 
     public HealthService() {
-        health = new Health();
+        health = new HealthModel();
         health.setFirstRecordOk(false);
     }
 
@@ -30,7 +30,7 @@ public class HealthService {
         return firstRecordOk;
     }
 
-    public Health getHealth() {
+    public HealthModel getHealth() {
         return health;
     }
 

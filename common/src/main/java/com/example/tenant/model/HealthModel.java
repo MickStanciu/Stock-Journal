@@ -2,7 +2,7 @@ package com.example.tenant.model;
 
 import java.io.Serializable;
 
-public class Health implements Serializable {
+public class HealthModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

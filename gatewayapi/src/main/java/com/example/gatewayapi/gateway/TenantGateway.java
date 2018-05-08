@@ -1,8 +1,7 @@
-package com.example.gatewayapi.gateway.tenantApi;
+package com.example.gatewayapi.gateway;
 
-import com.example.gatewayapi.gateway.AbstractGateway;
-import com.example.gatewayapi.gateway.ResponseEnvelope;
-import com.example.gatewayapi.gateway.SystemProperty;
+import com.example.tenant.model.TenantModel;
+import com.example.tenant.rest.TenantRestInterface;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
@@ -22,18 +21,18 @@ public class TenantGateway extends AbstractGateway {
     @SystemProperty("TENANT_API_ADDRESS")
     private String SERVICE_URL;
 
-    private TenantInterface proxy;
+    private TenantRestInterface proxy;
 
     @PostConstruct
     public void init() {
         ResteasyClient client = new ResteasyClientBuilder().build();
         ResteasyWebTarget target = client.target(UriBuilder.fromPath(SERVICE_URL + "/api"));
-        proxy = target.proxy(TenantInterface.class);
+        proxy = target.proxy(TenantRestInterface.class);
     }
 
-    public Optional<Tenant> getTenant(String tenantId) {
+    public Optional<TenantModel> getTenant(String tenantId) {
         Response response = proxy.tenantByUUID(tenantId);
-        ResponseEnvelope<Tenant> envelope = response.readEntity(new GenericType<ResponseEnvelope<Tenant>>(){});
+        ResponseEnvelope<TenantModel> envelope = response.readEntity(new GenericType<ResponseEnvelope<TenantModel>>(){});
         response.close();
 
         if (response.getStatus() != 200 && envelope.getErrors() != null) {

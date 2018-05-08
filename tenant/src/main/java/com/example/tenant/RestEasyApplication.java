@@ -1,4 +1,4 @@
-package com.example.tenant.rest;
+package com.example.tenant;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

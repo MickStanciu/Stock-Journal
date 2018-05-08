@@ -5,9 +5,9 @@ import com.example.common.security.TokenUtil;
 import com.example.gatewayapi.exception.ExceptionCode;
 import com.example.gatewayapi.exception.GatewayApiException;
 import com.example.gatewayapi.gateway.AccountGateway;
-import com.example.gatewayapi.gateway.tenantApi.Tenant;
-import com.example.gatewayapi.gateway.tenantApi.TenantGateway;
+import com.example.gatewayapi.gateway.TenantGateway;
 import com.example.gatewayapi.model.AuthToken;
+import com.example.tenant.model.TenantModel;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
@@ -27,7 +27,7 @@ public class AuthenticationService {
 
 
     public AuthToken getAuthResponse(String tenantId, String email, String password) throws GatewayApiException {
-        Tenant tenant = getTenant(tenantId);
+        TenantModel tenant = getTenant(tenantId);
         AccountModel account = getAccount(tenantId, email, password);
 
         String token = TokenUtil.generateToken(tenant.getId(), account.getId(), account.getRole().getId());
@@ -35,8 +35,8 @@ public class AuthenticationService {
         return new AuthToken(token);
     }
 
-    private Tenant getTenant(String tenantId) throws GatewayApiException {
-        Optional<Tenant> tenantOptional = tenantGateway.getTenant(tenantId);
+    private TenantModel getTenant(String tenantId) throws GatewayApiException {
+        Optional<TenantModel> tenantOptional = tenantGateway.getTenant(tenantId);
         if (!tenantOptional.isPresent()) {
             throw new GatewayApiException(ExceptionCode.TENANT_NOT_FOUND);
         }
