@@ -1,5 +1,6 @@
 package com.example.gatewayapi.gateway;
 
+import com.example.common.rest.envelope.ResponseEnvelope;
 import com.example.core.model.TimesheetEntryModel;
 import com.example.core.rest.TimesheetRestInterface;
 import com.example.gatewayapi.JacksonObjectMapper;

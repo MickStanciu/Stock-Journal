@@ -1,5 +1,6 @@
 package com.example.gatewayapi.gateway;
 
+import com.example.common.rest.envelope.ResponseEnvelope;
 import com.example.tenant.model.TenantModel;
 import com.example.tenant.rest.TenantRestInterface;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;

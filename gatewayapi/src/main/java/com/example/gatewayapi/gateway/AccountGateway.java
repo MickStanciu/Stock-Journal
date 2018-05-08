@@ -2,6 +2,7 @@ package com.example.gatewayapi.gateway;
 
 import com.example.account.model.AccountModel;
 import com.example.account.rest.AccountRestInterface;
+import com.example.common.rest.envelope.ResponseEnvelope;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;

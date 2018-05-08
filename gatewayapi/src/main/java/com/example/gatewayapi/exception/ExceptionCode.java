@@ -8,7 +8,7 @@ public enum ExceptionCode {
     REQUEST_NOT_AUTHORIZED("Request not authorized")
     ;
 
-    private String message;
+    private final String message;
 
     ExceptionCode(String message) {
         this.message = message;

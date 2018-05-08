@@ -5,7 +5,7 @@ import org.apache.log4j.Logger;
 
 import java.util.List;
 
-public abstract class AbstractGateway {
+abstract class AbstractGateway {
 
     private static final Logger log = Logger.getLogger(AbstractGateway.class);
 

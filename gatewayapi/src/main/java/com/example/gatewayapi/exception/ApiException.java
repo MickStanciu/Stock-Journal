@@ -1,7 +1,7 @@
 package com.example.gatewayapi.exception;
 
-public class ApiException extends RuntimeException {
-    private ExceptionCode code;
+class ApiException extends RuntimeException {
+    private final ExceptionCode code;
 
     public ApiException(ExceptionCode code) {
         super(code.getMessage());
