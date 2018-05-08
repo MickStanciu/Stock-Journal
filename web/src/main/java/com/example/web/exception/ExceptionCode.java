@@ -7,7 +7,7 @@ public enum ExceptionCode {
     ACCOUNT_NOT_FOUND("Account not found")
     ;
 
-    private String message;
+    private final String message;
 
     ExceptionCode(String message) {
         this.message = message;

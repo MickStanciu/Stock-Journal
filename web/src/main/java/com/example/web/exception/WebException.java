@@ -1,7 +1,7 @@
 package com.example.web.exception;
 
 public class WebException extends Exception {
-    private ExceptionCode code;
+    private final ExceptionCode code;
 
     public WebException(ExceptionCode code) {
         super(code.getMessage());

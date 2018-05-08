@@ -28,7 +28,7 @@ public class GatewayApi {
     private String SERVICE_URL;
 
     private static final Logger log = Logger.getLogger(GatewayApi.class);
-    private AuthenticationRestInterface authProxy;
+    private final AuthenticationRestInterface authProxy;
     private AccountRestInterface accountProxy;
 
     public GatewayApi() {

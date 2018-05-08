@@ -4,7 +4,7 @@ public enum ExceptionCode {
     UNKNOWN("Unknown"),
     TENANT_NOT_FOUND("Tenant not found");
 
-    private String message;
+    private final String message;
 
     ExceptionCode(String message) {
         this.message = message;

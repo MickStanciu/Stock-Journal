@@ -19,7 +19,7 @@ public class EmailValidator implements Validator {
     private static final Logger log = Logger.getLogger(EmailValidator.class);
     private static final String EMAIL_PATTERN = "^[(a-zA-Z0-9-_+.)]+@[(a-z-A-z)]+\\.[(a-zA-z)]{2,3}$";
 
-    private Pattern pattern;
+    private final Pattern pattern;
 
     public EmailValidator() {
         pattern = Pattern.compile(EMAIL_PATTERN);
