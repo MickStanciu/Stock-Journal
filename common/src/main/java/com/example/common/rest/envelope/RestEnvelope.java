@@ -9,12 +9,16 @@ public abstract class RestEnvelope<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final T data;
-    private final List<ErrorDto> errors;
+    private T data;
+    private List<ErrorDto> errors;
 
     RestEnvelope(T data, List<ErrorDto> errors) {
         this.data = data;
         this.errors = errors;
+    }
+
+    public RestEnvelope() {
+        //required by jackson
     }
 
     public T getData() {

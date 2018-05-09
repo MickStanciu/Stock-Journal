@@ -10,6 +10,10 @@ public class ResponseEnvelope<T> extends RestEnvelope<T> {
         super(builder.data, builder.errors);
     }
 
+    public ResponseEnvelope() {
+        //required by jackson
+    }
+
     public static class Builder<T> {
         private T data;
         private List<ErrorDto> errors;

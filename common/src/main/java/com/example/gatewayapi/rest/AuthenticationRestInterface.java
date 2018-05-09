@@ -12,7 +12,7 @@ public interface AuthenticationRestInterface {
     @Path("/{tenantId}")
     Response authenticate (
         @PathParam("tenantId") String tenantId,
-        @QueryParam("name") String name,
+        @QueryParam("email") String email,
         @QueryParam("password") String password
     );
 }

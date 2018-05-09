@@ -6,12 +6,16 @@ public class TenantModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private final String id;
-    private final String name;
+    private String id;
+    private String name;
 
     public TenantModel(String id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    private TenantModel() {
+        //required by Jackson
     }
 
     public String getId() {

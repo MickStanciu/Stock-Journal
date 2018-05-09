@@ -69,9 +69,9 @@ public class LoginBean {
 
             //todo: remove hard coded stuff
             String tenantId = "d79ec11a-2011-4423-ba01-3af8de0a3e10";
+            String temail = "lola.blue@jadebaboon.com";
             String tpassword = "secret";
-            String tname = "mircea.stanciu";
-            AuthTokenModel authToken = gatewayApi.authenticate(tenantId, tname, tpassword);
+            AuthTokenModel authToken = gatewayApi.authenticate(tenantId, temail, tpassword);
             if (authToken != null) {
                 log.info(authToken.getToken());
                 setCookie(authToken.getToken());

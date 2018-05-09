@@ -14,8 +14,8 @@ services:
     image: web
     container_name: web
     ports:
-      - "8085:8080" #WildFly App
-      - "8785:8787" #WildFly Debug
+      - "8080:8080" #WildFly App
+      - "8780:8787" #WildFly Debug
     volumes:
       - ./web/target/web.war:/opt/jboss/wildfly/standalone/deployments/web.war
     environment:
@@ -26,8 +26,8 @@ services:
     image: gatewayapi
     container_name: gatewayapi
     ports:
-      - "8080:8080" #WildFly App
-      - "8780:8787" #WildFly Debug
+      - "8085:8080" #WildFly App
+      - "8785:8787" #WildFly Debug
     volumes:
       - ./gatewayapi/target/gatewayapi.war:/opt/jboss/wildfly/standalone/deployments/gatewayapi.war
     environment:

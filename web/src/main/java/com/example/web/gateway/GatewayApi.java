@@ -11,6 +11,7 @@ import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.core.GenericType;
@@ -28,18 +29,19 @@ public class GatewayApi {
     private String SERVICE_URL;
 
     private static final Logger log = Logger.getLogger(GatewayApi.class);
-    private final AuthenticationRestInterface authProxy;
-    private final AccountRestInterface accountProxy;
+    private AuthenticationRestInterface authProxy;
+    private AccountRestInterface accountProxy;
 
-    public GatewayApi() {
+    @PostConstruct
+    public void init() {
         ResteasyClient client = new ResteasyClientBuilder().build();
-        ResteasyWebTarget target = client.target(UriBuilder.fromPath(SERVICE_URL));
+        ResteasyWebTarget target = client.target(UriBuilder.fromPath(SERVICE_URL + "/api"));
         authProxy = target.proxy(AuthenticationRestInterface.class);
         accountProxy = target.proxy(AccountRestInterface.class);
     }
 
-    public AuthTokenModel authenticate(String tenantId, String name, String password) {
-        Response response = authProxy.authenticate(tenantId, name, password);
+    public AuthTokenModel authenticate(String tenantId, String email, String password) {
+        Response response = authProxy.authenticate(tenantId, email, password);
         ResponseEnvelope<AuthTokenModel> envelope = response.readEntity(new GenericType<ResponseEnvelope<AuthTokenModel>>(){});
         response.close();
 
