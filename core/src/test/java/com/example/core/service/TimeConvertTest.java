@@ -1,6 +1,6 @@
 package com.example.core.service;
 
-import com.example.core.conversion.TimeConversion;
+import com.example.common.converter.TimeConversion;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

@@ -2,6 +2,7 @@ package com.example.web.beans;
 
 import com.example.common.security.TokenUtil;
 import com.example.gatewayapi.model.AuthTokenModel;
+import com.example.web.configuration.InjectionType;
 import com.example.web.gateway.GatewayApi;
 import org.apache.log4j.Logger;
 
@@ -26,6 +27,7 @@ public class LoginBean {
     private boolean loginEnabled = false;
 
     @Inject
+    @InjectionType(isMock = false)
     private GatewayApi gatewayApi;
 
     public String getEmail() {

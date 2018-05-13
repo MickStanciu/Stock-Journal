@@ -1,0 +1,11 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <div class="timesheet-entry row pb-1 pt-1">
+        <div class="col-3">${item.fromTime}</div>
+        <div class="col-3">${item.toTime}</div>
+        <div class="col-3">${item.project.title}</div>
+        <div class="col-3">${item.task.title}</div>
+    </div>
+</ui:composition>

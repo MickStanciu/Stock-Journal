@@ -1,6 +1,7 @@
 package com.example.web.service;
 
 import com.example.account.model.AccountModel;
+import com.example.web.configuration.InjectionType;
 import com.example.web.exception.ExceptionCode;
 import com.example.web.exception.WebException;
 import com.example.web.gateway.GatewayApi;
@@ -14,8 +15,8 @@ import java.util.Optional;
 @Stateless
 public class AccountService implements Serializable {
 
-
     @Inject
+    @InjectionType(isMock = true)
     private GatewayApi gatewayApi;
 
     public AccountModel getAccount(String token, BigInteger accountId) throws WebException {

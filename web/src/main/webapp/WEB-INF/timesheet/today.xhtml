@@ -1,0 +1,18 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <div class="timesheedEntries">
+        <h2>Timesheet of #{DashboardBean.account.name}</h2>
+        <h4>For</h4>
+        <div class="timesheet-header row pb-1 pt-1">
+            <div class="col-3">From</div>
+            <div class="col-3">To</div>
+            <div class="col-3">Project</div>
+            <div class="col-3">Task</div>
+        </div>
+        <ui:repeat var="item" value="#{DashboardBean.timesheetEntries}">
+            <ui:include src="record.xhtml"/>
+        </ui:repeat>
+    </div>
+</ui:composition>

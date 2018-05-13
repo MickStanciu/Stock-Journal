@@ -1,8 +1,8 @@
 package com.example.core.rest;
 
+import com.example.common.converter.TimeConversion;
 import com.example.common.rest.dto.ErrorDto;
 import com.example.common.rest.envelope.ResponseEnvelope;
-import com.example.core.conversion.TimeConversion;
 import com.example.core.exception.ExceptionCode;
 import com.example.core.model.TimesheetEntryModel;
 import com.example.core.service.TimesheetService;

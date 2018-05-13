@@ -20,6 +20,7 @@ services:
       - ./web/target/web.war:/opt/jboss/wildfly/standalone/deployments/web.war
     environment:
       - GATEWAY_API_ADDRESS=http://gatewayapi:8080
+      - MOCK_SERVICES=true
 
   gatewayapi:
     build: gatewayapi/docker/.

@@ -1,4 +1,4 @@
-package com.example.core.conversion;
+package com.example.common.converter;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
