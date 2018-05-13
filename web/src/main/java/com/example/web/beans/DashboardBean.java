@@ -1,6 +1,7 @@
 package com.example.web.beans;
 
 import com.example.account.model.AccountModel;
+import com.example.common.converter.TimeConversion;
 import com.example.common.security.TokenClaims;
 import com.example.core.model.TimesheetEntryModel;
 import com.example.web.exception.WebException;
@@ -13,6 +14,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,6 +70,13 @@ public class DashboardBean implements Serializable {
         }
 
         timesheetEntries = timesheetService.getTodayEntries(tokenClaims.getTenantId(), tokenClaims.getAccountId());
+        values.put("TODAY", getTodayDateFormated());
+
+    }
+
+    public String getTodayDateFormated() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE dd-MMM-yyyy");
+        return formatter.format(TimeConversion.getStartOfDay());
     }
 
     public List<TimesheetEntryModel> getTimesheetEntries() {
@@ -76,5 +85,9 @@ public class DashboardBean implements Serializable {
 
     public AccountModel getAccount() {
         return account;
+    }
+
+    public Map<String, String> getValues() {
+        return values;
     }
 }
