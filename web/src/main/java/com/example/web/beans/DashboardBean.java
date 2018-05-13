@@ -63,6 +63,7 @@ public class DashboardBean implements Serializable {
                 account = accountService.getAccount(tokenRaw, tokenClaims.getAccountId());
                 log.info("ACCOUNT LOADED");
             } catch (WebException e) {
+                //todo: what to do?
                 log.error(e.getMessage());
             }
         } else {
@@ -70,11 +71,10 @@ public class DashboardBean implements Serializable {
         }
 
         timesheetEntries = timesheetService.getTodayEntries(tokenClaims.getTenantId(), tokenClaims.getAccountId());
-        values.put("TODAY", getTodayDateFormated());
-
+        values.put("TODAY", getTodayDateFormatted());
     }
 
-    public String getTodayDateFormated() {
+    private String getTodayDateFormatted() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE dd-MMM-yyyy");
         return formatter.format(TimeConversion.getStartOfDay());
     }
