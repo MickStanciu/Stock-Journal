@@ -1,4 +1,4 @@
-package com.example.web.validators;
+package com.example.web.validator;
 
 
 import org.apache.log4j.Logger;
