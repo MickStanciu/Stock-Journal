@@ -15,7 +15,11 @@ import javax.ejb.Stateless;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Stateless
 @InjectionType(isMock = true)
@@ -69,7 +73,7 @@ public class GatewayApiMock implements GatewayApi {
         TaskModel taskModel = TaskModel.builder().withTitle("Task 1").build();
 
         List<TimesheetEntryModel> timesheetEntries = new ArrayList<>();
-        for (int i = 0; i <= 23; i+=1) {
+        for (int i = 8; i <= 16; i+=1) {
             timesheetEntries.add(
                     TimesheetEntryModel.builder()
                             .fromTime(fromDate.plusHours(i).toInstant(ZoneOffset.UTC))
