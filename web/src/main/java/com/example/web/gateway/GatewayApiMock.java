@@ -3,6 +3,7 @@ package com.example.web.gateway;
 import com.example.account.model.AccountModel;
 import com.example.account.model.RoleInfoModel;
 import com.example.account.model.RoleModel;
+import com.example.common.converter.TimeConversion;
 import com.example.core.model.ProjectModel;
 import com.example.core.model.TaskModel;
 import com.example.core.model.TimesheetEntryModel;
@@ -73,7 +74,30 @@ public class GatewayApiMock implements GatewayApi {
         TaskModel taskModel = TaskModel.builder().withTitle("Task 1").build();
 
         List<TimesheetEntryModel> timesheetEntries = new ArrayList<>();
-        for (int i = 8; i <= 16; i+=1) {
+
+        LocalDateTime begin = TimeConversion.getStartOfDay();
+
+        timesheetEntries.add(
+                TimesheetEntryModel.builder()
+                        .fromTime(begin.plusHours(8).toInstant(ZoneOffset.UTC))
+                        .toTime(begin.plusHours(10).minusMinutes(1).toInstant(ZoneOffset.UTC))
+                        .havingProject(ProjectModel.builder().withTitle("Project A").build())
+                        .havingTask(TaskModel.builder().withTitle("Task A1").build())
+                        .withAccountId(BigInteger.ONE)
+                        .withTenantId("123")
+                        .build());
+
+        timesheetEntries.add(
+                TimesheetEntryModel.builder()
+                        .fromTime(begin.plusHours(10).toInstant(ZoneOffset.UTC))
+                        .toTime(begin.plusHours(12).minusMinutes(1).toInstant(ZoneOffset.UTC))
+                        .havingProject(ProjectModel.builder().withTitle("Project A").build())
+                        .havingTask(TaskModel.builder().withTitle("Task A2").build())
+                        .withAccountId(BigInteger.ONE)
+                        .withTenantId("123")
+                        .build());
+
+        for (int i = 12; i <= 16; i+=1) {
             timesheetEntries.add(
                     TimesheetEntryModel.builder()
                             .fromTime(fromDate.plusHours(i).toInstant(ZoneOffset.UTC))
