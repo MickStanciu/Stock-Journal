@@ -1,5 +1,6 @@
 package com.example.common.converter;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -24,5 +25,9 @@ public class TimeConversion {
                 .withHour(23)
                 .withMinute(59)
                 .truncatedTo(ChronoUnit.MINUTES);
+    }
+
+    public static LocalDateTime fromInstant(Instant instant) {
+        return LocalDateTime.ofInstant(instant, ZoneOffset.UTC);
     }
 }

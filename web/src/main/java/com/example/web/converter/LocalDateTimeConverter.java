@@ -1,5 +1,7 @@
 package com.example.web.converter;
 
+import com.example.common.converter.TimeConversion;
+
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -31,7 +33,7 @@ public class LocalDateTimeConverter implements Converter {
             throw new ConverterException("Bad format for Instant");
         }
 
-        return LocalDateTime.ofInstant(instant, ZoneOffset.UTC);
+        return TimeConversion.fromInstant(instant);
     }
 
     @Override
@@ -47,7 +49,7 @@ public class LocalDateTimeConverter implements Converter {
         LocalDateTime localDateTime;
         try {
             Instant instant = Instant.parse(o.toString().trim());
-            localDateTime = LocalDateTime.ofInstant(instant, ZoneOffset.UTC);
+            localDateTime = TimeConversion.fromInstant(instant);
         } catch (DateTimeParseException e) {
             throw new ConverterException("Bad format for Instant");
         }

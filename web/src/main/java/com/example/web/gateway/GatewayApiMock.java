@@ -16,11 +16,7 @@ import javax.ejb.Stateless;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Stateless
 @InjectionType(isMock = true)
@@ -82,7 +78,7 @@ public class GatewayApiMock implements GatewayApi {
                         .fromTime(begin.plusHours(8).toInstant(ZoneOffset.UTC))
                         .toTime(begin.plusHours(10).minusMinutes(1).toInstant(ZoneOffset.UTC))
                         .havingProject(ProjectModel.builder().withTitle("Project A").build())
-                        .havingTask(TaskModel.builder().withTitle("Task A1").build())
+                        .havingTask(TaskModel.builder().withTitle("Task A1 h8 - h10").build())
                         .withAccountId(BigInteger.ONE)
                         .withTenantId("123")
                         .build());
@@ -92,7 +88,7 @@ public class GatewayApiMock implements GatewayApi {
                         .fromTime(begin.plusHours(10).toInstant(ZoneOffset.UTC))
                         .toTime(begin.plusHours(12).minusMinutes(1).toInstant(ZoneOffset.UTC))
                         .havingProject(ProjectModel.builder().withTitle("Project A").build())
-                        .havingTask(TaskModel.builder().withTitle("Task A2").build())
+                        .havingTask(TaskModel.builder().withTitle("Task A2 h10 - h12").build())
                         .withAccountId(BigInteger.ONE)
                         .withTenantId("123")
                         .build());
@@ -102,7 +98,8 @@ public class GatewayApiMock implements GatewayApi {
                     TimesheetEntryModel.builder()
                             .fromTime(fromDate.plusHours(i).toInstant(ZoneOffset.UTC))
                             .toTime(fromDate.plusHours(i).plusMinutes(30 - 1).toInstant(ZoneOffset.UTC))
-                            .havingProject(projectModel).havingTask(taskModel)
+                            .havingProject(projectModel)
+                            .havingTask(TaskModel.builder().withTitle("Task 1 - h" + i).build())
                             .withAccountId(BigInteger.ONE)
                             .withTenantId("123")
                             .build());
@@ -111,11 +108,22 @@ public class GatewayApiMock implements GatewayApi {
                     TimesheetEntryModel.builder()
                             .fromTime(fromDate.plusHours(i).plusMinutes(30).toInstant(ZoneOffset.UTC))
                             .toTime(fromDate.plusHours(i+1).minusMinutes(1).toInstant(ZoneOffset.UTC))
-                            .havingProject(projectModel).havingTask(taskModel)
+                            .havingProject(projectModel)
+                            .havingTask(TaskModel.builder().withTitle("Task 1 - h" + i).build())
                             .withAccountId(BigInteger.ONE)
                             .withTenantId("123")
                             .build());
         }
+
+        timesheetEntries.add(
+                TimesheetEntryModel.builder()
+                        .fromTime(fromDate.plusHours(17).plusMinutes(30).toInstant(ZoneOffset.UTC))
+                        .toTime(fromDate.plusHours(17).plusMinutes(59).toInstant(ZoneOffset.UTC))
+                        .havingProject(projectModel)
+                        .havingTask(TaskModel.builder().withTitle("Task 1 - h17:30").build())
+                        .withAccountId(BigInteger.ONE)
+                        .withTenantId("123")
+                        .build());
 
         return timesheetEntries;
     }

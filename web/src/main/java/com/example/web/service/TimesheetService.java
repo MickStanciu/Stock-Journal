@@ -11,10 +11,14 @@ import javax.inject.Inject;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Stateless
 public class TimesheetService implements Serializable {
+
+    private static final int SLOT_SIZE = 30; //minutes
 
     @Inject
     @InjectionType(isMock = true)
@@ -28,6 +32,42 @@ public class TimesheetService implements Serializable {
         LocalDateTime fromDate = TimeConversion.getStartOfDay();
         LocalDateTime toDate = TimeConversion.getEndOfDay();
         return gatewayApi.getEntries(tenantId, accountId, fromDate, toDate);
+    }
+
+    public Map<Integer, TimesheetEntryModel> generateSlots(String tenantId, BigInteger accountId) {
+        LocalDateTime fromDate = TimeConversion.getStartOfDay();
+        LocalDateTime toDate = TimeConversion.getEndOfDay();
+        List<TimesheetEntryModel> timesheetSlots = gatewayApi.getEntries(tenantId, accountId, fromDate, toDate);
+        Map<Integer, TimesheetEntryModel> calendarSlots = new HashMap<>();
+
+        //empty slots
+        for (int i = 0; i < 48; i++) {
+            calendarSlots.put(i, null);
+        }
+
+        //not empty slots
+        for (TimesheetEntryModel model : timesheetSlots) {
+            int startSlot = getStartSlot(model);
+            int endSlot = getEndSlot(model);
+
+            for (int i = startSlot; i <= endSlot; i++) {
+                calendarSlots.put(i, model);
+            }
+        }
+
+        return calendarSlots;
+    }
+
+    int getStartSlot(TimesheetEntryModel timesheetEntry) {
+        LocalDateTime startDateTime = TimeConversion.fromInstant(timesheetEntry.getFromTime());
+        int startMinute = startDateTime.getHour() * 60 + startDateTime.getMinute();
+        return startMinute / SLOT_SIZE;
+    }
+
+    int getEndSlot(TimesheetEntryModel timesheetEntry) {
+        LocalDateTime sendDateTime = TimeConversion.fromInstant(timesheetEntry.getToTime());
+        int endMinute = sendDateTime.getHour() * 60 + sendDateTime.getMinute();
+        return endMinute / SLOT_SIZE;
     }
 
 }

@@ -5,19 +5,19 @@
         xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <div class="timesheet-entry row pb-1 pt-1">
-        <div class="col-3">
+        <div class="col-3 cell">
             <h:outputText value = "#{item.fromTime}" >
                 <f:converter converterId="instantToTimeConverter"/>
                 <f:attribute name="format" value="HH:mm"/>
             </h:outputText>
         </div>
-        <div class="col-3">
+        <div class="col-3 cell">
             <h:outputText value = "#{item.toTime}" >
                 <f:converter converterId="instantToTimeConverter"/>
                 <f:attribute name="format" value="HH:mm"/>
             </h:outputText>
         </div>
-        <div class="col-3">${item.project.title}</div>
-        <div class="col-3">${item.task.title}</div>
+        <div class="col-3 cell">${item.project.title}</div>
+        <div class="col-3 cell">${item.task.title}</div>
     </div>
 </ui:composition>
