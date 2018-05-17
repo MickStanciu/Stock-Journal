@@ -11,7 +11,7 @@
             <div class="col-3">Project</div>
             <div class="col-3">Task</div>
         </div>
-        <ui:repeat var="item" value="#{DashboardBean.timesheetEntries}">
+        <ui:repeat var="item" value="#{DashboardBean.timeSheetSlots}" varStatus="status">
             <ui:include src="record.xhtml"/>
         </ui:repeat>
     </div>

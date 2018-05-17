@@ -1,6 +1,6 @@
 package com.example.gatewayapi.service;
 
-import com.example.core.model.TimesheetEntryModel;
+import com.example.core.model.TimeSheetEntryModel;
 import com.example.gatewayapi.exception.ExceptionCode;
 import com.example.gatewayapi.exception.GatewayApiException;
 import com.example.gatewayapi.gateway.TimesheetGateway;
@@ -19,8 +19,8 @@ public class TimesheetService {
     @Inject
     private TimesheetGateway timesheetGateway;
 
-    public List<TimesheetEntryModel> getTimesheetEntries(String tenantId, BigInteger accountId, String from, String to) throws GatewayApiException {
-        List<TimesheetEntryModel> entryList = timesheetGateway.getTimesheetEntries(tenantId, accountId, from, to);
+    public List<TimeSheetEntryModel> getTimesheetEntries(String tenantId, BigInteger accountId, String from, String to) throws GatewayApiException {
+        List<TimeSheetEntryModel> entryList = timesheetGateway.getTimesheetEntries(tenantId, accountId, from, to);
         if (entryList == null || entryList.isEmpty()) {
             throw new GatewayApiException(ExceptionCode.TIMESHEET_EMPTY);
         }

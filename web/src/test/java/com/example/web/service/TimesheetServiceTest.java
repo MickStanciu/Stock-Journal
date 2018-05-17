@@ -2,7 +2,7 @@ package com.example.web.service;
 
 
 import com.example.common.converter.TimeConversion;
-import com.example.core.model.TimesheetEntryModel;
+import com.example.core.model.TimeSheetEntryModel;
 import com.example.web.gateway.GatewayApi;
 import com.example.web.gateway.GatewayApiMock;
 import org.mockito.InjectMocks;
@@ -40,7 +40,7 @@ public class TimesheetServiceTest {
 
     @Test
     public void testStartSlot() {
-        TimesheetEntryModel model = TimesheetEntryModel.builder()
+        TimeSheetEntryModel model = TimeSheetEntryModel.builder()
                 .fromTime(TimeConversion.getStartOfDay().plusHours(8).toInstant(ZoneOffset.UTC))
                 .toTime(TimeConversion.getStartOfDay().plusHours(10).plusMinutes(29).toInstant(ZoneOffset.UTC))
                 .build();
@@ -51,7 +51,7 @@ public class TimesheetServiceTest {
 
     @Test
     public void testEndSlot() {
-        TimesheetEntryModel model = TimesheetEntryModel.builder()
+        TimeSheetEntryModel model = TimeSheetEntryModel.builder()
                 .fromTime(TimeConversion.getStartOfDay().plusHours(8).toInstant(ZoneOffset.UTC))
                 .toTime(TimeConversion.getStartOfDay().plusHours(10).plusMinutes(29).toInstant(ZoneOffset.UTC))
                 .build();
@@ -62,10 +62,14 @@ public class TimesheetServiceTest {
 
     @Test
     public void testSlotAllocation() {
-        List<TimesheetEntryModel> slots = timesheetService.generateSlots("123", BigInteger.ONE);
+        LocalDateTime fromDate = TimeConversion.getStartOfDay();
+        LocalDateTime toDate = TimeConversion.getEndOfDay();
+        List<TimeSheetEntryModel> timesheetSlots = gatewayApi.getEntries("123", BigInteger.ONE, fromDate, toDate);
+
+        List<TimeSheetEntryModel> slots = timesheetService.generateDaySlots(timesheetSlots);
         assertEquals("Slot 35", slots.get(35).getProject().getTitle());
 //        for (int slotNumber=0; slotNumber<slots.size(); slotNumber++) {
-//            TimesheetEntryModel model = slots.get(slotNumber);
+//            TimeSheetEntryModel model = slots.get(slotNumber);
 //            System.out.println(slotNumber + " -> " + (model != null ? model.getProject().getTitle() + " " + model.getTask().getTitle() : "empty slot"));
 //        }
     }

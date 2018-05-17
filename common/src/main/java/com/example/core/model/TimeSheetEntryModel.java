@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.Instant;
 
-public class TimesheetEntryModel implements Serializable {
+public class TimeSheetEntryModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -18,7 +18,7 @@ public class TimesheetEntryModel implements Serializable {
     private ProjectModel project;
     private TaskModel task;
 
-    private TimesheetEntryModel() {
+    private TimeSheetEntryModel() {
         //required by Jackson
     }
 
@@ -60,13 +60,13 @@ public class TimesheetEntryModel implements Serializable {
     }
 
     public static class Builder {
-        final TimesheetEntryModel timesheetEntry;
+        final TimeSheetEntryModel timesheetEntry;
 
         Builder() {
-            timesheetEntry = new TimesheetEntryModel();
+            timesheetEntry = new TimeSheetEntryModel();
         }
 
-        public Builder(TimesheetEntryModel timesheetEntry) {
+        public Builder(TimeSheetEntryModel timesheetEntry) {
             this.timesheetEntry = timesheetEntry;
         }
 
@@ -100,7 +100,7 @@ public class TimesheetEntryModel implements Serializable {
             return this;
         }
 
-        public TimesheetEntryModel build() {
+        public TimeSheetEntryModel build() {
             return timesheetEntry;
         }
     }

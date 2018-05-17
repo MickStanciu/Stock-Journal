@@ -6,7 +6,7 @@ import com.example.account.model.RoleModel;
 import com.example.common.converter.TimeConversion;
 import com.example.core.model.ProjectModel;
 import com.example.core.model.TaskModel;
-import com.example.core.model.TimesheetEntryModel;
+import com.example.core.model.TimeSheetEntryModel;
 import com.example.gatewayapi.model.AuthTokenModel;
 import com.example.web.configuration.InjectionType;
 import org.apache.log4j.Logger;
@@ -65,16 +65,16 @@ public class GatewayApiMock implements GatewayApi {
     }
 
     @Override
-    public List<TimesheetEntryModel> getEntries(String tenantId, BigInteger accountId, LocalDateTime fromDate, LocalDateTime toDate) {
+    public List<TimeSheetEntryModel> getEntries(String tenantId, BigInteger accountId, LocalDateTime fromDate, LocalDateTime toDate) {
         ProjectModel projectModel = ProjectModel.builder().withTitle("Project 1").build();
         TaskModel taskModel = TaskModel.builder().withTitle("Task 1").build();
 
-        List<TimesheetEntryModel> timesheetEntries = new ArrayList<>();
+        List<TimeSheetEntryModel> timesheetEntries = new ArrayList<>();
 
         LocalDateTime begin = TimeConversion.getStartOfDay();
 
         timesheetEntries.add(
-                TimesheetEntryModel.builder()
+                TimeSheetEntryModel.builder()
                         .fromTime(begin.plusHours(8).toInstant(ZoneOffset.UTC))
                         .toTime(begin.plusHours(10).minusMinutes(1).toInstant(ZoneOffset.UTC))
                         .havingProject(ProjectModel.builder().withTitle("Project A").build())
@@ -84,7 +84,7 @@ public class GatewayApiMock implements GatewayApi {
                         .build());
 
         timesheetEntries.add(
-                TimesheetEntryModel.builder()
+                TimeSheetEntryModel.builder()
                         .fromTime(begin.plusHours(10).toInstant(ZoneOffset.UTC))
                         .toTime(begin.plusHours(12).minusMinutes(1).toInstant(ZoneOffset.UTC))
                         .havingProject(ProjectModel.builder().withTitle("Project A").build())
@@ -95,7 +95,7 @@ public class GatewayApiMock implements GatewayApi {
 
         for (int i = 12; i <= 16; i+=1) {
             timesheetEntries.add(
-                    TimesheetEntryModel.builder()
+                    TimeSheetEntryModel.builder()
                             .fromTime(fromDate.plusHours(i).toInstant(ZoneOffset.UTC))
                             .toTime(fromDate.plusHours(i).plusMinutes(30 - 1).toInstant(ZoneOffset.UTC))
                             .havingProject(projectModel)
@@ -105,7 +105,7 @@ public class GatewayApiMock implements GatewayApi {
                             .build());
 
             timesheetEntries.add(
-                    TimesheetEntryModel.builder()
+                    TimeSheetEntryModel.builder()
                             .fromTime(fromDate.plusHours(i).plusMinutes(30).toInstant(ZoneOffset.UTC))
                             .toTime(fromDate.plusHours(i+1).minusMinutes(1).toInstant(ZoneOffset.UTC))
                             .havingProject(projectModel)
@@ -116,7 +116,7 @@ public class GatewayApiMock implements GatewayApi {
         }
 
         timesheetEntries.add(
-                TimesheetEntryModel.builder()
+                TimeSheetEntryModel.builder()
                         .fromTime(fromDate.plusHours(17).plusMinutes(30).toInstant(ZoneOffset.UTC))
                         .toTime(fromDate.plusHours(17).plusMinutes(59).toInstant(ZoneOffset.UTC))
                         .havingProject(ProjectModel.builder().withTitle("Slot 35").build())

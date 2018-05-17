@@ -1,7 +1,7 @@
 package com.example.web.service;
 
 import com.example.common.converter.TimeConversion;
-import com.example.core.model.TimesheetEntryModel;
+import com.example.core.model.TimeSheetEntryModel;
 import com.example.web.configuration.InjectionType;
 import com.example.web.gateway.GatewayApi;
 
@@ -27,17 +27,15 @@ public class TimesheetService implements Serializable {
     public void init() {
     }
 
-    public List<TimesheetEntryModel> getTodayEntries(String tenantId, BigInteger accountId) {
+    public List<TimeSheetEntryModel> getTodayEntries(String tenantId, BigInteger accountId) {
         LocalDateTime fromDate = TimeConversion.getStartOfDay();
         LocalDateTime toDate = TimeConversion.getEndOfDay();
         return gatewayApi.getEntries(tenantId, accountId, fromDate, toDate);
     }
 
-    public List<TimesheetEntryModel> generateSlots(String tenantId, BigInteger accountId) {
-        LocalDateTime fromDate = TimeConversion.getStartOfDay();
-        LocalDateTime toDate = TimeConversion.getEndOfDay();
-        List<TimesheetEntryModel> timesheetSlots = gatewayApi.getEntries(tenantId, accountId, fromDate, toDate);
-        List<TimesheetEntryModel> calendarSlots = new ArrayList<>(48);
+    //todo: maybe in a TimeSheetUtil class?
+    public List<TimeSheetEntryModel> generateDaySlots(List<TimeSheetEntryModel> timeSheetSlots) {
+        List<TimeSheetEntryModel> calendarSlots = new ArrayList<>(48);
 
         //empty slots
         for (int i = 0; i < 48; i++) {
@@ -45,11 +43,11 @@ public class TimesheetService implements Serializable {
         }
 
         //not empty slots
-        for (TimesheetEntryModel model : timesheetSlots) {
+        for (TimeSheetEntryModel model : timeSheetSlots) {
             int startSlot = getStartSlot(model);
             int endSlot = getEndSlot(model);
 
-            for (int i = startSlot; i <= endSlot; i++) {
+            for (int i = startSlot; i <= endSlot && startSlot >= 0 && endSlot < 48; i++) {
                 calendarSlots.add(i, model);
             }
         }
@@ -57,14 +55,14 @@ public class TimesheetService implements Serializable {
         return calendarSlots;
     }
 
-    int getStartSlot(TimesheetEntryModel timesheetEntry) {
-        LocalDateTime startDateTime = TimeConversion.fromInstant(timesheetEntry.getFromTime());
+    int getStartSlot(TimeSheetEntryModel timeSheetEntry) {
+        LocalDateTime startDateTime = TimeConversion.fromInstant(timeSheetEntry.getFromTime());
         int startMinute = startDateTime.getHour() * 60 + startDateTime.getMinute();
         return startMinute / SLOT_SIZE;
     }
 
-    int getEndSlot(TimesheetEntryModel timesheetEntry) {
-        LocalDateTime sendDateTime = TimeConversion.fromInstant(timesheetEntry.getToTime());
+    int getEndSlot(TimeSheetEntryModel timeSheetEntry) {
+        LocalDateTime sendDateTime = TimeConversion.fromInstant(timeSheetEntry.getToTime());
         int endMinute = sendDateTime.getHour() * 60 + sendDateTime.getMinute();
         return endMinute / SLOT_SIZE;
     }

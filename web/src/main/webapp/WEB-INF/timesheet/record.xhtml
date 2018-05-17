@@ -4,20 +4,24 @@
         xmlns:h="http://xmlns.jcp.org/jsf/html"
         xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <div class="timesheet-entry row pb-1 pt-1">
+    <div class="timesheet-entry pb-1 pt-1 row ${status.even ? 'row-even' : 'row-odd'}">
         <div class="col-3 cell">
-            <h:outputText value = "#{item.fromTime}" >
+            <h:outputText value="#{item.fromTime}" rendered="#{item != null}">
                 <f:converter converterId="instantToTimeConverter"/>
                 <f:attribute name="format" value="HH:mm"/>
             </h:outputText>
         </div>
         <div class="col-3 cell">
-            <h:outputText value = "#{item.toTime}" >
+            <h:outputText value="#{item.toTime}" rendered="#{item != null}">
                 <f:converter converterId="instantToTimeConverter"/>
                 <f:attribute name="format" value="HH:mm"/>
             </h:outputText>
         </div>
-        <div class="col-3 cell">${item.project.title}</div>
-        <div class="col-3 cell">${item.task.title}</div>
+        <div class="col-3 cell">
+            <h:outputText value="#{item.project.title}" rendered="#{item != null}"/>
+        </div>
+        <div class="col-3 cell">
+            <h:outputText value="#{item.task.title}" rendered="#{item != null}"/>
+        </div>
     </div>
 </ui:composition>

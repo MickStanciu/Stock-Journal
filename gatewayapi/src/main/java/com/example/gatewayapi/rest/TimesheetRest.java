@@ -2,7 +2,7 @@ package com.example.gatewayapi.rest;
 
 import com.example.common.rest.dto.ErrorDto;
 import com.example.common.rest.envelope.ResponseEnvelope;
-import com.example.core.model.TimesheetEntryModel;
+import com.example.core.model.TimeSheetEntryModel;
 import com.example.gatewayapi.exception.ExceptionCode;
 import com.example.gatewayapi.exception.GatewayApiException;
 import com.example.gatewayapi.service.TimesheetService;
@@ -39,7 +39,7 @@ public class TimesheetRest extends AbstractRest {
         List<ErrorDto> errors = new ArrayList<>();
         Response.Status responseStatus = Response.Status.OK;
 
-        List<TimesheetEntryModel> response = null;
+        List<TimeSheetEntryModel> response = null;
         try {
             String tenantId = getTenantId(token);
             response = timesheetService.getTimesheetEntries(tenantId, accountId, from, to);
@@ -49,7 +49,7 @@ public class TimesheetRest extends AbstractRest {
             responseStatus = Response.Status.NOT_FOUND;
         }
 
-        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<List<TimesheetEntryModel>>()
+        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<List<TimeSheetEntryModel>>()
                 .withData(response)
                 .withErrors(errors)
                 .build();

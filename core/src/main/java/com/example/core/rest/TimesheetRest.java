@@ -4,7 +4,7 @@ import com.example.common.converter.TimeConversion;
 import com.example.common.rest.dto.ErrorDto;
 import com.example.common.rest.envelope.ResponseEnvelope;
 import com.example.core.exception.ExceptionCode;
-import com.example.core.model.TimesheetEntryModel;
+import com.example.core.model.TimeSheetEntryModel;
 import com.example.core.service.TimesheetService;
 import com.example.core.validation.RequestValidation;
 import org.apache.log4j.Logger;
@@ -52,7 +52,7 @@ public class TimesheetRest implements TimesheetRestInterface {
             toDate = TimeConversion.fromString(to);
         }
 
-        List<TimesheetEntryModel> entryList;
+        List<TimeSheetEntryModel> entryList;
         try {
             entryList = timesheetService.getEntriesByIdAndTime(tenantId, accountId, fromDate, toDate);
         } catch (Exception ex) {
@@ -65,7 +65,7 @@ public class TimesheetRest implements TimesheetRestInterface {
             errors.add(new ErrorDto(ExceptionCode.TIMESHEET_NOT_FOUND.name(), ExceptionCode.TIMESHEET_NOT_FOUND.getMessage()));
         }
 
-        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<List<TimesheetEntryModel>>()
+        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<List<TimeSheetEntryModel>>()
                 .withData(entryList)
                 .withErrors(errors)
                 .build();

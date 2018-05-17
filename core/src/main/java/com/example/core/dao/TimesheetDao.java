@@ -2,7 +2,7 @@ package com.example.core.dao;
 
 import com.example.core.model.ProjectModel;
 import com.example.core.model.TaskModel;
-import com.example.core.model.TimesheetEntryModel;
+import com.example.core.model.TimeSheetEntryModel;
 import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
@@ -37,7 +37,7 @@ public class TimesheetDao {
     @PersistenceContext
     private EntityManager em;
 
-    public List<TimesheetEntryModel> getEntriesByIdAndTime(String tenantId, BigInteger accountId, LocalDateTime from, LocalDateTime to) {
+    public List<TimeSheetEntryModel> getEntriesByIdAndTime(String tenantId, BigInteger accountId, LocalDateTime from, LocalDateTime to) {
         Query q = em.createNativeQuery(TIMESHEET_READ_BY_ACCOUNT);
         q.setParameter("tenant_fk", tenantId);
         q.setParameter("account_fk", accountId);
@@ -49,7 +49,7 @@ public class TimesheetDao {
             return Collections.emptyList();
         }
 
-        List<TimesheetEntryModel> entryList = new ArrayList<>();
+        List<TimeSheetEntryModel> entryList = new ArrayList<>();
         for(Object[] result : results) {
             entryList.add(mapFromObject(result));
         }
@@ -57,7 +57,7 @@ public class TimesheetDao {
     }
 
 
-    private TimesheetEntryModel mapFromObject(Object[] result) {
+    private TimeSheetEntryModel mapFromObject(Object[] result) {
         ProjectModel project = ProjectModel.builder()
                 .withTenantId((String) result[3])
                 .withId((BigInteger) result[4])
@@ -75,7 +75,7 @@ public class TimesheetDao {
                 .withDescription((String) result[12])
                 .build();
 
-        return TimesheetEntryModel.builder()
+        return TimeSheetEntryModel.builder()
                 .withAccountId((BigInteger) result[0])
                 .withTenantId((String) result[3])
                 .havingProject(project)

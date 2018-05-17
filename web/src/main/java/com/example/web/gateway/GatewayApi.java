@@ -1,7 +1,7 @@
 package com.example.web.gateway;
 
 import com.example.account.model.AccountModel;
-import com.example.core.model.TimesheetEntryModel;
+import com.example.core.model.TimeSheetEntryModel;
 import com.example.gatewayapi.model.AuthTokenModel;
 
 import java.math.BigInteger;
@@ -13,5 +13,5 @@ public interface GatewayApi {
 
     AuthTokenModel authenticate(String tenantId, String email, String password);
     Optional<AccountModel> getAccount(String token, BigInteger accountId);
-    List<TimesheetEntryModel> getEntries(String token, BigInteger accountId, LocalDateTime fromDate, LocalDateTime toDate);
+    List<TimeSheetEntryModel> getEntries(String token, BigInteger accountId, LocalDateTime fromDate, LocalDateTime toDate);
 }

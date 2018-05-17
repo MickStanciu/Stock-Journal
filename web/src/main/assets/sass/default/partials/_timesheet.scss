@@ -8,8 +8,17 @@
   .cell {
     line-height: 2rem;
   }
+
+  &:hover {
+    background-color: burlywood;
+  }
 }
 
-.timesheet-entry:hover {
-
+.row-even {
+  background-color: floralwhite;
 }
+
+.row-odd {
+  background-color: gainsboro;
+}
+

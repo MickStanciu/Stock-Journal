@@ -3,7 +3,7 @@ package com.example.web.beans;
 import com.example.account.model.AccountModel;
 import com.example.common.converter.TimeConversion;
 import com.example.common.security.TokenClaims;
-import com.example.core.model.TimesheetEntryModel;
+import com.example.core.model.TimeSheetEntryModel;
 import com.example.web.exception.WebException;
 import com.example.web.service.AccountService;
 import com.example.web.service.TimesheetService;
@@ -36,7 +36,7 @@ public class DashboardBean implements Serializable {
     private TimesheetService timesheetService;
 
     private AccountModel account = null;
-    private List<TimesheetEntryModel> timesheetEntries;
+    private List<TimeSheetEntryModel> timeSheetSlots;
     private Map<String, String> values = new HashMap<>();
 
     public void onLoad() {
@@ -70,7 +70,8 @@ public class DashboardBean implements Serializable {
             log.info("ACCOUNT ALREADY LOADED");
         }
 
-        timesheetEntries = timesheetService.getTodayEntries(tokenClaims.getTenantId(), tokenClaims.getAccountId());
+
+        timeSheetSlots = timesheetService.generateDaySlots(timesheetService.getTodayEntries(tokenClaims.getTenantId(), tokenClaims.getAccountId()));
         values.put("TODAY", getTodayDateFormatted());
     }
 
@@ -79,9 +80,6 @@ public class DashboardBean implements Serializable {
         return formatter.format(TimeConversion.getStartOfDay());
     }
 
-    public List<TimesheetEntryModel> getTimesheetEntries() {
-        return timesheetEntries;
-    }
 
     public AccountModel getAccount() {
         return account;
@@ -89,5 +87,9 @@ public class DashboardBean implements Serializable {
 
     public Map<String, String> getValues() {
         return values;
+    }
+
+    public List<TimeSheetEntryModel> getTimeSheetSlots() {
+        return timeSheetSlots;
     }
 }

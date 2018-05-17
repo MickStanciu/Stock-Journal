@@ -3,7 +3,7 @@ package com.example.web.gateway;
 import com.example.account.model.AccountModel;
 import com.example.common.rest.dto.ErrorDto;
 import com.example.common.rest.envelope.ResponseEnvelope;
-import com.example.core.model.TimesheetEntryModel;
+import com.example.core.model.TimeSheetEntryModel;
 import com.example.gatewayapi.model.AuthTokenModel;
 import com.example.gatewayapi.rest.AccountRestInterface;
 import com.example.gatewayapi.rest.AuthenticationRestInterface;
@@ -78,7 +78,7 @@ public class GatewayApiImpl implements GatewayApi {
     }
 
     @Override
-    public List<TimesheetEntryModel> getEntries(String token, BigInteger accountId, LocalDateTime fromDate, LocalDateTime toDate) {
+    public List<TimeSheetEntryModel> getEntries(String token, BigInteger accountId, LocalDateTime fromDate, LocalDateTime toDate) {
         throw new RuntimeException("NOT IMPLEMENTED");
     }
 

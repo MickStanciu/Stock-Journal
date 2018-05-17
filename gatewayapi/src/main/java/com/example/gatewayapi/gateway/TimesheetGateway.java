@@ -1,7 +1,7 @@
 package com.example.gatewayapi.gateway;
 
 import com.example.common.rest.envelope.ResponseEnvelope;
-import com.example.core.model.TimesheetEntryModel;
+import com.example.core.model.TimeSheetEntryModel;
 import com.example.core.rest.TimesheetRestInterface;
 import com.example.gatewayapi.JacksonObjectMapper;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
@@ -36,9 +36,9 @@ public class TimesheetGateway extends AbstractGateway {
         proxy = target.proxy(TimesheetRestInterface.class);
     }
 
-    public List<TimesheetEntryModel> getTimesheetEntries(String tenantId, BigInteger accountId, String from, String to) {
+    public List<TimeSheetEntryModel> getTimesheetEntries(String tenantId, BigInteger accountId, String from, String to) {
         Response response = proxy.getTimesheetEntries(tenantId, accountId, from, to);
-        ResponseEnvelope<List<TimesheetEntryModel>> envelope = response.readEntity(new GenericType<ResponseEnvelope<List<TimesheetEntryModel>>>(){});
+        ResponseEnvelope<List<TimeSheetEntryModel>> envelope = response.readEntity(new GenericType<ResponseEnvelope<List<TimeSheetEntryModel>>>(){});
         response.close();
 
         if (response.getStatus() != 200 && envelope.getErrors() != null) {
