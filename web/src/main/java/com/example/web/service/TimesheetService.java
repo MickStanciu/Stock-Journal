@@ -11,9 +11,8 @@ import javax.inject.Inject;
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Stateless
 public class TimesheetService implements Serializable {
@@ -34,15 +33,15 @@ public class TimesheetService implements Serializable {
         return gatewayApi.getEntries(tenantId, accountId, fromDate, toDate);
     }
 
-    public Map<Integer, TimesheetEntryModel> generateSlots(String tenantId, BigInteger accountId) {
+    public List<TimesheetEntryModel> generateSlots(String tenantId, BigInteger accountId) {
         LocalDateTime fromDate = TimeConversion.getStartOfDay();
         LocalDateTime toDate = TimeConversion.getEndOfDay();
         List<TimesheetEntryModel> timesheetSlots = gatewayApi.getEntries(tenantId, accountId, fromDate, toDate);
-        Map<Integer, TimesheetEntryModel> calendarSlots = new HashMap<>();
+        List<TimesheetEntryModel> calendarSlots = new ArrayList<>(48);
 
         //empty slots
         for (int i = 0; i < 48; i++) {
-            calendarSlots.put(i, null);
+            calendarSlots.add(i, null);
         }
 
         //not empty slots
@@ -51,7 +50,7 @@ public class TimesheetService implements Serializable {
             int endSlot = getEndSlot(model);
 
             for (int i = startSlot; i <= endSlot; i++) {
-                calendarSlots.put(i, model);
+                calendarSlots.add(i, model);
             }
         }
 

@@ -14,6 +14,7 @@ import org.testng.annotations.Test;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -59,12 +60,13 @@ public class TimesheetServiceTest {
         assertEquals(end, 20, "Wrong slot,");
     }
 
-//    @Test
-//    public void plm() {
-//        Map<Integer, TimesheetEntryModel> slots = timesheetService.generateSlots("123", BigInteger.ONE);
-//        for (Integer slotNumber : slots.keySet()) {
+    @Test
+    public void testSlotAllocation() {
+        List<TimesheetEntryModel> slots = timesheetService.generateSlots("123", BigInteger.ONE);
+        assertEquals("Slot 35", slots.get(35).getProject().getTitle());
+//        for (int slotNumber=0; slotNumber<slots.size(); slotNumber++) {
 //            TimesheetEntryModel model = slots.get(slotNumber);
 //            System.out.println(slotNumber + " -> " + (model != null ? model.getProject().getTitle() + " " + model.getTask().getTitle() : "empty slot"));
 //        }
-//    }
+    }
 }

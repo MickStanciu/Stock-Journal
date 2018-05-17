@@ -119,7 +119,7 @@ public class GatewayApiMock implements GatewayApi {
                 TimesheetEntryModel.builder()
                         .fromTime(fromDate.plusHours(17).plusMinutes(30).toInstant(ZoneOffset.UTC))
                         .toTime(fromDate.plusHours(17).plusMinutes(59).toInstant(ZoneOffset.UTC))
-                        .havingProject(projectModel)
+                        .havingProject(ProjectModel.builder().withTitle("Slot 35").build())
                         .havingTask(TaskModel.builder().withTitle("Task 1 - h17:30").build())
                         .withAccountId(BigInteger.ONE)
                         .withTenantId("123")
