@@ -4,6 +4,7 @@ import com.example.common.converter.TimeConversion;
 import com.example.core.model.TimeSheetEntryModel;
 import com.example.web.configuration.InjectionType;
 import com.example.web.gateway.GatewayApi;
+import com.example.web.model.TimeSheetSlotModel;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Stateless
-public class TimesheetService implements Serializable {
+public class TimeSheetService implements Serializable {
 
     private static final int SLOT_SIZE = 30; //minutes
 
@@ -50,6 +51,24 @@ public class TimesheetService implements Serializable {
             for (int i = startSlot; i <= endSlot && startSlot >= 0 && endSlot < 48; i++) {
                 calendarSlots.add(i, model);
             }
+        }
+
+        return calendarSlots;
+    }
+
+    //todo: maybe in a TimeSheetUtil class?
+    public List<TimeSheetSlotModel> generateDailySlots(List<TimeSheetEntryModel> timeSheetSlots) {
+        List<TimeSheetSlotModel> calendarSlots = new ArrayList<>(48);
+        LocalDateTime begin = TimeConversion.getStartOfDay();
+
+        //empty slots
+        for (int i = 0; i < 48; i++) {
+            calendarSlots.add(i,
+                    TimeSheetSlotModel.builder()
+                            .withSlot(i)
+                            .fromTime(begin.plusMinutes(30 * i))
+                            .toTime(begin.plusMinutes(30 * (i+1)).minusMinutes(1))
+                            .build());
         }
 
         return calendarSlots;

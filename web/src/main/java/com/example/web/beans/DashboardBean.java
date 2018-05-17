@@ -3,10 +3,10 @@ package com.example.web.beans;
 import com.example.account.model.AccountModel;
 import com.example.common.converter.TimeConversion;
 import com.example.common.security.TokenClaims;
-import com.example.core.model.TimeSheetEntryModel;
 import com.example.web.exception.WebException;
+import com.example.web.model.TimeSheetSlotModel;
 import com.example.web.service.AccountService;
-import com.example.web.service.TimesheetService;
+import com.example.web.service.TimeSheetService;
 import com.example.web.service.TokenService;
 import org.apache.log4j.Logger;
 
@@ -33,10 +33,10 @@ public class DashboardBean implements Serializable {
     private TokenService tokenService;
 
     @Inject
-    private TimesheetService timesheetService;
+    private TimeSheetService timeSheetService;
 
     private AccountModel account = null;
-    private List<TimeSheetEntryModel> timeSheetSlots;
+    private List<TimeSheetSlotModel> timeSheetSlots;
     private Map<String, String> values = new HashMap<>();
 
     public void onLoad() {
@@ -71,7 +71,8 @@ public class DashboardBean implements Serializable {
         }
 
 
-        timeSheetSlots = timesheetService.generateDaySlots(timesheetService.getTodayEntries(tokenClaims.getTenantId(), tokenClaims.getAccountId()));
+//        timeSheetSlots = timeSheetService.generateDaySlots(timeSheetService.getTodayEntries(tokenClaims.getTenantId(), tokenClaims.getAccountId()));
+        timeSheetSlots = timeSheetService.generateDailySlots(timeSheetService.getTodayEntries(tokenClaims.getTenantId(), tokenClaims.getAccountId()));
         values.put("TODAY", getTodayDateFormatted());
     }
 
@@ -89,7 +90,7 @@ public class DashboardBean implements Serializable {
         return values;
     }
 
-    public List<TimeSheetEntryModel> getTimeSheetSlots() {
+    public List<TimeSheetSlotModel> getTimeSheetSlots() {
         return timeSheetSlots;
     }
 }

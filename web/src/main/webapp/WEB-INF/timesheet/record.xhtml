@@ -6,22 +6,22 @@
 
     <div class="timesheet-entry pb-1 pt-1 row ${status.even ? 'row-even' : 'row-odd'}">
         <div class="col-3 cell">
-            <h:outputText value="#{item.fromTime}" rendered="#{item != null}">
-                <f:converter converterId="instantToTimeConverter"/>
+            <h:outputText value="#{item.from}">
+                <f:converter converterId="localDateTimeConverter"/>
                 <f:attribute name="format" value="HH:mm"/>
             </h:outputText>
         </div>
         <div class="col-3 cell">
-            <h:outputText value="#{item.toTime}" rendered="#{item != null}">
-                <f:converter converterId="instantToTimeConverter"/>
+            <h:outputText value="#{item.to}">
+                <f:converter converterId="localDateTimeConverter"/>
                 <f:attribute name="format" value="HH:mm"/>
             </h:outputText>
         </div>
         <div class="col-3 cell">
-            <h:outputText value="#{item.project.title}" rendered="#{item != null}"/>
+            <h:outputText value="#{item.project.title}" rendered="#{item.entry != null}"/>
         </div>
         <div class="col-3 cell">
-            <h:outputText value="#{item.task.title}" rendered="#{item != null}"/>
+            <h:outputText value="#{item.task.title}" rendered="#{item.entry != null}"/>
         </div>
     </div>
 </ui:composition>

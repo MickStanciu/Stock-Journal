@@ -5,6 +5,7 @@ import com.example.common.converter.TimeConversion;
 import com.example.core.model.TimeSheetEntryModel;
 import com.example.web.gateway.GatewayApi;
 import com.example.web.gateway.GatewayApiMock;
+import com.example.web.model.TimeSheetSlotModel;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -21,13 +22,13 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 
-public class TimesheetServiceTest {
+public class TimeSheetServiceTest {
 
     @Mock
     private GatewayApi gatewayApi;
 
     @InjectMocks
-    private final TimesheetService timesheetService = new TimesheetService();
+    private final TimeSheetService timeSheetService = new TimeSheetService();
 
     @BeforeClass
     public void setUp() {
@@ -45,7 +46,7 @@ public class TimesheetServiceTest {
                 .toTime(TimeConversion.getStartOfDay().plusHours(10).plusMinutes(29).toInstant(ZoneOffset.UTC))
                 .build();
 
-        int start = timesheetService.getStartSlot(model);
+        int start = timeSheetService.getStartSlot(model);
         assertEquals(start, 16, "Wrong slot,");
     }
 
@@ -56,7 +57,7 @@ public class TimesheetServiceTest {
                 .toTime(TimeConversion.getStartOfDay().plusHours(10).plusMinutes(29).toInstant(ZoneOffset.UTC))
                 .build();
 
-        int end = timesheetService.getEndSlot(model);
+        int end = timeSheetService.getEndSlot(model);
         assertEquals(end, 20, "Wrong slot,");
     }
 
@@ -66,11 +67,22 @@ public class TimesheetServiceTest {
         LocalDateTime toDate = TimeConversion.getEndOfDay();
         List<TimeSheetEntryModel> timesheetSlots = gatewayApi.getEntries("123", BigInteger.ONE, fromDate, toDate);
 
-        List<TimeSheetEntryModel> slots = timesheetService.generateDaySlots(timesheetSlots);
-        assertEquals("Slot 35", slots.get(35).getProject().getTitle());
+        List<TimeSheetEntryModel> slots = timeSheetService.generateDaySlots(timesheetSlots);
+        assertEquals(slots.get(35).getProject().getTitle(), "Slot 35");
 //        for (int slotNumber=0; slotNumber<slots.size(); slotNumber++) {
 //            TimeSheetEntryModel model = slots.get(slotNumber);
 //            System.out.println(slotNumber + " -> " + (model != null ? model.getProject().getTitle() + " " + model.getTask().getTitle() : "empty slot"));
 //        }
+    }
+
+    @Test
+    public void testSlotGeneration() {
+        LocalDateTime fromDate = TimeConversion.getStartOfDay();
+        LocalDateTime toDate = TimeConversion.getEndOfDay();
+        List<TimeSheetEntryModel> timesheetSlots = gatewayApi.getEntries("123", BigInteger.ONE, fromDate, toDate);
+
+        List<TimeSheetSlotModel> slots = timeSheetService.generateDailySlots(timesheetSlots);
+        assertEquals(slots.get(0).getFrom().toLocalTime().toString(), "00:00");
+        assertEquals(slots.get(47).getFrom().toLocalTime().toString(), "23:30");
     }
 }

@@ -7,13 +7,15 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Map;
 
-@FacesConverter("localDateTimeConverter")
-public class LocalDateTimeConverter implements Converter {
+@FacesConverter("instantToTimeConverter")
+public class InstantConverter implements Converter {
 
     private final String FORMAT_VALUE = "HH:mm";
     private final String FORMAT_ATTRIBUTE = "format";
@@ -24,7 +26,14 @@ public class LocalDateTimeConverter implements Converter {
             return null;
         }
 
-        return TimeConversion.fromString(s);
+        Instant instant;
+        try {
+            instant = Instant.parse(s.trim());
+        } catch (DateTimeParseException e) {
+            throw new ConverterException("Bad format for Instant");
+        }
+
+        return TimeConversion.fromInstant(instant);
     }
 
     @Override
@@ -33,8 +42,16 @@ public class LocalDateTimeConverter implements Converter {
             return "";
         }
 
-        if (!(o instanceof LocalDateTime)) {
-            throw new ConverterException("Must be applied on an LocalDateTime");
+        if (!(o instanceof Instant)) {
+            throw new ConverterException("Must be applied on an Instant");
+        }
+
+        LocalDateTime localDateTime;
+        try {
+            Instant instant = Instant.parse(o.toString().trim());
+            localDateTime = TimeConversion.fromInstant(instant);
+        } catch (DateTimeParseException e) {
+            throw new ConverterException("Bad format for Instant");
         }
 
         Map<String, Object> attributes = uiComponent.getAttributes();
@@ -42,8 +59,6 @@ public class LocalDateTimeConverter implements Converter {
         if (null == formatString) {
             formatString = FORMAT_VALUE;
         }
-
-        LocalDateTime localDateTime = (LocalDateTime) o;
 
         return localDateTime.format(DateTimeFormatter.ofPattern(formatString).withZone(ZoneOffset.UTC));
     }
