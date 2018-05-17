@@ -1,3 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<body>
+
 <ui:composition
         xmlns="http://www.w3.org/1999/xhtml"
         xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
@@ -5,23 +12,28 @@
         xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <div class="timesheet-entry pb-1 pt-1 row ${status.even ? 'row-even' : 'row-odd'}">
-        <div class="col-3 cell">
+        <div class="col-1 cell">
             <h:outputText value="#{item.from}">
                 <f:converter converterId="localDateTimeConverter"/>
                 <f:attribute name="format" value="HH:mm"/>
             </h:outputText>
         </div>
-        <div class="col-3 cell">
+        <div class="col-1 cell">
             <h:outputText value="#{item.to}">
                 <f:converter converterId="localDateTimeConverter"/>
                 <f:attribute name="format" value="HH:mm"/>
             </h:outputText>
         </div>
         <div class="col-3 cell">
-            <h:outputText value="#{item.project.title}" rendered="#{item.entry != null}"/>
+            <h:outputText value="#{item.entry.project.title}" rendered="#{item.entry != null}"/>
         </div>
         <div class="col-3 cell">
-            <h:outputText value="#{item.task.title}" rendered="#{item.entry != null}"/>
+            <h:outputText value="#{item.entry.task.title}" rendered="#{item.entry != null}"/>
         </div>
+
+        <div class="col-4 cell">&nbsp;</div>
     </div>
 </ui:composition>
+
+</body>
+</html>
