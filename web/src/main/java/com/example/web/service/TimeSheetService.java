@@ -35,28 +35,6 @@ public class TimeSheetService implements Serializable {
     }
 
     //todo: maybe in a TimeSheetUtil class?
-    public List<TimeSheetEntryModel> generateDaySlots(List<TimeSheetEntryModel> timeSheetSlots) {
-        List<TimeSheetEntryModel> calendarSlots = new ArrayList<>(48);
-
-        //empty slots
-        for (int i = 0; i < 48; i++) {
-            calendarSlots.add(i, null);
-        }
-
-        //not empty slots
-        for (TimeSheetEntryModel model : timeSheetSlots) {
-            int startSlot = getStartSlot(model);
-            int endSlot = getEndSlot(model);
-
-            for (int i = startSlot; i <= endSlot && startSlot >= 0 && endSlot < 48; i++) {
-                calendarSlots.add(i, model);
-            }
-        }
-
-        return calendarSlots;
-    }
-
-    //todo: maybe in a TimeSheetUtil class?
     public List<TimeSheetSlotModel> generateDailySlots(List<TimeSheetEntryModel> timeSheetSlots) {
         List<TimeSheetSlotModel> calendarSlots = new ArrayList<>(48);
         LocalDateTime begin = TimeConversion.getStartOfDay();
@@ -70,6 +48,23 @@ public class TimeSheetService implements Serializable {
                             .toTime(begin.plusMinutes(30 * (i+1)).minusMinutes(1))
                             .build());
         }
+
+        //not empty slots
+        for (TimeSheetEntryModel model : timeSheetSlots) {
+            int startSlot = getStartSlot(model);
+            int endSlot = getEndSlot(model);
+
+            for (int i = startSlot; i <= endSlot && startSlot >= 0 && endSlot < 48; i++) {
+                calendarSlots.remove(i);
+                calendarSlots.add(i, TimeSheetSlotModel.builder()
+                        .withSlot(i)
+                        .fromTime(begin.plusMinutes(30 * i))
+                        .toTime(begin.plusMinutes(30 * (i+1)).minusMinutes(1))
+                        .withEntry(model)
+                        .build());
+            }
+        }
+
 
         return calendarSlots;
     }

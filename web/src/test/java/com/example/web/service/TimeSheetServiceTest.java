@@ -62,27 +62,14 @@ public class TimeSheetServiceTest {
     }
 
     @Test
-    public void testSlotAllocation() {
-        LocalDateTime fromDate = TimeConversion.getStartOfDay();
-        LocalDateTime toDate = TimeConversion.getEndOfDay();
-        List<TimeSheetEntryModel> timesheetSlots = gatewayApi.getEntries("123", BigInteger.ONE, fromDate, toDate);
-
-        List<TimeSheetEntryModel> slots = timeSheetService.generateDaySlots(timesheetSlots);
-        assertEquals(slots.get(35).getProject().getTitle(), "Slot 35");
-//        for (int slotNumber=0; slotNumber<slots.size(); slotNumber++) {
-//            TimeSheetEntryModel model = slots.get(slotNumber);
-//            System.out.println(slotNumber + " -> " + (model != null ? model.getProject().getTitle() + " " + model.getTask().getTitle() : "empty slot"));
-//        }
-    }
-
-    @Test
     public void testSlotGeneration() {
         LocalDateTime fromDate = TimeConversion.getStartOfDay();
         LocalDateTime toDate = TimeConversion.getEndOfDay();
-        List<TimeSheetEntryModel> timesheetSlots = gatewayApi.getEntries("123", BigInteger.ONE, fromDate, toDate);
+        List<TimeSheetEntryModel> timeSheetSlots = gatewayApi.getEntries("123", BigInteger.ONE, fromDate, toDate);
+        List<TimeSheetSlotModel> slots = timeSheetService.generateDailySlots(timeSheetSlots);
 
-        List<TimeSheetSlotModel> slots = timeSheetService.generateDailySlots(timesheetSlots);
-        assertEquals(slots.get(0).getFrom().toLocalTime().toString(), "00:00");
-        assertEquals(slots.get(47).getFrom().toLocalTime().toString(), "23:30");
+        assertEquals(slots.size(), 48, "Should be 48 slots");
+        assertEquals(slots.get(0).getFrom().toLocalTime().toString(), "00:00", "Slot 0: ");
+        assertEquals(slots.get(47).getFrom().toLocalTime().toString(), "23:30", "Slot 47: ");
     }
 }

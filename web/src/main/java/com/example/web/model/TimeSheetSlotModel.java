@@ -41,6 +41,7 @@ public class TimeSheetSlotModel {
                 "slot=" + slot +
                 ", from=" + from +
                 ", to=" + to +
+                ", model=" + entry +
                 '}';
     }
 
@@ -50,10 +51,6 @@ public class TimeSheetSlotModel {
         Builder() {
             slot = new TimeSheetSlotModel();
         }
-
-//        public Builder(TimeSheetSlotModel slot) {
-//            this.slot = slot;
-//        }
 
         public Builder withSlot(int slotNumber) {
             slot.slot = slotNumber;
@@ -67,6 +64,11 @@ public class TimeSheetSlotModel {
 
         public Builder toTime(LocalDateTime to) {
             slot.to = to;
+            return this;
+        }
+
+        public Builder withEntry(TimeSheetEntryModel model) {
+            slot.entry = model;
             return this;
         }
 
