@@ -14,10 +14,6 @@
     <packaging>war</packaging>
     <name>web</name>
 
-    <properties>
-        <maven.frontend.version>1.6</maven.frontend.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>com.example</groupId>

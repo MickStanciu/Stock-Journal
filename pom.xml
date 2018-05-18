@@ -20,9 +20,9 @@
         <maven.antrun.version>1.8</maven.antrun.version>
         <maven.surefire.version>2.19.1</maven.surefire.version>
 
-        <wildfly.maven.version>1.2.0.Final</wildfly.maven.version>
-        <wildfly-swarm.version>2018.2.0.Final</wildfly-swarm.version>
-        <wildfly-swarm.container-api.version>1.0.2.Final</wildfly-swarm.container-api.version>
+        <!--<wildfly.maven.version>1.2.0.Final</wildfly.maven.version>-->
+        <!--<wildfly-swarm.version>2018.2.0.Final</wildfly-swarm.version>-->
+        <!--<wildfly-swarm.container-api.version>1.0.2.Final</wildfly-swarm.container-api.version>-->
 
         <resteasy.version>3.1.4.Final</resteasy.version>
         <jackson.version>2.9.5</jackson.version>
@@ -230,15 +230,15 @@
                     </configuration>
                 </plugin>
 
-                <plugin>
-                    <groupId>org.wildfly.plugins</groupId>
-                    <artifactId>wildfly-maven-plugin</artifactId>
-                    <version>${wildfly.maven.version}</version>
-                    <configuration>
-                        <username>admin</username>
-                        <password>secret</password>
-                    </configuration>
-                </plugin>
+                <!--<plugin>-->
+                    <!--<groupId>org.wildfly.plugins</groupId>-->
+                    <!--<artifactId>wildfly-maven-plugin</artifactId>-->
+                    <!--<version>${wildfly.maven.version}</version>-->
+                    <!--<configuration>-->
+                        <!--<username>admin</username>-->
+                        <!--<password>secret</password>-->
+                    <!--</configuration>-->
+                <!--</plugin>-->
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -256,21 +256,21 @@
                     <version>${maven.antrun.version}</version>
                 </plugin>
 
-                <plugin>
-                    <groupId>org.wildfly.swarm</groupId>
-                    <artifactId>wildfly-swarm-plugin</artifactId>
-                    <version>${wildfly-swarm.version}</version>
-                    <configuration>
-                        <hollow>true</hollow>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>package</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
+                <!--<plugin>-->
+                    <!--<groupId>org.wildfly.swarm</groupId>-->
+                    <!--<artifactId>wildfly-swarm-plugin</artifactId>-->
+                    <!--<version>${wildfly-swarm.version}</version>-->
+                    <!--<configuration>-->
+                        <!--<hollow>true</hollow>-->
+                    <!--</configuration>-->
+                    <!--<executions>-->
+                        <!--<execution>-->
+                            <!--<goals>-->
+                                <!--<goal>package</goal>-->
+                            <!--</goals>-->
+                        <!--</execution>-->
+                    <!--</executions>-->
+                <!--</plugin>-->
 
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
