@@ -1,10 +1,12 @@
-<ui:composition
-        xmlns="http://www.w3.org/1999/xhtml"
-        xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:ui="http://java.sun.com/jsf/facelets">
 
+<ui:composition>
     <div class="timesheedEntries">
-        <h2>Timesheet of #{DashboardBean.account.name}</h2>
-        <h4>For #{DashboardBean.values['TODAY']}</h4>
+
+        <!--<h4>For #{DashboardBean.values['TODAY']}</h4>-->
         <div class="timesheet-header row pb-1 pt-1">
             <div class="col-1">From</div>
             <div class="col-1">To</div>
@@ -18,3 +20,5 @@
         </ui:repeat>
     </div>
 </ui:composition>
+
+</html>
