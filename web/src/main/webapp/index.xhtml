@@ -6,32 +6,33 @@
 
 <ui:composition template="WEB-INF/template/home-template.xhtml">
     <ui:param name="pageTitle" value="Dashboard | Example.com"/>
+    <ui:param name="tagLine" value="Dashboard" />
 
     <f:metadata>
         <f:viewAction action="#{DashboardBean.onLoad}" />
     </f:metadata>
 
     <ui:define name="panel-top">
-        <h2>Timesheet of #{DashboardBean.account.name}</h2>
+        <ui:include src="WEB-INF/header/panel-top.xhtml"/>
     </ui:define>
 
     <ui:define name="panel-main">
-        <div id="app" style="background-color: darkgoldenrod">
-            {{ message }}
-        </div>
+        <!--<div id="app" style="background-color: darkgoldenrod">-->
+            <!--{{ message }}-->
+        <!--</div>-->
 
         <!--<ui:include src="WEB-INF/timesheet/today.xhtml"/>-->
     </ui:define>
 
     <ui:define name="bottom-js">
-        <script type="application/javascript">
-            var app = new Vue({
-                el: '#app',
-                data: {
-                    message: 'Welcome to the new Dashboard!'
-                }
-            })
-        </script>
+        <!--<script type="application/javascript">-->
+            <!--var app = new Vue({-->
+                <!--el: '#app',-->
+                <!--data: {-->
+                    <!--message: 'Welcome to the new Dashboard!'-->
+                <!--}-->
+            <!--})-->
+        <!--</script>-->
     </ui:define>
 </ui:composition>
 

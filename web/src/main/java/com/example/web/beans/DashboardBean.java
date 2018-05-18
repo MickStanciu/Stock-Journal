@@ -4,27 +4,25 @@ import com.example.account.model.AccountModel;
 import com.example.common.converter.TimeConversion;
 import com.example.common.security.TokenClaims;
 import com.example.web.exception.WebException;
-import com.example.web.model.TimeSheetSlotModel;
 import com.example.web.service.AccountService;
-import com.example.web.service.TimeSheetService;
 import com.example.web.service.TokenService;
 import org.apache.log4j.Logger;
 
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
+import javax.faces.annotation.ManagedProperty;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Named("DashboardBean")
-@SessionScoped
+@RequestScoped
 public class DashboardBean implements Serializable {
 
     private static final Logger log = Logger.getLogger(DashboardBean.class);
 
+    @ManagedProperty("#{SessionBean.account}")
+    private AccountModel account;
 
     @Inject
     private AccountService accountService;
@@ -32,16 +30,7 @@ public class DashboardBean implements Serializable {
     @Inject
     private TokenService tokenService;
 
-    @Inject
-    private TimeSheetService timeSheetService;
-
-    private AccountModel account = null;
-    private List<TimeSheetSlotModel> timeSheetSlots;
-    private Map<String, String> values = new HashMap<>();
-
     public void onLoad() {
-        System.out.println("ON LOAD");
-
         String tokenRaw;
         TokenClaims tokenClaims;
         try {
@@ -67,30 +56,18 @@ public class DashboardBean implements Serializable {
                 log.error(e.getMessage());
             }
         } else {
-            log.info("ACCOUNT ALREADY LOADED");
+            log.warn("ACCOUNT ALREADY LOADED");
         }
 
-
-//        timeSheetSlots = timeSheetService.generateDaySlots(timeSheetService.getTodayEntries(tokenClaims.getTenantId(), tokenClaims.getAccountId()));
-        timeSheetSlots = timeSheetService.generateDailySlots(timeSheetService.getTodayEntries(tokenClaims.getTenantId(), tokenClaims.getAccountId()));
-        values.put("TODAY", getTodayDateFormatted());
     }
 
+    //todo: can use facelets converter now
     private String getTodayDateFormatted() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE dd-MMM-yyyy");
         return formatter.format(TimeConversion.getStartOfDay());
     }
 
-
     public AccountModel getAccount() {
         return account;
-    }
-
-    public Map<String, String> getValues() {
-        return values;
-    }
-
-    public List<TimeSheetSlotModel> getTimeSheetSlots() {
-        return timeSheetSlots;
     }
 }

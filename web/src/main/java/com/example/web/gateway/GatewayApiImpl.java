@@ -15,7 +15,6 @@ import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
-import javax.inject.Inject;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
@@ -28,7 +27,7 @@ import java.util.Optional;
 @InjectionType(isMock = false)
 public class GatewayApiImpl implements GatewayApi {
 
-    @Inject
+//    @Inject
     @SystemProperty("GATEWAY_API_ADDRESS")
     private String SERVICE_URL;
 
