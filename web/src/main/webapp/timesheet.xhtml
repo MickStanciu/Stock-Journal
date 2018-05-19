@@ -5,27 +5,19 @@
 >
 
 <ui:composition template="WEB-INF/template/home-template.xhtml">
-    <ui:param name="pageTitle" value="Dashboard | Example.com"/>
-    <ui:param name="tagLine" value="Dashboard" />
+    <ui:param name="pageTitle" value="TimeSheet | Example.com"/>
+    <ui:param name="tagLine" value="TimeSheet" />
 
     <ui:define name="panel-top">
         <ui:include src="WEB-INF/header/panel-top.xhtml"/>
     </ui:define>
 
     <ui:define name="panel-main">
-        <div class="row center-div">
-            <div class="col-6">
-                <a class="big-button" href="timesheet.xhtml">TimeSheet</a>
-            </div>
-            <div class="col-6">
-                <div class="big-button disabled">Payroll</div>
-            </div>
-        </div>
         <!--<div id="app" style="background-color: darkgoldenrod">-->
             <!--{{ message }}-->
         <!--</div>-->
 
-        <!--<ui:include src="WEB-INF/timesheet/today.xhtml"/>-->
+        <ui:include src="WEB-INF/timesheet/today.xhtml"/>
     </ui:define>
 
     <ui:define name="bottom-js">
