@@ -17,9 +17,9 @@ import java.util.Collections;
 import java.util.List;
 
 @Stateless
-public class TimesheetDao {
+public class TimeSheetDao {
 
-    private static final Logger log = Logger.getLogger(TimesheetDao.class);
+    private static final Logger log = Logger.getLogger(TimeSheetDao.class);
 
     //todo: join on tenant fk as well
     private static final String TIMESHEET_READ_BY_ACCOUNT = "SELECT t.account_fk, t.from_time, t.to_time, " +

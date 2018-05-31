@@ -1,6 +1,6 @@
 package com.example.core.service;
 
-import com.example.core.dao.TimesheetDao;
+import com.example.core.dao.TimeSheetDao;
 import com.example.core.model.TimeSheetEntryModel;
 import org.apache.log4j.Logger;
 
@@ -16,9 +16,9 @@ public class TimeSheetService {
     private static final Logger log = Logger.getLogger(TimeSheetService.class);
 
     @Inject
-    private TimesheetDao timesheetDao;
+    private TimeSheetDao timeSheetDao;
 
     public List<TimeSheetEntryModel> getEntriesByIdAndTime(String tenantId, BigInteger accountId, LocalDateTime from, LocalDateTime to) {
-        return timesheetDao.getEntriesByIdAndTime(tenantId, accountId, from, to);
+        return timeSheetDao.getEntriesByIdAndTime(tenantId, accountId, from, to);
     }
 }
