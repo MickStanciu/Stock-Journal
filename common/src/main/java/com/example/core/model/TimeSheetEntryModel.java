@@ -1,5 +1,7 @@
 package com.example.core.model;
 
+import com.example.core.statemachine.State;
+
 import java.io.Serializable;
 import java.math.BigInteger;
 import java.time.Instant;
@@ -8,9 +10,11 @@ public class TimeSheetEntryModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    //todo: might need an id
+    private BigInteger id;
     private Instant fromTime;
     private Instant toTime;
+    private String title;
+    private State state;
 
     private String tenantId;
     private BigInteger accountId;
@@ -20,6 +24,10 @@ public class TimeSheetEntryModel implements Serializable {
 
     private TimeSheetEntryModel() {
         //required by Jackson
+    }
+
+    public BigInteger getId() {
+        return id;
     }
 
     public Instant getFromTime() {
@@ -32,6 +40,14 @@ public class TimeSheetEntryModel implements Serializable {
 
     public String getTenantId() {
         return tenantId;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public BigInteger getAccountId() {
@@ -97,6 +113,21 @@ public class TimeSheetEntryModel implements Serializable {
 
         public Builder havingTask(TaskModel task) {
             timesheetEntry.task = task;
+            return this;
+        }
+
+        public Builder withId(BigInteger id) {
+            timesheetEntry.id = id;
+            return this;
+        }
+
+        public Builder withTitle(String title) {
+            timesheetEntry.title = title;
+            return this;
+        }
+
+        public Builder withState(State state) {
+            timesheetEntry.state = state;
             return this;
         }
 
