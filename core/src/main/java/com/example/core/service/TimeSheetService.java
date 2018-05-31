@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Stateless
-public class TimesheetService {
+public class TimeSheetService {
 
-    private static final Logger log = Logger.getLogger(TimesheetService.class);
+    private static final Logger log = Logger.getLogger(TimeSheetService.class);
 
     @Inject
     private TimesheetDao timesheetDao;

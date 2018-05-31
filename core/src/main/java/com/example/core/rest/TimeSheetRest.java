@@ -5,7 +5,7 @@ import com.example.common.rest.dto.ErrorDto;
 import com.example.common.rest.envelope.ResponseEnvelope;
 import com.example.core.exception.ExceptionCode;
 import com.example.core.model.TimeSheetEntryModel;
-import com.example.core.service.TimesheetService;
+import com.example.core.service.TimeSheetService;
 import com.example.core.validation.RequestValidation;
 import org.apache.log4j.Logger;
 
@@ -21,12 +21,12 @@ import java.util.List;
 @Stateless
 @Path("/")
 @Produces("application/json")
-public class TimesheetRest implements TimesheetRestInterface {
+public class TimeSheetRest implements TimesheetRestInterface {
 
-    private static final Logger log = Logger.getLogger(TimesheetRest.class);
+    private static final Logger log = Logger.getLogger(TimeSheetRest.class);
 
     @Inject
-    private TimesheetService timesheetService;
+    private TimeSheetService timeSheetService;
 
     @GET
     @Path("/{tenantId}/{accountId}")
@@ -54,7 +54,7 @@ public class TimesheetRest implements TimesheetRestInterface {
 
         List<TimeSheetEntryModel> entryList;
         try {
-            entryList = timesheetService.getEntriesByIdAndTime(tenantId, accountId, fromDate, toDate);
+            entryList = timeSheetService.getEntriesByIdAndTime(tenantId, accountId, fromDate, toDate);
         } catch (Exception ex) {
             log.error(ex);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
