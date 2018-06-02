@@ -18,10 +18,6 @@
         <maven.antrun.version>1.8</maven.antrun.version>
         <maven.surefire.version>2.19.1</maven.surefire.version>
 
-        <!--<wildfly.maven.version>1.2.0.Final</wildfly.maven.version>-->
-        <!--<wildfly-swarm.version>2018.2.0.Final</wildfly-swarm.version>-->
-        <!--<wildfly-swarm.container-api.version>1.0.2.Final</wildfly-swarm.container-api.version>-->
-
         <resteasy.version>3.1.4.Final</resteasy.version>
         <jackson.version>2.9.5</jackson.version>
         <mockito.version>2.15.0</mockito.version>
@@ -30,6 +26,10 @@
         <ehcache.version>3.4.0</ehcache.version>
         <consul.version>1.1.10</consul.version>
 
+
+        <!--<wildfly.maven.version>1.2.0.Final</wildfly.maven.version>-->
+        <wildfly-swarm.version>2018.5.0</wildfly-swarm.version>
+        <!--<wildfly-swarm.container-api.version>1.0.2.Final</wildfly-swarm.container-api.version>-->
         <postgresql.version>9.4.1212</postgresql.version>
     </properties>
 
@@ -53,27 +53,8 @@
                 <groupId>javax</groupId>
                 <artifactId>javaee-api</artifactId>
                 <version>8.0</version>
+                <scope>provided</scope>
             </dependency>
-
-            <!--<dependency>-->
-                <!--<groupId>org.wildfly.swarm</groupId>-->
-                <!--<artifactId>bom-all</artifactId>-->
-                <!--<version>${wildfly-swarm.version}</version>-->
-                <!--<type>pom</type>-->
-                <!--<scope>import</scope>-->
-            <!--</dependency>-->
-
-            <!--<dependency>-->
-                <!--<groupId>org.wildfly.swarm</groupId>-->
-                <!--<artifactId>container-api</artifactId>-->
-                <!--<version>${wildfly-swarm.container-api.version}</version>-->
-            <!--</dependency>-->
-
-            <!--<dependency>-->
-                <!--<groupId>org.wildfly.swarm</groupId>-->
-                <!--<artifactId>jaxrs-api</artifactId>-->
-                <!--<version>${wildfly-swarm.container-api.version}</version>-->
-            <!--</dependency>-->
 
             <dependency>
                 <groupId>org.jboss.resteasy</groupId>
@@ -156,12 +137,6 @@
             <!--</dependency>-->
 
             <!--<dependency>-->
-                <!--<groupId>org.postgresql</groupId>-->
-                <!--<artifactId>postgresql</artifactId>-->
-                <!--<version>${postgresql.version}</version>-->
-            <!--</dependency>-->
-
-            <!--<dependency>-->
                 <!--<groupId>com.ecwid.consul</groupId>-->
                 <!--<artifactId>consul-api</artifactId>-->
                 <!--<version>${consul.version}</version>-->
@@ -202,11 +177,11 @@
 
 
         <!--Compatibility for Java 10-->
-        <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>2.3.0</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>javax.xml.bind</groupId>-->
+            <!--<artifactId>jaxb-api</artifactId>-->
+            <!--<version>2.3.0</version>-->
+        <!--</dependency>-->
     </dependencies>
 
     <build>
@@ -236,16 +211,6 @@
                     </configuration>
                 </plugin>
 
-                <!--<plugin>-->
-                    <!--<groupId>org.wildfly.plugins</groupId>-->
-                    <!--<artifactId>wildfly-maven-plugin</artifactId>-->
-                    <!--<version>${wildfly.maven.version}</version>-->
-                    <!--<configuration>-->
-                        <!--<username>admin</username>-->
-                        <!--<password>secret</password>-->
-                    <!--</configuration>-->
-                <!--</plugin>-->
-
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-war-plugin</artifactId>
@@ -261,22 +226,6 @@
                     <artifactId>maven-antrun-plugin</artifactId>
                     <version>${maven.antrun.version}</version>
                 </plugin>
-
-                <!--<plugin>-->
-                    <!--<groupId>org.wildfly.swarm</groupId>-->
-                    <!--<artifactId>wildfly-swarm-plugin</artifactId>-->
-                    <!--<version>${wildfly-swarm.version}</version>-->
-                    <!--<configuration>-->
-                        <!--<hollow>true</hollow>-->
-                    <!--</configuration>-->
-                    <!--<executions>-->
-                        <!--<execution>-->
-                            <!--<goals>-->
-                                <!--<goal>package</goal>-->
-                            <!--</goals>-->
-                        <!--</execution>-->
-                    <!--</executions>-->
-                <!--</plugin>-->
 
                 <plugin>
                     <artifactId>maven-surefire-plugin</artifactId>
