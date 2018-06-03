@@ -44,6 +44,7 @@
         <module>gatewayapi</module>
         <module>web</module>
         <module>core</module>
+        <module>timesheet</module>
     </modules>
 
 
