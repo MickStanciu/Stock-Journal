@@ -1,6 +1,6 @@
 # Core API
 
-java -jar ./target/core-hollow-swarm.jar ./target/core.war -s src/main/resources/project-defaults.yml
+java -jar ./target/core-hollow-swarm.jar ./target/core.war -s src/main/resources/project-defaults.yml -S local
 mvn wildfly-swarm:run
 
 ######?

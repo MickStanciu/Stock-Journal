@@ -13,18 +13,5 @@ swarm:
         xa-datasource-class-name: org.postgresql.xa.PGXADataSource
         driver-module-name: org.postgresql
 
-  logging:
-    pattern-formatters:
-      LOG_FORMATTER:
-        pattern: "%p [%c] %s%e%n"
-#    periodic-rotating-file-handlers:
-#      FILE:
-#        file:
-#          path: path/to/your/file.log
-#        suffix: .yyyy-MM-dd
-#        named-formatter: LOG_FORMATTER
-    root-logger:
-      handlers:
-      - CONSOLE
-#      - FILE
-
+  http:
+    port: 8084
