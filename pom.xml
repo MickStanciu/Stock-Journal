@@ -26,6 +26,8 @@
         <ehcache.version>3.4.0</ehcache.version>
         <consul.version>1.1.10</consul.version>
 
+        <spring.boot.version>2.0.2.RELEASE</spring.boot.version>
+
 
         <!--<wildfly.maven.version>1.2.0.Final</wildfly.maven.version>-->
         <wildfly-swarm.version>2018.5.0</wildfly-swarm.version>
@@ -113,6 +115,7 @@
                 <version>${jackson.version}</version>
             </dependency>
 
+            <!--need for test-->
             <dependency>
                 <groupId>log4j</groupId>
                 <artifactId>log4j</artifactId>
@@ -142,6 +145,8 @@
                 <!--<artifactId>consul-api</artifactId>-->
                 <!--<version>${consul.version}</version>-->
             <!--</dependency>-->
+
+            <!--need for spring boot-->
 
         </dependencies>
     </dependencyManagement>
