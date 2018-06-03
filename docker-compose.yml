@@ -85,6 +85,18 @@ services:
     depends_on:
       - postgresql
 
+  timesheetapi:
+    build: timesheet/docker/.
+    image: timesheetapi
+    container_name: timesheetapi
+#    ports:
+#      - "8084:8080" #WildFly App
+#      - "8784:8787" #WildFly Debug
+#    volumes:
+#      - ./core/target/core.war:/opt/jboss/wildfly/standalone/deployments/core.war
+#    depends_on:
+#      - postgresql
+
   postgresql:
     build: docker/database-server/.
     image: toystore-db
