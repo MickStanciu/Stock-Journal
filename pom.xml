@@ -9,13 +9,6 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.2.RELEASE</version>
-    </parent>
-
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
@@ -25,16 +18,16 @@
         <maven.antrun.version>1.8</maven.antrun.version>
         <maven.surefire.version>2.19.1</maven.surefire.version>
 
-        <resteasy.version>3.1.4.Final</resteasy.version>
-        <jackson.version>2.9.5</jackson.version>
-        <mockito.version>2.15.0</mockito.version>
+        <!--<resteasy.version>3.1.4.Final</resteasy.version>-->
+        <!--<jackson.version>2.9.5</jackson.version>-->
+        <!--<mockito.version>2.15.0</mockito.version>-->
         <testng.version>6.14.2</testng.version>
         <log4j.version>1.2.17</log4j.version>
-        <ehcache.version>3.4.0</ehcache.version>
-        <consul.version>1.1.10</consul.version>
+        <!--<ehcache.version>3.4.0</ehcache.version>-->
+        <!--<consul.version>1.1.10</consul.version>-->
 
         <!--<wildfly.maven.version>1.2.0.Final</wildfly.maven.version>-->
-        <wildfly-swarm.version>2018.5.0</wildfly-swarm.version>
+        <!--<wildfly-swarm.version>2018.5.0</wildfly-swarm.version>-->
         <!--<wildfly-swarm.container-api.version>1.0.2.Final</wildfly-swarm.container-api.version>-->
         <postgresql.version>9.4.1212</postgresql.version>
     </properties>
@@ -44,99 +37,81 @@
         <!--<module>shop</module>-->
         <module>common</module>
         <!--<module>availability</module>-->
-        <module>account</module>
-        <module>tenant</module>
-        <module>customer</module>
-        <module>gatewayapi</module>
-        <module>web</module>
-        <module>core</module>
+        <!--<module>account</module>-->
+        <!--<module>tenant</module>-->
+        <!--<module>customer</module>-->
+        <!--<module>gatewayapi</module>-->
+        <!--<module>web</module>-->
+        <!--<module>core</module>-->
         <module>timesheet</module>
     </modules>
 
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>javax</groupId>
-                <artifactId>javaee-api</artifactId>
-                <version>8.0</version>
-                <scope>provided</scope>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>org.jboss.resteasy</groupId>-->
+                <!--<artifactId>resteasy-jaxrs</artifactId>-->
+                <!--<version>${resteasy.version}</version>-->
+                <!--<scope>provided</scope>-->
+            <!--</dependency>-->
 
-            <dependency>
-                <groupId>org.jboss.resteasy</groupId>
-                <artifactId>resteasy-jaxrs</artifactId>
-                <version>${resteasy.version}</version>
-                <scope>provided</scope>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>org.jboss.resteasy</groupId>-->
+                <!--<artifactId>resteasy-client</artifactId>-->
+                <!--<version>${resteasy.version}</version>-->
+            <!--</dependency>-->
 
-            <dependency>
-                <groupId>org.jboss.resteasy</groupId>
-                <artifactId>resteasy-client</artifactId>
-                <version>${resteasy.version}</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>org.jboss.resteasy</groupId>-->
+                <!--<artifactId>resteasy-jaxb-provider</artifactId>-->
+                <!--<version>${resteasy.version}</version>-->
+            <!--</dependency>-->
 
-            <dependency>
-                <groupId>org.jboss.resteasy</groupId>
-                <artifactId>resteasy-jaxb-provider</artifactId>
-                <version>${resteasy.version}</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>org.jboss.resteasy</groupId>-->
+                <!--<artifactId>resteasy-servlet-initializer</artifactId>-->
+                <!--<version>${resteasy.version}</version>-->
+            <!--</dependency>-->
 
-            <dependency>
-                <groupId>org.jboss.resteasy</groupId>
-                <artifactId>resteasy-servlet-initializer</artifactId>
-                <version>${resteasy.version}</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>org.jboss.resteasy</groupId>-->
+                <!--<artifactId>resteasy-jackson-provider</artifactId>-->
+                <!--<version>${resteasy.version}</version>-->
+                <!--<scope>provided</scope>-->
+            <!--</dependency>-->
 
-            <dependency>
-                <groupId>org.jboss.resteasy</groupId>
-                <artifactId>resteasy-jackson-provider</artifactId>
-                <version>${resteasy.version}</version>
-                <scope>provided</scope>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>com.fasterxml.jackson.core</groupId>-->
+                <!--<artifactId>jackson-databind</artifactId>-->
+                <!--<version>${jackson.version}</version>-->
+            <!--</dependency>-->
 
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>com.fasterxml.jackson.core</groupId>-->
+                <!--<artifactId>jackson-core</artifactId>-->
+                <!--<version>${jackson.version}</version>-->
+            <!--</dependency>-->
 
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-core</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>com.fasterxml.jackson.core</groupId>-->
+                <!--<artifactId>jackson-annotations</artifactId>-->
+                <!--<version>${jackson.version}</version>-->
+            <!--</dependency>-->
 
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-annotations</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.fasterxml.jackson.datatype</groupId>
-                <artifactId>jackson-datatype-jsr310</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>com.fasterxml.jackson.datatype</groupId>-->
+                <!--<artifactId>jackson-datatype-jsr310</artifactId>-->
+                <!--<version>${jackson.version}</version>-->
+            <!--</dependency>-->
 
             <!--need for test-->
-            <dependency>
-                <groupId>log4j</groupId>
-                <artifactId>log4j</artifactId>
-                <version>${log4j.version}</version>
-            </dependency>
 
-            <dependency>
-                <groupId>org.testng</groupId>
-                <artifactId>testng</artifactId>
-                <version>${testng.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.mockito</groupId>
-                <artifactId>mockito-core</artifactId>
-                <version>${mockito.version}</version>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>org.mockito</groupId>-->
+                <!--<artifactId>mockito-core</artifactId>-->
+                <!--<version>${mockito.version}</version>-->
+            <!--</dependency>-->
 
             <!--<dependency>-->
                 <!--<groupId>org.ehcache</groupId>-->
@@ -156,34 +131,18 @@
     </dependencyManagement>
 
     <dependencies>
-        <dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.mockito</groupId>-->
+            <!--<artifactId>mockito-core</artifactId>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
 
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
-            <scope>test</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>javax.servlet</groupId>-->
+            <!--<artifactId>javax.servlet-api</artifactId>-->
+            <!--<version>3.1.0</version>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
 
 
         <!--Compatibility for Java 10-->
