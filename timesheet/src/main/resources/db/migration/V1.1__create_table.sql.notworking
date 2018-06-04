@@ -1,7 +1,0 @@
--- clean up
-DROP TABLE IF EXISTS projects;
-DROP SEQUENCE IF EXISTS projects_seq;
-DROP TABLE IF EXISTS tasks;
-DROP SEQUENCE IF EXISTS tasks_seq;
-DROP TABLE IF EXISTS timesheet;
-DROP SEQUENCE IF EXISTS timesheet_seq;
