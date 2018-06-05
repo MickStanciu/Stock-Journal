@@ -10,7 +10,6 @@ DROP SEQUENCE IF EXISTS projects_seq;
 -- projects table
 CREATE SEQUENCE projects_seq;
 GRANT ALL PRIVILEGES ON SEQUENCE projects_seq TO admin;
-ALTER SEQUENCE projects_seq OWNER TO admin;
 
 CREATE TABLE projects (
   id BIGINT PRIMARY KEY DEFAULT nextval('projects_seq'),
@@ -21,7 +20,6 @@ CREATE TABLE projects (
 );
 
 GRANT ALL PRIVILEGES ON TABLE projects TO admin;
-ALTER TABLE projects OWNER TO admin;
 
 
 INSERT INTO projects (tenant_fk, active, title, description) VALUES
@@ -31,7 +29,6 @@ INSERT INTO projects (tenant_fk, active, title, description) VALUES
 -- tasks table
 CREATE SEQUENCE tasks_seq;
 GRANT ALL PRIVILEGES ON SEQUENCE tasks_seq TO admin;
-ALTER SEQUENCE tasks_seq OWNER TO admin;
 
 CREATE TABLE tasks (
   id BIGINT PRIMARY KEY DEFAULT nextval('tasks_seq'),
@@ -43,7 +40,6 @@ CREATE TABLE tasks (
 );
 
 GRANT ALL PRIVILEGES ON TABLE tasks TO admin;
-ALTER TABLE tasks OWNER TO admin;
 
 INSERT INTO tasks (tenant_fk, project_fk, active, title, description) VALUES
   ('d79ec11a-2011-4423-ba01-3af8de0a3e10', 1, true, 'task1', 'task 1 desc'),
@@ -56,7 +52,6 @@ INSERT INTO tasks (tenant_fk, project_fk, active, title, description) VALUES
 -- timesheet table yyyy-mm-dd
 CREATE SEQUENCE timesheet_seq;
 GRANT ALL PRIVILEGES ON SEQUENCE timesheet_seq TO admin;
-ALTER SEQUENCE timesheet_seq OWNER TO admin;
 
 CREATE TABLE timesheet (
   id BIGINT PRIMARY KEY DEFAULT nextval('timesheet_seq'),
@@ -71,7 +66,6 @@ CREATE TABLE timesheet (
 );
 
 GRANT ALL PRIVILEGES ON TABLE timesheet TO admin;
-ALTER TABLE timesheet OWNER TO admin;
 
 INSERT INTO timesheet (tenant_fk, from_time, to_time, account_fk, project_fk, task_fk, title, status) VALUES
   ('d79ec11a-2011-4423-ba01-3af8de0a3e10', '2018-05-01 08:01', '2018-05-01 08:30', 6, 1, 1, 'worked on bla', 'FILLED'),
