@@ -43,8 +43,7 @@ public class TimeSheetRepository {
             "and t.to_time <= ?";
 
     @Autowired
-    public TimeSheetRepository(DataSource dataSource, JdbcTemplate jdbcTemplate) {
-        this.dataSource = dataSource;
+    public TimeSheetRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
