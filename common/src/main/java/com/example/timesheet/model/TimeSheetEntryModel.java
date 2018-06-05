@@ -1,6 +1,6 @@
 package com.example.timesheet.model;
 
-import com.example.core.statemachine.State;
+import com.example.timesheet.statemachine.State;
 
 import java.io.Serializable;
 import java.math.BigInteger;

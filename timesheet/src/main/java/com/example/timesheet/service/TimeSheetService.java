@@ -1,7 +1,7 @@
 package com.example.timesheet.service;
 
 import com.example.timesheet.model.TimeSheetEntryModel;
-import com.example.timesheet.repository.TimeSheetDao;
+import com.example.timesheet.repository.TimeSheetRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,15 +16,15 @@ public class TimeSheetService {
 
     private static final Logger log = LoggerFactory.getLogger(TimeSheetService.class);
 
-    private TimeSheetDao timeSheetDao;
+    private TimeSheetRepository timeSheetRepository;
 
     @Autowired
-    public TimeSheetService(TimeSheetDao timeSheetDao) {
-        this.timeSheetDao = timeSheetDao;
+    public TimeSheetService(TimeSheetRepository timeSheetRepository) {
+        this.timeSheetRepository = timeSheetRepository;
     }
 
     public List<TimeSheetEntryModel> getEntriesByIdAndTime(String tenantId, BigInteger accountId, LocalDateTime from, LocalDateTime to) {
-        return timeSheetDao.getEntriesByIdAndTime(tenantId, accountId, from, to);
+        return timeSheetRepository.getEntriesByIdAndTime(tenantId, accountId, from, to);
     }
 
 }
