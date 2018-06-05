@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping(value = "/health", produces = "application/json")
+@RequestMapping(value = "/api/v1/health", produces = "application/json")
 public class HealthController {
 
     @RequestMapping(value = "/ping", method = RequestMethod.GET)

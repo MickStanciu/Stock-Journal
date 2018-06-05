@@ -11,7 +11,6 @@ import org.apache.log4j.Logger;
 
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
@@ -30,7 +29,7 @@ public class TimeSheetRest implements TimesheetRestInterface {
 
     @GET
     @Path("/{tenantId}/{accountId}")
-    public Response getTimesheetEntries(
+    public Response getTimeSheetEntries(
             @PathParam("tenantId") @DefaultValue("0") String tenantId,
             @PathParam("accountId") @DefaultValue("0") BigInteger accountId,
             @QueryParam("from") String from,
