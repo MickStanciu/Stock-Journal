@@ -86,16 +86,13 @@ services:
       - postgresql
 
   timesheetapi:
-    build: timesheet/docker/.
+    build: timesheet/.
     image: timesheetapi
     container_name: timesheetapi
-#    ports:
-#      - "8084:8080" #WildFly App
-#      - "8784:8787" #WildFly Debug
-#    volumes:
-#      - ./core/target/core.war:/opt/jboss/wildfly/standalone/deployments/core.war
-#    depends_on:
-#      - postgresql
+    ports:
+      - "8084:8080" #App
+    depends_on:
+      - postgresql
 
   postgresql:
     build: docker/database-server/.
