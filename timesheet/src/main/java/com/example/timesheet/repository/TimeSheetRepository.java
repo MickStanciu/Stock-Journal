@@ -56,58 +56,47 @@ public class TimeSheetRepository {
 
 class TimeSheetEntryRowMapper implements RowMapper<TimeSheetEntryModel> {
 
+    private static final Logger log = LoggerFactory.getLogger(TimeSheetEntryRowMapper.class);
+
     @Override
     public TimeSheetEntryModel mapRow(ResultSet resultSet, int i) throws SQLException {
-        return TimeSheetEntryModel.builder()
-                .withId(BigInteger.ONE)
-                .withAccountId(BigInteger.ONE)
-                .withTenantId("!23")
-                .havingProject(null)
-                .havingTask(null)
-                .fromTime(null)
-                .toTime(null)
-                .withTitle("demo")
-                .withState(null)
-                .build();
-    }
-
-    private TimeSheetEntryModel mapFromObject(Object[] result) {
-        String tenantId = (String) result[6];
+        String tenantId = resultSet.getString("tenant_id");
+        BigInteger projectId = BigInteger.valueOf(resultSet.getLong("project_id"));
 
         ProjectModel project = ProjectModel.builder()
                 .withTenantId(tenantId)
-                .withId((BigInteger) result[7])
-                .withTitle((String) result[8])
-                .active((boolean) result[9])
-                .withDescription((String) result[10])
+                .withId(projectId)
+                .withTitle(resultSet.getString("project_title"))
+                .active(resultSet.getBoolean("project_active"))
+                .withDescription(resultSet.getString("project_description"))
                 .build();
 
         TaskModel task = TaskModel.builder()
                 .withTenantId(tenantId)
-                .withId((BigInteger) result[11])
-                .withProjectId((BigInteger) result[12])
-                .active((boolean) result[13])
-                .withTitle((String) result[14])
-                .withDescription((String) result[15])
+                .withId(BigInteger.valueOf(resultSet.getLong("task_id")))
+                .withProjectId(projectId)
+                .active(resultSet.getBoolean("task_active"))
+                .withTitle(resultSet.getString("task_title"))
+                .withDescription(resultSet.getString("task_description"))
                 .build();
 
         State ts;
         try {
-            ts = State.valueOf((String) result[5]);
+            ts = State.valueOf(resultSet.getString("status"));
         } catch (IllegalArgumentException ex) {
             ts = State.NOT_FILLED;
-//            log.error("Illegal state found: " + result[5], ex);
+            log.error("Illegal state found", ex);
         }
 
         return TimeSheetEntryModel.builder()
-                .withId((BigInteger) result[0])
-                .withAccountId((BigInteger) result[1])
+                .withId(BigInteger.valueOf(resultSet.getLong("id")))
+                .withAccountId(BigInteger.valueOf(resultSet.getLong("account_fk")))
                 .withTenantId(tenantId)
                 .havingProject(project)
                 .havingTask(task)
-                .fromTime(((Timestamp) result[2]).toInstant())
-                .toTime(((Timestamp) result[3]).toInstant())
-                .withTitle((String) result[4])
+                .fromTime(resultSet.getTimestamp("from_time").toInstant())
+                .toTime(resultSet.getTimestamp("to_time").toInstant())
+                .withTitle(resultSet.getString("title"))
                 .withState(ts)
                 .build();
     }

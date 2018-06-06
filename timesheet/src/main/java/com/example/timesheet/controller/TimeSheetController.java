@@ -38,7 +38,6 @@ public class TimeSheetController {
             @RequestParam("from") String from,
             @RequestParam("to") String to
             ) {
-        log.error("Not implemented");
 
         if (!RequestValidation.validateGetTimesheet(tenantId, accountId, from, to)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -73,6 +72,6 @@ public class TimeSheetController {
                 .withErrors(errors)
                 .build();
 
-        return new ResponseEntity<>(responseEnvelope, HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(responseEnvelope, HttpStatus.OK);
     }
 }

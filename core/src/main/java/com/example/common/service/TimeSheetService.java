@@ -1,4 +1,4 @@
-package com.example.core.service;
+package com.example.common.service;
 
 import com.example.core.dao.TimeSheetDao;
 import com.example.core.model.TimeSheetEntryModel;
