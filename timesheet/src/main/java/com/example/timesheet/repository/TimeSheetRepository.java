@@ -10,9 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.sql.DataSource;
 import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,8 +23,6 @@ public class TimeSheetRepository {
 
     private static final Logger log = LoggerFactory.getLogger(TimeSheetRepository.class);
 
-
-    private DataSource dataSource;
     private JdbcTemplate jdbcTemplate;
 
     //todo: join on tenant fk as well
@@ -47,7 +43,6 @@ public class TimeSheetRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Transactional(readOnly=true)
     public List<TimeSheetEntryModel> getEntriesByIdAndTime(String tenantId, BigInteger accountId, LocalDateTime from, LocalDateTime to) {
         Object [] map = new Object[]{tenantId, accountId, Timestamp.valueOf(from), Timestamp.valueOf(to)};
         return jdbcTemplate.query(TIMESHEET_READ_BY_ACCOUNT, map, new TimeSheetEntryRowMapper());

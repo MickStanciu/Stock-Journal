@@ -35,7 +35,7 @@
         <!--<wildfly.maven.version>1.2.0.Final</wildfly.maven.version>-->
         <!--<wildfly-swarm.version>2018.5.0</wildfly-swarm.version>-->
         <!--<wildfly-swarm.container-api.version>1.0.2.Final</wildfly-swarm.container-api.version>-->
-        <postgresql.version>9.4.1212</postgresql.version>
+        <postgresql.version>42.2.2</postgresql.version>
         <flyway.version>5.1.1</flyway.version>
     </properties>
 
@@ -44,13 +44,12 @@
         <!--<module>shop</module>-->
         <module>common</module>
         <!--<module>availability</module>-->
-        <!--<module>account</module>-->
         <!--<module>tenant</module>-->
         <!--<module>customer</module>-->
         <!--<module>gatewayapi</module>-->
         <!--<module>web</module>-->
-        <module>core</module>
         <module>timesheet</module>
+        <module>account</module>
     </modules>
 
 
