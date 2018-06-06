@@ -26,8 +26,7 @@
         <maven.antrun.version>1.8</maven.antrun.version>
         <maven.surefire.version>2.19.1</maven.surefire.version>
 
-        <!--<resteasy.version>3.1.4.Final</resteasy.version>-->
-        <!--<jackson.version>2.9.5</jackson.version>-->
+
         <!--<mockito.version>2.15.0</mockito.version>-->
         <testng.version>6.14.2</testng.version>
         <!--<ehcache.version>3.4.0</ehcache.version>-->
@@ -50,68 +49,13 @@
         <!--<module>customer</module>-->
         <!--<module>gatewayapi</module>-->
         <!--<module>web</module>-->
-        <!--<module>core</module>-->
+        <module>core</module>
         <module>timesheet</module>
     </modules>
 
 
     <dependencyManagement>
         <dependencies>
-            <!--<dependency>-->
-                <!--<groupId>org.jboss.resteasy</groupId>-->
-                <!--<artifactId>resteasy-jaxrs</artifactId>-->
-                <!--<version>${resteasy.version}</version>-->
-                <!--<scope>provided</scope>-->
-            <!--</dependency>-->
-
-            <!--<dependency>-->
-                <!--<groupId>org.jboss.resteasy</groupId>-->
-                <!--<artifactId>resteasy-client</artifactId>-->
-                <!--<version>${resteasy.version}</version>-->
-            <!--</dependency>-->
-
-            <!--<dependency>-->
-                <!--<groupId>org.jboss.resteasy</groupId>-->
-                <!--<artifactId>resteasy-jaxb-provider</artifactId>-->
-                <!--<version>${resteasy.version}</version>-->
-            <!--</dependency>-->
-
-            <!--<dependency>-->
-                <!--<groupId>org.jboss.resteasy</groupId>-->
-                <!--<artifactId>resteasy-servlet-initializer</artifactId>-->
-                <!--<version>${resteasy.version}</version>-->
-            <!--</dependency>-->
-
-            <!--<dependency>-->
-                <!--<groupId>org.jboss.resteasy</groupId>-->
-                <!--<artifactId>resteasy-jackson-provider</artifactId>-->
-                <!--<version>${resteasy.version}</version>-->
-                <!--<scope>provided</scope>-->
-            <!--</dependency>-->
-
-            <!--<dependency>-->
-                <!--<groupId>com.fasterxml.jackson.core</groupId>-->
-                <!--<artifactId>jackson-databind</artifactId>-->
-                <!--<version>${jackson.version}</version>-->
-            <!--</dependency>-->
-
-            <!--<dependency>-->
-                <!--<groupId>com.fasterxml.jackson.core</groupId>-->
-                <!--<artifactId>jackson-core</artifactId>-->
-                <!--<version>${jackson.version}</version>-->
-            <!--</dependency>-->
-
-            <!--<dependency>-->
-                <!--<groupId>com.fasterxml.jackson.core</groupId>-->
-                <!--<artifactId>jackson-annotations</artifactId>-->
-                <!--<version>${jackson.version}</version>-->
-            <!--</dependency>-->
-
-            <!--<dependency>-->
-                <!--<groupId>com.fasterxml.jackson.datatype</groupId>-->
-                <!--<artifactId>jackson-datatype-jsr310</artifactId>-->
-                <!--<version>${jackson.version}</version>-->
-            <!--</dependency>-->
 
             <!--need for test-->
 
