@@ -18,7 +18,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Repository
+@Repository("TimeSheetDaoReal")
 public class TimeSheetDaoImpl implements TimeSheetDao {
 
     private static final Logger log = LoggerFactory.getLogger(TimeSheetDaoImpl.class);
