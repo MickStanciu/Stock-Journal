@@ -12,7 +12,7 @@ import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 
-@Repository
+@Repository("TimeSheetDaoFake")
 public class TimeSheetDaoFake implements TimeSheetDao {
 
     @Override
