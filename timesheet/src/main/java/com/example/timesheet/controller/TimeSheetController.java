@@ -11,7 +11,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
@@ -32,7 +36,7 @@ public class TimeSheetController {
     }
 
     @RequestMapping(value = "/{tenantId}/{accountId}", method = RequestMethod.GET)
-    public ResponseEntity<ResponseEnvelope> getTimeSheetEntries(
+    public ResponseEntity<?> getTimeSheetEntries(
             @PathVariable(name = "tenantId") String tenantId,
             @PathVariable(name = "accountId")BigInteger accountId,
             @RequestParam("from") String from,
