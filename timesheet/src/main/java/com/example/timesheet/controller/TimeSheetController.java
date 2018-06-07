@@ -63,7 +63,7 @@ public class TimeSheetController {
             entryList = timeSheetService.getEntriesByIdAndTime(tenantId, accountId, fromDate, toDate);
         } catch (Exception ex) {
             log.error("", ex);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
 
         List<ErrorDto> errors = new ArrayList<>();
@@ -76,6 +76,6 @@ public class TimeSheetController {
                 .withErrors(errors)
                 .build();
 
-        return new ResponseEntity<>(responseEnvelope, HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body(responseEnvelope);
     }
 }
