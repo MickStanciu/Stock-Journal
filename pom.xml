@@ -55,7 +55,6 @@
 
     <dependencyManagement>
         <dependencies>
-
             <!--need for test-->
 
             <!--<dependency>-->

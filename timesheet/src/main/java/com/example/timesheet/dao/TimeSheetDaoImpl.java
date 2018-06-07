@@ -1,4 +1,4 @@
-package com.example.timesheet.repository;
+package com.example.timesheet.dao;
 
 import com.example.timesheet.model.ProjectModel;
 import com.example.timesheet.model.TaskModel;
@@ -19,9 +19,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
-public class TimeSheetRepository {
+public class TimeSheetDaoImpl implements TimeSheetDao {
 
-    private static final Logger log = LoggerFactory.getLogger(TimeSheetRepository.class);
+    private static final Logger log = LoggerFactory.getLogger(TimeSheetDaoImpl.class);
 
     private JdbcTemplate jdbcTemplate;
 
@@ -39,10 +39,11 @@ public class TimeSheetRepository {
             "and t.to_time <= ?";
 
     @Autowired
-    public TimeSheetRepository(JdbcTemplate jdbcTemplate) {
+    public TimeSheetDaoImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @Override
     public List<TimeSheetEntryModel> getEntriesByIdAndTime(String tenantId, BigInteger accountId, LocalDateTime from, LocalDateTime to) {
         Object [] map = new Object[]{tenantId, accountId, Timestamp.valueOf(from), Timestamp.valueOf(to)};
         return jdbcTemplate.query(TIMESHEET_READ_BY_ACCOUNT, map, new TimeSheetEntryRowMapper());
