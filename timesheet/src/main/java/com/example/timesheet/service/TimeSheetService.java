@@ -20,7 +20,7 @@ public class TimeSheetService {
     private TimeSheetDao timeSheetDao;
 
     @Autowired
-    public TimeSheetService(@Qualifier("TimeSheet") TimeSheetDao timeSheetDao) {
+    public TimeSheetService(@Qualifier("TimeSheetDaoReal") TimeSheetDao timeSheetDao) {
         this.timeSheetDao = timeSheetDao;
     }
 
