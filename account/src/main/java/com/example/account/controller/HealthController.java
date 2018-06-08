@@ -1,6 +1,5 @@
 package com.example.account.controller;
 
-import com.example.account.model.HealthModel;
 import com.example.account.service.HealthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,18 +22,18 @@ public class HealthController {
 
     @RequestMapping(value = "/ping", method = RequestMethod.GET)
     public ResponseEntity pong() {
-        return new ResponseEntity(HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @RequestMapping(value = "/check", method = RequestMethod.GET)
-    public ResponseEntity<HealthModel> checkFirstRecord() {
+    public ResponseEntity<?> checkFirstRecord() {
         HttpStatus status = HttpStatus.OK;
 
         if (!service.isOk()) {
             status = HttpStatus.SERVICE_UNAVAILABLE;
         }
 
-        return new ResponseEntity<>(service.getHealth(), status);
+        return ResponseEntity.status(status).body(service.getHealth());
     }
 
 }
