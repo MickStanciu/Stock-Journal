@@ -1,20 +1,22 @@
 package com.example.account.controller;
 
+import com.example.account.exception.ExceptionCode;
 import com.example.account.facade.AccountFacade;
 import com.example.account.model.AccountModel;
+import com.example.common.rest.dto.ErrorDto;
+import com.example.common.rest.envelope.ResponseEnvelope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/v1", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -39,7 +41,30 @@ public class AccountController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
 
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+        //todo: catch all errors
+        Optional<AccountModel> accountOptional;
+        try {
+            accountOptional = accountFacade.getAccount(tenantId, email, password);
+        } catch (Exception ex) {
+            log.error("", ex);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
+        List<ErrorDto> errors = new ArrayList<>();
+        AccountModel account = null;
+        if (!accountOptional.isPresent()) {
+            errors.add(new ErrorDto(ExceptionCode.ACCOUNT_NOT_FOUND.name(), ExceptionCode.ACCOUNT_NOT_FOUND.getMessage()));
+        } else {
+            account = accountOptional.get();
+        }
+
+        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<AccountModel>()
+                .withData(account)
+                .withErrors(errors)
+                .build();
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(responseEnvelope);
     }
 
     @RequestMapping(value = "/{tenantId}/{accountId}", method = RequestMethod.GET)
