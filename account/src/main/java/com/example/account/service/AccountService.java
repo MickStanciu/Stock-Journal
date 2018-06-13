@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
+import java.util.List;
 
 @Service
 public class AccountService {
@@ -25,27 +26,27 @@ public class AccountService {
         return accountRepository.getAccount(tenantId, email, password);
     }
 
-//    public AccountModel getAccount(String tenantId, BigInteger accountId) {
-//        return accountRepository.getAccount(tenantId, accountId);
-//    }
+    public AccountModel getAccount(String tenantId, BigInteger accountId) {
+        return accountRepository.getAccount(tenantId, accountId);
+    }
 
-//    public List<AccountModel> getAccountByRelationShip(String tenantId, BigInteger parentId, int depth) {
-//        return accountRepository.getAccountsByRelationship(tenantId, parentId, depth);
-//    }
+    public List<AccountModel> getAccountByRelationShip(String tenantId, BigInteger parentId, int depth) {
+        return accountRepository.getAccountsByRelationship(tenantId, parentId, depth);
+    }
 
-//    public boolean checkAccount(String tenantId, String email) {
-//        return accountRepository.checkAccount(tenantId, email);
-//    }
+    public boolean checkAccount(String tenantId, String email) {
+        return accountRepository.checkAccount(tenantId, email);
+    }
 
-//    public void createAccount(String tenantId, String name, String password, String email, int roleId) {
-//        accountRepository.createAccount(tenantId, name, password, email, roleId);
-//    }
+    public void createAccount(String tenantId, String name, String password, String email, int roleId) {
+        accountRepository.createAccount(tenantId, name, password, email, roleId);
+    }
 
-//    public void updateAccount(String tenantId, BigInteger accountId, AccountModel originalAccount, AccountModel account) {
-//        //transfer only allowed fields
-//        AccountModel newAccount = copyAccount(tenantId, accountId, originalAccount, account);
-//        accountRepository.updateAccount(tenantId, accountId, newAccount);
-//    }
+    public void updateAccount(String tenantId, BigInteger accountId, AccountModel originalAccount, AccountModel account) {
+        //transfer only allowed fields
+        AccountModel newAccount = copyAccount(tenantId, accountId, originalAccount, account);
+        accountRepository.updateAccount(tenantId, accountId, newAccount);
+    }
 
     AccountModel copyAccount(String tenantId, BigInteger accountId, AccountModel originalAccount, AccountModel account) {
         AccountModel.Builder builder = new AccountModel.Builder();

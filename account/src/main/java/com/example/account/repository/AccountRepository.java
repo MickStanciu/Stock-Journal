@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -49,6 +50,69 @@ public class AccountRepository {
         }
 
         return results.get(0);
+    }
+
+    public AccountModel getAccount(String tenantId, BigInteger accountId) {
+        Query q = em.createNativeQuery(ACCOUNT_READ_BY_ID_QUERY);
+        q.setParameter("tenant_fk", tenantId);
+        q.setParameter("account_id", accountId);
+
+        List<Object[]> results = q.getResultList();
+        if (results.size() == 0) {
+            return null;
+        }
+
+        return mapFromObject(results.get(0));
+    }
+
+    public List<AccountModel> getAccountsByRelationship(String tenantId, BigInteger parentId, int depth) {
+        Query q = em.createNativeQuery(ACCOUNTS_READ_BY_RELATIONSHIP);
+        q.setParameter("tenant_fk", tenantId);
+        q.setParameter("parent_fk", parentId);
+        q.setParameter("depth", depth);
+        q.setParameter("password", "*****");
+
+        List<Object[]> results = q.getResultList();
+        if (results.size() == 0) {
+            return Collections.emptyList();
+        }
+
+        List<AccountModel> accountList = new ArrayList<>();
+        for(Object[] result : results) {
+            accountList.add(mapFromObject(result));
+        }
+        return accountList;
+    }
+
+    public boolean checkAccount(String tenantId, String email) {
+        Query q = em.createNativeQuery(ACCOUNT_CHECK_QUERY);
+        q.setParameter("tenant_fk", tenantId);
+        q.setParameter("email", email);
+
+        List<Object[]> results = q.getResultList();
+        return results.size() != 0;
+    }
+
+    public void createAccount(String tenantId, String name, String password, String email, int roleId) {
+        Query q = em.createNativeQuery(ACCOUNT_CREATE_QUERY);
+        q.setParameter("tenant_fk", tenantId);
+        q.setParameter("name", name);
+        q.setParameter("password", password);
+        q.setParameter("email", email);
+        q.setParameter("role_fk", roleId);
+        q.executeUpdate();
+    }
+
+    public void updateAccount(String tenantId, BigInteger accountId, AccountModel newAccount) {
+        Query q = em.createNativeQuery(ACCOUNT_UPDATE_QUERY);
+        q.setParameter("tenant_fk", tenantId);
+        q.setParameter("account_id", accountId);
+        q.setParameter("role_fk", newAccount.getRole().getId());
+        q.setParameter("name", newAccount.getName());
+        q.setParameter("password", newAccount.getPassword());
+        q.setParameter("email", newAccount.getEmail());
+        q.setParameter("active", newAccount.isActive());
+        q.executeUpdate();
     }
 }
 
