@@ -9,17 +9,27 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/api/v1", produces = MediaType.APPLICATION_JSON_VALUE)
+@Path("/api/v1")
+@Produces("application/json")
 public class AccountController {
 
     private static final Logger log = LoggerFactory.getLogger(AccountController.class);
@@ -31,11 +41,12 @@ public class AccountController {
         this.accountFacade = accountFacade;
     }
 
-    @RequestMapping(value = "/{tenantId}", method = RequestMethod.GET)
+    @GET
+    @Path("/{tenantId}")
     public ResponseEntity<?> accountByEmailAndPassword(
-            @PathVariable(name = "tenantId") String tenantId,
-            @RequestParam("email") String email,
-            @RequestParam("password") String password
+            @PathParam("tenantId") @DefaultValue("0") String tenantId,
+            @QueryParam("email") @DefaultValue("") String email,
+            @QueryParam("password") @DefaultValue("") String password
     ) {
         if (!RequestValidation.validateGetAccount(tenantId, email, password)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -67,10 +78,11 @@ public class AccountController {
                 .body(responseEnvelope);
     }
 
-    @RequestMapping(value = "/{tenantId}/{accountId}", method = RequestMethod.GET)
+    @GET
+    @Path("/{tenantId}/{accountId}")
     public ResponseEntity<?> accountById(
-            @PathVariable(name = "tenantId") String tenantId,
-            @PathVariable(name = "accountId") BigInteger accountId
+            @PathParam("tenantId") @DefaultValue("0") String tenantId,
+            @PathParam("accountId") @DefaultValue("0") BigInteger accountId
     ) {
         if (!RequestValidation.validateGetAccount(tenantId, accountId)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -79,11 +91,12 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
     }
 
-    @RequestMapping(value = "/relations/{tenantId}/{parentId}", method = RequestMethod.GET)
+    @GET
+    @Path("/relations/{tenantId}/{parentId}")
     public ResponseEntity<?> getAccountByRelationship(
-            @PathVariable(name = "tenantId") String tenantId,
-            @PathVariable(name = "parentId") BigInteger parentId,
-            @RequestParam("depth") Integer depth
+            @PathParam("tenantId") @DefaultValue("0") String tenantId,
+            @PathParam("parentId") @DefaultValue("0") BigInteger parentId,
+            @QueryParam("depth") Integer depth
     ) {
         if (!RequestValidation.validateGetAccountsByRelationship(tenantId, parentId, depth)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -92,7 +105,9 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
     }
 
-    @RequestMapping(value = "/{tenantId}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @POST
+    @Path("/{tenantId}")
+    @Consumes("application/json")
     public ResponseEntity<?> createAccount(
             AccountModel account,
             @PathVariable(name = "tenantId") String tenantId
@@ -104,7 +119,9 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
     }
 
-    @RequestMapping(value = "/{tenantId}/{accountId}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PUT
+    @Path("/{tenantId}/{accountId}")
+    @Consumes("application/json")
     public ResponseEntity<?> updateAccount(
             AccountModel account,
             @PathVariable(name = "tenantId") String tenantId,
