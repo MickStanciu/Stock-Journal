@@ -8,8 +8,6 @@ import com.example.common.rest.envelope.ResponseEnvelope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +20,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,13 +42,13 @@ public class AccountController {
 
     @GET
     @Path("/{tenantId}")
-    public ResponseEntity<?> accountByEmailAndPassword(
+    public Response accountByEmailAndPassword(
             @PathParam("tenantId") @DefaultValue("0") String tenantId,
             @QueryParam("email") @DefaultValue("") String email,
             @QueryParam("password") @DefaultValue("") String password
     ) {
         if (!RequestValidation.validateGetAccount(tenantId, email, password)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
         //todo: catch all errors
@@ -58,7 +57,7 @@ public class AccountController {
             accountOptional = accountFacade.getAccount(tenantId, email, password);
         } catch (Exception ex) {
             log.error("", ex);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
         List<ErrorDto> errors = new ArrayList<>();
@@ -74,63 +73,64 @@ public class AccountController {
                 .withErrors(errors)
                 .build();
 
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(responseEnvelope);
+        return Response.status(Response.Status.OK)
+                .entity(responseEnvelope)
+                .build();
     }
 
     @GET
     @Path("/{tenantId}/{accountId}")
-    public ResponseEntity<?> accountById(
+    public Response accountById(
             @PathParam("tenantId") @DefaultValue("0") String tenantId,
             @PathParam("accountId") @DefaultValue("0") BigInteger accountId
     ) {
         if (!RequestValidation.validateGetAccount(tenantId, accountId)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+        return Response.status(Response.Status.NOT_IMPLEMENTED).build();
     }
 
     @GET
     @Path("/relations/{tenantId}/{parentId}")
-    public ResponseEntity<?> getAccountByRelationship(
+    public Response getAccountByRelationship(
             @PathParam("tenantId") @DefaultValue("0") String tenantId,
             @PathParam("parentId") @DefaultValue("0") BigInteger parentId,
             @QueryParam("depth") Integer depth
     ) {
         if (!RequestValidation.validateGetAccountsByRelationship(tenantId, parentId, depth)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+        return Response.status(Response.Status.NOT_IMPLEMENTED).build();
     }
 
     @POST
     @Path("/{tenantId}")
     @Consumes("application/json")
-    public ResponseEntity<?> createAccount(
+    public Response createAccount(
             AccountModel account,
             @PathVariable(name = "tenantId") String tenantId
     ) {
         if (!RequestValidation.validateCreateAccount(tenantId, account)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+        return Response.status(Response.Status.NOT_IMPLEMENTED).build();
     }
 
     @PUT
     @Path("/{tenantId}/{accountId}")
     @Consumes("application/json")
-    public ResponseEntity<?> updateAccount(
+    public Response updateAccount(
             AccountModel account,
             @PathVariable(name = "tenantId") String tenantId,
             @PathVariable(name = "accountId") BigInteger accountId
     ) {
         if (!RequestValidation.validateUpdateAccount(tenantId, accountId, account)) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+        return Response.status(Response.Status.NOT_IMPLEMENTED).build();
     }
 }
