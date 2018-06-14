@@ -101,7 +101,7 @@ public class AccountRepository {
     @Transactional
     public void createAccount(String tenantId, String name, String password, String email, int roleId) {
         Object [] map = new Object[]{tenantId, roleId, name, email, password};
-        //todo:?
+        //todo: is it ok?
         jdbcTemplate.update(ACCOUNT_CREATE_QUERY, map);
     }
 
