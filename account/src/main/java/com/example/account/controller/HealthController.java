@@ -3,14 +3,17 @@ package com.example.account.controller;
 import com.example.account.service.HealthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Component;
 
-@RestController
-@RequestMapping(value = "/api/v1/health", produces = MediaType.APPLICATION_JSON_VALUE)
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+
+
+@Component
+@Path("/api/v1/health")
+@Produces("application/json")
 public class HealthController {
 
     private HealthService service;
@@ -20,12 +23,14 @@ public class HealthController {
         this.service = service;
     }
 
-    @RequestMapping(value = "/ping", method = RequestMethod.GET)
+    @GET
+    @Path("/ping")
     public ResponseEntity pong() {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @RequestMapping(value = "/check", method = RequestMethod.GET)
+    @GET
+    @Path("/check")
     public ResponseEntity<?> checkFirstRecord() {
         HttpStatus status = HttpStatus.OK;
 
@@ -35,5 +40,4 @@ public class HealthController {
 
         return ResponseEntity.status(status).body(service.getHealth());
     }
-
 }

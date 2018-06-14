@@ -1,18 +1,21 @@
 package com.example.timesheet.controller;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Component;
+
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 
 
-@RestController
-@RequestMapping(value = "/api/v1/health", produces = MediaType.APPLICATION_JSON_VALUE)
+@Component
+@Path("/api/v1/health")
+@Produces("application/json")
 public class HealthController {
 
-    @RequestMapping(value = "/ping", method = RequestMethod.GET)
+    @GET
+    @Path("/ping")
     public ResponseEntity pong() {
         return new ResponseEntity(HttpStatus.OK);
     }
