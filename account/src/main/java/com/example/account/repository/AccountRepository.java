@@ -45,7 +45,7 @@ public class AccountRepository {
 
 
     private static final String ACCOUNTS_READ_BY_RELATIONSHIP = "SELECT a.id AS account_id, a.name AS account_name, " +
-            ":password as password, a.email, CAST(a.tenant_fk AS VARCHAR(36)) AS tenant_id, a.active, a.role_fk " +
+            "? as password, a.email, CAST(a.tenant_fk AS VARCHAR(36)) AS tenant_id, a.active, a.role_fk " +
             "FROM account_relationships ar " +
             "INNER JOIN accounts a ON ar.child_fk = a.id AND CAST(ar.tenant_fk AS uuid) = CAST(a.tenant_fk AS uuid) " +
             "WHERE " +
@@ -88,7 +88,7 @@ public class AccountRepository {
     }
 
     public List<AccountModel> getAccountsByRelationship(String tenantId, BigInteger parentId, int depth) {
-        Object [] map = new Object[]{tenantId, parentId, depth};
+        Object [] map = new Object[]{"*****", tenantId, parentId, depth};
         return jdbcTemplate.query(ACCOUNTS_READ_BY_RELATIONSHIP, map, new AccountModelRowMapper());
     }
 
@@ -101,7 +101,6 @@ public class AccountRepository {
     @Transactional
     public void createAccount(String tenantId, String name, String password, String email, int roleId) {
         Object [] map = new Object[]{tenantId, roleId, name, email, password};
-        //todo: is it ok?
         jdbcTemplate.update(ACCOUNT_CREATE_QUERY, map);
     }
 
@@ -119,8 +118,8 @@ class AccountModelRowMapper implements RowMapper<AccountModel> {
     public AccountModel mapRow(ResultSet resultSet, int i) throws SQLException {
         return AccountModel.builder()
                 .havingPersonalDetails()
-                    .withTenantId(resultSet.getString("tenant_fk"))
-                    .withId(BigInteger.valueOf(resultSet.getLong("role_fk")))
+                    .withTenantId(resultSet.getString("tenant_id"))
+                    .withId(BigInteger.valueOf(resultSet.getLong("account_id")))
                     .withName(resultSet.getString("account_name"))
                     .withEmail(resultSet.getString("email"))
                     .withPassword(resultSet.getString("password"))

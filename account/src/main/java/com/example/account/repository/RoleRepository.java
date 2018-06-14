@@ -5,15 +5,14 @@ import com.example.account.model.RoleModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Repository
 public class RoleRepository {
@@ -44,9 +43,8 @@ public class RoleRepository {
     }
 }
 
-class RoleModelRowMapper implements RowMapper<RoleModel> {
+class RoleModelRowMapper implements ResultSetExtractor<List<RoleModel>> {
 
-    @Override
     public RoleModel mapRow(ResultSet resultSet, int i) throws SQLException {
         Integer role_id = resultSet.getInt("role_id");
         String role_name = resultSet.getString("role_name");
@@ -62,6 +60,35 @@ class RoleModelRowMapper implements RowMapper<RoleModel> {
 //            }
 //        }
 
+
+        //https://dzone.com/articles/spring-jdbc-rowmapper-vs-resultsetextractor
         return RoleModel.builder(role).withPermissions(permissions).build();
+    }
+
+
+    @Override
+    public List<RoleModel> extractData(ResultSet resultSet) throws SQLException, DataAccessException {
+        Map<Integer, RoleModel> roles = new HashMap<>();
+
+        while (resultSet.next()) {
+            Integer role_id = resultSet.getInt("role_id");
+
+
+            RoleModel role;
+            if (roles.containsKey(role_id)) {
+                role = roles.get(role_id);
+            } else {
+                String role_name = resultSet.getString("role_name");
+                role = new RoleModel(role_id, role_name);
+            }
+
+            String permissionName = resultSet.getString("permission_name");
+            if (permissionName != null) {
+                role.getPermissions().add(RoleInfoModel.valueOf(permissionName));
+            }
+
+            roles.put(role_id, role);
+        }
+        return new ArrayList<> (roles.values());
     }
 }

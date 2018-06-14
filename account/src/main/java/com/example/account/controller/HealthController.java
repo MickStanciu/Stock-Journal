@@ -2,13 +2,12 @@ package com.example.account.controller;
 
 import com.example.account.service.HealthService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Response;
 
 
 @Component
@@ -25,19 +24,19 @@ public class HealthController {
 
     @GET
     @Path("/ping")
-    public ResponseEntity pong() {
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public Response pong() {
+        return Response.status(Response.Status.OK).build();
     }
 
     @GET
     @Path("/check")
-    public ResponseEntity<?> checkFirstRecord() {
-        HttpStatus status = HttpStatus.OK;
+    public Response checkFirstRecord() {
+        Response.Status status = Response.Status.OK;
 
         if (!service.isOk()) {
-            status = HttpStatus.SERVICE_UNAVAILABLE;
+            status = Response.Status.SERVICE_UNAVAILABLE;
         }
 
-        return ResponseEntity.status(status).body(service.getHealth());
+        return Response.status(status).entity(service.getHealth()).build();
     }
 }

@@ -17,8 +17,8 @@ import java.util.Optional;
 @Service
 public class AccountFacade {
 
-    private static final int DEFAULT_ROLE_ID = 2;
-    private static final String DEFAULT_EMAIL = "not.set@domain.com";
+    private static final int DEFAULT_ROLE_ID = 1;
+    private static final String DEFAULT_NAME = "not set";
 
     private AccountService accountService;
     private RoleService roleService;
@@ -49,12 +49,12 @@ public class AccountFacade {
         return accountList;
     }
 
-    public Optional<AccountModel> createAccount(String tenantId, String email, String password) throws AccountException {
+    public Optional<AccountModel> createAccount(String tenantId, String name, String email, String password) throws AccountException {
         if (accountService.checkAccount(tenantId, email)) {
             throw new AccountException(ExceptionCode.ACCOUNT_EXISTS);
         }
 
-        accountService.createAccount(tenantId, email, password, DEFAULT_EMAIL, DEFAULT_ROLE_ID);
+        accountService.createAccount(tenantId, DEFAULT_NAME, password, email, DEFAULT_ROLE_ID);
         return Optional.ofNullable(accountService.getAccount(tenantId, email, password));
     }
 
