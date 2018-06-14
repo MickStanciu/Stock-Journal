@@ -9,22 +9,23 @@ import com.example.timesheet.service.TimeSheetService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Component;
 
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@RestController
-@RequestMapping(value = "/api/v1", produces = MediaType.APPLICATION_JSON_VALUE)
+@Component
+@Path("/api/v1")
+@Produces("application/json")
 public class TimeSheetController {
 
     private static final Logger log = LoggerFactory.getLogger(TimeSheetController.class);
@@ -36,16 +37,17 @@ public class TimeSheetController {
         this.timeSheetService = timeSheetService;
     }
 
-    @RequestMapping(value = "/{tenantId}/{accountId}", method = RequestMethod.GET)
-    public ResponseEntity<?> getTimeSheetEntries(
-            @PathVariable(name = "tenantId") String tenantId,
-            @PathVariable(name = "accountId")BigInteger accountId,
-            @RequestParam("from") String from,
-            @RequestParam("to") String to
+    @GET
+    @Path("/{tenantId}/{accountId}")
+    public Response getTimeSheetEntries(
+            @PathParam("tenantId") @DefaultValue("0") String tenantId,
+            @PathParam("accountId") BigInteger accountId,
+            @QueryParam("from") String from,
+            @QueryParam("to") String to
             ) {
 
         if (!RequestValidation.validateGetTimesheet(tenantId, accountId, from, to)) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
         LocalDateTime fromDate;
@@ -64,7 +66,7 @@ public class TimeSheetController {
             entryList = timeSheetService.getEntriesByIdAndTime(tenantId, accountId, fromDate, toDate);
         } catch (Exception ex) {
             log.error("", ex);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
         List<ErrorDto> errors = new ArrayList<>();
@@ -77,6 +79,8 @@ public class TimeSheetController {
                 .withErrors(errors)
                 .build();
 
-        return ResponseEntity.status(HttpStatus.OK).body(responseEnvelope);
+        return Response.status(Response.Status.OK)
+                .entity(responseEnvelope)
+                .build();
     }
 }
