@@ -117,6 +117,16 @@ class AccountModelRowMapper implements RowMapper<AccountModel> {
 
     @Override
     public AccountModel mapRow(ResultSet resultSet, int i) throws SQLException {
-        return null;
+        return AccountModel.builder()
+                .havingPersonalDetails()
+                    .withTenantId(resultSet.getString("tenant_fk"))
+                    .withId(BigInteger.valueOf(resultSet.getLong("role_fk")))
+                    .withName(resultSet.getString("account_name"))
+                    .withEmail(resultSet.getString("email"))
+                    .withPassword(resultSet.getString("password"))
+                    .withFlagActive(resultSet.getBoolean("active"))
+                .havingRole()
+                    .withRoleId(resultSet.getInt("role_fk"))
+                .build();
     }
 }

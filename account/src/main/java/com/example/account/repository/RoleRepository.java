@@ -1,5 +1,6 @@
 package com.example.account.repository;
 
+import com.example.account.model.RoleInfoModel;
 import com.example.account.model.RoleModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class RoleRepository {
@@ -45,6 +48,20 @@ class RoleModelRowMapper implements RowMapper<RoleModel> {
 
     @Override
     public RoleModel mapRow(ResultSet resultSet, int i) throws SQLException {
-        return null;
+        Integer role_id = resultSet.getInt("role_id");
+        String role_name = resultSet.getString("role_name");
+        RoleModel role = new RoleModel(role_id, role_name);
+
+        Set<RoleInfoModel> permissions = new HashSet<>();
+
+        //todo: put a breakpoint ?
+//        for(Object[] result : results) {
+//            String permissionName = (String) result[2];
+//            if (permissionName != null) {
+//                permissions.add(RoleInfoModel.valueOf(permissionName));
+//            }
+//        }
+
+        return RoleModel.builder(role).withPermissions(permissions).build();
     }
 }
