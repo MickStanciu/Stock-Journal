@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigInteger;
 import java.sql.ResultSet;
@@ -27,7 +28,30 @@ public class AccountRepository {
             "FROM accounts a " +
             "WHERE a.email = ? AND a.password = ? AND a.tenant_fk = CAST(? AS uuid)";
 
+    private static final String ACCOUNT_READ_BY_ID_QUERY = "SELECT a.id AS account_id, a.name AS account_name, a.password, " +
+            "a.email, CAST(a.tenant_fk AS VARCHAR(36)) AS tenant_id, a.active, a.role_fk " +
+            "FROM accounts a " +
+            "WHERE a.tenant_fk = CAST(? AS uuid) AND a.id = ?";
 
+    private static final String ACCOUNT_CREATE_QUERY = "INSERT INTO accounts (tenant_fk, role_fk, name, email, password, active) " +
+            "VALUES (CAST(? AS uuid), ?, ?, ?, ?, false)";
+
+    private static final String ACCOUNT_CHECK_QUERY = "SELECT id FROM accounts " +
+            "WHERE email = ? AND tenant_fk = CAST(? AS uuid)";
+
+    private static final String ACCOUNT_UPDATE_QUERY = "UPDATE accounts SET " +
+            "name = ?, password = ?, email = ?, active = ?, role_fk = ? " +
+            "WHERE tenant_fk = CAST(? AS uuid) AND id = ?";
+
+
+    private static final String ACCOUNTS_READ_BY_RELATIONSHIP = "SELECT a.id AS account_id, a.name AS account_name, " +
+            ":password as password, a.email, CAST(a.tenant_fk AS VARCHAR(36)) AS tenant_id, a.active, a.role_fk " +
+            "FROM account_relationships ar " +
+            "INNER JOIN accounts a ON ar.child_fk = a.id AND CAST(ar.tenant_fk AS uuid) = CAST(a.tenant_fk AS uuid) " +
+            "WHERE " +
+            "ar.tenant_fk = CAST(? AS uuid) " +
+            "and ar.parent_fk = ? " +
+            "and ar.depth <= ?";
 
     private JdbcTemplate jdbcTemplate;
 
@@ -53,66 +77,39 @@ public class AccountRepository {
     }
 
     public AccountModel getAccount(String tenantId, BigInteger accountId) {
-        Query q = em.createNativeQuery(ACCOUNT_READ_BY_ID_QUERY);
-        q.setParameter("tenant_fk", tenantId);
-        q.setParameter("account_id", accountId);
+        Object [] map = new Object[]{tenantId, accountId};
+        List<AccountModel> results = jdbcTemplate.query(ACCOUNT_READ_BY_ID_QUERY, map, new AccountModelRowMapper());
 
-        List<Object[]> results = q.getResultList();
         if (results.size() == 0) {
             return null;
         }
 
-        return mapFromObject(results.get(0));
+        return results.get(0);
     }
 
     public List<AccountModel> getAccountsByRelationship(String tenantId, BigInteger parentId, int depth) {
-        Query q = em.createNativeQuery(ACCOUNTS_READ_BY_RELATIONSHIP);
-        q.setParameter("tenant_fk", tenantId);
-        q.setParameter("parent_fk", parentId);
-        q.setParameter("depth", depth);
-        q.setParameter("password", "*****");
-
-        List<Object[]> results = q.getResultList();
-        if (results.size() == 0) {
-            return Collections.emptyList();
-        }
-
-        List<AccountModel> accountList = new ArrayList<>();
-        for(Object[] result : results) {
-            accountList.add(mapFromObject(result));
-        }
-        return accountList;
+        Object [] map = new Object[]{tenantId, parentId, depth};
+        return jdbcTemplate.query(ACCOUNTS_READ_BY_RELATIONSHIP, map, new AccountModelRowMapper());
     }
 
     public boolean checkAccount(String tenantId, String email) {
-        Query q = em.createNativeQuery(ACCOUNT_CHECK_QUERY);
-        q.setParameter("tenant_fk", tenantId);
-        q.setParameter("email", email);
-
-        List<Object[]> results = q.getResultList();
+        Object [] map = new Object[]{email, tenantId};
+        List<AccountModel> results = jdbcTemplate.query(ACCOUNT_CHECK_QUERY, map, new AccountModelRowMapper());
         return results.size() != 0;
     }
 
+    @Transactional
     public void createAccount(String tenantId, String name, String password, String email, int roleId) {
-        Query q = em.createNativeQuery(ACCOUNT_CREATE_QUERY);
-        q.setParameter("tenant_fk", tenantId);
-        q.setParameter("name", name);
-        q.setParameter("password", password);
-        q.setParameter("email", email);
-        q.setParameter("role_fk", roleId);
-        q.executeUpdate();
+        Object [] map = new Object[]{tenantId, roleId, name, email, password};
+        //todo:?
+        jdbcTemplate.update(ACCOUNT_CREATE_QUERY, map);
     }
 
+    @Transactional
     public void updateAccount(String tenantId, BigInteger accountId, AccountModel newAccount) {
-        Query q = em.createNativeQuery(ACCOUNT_UPDATE_QUERY);
-        q.setParameter("tenant_fk", tenantId);
-        q.setParameter("account_id", accountId);
-        q.setParameter("role_fk", newAccount.getRole().getId());
-        q.setParameter("name", newAccount.getName());
-        q.setParameter("password", newAccount.getPassword());
-        q.setParameter("email", newAccount.getEmail());
-        q.setParameter("active", newAccount.isActive());
-        q.executeUpdate();
+        Object [] map = new Object[]{newAccount.getName(), newAccount.getPassword(), newAccount.getEmail(), newAccount.isActive(),
+                newAccount.getRole().getId(), tenantId, accountId};
+        jdbcTemplate.update(ACCOUNT_UPDATE_QUERY, map);
     }
 }
 
