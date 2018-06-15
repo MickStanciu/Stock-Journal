@@ -1,6 +1,6 @@
 //package com.example.timesheet.config;
 //
-//import com.example.timesheet.dao.TimeSheetDao;
+//import com.example.timesheet.repository.TimeSheetDao;
 //import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.beans.factory.annotation.Value;
 //import org.springframework.context.ApplicationContext;

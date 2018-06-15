@@ -10,7 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>timesheet</artifactId>
+    <artifactId>tenant</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
@@ -63,7 +63,7 @@
     </dependencies>
 
     <build>
-        <finalName>timesheet</finalName>
+        <finalName>tenant</finalName>
 
         <plugins>
             <plugin>

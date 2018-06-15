@@ -1,4 +1,4 @@
-//package com.example.timesheet.dao;
+//package com.example.timesheet.repository;
 //
 //import com.example.common.converter.TimeConversion;
 //import com.example.timesheet.model.ProjectModel;
