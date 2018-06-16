@@ -14,6 +14,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @Path("/api/v1")
@@ -40,20 +41,21 @@ public class TenantController {
         List<ErrorDto> errors = new ArrayList<>();
 
         //todo: catch all errors
-        TenantModel tenantModel;
+        Optional<TenantModel> tenantModelOptional;
         try {
-            tenantModel = tenantService.getTenant(tenantId);
+            tenantModelOptional = tenantService.getTenant(tenantId);
         } catch (Exception ex) {
             log.error("", ex);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
-        if (tenantModel == null) {
+
+        if (!tenantModelOptional.isPresent()) {
             errors.add(new ErrorDto(ExceptionCode.TENANT_NOT_FOUND.name(), ExceptionCode.TENANT_NOT_FOUND.getMessage()));
         }
 
         ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<TenantModel>()
-                .withData(tenantModel)
+                .withData(tenantModelOptional.orElse(null))
                 .withErrors(errors)
                 .build();
 

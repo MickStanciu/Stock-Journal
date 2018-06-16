@@ -53,15 +53,12 @@ public class AccountController {
         }
 
         List<ErrorDto> errors = new ArrayList<>();
-        AccountModel account = null;
         if (!accountOptional.isPresent()) {
             errors.add(new ErrorDto(ExceptionCode.ACCOUNT_NOT_FOUND.name(), ExceptionCode.ACCOUNT_NOT_FOUND.getMessage()));
-        } else {
-            account = accountOptional.get();
         }
 
         ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<AccountModel>()
-                .withData(account)
+                .withData(accountOptional.orElse(null))
                 .withErrors(errors)
                 .build();
 
@@ -90,15 +87,12 @@ public class AccountController {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
-        AccountModel account = null;
         if (!accountOptional.isPresent()) {
             errors.add(new ErrorDto(ExceptionCode.ACCOUNT_NOT_FOUND.name(), ExceptionCode.ACCOUNT_NOT_FOUND.getMessage()));
-        } else {
-            account = accountOptional.get();
         }
 
         ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<AccountModel>()
-                .withData(account)
+                .withData(accountOptional.orElse(null))
                 .withErrors(errors)
                 .build();
 
@@ -167,15 +161,9 @@ public class AccountController {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
-        account = null;
-        if (!accountOptional.isPresent()) {
-            if (errors.isEmpty()) {
-                errors.add(new ErrorDto(ExceptionCode.UNKNOWN.name(), ExceptionCode.UNKNOWN.getMessage()));
-            }
-        } else {
-            account = accountOptional.get();
+        if (!accountOptional.isPresent() && errors.isEmpty()) {
+            errors.add(new ErrorDto(ExceptionCode.UNKNOWN.name(), ExceptionCode.UNKNOWN.getMessage()));
         }
-
 
         Response.Status status = Response.Status.CREATED;
         if (errors.size() != 0) {
@@ -187,7 +175,7 @@ public class AccountController {
         }
 
         ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<AccountModel>()
-                .withData(account)
+                .withData(accountOptional.orElse(null))
                 .withErrors(errors)
                 .build();
 
@@ -223,13 +211,8 @@ public class AccountController {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
         }
 
-        account = null;
-        if (!accountOptional.isPresent()) {
-            if (errors.isEmpty()) {
-                errors.add(new ErrorDto(ExceptionCode.UNKNOWN.name(), ExceptionCode.UNKNOWN.getMessage()));
-            }
-        } else {
-            account = accountOptional.get();
+        if (!accountOptional.isPresent() && errors.isEmpty()) {
+            errors.add(new ErrorDto(ExceptionCode.UNKNOWN.name(), ExceptionCode.UNKNOWN.getMessage()));
         }
 
         Response.Status status = Response.Status.ACCEPTED;
@@ -238,7 +221,7 @@ public class AccountController {
         }
 
         ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<AccountModel>()
-                .withData(account)
+                .withData(accountOptional.orElse(null))
                 .withErrors(errors)
                 .build();
 

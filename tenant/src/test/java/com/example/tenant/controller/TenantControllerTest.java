@@ -10,6 +10,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import javax.ws.rs.core.Response;
+import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
@@ -30,7 +31,7 @@ public class TenantControllerTest {
     @Test
     public void testGetTenant() {
         TenantModel tenantFixture = new TenantModel("id", "name");
-        when(tenantService.getTenant("id")).thenReturn(tenantFixture);
+        when(tenantService.getTenant("id")).thenReturn(Optional.of(tenantFixture));
 
         Response response = tenantController.tenantByUUID("id");
         ResponseEnvelope responseEnvelope = (ResponseEnvelope) response.getEntity();

@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 
 @Service
 public class TenantService {
@@ -20,7 +22,7 @@ public class TenantService {
         this.tenantRepository = tenantRepository;
     }
 
-    public TenantModel getTenant(String id) {
-        return tenantRepository.getTenant(id);
+    public Optional<TenantModel> getTenant(String id) {
+        return Optional.ofNullable(tenantRepository.getTenant(id));
     }
 }
