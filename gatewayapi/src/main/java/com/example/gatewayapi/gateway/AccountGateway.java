@@ -2,6 +2,8 @@ package com.example.gatewayapi.gateway;
 
 import com.example.account.model.AccountModel;
 import com.example.common.rest.envelope.ResponseEnvelope;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +20,8 @@ import java.util.Optional;
 
 @Component
 public class AccountGateway extends AbstractGateway {
+
+    private static final Logger log = LoggerFactory.getLogger(AccountGateway.class);
 
     @Value("${gateway.account.address}")
     private String SERVICE_URL;
@@ -36,24 +40,32 @@ public class AccountGateway extends AbstractGateway {
                         .request(MediaType.APPLICATION_JSON)
                         .get(Response.class);
 
-        return getAccountModel(response);
+        return getModel(response);
     }
 
 
 
     public Optional<AccountModel> getAccount(String tenantId, String email, String password) {
         Response response =
-                target.path(String.format("/%s?email=%s&password=%s", tenantId, email, password))
+                target.path("/" + tenantId)
+                        .queryParam("email", email)
+                        .queryParam("password", password)
                         .request(MediaType.APPLICATION_JSON)
                         .get(Response.class);
 
-        return getAccountModel(response);
+        return getModel(response);
     }
 
-
-    private Optional<AccountModel> getAccountModel(Response response) {
-        ResponseEnvelope<AccountModel> envelope = response.readEntity(new GenericType<ResponseEnvelope<AccountModel>>(){});
-        response.close();
+    private Optional<AccountModel> getModel(Response response) {
+        ResponseEnvelope<AccountModel> envelope;
+        try {
+            envelope = response.readEntity(new GenericType<ResponseEnvelope<AccountModel>>(){});
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+            return Optional.empty();
+        } finally {
+            response.close();
+        }
 
         if (response.getStatus() != 200 && envelope.getErrors() != null) {
             processErrors(envelope.getErrors());
@@ -64,6 +76,5 @@ public class AccountGateway extends AbstractGateway {
         }
         return Optional.empty();
     }
-
 
 }

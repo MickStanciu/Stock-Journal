@@ -2,6 +2,8 @@ package com.example.gatewayapi.gateway;
 
 import com.example.common.rest.envelope.ResponseEnvelope;
 import com.example.tenant.model.TenantModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +20,8 @@ import java.util.Optional;
 @Component
 public class TenantGateway extends AbstractGateway {
 
+    private static final Logger log = LoggerFactory.getLogger(TenantGateway.class);
+
     @Value("${gateway.tenant.address}")
     private String SERVICE_URL;
 
@@ -31,12 +35,23 @@ public class TenantGateway extends AbstractGateway {
 
     public Optional<TenantModel> getTenant(String tenantId) {
         Response response =
-            target.path("/" + tenantId + "/" + tenantId)
+            target.path("/" + tenantId)
                     .request(MediaType.APPLICATION_JSON)
                     .get(Response.class);
 
-        ResponseEnvelope<TenantModel> envelope = response.readEntity(new GenericType<ResponseEnvelope<TenantModel>>(){});
-        response.close();
+        return getModel(response);
+    }
+
+    private Optional<TenantModel> getModel(Response response) {
+        ResponseEnvelope<TenantModel> envelope;
+        try {
+            envelope = response.readEntity(new GenericType<ResponseEnvelope<TenantModel>>(){});
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+            return Optional.empty();
+        } finally {
+            response.close();
+        }
 
         if (response.getStatus() != 200 && envelope.getErrors() != null) {
             processErrors(envelope.getErrors());
