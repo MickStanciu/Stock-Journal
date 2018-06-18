@@ -1,4 +1,4 @@
-//package com.example.core.rest;
+//package com.example.core.controller;
 //
 //import javax.ws.rs.DefaultValue;
 //import javax.ws.rs.GET;

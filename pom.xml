@@ -47,7 +47,7 @@
         <!--<module>shop</module>-->
         <!--<module>availability</module>-->
         <!--<module>customer</module>-->
-        <!--<module>gatewayapi</module>-->
+        <module>gatewayapi</module>
         <!--<module>web</module>-->
         <module>timesheet</module>
     </modules>

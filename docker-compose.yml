@@ -22,20 +22,12 @@ services:
 #      - GATEWAY_API_ADDRESS=http://gatewayapi:8080
 #      - MOCK_SERVICES=true
 
-#  gatewayapi:
-#    build: gatewayapi/docker/.
-#    image: gatewayapi
-#    container_name: gatewayapi
-#    ports:
-#      - "8085:8080" #WildFly App
-#      - "8785:8787" #WildFly Debug
-#    volumes:
-#      - ./gatewayapi/target/gatewayapi.war:/opt/jboss/wildfly/standalone/deployments/gatewayapi.war
-#    environment:
-#      - CONSUL_ADDRESS=http://consul:8500
-#      - ACCOUNT_API_ADDRESS=http://accountapi:8080
-#      - TENANT_API_ADDRESS=http://tenantapi:8080
-#      - TIMESHEET_API_ADDRESS=http://coreapi:8080
+  gatewayapi:
+    build: gatewayapi/.
+    image: gatewayapi
+    container_name: gatewayapi
+    ports:
+      - "8085:8080" #App
 
   tenantapi:
     build: tenant/.

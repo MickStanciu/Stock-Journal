@@ -1,4 +1,4 @@
-//package com.example.gatewayapi.rest;
+//package com.example.gatewayapi.controller;
 //
 //import javax.ws.rs.*;
 //import javax.ws.rs.core.MediaType;

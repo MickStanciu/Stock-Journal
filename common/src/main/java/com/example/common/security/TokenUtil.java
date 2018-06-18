@@ -4,6 +4,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.TextCodec;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigInteger;
 import java.util.Date;
@@ -11,7 +13,7 @@ import java.util.Optional;
 
 public class TokenUtil {
 
-//    private static final Logger log = Logger.getLogger(TokenUtil.class);
+    private static final Logger log = LoggerFactory.getLogger(TokenUtil.class);
     private static final SignatureAlgorithm ALGORITHM = SignatureAlgorithm.HS256;
     private static final String SIGNATURE = "e8SZbGZiw59dw7E4IXDDuA==";
     public static final String ISSUER = "Bendis";
@@ -38,7 +40,7 @@ public class TokenUtil {
             Claims claims = getClaims(token);
             return ISSUER.equals(claims.getIssuer());
         } catch (Exception ex) {
-//            log.error("Token validation error! " + ex.getMessage());
+            log.error("Token validation error! " + ex.getMessage());
             return false;
         }
     }
@@ -54,7 +56,7 @@ public class TokenUtil {
             tokenClaims.setIssuer(claims.getIssuer());
             return Optional.of(tokenClaims);
         } catch (Exception ex) {
-//            log.error("Token validation error! " + ex.getMessage());
+            log.error("Token validation error! " + ex.getMessage());
             return Optional.empty();
         }
     }

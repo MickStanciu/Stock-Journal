@@ -1,4 +1,4 @@
-//package com.example.account.rest;
+//package com.example.account.controller;
 //
 //
 //import javax.ws.rs.*;
