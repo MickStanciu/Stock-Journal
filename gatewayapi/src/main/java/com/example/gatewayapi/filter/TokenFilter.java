@@ -32,12 +32,12 @@ public class TokenFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) {
-        absolutePath.add("/api/health/check");
-        absolutePath.add("/api/health/check/");
-        absolutePath.add("/api/error/401");
-        absolutePath.add("/api/error/401/");
+        absolutePath.add("/api/v1/health/check");
+        absolutePath.add("/api/v1/health/check/");
+        absolutePath.add("/api/v1/error/401");
+        absolutePath.add("/api/v1/error/401/");
 
-        startWithPath.add("/api/auth/");
+        startWithPath.add("/api/v1/auth/");
     }
 
     @Override
@@ -48,7 +48,7 @@ public class TokenFilter implements Filter {
         if(!skipFilter(request.getRequestURI())) {
             String token = request.getHeader(AUTH_KEY);
             if (!TokenUtil.validateToken(token)) {
-                response.sendRedirect("/api/error/401");
+                response.sendRedirect("/api/v1/error/401");
                 return;
             }
         }
