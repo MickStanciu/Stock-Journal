@@ -2,6 +2,7 @@ package com.example.gatewayapi.gateway;
 
 import com.example.common.rest.envelope.ResponseEnvelope;
 import com.example.core.model.TimeSheetEntryModel;
+import org.glassfish.jersey.client.ClientProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,6 +33,8 @@ public class TimesheetGateway extends AbstractGateway {
     @PostConstruct
     public void init() {
         Client client = ClientBuilder.newClient();
+        client.property(ClientProperties.CONNECT_TIMEOUT, 1000);
+        client.property(ClientProperties.READ_TIMEOUT,    1000);
         target = client.target(UriBuilder.fromPath(SERVICE_URL + "/api/v1"));
     }
 
