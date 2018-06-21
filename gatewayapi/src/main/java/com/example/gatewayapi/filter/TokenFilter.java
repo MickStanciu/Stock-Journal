@@ -13,11 +13,16 @@ import java.util.Set;
 @Order(1)
 public class TokenFilter implements Filter {
 
+    private final String API_PATH = "/api";
     private final String AUTH_KEY = "authkey";
     private Set<String> absolutePath = new HashSet<>();
     private Set<String> startWithPath = new HashSet<>();
 
     boolean skipFilter(String uri) {
+        if (!uri.startsWith(API_PATH)) {
+            return true;
+        }
+
         if (absolutePath.contains(uri)) {
             return true;
         }
@@ -32,12 +37,9 @@ public class TokenFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) {
-        absolutePath.add("/api/v1/health/check");
-        absolutePath.add("/api/v1/health/check/");
-        absolutePath.add("/api/v1/error/401");
-        absolutePath.add("/api/v1/error/401/");
-
         startWithPath.add("/api/v1/auth/");
+        startWithPath.add("/api/v1/health");
+        startWithPath.add("/api/v1/error");
     }
 
     @Override

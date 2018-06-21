@@ -11,7 +11,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Component
-@Path("/api/v1/error")
+@Path("/v1/error")
 @Produces(MediaType.APPLICATION_JSON)
 public class ErrorController {
 

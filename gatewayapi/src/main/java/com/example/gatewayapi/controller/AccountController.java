@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@Path("/api/v1/account")
+@Path("/v1/account")
 @Produces(MediaType.APPLICATION_JSON)
 public class AccountController extends AbstractController {
 

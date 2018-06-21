@@ -8,13 +8,19 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 @Component
-@Path("/api/v1")
 @Produces("application/json")
+@Path("/v1/health")
 public class HealthController {
 
     @GET
     @Path("/check")
     public Response pong() {
         return Response.status(Response.Status.OK).build();
+    }
+
+    @GET
+    @Path("/check2")
+    public Response pong2() {
+        return Response.status(Response.Status.OK).entity("Hey").build();
     }
 }
