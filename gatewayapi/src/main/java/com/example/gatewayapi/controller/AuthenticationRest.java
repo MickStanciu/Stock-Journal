@@ -19,7 +19,7 @@ import java.util.List;
 
 
 @Component
-@Path("/v1/auth")
+@Path("/api/v1/auth")
 @Produces(MediaType.APPLICATION_JSON)
 public class AuthenticationRest {
 

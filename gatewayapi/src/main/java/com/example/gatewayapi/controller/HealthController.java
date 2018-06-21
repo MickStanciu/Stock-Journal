@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response;
 
 @Component
 @Produces("application/json")
-@Path("/v1/health")
+@Path("/api/v1/health")
 public class HealthController {
 
     @GET

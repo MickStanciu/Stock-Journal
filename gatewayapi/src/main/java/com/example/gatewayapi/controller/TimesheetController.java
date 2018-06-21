@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@Path("/v1/timesheet")
+@Path("/api/v1/timesheet")
 @Produces("application/json")
 public class TimesheetController extends AbstractController {
 
