@@ -1,26 +1,23 @@
 package com.example.gatewayapi.controller;
 
-import org.springframework.stereotype.Component;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Response;
 
-@Component
-@Produces("application/json")
-@Path("/api/v1/health")
+@Controller
+@RequestMapping(value = "/api/v1/health", produces = MediaType.APPLICATION_JSON_VALUE)
 public class HealthController {
 
-    @GET
-    @Path("/check")
-    public Response pong() {
-        return Response.status(Response.Status.OK).build();
+    @RequestMapping(value = "/check")
+    public ResponseEntity pong() {
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    @GET
-    @Path("/check2")
-    public Response pong2() {
-        return Response.status(Response.Status.OK).entity("Hey").build();
+    @RequestMapping(value = "/check2")
+    public ResponseEntity pong2() {
+        return ResponseEntity.status(HttpStatus.OK).body("Hey");
     }
 }
