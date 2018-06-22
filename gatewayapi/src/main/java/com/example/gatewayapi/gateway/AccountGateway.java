@@ -5,6 +5,8 @@ import com.example.common.rest.envelope.ResponseEnvelope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -27,20 +29,23 @@ public class AccountGateway extends AbstractGateway {
 
     @PostConstruct
     public void init() {
-        RestTemplate restTemplate = new RestTemplate();
+        restTemplate = new RestTemplate();
     }
 
     public Optional<AccountModel> getAccount(String tenantId, BigInteger accountId) {
         String path = SERVICE_URL + "/api/v1/" + tenantId + "/" + accountId;
-        ResponseEntity response = restTemplate.getForObject(path, ResponseEntity.class);
+        ResponseEntity<ResponseEnvelope<AccountModel>> response = restTemplate.exchange(path, HttpMethod.GET, null, new ParameterizedTypeReference<ResponseEnvelope<AccountModel>>() {});
+
         if (response.getStatusCode() != HttpStatus.OK) {
             return Optional.empty();
         }
 
-        ResponseEnvelope<AccountModel> envelope = (ResponseEnvelope<AccountModel>) response.getBody();
+        ResponseEnvelope<AccountModel> envelope = response.getBody();
 
-        //todo:
-        //1. timeout
+        if (envelope.getErrors() != null) {
+            processErrors(envelope.getErrors());
+        }
+
         return Optional.of(envelope.getData());
     }
 
