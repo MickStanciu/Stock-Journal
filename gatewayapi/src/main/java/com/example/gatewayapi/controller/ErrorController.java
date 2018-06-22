@@ -1,26 +1,24 @@
-//package com.example.gatewayapi.controller;
-//
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-//import org.springframework.stereotype.Component;
-//
-//import javax.ws.rs.GET;
-//import javax.ws.rs.Path;
-//import javax.ws.rs.Produces;
-//import javax.ws.rs.core.MediaType;
-//import javax.ws.rs.core.Response;
-//
-//@Component
-//@Path("/api/v1/error")
-//@Produces(MediaType.APPLICATION_JSON)
-//public class ErrorController {
-//
-//    private static final Logger log = LoggerFactory.getLogger(ErrorController.class);
-//
-//    @GET
-//    @Path("/401")
-//    public Response e401() {
-//        log.error("Not authorized");
-//        return Response.status(Response.Status.UNAUTHORIZED).build();
-//    }
-//}
+package com.example.gatewayapi.controller;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+
+@Controller
+@RequestMapping(value = "/api/v1/error", produces = MediaType.APPLICATION_JSON_VALUE)
+public class ErrorController {
+
+    private static final Logger log = LoggerFactory.getLogger(ErrorController.class);
+
+    @RequestMapping(value = "/401", method = RequestMethod.GET)
+    public ResponseEntity e401() {
+        log.error("Not authorized");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+}

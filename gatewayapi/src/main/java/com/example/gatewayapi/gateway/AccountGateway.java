@@ -11,9 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.annotation.PostConstruct;
 import java.math.BigInteger;
+import java.net.URI;
 import java.util.Optional;
 
 
@@ -33,8 +35,13 @@ public class AccountGateway extends AbstractGateway {
     }
 
     public Optional<AccountModel> getAccount(String tenantId, BigInteger accountId) {
-        String path = SERVICE_URL + "/api/v1/" + tenantId + "/" + accountId;
-        ResponseEntity<ResponseEnvelope<AccountModel>> response = restTemplate.exchange(path, HttpMethod.GET, null, new ParameterizedTypeReference<ResponseEnvelope<AccountModel>>() {});
+        String pathTemplate = SERVICE_URL + "/api/v1/{tenantId}/{accountId}";
+        URI uri = UriComponentsBuilder.fromUriString(pathTemplate).build(tenantId, accountId);
+
+        ResponseEntity<ResponseEnvelope<AccountModel>> response =
+                restTemplate.exchange(uri, HttpMethod.GET, null,
+                        new ParameterizedTypeReference<ResponseEnvelope<AccountModel>>() {}
+                );
 
         if (response.getStatusCode() != HttpStatus.OK) {
             return Optional.empty();
