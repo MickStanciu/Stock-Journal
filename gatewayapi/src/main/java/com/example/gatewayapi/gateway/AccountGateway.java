@@ -36,7 +36,9 @@ public class AccountGateway extends AbstractGateway {
 
     public Optional<AccountModel> getAccount(String tenantId, BigInteger accountId) {
         String pathTemplate = SERVICE_URL + "/api/v1/{tenantId}/{accountId}";
-        URI uri = UriComponentsBuilder.fromUriString(pathTemplate).build(tenantId, accountId);
+        URI uri = UriComponentsBuilder
+                .fromUriString(pathTemplate)
+                .build(tenantId, accountId);
 
         ResponseEntity<ResponseEnvelope<AccountModel>> response =
                 restTemplate.exchange(uri, HttpMethod.GET, null,
