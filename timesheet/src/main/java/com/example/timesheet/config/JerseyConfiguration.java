@@ -1,14 +1,15 @@
 package com.example.timesheet.config;
 
+import com.example.timesheet.controller.HealthController;
+import com.example.timesheet.controller.TimeSheetController;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.stereotype.Component;
-
-import javax.xml.ws.Endpoint;
 
 
 @Component
 public class JerseyConfiguration extends ResourceConfig {
     public JerseyConfiguration() {
-        register(Endpoint.class);
+        register(HealthController.class);
+        register(TimeSheetController.class);
     }
 }

@@ -10,10 +10,8 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.annotation.PostConstruct;
 import java.math.BigInteger;
 import java.net.URI;
 import java.util.Optional;
@@ -27,21 +25,30 @@ public class AccountGateway extends AbstractGateway {
     @Value("${gateway.account.address}")
     private String SERVICE_URL;
 
-    private RestTemplate restTemplate;
-
-    @PostConstruct
-    public void init() {
-        restTemplate = new RestTemplate();
-    }
-
     public Optional<AccountModel> getAccount(String tenantId, BigInteger accountId) {
         String pathTemplate = SERVICE_URL + "/api/v1/{tenantId}/{accountId}";
         URI uri = UriComponentsBuilder
                 .fromUriString(pathTemplate)
                 .build(tenantId, accountId);
 
+        return getAccountModel(uri);
+    }
+
+    public Optional<AccountModel> getAccount(String tenantId, String email, String password) {
+        String pathTemplate = SERVICE_URL + "/api/v1/{tenantId}";
+        URI uri = UriComponentsBuilder
+                .fromUriString(pathTemplate)
+                .queryParam("email", email)
+                .queryParam("password", password)
+                .build(tenantId);
+
+        return getAccountModel(uri);
+    }
+
+
+    private Optional<AccountModel> getAccountModel(URI uri) {
         ResponseEntity<ResponseEnvelope<AccountModel>> response =
-                restTemplate.exchange(uri, HttpMethod.GET, null,
+                getRestTemplate().exchange(uri, HttpMethod.GET, null,
                         new ParameterizedTypeReference<ResponseEnvelope<AccountModel>>() {}
                 );
 
@@ -57,19 +64,5 @@ public class AccountGateway extends AbstractGateway {
 
         return Optional.of(envelope.getData());
     }
-
-
-
-//    public Optional<AccountModel> getAccount(String tenantId, String email, String password) {
-//        String path = SERVICE_URL + "/api/v1/" + tenantId;
-//        Response response =
-//                target.path("/" + tenantId)
-//                        .queryParam("email", email)
-//                        .queryParam("password", password)
-//                        .request(MediaType.APPLICATION_JSON)
-//                        .get(Response.class);
-//
-//        return getModel(response);
-//    }
 
 }

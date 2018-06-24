@@ -1,54 +1,59 @@
 package com.example.gatewayapi.gateway;
 
+import com.example.common.rest.envelope.ResponseEnvelope;
+import com.example.core.model.TimeSheetEntryModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.math.BigInteger;
+import java.net.URI;
+import java.util.Collections;
+import java.util.List;
 
 @Component
 public class TimesheetGateway extends AbstractGateway {
 
-//    private static final Logger log = LoggerFactory.getLogger(TimesheetGateway.class);
-//
-//    @Value("${gateway.timesheet.address}")
-//    private String SERVICE_URL;
-//
-//    private WebTarget target;
-//
-//    @PostConstruct
-//    public void init() {
-//        Client client = ClientBuilder.newClient();
-//        client.property(ClientProperties.CONNECT_TIMEOUT, 1000);
-//        client.property(ClientProperties.READ_TIMEOUT,    1000);
-//        target = client.target(UriBuilder.fromPath(SERVICE_URL + "/api/v1"));
-//    }
-//
-//
-//    public List<TimeSheetEntryModel> getTimesheetEntries(String tenantId, BigInteger accountId, String from, String to) {
-//        Response response =
-//                target.path("/" + tenantId + "/" + accountId)
-//                        .request(MediaType.APPLICATION_JSON)
-//                        .get(Response.class);
-//
-//        return getModel(response);
-//    }
-//
-//    private List<TimeSheetEntryModel> getModel(Response response) {
-//        ResponseEnvelope<List<TimeSheetEntryModel>> envelope;
-//        try {
-//            envelope = response.readEntity(new GenericType<ResponseEnvelope<List<TimeSheetEntryModel>>>(){});
-//        } catch (Exception ex) {
-//            log.error(ex.getMessage());
-//            return Collections.emptyList();
-//        } finally {
-//            response.close();
-//        }
-//
-//        if (response.getStatus() != 200 && envelope.getErrors() != null) {
-//            processErrors(envelope.getErrors());
-//        }
-//
-//        if (response.getStatus() == 200 && envelope.getData() != null) {
-//            return envelope.getData();
-//        }
-//        return Collections.emptyList();
-//    }
+    private static final Logger log = LoggerFactory.getLogger(TimesheetGateway.class);
+
+    @Value("${gateway.timesheet.address}")
+    private String SERVICE_URL;
+
+    public List<TimeSheetEntryModel> getTimesheetEntries(String tenantId, BigInteger accountId, String from, String to) {
+        String pathTemplate = SERVICE_URL + "/api/v1/{tenantId}/{accountId}";
+
+        URI uri = UriComponentsBuilder
+                .fromUriString(pathTemplate)
+                .queryParam("from", from)
+                .queryParam("to", to)
+                .build(tenantId, accountId);
+
+        return getTimeSheetModel(uri);
+    }
+
+    private List<TimeSheetEntryModel> getTimeSheetModel(URI uri) {
+        ResponseEntity<ResponseEnvelope<List<TimeSheetEntryModel>>> response =
+                getRestTemplate().exchange(uri, HttpMethod.GET, null,
+                        new ParameterizedTypeReference<ResponseEnvelope<List<TimeSheetEntryModel>>>() {}
+                );
+
+        if (response.getStatusCode() != HttpStatus.OK) {
+            return Collections.emptyList();
+        }
+
+        ResponseEnvelope<List<TimeSheetEntryModel>> envelope = response.getBody();
+
+        if (envelope.getErrors() != null) {
+            processErrors(envelope.getErrors());
+        }
+
+        return envelope.getData();
+    }
 
 }

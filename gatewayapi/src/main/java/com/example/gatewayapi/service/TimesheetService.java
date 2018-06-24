@@ -1,6 +1,7 @@
 package com.example.gatewayapi.service;
 
 import com.example.core.model.TimeSheetEntryModel;
+import com.example.gatewayapi.exception.ExceptionCode;
 import com.example.gatewayapi.exception.GatewayApiException;
 import com.example.gatewayapi.gateway.TimesheetGateway;
 import org.slf4j.Logger;
@@ -24,12 +25,11 @@ public class TimesheetService {
     }
 
     public List<TimeSheetEntryModel> getTimesheetEntries(String tenantId, BigInteger accountId, String from, String to) throws GatewayApiException {
-//        List<TimeSheetEntryModel> entryList = timesheetGateway.getTimesheetEntries(tenantId, accountId, from, to);
-//        if (entryList == null || entryList.isEmpty()) {
-//            throw new GatewayApiException(ExceptionCode.TIMESHEET_EMPTY);
-//        }
-//
-//        return entryList;
-        return null;
+        List<TimeSheetEntryModel> entryList = timesheetGateway.getTimesheetEntries(tenantId, accountId, from, to);
+        if (entryList == null || entryList.isEmpty()) {
+            throw new GatewayApiException(ExceptionCode.TIMESHEET_EMPTY);
+        }
+
+        return entryList;
     }
 }
