@@ -4,6 +4,7 @@ import com.example.account.model.AccountModel;
 import com.example.common.rest.envelope.ResponseEnvelope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.math.BigInteger;
@@ -25,6 +27,13 @@ public class AccountGateway extends AbstractGateway {
 
     @Value("${gateway.account.address}")
     private String SERVICE_URL;
+
+    private RestTemplate restTemplate;
+
+    @Autowired
+    public AccountGateway(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     public Optional<AccountModel> getAccount(String tenantId, BigInteger accountId) {
         String pathTemplate = SERVICE_URL + "/api/v1/{tenantId}/{accountId}";
@@ -50,7 +59,7 @@ public class AccountGateway extends AbstractGateway {
     private Optional<AccountModel> getAccountModel(URI uri) {
         ResponseEntity<ResponseEnvelope<AccountModel>> response;
         try {
-            response = getRestTemplate().exchange(uri, HttpMethod.GET, null,
+            response = this.restTemplate.exchange(uri, HttpMethod.GET, null,
                     new ParameterizedTypeReference<ResponseEnvelope<AccountModel>>() {
                     }
             );

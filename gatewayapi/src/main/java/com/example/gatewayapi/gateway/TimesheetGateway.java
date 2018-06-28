@@ -4,6 +4,7 @@ import com.example.common.rest.envelope.ResponseEnvelope;
 import com.example.core.model.TimeSheetEntryModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.math.BigInteger;
@@ -25,6 +27,13 @@ public class TimesheetGateway extends AbstractGateway {
 
     @Value("${gateway.timesheet.address}")
     private String SERVICE_URL;
+
+    private RestTemplate restTemplate;
+
+    @Autowired
+    public TimesheetGateway(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     public List<TimeSheetEntryModel> getTimesheetEntries(String tenantId, BigInteger accountId, String from, String to) {
         String pathTemplate = SERVICE_URL + "/api/v1/{tenantId}/{accountId}";
@@ -42,7 +51,7 @@ public class TimesheetGateway extends AbstractGateway {
         ResponseEntity<ResponseEnvelope<List<TimeSheetEntryModel>>> response;
 
         try {
-            response = getRestTemplate().exchange(uri, HttpMethod.GET, null,
+            response = this.restTemplate.exchange(uri, HttpMethod.GET, null,
                             new ParameterizedTypeReference<ResponseEnvelope<List<TimeSheetEntryModel>>>() {}
                     );
         } catch (HttpStatusCodeException ex) {

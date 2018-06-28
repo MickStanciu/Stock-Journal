@@ -11,7 +11,15 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -73,6 +81,12 @@ public class AccountController {
             @PathParam("tenantId") @DefaultValue("0") String tenantId,
             @PathParam("accountId") @DefaultValue("0") BigInteger accountId
     ) {
+
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         if (!RequestValidation.validateGetAccount(tenantId, accountId)) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }

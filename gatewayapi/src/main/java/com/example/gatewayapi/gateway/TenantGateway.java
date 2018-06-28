@@ -4,6 +4,7 @@ import com.example.common.rest.envelope.ResponseEnvelope;
 import com.example.tenant.model.TenantModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -23,6 +25,13 @@ public class TenantGateway extends AbstractGateway {
 
     @Value("${gateway.tenant.address}")
     private String SERVICE_URL;
+
+    private RestTemplate restTemplate;
+
+    @Autowired
+    public TenantGateway(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     public Optional<TenantModel> getTenant(String tenantId) {
         String pathTemplate = SERVICE_URL + "/api/v1/{tenantId}";
@@ -37,7 +46,7 @@ public class TenantGateway extends AbstractGateway {
         ResponseEntity<ResponseEnvelope<TenantModel>> response;
 
         try {
-            response = getRestTemplate().exchange(uri, HttpMethod.GET, null,
+            response = this.restTemplate.exchange(uri, HttpMethod.GET, null,
                         new ParameterizedTypeReference<ResponseEnvelope<TenantModel>>() {}
                 );
         } catch (HttpStatusCodeException ex) {

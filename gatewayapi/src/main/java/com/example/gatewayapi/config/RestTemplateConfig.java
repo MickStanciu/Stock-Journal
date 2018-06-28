@@ -5,15 +5,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.concurrent.TimeUnit;
+
 @Configuration
 public class RestTemplateConfig {
+    private final int TIMEOUT = (int) TimeUnit.SECONDS.toMillis(2);
 
     @Bean
-    public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder)
-    {
+    public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
+
         return restTemplateBuilder
-                .setConnectTimeout(500)
-                .setReadTimeout(500)
+                .setConnectTimeout(TIMEOUT)
+                .setReadTimeout(TIMEOUT)
                 .build();
     }
 }
