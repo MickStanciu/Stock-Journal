@@ -26,11 +26,9 @@ public class TenantGateway extends AbstractGateway {
     @Value("${gateway.tenant.address}")
     private String SERVICE_URL;
 
-    private RestTemplate restTemplate;
-
     @Autowired
     public TenantGateway(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+        super(restTemplate);
     }
 
     public Optional<TenantModel> getTenant(String tenantId) {
@@ -46,7 +44,7 @@ public class TenantGateway extends AbstractGateway {
         ResponseEntity<ResponseEnvelope<TenantModel>> response;
 
         try {
-            response = this.restTemplate.exchange(uri, HttpMethod.GET, null,
+            response = getRestTemplate().exchange(uri, HttpMethod.GET, null,
                         new ParameterizedTypeReference<ResponseEnvelope<TenantModel>>() {}
                 );
         } catch (HttpStatusCodeException ex) {

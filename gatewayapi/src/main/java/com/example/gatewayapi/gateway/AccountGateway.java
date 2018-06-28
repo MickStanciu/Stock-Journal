@@ -28,11 +28,9 @@ public class AccountGateway extends AbstractGateway {
     @Value("${gateway.account.address}")
     private String SERVICE_URL;
 
-    private RestTemplate restTemplate;
-
     @Autowired
     public AccountGateway(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+        super(restTemplate);
     }
 
     public Optional<AccountModel> getAccount(String tenantId, BigInteger accountId) {
@@ -59,7 +57,7 @@ public class AccountGateway extends AbstractGateway {
     private Optional<AccountModel> getAccountModel(URI uri) {
         ResponseEntity<ResponseEnvelope<AccountModel>> response;
         try {
-            response = this.restTemplate.exchange(uri, HttpMethod.GET, null,
+            response = getRestTemplate().exchange(uri, HttpMethod.GET, null,
                     new ParameterizedTypeReference<ResponseEnvelope<AccountModel>>() {
                     }
             );

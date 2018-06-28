@@ -28,11 +28,9 @@ public class TimesheetGateway extends AbstractGateway {
     @Value("${gateway.timesheet.address}")
     private String SERVICE_URL;
 
-    private RestTemplate restTemplate;
-
     @Autowired
     public TimesheetGateway(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
+        super(restTemplate);
     }
 
     public List<TimeSheetEntryModel> getTimesheetEntries(String tenantId, BigInteger accountId, String from, String to) {
@@ -51,7 +49,7 @@ public class TimesheetGateway extends AbstractGateway {
         ResponseEntity<ResponseEnvelope<List<TimeSheetEntryModel>>> response;
 
         try {
-            response = this.restTemplate.exchange(uri, HttpMethod.GET, null,
+            response = getRestTemplate().exchange(uri, HttpMethod.GET, null,
                             new ParameterizedTypeReference<ResponseEnvelope<List<TimeSheetEntryModel>>>() {}
                     );
         } catch (HttpStatusCodeException ex) {
