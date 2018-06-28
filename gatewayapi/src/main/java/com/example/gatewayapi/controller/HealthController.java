@@ -16,9 +16,4 @@ public class HealthController {
     public ResponseEntity pong() {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
-
-    @RequestMapping(value = "/check2", method = RequestMethod.GET)
-    public ResponseEntity pong2() {
-        return ResponseEntity.status(HttpStatus.OK).body("Hey");
-    }
 }

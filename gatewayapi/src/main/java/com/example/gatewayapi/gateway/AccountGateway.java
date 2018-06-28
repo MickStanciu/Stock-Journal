@@ -7,9 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.math.BigInteger;
@@ -47,12 +48,17 @@ public class AccountGateway extends AbstractGateway {
 
 
     private Optional<AccountModel> getAccountModel(URI uri) {
-        ResponseEntity<ResponseEnvelope<AccountModel>> response =
-                getRestTemplate().exchange(uri, HttpMethod.GET, null,
-                        new ParameterizedTypeReference<ResponseEnvelope<AccountModel>>() {}
-                );
-
-        if (response.getStatusCode() != HttpStatus.OK) {
+        ResponseEntity<ResponseEnvelope<AccountModel>> response;
+        try {
+            response = getRestTemplate().exchange(uri, HttpMethod.GET, null,
+                    new ParameterizedTypeReference<ResponseEnvelope<AccountModel>>() {
+                    }
+            );
+        } catch (HttpStatusCodeException ex) {
+            log.error("ReferralRockResponseModel Rock API failed with code {}", ex.getStatusCode().toString(), ex);
+            return Optional.empty();
+        } catch (RestClientException ex) {
+            log.error("Rest client exception", ex);
             return Optional.empty();
         }
 

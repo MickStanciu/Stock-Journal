@@ -7,9 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
@@ -33,12 +34,17 @@ public class TenantGateway extends AbstractGateway {
     }
 
     private Optional<TenantModel> getTenantModel(URI uri) {
-        ResponseEntity<ResponseEnvelope<TenantModel>> response =
-                getRestTemplate().exchange(uri, HttpMethod.GET, null,
+        ResponseEntity<ResponseEnvelope<TenantModel>> response;
+
+        try {
+            response = getRestTemplate().exchange(uri, HttpMethod.GET, null,
                         new ParameterizedTypeReference<ResponseEnvelope<TenantModel>>() {}
                 );
-
-        if (response.getStatusCode() != HttpStatus.OK) {
+        } catch (HttpStatusCodeException ex) {
+            log.error("ReferralRockResponseModel Rock API failed with code {}", ex.getStatusCode().toString(), ex);
+            return Optional.empty();
+        } catch (RestClientException ex) {
+            log.error("Rest client exception", ex);
             return Optional.empty();
         }
 

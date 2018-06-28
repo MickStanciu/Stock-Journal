@@ -7,9 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.math.BigInteger;
@@ -38,12 +39,17 @@ public class TimesheetGateway extends AbstractGateway {
     }
 
     private List<TimeSheetEntryModel> getTimeSheetModel(URI uri) {
-        ResponseEntity<ResponseEnvelope<List<TimeSheetEntryModel>>> response =
-                getRestTemplate().exchange(uri, HttpMethod.GET, null,
-                        new ParameterizedTypeReference<ResponseEnvelope<List<TimeSheetEntryModel>>>() {}
-                );
+        ResponseEntity<ResponseEnvelope<List<TimeSheetEntryModel>>> response;
 
-        if (response.getStatusCode() != HttpStatus.OK) {
+        try {
+            response = getRestTemplate().exchange(uri, HttpMethod.GET, null,
+                            new ParameterizedTypeReference<ResponseEnvelope<List<TimeSheetEntryModel>>>() {}
+                    );
+        } catch (HttpStatusCodeException ex) {
+            log.error("ReferralRockResponseModel Rock API failed with code {}", ex.getStatusCode().toString(), ex);
+            return Collections.emptyList();
+        } catch (RestClientException ex) {
+            log.error("Rest client exception", ex);
             return Collections.emptyList();
         }
 
