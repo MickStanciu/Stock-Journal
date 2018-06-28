@@ -81,12 +81,6 @@ public class AccountController {
             @PathParam("tenantId") @DefaultValue("0") String tenantId,
             @PathParam("accountId") @DefaultValue("0") BigInteger accountId
     ) {
-
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         if (!RequestValidation.validateGetAccount(tenantId, accountId)) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
