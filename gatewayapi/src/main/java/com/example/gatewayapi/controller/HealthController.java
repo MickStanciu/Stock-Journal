@@ -16,7 +16,7 @@ public class HealthController {
 
     private static final Logger log = LoggerFactory.getLogger(HealthController.class);
 
-    @RequestMapping(value = "/check", method = RequestMethod.GET)
+    @RequestMapping(value = "/ping", method = RequestMethod.GET)
     public ResponseEntity pong() {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
