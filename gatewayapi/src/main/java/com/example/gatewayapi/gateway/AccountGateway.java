@@ -1,6 +1,8 @@
 package com.example.gatewayapi.gateway;
 
 import com.example.account.model.AccountModel;
+import com.example.account.model.RoleInfoModel;
+import com.example.account.model.RoleModel;
 import com.example.common.rest.envelope.ResponseEnvelope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +19,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.math.BigInteger;
 import java.net.URI;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 
 @Component
@@ -34,12 +38,34 @@ public class AccountGateway extends AbstractGateway {
     }
 
     public Optional<AccountModel> getAccount(String tenantId, BigInteger accountId) {
-        String pathTemplate = SERVICE_URL + "/api/v1/{tenantId}/{accountId}";
-        URI uri = UriComponentsBuilder
-                .fromUriString(pathTemplate)
-                .build(tenantId, accountId);
+//        String pathTemplate = SERVICE_URL + "/api/v1/{tenantId}/{accountId}";
+//        URI uri = UriComponentsBuilder
+//                .fromUriString(pathTemplate)
+//                .build(tenantId, accountId);
+//
+//        return getAccountModel(uri);
 
-        return getAccountModel(uri);
+        Set<RoleInfoModel> roles = new HashSet<>();
+        roles.add(RoleInfoModel.LOG_IN);
+        roles.add(RoleInfoModel.CREATE_ACCOUNT);
+
+        AccountModel model = AccountModel.builder()
+                .havingPersonalDetails()
+                    .withFlagActive(true)
+                    .withTenantId("123")
+                    .withEmail("test@example.com")
+                    .withName("Mick")
+                    .withPassword("123")
+                    .withId(BigInteger.ONE)
+                .havingRole()
+                    .withRoleId(1)
+                    .withRole(RoleModel.builder()
+                            .withPermissions(roles)
+                            .withId(1)
+                            .withName("TEST ROLE")
+                            .build())
+                .build();
+        return Optional.of(model);
     }
 
     public Optional<AccountModel> getAccount(String tenantId, String email, String password) {

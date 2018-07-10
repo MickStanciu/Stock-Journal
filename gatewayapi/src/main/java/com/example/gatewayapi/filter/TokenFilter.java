@@ -1,9 +1,13 @@
 package com.example.gatewayapi.filter;
 
-import com.example.common.security.TokenUtil;
 import org.springframework.core.annotation.Order;
 
-import javax.servlet.*;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -49,7 +53,7 @@ public class TokenFilter implements Filter {
 
         if(!skipFilter(request.getRequestURI())) {
             String token = request.getHeader(AUTH_KEY);
-            if (!TokenUtil.validateToken(token)) {
+            if (token == null || token.length() == 0) {
                 response.sendRedirect("/api/v1/error/401");
                 return;
             }
