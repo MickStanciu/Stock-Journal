@@ -17,9 +17,9 @@ import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 
-public class TimeSheetGateway extends AbstractGateway {
+public class pula extends AbstractGateway {
 
-    private static final Logger log = LoggerFactory.getLogger(TimeSheetGateway.class);
+    private static final Logger log = LoggerFactory.getLogger(pula.class);
 
     @Inject
     @Property("gateway.timesheet.address")
