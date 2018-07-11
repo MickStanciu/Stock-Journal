@@ -1,11 +1,7 @@
 package com.example.gatewayapi.configuration;
 
 
-import com.example.gatewayapi.rest.AccountResource;
-import com.example.gatewayapi.rest.AuthenticationResource;
-import com.example.gatewayapi.rest.ErrorResource;
-import com.example.gatewayapi.rest.HealthResource;
-import com.example.gatewayapi.rest.TimesSheetResource;
+import com.example.gatewayapi.rest.*;
 
 import javax.ws.rs.core.Application;
 import java.util.HashSet;

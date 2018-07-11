@@ -23,7 +23,7 @@ services:
 #      - MOCK_SERVICES=true
 
   gatewayapi:
-    build: gatewayapi/.
+    build: gateway-api/.
     image: gatewayapi
     container_name: gatewayapi
     ports:
