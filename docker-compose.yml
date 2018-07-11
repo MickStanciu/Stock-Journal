@@ -30,7 +30,7 @@ services:
       - "8085:8080" #App
 
   tenantapi:
-    build: tenant/.
+    build: tenant.spring/.
     image: tenantapi
     container_name: tenantapi
     ports:
