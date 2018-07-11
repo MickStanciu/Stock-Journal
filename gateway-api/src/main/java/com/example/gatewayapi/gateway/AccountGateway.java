@@ -5,7 +5,6 @@ import com.example.account.model.RoleInfoModel;
 import com.example.account.model.RoleModel;
 import com.example.common.rest.envelope.ResponseEnvelope;
 import com.example.common.util.UriBuilder;
-import com.example.gatewayapi.configuration.Property;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +27,6 @@ public class AccountGateway extends AbstractGateway {
     private static final Logger log = LoggerFactory.getLogger(AccountGateway.class);
 
     @Inject
-    @Property("gateway.account.address")
     private String SERVICE_URL = "localhost";
 
     @PostConstruct

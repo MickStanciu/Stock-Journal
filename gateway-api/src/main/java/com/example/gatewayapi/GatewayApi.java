@@ -1,6 +1,6 @@
 package com.example.gatewayapi;
 
-import com.example.gatewayapi.configuration.PropertiesUtil;
+import com.example.common.property.PropertiesUtil;
 import com.example.gatewayapi.configuration.RestEasyConfig;
 import com.example.gatewayapi.filter.TokenFilter;
 import io.undertow.Undertow;

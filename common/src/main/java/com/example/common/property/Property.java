@@ -1,4 +1,4 @@
-package com.example.tenantapi.configuration;
+package com.example.common.property;
 
 import javax.enterprise.util.Nonbinding;
 import javax.inject.Qualifier;

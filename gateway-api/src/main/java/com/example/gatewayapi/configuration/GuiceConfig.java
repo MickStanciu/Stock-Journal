@@ -1,4 +1,4 @@
-package com.example.gatewayapi.configuration;//package com.example.gatewayapi.configuration;
+package com.example.gatewayapi.configuration;//package com.example.gatewayapi.property;
 //
 //import com.example.gatewayapi.rest.AccountResource;
 //import com.google.inject.Binder;

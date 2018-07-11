@@ -1,4 +1,4 @@
-package com.example.tenantapi.configuration;
+package com.example.common.property;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

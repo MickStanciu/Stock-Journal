@@ -1,24 +1,21 @@
 package com.example.tenantapi;
 
-import com.example.gatewayapi.configuration.PropertiesUtil;
-import com.example.gatewayapi.configuration.RestEasyConfig;
-import com.example.gatewayapi.filter.TokenFilter;
+import com.example.common.property.PropertiesUtil;
+import com.example.tenantapi.configuration.RestEasyConfig;
 import io.undertow.Undertow;
 import io.undertow.servlet.Servlets;
 import io.undertow.servlet.api.DeploymentInfo;
-import io.undertow.servlet.api.FilterInfo;
 import org.jboss.resteasy.plugins.server.undertow.UndertowJaxrsServer;
 import org.jboss.resteasy.spi.ResteasyDeployment;
 import org.jboss.weld.environment.servlet.Listener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.servlet.DispatcherType;
 import java.util.Properties;
 
 public class TenantApi {
 
-    private static final Logger log = LoggerFactory.getLogger(GatewayApi.class);
+    private static final Logger log = LoggerFactory.getLogger(TenantApi.class);
 
     public static void main(String[] args) {
         PropertiesUtil propertiesUtil = new PropertiesUtil();
@@ -31,11 +28,8 @@ public class TenantApi {
         deployment.setInjectorFactoryClass("org.jboss.resteasy.cdi.CdiInjectorFactory");
 
         DeploymentInfo deploymentInfo = server.undertowDeployment(deployment)
-                .setClassLoader(GatewayApi.class.getClassLoader())
+                .setClassLoader(TenantApi.class.getClassLoader())
                 .setContextPath("/rest")
-                .addFilter(new FilterInfo("TokenFilter", TokenFilter.class))
-                .addFilterUrlMapping("TokenFilter", "/*", DispatcherType.REQUEST)
-                .addFilterUrlMapping("TokenFilter", "/*", DispatcherType.FORWARD)
                 .addListener(Servlets.listener(Listener.class))
                 .setDeploymentName("Undertow RestEasy Weld");
 

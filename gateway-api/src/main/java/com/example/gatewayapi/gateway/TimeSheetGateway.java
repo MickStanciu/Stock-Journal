@@ -2,7 +2,6 @@ package com.example.gatewayapi.gateway;
 
 import com.example.common.rest.envelope.ResponseEnvelope;
 import com.example.common.util.UriBuilder;
-import com.example.gatewayapi.configuration.Property;
 import com.example.timesheet.model.TimeSheetEntryModel;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.slf4j.Logger;
@@ -22,7 +21,6 @@ public class TimeSheetGateway extends AbstractGateway {
     private static final Logger log = LoggerFactory.getLogger(TimeSheetGateway.class);
 
     @Inject
-    @Property("gateway.timesheet.address")
     private String SERVICE_URL = "localhost";
 
     public List<TimeSheetEntryModel> getTimeSheetEntries(String tenantId, BigInteger accountId, String from, String to) {
