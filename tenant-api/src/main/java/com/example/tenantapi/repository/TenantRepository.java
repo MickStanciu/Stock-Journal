@@ -31,31 +31,22 @@ public class TenantRepository {
     }
 
     public TenantModel getTenant(String id) {
-        TenantModel result = conn.getJdbi().withHandle(handle ->
+        return conn.getJdbi().withHandle(handle ->
             handle
                 .createQuery(TENANT_READ_QUERY)
                 .bind(0, id)
                 .map(new TenantModelRowMapper())
                 .findOnly()
         );
-
-
-//        Object [] map = new Object[]{id};
-//        List<TenantModel> results = jdbcTemplate.query(TENANT_READ_QUERY, map, new TenantModelRowMapper());
-//
-//        if (results.size() == 0) {
-//            return null;
-//        }
-//
-//        return results.get(0);
-        return null;
     }
 
 
     public boolean checkFirstRecord() {
-//        List list = jdbcTemplate.queryForList(TENANT_READ_FIRST_QUERY);
-//        return list.size() == 1;
-        return true;
+        return conn.getJdbi().withHandle(handle ->
+            handle
+                .createQuery(TENANT_READ_FIRST_QUERY)
+                .mapToMap().list()
+        ).size() == 1;
     }
 
     private TenantModel map(Map<String, Object> result) {
@@ -67,17 +58,8 @@ class TenantModelRowMapper implements RowMapper<TenantModel> {
 
     @Override
     public TenantModel map(ResultSet rs, StatementContext ctx) throws SQLException {
-        return null;
+        String tenant_id = rs.getString("tenant_id");
+        String tenant_name = rs.getString("tenant_name");
+        return new TenantModel(tenant_id, tenant_name);
     }
 }
-
-//class TenantModelRowMapper implements RowMapper<TenantModel> {
-//
-//    @Override
-//    public TenantModel mapRow(ResultSet resultSet, int i) throws SQLException {
-//        String tenant_id = resultSet.getString("tenant_id");
-//        String tenant_name = resultSet.getString("tenant_name");
-//
-//        return new TenantModel(tenant_id, tenant_name);
-//    }
-//}
