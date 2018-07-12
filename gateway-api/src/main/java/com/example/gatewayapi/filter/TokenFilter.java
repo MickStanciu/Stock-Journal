@@ -1,6 +1,11 @@
 package com.example.gatewayapi.filter;
 
-import javax.servlet.*;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -33,9 +38,9 @@ public class TokenFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) {
-        startWithPath.add(API_PATH + "/v2/auth/");
-        startWithPath.add(API_PATH + "/v2/health");
-        startWithPath.add(API_PATH + "/v2/error");
+        startWithPath.add(API_PATH + "/v1/auth/");
+        startWithPath.add(API_PATH + "/v1/health");
+        startWithPath.add(API_PATH + "/v1/error");
     }
 
     @Override
@@ -46,7 +51,7 @@ public class TokenFilter implements Filter {
         if(!skipFilter(request.getRequestURI())) {
             String token = request.getHeader(AUTH_KEY);
             if (token == null || token.length() == 0) {
-                response.sendRedirect(API_PATH + "/v2/error/401");
+                response.sendRedirect(API_PATH + "/v1/error/401");
                 return;
             }
         }
