@@ -22,30 +22,30 @@ services:
 #      - GATEWAY_API_ADDRESS=http://gatewayapi:8080
 #      - MOCK_SERVICES=true
 
-  gatewayapi:
-    build: gateway-api/.
-    image: gatewayapi
-    container_name: gatewayapi
-    ports:
-      - "8085:8080" #App
+#  gatewayapi:
+#    build: gateway-api/.
+#    image: gatewayapi
+#    container_name: gatewayapi
+#    ports:
+#      - "8085:8080" #App
 
-  tenantapi:
-    build: tenant.spring/.
-    image: tenantapi
-    container_name: tenantapi
-    ports:
-      - "8081:8080" #App
-    depends_on:
-      - postgresql
+#  tenantapi:
+#    build: tenant.spring/.
+#    image: tenantapi
+#    container_name: tenantapi
+#    ports:
+#      - "8081:8080" #App
+#    depends_on:
+#      - postgresql
 
-  accountapi:
-    build: account/.
-    image: accountapi
-    container_name: accountapi
-    ports:
-      - "8082:8080" #App
-    depends_on:
-      - postgresql
+#  accountapi:
+#    build: account/.
+#    image: accountapi
+#    container_name: accountapi
+#    ports:
+#      - "8082:8080" #App
+#    depends_on:
+#      - postgresql
 
 #  customerapi:
 #    build: customer/docker/.
@@ -59,14 +59,14 @@ services:
 #    depends_on:
 #      - postgresql
 
-  timesheetapi:
-    build: timesheet/.
-    image: timesheetapi
-    container_name: timesheetapi
-    ports:
-      - "8084:8080" #App
-    depends_on:
-      - postgresql
+#  timesheetapi:
+#    build: timesheet/.
+#    image: timesheetapi
+#    container_name: timesheetapi
+#    ports:
+#      - "8084:8080" #App
+#    depends_on:
+#      - postgresql
 
   postgresql:
     build: docker/database-server/.

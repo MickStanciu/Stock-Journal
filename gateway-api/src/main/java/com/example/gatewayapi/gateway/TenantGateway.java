@@ -2,6 +2,7 @@ package com.example.gatewayapi.gateway;
 
 import com.example.common.rest.envelope.ResponseEnvelope;
 import com.example.common.util.UriBuilder;
+import com.example.gatewayapi.configuration.Property;
 import com.example.tenant.model.TenantModel;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.slf4j.Logger;
@@ -19,7 +20,8 @@ public class TenantGateway extends AbstractGateway {
     private static final Logger log = LoggerFactory.getLogger(TenantGateway.class);
 
     @Inject
-    private String SERVICE_URL = "localhost";;
+    @Property("gateway.tenant.address")
+    private String SERVICE_URL;
 
     public Optional<TenantModel> getTenant(String tenantId) {
         UriBuilder builder = UriBuilder.builder(SERVICE_URL)

@@ -1,4 +1,4 @@
-package com.example.common.property;
+package com.example.gatewayapi.configuration;
 
 import javax.enterprise.util.Nonbinding;
 import javax.inject.Qualifier;

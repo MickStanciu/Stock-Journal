@@ -1,19 +1,20 @@
 package com.example.tenantapi.service;
 
 import com.example.tenant.model.HealthModel;
-import com.example.tenant.repository.TenantRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.example.tenantapi.repository.TenantRepository;
+
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
 
-@Service
+@Singleton
 public class HealthService {
 
     private final HealthModel health;
 
     private TenantRepository tenantRepository;
 
-    @Autowired
+    @Inject
     public HealthService(TenantRepository tenantRepository) {
         this.tenantRepository = tenantRepository;
         health = new HealthModel();

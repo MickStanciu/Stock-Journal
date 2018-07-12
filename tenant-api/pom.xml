@@ -16,8 +16,21 @@
         <weld.version>2.4.7.Final</weld.version>
         <javax.el.version>3.0.0</javax.el.version>
         <resteasy.version>3.6.0.Final</resteasy.version>
+        <jdbi.version>3.3.0</jdbi.version>
         <slf4j.version>1.7.25</slf4j.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.jdbi</groupId>
+                <artifactId>jdbi3-bom</artifactId>
+                <type>pom</type>
+                <version>${jdbi.version}</version>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <!-- Undertow -->
@@ -81,6 +94,17 @@
             <groupId>javax.el</groupId>
             <artifactId>javax.el-api</artifactId>
             <version>${javax.el.version}</version>
+        </dependency>
+
+        <!-- JDBI -->
+        <dependency>
+            <groupId>org.jdbi</groupId>
+            <artifactId>jdbi3-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jdbi</groupId>
+            <artifactId>jdbi3-postgres</artifactId>
         </dependency>
 
         <!-- Log -->
