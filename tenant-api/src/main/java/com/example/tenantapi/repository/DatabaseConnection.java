@@ -2,6 +2,7 @@ package com.example.tenantapi.repository;
 
 import com.example.tenantapi.configuration.Property;
 import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.postgres.PostgresPlugin;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -28,11 +29,13 @@ public class DatabaseConnection {
 
     @PostConstruct
     public void init() {
-        jdbi = Jdbi.create(JDBC_URL, dbUser, dbPass);
+        jdbi = Jdbi
+                .create(JDBC_URL, dbUser, dbPass)
+                .installPlugin(new PostgresPlugin());
 
     }
 
-    public Jdbi getJdbi() {
+    Jdbi getJdbi() {
         return jdbi;
     }
 }
