@@ -1,8 +1,10 @@
 package com.example.gatewayapi.rest;
 
-import com.google.cloud.dialogflow.v2.Agent;
-import com.google.cloud.dialogflow.v2.AgentsClient;
-import com.google.cloud.dialogflow.v2.ProjectName;
+import com.google.cloud.dialogflow.v2.DetectIntentResponse;
+import com.google.cloud.dialogflow.v2.QueryInput;
+import com.google.cloud.dialogflow.v2.SessionName;
+import com.google.cloud.dialogflow.v2.SessionsClient;
+import com.google.cloud.dialogflow.v2.TextInput;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -27,10 +29,32 @@ public class HealthResource {
     @GET
     @Path("/dialog")
     public Response dialogFlow() throws IOException {
-        try (AgentsClient agentsClient = AgentsClient.create()) {
-            ProjectName parent = ProjectName.of("[ChatBot]");
-            Agent response = agentsClient.getAgent(parent);
+        String projectId = "1";
+        String sessionId = "2";
+        String languageCode = "en";
+        String text = "I want to cancel";
+//        GoogleCredentials credentials = GoogleCredentials.fromStream(getResources().getAssets().open("Test-9d8a744b520a.json"))
+//                .createScoped(newArrayList("https://www.googleapis.com/auth/compute"));
+//        credentials.toBuilder().build();
+//
+//        AgentsSettings.Builder agentsSettingsBuilder = AgentsSettings.newBuilder();
+//        agentsSettingsBuilder.getAgentSettings().getRetrySettings().toBuilder()
+//                .setTotalTimeout(Duration.ofSeconds(30));
+////        agentsSettingsBuilder.getCredentialsProvider().getCredentials().getRequestMetadata().put()
+//        AgentsSettings settings = agentsSettingsBuilder.build();
+
+        try (SessionsClient sessionsClient = SessionsClient.create()) {
+            SessionName session = SessionName.of(projectId, sessionId);
+
+            TextInput.Builder textInput = TextInput.newBuilder().setText(text).setLanguageCode(languageCode);
+            QueryInput queryInput = QueryInput.newBuilder().setText(textInput).build();
+
+            DetectIntentResponse response = sessionsClient.detectIntent(session, queryInput);
         }
+//        try (AgentsClient agentsClient = AgentsClient.create(settings)) {
+//            ProjectName parent = ProjectName.of("[ChatBot]");
+//            Agent response = agentsClient.getAgent(parent);
+//        }
 
         return Response
                 .status(Response.Status.OK)
