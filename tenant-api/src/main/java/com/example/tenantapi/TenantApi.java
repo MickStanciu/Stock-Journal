@@ -1,6 +1,6 @@
 package com.example.tenantapi;
 
-import com.example.common.property.PropertiesUtil;
+import com.example.tenantapi.configuration.PropertiesUtil;
 import com.example.tenantapi.configuration.RestEasyConfig;
 import io.undertow.Undertow;
 import io.undertow.servlet.Servlets;
@@ -54,13 +54,13 @@ public class TenantApi {
 
     private static String generateLogo() {
         return  "                                                           \n" +
-                " __          __                                   _ _ _ _ _ \n" +
-                " \\ \\        / /                                  | | | | | |\n" +
-                "  \\ \\  /\\  / /_ _ __________ _  __ _  __ _  __ _ | | | | | |\n" +
-                "   \\ \\/  \\/ / _` |_  /_  / _` |/ _` |/ _` |/ _`  | | | | | |\n" +
-                "    \\  /\\  / (_| |/ / / / (_| | (_| | (_| | (_|  |_|_|_|_|_|\n" +
-                "     \\/  \\/ \\__,_/___/___\\__,_|\\__,_|\\__,_|\\__,_ (_|_|_|_|_)\n" +
-                "                                                           \n" +
-                "                                                           \n";
+                "  _______                     _              _____ _____ \n" +
+                " |__   __|                   | |       /\\   |  __ \\_   _|\n" +
+                "    | | ___ _ __   __ _ _ __ | |_     /  \\  | |__) || |  \n" +
+                "    | |/ _ \\ '_ \\ / _` | '_ \\| __|   / /\\ \\ |  ___/ | |  \n" +
+                "    | |  __/ | | | (_| | | | | |_   / ____ \\| |    _| |_ \n" +
+                "    |_|\\___|_| |_|\\__,_|_| |_|\\__| /_/    \\_\\_|   |_____|\n" +
+                "                                                         \n" +
+                "                                                         ";
     }
 }

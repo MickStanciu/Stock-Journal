@@ -1,4 +1,4 @@
-//package com.example.tenant.controller;
+//package com.example.tenant.rest;
 //
 //
 //import javax.ws.rs.DefaultValue;

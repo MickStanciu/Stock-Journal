@@ -1,4 +1,4 @@
-//package com.example.tenantapi.controller;
+//package com.example.tenantapi.rest;
 //
 //import com.example.common.rest.dto.ErrorDto;
 //import com.example.common.rest.envelope.ResponseEnvelope;

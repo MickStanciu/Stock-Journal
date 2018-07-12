@@ -1,4 +1,4 @@
-package com.example.tenantapi.controller;
+package com.example.tenantapi.rest;
 
 import com.example.tenantapi.service.HealthService;
 
@@ -13,12 +13,8 @@ import javax.ws.rs.core.Response;
 @Produces(MediaType.APPLICATION_JSON)
 public class HealthResource {
 
-    private HealthService service;
-
     @Inject
-    public HealthResource(HealthService service) {
-        this.service = service;
-    }
+    private HealthService service;
 
     @GET
     @Path("/check")

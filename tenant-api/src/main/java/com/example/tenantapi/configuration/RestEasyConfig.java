@@ -1,7 +1,8 @@
 package com.example.tenantapi.configuration;
 
 
-import com.example.tenantapi.controller.HealthResource;
+
+import com.example.tenantapi.rest.HealthResource;
 
 import javax.ws.rs.core.Application;
 import java.util.HashSet;

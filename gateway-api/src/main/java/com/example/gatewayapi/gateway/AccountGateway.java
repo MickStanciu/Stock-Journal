@@ -29,7 +29,7 @@ public class AccountGateway extends AbstractGateway {
 
     @Inject
     @Property("gateway.account.address")
-    private String SERVICE_URL;
+    private String SERVICE_URL = "localhost";
 
     @PostConstruct
     public void init() {

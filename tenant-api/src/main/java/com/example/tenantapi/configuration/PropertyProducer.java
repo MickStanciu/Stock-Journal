@@ -1,4 +1,4 @@
-package com.example.gatewayapi.configuration;
+package com.example.tenantapi.configuration;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

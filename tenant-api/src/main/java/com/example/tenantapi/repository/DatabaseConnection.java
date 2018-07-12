@@ -1,6 +1,6 @@
 package com.example.tenantapi.repository;
 
-import com.example.common.property.Property;
+import com.example.tenantapi.configuration.Property;
 import org.jdbi.v3.core.Jdbi;
 
 import javax.annotation.PostConstruct;
