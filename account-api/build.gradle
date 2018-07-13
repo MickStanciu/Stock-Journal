@@ -1,0 +1,21 @@
+description = ''
+apply plugin: 'application'
+
+dependencies {
+    compile group: 'io.undertow', name: 'undertow-core', version:'2.0.1.Final'
+    compile group: 'io.undertow', name: 'undertow-servlet', version:'2.0.1.Final'
+    compile group: 'io.undertow', name: 'undertow-websockets-jsr', version:'2.0.1.Final'
+    compile group: 'org.jboss.resteasy', name: 'resteasy-jaxrs', version:'3.6.0.Final'
+    compile group: 'org.jboss.resteasy', name: 'resteasy-client', version:'3.6.0.Final'
+    compile group: 'org.jboss.resteasy', name: 'resteasy-cdi', version:'3.6.0.Final'
+    compile group: 'org.jboss.resteasy', name: 'resteasy-undertow', version:'3.6.0.Final'
+    compile group: 'org.jboss.resteasy', name: 'resteasy-jackson2-provider', version:'3.6.0.Final'
+    compile group: 'org.jboss.weld.servlet', name: 'weld-servlet', version:'2.4.7.Final'
+    compile group: 'javax.el', name: 'javax.el-api', version:'3.0.0'
+    compile group: 'org.jdbi', name: 'jdbi3-core', version:'3.3.0'
+    compile group: 'org.jdbi', name: 'jdbi3-postgres', version:'3.3.0'
+    compile group: 'org.postgresql', name: 'postgresql', version:'42.2.2'
+    compile project(':common')
+}
+
+mainClassName = 'com.example.accountapi.AccountApi'

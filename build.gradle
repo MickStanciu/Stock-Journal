@@ -1,0 +1,21 @@
+subprojects {
+  apply plugin: 'java'
+  sourceCompatibility = 1.8
+  targetCompatibility = 1.8
+  tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+  }
+
+  repositories {
+    mavenLocal()
+    maven { url "http://repo.maven.apache.org/maven2" }
+  }
+
+  dependencies {
+    compile group: 'org.slf4j', name: 'slf4j-simple', version:'1.7.25'
+    testCompile group: 'org.testng', name: 'testng', version:'6.14.2'
+  }
+
+  test.useTestNG()
+
+}

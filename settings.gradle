@@ -1,0 +1,11 @@
+rootProject.name = 'productapi'
+
+include ':common'
+include ':gateway-api'
+include ':tenant-api'
+include ':account-api'
+
+project(':common').projectDir = "$rootDir/common" as File
+project(':gateway-api').projectDir = "$rootDir/gateway-api" as File
+project(':tenant-api').projectDir = "$rootDir/tenant-api" as File
+project(':account-api').projectDir = "$rootDir/account-api" as File
