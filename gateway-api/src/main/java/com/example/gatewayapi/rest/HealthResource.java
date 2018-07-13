@@ -33,7 +33,8 @@ public class HealthResource {
         String sessionId = "abc-def";
         String languageCode = "en";
         String text = "I want to cancel";
-//KEY        AIzaSyDbFttfnIgph8ftIqIP6KetaXTOUeQ_M9M
+        //KEY        AIzaSyDbFttfnIgph8ftIqIP6KetaXTOUeQ_M9M
+        //GOOGLE_APPLICATION_CREDENTIALS=/Users/mick/Projects/newagent-9bc4e-1e7abf49f31c.json
 
 
         //https://cloud.google.com/dialogflow-enterprise/docs/reference/rest/v2/projects.agent.intents/list WORKS
