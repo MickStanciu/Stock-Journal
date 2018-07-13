@@ -14,7 +14,7 @@ public class PropertiesUtil {
     public Properties getProperties() {
         Properties properties = new Properties();
 
-        final InputStream stream = PropertyProducer.class.getResourceAsStream("/application.properties");
+        final InputStream stream = PropertiesUtil.class.getResourceAsStream("/application.properties");
         if (stream != null) {
             try {
                 properties.load(stream);
