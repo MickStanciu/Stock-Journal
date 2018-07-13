@@ -1,8 +1,66 @@
 package com.example.accountapi;
 
+import com.example.accountapi.configuration.PropertiesUtil;
+import com.example.accountapi.configuration.RestEasyConfig;
+import io.undertow.Undertow;
+import io.undertow.servlet.Servlets;
+import io.undertow.servlet.api.DeploymentInfo;
+import org.jboss.resteasy.plugins.server.undertow.UndertowJaxrsServer;
+import org.jboss.resteasy.spi.ResteasyDeployment;
+import org.jboss.weld.environment.servlet.Listener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Properties;
+
 public class AccountApi {
 
+    private static final Logger log = LoggerFactory.getLogger(AccountApi.class);
+
     public static void main(String[] args) {
-        System.out.println("Hey");
+        PropertiesUtil propertiesUtil = new PropertiesUtil();
+        Properties properties = propertiesUtil.getProperties();
+
+        UndertowJaxrsServer server = new UndertowJaxrsServer();
+
+        ResteasyDeployment deployment = new ResteasyDeployment();
+        deployment.setApplicationClass(RestEasyConfig.class.getName());
+        deployment.setInjectorFactoryClass("org.jboss.resteasy.cdi.CdiInjectorFactory");
+
+        DeploymentInfo deploymentInfo = server.undertowDeployment(deployment)
+                .setClassLoader(AccountApi.class.getClassLoader())
+                .setContextPath("/rest")
+                .addListener(Servlets.listener(Listener.class))
+                .setDeploymentName("Undertow RestEasy Weld");
+
+        server.deploy(deploymentInfo);
+//        server.addResourcePrefixPath("/",
+//                resource(new ClassPathResourceManager(Server.class.getClassLoader()))
+//                        .addWelcomeFiles("index.html"));
+
+        Undertow.Builder undertowBuilder = Undertow.builder()
+                .addHttpListener(getServerPort(properties), "0.0.0.0");
+        server.start(undertowBuilder);
+        log.info(generateLogo());
+    }
+
+    private static int getServerPort(Properties properties) {
+        if (properties.containsKey("server.port")) {
+            return Integer.valueOf(properties.getProperty("server.port"));
+        }
+
+        return 8080;
+    }
+
+    private static String generateLogo() {
+        return  "                                                           \n" +
+                "                                    _            _____ _____ \n" +
+                "     /\\                            | |     /\\   |  __ \\_   _|\n" +
+                "    /  \\   ___ ___ ___  _   _ _ __ | |_   /  \\  | |__) || |  \n" +
+                "   / /\\ \\ / __/ __/ _ \\| | | | '_ \\| __| / /\\ \\ |  ___/ | |  \n" +
+                "  / ____ \\ (_| (_| (_) | |_| | | | | |_ / ____ \\| |    _| |_ \n" +
+                " /_/    \\_\\___\\___\\___/ \\__,_|_| |_|\\__/_/    \\_\\_|   |_____|\n" +
+                "                                                             \n" +
+                "                                                             ";
     }
 }
