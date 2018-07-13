@@ -9,16 +9,16 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.3.RELEASE</version>
-        <relativePath/>
-    </parent>
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
+
+        <undertow.version>2.0.1.Final</undertow.version>
+        <weld.version>2.4.7.Final</weld.version>
+        <javax.el.version>3.0.0</javax.el.version>
+        <resteasy.version>3.6.0.Final</resteasy.version>
+
+        <slf4j.version>1.7.25</slf4j.version>
 
         <maven.compiler.version>3.7.0</maven.compiler.version>
         <maven.war.version>3.1.0</maven.war.version>
@@ -42,21 +42,35 @@
     <modules>
         <module>common</module>
         <!--<module>tenant</module>-->
-        <module>account</module>
+        <!--<module>account</module>-->
         <!--<module>catalog</module>-->
         <!--<module>shop</module>-->
         <!--<module>availability</module>-->
         <!--<module>customer</module>-->
         <!--<module>web</module>-->
-        <module>timesheet</module>
+        <!--<module>timesheet</module>-->
         <module>gateway-api</module>
         <module>tenant-api</module>
+        <module>account-api</module>
     </modules>
 
 
     <dependencyManagement>
         <dependencies>
+            <!-- Log -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+
             <!--need for test-->
+            <dependency>
+                <groupId>org.testng</groupId>
+                <artifactId>testng</artifactId>
+                <version>${testng.version}</version>
+                <scope>test</scope>
+            </dependency>
 
             <!--<dependency>-->
                 <!--<groupId>org.mockito</groupId>-->
@@ -83,17 +97,16 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-undertow</artifactId>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
         </dependency>
 
+        <!--  Test Dependencies  -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>${testng.version}</version>
             <scope>test</scope>
         </dependency>
-
         <!--<dependency>-->
             <!--<groupId>org.mockito</groupId>-->
             <!--<artifactId>mockito-core</artifactId>-->
@@ -105,14 +118,6 @@
             <!--<artifactId>javax.servlet-api</artifactId>-->
             <!--<version>3.1.0</version>-->
             <!--<scope>test</scope>-->
-        <!--</dependency>-->
-
-
-        <!--Compatibility for Java 10-->
-        <!--<dependency>-->
-            <!--<groupId>javax.xml.bind</groupId>-->
-            <!--<artifactId>jaxb-api</artifactId>-->
-            <!--<version>2.3.0</version>-->
         <!--</dependency>-->
     </dependencies>
 
