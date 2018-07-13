@@ -29,10 +29,15 @@ public class HealthResource {
     @GET
     @Path("/dialog")
     public Response dialogFlow() throws IOException {
-        String projectId = "1";
-        String sessionId = "2";
+        String projectId = "newagent-9bc4e";
+        String sessionId = "abc-def";
         String languageCode = "en";
         String text = "I want to cancel";
+//KEY        AIzaSyDbFttfnIgph8ftIqIP6KetaXTOUeQ_M9M
+
+
+        //https://cloud.google.com/dialogflow-enterprise/docs/reference/rest/v2/projects.agent.intents/list WORKS
+
 //        GoogleCredentials credentials = GoogleCredentials.fromStream(getResources().getAssets().open("Test-9d8a744b520a.json"))
 //                .createScoped(newArrayList("https://www.googleapis.com/auth/compute"));
 //        credentials.toBuilder().build();
