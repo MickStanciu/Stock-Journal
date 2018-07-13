@@ -5,11 +5,10 @@ subprojects {
   tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
   }
+  version = '1.0'
 
   repositories {
     jcenter()
-//    mavenLocal()
-//    maven { url "http://repo.maven.apache.org/maven2" }
   }
 
   dependencies {
