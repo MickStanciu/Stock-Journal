@@ -30,6 +30,14 @@ public class TenantRepository {
         this.conn = conn;
     }
 
+    public boolean checkFirstRecord() {
+        return conn.getJdbi().withHandle(handle ->
+                handle
+                        .createQuery(TENANT_READ_FIRST_QUERY)
+                        .mapToMap().list()
+        ).size() == 1;
+    }
+
     public TenantModel getTenant(String id) {
         return conn.getJdbi().withHandle(handle ->
             handle
@@ -40,14 +48,6 @@ public class TenantRepository {
         );
     }
 
-
-    public boolean checkFirstRecord() {
-        return conn.getJdbi().withHandle(handle ->
-            handle
-                .createQuery(TENANT_READ_FIRST_QUERY)
-                .mapToMap().list()
-        ).size() == 1;
-    }
 
     private TenantModel map(Map<String, Object> result) {
         return null;

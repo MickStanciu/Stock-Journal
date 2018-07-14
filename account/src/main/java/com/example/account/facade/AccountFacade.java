@@ -5,8 +5,8 @@ import com.example.account.exception.AccountException;
 import com.example.account.exception.ExceptionCode;
 import com.example.account.model.AccountModel;
 import com.example.account.model.RoleModel;
-import com.example.account.service.AccountService;
-import com.example.account.service.RoleService;
+import com.example.accountapi.service.AccountService;
+import com.example.accountapi.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

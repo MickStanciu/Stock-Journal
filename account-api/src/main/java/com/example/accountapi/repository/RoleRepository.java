@@ -4,17 +4,16 @@ import com.example.account.model.RoleInfoModel;
 import com.example.account.model.RoleModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
-import org.springframework.stereotype.Repository;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-@Repository
+@Singleton
 public class RoleRepository {
 
     private static final Logger log = LoggerFactory.getLogger(RoleRepository.class);
@@ -24,22 +23,22 @@ public class RoleRepository {
             "LEFT JOIN account_permissions ap on ar.id = ap.role_fk and ar.tenant_fk = ap.tenant_fk " +
             "WHERE ar.id = ? AND ar.tenant_fk = CAST(? AS uuid)";
 
-    private JdbcTemplate jdbcTemplate;
+    private DatabaseConnection conn;
 
-    @Autowired
-    public RoleRepository(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    @Inject
+    public RoleRepository(DatabaseConnection conn) {
+        this.conn = conn;
     }
 
     public RoleModel getRole(String tenantId, int id) {
-        Object [] map = new Object[]{id, tenantId};
-        List<RoleModel> results = jdbcTemplate.query(ROLE_READ_QUERY, map, new RoleModelRowMapper());
-
-        if (results.size() == 0) {
-            return null;
-        }
-
-        return results.get(0);
+        return conn.getJdbi().withHandle(handle ->
+                handle
+                        .createQuery(ROLE_READ_QUERY)
+                        .bind(0, id)
+                        .bind(1, tenantId)
+                        .map(new RoleModelRowMapper())
+                        .findOnly()
+        );
     }
 }
 

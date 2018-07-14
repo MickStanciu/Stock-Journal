@@ -60,54 +60,83 @@ public class AccountRepository {
     }
 
     public boolean checkFirstRecord() {
-        List list = jdbcTemplate.queryForList(ACCOUNT_READ_FIRST_QUERY);
-        return list.size() == 1;
+        return conn.getJdbi().withHandle(handle ->
+                handle
+                        .createQuery(ACCOUNT_READ_FIRST_QUERY)
+                        .mapToMap().list()
+        ).size() == 1;
     }
 
     public AccountModel getAccount(String tenantId, String email, String password) {
-        Object [] map = new Object[]{email, password, tenantId};
-        List<AccountModel> results = jdbcTemplate.query(ACCOUNT_READ_BY_EMAIL_AND_PASSWORD_QUERY, map, new AccountModelRowMapper());
-
-        if (results.size() == 0) {
-            return null;
-        }
-
-        return results.get(0);
+        return conn.getJdbi().withHandle(handle ->
+                handle
+                    .createQuery(ACCOUNT_READ_BY_EMAIL_AND_PASSWORD_QUERY)
+                    .bind(0, email)
+                    .bind(1, password)
+                    .bind(2, tenantId)
+                    .map(new AccountModelRowMapper())
+                    .findOnly()
+        );
     }
 
     public AccountModel getAccount(String tenantId, BigInteger accountId) {
-        Object [] map = new Object[]{tenantId, accountId};
-        List<AccountModel> results = jdbcTemplate.query(ACCOUNT_READ_BY_ID_QUERY, map, new AccountModelRowMapper());
-
-        if (results.size() == 0) {
-            return null;
-        }
-
-        return results.get(0);
+        return conn.getJdbi().withHandle(handle ->
+                handle
+                    .createQuery(ACCOUNT_READ_BY_ID_QUERY)
+                    .bind(0, tenantId)
+                    .bind(1, accountId)
+                    .map(new AccountModelRowMapper())
+                    .findOnly()
+        );
     }
 
     public List<AccountModel> getAccountsByRelationship(String tenantId, BigInteger parentId, int depth) {
-        Object [] map = new Object[]{"*****", tenantId, parentId, depth};
-        return jdbcTemplate.query(ACCOUNTS_READ_BY_RELATIONSHIP, map, new AccountModelRowMapper());
+        return conn.getJdbi().withHandle(handle ->
+                handle
+                    .createQuery(ACCOUNTS_READ_BY_RELATIONSHIP)
+                    .bind(0, "*****")
+                    .bind(1, tenantId)
+                    .bind(2, parentId)
+                    .bind(3, depth)
+                    .map(new AccountModelRowMapper())
+                    .list()
+        );
     }
 
     public boolean checkAccount(String tenantId, String email) {
-        Object [] map = new Object[]{email, tenantId};
-        List<AccountModel> results = jdbcTemplate.query(ACCOUNT_CHECK_QUERY, map, new AccountModelRowMapper());
-        return results.size() != 0;
+        return conn.getJdbi().withHandle(handle ->
+                handle
+                    .createQuery(ACCOUNT_CHECK_QUERY)
+                    .bind(0, email)
+                    .bind(1, tenantId)
+                    .mapToMap().list()
+        ).size() != 0;
     }
 
-    @Transactional
     public void createAccount(String tenantId, String name, String password, String email, int roleId) {
-        Object [] map = new Object[]{tenantId, roleId, name, email, password};
-        jdbcTemplate.update(ACCOUNT_CREATE_QUERY, map);
+        conn.getJdbi().inTransaction(handle ->
+                handle
+                    .createUpdate(ACCOUNT_CREATE_QUERY)
+                    .bind(0, tenantId)
+                    .bind(1, roleId)
+                    .bind(2, name)
+                    .bind(3, email)
+                    .bind(4, password)
+        );
     }
 
-    @Transactional
     public void updateAccount(String tenantId, BigInteger accountId, AccountModel newAccount) {
-        Object [] map = new Object[]{newAccount.getName(), newAccount.getPassword(), newAccount.getEmail(), newAccount.isActive(),
-                newAccount.getRole().getId(), tenantId, accountId};
-        jdbcTemplate.update(ACCOUNT_UPDATE_QUERY, map);
+        conn.getJdbi().inTransaction(handle ->
+                handle
+                        .createUpdate(ACCOUNT_UPDATE_QUERY)
+                        .bind(0, newAccount.getName())
+                        .bind(1, newAccount.getPassword())
+                        .bind(2, newAccount.getEmail())
+                        .bind(3, newAccount.isActive())
+                        .bind(4, newAccount.getRole().getId())
+                        .bind(5, tenantId)
+                        .bind(6, accountId)
+        );
     }
 }
 

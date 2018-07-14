@@ -1,7 +1,7 @@
 version: '3.4'
 services:
 #  consul:
-#    build: docker/discovery-service/.
+#    build: docker/discovery-com.example.accountapi.service/.
 #    container_name: consul
 #    image: consul
 #    restart: always

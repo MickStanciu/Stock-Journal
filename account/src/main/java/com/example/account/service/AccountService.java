@@ -1,4 +1,4 @@
-package com.example.account.service;
+package com.example.accountapi.service;
 
 import com.example.account.model.AccountModel;
 import com.example.account.repository.AccountRepository;

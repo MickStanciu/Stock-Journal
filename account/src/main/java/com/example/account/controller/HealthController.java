@@ -1,6 +1,6 @@
 package com.example.account.controller;
 
-import com.example.account.service.HealthService;
+import com.example.accountapi.service.HealthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
