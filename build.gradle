@@ -17,6 +17,10 @@ subprojects {
     testCompile group: 'org.mockito', name: 'mockito-core', version: '2.19.0'
   }
 
-  test.useTestNG()
+  test {
+    useTestNG {
+      suites 'src/test/resources/testng.xml'
+    }
+  }
 
 }
