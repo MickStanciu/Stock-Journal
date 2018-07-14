@@ -2,7 +2,7 @@ package com.example.accountapi.service;
 
 import com.example.account.model.AccountModel;
 import com.example.account.model.RoleModel;
-import com.example.account.repository.AccountRepository;
+import com.example.accountapi.repository.AccountRepository;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;

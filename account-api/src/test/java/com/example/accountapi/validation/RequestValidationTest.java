@@ -6,7 +6,7 @@ import org.testng.annotations.Test;
 
 import java.math.BigInteger;
 
-import static com.example.account.controller.RequestValidation.*;
+import static com.example.accountapi.rest.RequestValidation.*;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
