@@ -18,4 +18,4 @@ dependencies {
     compile project(':common')
 }
 
-mainClassName = 'com.example.tenantapi.GatewayApi'
+mainClassName = 'com.example.tenantapi.TenantApi'
