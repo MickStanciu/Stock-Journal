@@ -37,6 +37,9 @@ public class AccountGateway extends AbstractGateway {
     }
 
     public Optional<AccountModel> getAccount(String tenantId, BigInteger accountId) {
+        return getFake();
+
+        /*
         UriBuilder builder = UriBuilder.builder(SERVICE_URL)
                 .addPath("api")
                 .addPath("v1")
@@ -44,6 +47,7 @@ public class AccountGateway extends AbstractGateway {
                 .addPath(accountId.toString());
 
         return getAccountModel(builder.build());
+        */
     }
 
     public Optional<AccountModel> getAccount(String tenantId, String email, String password) {
