@@ -1,4 +1,4 @@
-package com.example.tenantapi.service;//package com.example.tenant.service;
+package com.example.tenantapi.service;//package com.example.tenant.com.example.accountapi.service;
 //
 //import com.ecwid.consul.v1.ConsulClient;
 //import com.ecwid.consul.v1.agent.model.NewService;
