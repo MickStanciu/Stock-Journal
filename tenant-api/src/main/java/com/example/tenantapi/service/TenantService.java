@@ -29,6 +29,5 @@ public class TenantService {
             log.error(ex.getMessage());
             return Optional.empty();
         }
-
     }
 }

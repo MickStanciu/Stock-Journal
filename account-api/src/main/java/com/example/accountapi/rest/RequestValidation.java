@@ -5,7 +5,6 @@ import com.example.account.model.RoleModel;
 import com.example.common.validator.FieldValidator;
 import com.example.common.validator.StringValidator;
 
-import java.math.BigInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -57,7 +56,7 @@ public class RequestValidation extends FieldValidator {
         return account != null;
     }
 
-    public static boolean validateUpdateAccount(String tenantId, BigInteger accountId, AccountModel account) {
+    public static boolean validateUpdateAccount(String tenantId, long accountId, AccountModel account) {
         boolean response = RequestValidation.tenantId(tenantId) && RequestValidation.accountId(accountId)
                 && RequestValidation.account(account);
 
@@ -92,11 +91,11 @@ public class RequestValidation extends FieldValidator {
                 && RequestValidation.accountPassword(password);
     }
 
-    public static Boolean validateGetAccount(String tenantId, BigInteger accountId) {
+    public static Boolean validateGetAccount(String tenantId, long accountId) {
         return RequestValidation.tenantId(tenantId) && RequestValidation.accountId(accountId);
     }
 
-    public static Boolean validateGetAccountsByRelationship(String tenantId, BigInteger accountId, Integer depth) {
+    public static Boolean validateGetAccountsByRelationship(String tenantId, long accountId, Integer depth) {
         return RequestValidation.tenantId(tenantId) && RequestValidation.accountId(accountId)
                 && RequestValidation.roleDepth(depth);
     }

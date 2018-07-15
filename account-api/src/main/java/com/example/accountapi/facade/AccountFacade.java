@@ -10,7 +10,6 @@ import com.example.accountapi.service.RoleService;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,18 +29,18 @@ public class AccountFacade {
     }
 
     public Optional<AccountModel> getAccount(String tenantId, String email, String password) {
-        AccountModel account = accountService.getAccount(tenantId, email, password);
-        addRoleInformation(account);
-        return Optional.ofNullable(account);
+        return accountService.getAccount(tenantId, email, password);
+//        addRoleInformation(account);
+//        return Optional.ofNullable(account);
     }
 
-    public Optional<AccountModel> getAccount(String tenantId, BigInteger accountId) {
-        AccountModel account = accountService.getAccount(tenantId, accountId);
-        addRoleInformation(account);
-        return Optional.ofNullable(account);
+    public Optional<AccountModel> getAccount(String tenantId, long accountId) {
+        return accountService.getAccount(tenantId, accountId);
+//        addRoleInformation(account);
+//        return Optional.ofNullable(account);
     }
 
-    public List<AccountModel> getAccountsByRelationship(String tenantId, BigInteger parentId, int depth) {
+    public List<AccountModel> getAccountsByRelationship(String tenantId, long parentId, int depth) {
         List<AccountModel> accountList = accountService.getAccountByRelationShip(tenantId, parentId, depth);
         for(AccountModel account : accountList) {
             addRoleInformation(account);
@@ -55,30 +54,31 @@ public class AccountFacade {
         }
 
         accountService.createAccount(tenantId, DEFAULT_NAME, password, email, DEFAULT_ROLE_ID);
-        return Optional.ofNullable(accountService.getAccount(tenantId, email, password));
+        return accountService.getAccount(tenantId, email, password);
     }
 
-    public Optional<AccountModel> updateAccount(String tenantId, BigInteger accountId, AccountModel newAccount) throws AccountException {
-        AccountModel originalAccount = accountService.getAccount(tenantId, accountId);
-
-        if (originalAccount == null) {
-            throw new AccountException(ExceptionCode.ACCOUNT_NOT_FOUND);
-        }
-
-        if (newAccount.getName() != null && !newAccount.getName().equals(originalAccount.getName()) && accountService.checkAccount(tenantId, newAccount.getName())) {
-            throw new AccountException(ExceptionCode.ACCOUNT_NAME_EXISTS);
-        }
-
-        //validate role
-        if (newAccount.getRole() != null && newAccount.getRole().getId() != null) {
-            RoleModel role = roleService.getRole(tenantId, newAccount.getRole().getId());
-            if (role == null) {
-                throw new AccountException(ExceptionCode.ROLE_NOT_FOUND);
-            }
-        }
-
-        accountService.updateAccount(tenantId, accountId, originalAccount, newAccount);
-        return Optional.ofNullable(accountService.getAccount(tenantId, accountId));
+    public Optional<AccountModel> updateAccount(String tenantId, long accountId, AccountModel newAccount) throws AccountException {
+//        AccountModel originalAccount = accountService.getAccount(tenantId, accountId);
+//
+//        if (originalAccount == null) {
+//            throw new AccountException(ExceptionCode.ACCOUNT_NOT_FOUND);
+//        }
+//
+//        if (newAccount.getName() != null && !newAccount.getName().equals(originalAccount.getName()) && accountService.checkAccount(tenantId, newAccount.getName())) {
+//            throw new AccountException(ExceptionCode.ACCOUNT_NAME_EXISTS);
+//        }
+//
+//        //validate role
+//        if (newAccount.getRole() != null && newAccount.getRole().getId() != null) {
+//            RoleModel role = roleService.getRole(tenantId, newAccount.getRole().getId());
+//            if (role == null) {
+//                throw new AccountException(ExceptionCode.ROLE_NOT_FOUND);
+//            }
+//        }
+//
+//        accountService.updateAccount(tenantId, accountId, originalAccount, newAccount);
+//        return Optional.ofNullable(accountService.getAccount(tenantId, accountId));
+        return null;
     }
 
     private void addRoleInformation(AccountModel account) {
