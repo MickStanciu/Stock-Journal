@@ -110,12 +110,6 @@
             <version>${postgresql.version}</version>
         </dependency>
 
-        <!-- Log -->
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-        </dependency>
-
         <!--Other Imports-->
         <dependency>
             <groupId>com.example</groupId>

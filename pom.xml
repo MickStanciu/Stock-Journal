@@ -27,14 +27,11 @@
         <maven.surefire.version>2.19.1</maven.surefire.version>
 
 
-        <!--<mockito.version>2.15.0</mockito.version>-->
+        <mockito.version>2.15.0</mockito.version>
         <testng.version>6.14.2</testng.version>
         <!--<ehcache.version>3.4.0</ehcache.version>-->
         <!--<consul.version>1.1.10</consul.version>-->
 
-        <!--<wildfly.maven.version>1.2.0.Final</wildfly.maven.version>-->
-        <!--<wildfly-swarm.version>2018.5.0</wildfly-swarm.version>-->
-        <!--<wildfly-swarm.container-api.version>1.0.2.Final</wildfly-swarm.container-api.version>-->
         <postgresql.version>42.2.2</postgresql.version>
         <flyway.version>5.1.4</flyway.version>
     </properties>
@@ -72,11 +69,11 @@
                 <scope>test</scope>
             </dependency>
 
-            <!--<dependency>-->
-                <!--<groupId>org.mockito</groupId>-->
-                <!--<artifactId>mockito-core</artifactId>-->
-                <!--<version>${mockito.version}</version>-->
-            <!--</dependency>-->
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
+            </dependency>
 
             <!--<dependency>-->
                 <!--<groupId>org.ehcache</groupId>-->
@@ -89,9 +86,6 @@
                 <!--<artifactId>consul-api</artifactId>-->
                 <!--<version>${consul.version}</version>-->
             <!--</dependency>-->
-
-            <!--need for spring boot-->
-
         </dependencies>
     </dependencyManagement>
 
@@ -107,11 +101,12 @@
             <artifactId>testng</artifactId>
             <scope>test</scope>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.mockito</groupId>-->
-            <!--<artifactId>mockito-core</artifactId>-->
-            <!--<scope>test</scope>-->
-        <!--</dependency>-->
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
 
         <!--<dependency>-->
             <!--<groupId>javax.servlet</groupId>-->
