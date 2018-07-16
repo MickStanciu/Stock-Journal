@@ -35,9 +35,9 @@ public class AccountFacade {
     }
 
     public Optional<AccountModel> getAccount(String tenantId, long accountId) {
-        return accountService.getAccount(tenantId, accountId);
-//        addRoleInformation(account);
-//        return Optional.ofNullable(account);
+        Optional<AccountModel> optionalModel = accountService.getAccount(tenantId, accountId);
+        optionalModel.ifPresent(this::addRoleInformation);
+        return optionalModel;
     }
 
     public List<AccountModel> getAccountsByRelationship(String tenantId, long parentId, int depth) {
