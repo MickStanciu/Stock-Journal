@@ -4,8 +4,6 @@ import io.jsonwebtoken.Claims;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.math.BigInteger;
-
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotEquals;
@@ -13,7 +11,7 @@ import static org.testng.Assert.assertTrue;
 
 public class TokenUtilTest {
     private static final String tenantId = "testTenant";
-    private static BigInteger accountId;
+    private static long accountId;
     private static final Integer roleId = 44;
     private static String token = null;
     private static Claims claims;
@@ -21,7 +19,7 @@ public class TokenUtilTest {
 
     @BeforeClass
     public static void setup() {
-        accountId = BigInteger.valueOf(4444444);
+        accountId = 4444444L;
         token = TokenUtil.generateToken(tenantId, accountId, roleId);
         assertNotEquals(token, "");
         claims = TokenUtil.getClaims(token);
@@ -50,7 +48,7 @@ public class TokenUtilTest {
     @Test
     void testTokenAccount() {
         Number tmp = (Number) claims.get("accountId");
-        assertEquals(accountId, BigInteger.valueOf(tmp.longValue()));
+        assertEquals(accountId, tmp.longValue());
     }
 
     @Test

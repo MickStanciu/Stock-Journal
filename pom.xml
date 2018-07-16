@@ -38,19 +38,16 @@
 
     <modules>
         <module>common</module>
-        <!--<module>tenant</module>-->
-        <!--<module>account</module>-->
         <!--<module>catalog</module>-->
         <!--<module>shop</module>-->
         <!--<module>availability</module>-->
         <!--<module>customer</module>-->
         <!--<module>web</module>-->
-        <!--<module>timesheet</module>-->
         <module>gateway-api</module>
         <module>tenant-api</module>
         <module>account-api</module>
+        <module>timesheet</module>
     </modules>
-
 
     <dependencyManagement>
         <dependencies>

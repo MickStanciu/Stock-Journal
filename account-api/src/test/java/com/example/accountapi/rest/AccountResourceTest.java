@@ -11,7 +11,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import javax.ws.rs.core.Response;
-import java.math.BigInteger;
 import java.util.Optional;
 
 import static org.mockito.Mockito.when;
@@ -59,6 +58,6 @@ public class AccountResourceTest {
         ResponseEnvelope responseEnvelope = (ResponseEnvelope) response.getEntity();
         AccountModel item = (AccountModel) responseEnvelope.getData();
 
-        assertEquals(BigInteger.ONE, item.getId(), "Id should be equal to: \'1\'");
+        assertEquals(1L, item.getId(), "Id should be equal to: \'1\'");
     }
 }
