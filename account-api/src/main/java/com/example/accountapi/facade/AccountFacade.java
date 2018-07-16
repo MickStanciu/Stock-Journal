@@ -29,9 +29,9 @@ public class AccountFacade {
     }
 
     public Optional<AccountModel> getAccount(String tenantId, String email, String password) {
-        return accountService.getAccount(tenantId, email, password);
-//        addRoleInformation(account);
-//        return Optional.ofNullable(account);
+        Optional<AccountModel> optionalModel = accountService.getAccount(tenantId, email, password);
+        optionalModel.ifPresent(this::addRoleInformation);
+        return optionalModel;
     }
 
     public Optional<AccountModel> getAccount(String tenantId, long accountId) {
