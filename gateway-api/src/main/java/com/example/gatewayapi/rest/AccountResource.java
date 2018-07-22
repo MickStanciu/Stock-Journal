@@ -3,6 +3,7 @@ package com.example.gatewayapi.rest;
 import com.example.account.model.AccountModel;
 import com.example.common.rest.dto.ErrorDto;
 import com.example.common.rest.envelope.ResponseEnvelope;
+import com.example.gatewayapi.exception.ExceptionCode;
 import com.example.gatewayapi.exception.GatewayApiException;
 import com.example.gatewayapi.service.AccountService;
 import org.slf4j.Logger;
@@ -51,7 +52,11 @@ public class AccountResource extends AbstractResource {
         } catch (GatewayApiException e) {
             log.error(e.getMessage(), e);
             errors.add(new ErrorDto(e.getCode().toString(), e.getCode().getMessage()));
-            responseStatus = Response.Status.NOT_FOUND;
+            if (ExceptionCode.REQUEST_NOT_AUTHORIZED.equals(e.getCode())) {
+                responseStatus = Response.Status.UNAUTHORIZED;
+            } else {
+                responseStatus = Response.Status.NOT_FOUND;
+            }
         }
 
         ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<AccountModel>()

@@ -25,7 +25,7 @@ public class TenantGateway extends AbstractGateway {
 
     public Optional<TenantModel> getTenant(String tenantId) {
         UriBuilder builder = UriBuilder.builder(SERVICE_URL)
-                .addPath("api")
+                .addPath("rest")
                 .addPath("v1")
                 .addPath(tenantId);
 

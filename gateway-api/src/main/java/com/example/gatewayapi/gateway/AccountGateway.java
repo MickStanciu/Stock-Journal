@@ -52,7 +52,7 @@ public class AccountGateway extends AbstractGateway {
 
     public Optional<AccountModel> getAccount(String tenantId, String email, String password) {
         UriBuilder builder = UriBuilder.builder(SERVICE_URL)
-                .addPath("api")
+                .addPath("rest")
                 .addPath("v1")
                 .addPath(tenantId)
                 .addQuery("email", email)
