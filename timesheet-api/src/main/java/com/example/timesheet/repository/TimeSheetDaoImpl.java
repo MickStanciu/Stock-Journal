@@ -1,0 +1,99 @@
+package com.example.timesheet.repository;
+
+import com.example.timesheet.model.TimeSheetEntryModel;
+import org.jdbi.v3.core.mapper.RowMapper;
+import org.jdbi.v3.core.statement.StatementContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.inject.Inject;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.List;
+
+public class TimeSheetDaoImpl implements TimeSheetDao {
+
+    private static final Logger log = LoggerFactory.getLogger(TimeSheetDaoImpl.class);
+
+    private DatabaseConnection conn;
+
+    //todo: join on tenant fk as well
+    private static final String TIMESHEET_READ_BY_ACCOUNT = "SELECT t.id, t.account_fk, t.from_time, t.to_time, t.title, t.status, " +
+            "CAST(t.tenant_fk AS VARCHAR(36)) AS tenant_id, " +
+            "p.id as project_id, p.title as project_title, p.active as project_active, p.description as project_description, " +
+            "t2.id as task_id, t2.project_fk as task_project_fk, t2.active as task_active, t2.title as task_title, t2.description as task_description " +
+            "FROM timesheet t " +
+            "LEFT JOIN projects p on t.project_fk = p.id " +
+            "LEFT JOIN tasks t2 on t.task_fk = t2.id " +
+            "WHERE t.tenant_fk = CAST(? AS uuid) " +
+            "and t.account_fk = ? " +
+            "and t.from_time >= ? " +
+            "and t.to_time <= ?";
+
+    @Inject
+    public TimeSheetDaoImpl(DatabaseConnection conn) {
+        this.conn = conn;
+    }
+
+    @Override
+    public List<TimeSheetEntryModel> getEntriesByIdAndTime(String tenantId, long accountId, LocalDateTime from, LocalDateTime to) {
+//        Object [] map = new Object[]{tenantId, accountId, Timestamp.valueOf(from), Timestamp.valueOf(to)};
+//        return jdbcTemplate.query(TIMESHEET_READ_BY_ACCOUNT, map, new TimeSheetEntryRowMapper());
+        return Collections.emptyList();
+    }
+}
+
+class TimeSheetEntryRowMapper implements RowMapper<TimeSheetEntryModel> {
+
+    @Override
+    public TimeSheetEntryModel map(ResultSet rs, StatementContext ctx) throws SQLException {
+        return null;
+    }
+
+//    private static final Logger log = LoggerFactory.getLogger(TimeSheetEntryRowMapper.class);
+//
+//    @Override
+//    public TimeSheetEntryModel mapRow(ResultSet resultSet, int i) throws SQLException {
+//        String tenantId = resultSet.getString("tenant_id");
+//        BigInteger projectId = BigInteger.valueOf(resultSet.getLong("project_id"));
+//
+//        ProjectModel project = ProjectModel.builder()
+//                .withTenantId(tenantId)
+//                .withId(projectId)
+//                .withTitle(resultSet.getString("project_title"))
+//                .active(resultSet.getBoolean("project_active"))
+//                .withDescription(resultSet.getString("project_description"))
+//                .build();
+//
+//        TaskModel task = TaskModel.builder()
+//                .withTenantId(tenantId)
+//                .withId(BigInteger.valueOf(resultSet.getLong("task_id")))
+//                .withProjectId(projectId)
+//                .active(resultSet.getBoolean("task_active"))
+//                .withTitle(resultSet.getString("task_title"))
+//                .withDescription(resultSet.getString("task_description"))
+//                .build();
+//
+//        State ts;
+//        try {
+//            ts = State.valueOf(resultSet.getString("status"));
+//        } catch (IllegalArgumentException ex) {
+//            ts = State.NOT_FILLED;
+//            log.error("Illegal state found", ex);
+//        }
+//
+//        return TimeSheetEntryModel.builder()
+//                .withId(BigInteger.valueOf(resultSet.getLong("id")))
+//                .withAccountId(BigInteger.valueOf(resultSet.getLong("account_fk")))
+//                .withTenantId(tenantId)
+//                .havingProject(project)
+//                .havingTask(task)
+//                .fromTime(resultSet.getTimestamp("from_time").toInstant())
+//                .toTime(resultSet.getTimestamp("to_time").toInstant())
+//                .withTitle(resultSet.getString("title"))
+//                .withState(ts)
+//                .build();
+//    }
+}
