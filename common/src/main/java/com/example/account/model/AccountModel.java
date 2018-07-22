@@ -1,20 +1,19 @@
 package com.example.account.model;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 
 public class AccountModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private BigInteger id;
+    private long id;
     private String name;
     private String email;
     private String password;
-    private Boolean active;
+    private boolean active;
 
     private String tenantId;
-    private Integer roleId;
+    private int roleId;
 
     private RoleModel role;
 
@@ -22,7 +21,7 @@ public class AccountModel implements Serializable {
         //required by Jackson
     }
 
-    public BigInteger getId() {
+    public long getId() {
         return id;
     }
 
@@ -46,11 +45,11 @@ public class AccountModel implements Serializable {
         return tenantId;
     }
 
-    public Integer getRoleId() {
+    public int getRoleId() {
         return roleId;
     }
 
-    public Boolean isActive() {
+    public boolean isActive() {
         return active;
     }
 
@@ -91,7 +90,7 @@ public class AccountModel implements Serializable {
             super(account);
         }
 
-        public RoleBuilder withRoleId(Integer roleId) {
+        public RoleBuilder withRoleId(int roleId) {
             account.roleId = roleId;
             return this;
         }
@@ -113,7 +112,7 @@ public class AccountModel implements Serializable {
             this.account = account;
         }
 
-        public AccountBuilder withId(BigInteger id) {
+        public AccountBuilder withId(long id) {
             account.id = id;
             return this;
         }

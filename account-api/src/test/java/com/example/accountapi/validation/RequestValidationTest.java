@@ -4,16 +4,16 @@ import com.example.account.model.AccountModel;
 import com.example.account.model.RoleModel;
 import org.testng.annotations.Test;
 
-import java.math.BigInteger;
-
-import static com.example.accountapi.rest.RequestValidation.*;
+import static com.example.accountapi.rest.RequestValidation.validateCreateAccount;
+import static com.example.accountapi.rest.RequestValidation.validateGetAccount;
+import static com.example.accountapi.rest.RequestValidation.validateUpdateAccount;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 public class RequestValidationTest {
 
     private static final String DEFAULT_TENANT_ID = "d79ec11a-2011-4423-ba01-3af8de0a3e10";
-    private static final BigInteger DEFAULT_ACCOUNT_ID = BigInteger.ONE;
+    private static final long DEFAULT_ACCOUNT_ID = 1L;
     private static final String DEFAULT_ACCOUNT_NAME = "name.surname";
     private static final String DEFAULT_ACCOUNT_PASSWORD = "secret";
     private static final String DEFAULT_ACCOUNT_EMAIL = "not.set@domain.com";
@@ -182,7 +182,7 @@ public class RequestValidationTest {
                     .withRole(roleFixture)
                 .build();
 
-        boolean response = validateUpdateAccount(DEFAULT_TENANT_ID, null, accountFixture);
+        boolean response = validateUpdateAccount(DEFAULT_TENANT_ID, 0, accountFixture);
         assertFalse(response, "Should be FALSE");
     }
 

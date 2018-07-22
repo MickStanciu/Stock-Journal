@@ -9,8 +9,6 @@ import org.mockito.MockitoAnnotations;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.math.BigInteger;
-
 import static org.testng.Assert.assertEquals;
 
 
@@ -23,7 +21,7 @@ public class AccountServiceTest {
     private AccountService accountService;
 
     private static final String DEFAULT_TENANT_ID = "d79ec11a-2011-4423-ba01-3af8de0a3e10";
-    private static final BigInteger DEFAULT_ACCOUNT_ID = BigInteger.ONE;
+    private static final long DEFAULT_ACCOUNT_ID = 1L;
     private static final String DEFAULT_ACCOUNT_NAME = "name.surname";
     private static final String DEFAULT_ACCOUNT_PASSWORD = "secret";
     private static final String DEFAULT_ACCOUNT_EMAIL = "not.set@domain.com";

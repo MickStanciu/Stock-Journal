@@ -1,16 +1,15 @@
 package com.example.accountapi.repository;
 
+import com.example.account.model.RoleInfoModel;
 import com.example.account.model.RoleModel;
-import org.jdbi.v3.core.mapper.ColumnMapper;
-import org.jdbi.v3.core.statement.StatementContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Singleton
 public class RoleRepository {
@@ -30,74 +29,48 @@ public class RoleRepository {
     }
 
     public RoleModel getRole(String tenantId, int id) {
-        List<RoleModel> results = conn.getJdbi().withHandle(handle ->
-                handle
-                        .createQuery(ROLE_READ_QUERY)
-                        .bind(0, id)
-                        .bind(1, tenantId)
-                        .map(new RoleModelRowMapper())
-                        .findOnly()
+        conn.getJdbi().registerRowMapper(RoleModelMapper.class, (rs, ctx) -> new RoleModelMapper(
+                rs.getInt("role_id"),
+                rs.getString("role_name"),
+                rs.getString("permission_name")
+        ));
+
+        List<RoleModelMapper> roleModelMapperList = conn.getJdbi().withHandle(handle -> handle
+                .createQuery(ROLE_READ_QUERY)
+                .bind(0, id)
+                .bind(1, tenantId)
+                .mapTo(RoleModelMapper.class)
+                .list()
         );
-        return null;
+
+        Set<RoleInfoModel> permissions  = new HashSet<>();
+        String roleName = null;
+
+        for (RoleModelMapper modelMapper : roleModelMapperList) {
+            roleName = modelMapper.name;
+            permissions.add(RoleInfoModel.valueOf(modelMapper.permission));
+        }
+
+        if (roleName == null || permissions.isEmpty()) {
+            return null;
+        }
+
+        return RoleModel.builder()
+                .withId(id)
+                .withName(roleName)
+                .withPermissions(permissions)
+                .build();
     }
 }
 
-class RoleModelRowMapper implements ColumnMapper<List<RoleModel>> {
+class RoleModelMapper {
+    public int id;
+    public String name;
+    public String permission;
 
-//    public RoleModel mapRow(ResultSet resultSet, int i) throws SQLException {
-//        Integer role_id = resultSet.getInt("role_id");
-//        String role_name = resultSet.getString("role_name");
-//        RoleModel role = new RoleModel(role_id, role_name);
-//
-//        Set<RoleInfoModel> permissions = new HashSet<>();
-//
-//        //todo: put a breakpoint ?
-////        for(Object[] result : results) {
-////            String permissionName = (String) result[2];
-////            if (permissionName != null) {
-////                permissions.add(RoleInfoModel.valueOf(permissionName));
-////            }
-////        }
-//
-//
-//        //https://dzone.com/articles/spring-jdbc-rowmapper-vs-resultsetextractor
-//        return RoleModel.builder(role).withPermissions(permissions).build();
-//    }
-
-
-//    @Override
-//    public List<RoleModel> extractData(ResultSet resultSet) throws SQLException, DataAccessException {
-//        Map<Integer, RoleModel> roles = new HashMap<>();
-//
-//        while (resultSet.next()) {
-//            Integer role_id = resultSet.getInt("role_id");
-//
-//
-//            RoleModel role;
-//            if (roles.containsKey(role_id)) {
-//                role = roles.get(role_id);
-//            } else {
-//                String role_name = resultSet.getString("role_name");
-//                role = new RoleModel(role_id, role_name);
-//            }
-//
-//            String permissionName = resultSet.getString("permission_name");
-//            if (permissionName != null) {
-//                role.getPermissions().add(RoleInfoModel.valueOf(permissionName));
-//            }
-//
-//            roles.put(role_id, role);
-//        }
-//        return new ArrayList<> (roles.values());
-//    }
-
-    @Override
-    public List<RoleModel> map(ResultSet r, int columnNumber, StatementContext ctx) throws SQLException {
-        return null;
-    }
-
-    @Override
-    public List<RoleModel> map(ResultSet r, String columnLabel, StatementContext ctx) throws SQLException {
-        return null;
+    RoleModelMapper(int id, String name, String permission) {
+        this.id = id;
+        this.name = name;
+        this.permission = permission;
     }
 }

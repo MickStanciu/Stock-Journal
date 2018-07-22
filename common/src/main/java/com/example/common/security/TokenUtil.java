@@ -19,7 +19,7 @@ public class TokenUtil {
     public static final String ISSUER = "Bendis";
     public static final long TTL = 1209600000L; //14 days
 
-    public static String generateToken(String tenantId, BigInteger accountId, Integer roleId) {
+    public static String generateToken(String tenantId, long accountId, Integer roleId) {
 
         long nowMillis = System.currentTimeMillis();
 

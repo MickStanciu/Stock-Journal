@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -68,29 +67,39 @@ public class AccountRepository {
     }
 
     public AccountModel getAccount(String tenantId, String email, String password) {
-        return conn.getJdbi().withHandle(handle ->
+        List<AccountModel> models = conn.getJdbi().withHandle(handle ->
                 handle
                     .createQuery(ACCOUNT_READ_BY_EMAIL_AND_PASSWORD_QUERY)
                     .bind(0, email)
                     .bind(1, password)
                     .bind(2, tenantId)
                     .map(new AccountModelRowMapper())
-                    .findOnly()
+                    .list()
         );
+
+        if (models.isEmpty()) {
+            return null;
+        }
+        return models.get(0);
     }
 
-    public AccountModel getAccount(String tenantId, BigInteger accountId) {
-        return conn.getJdbi().withHandle(handle ->
+    public AccountModel getAccount(String tenantId, long accountId) {
+        List<AccountModel> models = conn.getJdbi().withHandle(handle ->
                 handle
                     .createQuery(ACCOUNT_READ_BY_ID_QUERY)
                     .bind(0, tenantId)
                     .bind(1, accountId)
                     .map(new AccountModelRowMapper())
-                    .findOnly()
+                    .list()
         );
+
+        if (models.isEmpty()) {
+            return null;
+        }
+        return models.get(0);
     }
 
-    public List<AccountModel> getAccountsByRelationship(String tenantId, BigInteger parentId, int depth) {
+    public List<AccountModel> getAccountsByRelationship(String tenantId, long parentId, int depth) {
         return conn.getJdbi().withHandle(handle ->
                 handle
                     .createQuery(ACCOUNTS_READ_BY_RELATIONSHIP)
@@ -125,7 +134,7 @@ public class AccountRepository {
         );
     }
 
-    public void updateAccount(String tenantId, BigInteger accountId, AccountModel newAccount) {
+    public void updateAccount(String tenantId, long accountId, AccountModel newAccount) {
         conn.getJdbi().inTransaction(handle ->
                 handle
                         .createUpdate(ACCOUNT_UPDATE_QUERY)
@@ -147,7 +156,7 @@ class AccountModelRowMapper implements RowMapper<AccountModel> {
         return AccountModel.builder()
                 .havingPersonalDetails()
                     .withTenantId(rs.getString("tenant_id"))
-                    .withId(BigInteger.valueOf(rs.getLong("account_id")))
+                    .withId(rs.getLong("account_id"))
                     .withName(rs.getString("account_name"))
                     .withEmail(rs.getString("email"))
                     .withPassword(rs.getString("password"))

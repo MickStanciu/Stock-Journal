@@ -97,7 +97,7 @@ public class AccountGateway extends AbstractGateway {
                 .withEmail("test@example.com")
                 .withName("Mick")
                 .withPassword("123")
-                .withId(BigInteger.ONE)
+                .withId(1L)
                 .havingRole()
                 .withRoleId(1)
                 .withRole(RoleModel.builder()

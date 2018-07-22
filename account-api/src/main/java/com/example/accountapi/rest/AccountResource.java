@@ -21,7 +21,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -74,7 +73,7 @@ public class AccountResource {
     @Path("/{tenantId}/{accountId}")
     public Response accountById(
             @PathParam("tenantId") @DefaultValue("0") String tenantId,
-            @PathParam("accountId") @DefaultValue("0") BigInteger accountId
+            @PathParam("accountId") @DefaultValue("0") long accountId
     ) {
         if (!RequestValidation.validateGetAccount(tenantId, accountId)) {
             return Response.status(Response.Status.BAD_REQUEST).build();
@@ -108,7 +107,7 @@ public class AccountResource {
     @Path("/relations/{tenantId}/{parentId}")
     public Response getAccountByRelationship(
             @PathParam("tenantId") @DefaultValue("0") String tenantId,
-            @PathParam("parentId") @DefaultValue("0") BigInteger parentId,
+            @PathParam("parentId") @DefaultValue("0") long parentId,
             @QueryParam("depth") Integer depth
     ) {
         if (!RequestValidation.validateGetAccountsByRelationship(tenantId, parentId, depth)) {
@@ -193,7 +192,7 @@ public class AccountResource {
     public Response updateAccount(
             AccountModel account,
             @PathParam("tenantId") @DefaultValue("0") String tenantId,
-            @PathParam("accountId") @DefaultValue("0") BigInteger accountId
+            @PathParam("accountId") @DefaultValue("0") long accountId
     ) {
         if (!RequestValidation.validateUpdateAccount(tenantId, accountId, account)) {
             return Response.status(Response.Status.BAD_REQUEST).build();

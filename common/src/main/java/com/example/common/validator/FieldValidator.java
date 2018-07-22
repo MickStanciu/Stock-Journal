@@ -1,7 +1,5 @@
 package com.example.common.validator;
 
-import java.math.BigInteger;
-
 public class FieldValidator {
     protected static boolean tenantId(String tenantId) {
         return new StringValidator(tenantId)
@@ -10,14 +8,8 @@ public class FieldValidator {
                 .isValid();
     }
 
-    protected static boolean accountId(BigInteger accountId) {
-        if (accountId == null) {
-            return false;
-        }
-
-        Integer accountIdInt = accountId.intValue();
-        return new IntegerValidator(accountIdInt)
-                .notNull()
+    protected static boolean accountId(long accountId) {
+        return new LongValidator(accountId)
                 .greaterThanZero()
                 .isValid();
     }

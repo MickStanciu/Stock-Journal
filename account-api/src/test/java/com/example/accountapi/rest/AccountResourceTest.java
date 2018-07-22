@@ -11,14 +11,13 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import javax.ws.rs.core.Response;
-import java.math.BigInteger;
 import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 
 
-public class AccountRestTest {
+public class AccountResourceTest {
 
     @Mock
     private AccountFacade accountFacade;
@@ -27,7 +26,7 @@ public class AccountRestTest {
     private AccountResource accountResource;
 
     private static final String DEFAULT_TENANT_ID = "d79ec11a-2011-4423-ba01-3af8de0a3e10";
-    private static final BigInteger DEFAULT_ACCOUNT_ID = BigInteger.ONE;
+    private static final long DEFAULT_ACCOUNT_ID = 1L;
     private static final String DEFAULT_ACCOUNT_NAME = "name.surname";
     private static final String DEFAULT_ACCOUNT_PASSWORD = "secret";
     private static final String DEFAULT_ACCOUNT_EMAIL = "not.set@domain.com";
@@ -59,6 +58,6 @@ public class AccountRestTest {
         ResponseEnvelope responseEnvelope = (ResponseEnvelope) response.getEntity();
         AccountModel item = (AccountModel) responseEnvelope.getData();
 
-        assertEquals(BigInteger.ONE, item.getId(), "Id should be equal to: \'1\'");
+        assertEquals(1L, item.getId(), "Id should be equal to: \'1\'");
     }
 }

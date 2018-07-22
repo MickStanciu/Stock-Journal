@@ -7,8 +7,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.math.BigInteger;
 import java.util.List;
+import java.util.Optional;
 
 @Singleton
 public class AccountService {
@@ -22,15 +22,25 @@ public class AccountService {
         this.accountRepository = accountRepository;
     }
 
-    public AccountModel getAccount(String tenantId, String email, String password) {
-        return accountRepository.getAccount(tenantId, email, password);
+    public Optional<AccountModel> getAccount(String tenantId, String email, String password) {
+        try {
+            return Optional.ofNullable(accountRepository.getAccount(tenantId, email, password));
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+            return Optional.empty();
+        }
     }
 
-    public AccountModel getAccount(String tenantId, BigInteger accountId) {
-        return accountRepository.getAccount(tenantId, accountId);
+    public Optional<AccountModel> getAccount(String tenantId, long accountId) {
+        try {
+            return Optional.ofNullable(accountRepository.getAccount(tenantId, accountId));
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
+            return Optional.empty();
+        }
     }
 
-    public List<AccountModel> getAccountByRelationShip(String tenantId, BigInteger parentId, int depth) {
+    public List<AccountModel> getAccountByRelationShip(String tenantId, long parentId, int depth) {
         return accountRepository.getAccountsByRelationship(tenantId, parentId, depth);
     }
 
@@ -42,13 +52,13 @@ public class AccountService {
         accountRepository.createAccount(tenantId, name, password, email, roleId);
     }
 
-    public void updateAccount(String tenantId, BigInteger accountId, AccountModel originalAccount, AccountModel account) {
+    public void updateAccount(String tenantId, long accountId, AccountModel originalAccount, AccountModel account) {
         //transfer only allowed fields
         AccountModel newAccount = copyAccount(tenantId, accountId, originalAccount, account);
         accountRepository.updateAccount(tenantId, accountId, newAccount);
     }
 
-    AccountModel copyAccount(String tenantId, BigInteger accountId, AccountModel originalAccount, AccountModel account) {
+    AccountModel copyAccount(String tenantId, long accountId, AccountModel originalAccount, AccountModel account) {
         AccountModel.Builder builder = new AccountModel.Builder();
         builder
                 .havingPersonalDetails()
@@ -57,7 +67,7 @@ public class AccountService {
                 .withName(account.getName() == null ? originalAccount.getName() : account.getName())
                 .withEmail(account.getEmail() == null ? originalAccount.getEmail() : account.getEmail())
                 .withPassword(account.getPassword() == null ? originalAccount.getPassword() : account.getPassword())
-                .withFlagActive(account.isActive() == null ? originalAccount.isActive() : account.isActive())
+                .withFlagActive(account.isActive() ? originalAccount.isActive() : account.isActive())
                 .havingRole()
                 .withRole(account.getRole() == null ? originalAccount.getRole() : account.getRole());
         return builder.build();
