@@ -46,7 +46,7 @@
         <module>gateway-api</module>
         <module>tenant-api</module>
         <module>account-api</module>
-        <module>timesheet</module>
+        <module>timesheet-api</module>
     </modules>
 
     <dependencyManagement>
