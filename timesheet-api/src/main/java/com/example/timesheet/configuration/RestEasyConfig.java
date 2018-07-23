@@ -2,6 +2,7 @@ package com.example.timesheet.configuration;
 
 
 import com.example.timesheet.rest.HealthResource;
+import com.example.timesheet.rest.TimeSheetResource;
 
 import javax.ws.rs.core.Application;
 import java.util.HashSet;
@@ -13,6 +14,7 @@ public class RestEasyConfig extends Application {
     public Set<Class<?>> getClasses() {
         Set<Class<?>> classes = new HashSet<>();
         classes.add(HealthResource.class);
+        classes.add(TimeSheetResource.class);
         return classes;
     }
 }

@@ -1,11 +1,10 @@
-package com.example.timesheet.controller;
+package com.example.timesheet.rest;
 
 import com.example.common.converter.TimeConversion;
 import com.example.common.rest.dto.ErrorDto;
 import com.example.common.rest.envelope.ResponseEnvelope;
 import com.example.timesheet.exception.ExceptionCode;
 import com.example.timesheet.model.TimeSheetEntryModel;
-import com.example.timesheet.rest.RequestValidation;
 import com.example.timesheet.service.TimeSheetService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
