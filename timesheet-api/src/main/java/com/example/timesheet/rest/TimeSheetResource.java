@@ -27,12 +27,8 @@ public class TimeSheetResource {
 
     private static final Logger log = LoggerFactory.getLogger(TimeSheetResource.class);
 
-    private TimeSheetService timeSheetService;
-
     @Inject
-    public TimeSheetResource(TimeSheetService timeSheetService) {
-        this.timeSheetService = timeSheetService;
-    }
+    private TimeSheetService timeSheetService;
 
     @GET
     @Path("/{tenantId}/{accountId}")
