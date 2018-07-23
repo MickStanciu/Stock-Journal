@@ -61,8 +61,8 @@ public class AccountRepository {
     public boolean checkFirstRecord() {
         return conn.getJdbi().withHandle(handle ->
                 handle
-                        .createQuery(ACCOUNT_READ_FIRST_QUERY)
-                        .mapToMap().list()
+                    .createQuery(ACCOUNT_READ_FIRST_QUERY)
+                    .mapToMap().list()
         ).size() == 1;
     }
 
@@ -137,14 +137,14 @@ public class AccountRepository {
     public void updateAccount(String tenantId, long accountId, AccountModel newAccount) {
         conn.getJdbi().inTransaction(handle ->
                 handle
-                        .createUpdate(ACCOUNT_UPDATE_QUERY)
-                        .bind(0, newAccount.getName())
-                        .bind(1, newAccount.getPassword())
-                        .bind(2, newAccount.getEmail())
-                        .bind(3, newAccount.isActive())
-                        .bind(4, newAccount.getRole().getId())
-                        .bind(5, tenantId)
-                        .bind(6, accountId)
+                    .createUpdate(ACCOUNT_UPDATE_QUERY)
+                    .bind(0, newAccount.getName())
+                    .bind(1, newAccount.getPassword())
+                    .bind(2, newAccount.getEmail())
+                    .bind(3, newAccount.isActive())
+                    .bind(4, newAccount.getRole().getId())
+                    .bind(5, tenantId)
+                    .bind(6, accountId)
         );
     }
 }

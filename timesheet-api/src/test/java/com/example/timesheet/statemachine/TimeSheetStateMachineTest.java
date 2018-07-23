@@ -1,7 +1,5 @@
 package com.example.timesheet.statemachine;
 
-import com.example.core.statemachine.Event;
-import com.example.core.statemachine.State;
 import org.testng.annotations.Test;
 
 import static org.testng.AssertJUnit.assertEquals;

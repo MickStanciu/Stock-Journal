@@ -1,13 +1,12 @@
 package com.example.timesheet.model;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 
 public class ProjectModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private BigInteger id;
+    private long id;
     private String tenantId;
     private boolean active;
     private String title;
@@ -17,7 +16,7 @@ public class ProjectModel implements Serializable {
         //required by Jackson
     }
 
-    public BigInteger getId() {
+    public long getId() {
         return id;
     }
 
@@ -66,7 +65,7 @@ public class ProjectModel implements Serializable {
             return this;
         }
 
-        public Builder withId(BigInteger id) {
+        public Builder withId(long id) {
             project.id = id;
             return this;
         }

@@ -3,21 +3,20 @@ package com.example.timesheet.model;
 import com.example.timesheet.statemachine.State;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.time.Instant;
 
 public class TimeSheetEntryModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private BigInteger id;
+    private long id;
     private Instant fromTime;
     private Instant toTime;
     private String title;
     private State state;
 
     private String tenantId;
-    private BigInteger accountId;
+    private long accountId;
 
     private ProjectModel project;
     private TaskModel task;
@@ -26,7 +25,7 @@ public class TimeSheetEntryModel implements Serializable {
         //required by Jackson
     }
 
-    public BigInteger getId() {
+    public long getId() {
         return id;
     }
 
@@ -50,7 +49,7 @@ public class TimeSheetEntryModel implements Serializable {
         return title;
     }
 
-    public BigInteger getAccountId() {
+    public long getAccountId() {
         return accountId;
     }
 
@@ -91,7 +90,7 @@ public class TimeSheetEntryModel implements Serializable {
             return this;
         }
 
-        public Builder withAccountId(BigInteger accountId) {
+        public Builder withAccountId(long accountId) {
             timesheetEntry.accountId = accountId;
             return this;
         }
@@ -116,7 +115,7 @@ public class TimeSheetEntryModel implements Serializable {
             return this;
         }
 
-        public Builder withId(BigInteger id) {
+        public Builder withId(long id) {
             timesheetEntry.id = id;
             return this;
         }

@@ -1,15 +1,14 @@
 package com.example.timesheet.model;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 
 public class TaskModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private BigInteger id;
+    private long id;
     private String tenantId;
-    private BigInteger projectId;
+    private long projectId;
     private boolean active;
     private String title;
     private String description;
@@ -18,7 +17,7 @@ public class TaskModel implements Serializable {
         //required by Jackson
     }
 
-    public BigInteger getId() {
+    public long getId() {
         return id;
     }
 
@@ -26,7 +25,7 @@ public class TaskModel implements Serializable {
         return tenantId;
     }
 
-    public BigInteger getProjectId() {
+    public long getProjectId() {
         return projectId;
     }
 
@@ -71,7 +70,7 @@ public class TaskModel implements Serializable {
             return this;
         }
 
-        public Builder withId(BigInteger id) {
+        public Builder withId(long id) {
             task.id = id;
             return this;
         }
@@ -91,7 +90,7 @@ public class TaskModel implements Serializable {
             return this;
         }
 
-        public Builder withProjectId(BigInteger projectId) {
+        public Builder withProjectId(long projectId) {
             task.projectId = projectId;
             return this;
         }
