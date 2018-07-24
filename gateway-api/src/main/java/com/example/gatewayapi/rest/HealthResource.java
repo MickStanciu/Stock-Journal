@@ -56,6 +56,7 @@ public class HealthResource {
             QueryInput queryInput = QueryInput.newBuilder().setText(textInput).build();
 
             DetectIntentResponse response = sessionsClient.detectIntent(session, queryInput);
+            System.out.println(response);
         }
 //        try (AgentsClient agentsClient = AgentsClient.create(settings)) {
 //            ProjectName parent = ProjectName.of("[ChatBot]");
