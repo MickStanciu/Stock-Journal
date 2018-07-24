@@ -1,10 +1,11 @@
 package com.example.timesheet;
 
+import com.example.timesheet.configuration.ApplicationConfig;
 import com.example.timesheet.configuration.PropertiesUtil;
-import com.example.timesheet.configuration.RestEasyConfig;
 import io.undertow.Undertow;
 import io.undertow.servlet.Servlets;
 import io.undertow.servlet.api.DeploymentInfo;
+import org.jboss.resteasy.cdi.CdiInjectorFactory;
 import org.jboss.resteasy.plugins.server.undertow.UndertowJaxrsServer;
 import org.jboss.resteasy.spi.ResteasyDeployment;
 import org.jboss.weld.environment.servlet.Listener;
@@ -18,14 +19,17 @@ public class TimeSheetApi {
     private static final Logger log = LoggerFactory.getLogger(TimeSheetApi.class);
 
     public static void main(String[] args) {
+        ApplicationConfig appConfig = new ApplicationConfig();
+
         PropertiesUtil propertiesUtil = new PropertiesUtil();
         Properties properties = propertiesUtil.getProperties();
 
         UndertowJaxrsServer server = new UndertowJaxrsServer();
 
         ResteasyDeployment deployment = new ResteasyDeployment();
-        deployment.setApplicationClass(RestEasyConfig.class.getName());
-        deployment.setInjectorFactoryClass("org.jboss.resteasy.cdi.CdiInjectorFactory");
+        deployment.setActualResourceClasses(appConfig.getResourceClasses());
+        deployment.setProviderClasses(appConfig.getProviderClasses());
+        deployment.setInjectorFactoryClass(CdiInjectorFactory.class.getCanonicalName());
 
         DeploymentInfo deploymentInfo = server.undertowDeployment(deployment)
                 .setClassLoader(TimeSheetApi.class.getClassLoader())
