@@ -32,7 +32,7 @@ public class GatewayApi {
 
         DeploymentInfo deploymentInfo = server.undertowDeployment(deployment)
                 .setClassLoader(GatewayApi.class.getClassLoader())
-                .setContextPath("/rest")
+                .setContextPath("/")
                 .addFilter(new FilterInfo("TokenFilter", TokenFilter.class))
                 .addFilterUrlMapping("TokenFilter", "/*", DispatcherType.REQUEST)
                 .addFilterUrlMapping("TokenFilter", "/*", DispatcherType.FORWARD)

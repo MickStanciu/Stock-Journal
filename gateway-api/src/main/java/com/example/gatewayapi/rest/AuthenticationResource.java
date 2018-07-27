@@ -20,7 +20,7 @@ import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 
-@Path("/v1/auth")
+@Path("/rest/v1/auth")
 @Produces(MediaType.APPLICATION_JSON)
 public class AuthenticationResource {
 
