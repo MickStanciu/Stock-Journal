@@ -30,6 +30,11 @@ public class GatewayApi {
         deployment.setApplicationClass(RestEasyConfig.class.getName());
         deployment.setInjectorFactoryClass("org.jboss.resteasy.cdi.CdiInjectorFactory");
 
+        //?
+//        ServletInfo servletInfo = new ServletInfo("dispatcher", HttpServletDispatcher.class);
+//        servletInfo.addInitParam("javax.ws.rs.Application", RestEasyConfig.class.getName());
+
+
         DeploymentInfo deploymentInfo = server.undertowDeployment(deployment)
                 .setClassLoader(GatewayApi.class.getClassLoader())
                 .setContextPath("/")
@@ -37,6 +42,7 @@ public class GatewayApi {
                 .addFilterUrlMapping("TokenFilter", "/*", DispatcherType.REQUEST)
                 .addFilterUrlMapping("TokenFilter", "/*", DispatcherType.FORWARD)
                 .addListener(Servlets.listener(Listener.class))
+//                .addServlet(servletInfo)
                 .setDeploymentName("Undertow RestEasy Weld");
 
         server.deploy(deploymentInfo);
