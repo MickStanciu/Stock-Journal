@@ -7,6 +7,7 @@ import io.undertow.Undertow;
 import io.undertow.servlet.Servlets;
 import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.FilterInfo;
+import org.jboss.resteasy.cdi.CdiInjectorFactory;
 import org.jboss.resteasy.plugins.server.undertow.UndertowJaxrsServer;
 import org.jboss.resteasy.spi.ResteasyDeployment;
 import org.jboss.weld.environment.servlet.Listener;
@@ -15,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.DispatcherType;
 import java.util.Properties;
+
 
 public class GatewayApi {
 
@@ -28,7 +30,7 @@ public class GatewayApi {
 
         ResteasyDeployment deployment = new ResteasyDeployment();
         deployment.setApplicationClass(RestEasyConfig.class.getName());
-        deployment.setInjectorFactoryClass("org.jboss.resteasy.cdi.CdiInjectorFactory");
+        deployment.setInjectorFactoryClass(CdiInjectorFactory.class.getName());
 
         //?
 //        ServletInfo servletInfo = new ServletInfo("dispatcher", HttpServletDispatcher.class);
@@ -46,9 +48,8 @@ public class GatewayApi {
                 .setDeploymentName("Undertow RestEasy Weld");
 
         server.deploy(deploymentInfo);
-//        server.addResourcePrefixPath("/",
-//                resource(new ClassPathResourceManager(Server.class.getClassLoader()))
-//                        .addWelcomeFiles("index.html"));
+//        server.addResourcePrefixPath("/", resource(new ClassPathResourceManager(GatewayApi.class.getClassLoader()))
+//                        .addWelcomeFiles("index.htm"));
 
         Undertow.Builder undertowBuilder = Undertow.builder()
                 .addHttpListener(getServerPort(properties), "0.0.0.0");

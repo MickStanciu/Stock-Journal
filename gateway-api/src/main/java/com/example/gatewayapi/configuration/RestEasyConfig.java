@@ -6,6 +6,7 @@ import com.example.gatewayapi.rest.AuthenticationResource;
 import com.example.gatewayapi.rest.ErrorResource;
 import com.example.gatewayapi.rest.HealthResource;
 import com.example.gatewayapi.rest.TimesSheetResource;
+import com.example.gatewayapi.view.HelloServlet;
 import com.example.gatewayapi.view.HelloView;
 
 import javax.ws.rs.core.Application;
@@ -28,6 +29,7 @@ public class RestEasyConfig extends Application {
 
         // VIEW
         classes.add(HelloView.class);
+        classes.add(HelloServlet.class);
         return classes;
     }
 }
