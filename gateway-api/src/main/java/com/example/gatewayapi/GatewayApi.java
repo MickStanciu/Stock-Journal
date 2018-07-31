@@ -45,8 +45,8 @@ public class GatewayApi {
                 .setDeploymentName("Undertow RestEasy Weld");
 
         server.deploy(deploymentInfo);
-        server.addResourcePrefixPath("/", resource(new ClassPathResourceManager(GatewayApi.class.getClassLoader()))
-                        .addWelcomeFiles("index.htm"));
+        server.addResourcePrefixPath("/index.htm", resource(new ClassPathResourceManager(GatewayApi.class.getClassLoader()))
+                        .addWelcomeFiles("webapp/index.htm"));
 
         Undertow.Builder undertowBuilder = Undertow.builder()
                 .addHttpListener(getServerPort(properties), "0.0.0.0");

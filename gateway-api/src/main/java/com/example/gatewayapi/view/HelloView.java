@@ -14,6 +14,6 @@ public class HelloView {
     @GET
     public View hello() {
         System.out.println("YO");
-        return new View("/index.htm");
+        return new View("/webapp/index.htm");
     }
 }

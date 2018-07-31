@@ -1,11 +1,6 @@
 package com.example.gatewayapi.filter;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -15,6 +10,7 @@ import java.util.Set;
 public class TokenFilter implements Filter {
 
     private final String API_PATH = "/api";
+    private final String WEB_PATH = "/webapp";
     private final String AUTH_KEY = "authkey";
     private Set<String> absolutePath = new HashSet<>();
     private Set<String> startWithPath = new HashSet<>();
@@ -29,7 +25,7 @@ public class TokenFilter implements Filter {
         }
 
         for (String path : startWithPath) {
-            if (uri.startsWith(path) && uri.length() > path.length()) {
+            if (uri.startsWith(path) && uri.length() >= path.length()) {
                 return true;
             }
         }
@@ -38,9 +34,11 @@ public class TokenFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) {
-        startWithPath.add(API_PATH + "/v1/auth/");
+        startWithPath.add(API_PATH + "/v1/auth");
         startWithPath.add(API_PATH + "/v1/health");
         startWithPath.add(API_PATH + "/v1/error");
+        startWithPath.add(API_PATH + "/hello");
+        startWithPath.add(API_PATH + WEB_PATH);
     }
 
     @Override
