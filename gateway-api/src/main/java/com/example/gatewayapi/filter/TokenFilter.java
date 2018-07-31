@@ -14,7 +14,7 @@ import java.util.Set;
 
 public class TokenFilter implements Filter {
 
-    private final String API_PATH = "/rest";
+    private final String API_PATH = "/api";
     private final String AUTH_KEY = "authkey";
     private Set<String> absolutePath = new HashSet<>();
     private Set<String> startWithPath = new HashSet<>();

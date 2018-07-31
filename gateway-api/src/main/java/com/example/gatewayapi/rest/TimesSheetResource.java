@@ -22,7 +22,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
-@Path("/rest/v1/timesheet")
+@Path("/v1/timesheet")
 @Produces(MediaType.APPLICATION_JSON)
 public class TimesSheetResource  extends AbstractResource {
 

@@ -4,6 +4,7 @@ import com.example.gatewayapi.configuration.PropertiesUtil;
 import com.example.gatewayapi.configuration.RestEasyConfig;
 import com.example.gatewayapi.filter.TokenFilter;
 import io.undertow.Undertow;
+import io.undertow.server.handlers.resource.ClassPathResourceManager;
 import io.undertow.servlet.Servlets;
 import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.FilterInfo;
@@ -16,6 +17,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.DispatcherType;
 import java.util.Properties;
+
+import static io.undertow.Handlers.resource;
 
 
 public class GatewayApi {
@@ -32,24 +35,18 @@ public class GatewayApi {
         deployment.setApplicationClass(RestEasyConfig.class.getName());
         deployment.setInjectorFactoryClass(CdiInjectorFactory.class.getName());
 
-        //?
-//        ServletInfo servletInfo = new ServletInfo("dispatcher", HttpServletDispatcher.class);
-//        servletInfo.addInitParam("javax.ws.rs.Application", RestEasyConfig.class.getName());
-
-
         DeploymentInfo deploymentInfo = server.undertowDeployment(deployment)
                 .setClassLoader(GatewayApi.class.getClassLoader())
-                .setContextPath("/")
+                .setContextPath("/api")
                 .addFilter(new FilterInfo("TokenFilter", TokenFilter.class))
                 .addFilterUrlMapping("TokenFilter", "/*", DispatcherType.REQUEST)
                 .addFilterUrlMapping("TokenFilter", "/*", DispatcherType.FORWARD)
                 .addListener(Servlets.listener(Listener.class))
-//                .addServlet(servletInfo)
                 .setDeploymentName("Undertow RestEasy Weld");
 
         server.deploy(deploymentInfo);
-//        server.addResourcePrefixPath("/", resource(new ClassPathResourceManager(GatewayApi.class.getClassLoader()))
-//                        .addWelcomeFiles("index.htm"));
+        server.addResourcePrefixPath("/", resource(new ClassPathResourceManager(GatewayApi.class.getClassLoader()))
+                        .addWelcomeFiles("index.htm"));
 
         Undertow.Builder undertowBuilder = Undertow.builder()
                 .addHttpListener(getServerPort(properties), "0.0.0.0");

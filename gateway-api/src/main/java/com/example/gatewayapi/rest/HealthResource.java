@@ -6,7 +6,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/rest/v1/health")
+@Path("/v1/health")
 @Produces(MediaType.APPLICATION_JSON)
 public class HealthResource {
 
