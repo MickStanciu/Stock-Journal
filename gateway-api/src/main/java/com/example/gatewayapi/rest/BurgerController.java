@@ -17,7 +17,7 @@ public class BurgerController {
     public Response getAccountDetails(@Context HttpServletResponse servletResponse, String order) {
         System.out.println("/orders.json " + order);
 
-        servletResponse.setHeader("Access-Control-Allow-Origin", "http://localhost:3000");
+        servletResponse.setHeader("Access-Control-Allow-Origin", "*");
         return Response
                 .status(Response.Status.OK).build();
     }
