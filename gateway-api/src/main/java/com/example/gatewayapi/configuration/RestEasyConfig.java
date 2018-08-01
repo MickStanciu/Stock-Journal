@@ -3,6 +3,7 @@ package com.example.gatewayapi.configuration;
 
 import com.example.gatewayapi.rest.AccountResource;
 import com.example.gatewayapi.rest.AuthenticationResource;
+import com.example.gatewayapi.rest.BurgerController;
 import com.example.gatewayapi.rest.ErrorResource;
 import com.example.gatewayapi.rest.HealthResource;
 import com.example.gatewayapi.rest.TimesSheetResource;
@@ -28,6 +29,7 @@ public class RestEasyConfig extends Application {
 
         // VIEW
         classes.add(HelloView.class);
+        classes.add(BurgerController.class);
         return classes;
     }
 }
