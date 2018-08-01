@@ -1,17 +1,15 @@
 /.idea/
 *.iml
 */target
-*/deployments/*
 .rebel.xml.bak
 .rebel-remote.xml.bak
 */audit.log
 /audit.log
-web/node_modules
-web/yarn-error.log
-web/src/main/webapp/resources/default/css/default.css
-shop/node_modules
+
 /jmeter.log
 
 .gradle
 */build
 gradle*
+
+node_modules
