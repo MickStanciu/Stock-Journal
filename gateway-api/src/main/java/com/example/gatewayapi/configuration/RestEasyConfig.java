@@ -30,6 +30,9 @@ public class RestEasyConfig extends Application {
         // VIEW
         classes.add(HelloView.class);
         classes.add(BurgerController.class);
+
+        //?
+        classes.add(CorsFilter.class);
         return classes;
     }
 }
