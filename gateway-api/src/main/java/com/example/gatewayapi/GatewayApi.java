@@ -9,7 +9,6 @@ import io.undertow.servlet.Servlets;
 import io.undertow.servlet.api.DeploymentInfo;
 import io.undertow.servlet.api.FilterInfo;
 import org.jboss.resteasy.cdi.CdiInjectorFactory;
-import org.jboss.resteasy.plugins.interceptors.CorsFilter;
 import org.jboss.resteasy.plugins.server.undertow.UndertowJaxrsServer;
 import org.jboss.resteasy.spi.ResteasyDeployment;
 import org.jboss.weld.environment.servlet.Listener;
@@ -31,9 +30,6 @@ public class GatewayApi {
         Properties properties = propertiesUtil.getProperties();
 
         UndertowJaxrsServer server = new UndertowJaxrsServer();
-
-        CorsFilter corsFilter = new CorsFilter();
-        corsFilter.getAllowedOrigins().add("*");
 
         ResteasyDeployment deployment = new ResteasyDeployment();
         deployment.setApplicationClass(RestEasyConfig.class.getName());
