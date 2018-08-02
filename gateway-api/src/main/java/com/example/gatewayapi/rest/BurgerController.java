@@ -1,5 +1,6 @@
 package com.example.gatewayapi.rest;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -12,16 +13,18 @@ public class BurgerController {
 
     @POST
     @Path("/orders.json")
-    public Response getAccountDetails(String order) {
+    public Response processOrders(String order) throws InterruptedException {
         System.out.println("/orders.json " + order);
-
+        Thread.sleep(1000);
         return Response.status(Response.Status.OK).build();
     }
+
+    @GET
+    @Path("/ingredients.json")
+    public Response getIngredients() throws InterruptedException {
+        System.out.println("/ingredients.json");
+        Thread.sleep(1000);
+        String bla = "{\"salad\":1,\"bacon\":1,\"cheese\":1,\"meat\":1}";
+        return Response.status(Response.Status.OK).entity(bla).build();
+    }
 }
-
-
-/*
-
-{"ingredients":{"salad":0,"bacon":1,"cheese":0,"meat":0},"price":4.7,"customer":{"name":"Max S","address":{"street":"Test","zipCode":"1234","country":"Australia"},"email":"test@test.com","deliveryMethod":"fastest"}}
-
- */
