@@ -1,31 +1,26 @@
 <template>
   <div class="container">
-    <app-header/>
-    <hr/>
     <div class="row">
-      <app-servers/>
-      <app-server-details/>
+      <div class="col-xs-12">
+        <app-user></app-user>
+      </div>
     </div>
-    <app-footer/>
   </div>
 </template>
 
 <script>
-  import Header from './components/shared/Header'
-  import Footer from './components/shared/Footer'
-  import Servers from './components/server/Servers'
-  import ServerDetails from './components/server/ServerDetails'
+  import User from './components/User';
 
   export default {
     components: {
-      'app-header': Header,
-      'app-servers': Servers,
-      'app-server-details':  ServerDetails,
-      'app-footer': Footer
+      appUser: User
     }
   }
 </script>
 
 <style>
-
+  div.component {
+    border: 1px solid black;
+    padding: 30px;
+  }
 </style>
