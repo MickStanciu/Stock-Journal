@@ -1,12 +1,13 @@
 package com.example.gatewayapi.gateway;
 
 import com.example.common.rest.dto.ErrorDto;
-import org.jboss.resteasy.client.jaxrs.ResteasyClient;
-import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
-import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
+import com.example.gatewayapi.configuration.JacksonConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
 import java.net.URI;
 import java.util.List;
 
@@ -20,9 +21,10 @@ abstract class AbstractGateway {
         }
     }
 
-    public ResteasyWebTarget getTarget(URI uri) {
-        ResteasyClient client = new ResteasyClientBuilder()
-                .build();
+    public WebTarget getTarget(URI uri) {
+        Client client = ClientBuilder
+                .newClient()
+                .register(JacksonConfig.class);
         return client.target(uri);
     }
 

@@ -6,13 +6,13 @@ import com.example.account.model.RoleModel;
 import com.example.common.rest.envelope.ResponseEnvelope;
 import com.example.common.util.UriBuilder;
 import com.example.gatewayapi.configuration.Property;
-import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -37,17 +37,15 @@ public class AccountGateway extends AbstractGateway {
     }
 
     public Optional<AccountModel> getAccount(String tenantId, BigInteger accountId) {
-        return getFake();
+//        return getFake();
 
-        /*
         UriBuilder builder = UriBuilder.builder(SERVICE_URL)
-                .addPath("api")
+                .addPath("rest")
                 .addPath("v1")
                 .addPath(tenantId)
                 .addPath(accountId.toString());
 
         return getAccountModel(builder.build());
-        */
     }
 
     public Optional<AccountModel> getAccount(String tenantId, String email, String password) {
@@ -63,7 +61,7 @@ public class AccountGateway extends AbstractGateway {
 
 
     private Optional<AccountModel> getAccountModel(URI uri) {
-        ResteasyWebTarget target = this.getTarget(uri);
+        WebTarget target = this.getTarget(uri);
 
         ResponseEnvelope<AccountModel> envelope;
 

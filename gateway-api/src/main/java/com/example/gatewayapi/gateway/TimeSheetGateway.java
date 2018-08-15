@@ -4,11 +4,11 @@ import com.example.common.rest.envelope.ResponseEnvelope;
 import com.example.common.util.UriBuilder;
 import com.example.gatewayapi.configuration.Property;
 import com.example.timesheet.model.TimeSheetEntryModel;
-import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -27,19 +27,18 @@ public class TimeSheetGateway extends AbstractGateway {
 
     public List<TimeSheetEntryModel> getTimeSheetEntries(String tenantId, BigInteger accountId, String from, String to) {
         UriBuilder builder = UriBuilder.builder(SERVICE_URL)
-                .addPath("api")
+                .addPath("rest")
                 .addPath("v1")
                 .addPath(tenantId)
                 .addPath(accountId.toString())
                 .addQuery("from", from)
                 .addQuery("to", to);
 
-
         return getTimeSheetModel(builder.build());
     }
 
     private List<TimeSheetEntryModel> getTimeSheetModel(URI uri) {
-        ResteasyWebTarget target = this.getTarget(uri);
+        WebTarget target = this.getTarget(uri);
 
         ResponseEnvelope<List<TimeSheetEntryModel>> envelope;
 

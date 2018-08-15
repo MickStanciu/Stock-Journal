@@ -37,9 +37,9 @@ public class AccountApi {
                 .setContextPath("/")
                 .addListener(Servlets.listener(Listener.class))
                 .addServlets(servlet("jerseyServlet", ServletContainer.class)
-                        .setLoadOnStartup(1)
-                        .addInitParam("javax.ws.rs.Application", JerseyConfig.class.getName())
-                        .addMapping("/rest/*")
+                    .setLoadOnStartup(1)
+                    .addInitParam("javax.ws.rs.Application", JerseyConfig.class.getName())
+                    .addMapping("/rest/*")
                 )
                 .setDeploymentName("Undertow Jersey Weld");
 
