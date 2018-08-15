@@ -15,7 +15,7 @@
 
     <properties>
         <jdbi.version>3.3.0</jdbi.version>
-        <jersey.version>2.21</jersey.version>
+        <jersey.version>2.27</jersey.version>
         <jackson.version>2.9.6</jackson.version>
     </properties>
 
@@ -76,12 +76,11 @@
             <version>${jersey.version}</version>
         </dependency>
 
-        <!--<dependency>-->
-            <!--<groupId>org.glassfish.jersey.inject</groupId>-->
-            <!--<artifactId>jersey-cdi2-se</artifactId>-->
-            <!--<version>${jersey.version}</version>-->
-        <!--</dependency>-->
-
+        <dependency>
+            <groupId>org.glassfish.jersey.inject</groupId>
+            <artifactId>jersey-hk2</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
 
         <!-- Weld -->
         <dependency>
