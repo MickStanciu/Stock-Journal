@@ -23,8 +23,6 @@ public class DatabaseConnection {
     @Property("datasource.password")
     private String dbPass;
 
-
-
     private Jdbi jdbi;
 
     @PostConstruct
@@ -32,7 +30,6 @@ public class DatabaseConnection {
         jdbi = Jdbi
                 .create(JDBC_URL, dbUser, dbPass)
                 .installPlugin(new PostgresPlugin());
-
     }
 
     Jdbi getJdbi() {
