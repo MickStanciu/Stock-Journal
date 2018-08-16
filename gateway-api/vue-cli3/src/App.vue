@@ -30,16 +30,10 @@
         <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
           <div class="form-group">
             <label for="sendmail">
-              <input
-                      type="checkbox"
-                      id="sendmail"
-                      value="SendMail"> Send Mail
+              <input v-model="sendMail" type="checkbox" id="sendmail" value="SendMail"> Send Mail
             </label>
             <label for="sendInfomail">
-              <input
-                      type="checkbox"
-                      id="sendInfomail"
-                      value="SendInfoMail"> Send Infomail
+              <input v-model="sendMail" type="checkbox" id="sendInfomail" value="SendInfoMail"> Send Infomail
             </label>
           </div>
 
@@ -48,26 +42,18 @@
       <div class="row">
         <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 form-group">
           <label for="male">
-            <input
-                    type="radio"
-                    id="male"
-                    value="Male"> Male
+            <input v-model="gender" type="radio" id="male" value="Male"> Male
           </label>
           <label for="female">
-            <input
-                    type="radio"
-                    id="female"
-                    value="Female"> Female
+            <input v-model="gender" type="radio" id="female" value="Female"> Female
           </label>
         </div>
       </div>
       <div class="row">
         <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3 from-group">
           <label for="priority">Priority</label>
-          <select
-                  id="priority"
-                  class="form-control">
-            <option></option>
+          <select v-model="selectedPriority" id="priority" class="form-control">
+            <option v-for="priority in priorities">{{ priority }}</option>
           </select>
         </div>
       </div>
@@ -94,9 +80,9 @@
             <p style="white-space: pre;">Message: {{ message }}</p>
             <p><strong>Send Mail?</strong></p>
             <ul>
-              <li></li>
+              <li v-for="item in sendMail">{{ item }}</li>
             </ul>
-            <p>Gender:</p>
+            <p>Gender: {{ gender }}</p>
             <p>Priority:</p>
             <p>Switched:</p>
           </div>
@@ -124,7 +110,11 @@ export default {
                 password: '',
                 age: 27
             },
-            message: 'A new Text'
+            message: 'A new Text',
+            sendMail: [],
+            gender: 'Male',
+            priorities: ['High', 'Medium', 'Low'],
+            selectedPriority: 'Low'
         }
   }
 }
