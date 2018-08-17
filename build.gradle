@@ -1,0 +1,26 @@
+subprojects {
+  apply plugin: 'java'
+  sourceCompatibility = 1.8
+  targetCompatibility = 1.8
+  tasks.withType(JavaCompile) {
+  	options.encoding = 'UTF-8'
+  }
+
+  sourceSets {
+    main {
+      output.resourcesDir = "build/classes/java/main"
+    }
+  }
+
+  repositories {
+    jcenter()
+  }
+  
+  dependencies {
+    compile group: 'org.slf4j', name: 'slf4j-simple', version:'1.7.25'
+    testCompile group: 'org.testng', name: 'testng', version:'6.14.2'
+    testCompile group: 'org.mockito', name: 'mockito-core', version:'2.15.0'
+  }
+
+  test.useTestNG()
+}
