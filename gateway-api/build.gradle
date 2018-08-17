@@ -1,5 +1,3 @@
-apply plugin: 'application'
-
 description = 'Gateway API'
 
 dependencies {
@@ -21,4 +19,5 @@ dependencies {
     compile project(':common')
 }
 
+apply plugin: 'application'
 mainClassName = 'com.example.gatewayapi.GatewayApi'

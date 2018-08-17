@@ -1,4 +1,4 @@
-apply plugin: 'application'
+description = 'Tenant API'
 
 dependencies {
     compile group: 'io.undertow', name: 'undertow-core', version:'2.0.1.Final'
@@ -20,4 +20,5 @@ dependencies {
     compile project(':common')
 }
 
+apply plugin: 'application'
 mainClassName = 'com.example.tenantapi.TenantApi'

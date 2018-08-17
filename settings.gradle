@@ -1,4 +1,5 @@
 rootProject.name = 'productapi'
+
 include ':common'
 include ':gateway-api'
 include ':tenant-api'

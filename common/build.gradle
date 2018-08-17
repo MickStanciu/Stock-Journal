@@ -1,5 +1,5 @@
+description = 'Product API Commons'
 
-description = ''
 dependencies {
     compile group: 'io.jsonwebtoken', name: 'jjwt', version:'0.9.0'
     compile group: 'org.jboss.weld.servlet', name: 'weld-servlet', version:'2.4.7.Final'
