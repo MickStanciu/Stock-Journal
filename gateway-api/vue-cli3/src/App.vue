@@ -57,17 +57,20 @@
           </select>
         </div>
       </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+                <app-switch v-model="dataSwitch"/>
+            </div>
+        </div>
       <hr>
       <div class="row">
         <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
-          <button
-                  class="btn btn-primary">Submit!
-          </button>
+          <button class="btn btn-primary" v-on:click.prevent="submitted">Submit!</button>
         </div>
       </div>
     </form>
     <hr>
-    <div class="row">
+    <div class="row" v-if="isSubmitted">
       <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
         <div class="panel panel-default">
           <div class="panel-heading">
@@ -83,8 +86,8 @@
               <li v-for="item in sendMail">{{ item }}</li>
             </ul>
             <p>Gender: {{ gender }}</p>
-            <p>Priority:</p>
-            <p>Switched:</p>
+            <p>Priority: {{ selectedPriority }}</p>
+            <p>Switched: {{ dataSwitch }}</p>
           </div>
         </div>
       </div>
@@ -101,6 +104,7 @@
 //     HelloWorld
 //   }
 // }
+import Switch from './components/Switch.vue'
 export default {
     name: 'app',
     data : () => {
@@ -114,9 +118,19 @@ export default {
             sendMail: [],
             gender: 'Male',
             priorities: ['High', 'Medium', 'Low'],
-            selectedPriority: 'Low'
+            selectedPriority: 'Low',
+            dataSwitch: true,
+            isSubmitted: false
         }
-  }
+  },
+    methods: {
+        submitted() {
+            this.isSubmitted = true;
+        }
+    },
+    components: {
+        appSwitch: Switch
+    }
 }
 </script>
 
