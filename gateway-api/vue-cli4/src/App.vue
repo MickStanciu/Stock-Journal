@@ -43,4 +43,37 @@ export default {
     opacity: 0;
   }
 
+  .slide-enter {
+
+  }
+
+  .slide-enter-active {
+
+  }
+
+  .slide-leave {
+
+  }
+
+  .slide-leave-active {
+
+  }
+
+  @keyframes slide-in {
+    from {
+      transform:  translateY(20px);
+    }
+    to {
+      transform:  translateY(0);
+    }
+  }
+
+  @keyframes slide-out {
+    from {
+      transform:  translateY(0);
+    }
+    to {
+      transform:  translateY(20px);
+    }
+  }
 </style>
