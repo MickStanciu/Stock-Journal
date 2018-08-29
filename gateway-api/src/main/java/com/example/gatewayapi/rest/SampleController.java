@@ -7,9 +7,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Path("/v1/burger")
+@Path("/v1/sample")
 @Produces(MediaType.APPLICATION_JSON)
-public class BurgerController {
+public class SampleController {
 
     @POST
     @Path("/orders.json")
@@ -25,6 +25,14 @@ public class BurgerController {
         System.out.println("/ingredients.json");
         Thread.sleep(1000);
         String bla = "{\"salad\":1,\"bacon\":1,\"cheese\":1,\"meat\":1}";
+        return Response.status(Response.Status.OK).entity(bla).build();
+    }
+
+    @GET
+    @Path("/users")
+    public Response getUsers() {
+        System.out.println("/users");
+        String bla = "{\"username\":\"Mick\"}";
         return Response.status(Response.Status.OK).entity(bla).build();
     }
 }
