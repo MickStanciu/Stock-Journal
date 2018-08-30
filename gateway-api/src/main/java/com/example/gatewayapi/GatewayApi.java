@@ -44,7 +44,7 @@ public class GatewayApi {
                     servlet("jerseyServlet", ServletContainer.class)
                         .setLoadOnStartup(1)
                         .addInitParam("javax.ws.rs.Application", JerseyConfig.class.getName())
-                        .addMapping("/rest/*")
+                        .addMapping("/api/*")
                 )
                 .addFilter(new FilterInfo("TokenFilter", TokenFilter.class))
                 .addFilterUrlMapping("TokenFilter", "/*", DispatcherType.REQUEST)

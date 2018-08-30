@@ -32,7 +32,7 @@ public class SampleController {
     @Path("/users")
     public Response getUsers() {
         System.out.println("/users");
-        String bla = "{\"username\":\"Mick\"}";
+        String bla = "{\"username\":\"Mick\", \"email\":\"bla@bla.bla\"}";
         return Response.status(Response.Status.OK).entity(bla).build();
     }
 }

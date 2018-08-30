@@ -43,19 +43,21 @@ export default {
                 });
         },
         fetchData() {
-          this.$http.get('https://393b84a6-cfb0-4dd2-86e5-3048844c514a.mock.pstmn.io')
+          this.$http.get('http://localhost:8085/api/v1/sample/users')
               .then(response => {
-                  // console.log(data);
                   return response.json();
               }, error => {
                   console.log(error);
               })
               .then(data => {
+                  console.log(data);
                   const resultArray = [];
-                  for (let key in data) {
-                      resultArray.push(data[key]);
-                  }
-                  this.users = resultArray;
+                  // for (let key in data) {
+                  //     console.log(key);
+                  //     console.log(data[key]);
+                  //     resultArray.push(data[key]);
+                  // }
+                  this.users.push(data);
               })
         }
     }
