@@ -64,3 +64,59 @@ public class TimesSheetResource  extends AbstractResource {
                 .build();
     }
 }
+
+/*
+{
+    "data": [
+        {
+            "id": 7,
+            "fromTime": "2018-05-06T22:31:00Z",
+            "toTime": "2018-05-06T23:30:00Z",
+            "title": "worked on bla 7",
+            "state": "FILLED",
+            "tenantId": "d79ec11a-2011-4423-ba01-3af8de0a3e10",
+            "accountId": 6,
+            "project": {
+                "id": 1,
+                "tenantId": "d79ec11a-2011-4423-ba01-3af8de0a3e10",
+                "active": true,
+                "title": "Project 1",
+                "description": "Project 1 description"
+            },
+            "task": {
+                "id": 2,
+                "tenantId": "d79ec11a-2011-4423-ba01-3af8de0a3e10",
+                "projectId": 1,
+                "active": true,
+                "title": "task2",
+                "description": "task 2 desc"
+            }
+        },
+        {
+            "id": 8,
+            "fromTime": "2018-05-07T00:31:00Z",
+            "toTime": "2018-05-07T01:30:00Z",
+            "title": "worked on bla 8",
+            "state": "FILLED",
+            "tenantId": "d79ec11a-2011-4423-ba01-3af8de0a3e10",
+            "accountId": 6,
+            "project": {
+                "id": 2,
+                "tenantId": "d79ec11a-2011-4423-ba01-3af8de0a3e10",
+                "active": true,
+                "title": "Project 2",
+                "description": "Project 2 description"
+            },
+            "task": {
+                "id": 2,
+                "tenantId": "d79ec11a-2011-4423-ba01-3af8de0a3e10",
+                "projectId": 2,
+                "active": true,
+                "title": "task2",
+                "description": "task 2 desc"
+            }
+        }
+    ],
+    "errors": []
+}
+ */
