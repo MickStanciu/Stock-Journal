@@ -1,4 +1,4 @@
-description = 'ROOT'
+description = 'Product API'
 
 subprojects {
   apply plugin: 'java'
