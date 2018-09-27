@@ -1,7 +1,7 @@
 <template>
     <div class="container">
-        <div class="row" v-for="(item) in slots">
-            {{item}}
+        <div class="row row_default" v-for="(item, idx) in slots" v-bind:key="idx" v-bind:class="rowClass(idx)">
+            {{item}} {{idx}}
         </div>
     </div>
 
@@ -15,6 +15,15 @@
                 slots: ts_items
             }
         },
+        methods: {
+            rowClass(idx) {
+                if (idx%2) {
+                    return 'row_even';
+                } else {
+                    return 'row_odd';
+                }
+            }
+        }
     }
 
     class Item {
@@ -35,5 +44,14 @@
 </script>
 
 <style scoped>
+    .row_default {
+        padding: 2px;
 
+    }
+    .row_odd {
+        background-color: #e7e7fb;
+    }
+
+    .row_even {
+    }
 </style>
