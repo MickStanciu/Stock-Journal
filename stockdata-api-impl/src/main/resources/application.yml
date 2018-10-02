@@ -1,0 +1,8 @@
+#SERVER
+server:
+  port: 8086
+
+logging:
+  level:
+    org:
+      springframework: ERROR

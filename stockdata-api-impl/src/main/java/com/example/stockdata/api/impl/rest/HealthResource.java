@@ -1,7 +1,7 @@
 package com.example.stockdata.api.impl.rest;
 
 import com.example.stockdata.api.spec.model.HealthModel;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -9,7 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Component
+@Service
 @Path("/v1/health")
 @Produces(MediaType.APPLICATION_JSON)
 public class HealthResource {
