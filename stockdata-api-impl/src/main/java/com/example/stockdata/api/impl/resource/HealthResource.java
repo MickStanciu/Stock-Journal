@@ -1,4 +1,4 @@
-package com.example.stockdata.api.impl.rest;
+package com.example.stockdata.api.impl.resource;
 
 import com.example.stockdata.api.spec.model.HealthModel;
 import org.springframework.stereotype.Service;
