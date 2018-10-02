@@ -1,7 +1,8 @@
-rootProject.name = 'productapi'
+rootProject.name = 'product-api'
 
 //include ':common'
-include 'stockdata-api-spec'
+include ':stockdata-api-spec'
+include ':stockdata-api-impl'
 
 //include ':gateway-api'
 //include ':tenant-api'
@@ -9,4 +10,4 @@ include 'stockdata-api-spec'
 //include ':timesheet-api'
 
 
-include 'stockdata-api-impl'
+
