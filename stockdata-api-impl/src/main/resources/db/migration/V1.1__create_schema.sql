@@ -48,6 +48,8 @@ CREATE TABLE price (
   day_close NUMERIC DEFAULT -1,
   day_adj_close NUMERIC DEFAULT -1,
   volume NUMERIC DEFAULT -1,
+  per_daily_return NUMERIC DEFAULT -1,
+  processed BOOL DEFAULT FALSE,
   PRIMARY KEY(date, symbol_fk)
 );
 
