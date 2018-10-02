@@ -1,0 +1,1 @@
+alter table prices add PRIMARY KEY (date, symbol);
