@@ -6,3 +6,28 @@ logging:
   level:
     org:
       springframework: ERROR
+
+
+#DB
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    properties.hibernate.jdbc.lob.non_contextual_creation: true
+    hibernate.ddl-auto: none
+    show-sql: true
+
+  datasource:
+    platform: postgres
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/stockdata?currentSchema=public
+    username: admin
+    password: secret
+    hikari.minimum-idle: 8
+    flyway:
+      url: jdbc:postgresql://localhost:5432/stockdata?currentSchema=public
+      username: postgres
+      password: secret
+      driver-class-name: org.postgresql.Driver
+
+  flyway:
+    baseline-on-migrate: true
