@@ -31,8 +31,11 @@ dependencies {
 //    compile group: 'org.jdbi', name: 'jdbi3-postgres', version:'3.3.0'
 //    compile group: 'org.postgresql', name: 'postgresql', version:'42.2.2'
 //    compile project(':common')
-    implementation('org.springframework.boot:spring-boot-starter-jersey')
-    implementation('org.flywaydb:flyway-core')
-    testImplementation('org.springframework.boot:spring-boot-starter-test')
-    compile project(':stockdata-api-spec')
+    implementation ('org.springframework.boot:spring-boot-starter-web:${springBootVersion}') {
+        exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"
+    }
+    implementation ('org.springframework.boot:spring-boot-starter-jersey:${springBootVersion}')
+    implementation ('org.flywaydb:flyway-core')
+    testImplementation ('org.springframework.boot:spring-boot-starter-test')
+    compile project (':stockdata-api-spec')
 }
