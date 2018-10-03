@@ -14,6 +14,7 @@ public class DataProcessorCalculator {
 
         for (int cursor = 0; cursor < closePrices.size() - 1; cursor++) {
             dailyPdr.add(pdr(closePrices.get(cursor).getAdjClose(), closePrices.get(cursor + 1).getAdjClose()));
+            closePrices.get(cursor).setPeriodicDailyReturn(pdr(closePrices.get(cursor).getAdjClose(), closePrices.get(cursor + 1).getAdjClose()));
         }
         return dailyPdr;
     }

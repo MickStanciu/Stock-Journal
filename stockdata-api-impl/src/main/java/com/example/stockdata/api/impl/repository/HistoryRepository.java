@@ -18,7 +18,7 @@ import java.util.Map;
 public class HistoryRepository {
     private static final Logger log = LoggerFactory.getLogger(HistoryRepository.class);
 
-    private static final String GET_ADJ_CLOSE_VALUES_QUERY = "SELECT day_adj_close FROM price WHERE processed IS FALSE AND symbol_fk = :symbol_fk ORDER BY date ASC";
+    private static final String GET_ADJ_CLOSE_VALUES_QUERY = "SELECT date, day_adj_close FROM price WHERE processed IS FALSE AND symbol_fk = :symbol_fk ORDER BY date DESC";
 
     private NamedParameterJdbcTemplate jdbcTemplate;
 
@@ -37,6 +37,7 @@ public class HistoryRepository {
 class PriceEntityMapper implements RowMapper<PriceEntity> {
     public PriceEntity mapRow(ResultSet rs, int rowNum) throws SQLException {
         PriceEntity entity = new PriceEntity();
+        entity.setDate(rs.getDate("date").toLocalDate());
         entity.setAdjClose(rs.getInt("day_adj_close"));
         return entity;
     }
