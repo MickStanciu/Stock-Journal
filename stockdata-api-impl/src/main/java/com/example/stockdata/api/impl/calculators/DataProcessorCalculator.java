@@ -1,6 +1,6 @@
 package com.example.stockdata.api.impl.calculators;
 
-import com.example.stockdata.api.impl.resource.PriceEntity;
+import com.example.stockdata.api.spec.model.PriceModel;
 import org.springframework.stereotype.Component;
 
 import java.util.LinkedList;
@@ -9,7 +9,7 @@ import java.util.List;
 @Component
 public class DataProcessorCalculator {
 
-    public List<Double> computePeriodicDailyReturn(List<PriceEntity> closePrices) {
+    public List<Double> computePeriodicDailyReturn(List<PriceModel> closePrices) {
         List<Double> dailyPdr = new LinkedList<>();
 
         for (int cursor = 0; cursor < closePrices.size() - 1; cursor++) {

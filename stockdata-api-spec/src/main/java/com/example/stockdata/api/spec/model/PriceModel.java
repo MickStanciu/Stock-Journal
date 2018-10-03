@@ -1,8 +1,8 @@
-package com.example.stockdata.api.impl.resource;
+package com.example.stockdata.api.spec.model;
 
 import java.time.LocalDate;
 
-public class PriceEntity {
+public class PriceModel {
 
     private LocalDate date;
     private String symbol;
@@ -51,18 +51,18 @@ public class PriceEntity {
     }
 
     public static class Builder {
-        PriceEntity priceEntity;
+        PriceModel priceModel;
 
         public Builder() {
-            priceEntity = new PriceEntity();
+            priceModel = new PriceModel();
         }
 
-        public PriceEntity build() {
-            return priceEntity;
+        public PriceModel build() {
+            return priceModel;
         }
 
         public Builder withAdjClose(double price) {
-            priceEntity.setAdjClose(price);
+            priceModel.setAdjClose(price);
             return this;
         }
     }

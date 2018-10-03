@@ -1,6 +1,6 @@
 package com.example.stockdata.api.impl.calculators;
 
-import com.example.stockdata.api.impl.resource.PriceEntity;
+import com.example.stockdata.api.spec.model.PriceModel;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -14,23 +14,23 @@ public class DataProcessorCalculatorTest {
 
     private DataProcessorCalculator calculator;
 
-    private List<PriceEntity> closingPrices;
+    private List<PriceModel> closingPrices;
 
     @BeforeClass
     public void setUp() {
         calculator = new DataProcessorCalculator();
 
         closingPrices = new LinkedList<>();
-        closingPrices.add(new PriceEntity.Builder().withAdjClose(100.709763).build());
-        closingPrices.add(new PriceEntity.Builder().withAdjClose(100.298927).build());
-        closingPrices.add(new PriceEntity.Builder().withAdjClose(99.271721).build());
-        closingPrices.add(new PriceEntity.Builder().withAdjClose(99.934723).build());
-        closingPrices.add(new PriceEntity.Builder().withAdjClose(98.767479).build());
-        closingPrices.add(new PriceEntity.Builder().withAdjClose(97.170677).build());
-        closingPrices.add(new PriceEntity.Builder().withAdjClose(96.778488).build());
-        closingPrices.add(new PriceEntity.Builder().withAdjClose(99.112991).build());
-        closingPrices.add(new PriceEntity.Builder().withAdjClose(100.551018).build());
-        closingPrices.add(new PriceEntity.Builder().withAdjClose(101.055275).build());
+        closingPrices.add(new PriceModel.Builder().withAdjClose(100.709763).build());
+        closingPrices.add(new PriceModel.Builder().withAdjClose(100.298927).build());
+        closingPrices.add(new PriceModel.Builder().withAdjClose(99.271721).build());
+        closingPrices.add(new PriceModel.Builder().withAdjClose(99.934723).build());
+        closingPrices.add(new PriceModel.Builder().withAdjClose(98.767479).build());
+        closingPrices.add(new PriceModel.Builder().withAdjClose(97.170677).build());
+        closingPrices.add(new PriceModel.Builder().withAdjClose(96.778488).build());
+        closingPrices.add(new PriceModel.Builder().withAdjClose(99.112991).build());
+        closingPrices.add(new PriceModel.Builder().withAdjClose(100.551018).build());
+        closingPrices.add(new PriceModel.Builder().withAdjClose(101.055275).build());
     }
 
     @Test

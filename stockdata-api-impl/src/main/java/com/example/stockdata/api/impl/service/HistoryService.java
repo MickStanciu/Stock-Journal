@@ -1,7 +1,7 @@
 package com.example.stockdata.api.impl.service;
 
 import com.example.stockdata.api.impl.repository.HistoryRepository;
-import com.example.stockdata.api.impl.resource.PriceEntity;
+import com.example.stockdata.api.spec.model.PriceModel;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -17,7 +17,11 @@ public class HistoryService {
         this.historyRepository = historyRepository;
     }
 
-    public List<PriceEntity> getPricesForSymbol(String symbol) {
+    public List<PriceModel> getPricesForSymbol(String symbol) {
         return historyRepository.getPricesForSymbol(symbol);
+    }
+
+    public void updatePrices(List<PriceModel> priceModelList) {
+        historyRepository.updatePrices(priceModelList);
     }
 }

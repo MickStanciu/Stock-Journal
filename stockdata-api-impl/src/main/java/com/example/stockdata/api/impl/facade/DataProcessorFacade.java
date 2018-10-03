@@ -1,8 +1,8 @@
 package com.example.stockdata.api.impl.facade;
 
 import com.example.stockdata.api.impl.calculators.DataProcessorCalculator;
-import com.example.stockdata.api.impl.resource.PriceEntity;
 import com.example.stockdata.api.impl.service.HistoryService;
+import com.example.stockdata.api.spec.model.PriceModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +31,13 @@ public class DataProcessorFacade {
     @Scheduled(fixedDelay = 10000, initialDelay = 10000) /* 10 sec */
     public void feedProcessor() {
         log.info("Start processing");
-        List<PriceEntity> priceEntityList = historyService.getPricesForSymbol("IWM");
-        dataProcessorCalculator.computePeriodicDailyReturn(priceEntityList);
-        System.out.println(priceEntityList.size());
+        log.info("  reading unprocessed data ...");
+        List<PriceModel> priceModelList = historyService.getPricesForSymbol("IWM");
+        dataProcessorCalculator.computePeriodicDailyReturn(priceModelList);
+        if (priceModelList.size() > 0) {
+            log.info(String.format("  updating ... %d records", priceModelList.size()));
+            historyService.updatePrices(priceModelList);
+        }
         log.info("End processing");
     }
 
