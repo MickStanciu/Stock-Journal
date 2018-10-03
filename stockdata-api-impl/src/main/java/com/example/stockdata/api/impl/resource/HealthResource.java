@@ -1,32 +1,29 @@
 package com.example.stockdata.api.impl.resource;
 
 import com.example.stockdata.api.spec.model.HealthModel;
-import org.springframework.stereotype.Service;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
-@Service
-@Path("/v1/health")
-@Produces(MediaType.APPLICATION_JSON)
+@Controller
+@RequestMapping(value = "/v1/health", produces = "application/json")
 public class HealthResource {
 
-    @GET
-    @Path("/check")
+    @RequestMapping(value = "/check", method = RequestMethod.GET)
+    @ResponseBody
     public HealthModel check() {
         HealthModel model = new HealthModel();
         model.setHello("Yo");
         return model;
     }
 
-    @GET
-    @Path("/ping")
-    public Response pong() {
-        return Response
-                .status(Response.Status.OK)
+    @RequestMapping(value = "/ping", method = RequestMethod.GET)
+    public ResponseEntity pong() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
                 .build();
     }
 }

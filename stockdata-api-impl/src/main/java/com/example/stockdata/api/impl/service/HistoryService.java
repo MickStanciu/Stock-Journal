@@ -2,9 +2,9 @@ package com.example.stockdata.api.impl.service;
 
 import com.example.stockdata.api.impl.repository.HistoryRepository;
 import com.example.stockdata.api.spec.model.PriceModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
 import java.util.List;
 
 @Service
@@ -12,7 +12,7 @@ public class HistoryService {
 
     private HistoryRepository historyRepository;
 
-    @Inject
+    @Autowired
     public HistoryService(HistoryRepository historyRepository) {
         this.historyRepository = historyRepository;
     }
