@@ -1,5 +1,7 @@
 package com.example.stockdata.api.impl.facade;
 
+import com.example.stockdata.api.impl.calculators.DataProcessorCalculator;
+import com.example.stockdata.api.impl.resource.PriceEntity;
 import com.example.stockdata.api.impl.service.HistoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,23 +19,22 @@ public class DataProcessorFacade {
 
     private static final Logger log = LoggerFactory.getLogger(DataProcessorFacade.class);
     private HistoryService historyService;
+    private DataProcessorCalculator dataProcessorCalculator;
+
 
     @Autowired
-    public DataProcessorFacade(HistoryService historyService) {
+    public DataProcessorFacade(HistoryService historyService, DataProcessorCalculator dataProcessorCalculator) {
         this.historyService = historyService;
+        this.dataProcessorCalculator = dataProcessorCalculator;
     }
 
-    @Scheduled(fixedDelay = 10000) /* 10 sec */
+    @Scheduled(fixedDelay = 10000, initialDelay = 10000) /* 10 sec */
     public void feedProcessor() {
         log.info("Start processing");
-        List<Double> historicalData = getHistoricalData();
-        System.out.println(historicalData.size());
+        List<PriceEntity> priceEntityList = historyService.getPricesForSymbol("IWM");
+        dataProcessorCalculator.computePeriodicDailyReturn(priceEntityList);
+        System.out.println(priceEntityList.size());
         log.info("End processing");
-    }
-
-    private List<Double> getHistoricalData() {
-        String symbol = "IWM";
-        return historyService.getHistoryClose(symbol);
     }
 
 

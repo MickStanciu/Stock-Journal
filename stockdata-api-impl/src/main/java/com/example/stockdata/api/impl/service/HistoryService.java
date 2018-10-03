@@ -1,6 +1,7 @@
 package com.example.stockdata.api.impl.service;
 
 import com.example.stockdata.api.impl.repository.HistoryRepository;
+import com.example.stockdata.api.impl.resource.PriceEntity;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -16,7 +17,7 @@ public class HistoryService {
         this.historyRepository = historyRepository;
     }
 
-    public List<Double> getHistoryClose(String symbol) {
-        return historyRepository.getAdjustedCloseValues(symbol);
+    public List<PriceEntity> getPricesForSymbol(String symbol) {
+        return historyRepository.getPricesForSymbol(symbol);
     }
 }

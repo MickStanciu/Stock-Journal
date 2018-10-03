@@ -1,5 +1,6 @@
 package com.example.stockdata.api.impl.calculators;
 
+import com.example.stockdata.api.impl.resource.PriceEntity;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -13,23 +14,23 @@ public class DataProcessorCalculatorTest {
 
     private DataProcessorCalculator calculator;
 
-    private List<Double> closingPrices;
+    private List<PriceEntity> closingPrices;
 
     @BeforeClass
     public void setUp() {
         calculator = new DataProcessorCalculator();
 
         closingPrices = new LinkedList<>();
-        closingPrices.add(100.709763);
-        closingPrices.add(100.298927);
-        closingPrices.add(99.271721);
-        closingPrices.add(99.934723);
-        closingPrices.add(98.767479);
-        closingPrices.add(97.170677);
-        closingPrices.add(96.778488);
-        closingPrices.add(99.112991);
-        closingPrices.add(100.551018);
-        closingPrices.add(101.055275);
+        closingPrices.add(new PriceEntity.Builder().withAdjClose(100.709763).build());
+        closingPrices.add(new PriceEntity.Builder().withAdjClose(100.298927).build());
+        closingPrices.add(new PriceEntity.Builder().withAdjClose(99.271721).build());
+        closingPrices.add(new PriceEntity.Builder().withAdjClose(99.934723).build());
+        closingPrices.add(new PriceEntity.Builder().withAdjClose(98.767479).build());
+        closingPrices.add(new PriceEntity.Builder().withAdjClose(97.170677).build());
+        closingPrices.add(new PriceEntity.Builder().withAdjClose(96.778488).build());
+        closingPrices.add(new PriceEntity.Builder().withAdjClose(99.112991).build());
+        closingPrices.add(new PriceEntity.Builder().withAdjClose(100.551018).build());
+        closingPrices.add(new PriceEntity.Builder().withAdjClose(101.055275).build());
     }
 
     @Test
