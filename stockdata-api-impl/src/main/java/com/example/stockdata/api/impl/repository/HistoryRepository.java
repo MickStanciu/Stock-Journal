@@ -4,59 +4,63 @@ import com.example.stockdata.api.spec.model.PriceModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSourceUtils;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class HistoryRepository {
     private static final Logger log = LoggerFactory.getLogger(HistoryRepository.class);
 
-    private static final String GET_PRICES_QUERY = "SELECT date, day_adj_close FROM price WHERE processed IS FALSE AND symbol_fk = :symbol_fk ORDER BY date DESC";
-    private static final String UPDATE_PRICES_QUERY = "UPDATE price SET per_daily_return = :per_daily_return, processed = TRUE WHERE date = :date AND symbol_fk = :symbol_fk AND day_adj_close = :day_adj_close";
+    private static final String GET_PRICES_QUERY = "SELECT date, symbol_fk, day_adj_close, per_daily_return FROM price WHERE processed IS FALSE AND symbol_fk = ? ORDER BY date DESC LIMIT ?";
+    private static final String UPDATE_PRICES_QUERY = "UPDATE price SET per_daily_return = ?, processed = TRUE WHERE date = ? AND symbol_fk = ? AND day_adj_close = ?";
 
-    private NamedParameterJdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public HistoryRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-        this.jdbcTemplate = namedParameterJdbcTemplate;
+    public HistoryRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<PriceModel> getPricesForSymbol(String symbol) {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("symbol_fk", symbol);
+    public List<PriceModel> getPricesForSymbol(String symbol, int batchSize) {
+        Object[] parameters = new Object[] { symbol, batchSize };
         return jdbcTemplate.query(GET_PRICES_QUERY, parameters, new PriceEntityMapper());
     }
 
     public void updatePrices(List<PriceModel> priceModelList) {
-        List<Map<String, Object>> paramList = new ArrayList<>();
+        jdbcTemplate.batchUpdate(UPDATE_PRICES_QUERY, new BatchPreparedStatementSetter() {
 
-        for (PriceModel model : priceModelList) {
-            Map<String, Object> parameters = new HashMap<>();
-            parameters.put("per_daily_return", model.getPeriodicDailyReturn());
-            parameters.put("date", model.getDate());
-            parameters.put("symbol_fk", model.getSymbol());
-            parameters.put("day_adj_close", model.getAdjClose());
-            paramList.add(parameters);
-        }
-        SqlParameterSource[] batch = SqlParameterSourceUtils.createBatch(paramList.toArray());
-        jdbcTemplate.batchUpdate(UPDATE_PRICES_QUERY, batch);
+            @Override
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                PriceModel model = priceModelList.get(i);
+                ps.setDouble(1, model.getPeriodicDailyReturn());
+                ps.setDate(2, Date.valueOf(model.getDate()));
+                ps.setString(3, model.getSymbol());
+                ps.setDouble(4, model.getAdjClose());
+            }
+
+            @Override
+            public int getBatchSize() {
+                return priceModelList.size();
+            }
+        });
     }
+
 }
 
 class PriceEntityMapper implements RowMapper<PriceModel> {
     public PriceModel mapRow(ResultSet rs, int rowNum) throws SQLException {
         PriceModel entity = new PriceModel();
+        entity.setPeriodicDailyReturn(rs.getDouble("per_daily_return"));
         entity.setDate(rs.getDate("date").toLocalDate());
+        entity.setSymbol(rs.getString("symbol_fk"));
         entity.setAdjClose(rs.getInt("day_adj_close"));
         return entity;
     }

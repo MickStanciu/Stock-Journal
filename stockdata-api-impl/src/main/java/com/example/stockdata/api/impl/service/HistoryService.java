@@ -17,8 +17,8 @@ public class HistoryService {
         this.historyRepository = historyRepository;
     }
 
-    public List<PriceModel> getPricesForSymbol(String symbol) {
-        return historyRepository.getPricesForSymbol(symbol);
+    public List<PriceModel> getPricesForSymbol(String symbol, int batchSize) {
+        return historyRepository.getPricesForSymbol(symbol, batchSize);
     }
 
     public void updatePrices(List<PriceModel> priceModelList) {

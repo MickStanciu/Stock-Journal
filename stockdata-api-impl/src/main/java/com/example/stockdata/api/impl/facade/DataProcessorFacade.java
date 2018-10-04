@@ -18,6 +18,7 @@ import java.util.List;
 public class DataProcessorFacade {
 
     private static final Logger log = LoggerFactory.getLogger(DataProcessorFacade.class);
+    private static final int BATCH_SIZE = 500;
     private HistoryService historyService;
     private DataProcessorCalculator dataProcessorCalculator;
 
@@ -32,7 +33,7 @@ public class DataProcessorFacade {
     public void feedProcessor() {
         log.info("Start processing");
         log.info("  reading unprocessed data ...");
-        List<PriceModel> priceModelList = historyService.getPricesForSymbol("IWM");
+        List<PriceModel> priceModelList = historyService.getPricesForSymbol("IWM", BATCH_SIZE);
         dataProcessorCalculator.computePeriodicDailyReturn(priceModelList);
         if (priceModelList.size() > 0) {
             log.info(String.format("  updating ... %d records", priceModelList.size()));
