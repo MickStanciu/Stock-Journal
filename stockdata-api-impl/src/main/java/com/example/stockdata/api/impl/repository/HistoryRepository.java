@@ -61,7 +61,7 @@ class PriceEntityMapper implements RowMapper<PriceModel> {
         entity.setPeriodicDailyReturn(rs.getDouble("per_daily_return"));
         entity.setDate(rs.getDate("date").toLocalDate());
         entity.setSymbol(rs.getString("symbol_fk"));
-        entity.setAdjClose(rs.getInt("day_adj_close"));
+        entity.setAdjClose(rs.getDouble("day_adj_close"));
         return entity;
     }
 }
