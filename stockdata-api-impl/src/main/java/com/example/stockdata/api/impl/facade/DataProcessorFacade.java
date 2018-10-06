@@ -37,7 +37,7 @@ public class DataProcessorFacade {
         dataProcessorCalculator.computePeriodicDailyReturn(priceModelList);
         if (priceModelList.size() > 0) {
             log.info(String.format("  updating ... %d records", priceModelList.size()));
-            priceModelList.forEach(p -> p.setProcessed(true));
+            priceModelList.stream().limit(BATCH_SIZE - 1).forEach(p -> p.setProcessed(true));
             historyService.updatePrices(priceModelList);
         }
         log.info("End processing");
