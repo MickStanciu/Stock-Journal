@@ -33,7 +33,7 @@ public class DataProcessorFacade {
     public void feedProcessor() {
         log.info("Start processing");
         log.info("  reading unprocessed data ...");
-        List<PriceModel> priceModelList = historyService.getPricesForSymbol("IWM", BATCH_SIZE);
+        List<PriceModel> priceModelList = historyService.getPrices(BATCH_SIZE);
         dataProcessorCalculator.computePeriodicDailyReturn(priceModelList);
         if (priceModelList.size() > 0) {
             log.info(String.format("  updating ... %d records", priceModelList.size()));

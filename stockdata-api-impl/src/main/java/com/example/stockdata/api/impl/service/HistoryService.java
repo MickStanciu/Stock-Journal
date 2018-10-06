@@ -21,6 +21,10 @@ public class HistoryService {
         return historyRepository.getPricesForSymbol(symbol, batchSize);
     }
 
+    public List<PriceModel> getPrices(int batchSize) {
+        return historyRepository.getPrices(batchSize);
+    }
+
     public void updatePrices(List<PriceModel> priceModelList) {
         historyRepository.updatePrices(priceModelList);
     }
