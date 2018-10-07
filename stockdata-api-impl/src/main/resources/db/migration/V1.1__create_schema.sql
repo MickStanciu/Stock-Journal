@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS price_stats;
 DROP TABLE IF EXISTS price;
 DROP TABLE IF EXISTS symbol;
 DROP TABLE IF EXISTS exchange;
@@ -42,13 +43,13 @@ GRANT ALL PRIVILEGES ON TABLE symbol TO admin;
 CREATE TABLE price (
   date DATE NOT NULL,
   symbol_fk VARCHAR(10) REFERENCES symbol(name) NOT NULL,
-  day_open NUMERIC DEFAULT -1,
-  day_high NUMERIC DEFAULT -1,
-  day_low NUMERIC DEFAULT -1,
-  day_close NUMERIC DEFAULT -1,
-  day_adj_close NUMERIC DEFAULT -1,
-  volume NUMERIC DEFAULT -1,
-  per_daily_return NUMERIC DEFAULT -1,
+  day_open NUMERIC DEFAULT NULL,
+  day_high NUMERIC DEFAULT NULL,
+  day_low NUMERIC DEFAULT NULL,
+  day_close NUMERIC DEFAULT NULL,
+  day_adj_close NUMERIC DEFAULT NULL,
+  volume NUMERIC DEFAULT NULL,
+  per_daily_return NUMERIC DEFAULT NULL,
   processed BOOL DEFAULT FALSE,
   PRIMARY KEY(date, symbol_fk)
 );
@@ -57,3 +58,10 @@ ALTER TABLE price owner to admin;
 GRANT ALL PRIVILEGES ON TABLE price TO admin;
 
 ---
+
+CREATE TABLE price_stats (
+  symbol_fk VARCHAR(10) REFERENCES symbol(name) NOT NULL,
+  date DATE not null,
+  standard_deviation NUMERIC DEFAULT NULL,
+  PRIMARY KEY(symbol_fk)
+)

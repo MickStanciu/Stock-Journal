@@ -15,7 +15,6 @@ public class DataProcessorCalculator {
     }
 
     public double computeStandardDeviation(List<PriceModel> closePrice) {
-        // 1. calculate mean
         double[] arr = closePrice.stream().mapToDouble(PriceModel::getPeriodicDailyReturn).toArray();
         return MathUtils.standardDeviation(arr);
     }
