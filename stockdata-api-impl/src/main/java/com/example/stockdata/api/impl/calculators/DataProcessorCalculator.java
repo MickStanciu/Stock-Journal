@@ -14,11 +14,9 @@ public class DataProcessorCalculator {
         }
     }
 
-    public void computeStandardDeviation(List<PriceModel> closePrice) {
+    public double computeStandardDeviation(List<PriceModel> closePrice) {
         // 1. calculate mean
         double[] arr = closePrice.stream().mapToDouble(PriceModel::getPeriodicDailyReturn).toArray();
-        double mean = MathUtils.mean(arr);
-
-        // 2. SUM(Xi - mean)^2 / n - 1
+        return MathUtils.standardDeviation(arr);
     }
 }

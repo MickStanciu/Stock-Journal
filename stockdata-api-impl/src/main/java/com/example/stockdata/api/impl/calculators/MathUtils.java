@@ -14,13 +14,29 @@ public class MathUtils {
         return Math.log(today / yesterday);
     }
 
-    public static double standardDeviation(double[] values) {
+    /**
+     * Calculates the standard deviation for a given array
+     * (SUM(Xi - Xmean)^2)/(n-1)
+     * @param observations - array of double
+     * @return computed std
+     */
+    public static double standardDeviation(double[] observations) {
+        // 1. calculate mean
+        double mean = mean(observations);
 
-        return 0;
+        // 2. SUM(Xi - mean)^2
+        double sqaredDiff = 0;
+        for (double value : observations) {
+            sqaredDiff += (value - mean) * (value - mean);
+        }
+
+        // 3. SUM(Xi - mean)^2 / n - 1
+        return Math.sqrt(sqaredDiff / (observations.length - 1));
     }
 
     /**
      * Calculates mean (average)
+     * (SUM(Xi))/n
      * @param values - numbers to calculate
      * @return mean
      */

@@ -36,7 +36,6 @@ public class DataProcessorCalculatorTest {
     @Test
     public void testPeriodicDailyReturn() {
         calculator.computePeriodicDailyReturn(prices);
-//        Assert.assertEquals(computedDailyReturns.size(), prices.size() - 1);
 
         Assert.assertEquals(prices.get(0).getPeriodicDailyReturn(), 0.004087749361268957);
         Assert.assertEquals(prices.get(1).getPeriodicDailyReturn(), 0.010294249996166429);
