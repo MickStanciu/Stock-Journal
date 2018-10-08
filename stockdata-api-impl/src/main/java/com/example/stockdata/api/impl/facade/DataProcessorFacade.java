@@ -27,6 +27,8 @@ public class DataProcessorFacade {
     private StatsService statsService;
     private DataProcessorCalculator dataProcessorCalculator;
 
+    private boolean statsProcessed = false;
+
 
     @Autowired
     public DataProcessorFacade(HistoryService historyService, StatsService statsService, DataProcessorCalculator dataProcessorCalculator) {
@@ -42,29 +44,46 @@ public class DataProcessorFacade {
         log.info("  reading unprocessed data ...");
         List<PriceModel> priceModelList = historyService.getPrices("XYZ", BATCH_SIZE);
         dataProcessorCalculator.computePeriodicDailyReturn(priceModelList);
+        boolean batchProcessingIsActive;
+
         if (priceModelList.size() > 0) {
+            batchProcessingIsActive = true;
+            statsProcessed = false;
             log.info(String.format("  updating ... %d records", priceModelList.size()));
-            priceModelList.stream().limit(BATCH_SIZE - 1).forEach(p -> p.setProcessed(true));
-            historyService.updatePrices(priceModelList);
+            processBatchData(priceModelList);
         } else {
-            //todo: don't call this every time ...
+            batchProcessingIsActive = false;
+            processStats();
+        }
+
+        if (!batchProcessingIsActive && !statsProcessed) {
             log.info("  updating standard deviation");
-            PriceStatModel model = statsService.getPriceStats("XYZ");
-            if (model != null) {
-                model.setDate(LocalDate.now());
-                model.setSymbol("XYZ");
-                model.setStd(dataProcessorCalculator.computeStandardDeviation(priceModelList));
-                statsService.updateStats(model);
-            } else {
-                model = new PriceStatModel();
-                model.setDate(LocalDate.now());
-                model.setSymbol("XYZ");
-                model.setStd(dataProcessorCalculator.computeStandardDeviation(priceModelList));
-                statsService.insertStats(model);
-            }
+
+            statsProcessed = true;
         }
         log.info("End processing");
     }
 
+    private void processBatchData(List<PriceModel> priceModelList) {
+        priceModelList.stream().limit(BATCH_SIZE - 1).forEach(p -> p.setProcessed(true));
+        historyService.updatePrices(priceModelList);
+    }
 
+    private void processStats() {
+        List<PriceModel> priceModelList = historyService.getLastYearPrices("XYZ");
+        PriceStatModel model = statsService.getPriceStats("XYZ");
+
+        if (model != null) {
+            model.setDate(LocalDate.now());
+            model.setSymbol("XYZ");
+            model.setStd(dataProcessorCalculator.computeStandardDeviation(priceModelList));
+            statsService.updateStats(model);
+        } else {
+            model = new PriceStatModel();
+            model.setDate(LocalDate.now());
+            model.setSymbol("XYZ");
+            model.setStd(dataProcessorCalculator.computeStandardDeviation(priceModelList));
+            statsService.insertStats(model);
+        }
+    }
 }

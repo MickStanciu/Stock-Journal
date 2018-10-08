@@ -28,4 +28,8 @@ public class HistoryService {
     public void updatePrices(List<PriceModel> priceModelList) {
         historyRepository.updatePrices(priceModelList);
     }
+
+    public List<PriceModel> getLastYearPrices(String symbol) {
+        return historyRepository.getLastYearPricesForSymbol(symbol);
+    }
 }

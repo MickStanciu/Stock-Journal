@@ -13,6 +13,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -20,6 +21,7 @@ public class HistoryRepository {
     private static final Logger log = LoggerFactory.getLogger(HistoryRepository.class);
 
     private static final String GET_PRICES_FOR_SYMBOL_QUERY = "SELECT date, symbol_fk, day_adj_close, per_daily_return FROM price WHERE processed IS FALSE AND symbol_fk = ? ORDER BY date ASC LIMIT ?";
+    private static final String GET_LAST_YEAR_PRICES_FOR_SYMBOL_QUERY = "SELECT date, symbol_fk, day_adj_close, per_daily_return FROM price WHERE symbol_fk = ? and date >= ? ORDER BY date ASC";
     private static final String GET_PRICES_QUERY = "SELECT date, symbol_fk, day_adj_close, per_daily_return FROM price WHERE processed IS FALSE ORDER BY date ASC LIMIT ?";
     private static final String UPDATE_PRICES_QUERY = "UPDATE price SET per_daily_return = ?, processed = ? WHERE date = ? AND symbol_fk = ?";
 
@@ -57,6 +59,12 @@ public class HistoryRepository {
                 return priceModelList.size();
             }
         });
+    }
+
+    public List<PriceModel> getLastYearPricesForSymbol(String symbol) {
+        LocalDate today = LocalDate.now().minusYears(1);
+        Object[] parameters = new Object[] { symbol, Date.valueOf(today) };
+        return jdbcTemplate.query(GET_LAST_YEAR_PRICES_FOR_SYMBOL_QUERY, parameters, new PriceEntityMapper());
     }
 }
 
