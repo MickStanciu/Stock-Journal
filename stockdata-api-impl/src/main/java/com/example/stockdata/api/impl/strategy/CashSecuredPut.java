@@ -27,6 +27,8 @@ public class CashSecuredPut {
     private double entryPrice = 0;
     private double stopLoss = 0;
 
+    private int optionTradeDays = 45;
+
     @Autowired
     public CashSecuredPut(HistoryRepository historyRepository, StatsRepository statsRepository) {
         this.historyRepository = historyRepository;
@@ -45,19 +47,26 @@ public class CashSecuredPut {
         for (PriceModel price : priceModelList) {
             if (!inTrade) {
                 enterTrade(price, priceStatModel.getStd());
+            } else {
+                this.optionTradeDays--;
             }
 
+
             //check Stop Loss
-            if (price.getAdjClose() <= this.stopLoss) {
+            if (price.getAdjClose() <= this.stopLoss || this.optionTradeDays == 0) {
                 exitTrade(price, this.stopLoss);
+                log.info("Available capital: " + this.moneyValue);
             }
         }
 
+        //force exit
+        PriceModel last = priceModelList.get(priceModelList.size() - 1);
+        exitTrade(last, last.getAdjClose());
         log.info("Ending capital: " + this.moneyValue);
     }
 
     private void enterTrade(PriceModel price, double std) {
-        this.entryPrice = price.getAdjClose() - price.getAdjClose() * std * 3;
+        this.entryPrice = price.getAdjClose() - price.getAdjClose() * std * 5;
 //        this.stopLoss = price.getAdjClose() - (6.0/100.0) * this.entryPrice;
         this.stopLoss = this.entryPrice;
         double riskAmount = this.moneyValue * (this.risk / 100);
@@ -65,6 +74,7 @@ public class CashSecuredPut {
         moneyValue -= this.positionSize * this.entryPrice;
 
         inTrade = true;
+        this.optionTradeDays = 45;
         log.info("Enter trade on " + price.getDate().toString() + " at " + entryPrice + " for XYZ " + this.positionSize + " shares");
         log.info(" ... stop loss: " + this.stopLoss);
     }
@@ -74,5 +84,10 @@ public class CashSecuredPut {
 
         inTrade = false;
         log.info("Exit trade on " + price.getDate().toString() + " at " + exitPrice + " for XYZ " + this.positionSize + " shares");
+        if (exitPrice >= entryPrice) {
+            log.info(" ... WIN");
+        } else {
+            log.info(" ... LOSS");
+        }
     }
 }
