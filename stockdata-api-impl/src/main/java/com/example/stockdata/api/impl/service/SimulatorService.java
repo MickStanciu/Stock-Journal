@@ -13,13 +13,13 @@ public class SimulatorService {
 
     private static final int SIMULATOR_RUNS = 100;
 
-    public ProbabilitySimulatorResponse simulatePop(double initialAmount, int winValue, int lossValue) {
+    public ProbabilitySimulatorResponse simulatePop(double initialAmount, int winValue, int lossValue, int winRate) {
         List<Double> simulatorWins = new ArrayList<>();
         List<Double> simulatorLoses = new ArrayList<>();
         List<Double> simulatorNoCashToTrade = new ArrayList<>();
 
         for (int i=0; i<SIMULATOR_RUNS; i++) {
-            int[] series = ProbabilityCalculator.generateSeries(70, 100);
+            int[] series = ProbabilityCalculator.generateSeries(winRate, 100);
             SimulatorResult result = ProbabilityCalculator.simulate(series, initialAmount, 5, winValue, lossValue);
 
             if (result.isNoMoney()) {

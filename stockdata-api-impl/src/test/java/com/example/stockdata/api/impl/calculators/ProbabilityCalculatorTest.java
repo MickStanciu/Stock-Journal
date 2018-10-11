@@ -32,10 +32,11 @@ public class ProbabilityCalculatorTest {
         int simulatorRuns = 100;
 
         double initialAmount = 10000.0;
-        int winValue = 70;
-        int lossValue = 153;
+        int winValue = 70; //$
+        int lossValue = 153; //$
+        int winRate = 70; //70%
 
-        ProbabilitySimulatorResponse response = simulatorService.simulatePop(initialAmount, winValue, lossValue);
+        ProbabilitySimulatorResponse response = simulatorService.simulatePop(initialAmount, winValue, lossValue, winRate);
 
 
         System.out.println("Calculated break/even price: " + response.getBreakEvenStopLoss());

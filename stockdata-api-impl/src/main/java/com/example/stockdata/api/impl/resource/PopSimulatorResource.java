@@ -23,8 +23,9 @@ public class PopSimulatorResource {
     public ProbabilitySimulatorResponse simulate(
             @RequestParam(name = "initialAmount") int initialAmount,
             @RequestParam(name = "winValue") int winValue,
-            @RequestParam(name = "lossValue") int lossValue
+            @RequestParam(name = "lossValue") int lossValue,
+            @RequestParam(name = "winRate") int winRate
     ) {
-        return simulatorService.simulatePop(initialAmount, winValue, lossValue);
+        return simulatorService.simulatePop(initialAmount, winValue, lossValue, winRate);
     }
 }
