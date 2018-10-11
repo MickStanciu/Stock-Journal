@@ -1,18 +1,23 @@
 package com.example.stockdata.api.impl.calculators;
 
-import com.example.stockdata.api.impl.model.SimulatorResult;
+import com.example.stockdata.api.impl.service.SimulatorService;
+import com.example.stockdata.api.spec.model.ProbabilitySimulatorResponse;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
 
 public class ProbabilityCalculatorTest {
 
+    private SimulatorService simulatorService;
 
+    @BeforeMethod
+    public void setUp() {
+        simulatorService = new SimulatorService();
+    }
 
     @Test
     public void testGenerator() {
@@ -25,55 +30,37 @@ public class ProbabilityCalculatorTest {
     @Test
     public void testTrade() {
         int simulatorRuns = 100;
-        List<Double> simulatorWins = new ArrayList<>();
-        List<Double> simulatorLoses = new ArrayList<>();
-        List<Double> simulatorNoCashToTrade = new ArrayList<>();
 
         double initialAmount = 10000.0;
         int winValue = 70;
         int lossValue = 153;
-        double adjustmentRatio = (double) winValue / (100 - (double) winValue);
-        int newLossValue = (int) (winValue * adjustmentRatio);
-        int sweetSpot = (int) (winValue * 2.19);
 
-        for (int i=0; i<simulatorRuns; i++) {
-            int[] series = ProbabilityCalculator.generateSeries(70, 100);
-            SimulatorResult result = ProbabilityCalculator.simulate(series, initialAmount, 5, winValue, lossValue);
+        ProbabilitySimulatorResponse response = simulatorService.simulatePop(initialAmount, winValue, lossValue);
 
-            if (result.isNoMoney()) {
-                simulatorNoCashToTrade.add(result.getAmount());
-            }
 
-            if (result.getAmount() > initialAmount) {
-                simulatorWins.add(result.getAmount());
-            } else {
-                simulatorLoses.add(result.getAmount());
-            }
-        }
-
-        System.out.println("Recommended break/even price: " + newLossValue);
-        System.out.println("Sweet spot price: " + sweetSpot);
+        System.out.println("Calculated break/even price: " + response.getBreakEvenStopLoss());
+        System.out.println("Recommended roll price:      " + response.getRecommendedStopLoss());
         System.out.println();
 
         System.out.println("Trading results for #" + simulatorRuns + " iterations:");
-        System.out.println("  system won       " + simulatorWins.size() + " times");
-        System.out.println("  system lost      " + simulatorLoses.size() + " times");
+        System.out.println("  system won       " + response.getSimulatorWins().size() + " times");
+        System.out.println("  system lost      " + response.getSimulatorLoses().size() + " times");
 
-        double ratio = Math.round ((simulatorWins.size() * 100.0)/ simulatorLoses.size() ) / 100.0;
+        double ratio = Math.round ((response.getSimulatorWins().size() * 100.0)/ response.getSimulatorLoses().size() ) / 100.0;
 
         System.out.println("  system w/l ratio " + ratio + ":1");
-        System.out.println("  system stopped " + simulatorNoCashToTrade.size() + " times");
+        System.out.println("  system stopped " + response.getSimulatorNoCashToTrade().size() + " times");
         System.out.println();
 
-        Optional<Double> maxWin = simulatorWins.stream().reduce(Double::max);
+        Optional<Double> maxWin = response.getSimulatorWins().stream().reduce(Double::max);
         maxWin.ifPresent(aDouble -> System.out.println("Biggest win amount: " + aDouble));
 
-        Optional<Double> maxLoss = simulatorLoses.stream().reduce(Double::max);
+        Optional<Double> maxLoss = response.getSimulatorLoses().stream().reduce(Double::max);
         maxLoss.ifPresent(aDouble -> System.out.println("Biggest loss amount: " + aDouble));
 
         System.out.println();
-        double wins = simulatorWins.stream().mapToDouble(Double::doubleValue).sum();
-        double loses = simulatorLoses.stream().mapToDouble(Double::doubleValue).sum();
+        double wins = response.getSimulatorWins().stream().mapToDouble(Double::doubleValue).sum();
+        double loses = response.getSimulatorLoses().stream().mapToDouble(Double::doubleValue).sum();
         System.out.println("Account value: " + (int) (wins - loses));
     }
 }
