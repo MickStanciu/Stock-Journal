@@ -29,11 +29,15 @@ public class ProbabilityCalculatorTest {
         List<Double> simulatorLoses = new ArrayList<>();
         List<Double> simulatorNoCashToTrade = new ArrayList<>();
 
+        double initialAmount = 10000.0;
+        int winValue = 70;
+        int lossValue = 153;
+        double adjustmentRatio = (double) winValue / (100 - (double) winValue);
+        int newLossValue = (int) (winValue * adjustmentRatio);
+        int sweetSpot = (int) (winValue * 2.19);
+
         for (int i=0; i<simulatorRuns; i++) {
             int[] series = ProbabilityCalculator.generateSeries(70, 100);
-            double initialAmount = 20000.0;
-            int winValue = 70;
-            int lossValue = 163;
             SimulatorResult result = ProbabilityCalculator.simulate(series, initialAmount, 5, winValue, lossValue);
 
             if (result.isNoMoney()) {
@@ -47,9 +51,17 @@ public class ProbabilityCalculatorTest {
             }
         }
 
+        System.out.println("Recommended break/even price: " + newLossValue);
+        System.out.println("Sweet spot price: " + sweetSpot);
+        System.out.println();
+
         System.out.println("Trading results for #" + simulatorRuns + " iterations:");
-        System.out.println("  system won     " + simulatorWins.size() + " times");
-        System.out.println("  system lost    " + simulatorLoses.size() + " times");
+        System.out.println("  system won       " + simulatorWins.size() + " times");
+        System.out.println("  system lost      " + simulatorLoses.size() + " times");
+
+        double ratio = Math.round ((simulatorWins.size() * 100.0)/ simulatorLoses.size() ) / 100.0;
+
+        System.out.println("  system w/l ratio " + ratio + ":1");
         System.out.println("  system stopped " + simulatorNoCashToTrade.size() + " times");
         System.out.println();
 
