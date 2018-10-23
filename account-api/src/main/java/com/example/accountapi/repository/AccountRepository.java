@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -65,89 +64,47 @@ public class AccountRepository {
     }
 
     public AccountModel getAccount(String tenantId, String email, String password) {
-//        List<AccountModel> models = conn.getJdbi().withHandle(handle ->
-//                handle
-//                    .createQuery(ACCOUNT_READ_BY_EMAIL_AND_PASSWORD_QUERY)
-//                    .bind(0, email)
-//                    .bind(1, password)
-//                    .bind(2, tenantId)
-//                    .map(new AccountModelRowMapper())
-//                    .list()
-//        );
-//
-//        if (models.isEmpty()) {
-//            return null;
-//        }
-//        return models.get(0);
-        return null;
+        Object[] parameters = new Object[] {email, password, tenantId};
+
+        List<AccountModel> results = jdbcTemplate.query(ACCOUNT_READ_BY_EMAIL_AND_PASSWORD_QUERY, parameters, new AccountModelRowMapper());
+
+        if (results.isEmpty()) {
+            return null;
+        }
+        return results.get(0);
     }
 
     public AccountModel getAccount(String tenantId, long accountId) {
-//        List<AccountModel> models = conn.getJdbi().withHandle(handle ->
-//                handle
-//                    .createQuery(ACCOUNT_READ_BY_ID_QUERY)
-//                    .bind(0, tenantId)
-//                    .bind(1, accountId)
-//                    .map(new AccountModelRowMapper())
-//                    .list()
-//        );
-//
-//        if (models.isEmpty()) {
-//            return null;
-//        }
-//        return models.get(0);
-        return null;
+        Object[] parameters = new Object[] {tenantId, accountId};
+
+        List<AccountModel> results = jdbcTemplate.query(ACCOUNT_READ_BY_ID_QUERY, parameters, new AccountModelRowMapper());
+
+        if (results.isEmpty()) {
+            return null;
+        }
+        return results.get(0);
     }
 
     public List<AccountModel> getAccountsByRelationship(String tenantId, long parentId, int depth) {
-//        return conn.getJdbi().withHandle(handle ->
-//                handle
-//                    .createQuery(ACCOUNTS_READ_BY_RELATIONSHIP)
-//                    .bind(0, "*****")
-//                    .bind(1, tenantId)
-//                    .bind(2, parentId)
-//                    .bind(3, depth)
-//                    .map(new AccountModelRowMapper())
-//                    .list()
-//        );
-        return Collections.emptyList();
+        Object[] parameters = new Object[] {"*****", tenantId, parentId, depth};
+
+        return jdbcTemplate.query(ACCOUNTS_READ_BY_RELATIONSHIP, parameters, new AccountModelRowMapper());
     }
 
     public boolean checkAccount(String tenantId, String email) {
-//        return conn.getJdbi().withHandle(handle ->
-//                handle
-//                    .createQuery(ACCOUNT_CHECK_QUERY)
-//                    .bind(0, email)
-//                    .bind(1, tenantId)
-//                    .mapToMap().list()
-//        ).size() != 0;
-        return false;
+        Object[] parameters = new Object[] {email, tenantId};
+        return jdbcTemplate.query(ACCOUNT_CHECK_QUERY, parameters, new AccountModelRowMapper()).size() != 0;
     }
 
     public void createAccount(String tenantId, String name, String password, String email, int roleId) {
-//        conn.getJdbi().inTransaction(handle ->
-//                handle
-//                    .createUpdate(ACCOUNT_CREATE_QUERY)
-//                    .bind(0, tenantId)
-//                    .bind(1, roleId)
-//                    .bind(2, name)
-//                    .bind(3, email)
-//                    .bind(4, password)
-//        );
+        Object[] parameters = new Object[] {tenantId, roleId, name, email, password};
+        jdbcTemplate.update(ACCOUNT_CREATE_QUERY, parameters);
     }
 
     public void updateAccount(String tenantId, long accountId, AccountModel newAccount) {
-//        conn.getJdbi().inTransaction(handle ->
-//                handle
-//                    .createUpdate(ACCOUNT_UPDATE_QUERY)
-//                    .bind(0, newAccount.getName())
-//                    .bind(1, newAccount.getPassword())
-//                    .bind(2, newAccount.getEmail())
-//                    .bind(3, newAccount.isActive())
-//                    .bind(4, newAccount.getRole().getId())
-//                    .bind(5, tenantId)
-//                    .bind(6, accountId)
-//        );
+        Object[] parameters = new Object[] {newAccount.getName(), newAccount.getPassword(), newAccount.getEmail(), newAccount.isActive(),
+                newAccount.getRole().getId(), tenantId, accountId};
+        jdbcTemplate.update(ACCOUNT_UPDATE_QUERY, parameters);
     }
 }
 
