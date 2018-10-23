@@ -1,5 +1,6 @@
 package com.example.accountapi.rest;
 
+import com.example.accountapi.exception.AccountException;
 import com.example.accountapi.exception.ExceptionCode;
 import com.example.accountapi.facade.AccountFacade;
 import com.example.accountapi.model.AccountModel;
@@ -9,11 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +22,12 @@ public class AccountResource {
 
     private static final Logger log = LoggerFactory.getLogger(AccountResource.class);
 
-    @Autowired
     private AccountFacade accountFacade;
+
+    @Autowired
+    public AccountResource(AccountFacade accountFacade) {
+        this.accountFacade = accountFacade;
+    }
 
     @RequestMapping(value = "/{tenantId}", method = RequestMethod.GET)
     @ResponseBody
@@ -59,50 +60,45 @@ public class AccountResource {
                 .build();
     }
 
-    /*
-    @GET
-    @Path("/{tenantId}/{accountId}")
-    public Response accountById(
-            @PathParam("tenantId") @DefaultValue("0") String tenantId,
-            @PathParam("accountId") @DefaultValue("0") long accountId
+    @RequestMapping(value = "/{tenantId}/{accountId}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEnvelope accountById(
+            @PathVariable("tenantId") String tenantId,
+            @PathVariable("accountId") long accountId
     ) {
         if (!RequestValidation.validateGetAccount(tenantId, accountId)) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return null;
         }
 
-        List<ErrorDto> errors = new ArrayList<>();
+        List<ErrorModel> errors = new ArrayList<>();
 
         Optional<AccountModel> accountOptional;
         try {
             accountOptional = accountFacade.getAccount(tenantId, accountId);
         } catch (Exception ex) {
             log.error("", ex);
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            return null;
         }
 
         if (!accountOptional.isPresent()) {
-            errors.add(new ErrorDto(ExceptionCode.ACCOUNT_NOT_FOUND.name(), ExceptionCode.ACCOUNT_NOT_FOUND.getMessage()));
+            errors.add(new ErrorModel(ExceptionCode.ACCOUNT_NOT_FOUND.name(), ExceptionCode.ACCOUNT_NOT_FOUND.getMessage()));
         }
 
-        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<AccountModel>()
+        return new ResponseEnvelope.Builder<AccountModel>()
                 .withData(accountOptional.orElse(null))
                 .withErrors(errors)
                 .build();
-
-        return Response.status(Response.Status.OK)
-                .entity(responseEnvelope)
-                .build();
     }
 
-    @GET
-    @Path("/relations/{tenantId}/{parentId}")
-    public Response getAccountByRelationship(
-            @PathParam("tenantId") @DefaultValue("0") String tenantId,
-            @PathParam("parentId") @DefaultValue("0") long parentId,
-            @QueryParam("depth") Integer depth
+    @RequestMapping(value = "/relations/{tenantId}/{parentId}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEnvelope getAccountByRelationship(
+            @PathVariable("tenantId") String tenantId,
+            @PathVariable("parentId") long parentId,
+            @RequestParam("depth") Integer depth
     ) {
         if (!RequestValidation.validateGetAccountsByRelationship(tenantId, parentId, depth)) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return null;
         }
 
         List<AccountModel> accountList;
@@ -110,117 +106,88 @@ public class AccountResource {
             accountList = accountFacade.getAccountsByRelationship(tenantId, parentId, depth);
         } catch (Exception ex) {
             log.error("", ex);
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            return null;
         }
 
-        List<ErrorDto> errors = new ArrayList<>();
+        List<ErrorModel> errors = new ArrayList<>();
         if (accountList.isEmpty()) {
-            errors.add(new ErrorDto(ExceptionCode.ACCOUNTS_NOT_FOUND.name(), ExceptionCode.ACCOUNTS_NOT_FOUND.getMessage()));
+            errors.add(new ErrorModel(ExceptionCode.ACCOUNTS_NOT_FOUND.name(), ExceptionCode.ACCOUNTS_NOT_FOUND.getMessage()));
         }
 
-        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<List<AccountModel>>()
+        return new ResponseEnvelope.Builder<List<AccountModel>>()
                 .withData(accountList)
                 .withErrors(errors)
                 .build();
-
-        return Response.status(Response.Status.OK)
-                .entity(responseEnvelope)
-                .build();
     }
 
-    @POST
-    @Path("/{tenantId}")
-    @Consumes("application/json")
-    public Response createAccount(
-            AccountModel account,
-            @PathParam("tenantId") @DefaultValue("0") String tenantId
+    @RequestMapping(value = "/{tenantId}", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEnvelope createAccount(
+            @RequestBody AccountModel account,
+            @PathVariable("tenantId")  String tenantId
     ) {
         if (!RequestValidation.validateCreateAccount(tenantId, account)) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return null;
         }
 
         Optional<AccountModel> accountOptional;
-        List<ErrorDto> errors = new ArrayList<>();
+        List<ErrorModel> errors = new ArrayList<>();
 
         try {
             accountOptional = accountFacade.createAccount(tenantId, account.getName(), account.getEmail(), account.getPassword() );
         } catch (AccountException aex) {
             log.error("", aex);
-            errors.add(new ErrorDto(aex.getCode().name(), aex.getMessage()));
+            errors.add(new ErrorModel(aex.getCode().name(), aex.getMessage()));
             accountOptional = Optional.empty();
         } catch (Exception ex) {
             //todo: move out all the Exceptions
             log.error("", ex);
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            return null;
         }
 
         if (!accountOptional.isPresent() && errors.isEmpty()) {
-            errors.add(new ErrorDto(ExceptionCode.UNKNOWN.name(), ExceptionCode.UNKNOWN.getMessage()));
+            errors.add(new ErrorModel(ExceptionCode.UNKNOWN.name(), ExceptionCode.UNKNOWN.getMessage()));
         }
 
-        Response.Status status = Response.Status.CREATED;
-        if (errors.size() != 0) {
-            if (errors.get(0).getCode().equals("ACCOUNT_EXISTS")) {
-                status = Response.Status.CONFLICT;
-            } else {
-                status = Response.Status.BAD_REQUEST;
-            }
-        }
-
-        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<AccountModel>()
+        return new ResponseEnvelope.Builder<AccountModel>()
                 .withData(accountOptional.orElse(null))
                 .withErrors(errors)
                 .build();
-
-        return Response.status(status)
-                .entity(responseEnvelope)
-                .build();
     }
 
-    @PUT
-    @Path("/{tenantId}/{accountId}")
-    @Consumes("application/json")
-    public Response updateAccount(
+    @RequestMapping(value = "/{tenantId}/{accountId}", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEnvelope updateAccount(
             AccountModel account,
-            @PathParam("tenantId") @DefaultValue("0") String tenantId,
-            @PathParam("accountId") @DefaultValue("0") long accountId
+            @PathVariable("tenantId") String tenantId,
+            @PathVariable("accountId") long accountId
     ) {
         if (!RequestValidation.validateUpdateAccount(tenantId, accountId, account)) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return null;
         }
 
         Optional<AccountModel> accountOptional;
-        List<ErrorDto> errors = new ArrayList<>();
+        List<ErrorModel> errors = new ArrayList<>();
 
         try {
             accountOptional = accountFacade.updateAccount(tenantId, accountId, account);
         } catch (AccountException aex) {
             log.error("", aex);
-            errors.add(new ErrorDto(aex.getCode().name(), aex.getMessage()));
+            errors.add(new ErrorModel(aex.getCode().name(), aex.getMessage()));
             accountOptional = Optional.empty();
         } catch (Exception ex) {
             //todo: move out all the Exceptions
             log.error("", ex);
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            return null;
         }
 
         if (!accountOptional.isPresent() && errors.isEmpty()) {
-            errors.add(new ErrorDto(ExceptionCode.UNKNOWN.name(), ExceptionCode.UNKNOWN.getMessage()));
+            errors.add(new ErrorModel(ExceptionCode.UNKNOWN.name(), ExceptionCode.UNKNOWN.getMessage()));
         }
 
-        Response.Status status = Response.Status.ACCEPTED;
-        if (errors.size() != 0) {
-            status = Response.Status.BAD_REQUEST;
-        }
-
-        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<AccountModel>()
+        return new ResponseEnvelope.Builder<AccountModel>()
                 .withData(accountOptional.orElse(null))
                 .withErrors(errors)
                 .build();
-
-        return Response.status(status)
-                .entity(responseEnvelope)
-                .build();
     }
-    */
 }
