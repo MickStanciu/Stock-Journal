@@ -1,18 +1,19 @@
 package com.example.accountapi.repository;
 
-import com.example.account.model.AccountModel;
-import org.jdbi.v3.core.mapper.RowMapper;
-import org.jdbi.v3.core.statement.StatementContext;
+import com.example.accountapi.model.AccountModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 
-@Singleton
+@Service
 public class AccountRepository {
 
     private static final Logger log = LoggerFactory.getLogger(AccountRepository.class);
@@ -51,108 +52,109 @@ public class AccountRepository {
             "and ar.parent_fk = ? " +
             "and ar.depth <= ?";
 
-    private DatabaseConnection conn;
+    private JdbcTemplate jdbcTemplate;
 
-    @Inject
-    public AccountRepository(DatabaseConnection conn) {
-        this.conn = conn;
+    @Autowired
+    public AccountRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     public boolean checkFirstRecord() {
-        return conn.getJdbi().withHandle(handle ->
-                handle
-                    .createQuery(ACCOUNT_READ_FIRST_QUERY)
-                    .mapToMap().list()
-        ).size() == 1;
+        List<AccountModel> results = jdbcTemplate.query(ACCOUNT_READ_FIRST_QUERY, new AccountModelRowMapper());
+        return results.size() == 1;
     }
 
     public AccountModel getAccount(String tenantId, String email, String password) {
-        List<AccountModel> models = conn.getJdbi().withHandle(handle ->
-                handle
-                    .createQuery(ACCOUNT_READ_BY_EMAIL_AND_PASSWORD_QUERY)
-                    .bind(0, email)
-                    .bind(1, password)
-                    .bind(2, tenantId)
-                    .map(new AccountModelRowMapper())
-                    .list()
-        );
-
-        if (models.isEmpty()) {
-            return null;
-        }
-        return models.get(0);
+//        List<AccountModel> models = conn.getJdbi().withHandle(handle ->
+//                handle
+//                    .createQuery(ACCOUNT_READ_BY_EMAIL_AND_PASSWORD_QUERY)
+//                    .bind(0, email)
+//                    .bind(1, password)
+//                    .bind(2, tenantId)
+//                    .map(new AccountModelRowMapper())
+//                    .list()
+//        );
+//
+//        if (models.isEmpty()) {
+//            return null;
+//        }
+//        return models.get(0);
+        return null;
     }
 
     public AccountModel getAccount(String tenantId, long accountId) {
-        List<AccountModel> models = conn.getJdbi().withHandle(handle ->
-                handle
-                    .createQuery(ACCOUNT_READ_BY_ID_QUERY)
-                    .bind(0, tenantId)
-                    .bind(1, accountId)
-                    .map(new AccountModelRowMapper())
-                    .list()
-        );
-
-        if (models.isEmpty()) {
-            return null;
-        }
-        return models.get(0);
+//        List<AccountModel> models = conn.getJdbi().withHandle(handle ->
+//                handle
+//                    .createQuery(ACCOUNT_READ_BY_ID_QUERY)
+//                    .bind(0, tenantId)
+//                    .bind(1, accountId)
+//                    .map(new AccountModelRowMapper())
+//                    .list()
+//        );
+//
+//        if (models.isEmpty()) {
+//            return null;
+//        }
+//        return models.get(0);
+        return null;
     }
 
     public List<AccountModel> getAccountsByRelationship(String tenantId, long parentId, int depth) {
-        return conn.getJdbi().withHandle(handle ->
-                handle
-                    .createQuery(ACCOUNTS_READ_BY_RELATIONSHIP)
-                    .bind(0, "*****")
-                    .bind(1, tenantId)
-                    .bind(2, parentId)
-                    .bind(3, depth)
-                    .map(new AccountModelRowMapper())
-                    .list()
-        );
+//        return conn.getJdbi().withHandle(handle ->
+//                handle
+//                    .createQuery(ACCOUNTS_READ_BY_RELATIONSHIP)
+//                    .bind(0, "*****")
+//                    .bind(1, tenantId)
+//                    .bind(2, parentId)
+//                    .bind(3, depth)
+//                    .map(new AccountModelRowMapper())
+//                    .list()
+//        );
+        return Collections.emptyList();
     }
 
     public boolean checkAccount(String tenantId, String email) {
-        return conn.getJdbi().withHandle(handle ->
-                handle
-                    .createQuery(ACCOUNT_CHECK_QUERY)
-                    .bind(0, email)
-                    .bind(1, tenantId)
-                    .mapToMap().list()
-        ).size() != 0;
+//        return conn.getJdbi().withHandle(handle ->
+//                handle
+//                    .createQuery(ACCOUNT_CHECK_QUERY)
+//                    .bind(0, email)
+//                    .bind(1, tenantId)
+//                    .mapToMap().list()
+//        ).size() != 0;
+        return false;
     }
 
     public void createAccount(String tenantId, String name, String password, String email, int roleId) {
-        conn.getJdbi().inTransaction(handle ->
-                handle
-                    .createUpdate(ACCOUNT_CREATE_QUERY)
-                    .bind(0, tenantId)
-                    .bind(1, roleId)
-                    .bind(2, name)
-                    .bind(3, email)
-                    .bind(4, password)
-        );
+//        conn.getJdbi().inTransaction(handle ->
+//                handle
+//                    .createUpdate(ACCOUNT_CREATE_QUERY)
+//                    .bind(0, tenantId)
+//                    .bind(1, roleId)
+//                    .bind(2, name)
+//                    .bind(3, email)
+//                    .bind(4, password)
+//        );
     }
 
     public void updateAccount(String tenantId, long accountId, AccountModel newAccount) {
-        conn.getJdbi().inTransaction(handle ->
-                handle
-                    .createUpdate(ACCOUNT_UPDATE_QUERY)
-                    .bind(0, newAccount.getName())
-                    .bind(1, newAccount.getPassword())
-                    .bind(2, newAccount.getEmail())
-                    .bind(3, newAccount.isActive())
-                    .bind(4, newAccount.getRole().getId())
-                    .bind(5, tenantId)
-                    .bind(6, accountId)
-        );
+//        conn.getJdbi().inTransaction(handle ->
+//                handle
+//                    .createUpdate(ACCOUNT_UPDATE_QUERY)
+//                    .bind(0, newAccount.getName())
+//                    .bind(1, newAccount.getPassword())
+//                    .bind(2, newAccount.getEmail())
+//                    .bind(3, newAccount.isActive())
+//                    .bind(4, newAccount.getRole().getId())
+//                    .bind(5, tenantId)
+//                    .bind(6, accountId)
+//        );
     }
 }
 
 class AccountModelRowMapper implements RowMapper<AccountModel> {
 
     @Override
-    public AccountModel map(ResultSet rs, StatementContext ctx) throws SQLException {
+    public AccountModel mapRow(ResultSet rs, int rowNum) throws SQLException {
         return AccountModel.builder()
                 .havingPersonalDetails()
                     .withTenantId(rs.getString("tenant_id"))

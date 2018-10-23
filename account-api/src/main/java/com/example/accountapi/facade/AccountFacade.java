@@ -1,18 +1,18 @@
 package com.example.accountapi.facade;
 
 
-import com.example.account.model.AccountModel;
-import com.example.account.model.RoleModel;
-import com.example.accountapi.exception.AccountException;
+import com.example.accountapi.model.AccountModel;
+import com.example.accountapi.model.RoleModel;
 import com.example.accountapi.service.AccountService;
 import com.example.accountapi.service.RoleService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import javax.security.auth.login.AccountException;
 import java.util.List;
 import java.util.Optional;
 
-@Singleton
+@Service
 public class AccountFacade {
 
     private static final int DEFAULT_ROLE_ID = 1;
@@ -21,7 +21,7 @@ public class AccountFacade {
     private AccountService accountService;
     private RoleService roleService;
 
-    @Inject
+    @Autowired
     public AccountFacade(AccountService accountService, RoleService roleService) {
         this.accountService = accountService;
         this.roleService = roleService;

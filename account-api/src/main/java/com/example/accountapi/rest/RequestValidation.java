@@ -1,7 +1,7 @@
 package com.example.accountapi.rest;
 
-import com.example.account.model.AccountModel;
-import com.example.account.model.RoleModel;
+import com.example.accountapi.model.AccountModel;
+import com.example.accountapi.model.RoleModel;
 import com.example.common.validator.FieldValidator;
 import com.example.common.validator.StringValidator;
 

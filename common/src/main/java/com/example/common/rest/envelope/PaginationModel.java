@@ -1,8 +1,8 @@
-package com.example.common.rest.dto;
+package com.example.common.rest.envelope;
 
 import java.io.Serializable;
 
-public class PaginationDto implements Serializable {
+public class PaginationModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -15,13 +15,13 @@ public class PaginationDto implements Serializable {
 //    private String currentPage;
 //    private String previousPage;
 
-    public PaginationDto(int offset, int limit, int totalCount) {
+    public PaginationModel(int offset, int limit, int totalCount) {
         this.offset = offset;
         this.limit = limit;
         this.totalCount = totalCount;
     }
 
-    public PaginationDto() {
+    public PaginationModel() {
     }
 
     public int getOffset() {

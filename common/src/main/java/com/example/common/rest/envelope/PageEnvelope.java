@@ -1,14 +1,12 @@
 package com.example.common.rest.envelope;
 
-import com.example.common.rest.dto.ErrorDto;
-import com.example.common.rest.dto.PaginationDto;
 import com.fasterxml.jackson.annotation.JsonIgnoreType;
 
 import java.util.List;
 
 public class PageEnvelope<T> extends RestEnvelope<T> {
 
-    private final PaginationDto pagination;
+    private final PaginationModel pagination;
 
 
     private PageEnvelope(PageEnvelopeBuilder<T> builder) {
@@ -16,27 +14,27 @@ public class PageEnvelope<T> extends RestEnvelope<T> {
         this.pagination = builder.pagination;
     }
 
-    public PaginationDto getPagination() {
+    public PaginationModel getPagination() {
         return pagination;
     }
 
     @JsonIgnoreType
     public static class PageEnvelopeBuilder<T> {
         private T data;
-        private List<ErrorDto> errors;
-        private PaginationDto pagination;
+        private List<ErrorModel> errors;
+        private PaginationModel pagination;
 
         public PageEnvelope.PageEnvelopeBuilder data(T data) {
             this.data = data;
             return this;
         }
 
-        public PageEnvelope.PageEnvelopeBuilder errors(List<ErrorDto> errors) {
+        public PageEnvelope.PageEnvelopeBuilder errors(List<ErrorModel> errors) {
             this.errors = errors;
             return this;
         }
 
-        public PageEnvelope.PageEnvelopeBuilder pagination(PaginationDto pagination) {
+        public PageEnvelope.PageEnvelopeBuilder pagination(PaginationModel pagination) {
             this.pagination = pagination;
             return this;
         }

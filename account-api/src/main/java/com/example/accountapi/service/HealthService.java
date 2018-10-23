@@ -1,14 +1,14 @@
 package com.example.accountapi.service;
 
-import com.example.account.model.HealthModel;
+import com.example.accountapi.model.HealthModel;
 import com.example.accountapi.repository.AccountRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 
-@Singleton
+@Service
 public class HealthService {
 
     private static final Logger log = LoggerFactory.getLogger(HealthService.class);
@@ -17,7 +17,7 @@ public class HealthService {
 
     private AccountRepository accountRepository;
 
-    @Inject
+    @Autowired
     public HealthService(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
         health = new HealthModel();

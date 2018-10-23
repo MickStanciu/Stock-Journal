@@ -1,23 +1,23 @@
 package com.example.accountapi.service;
 
-import com.example.account.model.AccountModel;
+import com.example.accountapi.model.AccountModel;
 import com.example.accountapi.repository.AccountRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import java.util.List;
 import java.util.Optional;
 
-@Singleton
+@Service
 public class AccountService {
 
     private static final Logger log = LoggerFactory.getLogger(AccountService.class);
 
     private AccountRepository accountRepository;
 
-    @Inject
+    @Autowired
     public AccountService(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
     }

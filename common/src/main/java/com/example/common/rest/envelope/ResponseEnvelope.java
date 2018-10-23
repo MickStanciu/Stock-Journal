@@ -1,7 +1,5 @@
 package com.example.common.rest.envelope;
 
-import com.example.common.rest.dto.ErrorDto;
-
 import java.util.List;
 
 public class ResponseEnvelope<T> extends RestEnvelope<T> {
@@ -16,14 +14,14 @@ public class ResponseEnvelope<T> extends RestEnvelope<T> {
 
     public static class Builder<T> {
         private T data;
-        private List<ErrorDto> errors;
+        private List<ErrorModel> errors;
 
         public Builder withData(T data) {
             this.data = data;
             return this;
         }
 
-        public Builder withErrors(List<ErrorDto> errors) {
+        public Builder withErrors(List<ErrorModel> errors) {
             this.errors = errors;
             return this;
         }

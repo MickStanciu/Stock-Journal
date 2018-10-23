@@ -1,0 +1,4 @@
+description = 'Account API Spec'
+
+group = 'com.example.accountapi.spec'
+version = '0.0.1-SNAPSHOT'

@@ -1,48 +1,42 @@
 package com.example.accountapi.rest;
 
-import com.example.account.model.AccountModel;
-import com.example.accountapi.exception.AccountException;
 import com.example.accountapi.exception.ExceptionCode;
 import com.example.accountapi.facade.AccountFacade;
-import com.example.common.rest.dto.ErrorDto;
+import com.example.accountapi.model.AccountModel;
+import com.example.common.rest.envelope.ErrorModel;
 import com.example.common.rest.envelope.ResponseEnvelope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Path("/v1")
-@Produces(MediaType.APPLICATION_JSON)
+@Controller
+@RequestMapping(value = "/v1", produces = "application/json")
 public class AccountResource {
 
     private static final Logger log = LoggerFactory.getLogger(AccountResource.class);
 
-    @Inject
+    @Autowired
     private AccountFacade accountFacade;
 
-    @GET
-    @Path("/{tenantId}")
-    public Response accountByEmailAndPassword(
-            @PathParam("tenantId") @DefaultValue("0") String tenantId,
-            @QueryParam("email") @DefaultValue("") String email,
-            @QueryParam("password") @DefaultValue("") String password
+    @RequestMapping(value = "/{tenantId}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEnvelope accountByEmailAndPassword(
+            @PathVariable(name = "tenantId") String tenantId,
+            @RequestParam(name = "email", defaultValue = "")  String email,
+            @RequestParam(name = "password", defaultValue = "") String password
     ) {
         if (!RequestValidation.validateGetAccount(tenantId, email, password)) {
-            return Response.status(Response.Status.BAD_REQUEST).build();
+            return null;
         }
 
         //todo: catch all errors
@@ -51,24 +45,21 @@ public class AccountResource {
             accountOptional = accountFacade.getAccount(tenantId, email, password);
         } catch (Exception ex) {
             log.error("", ex);
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            return null;
         }
 
-        List<ErrorDto> errors = new ArrayList<>();
+        List<ErrorModel> errors = new ArrayList<>();
         if (!accountOptional.isPresent()) {
-            errors.add(new ErrorDto(ExceptionCode.ACCOUNT_NOT_FOUND.name(), ExceptionCode.ACCOUNT_NOT_FOUND.getMessage()));
+            errors.add(new ErrorModel(ExceptionCode.ACCOUNT_NOT_FOUND.name(), ExceptionCode.ACCOUNT_NOT_FOUND.getMessage()));
         }
 
-        ResponseEnvelope responseEnvelope = new ResponseEnvelope.Builder<AccountModel>()
+        return new ResponseEnvelope.Builder<AccountModel>()
                 .withData(accountOptional.orElse(null))
                 .withErrors(errors)
                 .build();
-
-        return Response.status(Response.Status.OK)
-                .entity(responseEnvelope)
-                .build();
     }
 
+    /*
     @GET
     @Path("/{tenantId}/{accountId}")
     public Response accountById(
@@ -231,4 +222,5 @@ public class AccountResource {
                 .entity(responseEnvelope)
                 .build();
     }
+    */
 }
