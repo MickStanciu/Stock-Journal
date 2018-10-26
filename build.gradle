@@ -16,11 +16,13 @@ subprojects {
 
   repositories {
     jcenter()
+    mavenCentral()
   }
 
   buildscript {
     repositories {
       jcenter()
+      mavenCentral()
     }
   }
   

@@ -9,14 +9,18 @@ import com.example.common.rest.envelope.ResponseEnvelope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Controller
+@RestController
 @RequestMapping(value = "/v1", produces = "application/json")
 public class AccountResource {
 
@@ -30,7 +34,6 @@ public class AccountResource {
     }
 
     @RequestMapping(value = "/{tenantId}", method = RequestMethod.GET)
-    @ResponseBody
     public ResponseEnvelope accountByEmailAndPassword(
             @PathVariable(name = "tenantId") String tenantId,
             @RequestParam(name = "email", defaultValue = "")  String email,
@@ -61,7 +64,6 @@ public class AccountResource {
     }
 
     @RequestMapping(value = "/{tenantId}/{accountId}", method = RequestMethod.GET)
-    @ResponseBody
     public ResponseEnvelope accountById(
             @PathVariable("tenantId") String tenantId,
             @PathVariable("accountId") long accountId
@@ -91,7 +93,6 @@ public class AccountResource {
     }
 
     @RequestMapping(value = "/relations/{tenantId}/{parentId}", method = RequestMethod.GET)
-    @ResponseBody
     public ResponseEnvelope getAccountByRelationship(
             @PathVariable("tenantId") String tenantId,
             @PathVariable("parentId") long parentId,
@@ -121,7 +122,6 @@ public class AccountResource {
     }
 
     @RequestMapping(value = "/{tenantId}", method = RequestMethod.POST)
-    @ResponseBody
     public ResponseEnvelope createAccount(
             @RequestBody AccountModel account,
             @PathVariable("tenantId")  String tenantId
@@ -156,7 +156,6 @@ public class AccountResource {
     }
 
     @RequestMapping(value = "/{tenantId}/{accountId}", method = RequestMethod.POST)
-    @ResponseBody
     public ResponseEnvelope updateAccount(
             AccountModel account,
             @PathVariable("tenantId") String tenantId,
