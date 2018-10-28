@@ -2,6 +2,7 @@ package com.example.accountapi.rest;
 
 import com.example.accountapi.exception.AccountException;
 import com.example.accountapi.exception.ExceptionCode;
+import com.example.accountapi.exception.ResourceErrorException;
 import com.example.accountapi.facade.AccountFacade;
 import com.example.accountapi.model.AccountModel;
 import com.example.common.rest.envelope.ErrorModel;
@@ -21,7 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/v1", produces = "application/json")
+@RequestMapping(value = "/api/v1", produces = "application/json")
 public class AccountResource {
 
     private static final Logger log = LoggerFactory.getLogger(AccountResource.class);
@@ -40,7 +41,7 @@ public class AccountResource {
             @RequestParam(name = "password", defaultValue = "") String password
     ) {
         if (!RequestValidation.validateGetAccount(tenantId, email, password)) {
-            return null;
+            throw new ResourceErrorException(ExceptionCode.UNKNOWN, "Invalid Request");
         }
 
         //todo: catch all errors

@@ -73,7 +73,7 @@ class RoleModelRowMapper implements RowMapper<RoleModelMapper> {
     @Override
     public RoleModelMapper mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new RoleModelMapper(
-                rs.getInt("id"),
+                rs.getInt("role_id"),
                 rs.getString("role_name"),
                 rs.getString("permission_name")
         );
