@@ -10,6 +10,8 @@ import com.example.common.rest.envelope.ResponseEnvelope;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,33 +37,23 @@ public class AccountResource {
     }
 
     @RequestMapping(value = "/{tenantId}", method = RequestMethod.GET)
-    public ResponseEnvelope accountByEmailAndPassword(
+    public ResponseEntity<AccountModel> accountByEmailAndPassword(
             @PathVariable(name = "tenantId") String tenantId,
             @RequestParam(name = "email", defaultValue = "")  String email,
             @RequestParam(name = "password", defaultValue = "") String password
-    ) {
+    ) throws AccountException {
         if (!RequestValidation.validateGetAccount(tenantId, email, password)) {
             throw new ResourceErrorException(ExceptionCode.UNKNOWN, "Invalid Request");
         }
 
-        //todo: catch all errors
-        Optional<AccountModel> accountOptional;
-        try {
-            accountOptional = accountFacade.getAccount(tenantId, email, password);
-        } catch (Exception ex) {
-            log.error("", ex);
-            return null;
-        }
+        Optional<AccountModel> accountOptional = accountFacade.getAccount(tenantId, email, password);
 
-        List<ErrorModel> errors = new ArrayList<>();
         if (!accountOptional.isPresent()) {
-            errors.add(new ErrorModel(ExceptionCode.ACCOUNT_NOT_FOUND.name(), ExceptionCode.ACCOUNT_NOT_FOUND.getMessage()));
+            throw new AccountException(ExceptionCode.ACCOUNT_NOT_FOUND);
         }
-
-        return new ResponseEnvelope.Builder<AccountModel>()
-                .withData(accountOptional.orElse(null))
-                .withErrors(errors)
-                .build();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(accountOptional.get());
     }
 
     @RequestMapping(value = "/{tenantId}/{accountId}", method = RequestMethod.GET)

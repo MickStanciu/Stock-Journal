@@ -1,19 +1,19 @@
 package com.example.accountapi.rest;
 
+import com.example.accountapi.exception.AccountException;
 import com.example.accountapi.facade.AccountFacade;
 import com.example.accountapi.model.AccountModel;
 import com.example.accountapi.model.RoleModel;
-import com.example.common.rest.envelope.ResponseEnvelope;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
-
-import static org.mockito.Mockito.when;
 
 
 public class AccountResourceTest {
@@ -48,12 +48,12 @@ public class AccountResourceTest {
     }
 
     @Test
-    public void testGetAccount() {
-        when(accountFacade.getAccount(DEFAULT_TENANT_ID, "test.account", "Password"))
+    public void testGetAccount() throws AccountException {
+        Mockito.when(accountFacade.getAccount(DEFAULT_TENANT_ID, "test.account", "Password"))
                 .thenReturn(Optional.of(accountFixture));
 
-        ResponseEnvelope response = accountResource.accountByEmailAndPassword(DEFAULT_TENANT_ID, "test.account", "Password");
-        AccountModel item = (AccountModel) response.getData();
+        ResponseEntity<AccountModel> response = accountResource.accountByEmailAndPassword(DEFAULT_TENANT_ID, "test.account", "Password");
+        AccountModel item = response.getBody();
 
         Assert.assertEquals("Id should be equal to: \'1\'",1L, item.getId());
     }
