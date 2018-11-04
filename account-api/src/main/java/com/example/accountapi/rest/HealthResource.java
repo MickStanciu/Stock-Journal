@@ -5,14 +5,21 @@ import com.example.accountapi.exception.ResourceErrorException;
 import com.example.accountapi.model.HealthModel;
 import com.example.accountapi.service.HealthService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Locale;
 
 
 @RestController
 @RequestMapping(value = "/api/v1/health", produces = "application/json")
 public class HealthResource {
+
+    @Autowired
+    private MessageSource messageSource;
 
     @Autowired
     private HealthService service;
@@ -30,5 +37,10 @@ public class HealthResource {
     @RequestMapping(value = "/test500", method = RequestMethod.GET)
     public void test500() {
         throw new ResourceErrorException(ExceptionCode.UNKNOWN);
+    }
+
+    @RequestMapping(value = "/testInt", method = RequestMethod.GET)
+    public String int18n(@RequestHeader(name = "Accept-Language", required = false) Locale locale) {
+        return messageSource.getMessage("test.message", null, locale);
     }
 }
