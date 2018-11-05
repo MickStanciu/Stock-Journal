@@ -9,6 +9,7 @@ buildscript {
         postgreSqlVersion = '42.2.2'
         flywayDbVersion = '5.2.1'
         postgreSqlVersion = '42.2.5'
+        testNgVersion = '6.14.3'
     }
 
     dependencies {
@@ -37,6 +38,14 @@ dependencies {
     runtimeOnly('com.h2database:h2')
 
     testImplementation ("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
+    testImplementation group: 'org.testng', name: 'testng', version: "${testNgVersion}"
+}
+
+
+test {
+    useTestNG(){
+        suites("src/test/resources/testng.xml")
+    }
 }
 
 apply plugin: 'application'

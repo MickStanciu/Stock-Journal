@@ -3,13 +3,12 @@ package com.example.accountapi.service;
 import com.example.accountapi.model.AccountModel;
 import com.example.accountapi.model.RoleModel;
 import com.example.accountapi.repository.AccountRepository;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 
 public class AccountServiceTest {
@@ -50,7 +49,7 @@ public class AccountServiceTest {
                 .withRole(new RoleModel(4, "role"))
             .build();
 
-    @Before
+    @BeforeClass
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
     }
@@ -59,11 +58,11 @@ public class AccountServiceTest {
     public void testCopyAccount() {
         AccountModel newAccount = accountService.copyAccount(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, originalAccountFixture,
                 newAccountFixture);
-        Assert.assertEquals("Test for name", newAccountFixture.getName(), newAccount.getName());
-        Assert.assertEquals("Test for password", newAccountFixture.getPassword(), newAccount.getPassword());
-        Assert.assertEquals("Test for email", newAccountFixture.getEmail(), newAccount.getEmail());
-        Assert.assertEquals("Test for active", newAccountFixture.isActive(), newAccount.isActive());
-        Assert.assertEquals("Test for role ID", newAccountFixture.getRole().getId(), newAccount.getRole().getId());
+        Assert.assertEquals(newAccount.getName(), newAccountFixture.getName(), "Test for name");
+        Assert.assertEquals(newAccount.getPassword(), newAccountFixture.getPassword(), "Test for password");
+        Assert.assertEquals(newAccount.getEmail(), newAccountFixture.getEmail(), "Test for email");
+        Assert.assertEquals(newAccount.isActive(), newAccountFixture.isActive(), "Test for active");
+        Assert.assertEquals(newAccount.getRole().getId(), newAccountFixture.getRole().getId(), "Test for role ID");
     }
 
     @Test
@@ -80,9 +79,9 @@ public class AccountServiceTest {
         AccountModel newAccount = accountService.copyAccount(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, originalAccountFixture,
                 newAccountFixture);
 
-        Assert.assertEquals("Test for name", originalAccountFixture.getName(), newAccount.getName());
-        Assert.assertEquals("Test for password", originalAccountFixture.getPassword(), newAccount.getPassword());
-        Assert.assertEquals("Test for email", originalAccountFixture.getEmail(), newAccount.getEmail());
+        Assert.assertEquals(newAccount.getName(), originalAccountFixture.getName(), "Test for name");
+        Assert.assertEquals(newAccount.getPassword(), originalAccountFixture.getPassword(), "Test for password");
+        Assert.assertEquals(newAccount.getEmail(), originalAccountFixture.getEmail(), "Test for email");
     }
 
 }

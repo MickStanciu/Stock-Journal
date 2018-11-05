@@ -3,10 +3,12 @@ package com.example.accountapi.rest;
 
 import com.example.accountapi.model.AccountModel;
 import com.example.accountapi.model.RoleModel;
-import org.junit.Assert;
 import org.junit.Test;
+import org.testng.Assert;
 
-import static com.example.accountapi.rest.RequestValidation.*;
+import static com.example.accountapi.rest.RequestValidation.validateCreateAccount;
+import static com.example.accountapi.rest.RequestValidation.validateGetAccount;
+import static com.example.accountapi.rest.RequestValidation.validateUpdateAccount;
 
 public class RequestValidationTest {
 
@@ -19,40 +21,40 @@ public class RequestValidationTest {
     @Test
     public void testValidateGetAccountWhenValid() {
         boolean response = validateGetAccount(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_NAME, DEFAULT_ACCOUNT_PASSWORD);
-        Assert.assertTrue("Should be TRUE", response);
+        Assert.assertTrue(response, "Should be TRUE");
     }
 
 
     @Test
     public void testValidateGetAccountWhenTenantIdIsInvalid() {
         boolean response = validateGetAccount(null, DEFAULT_ACCOUNT_NAME, DEFAULT_ACCOUNT_PASSWORD);
-        Assert.assertFalse("Should be FALSE", response);
+        Assert.assertFalse(response, "Should be FALSE");
 
         response = validateGetAccount("!23", DEFAULT_ACCOUNT_NAME, DEFAULT_ACCOUNT_PASSWORD);
-        Assert.assertFalse("Should be FALSE", response);
+        Assert.assertFalse(response, "Should be FALSE");
     }
 
 
     @Test
     public void testValidateGetAccountWhenAccountNameIsInvalid() {
         boolean response = validateGetAccount(DEFAULT_TENANT_ID, null, DEFAULT_ACCOUNT_PASSWORD);
-        Assert.assertFalse("Should be FALSE", response);
+        Assert.assertFalse(response, "Should be FALSE");
 
         response = validateGetAccount(DEFAULT_TENANT_ID, "", DEFAULT_ACCOUNT_PASSWORD);
-        Assert.assertFalse("Should be FALSE", response);
+        Assert.assertFalse(response, "Should be FALSE");
     }
 
 
     @Test
     public void testValidateGetAccountWhenAccountPasswordIsInvalid() {
         boolean response = validateGetAccount(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_NAME, null);
-        Assert.assertFalse("Should be FALSE", response);
+        Assert.assertFalse(response, "Should be FALSE");
 
         response = validateGetAccount(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_NAME, "");
-        Assert.assertFalse("Should be FALSE", response);
+        Assert.assertFalse(response, "Should be FALSE");
 
         response = validateGetAccount(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_NAME, "123");
-        Assert.assertFalse("Should be FALSE", response);
+        Assert.assertFalse(response, "Should be FALSE");
     }
 
 
@@ -69,7 +71,7 @@ public class RequestValidationTest {
                 .build();
 
         boolean response = validateCreateAccount(DEFAULT_TENANT_ID, accountFixture);
-        Assert.assertTrue("Should be TRUE", response);
+        Assert.assertTrue(response, "Should be TRUE");
     }
 
 
@@ -89,7 +91,7 @@ public class RequestValidationTest {
                 .build();
 
         boolean response = validateCreateAccount(DEFAULT_TENANT_ID, accountFixture);
-        Assert.assertFalse("Should be FALSE", response);
+        Assert.assertFalse(response, "Should be FALSE");
 
         //email
         accountFixture = AccountModel.builder()
@@ -104,7 +106,7 @@ public class RequestValidationTest {
 
 
         response = validateCreateAccount(DEFAULT_TENANT_ID, accountFixture);
-        Assert.assertTrue("Should be TRUE", response);
+        Assert.assertTrue(response, "Should be TRUE");
 
         //password
         accountFixture = AccountModel.builder()
@@ -118,7 +120,7 @@ public class RequestValidationTest {
                 .build();
 
         response = validateCreateAccount(DEFAULT_TENANT_ID, accountFixture);
-        Assert.assertFalse("Should be FALSE", response);
+        Assert.assertFalse(response, "Should be FALSE");
     }
 
 
@@ -139,7 +141,7 @@ public class RequestValidationTest {
                 .build();
 
         boolean response = validateUpdateAccount(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, accountFixture);
-        Assert.assertTrue("Should be TRUE", response);
+        Assert.assertTrue(response, "Should be TRUE");
     }
 
 
@@ -160,7 +162,7 @@ public class RequestValidationTest {
                 .build();
 
         boolean response = validateUpdateAccount(null, DEFAULT_ACCOUNT_ID, accountFixture);
-        Assert.assertFalse("Should be FALSE", response);
+        Assert.assertFalse(response, "Should be FALSE");
     }
 
 
@@ -181,7 +183,7 @@ public class RequestValidationTest {
                 .build();
 
         boolean response = validateUpdateAccount(DEFAULT_TENANT_ID, 0, accountFixture);
-        Assert.assertFalse("Should be FALSE", response);
+        Assert.assertFalse(response, "Should be FALSE");
     }
 
 
@@ -203,7 +205,7 @@ public class RequestValidationTest {
                 .build();
 
         boolean response = validateUpdateAccount(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, accountFixture);
-        Assert.assertFalse("Should be FALSE", response);
+        Assert.assertFalse(response, "Should be FALSE");
 
         //email
         accountFixture = AccountModel.builder()
@@ -219,7 +221,7 @@ public class RequestValidationTest {
                 .build();
 
         response = validateUpdateAccount(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, accountFixture);
-        Assert.assertFalse("Should be FALSE", response);
+        Assert.assertFalse(response, "Should be FALSE");
 
         //password
         accountFixture = AccountModel.builder()
@@ -235,7 +237,7 @@ public class RequestValidationTest {
                 .build();
 
         response = validateUpdateAccount(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, accountFixture);
-        Assert.assertFalse("Should be FALSE", response);
+        Assert.assertFalse(response, "Should be FALSE");
     }
 
 }

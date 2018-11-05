@@ -4,14 +4,14 @@ import com.example.accountapi.exception.AccountException;
 import com.example.accountapi.facade.AccountFacade;
 import com.example.accountapi.model.AccountModel;
 import com.example.accountapi.model.RoleModel;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
+import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import java.util.Optional;
 
@@ -42,7 +42,7 @@ public class AccountResourceTest {
                 .withRole(new RoleModel(2, "role"))
             .build();
 
-    @Before
+    @BeforeClass
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
     }
@@ -55,6 +55,7 @@ public class AccountResourceTest {
         ResponseEntity<AccountModel> response = accountResource.accountByEmailAndPassword(DEFAULT_TENANT_ID, "test.account", "Password");
         AccountModel item = response.getBody();
 
-        Assert.assertEquals("Id should be equal to: \'1\'",1L, item.getId());
+        assert item != null;
+        Assert.assertEquals(item.getId(), 1L,"Id should be equal to: \'1\'");
     }
 }
