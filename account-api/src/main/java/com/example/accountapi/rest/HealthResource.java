@@ -37,8 +37,12 @@ public class HealthResource {
         throw new ResourceErrorException(ExceptionCode.UNKNOWN);
     }
 
+
+    //tests
     @RequestMapping(value = "/testInt", method = RequestMethod.GET)
     public String int18n() {
         return messageSource.getMessage("test.message", null, LocaleContextHolder.getLocale());
     }
+
+
 }
