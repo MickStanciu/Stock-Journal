@@ -16,11 +16,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/v1/health", produces = "application/json")
 public class HealthResource {
 
-    @Autowired
     private MessageSource messageSource;
+    private HealthService service;
 
     @Autowired
-    private HealthService service;
+    public HealthResource(MessageSource messageSource, HealthService service) {
+        this.messageSource = messageSource;
+        this.service = service;
+    }
 
     @RequestMapping(value = "/check", method = RequestMethod.GET)
     public HealthModel check() {

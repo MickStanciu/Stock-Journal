@@ -40,7 +40,6 @@ dependencies {
 //    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: "${swaggerVersion}"
 
     runtimeOnly("org.springframework.boot:spring-boot-devtools:${springBootVersion}")
-    runtimeOnly('com.h2database:h2')
 
     testImplementation ("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
     testImplementation group: 'org.testng', name: 'testng', version: "${testNgVersion}"

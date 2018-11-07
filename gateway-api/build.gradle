@@ -1,23 +1,49 @@
 description = 'Gateway API'
 
-dependencies {
-    compile group: 'io.undertow', name: 'undertow-core', version:'2.0.1.Final'
-    compile group: 'io.undertow', name: 'undertow-servlet', version:'2.0.1.Final'
-    compile group: 'io.undertow', name: 'undertow-websockets-jsr', version:'2.0.1.Final'
-    compile group: 'org.glassfish.jersey.core', name: 'jersey-server', version:'2.27'
-    compile group: 'org.glassfish.jersey.ext.cdi', name: 'jersey-cdi1x', version:'2.27'
-    compile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version:'2.27'
-    compile group: 'org.glassfish.jersey.containers', name: 'jersey-container-servlet-core', version:'2.27'
-    compile group: 'org.glassfish.jersey.inject', name: 'jersey-hk2', version:'2.27'
-    compile group: 'org.glassfish.jersey.core', name: 'jersey-client', version:'2.27'
-    compile group: 'org.jboss.weld.servlet', name: 'weld-servlet', version:'2.4.7.Final'
-    compile group: 'javax.el', name: 'javax.el-api', version:'3.0.0'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version:'2.9.6'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version:'2.9.6'
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version:'2.9.6'
-    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version:'2.9.6'
-    compile project(':common')
+group = 'com.example.gatewayapi'
+version = '0.0.1-SNAPSHOT'
+
+buildscript {
+    ext {
+        springBootVersion = '2.0.6.RELEASE'
+        testNgVersion = '6.14.3'
+//        swaggerVersion = '2.9.2'
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
 }
 
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'jacoco'
 apply plugin: 'application'
+
+dependencies {
+    implementation project(':common')
+    implementation project(':account-api-spec')
+
+    implementation("org.springframework.boot:spring-boot-starter-web:${springBootVersion}") {
+        exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"
+    }
+    implementation ("org.springframework.boot:spring-boot-starter-undertow:${springBootVersion}")
+    implementation ("org.springframework.boot:spring-boot-starter-undertow:${springBootVersion}")
+    implementation ("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
+//    implementation group: 'io.springfox', name: 'springfox-swagger2', version: "${swaggerVersion}"
+//    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: "${swaggerVersion}"
+
+    runtimeOnly("org.springframework.boot:spring-boot-devtools:${springBootVersion}")
+
+    testImplementation ("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
+    testImplementation group: 'org.testng', name: 'testng', version: "${testNgVersion}"
+}
+
+test {
+    useTestNG(){
+        suites("src/test/resources/testng.xml")
+    }
+}
+jacocoTestReport.dependsOn test
+
 mainClassName = 'com.example.gatewayapi.GatewayApi'

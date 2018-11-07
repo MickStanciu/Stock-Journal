@@ -17,10 +17,11 @@ public class SkipFilterTest {
     @DataProvider(name = "url")
     public static Object[][] urls() {
         return new Object[][] {
-                {"/rest/hello", true},
-                {"/rest/v1/auth", true},
-                {"/rest/v1/health", true},
-                {"/rest/v1/test", false}};
+                {"/api/hello", true},
+                {"/api/v1/auth", true},
+                {"/api/v1/health", true},
+                {"/api/v1/test", false}
+        };
     }
 
     @Test(dataProvider = "url")

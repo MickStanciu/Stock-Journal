@@ -1,12 +1,15 @@
 rootProject.name = 'product-api'
 
-include ':common'
 //include ':stockdata-api-spec'
 //include ':stockdata-api-impl'
-
-//include ':gateway-api'
 //include ':tenant-api'
 //include ':timesheet-api'
+
+include ':common'
+
 include ':account-api-spec'
 include ':account-api'
+
+include ':gateway-api-spec'
+include ':gateway-api'
 
