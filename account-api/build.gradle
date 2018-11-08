@@ -5,7 +5,7 @@ version = '0.0.1-SNAPSHOT'
 
 buildscript {
     ext {
-        springBootVersion = '2.0.6.RELEASE'
+        springBootVersion = '2.1.0.RELEASE'
         postgreSqlVersion = '42.2.2'
         flywayDbVersion = '5.2.1'
         postgreSqlVersion = '42.2.5'

@@ -8,6 +8,7 @@
 //import com.example.gatewayapi.configuration.Property;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
+//import org.springframework.stereotype.Service;
 //
 //import javax.annotation.PostConstruct;
 //import javax.inject.Inject;
@@ -22,8 +23,8 @@
 //import java.util.Optional;
 //import java.util.Set;
 //
-//@Singleton
-//public class AccountGateway extends AbstractGateway {
+//@Service
+//public class AccountGateway {
 //
 //    private static final Logger log = LoggerFactory.getLogger(AccountGateway.class);
 //

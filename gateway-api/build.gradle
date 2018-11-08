@@ -5,7 +5,9 @@ version = '0.0.1-SNAPSHOT'
 
 buildscript {
     ext {
-        springBootVersion = '2.0.6.RELEASE'
+        springBootVersion = '2.1.0.RELEASE'
+        springCloudVersion = 'Finchley.RELEASE'
+        springFeignVersion = '1.4.6.RELEASE'
         testNgVersion = '6.14.3'
 //        swaggerVersion = '2.9.2'
     }
@@ -14,6 +16,7 @@ buildscript {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
     }
 }
+
 
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
@@ -24,20 +27,24 @@ dependencies {
     implementation project(':common')
     implementation project(':account-api-spec')
 
-    implementation("org.springframework.boot:spring-boot-starter-web:${springBootVersion}") {
-        exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"
+    implementation('org.springframework.boot:spring-boot-starter-web') {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
     }
-    implementation ("org.springframework.boot:spring-boot-starter-undertow:${springBootVersion}")
-    implementation ("org.springframework.boot:spring-boot-starter-undertow:${springBootVersion}")
-    implementation ("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
+    implementation ('org.springframework.boot:spring-boot-starter-undertow')
+    implementation ('org.springframework.boot:spring-boot-starter-undertow')
+    implementation ('org.springframework.boot:spring-boot-starter-actuator')
 //    implementation group: 'io.springfox', name: 'springfox-swagger2', version: "${swaggerVersion}"
 //    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: "${swaggerVersion}"
 
-    runtimeOnly("org.springframework.boot:spring-boot-devtools:${springBootVersion}")
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-dependencies', version: "${springCloudVersion}", ext: 'pom'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-feign', version: "${springFeignVersion}"
 
-    testImplementation ("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
+    runtimeOnly('org.springframework.boot:spring-boot-devtools')
+
+    testImplementation ('org.springframework.boot:spring-boot-starter-test')
     testImplementation group: 'org.testng', name: 'testng', version: "${testNgVersion}"
 }
+
 
 test {
     useTestNG(){
