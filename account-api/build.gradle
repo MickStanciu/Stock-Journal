@@ -10,11 +10,13 @@ buildscript {
         flywayDbVersion = '5.2.1'
         postgreSqlVersion = '42.2.5'
         testNgVersion = '6.14.3'
-//        swaggerVersion = '2.9.2'
+        swaggerGenVersion = '2.0.5'
     }
 
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath group: 'io.swagger.core.v3', name: 'swagger-gradle-plugin', version: "${swaggerGenVersion}"
+        //https://stackoverflow.com/questions/52882039/swagger-gradle-plugin-not-properly-generating-openapi-json-file-for-spring-mvc-d
     }
 }
 
@@ -22,6 +24,7 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'jacoco'
 apply plugin: 'application'
+apply plugin: 'io.swagger.core.v3.swagger-gradle-plugin'
 
 dependencies {
     implementation project(':common')
