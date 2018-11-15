@@ -10,10 +10,10 @@ buildscript {
 //https://stackoverflow.com/questions/52882039/swagger-gradle-plugin-not-properly-generating-openapi-json-file-for-spring-mvc-d
 
 plugins {
-    id 'io.spring.dependency-management' version '1.0.6.RELEASE'
-    id 'org.springframework.boot' version '2.1.0.RELEASE'
+    id "io.spring.dependency-management" version "1.0.6.RELEASE"
+    id "org.springframework.boot" version "2.1.0.RELEASE"
     id "io.swagger.core.v3.swagger-gradle-plugin" version "2.0.5"
-    id 'application'
+    id "application"
 }
 
 description = 'Account API'
