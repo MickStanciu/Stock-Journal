@@ -1,4 +1,4 @@
-package com.example.gatewayapi.filter;
+package com.example.gateway.api.filter;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;

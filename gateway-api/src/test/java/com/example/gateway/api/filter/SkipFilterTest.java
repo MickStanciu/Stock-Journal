@@ -1,4 +1,4 @@
-package com.example.gatewayapi.filter;
+package com.example.gateway.api.filter;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;

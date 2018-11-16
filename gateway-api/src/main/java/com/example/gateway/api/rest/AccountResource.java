@@ -1,7 +1,9 @@
-package com.example.gatewayapi.rest;
+package com.example.gateway.api.rest;
 
 import com.example.account.api.spec.model.AccountModel;
-import com.example.gatewayapi.exception.GatewayApiException;
+import com.example.gateway.api.exception.ExceptionCode;
+import com.example.gateway.api.exception.GatewayApiException;
+import com.example.gateway.api.service.AccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +48,7 @@ public class AccountResource extends AbstractResource {
         Optional<AccountModel> accountOptional = accountService.getAccount(tenantId, accountId);
 
         if (!accountOptional.isPresent()) {
-
+            throw new GatewayApiException(ExceptionCode.ACCOUNT_NOT_FOUND);
         }
 
         return ResponseEntity

@@ -1,4 +1,4 @@
-package com.example.gatewayapi.model;
+package com.example.gateway.api.model;
 
 
 import java.io.Serializable;
