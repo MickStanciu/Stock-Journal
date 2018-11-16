@@ -1,6 +1,6 @@
 package com.example.gatewayapi.service;
 
-import com.example.accountapi.model.AccountModel;
+import com.example.account.api.spec.model.AccountModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

@@ -4,7 +4,7 @@
 
     <test name="full">
         <packages>
-            <package name="com.example.accountapi.*" />
+            <package name="com.example.account.*" />
         </packages>
     </test>
 
