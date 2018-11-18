@@ -1,4 +1,4 @@
-package com.example.tenantapi.exception;
+package com.example.tenant.api.exception;
 
 public enum ExceptionCode {
     UNKNOWN("Unknown"),

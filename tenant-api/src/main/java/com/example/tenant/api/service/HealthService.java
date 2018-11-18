@@ -1,15 +1,15 @@
-package com.example.tenantapi.service;
+package com.example.tenant.api.service;
 
-import com.example.tenant.model.HealthModel;
-import com.example.tenantapi.repository.TenantRepository;
+import com.example.tenant.api.repository.TenantRepository;
+import com.example.tenant.api.spec.HealthModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
 
 
-@Singleton
+@Service
 public class HealthService {
 
     private static final Logger log = LoggerFactory.getLogger(HealthService.class);
@@ -18,7 +18,7 @@ public class HealthService {
 
     private TenantRepository tenantRepository;
 
-    @Inject
+    @Autowired
     public HealthService(TenantRepository tenantRepository) {
         this.tenantRepository = tenantRepository;
         health = new HealthModel();

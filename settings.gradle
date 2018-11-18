@@ -2,7 +2,6 @@ rootProject.name = 'product-api'
 
 //include ':stockdata-api-spec'
 //include ':stockdata-api-impl'
-//include ':tenant-api'
 //include ':timesheet-api'
 
 include ':common'
@@ -10,6 +9,10 @@ include ':common'
 include ':account-api-spec'
 include ':account-api'
 
+include ':tenant-api-spec'
+include ':tenant-api'
+
 include ':gateway-api-spec'
 include ':gateway-api'
+
 

@@ -18,7 +18,7 @@ ext {
 
 description = 'Account API'
 
-group = 'com.example.accountapi'
+group = 'com.example.account.api'
 version = '0.0.1-SNAPSHOT'
 
 dependencies {
@@ -41,10 +41,10 @@ dependencies {
     testImplementation group: 'org.testng', name: 'testng', version: "${testNgVersion}"
 }
 
-
 test {
     useTestNG(){
         suites("src/test/resources/testng.xml")
     }
 }
+
 mainClassName = 'com.example.account.api.AccountApi'

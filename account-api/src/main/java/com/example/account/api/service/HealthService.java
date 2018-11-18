@@ -28,7 +28,8 @@ public class HealthService {
         boolean firstRecordOk;
         try {
             firstRecordOk = accountRepository.checkFirstRecord();
-        } catch (Exception e) {
+        } catch (Exception ex) {
+            log.error(ex.getMessage());
             firstRecordOk = false;
         }
         health.setFirstRecordOk(firstRecordOk);
