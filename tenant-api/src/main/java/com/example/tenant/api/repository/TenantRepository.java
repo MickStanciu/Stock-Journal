@@ -1,6 +1,6 @@
 package com.example.tenant.api.repository;
 
-import com.example.tenant.api.spec.TenantModel;
+import com.example.tenant.api.spec.model.TenantModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

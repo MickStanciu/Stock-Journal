@@ -1,4 +1,4 @@
-package com.example.tenant.api.spec;
+package com.example.tenant.api.spec.model;
 
 import java.io.Serializable;
 

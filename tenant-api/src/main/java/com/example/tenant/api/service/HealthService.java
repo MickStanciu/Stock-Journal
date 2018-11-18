@@ -1,7 +1,7 @@
 package com.example.tenant.api.service;
 
 import com.example.tenant.api.repository.TenantRepository;
-import com.example.tenant.api.spec.HealthModel;
+import com.example.tenant.api.spec.model.HealthModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
