@@ -18,12 +18,8 @@ public class TenantGateway {
     @Value("gateway.tenant.address")
     private String SERVICE_URL;
 
-    private TenantApiProxy tenantApiProxy;
-
     @Autowired
-    public TenantGateway(TenantApiProxy tenantApiProxy) {
-        this.tenantApiProxy = tenantApiProxy;
-    }
+    private TenantApiProxy tenantApiProxy;
 
     public Optional<TenantModel> getTenant(String tenantId) {
         ResponseEntity<TenantModel> responseEntity = tenantApiProxy.tenantByUUID(tenantId);

@@ -1,45 +1,50 @@
+buildscript {
+
+}
+
+plugins {
+    id "io.spring.dependency-management" version "1.0.6.RELEASE"
+    id "org.springframework.boot" version "2.1.0.RELEASE"
+    id "application"
+}
+
+ext {
+    springBootVersion = '2.1.0.RELEASE'
+    springCloudVersion = 'Finchley.RELEASE'
+    springFeignVersion = '2.0.2.RELEASE'
+    testNgVersion = '6.14.3'
+}
+
 description = 'Gateway API'
 
 group = 'com.example.gatewayapi'
 version = '0.0.1-SNAPSHOT'
 
-buildscript {
-    ext {
-        springBootVersion = '2.1.0.RELEASE'
-        springCloudVersion = 'Finchley.RELEASE'
-        springFeignVersion = '1.4.6.RELEASE'
-        testNgVersion = '6.14.3'
-    }
-
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }
-}
-
-
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
-apply plugin: 'jacoco'
-apply plugin: 'application'
 
 dependencies {
     implementation project(':common')
     implementation project(':account-api-spec')
     implementation project(':tenant-api-spec')
 
-    implementation('org.springframework.boot:spring-boot-starter-web') {
+    implementation("org.springframework.boot:spring-boot-starter-web:${springBootVersion}") {
         exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
     }
-    implementation ('org.springframework.boot:spring-boot-starter-undertow')
-    implementation ('org.springframework.boot:spring-boot-starter-actuator')
+    implementation ("org.springframework.boot:spring-boot-starter-undertow:${springBootVersion}")
+    implementation ("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
 
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-dependencies', version: "${springCloudVersion}", ext: 'pom'
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-feign', version: "${springFeignVersion}"
 
-    runtimeOnly('org.springframework.boot:spring-boot-devtools')
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: "${springFeignVersion}"
 
-    testImplementation ('org.springframework.boot:spring-boot-starter-test')
+    runtimeOnly("org.springframework.boot:spring-boot-devtools:${springBootVersion}")
+
+    testImplementation ("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
     testImplementation group: 'org.testng', name: 'testng', version: "${testNgVersion}"
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
 }
 
 
@@ -48,6 +53,5 @@ test {
         suites("src/test/resources/testng.xml")
     }
 }
-jacocoTestReport.dependsOn test
 
 mainClassName = 'com.example.gateway.api.GatewayApi'
