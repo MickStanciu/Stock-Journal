@@ -1,7 +1,5 @@
 rootProject.name = 'product-api'
 
-//include ':stockdata-api-spec'
-//include ':stockdata-api-impl'
 //include ':timesheet-api'
 
 include ':common'

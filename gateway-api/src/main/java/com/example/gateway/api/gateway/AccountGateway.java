@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.math.BigInteger;
 import java.util.HashSet;
 import java.util.Optional;
@@ -22,10 +21,6 @@ public class AccountGateway {
     @Value("gateway.account.address")
     private String SERVICE_URL = "localhost";
 
-    @PostConstruct
-    public void init() {
-        log.debug(AccountGateway.class.getName() + " was initialized");
-    }
 
     public Optional<AccountModel> getAccount(String tenantId, BigInteger accountId) {
         return getFake();

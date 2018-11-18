@@ -7,6 +7,7 @@ import com.example.tenant.api.spec.exception.TenantException;
 import com.example.tenant.api.spec.model.TenantModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,14 +26,16 @@ public class TenantResource {
 
     private TenantService tenantService;
 
+    @Autowired
+    public TenantResource(TenantService tenantService) {
+        this.tenantService = tenantService;
+    }
+
     @RequestMapping(value = "/{tenantId}", method = RequestMethod.GET)
-    public ResponseEntity<TenantModel> tenantByUUID(
-            @PathVariable("tenantId") String tenantId
-    ) throws TenantException {
+    public ResponseEntity<TenantModel> tenantByUUID(@PathVariable("tenantId") String tenantId) throws TenantException {
         if (tenantId.length() == 0 || tenantId.equals("0")) {
             throw new ResourceErrorException(ExceptionCode.UNKNOWN, "Invalid Request");
         }
-
 
         //todo: catch all errors
         Optional<TenantModel> tenantOptional = tenantService.getTenant(tenantId);;

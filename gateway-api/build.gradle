@@ -25,6 +25,7 @@ apply plugin: 'application'
 dependencies {
     implementation project(':common')
     implementation project(':account-api-spec')
+    implementation project(':tenant-api-spec')
 
     implementation('org.springframework.boot:spring-boot-starter-web') {
         exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
@@ -32,8 +33,8 @@ dependencies {
     implementation ('org.springframework.boot:spring-boot-starter-undertow')
     implementation ('org.springframework.boot:spring-boot-starter-actuator')
 
-//    implementation group: 'org.springframework.cloud', name: 'spring-cloud-dependencies', version: "${springCloudVersion}", ext: 'pom'
-//    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-feign', version: "${springFeignVersion}"
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-dependencies', version: "${springCloudVersion}", ext: 'pom'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-feign', version: "${springFeignVersion}"
 
     runtimeOnly('org.springframework.boot:spring-boot-devtools')
 
