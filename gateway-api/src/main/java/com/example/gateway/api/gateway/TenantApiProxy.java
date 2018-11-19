@@ -1,6 +1,5 @@
 package com.example.gateway.api.gateway;
 
-import com.example.tenant.api.spec.exception.TenantException;
 import com.example.tenant.api.spec.model.TenantModel;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
@@ -12,5 +11,5 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public interface TenantApiProxy {
 
     @RequestMapping(value = "/{tenantId}", method = RequestMethod.GET)
-    ResponseEntity<TenantModel> tenantByUUID(@PathVariable("tenantId") String tenantId) throws TenantException;
+    ResponseEntity<TenantModel> tenantByUUID(@PathVariable("tenantId") String tenantId);
 }

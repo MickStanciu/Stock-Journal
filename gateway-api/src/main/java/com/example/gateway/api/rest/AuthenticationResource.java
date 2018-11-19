@@ -4,7 +4,6 @@ import com.example.gateway.api.exception.ExceptionCode;
 import com.example.gateway.api.exception.GatewayApiException;
 import com.example.gateway.api.model.AuthTokenModel;
 import com.example.gateway.api.service.AuthenticationService;
-import com.example.tenant.api.spec.exception.TenantException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,13 +39,7 @@ public class AuthenticationResource {
     ) throws GatewayApiException {
         //todo validate input
 
-        Optional<AuthTokenModel> authOptional;
-        try {
-            authOptional = authService.getAuthResponse(tenantId, email, password);
-        } catch (TenantException e) {
-            log.error(e.getMessage());
-            throw new GatewayApiException(ExceptionCode.UNKNOWN);
-        }
+        Optional<AuthTokenModel> authOptional = authService.getAuthResponse(tenantId, email, password);
 
         if (!authOptional.isPresent()) {
             throw new GatewayApiException(ExceptionCode.REQUEST_NOT_AUTHORIZED);

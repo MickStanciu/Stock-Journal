@@ -6,7 +6,7 @@ import com.example.account.api.spec.model.RoleModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
@@ -19,37 +19,22 @@ public class AccountGateway {
 
     private static final Logger log = LoggerFactory.getLogger(AccountGateway.class);
 
-    @Value("gateway.account.address")
-    private String SERVICE_URL = "localhost";
-
-    @Autowired
     private AccountApiProxy accountApiProxy;
 
+    @Autowired
+    public AccountGateway(AccountApiProxy accountApiProxy) {
+        this.accountApiProxy = accountApiProxy;
+    }
 
     public Optional<AccountModel> getAccount(String tenantId, BigInteger accountId) {
-        return getFake();
-//
-//        UriBuilder builder = UriBuilder.builder(SERVICE_URL)
-//                .addPath("rest")
-//                .addPath("v1")
-//                .addPath(tenantId)
-//                .addPath(accountId.toString());
-//
-//        return getAccountModel(builder.build());
+        ResponseEntity<AccountModel> responseEntity = accountApiProxy.accountById(tenantId, accountId.longValue());
+        return Optional.ofNullable(responseEntity.getBody());
     }
 
     public Optional<AccountModel> getAccount(String tenantId, String email, String password) {
-        return getFake();
-//        UriBuilder builder = UriBuilder.builder(SERVICE_URL)
-//                .addPath("rest")
-//                .addPath("v1")
-//                .addPath(tenantId)
-//                .addQuery("email", email)
-//                .addQuery("password", password);
-//
-//        return getAccountModel(builder.build());
+        ResponseEntity<AccountModel> responseEntity = accountApiProxy.accountByEmailAndPassword(tenantId, email, password);
+        return Optional.ofNullable(responseEntity.getBody());
     }
-
 
 //    private Optional<AccountModel> getAccountModel(URI uri) {
 //        WebTarget target = this.getTarget(uri);

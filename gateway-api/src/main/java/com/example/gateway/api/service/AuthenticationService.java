@@ -5,7 +5,6 @@ import com.example.common.security.TokenUtil;
 import com.example.gateway.api.gateway.AccountGateway;
 import com.example.gateway.api.gateway.TenantGateway;
 import com.example.gateway.api.model.AuthTokenModel;
-import com.example.tenant.api.spec.exception.TenantException;
 import com.example.tenant.api.spec.model.TenantModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +27,7 @@ public class AuthenticationService {
         this.tenantGateway = tenantGateway;
     }
 
-    public Optional<AuthTokenModel> getAuthResponse(String tenantId, String email, String password) throws TenantException {
+    public Optional<AuthTokenModel> getAuthResponse(String tenantId, String email, String password) {
         Optional<TenantModel> tenantOptional = tenantGateway.getTenant(tenantId);
         Optional<AccountModel> accountOptional = accountGateway.getAccount(tenantId, email, password);
 
