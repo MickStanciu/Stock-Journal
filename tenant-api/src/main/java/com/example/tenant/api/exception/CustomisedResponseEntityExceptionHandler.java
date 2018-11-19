@@ -27,9 +27,10 @@ public class CustomisedResponseEntityExceptionHandler extends ResponseEntityExce
         switch (ex.getCode()) {
             case TENANT_NOT_FOUND:
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionModel);
+            case BAD_REQUEST:
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionModel);
             default:
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionModel);
         }
-
     }
 }

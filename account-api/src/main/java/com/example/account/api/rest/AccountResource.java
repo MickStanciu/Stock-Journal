@@ -1,7 +1,6 @@
 package com.example.account.api.rest;
 
 import com.example.account.api.exception.AccountException;
-import com.example.account.api.exception.ResourceErrorException;
 import com.example.account.api.facade.AccountFacade;
 import com.example.account.api.spec.exception.ExceptionCode;
 import com.example.account.api.spec.model.AccountModel;
@@ -12,12 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +37,7 @@ public class AccountResource {
             @RequestParam(name = "password", defaultValue = "") String password
     ) throws AccountException {
         if (!RequestValidation.validateGetAccount(tenantId, email, password)) {
-            throw new ResourceErrorException(ExceptionCode.UNKNOWN, "Invalid Request");
+            throw new AccountException(ExceptionCode.BAD_REQUEST);
         }
 
         Optional<AccountModel> accountOptional = accountFacade.getAccount(tenantId, email, password);
@@ -58,70 +52,53 @@ public class AccountResource {
     }
 
     @RequestMapping(value = "/{tenantId}/{accountId}", method = RequestMethod.GET)
-    public ResponseEnvelope accountById(
+    public ResponseEntity<AccountModel> accountById(
             @PathVariable("tenantId") String tenantId,
             @PathVariable("accountId") long accountId
-    ) {
+    ) throws AccountException {
         if (!RequestValidation.validateGetAccount(tenantId, accountId)) {
-            return null;
+            throw new AccountException(ExceptionCode.BAD_REQUEST);
         }
 
-        List<ErrorModel> errors = new ArrayList<>();
-
-        Optional<AccountModel> accountOptional;
-        try {
-            accountOptional = accountFacade.getAccount(tenantId, accountId);
-        } catch (Exception ex) {
-            log.error("", ex);
-            return null;
-        }
+        Optional<AccountModel> accountOptional = accountFacade.getAccount(tenantId, accountId);
 
         if (!accountOptional.isPresent()) {
-            errors.add(new ErrorModel(ExceptionCode.ACCOUNT_NOT_FOUND.name(), ExceptionCode.ACCOUNT_NOT_FOUND.getMessage()));
+            throw new AccountException(ExceptionCode.ACCOUNT_NOT_FOUND);
         }
 
-        return new ResponseEnvelope.Builder<AccountModel>()
-                .withData(accountOptional.orElse(null))
-                .withErrors(errors)
-                .build();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(accountOptional.get());
     }
 
     @RequestMapping(value = "/relations/{tenantId}/{parentId}", method = RequestMethod.GET)
-    public ResponseEnvelope getAccountByRelationship(
+    public ResponseEntity<List<AccountModel>> getAccountByRelationship(
             @PathVariable("tenantId") String tenantId,
             @PathVariable("parentId") long parentId,
             @RequestParam("depth") Integer depth
-    ) {
+    ) throws AccountException {
         if (!RequestValidation.validateGetAccountsByRelationship(tenantId, parentId, depth)) {
-            return null;
+            throw new AccountException(ExceptionCode.BAD_REQUEST);
         }
 
-        List<AccountModel> accountList;
-        try {
-            accountList = accountFacade.getAccountsByRelationship(tenantId, parentId, depth);
-        } catch (Exception ex) {
-            log.error("", ex);
-            return null;
-        }
+        List<AccountModel> accountList = accountFacade.getAccountsByRelationship(tenantId, parentId, depth);
 
-        List<ErrorModel> errors = new ArrayList<>();
         if (accountList.isEmpty()) {
-            errors.add(new ErrorModel(ExceptionCode.ACCOUNTS_NOT_FOUND.name(), ExceptionCode.ACCOUNTS_NOT_FOUND.getMessage()));
+            throw new AccountException(ExceptionCode.ACCOUNTS_NOT_FOUND);
         }
 
-        return new ResponseEnvelope.Builder<List<AccountModel>>()
-                .withData(accountList)
-                .withErrors(errors)
-                .build();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(accountList);
     }
 
     @RequestMapping(value = "/{tenantId}", method = RequestMethod.POST)
     public ResponseEnvelope createAccount(
             @RequestBody AccountModel account,
             @PathVariable("tenantId")  String tenantId
-    ) {
+    ) throws AccountException {
         if (!RequestValidation.validateCreateAccount(tenantId, account)) {
-            return null;
+            throw new AccountException(ExceptionCode.BAD_REQUEST);
         }
 
         Optional<AccountModel> accountOptional;
@@ -154,9 +131,9 @@ public class AccountResource {
             AccountModel account,
             @PathVariable("tenantId") String tenantId,
             @PathVariable("accountId") long accountId
-    ) {
+    ) throws AccountException {
         if (!RequestValidation.validateUpdateAccount(tenantId, accountId, account)) {
-            return null;
+            throw new AccountException(ExceptionCode.BAD_REQUEST);
         }
 
         Optional<AccountModel> accountOptional;
