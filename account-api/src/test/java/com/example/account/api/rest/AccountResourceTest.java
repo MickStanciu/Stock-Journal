@@ -1,7 +1,7 @@
 package com.example.account.api.rest;
 
+import com.example.account.api.exception.AccountException;
 import com.example.account.api.facade.AccountFacade;
-import com.example.account.api.spec.exception.AccountException;
 import com.example.account.api.spec.model.AccountModel;
 import com.example.account.api.spec.model.RoleModel;
 import org.mockito.InjectMocks;

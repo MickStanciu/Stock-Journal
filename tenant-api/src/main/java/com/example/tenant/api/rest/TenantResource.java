@@ -1,9 +1,9 @@
 package com.example.tenant.api.rest;
 
+import com.example.tenant.api.exception.ResourceErrorException;
+import com.example.tenant.api.exception.TenantException;
 import com.example.tenant.api.service.TenantService;
 import com.example.tenant.api.spec.exception.ExceptionCode;
-import com.example.tenant.api.spec.exception.ResourceErrorException;
-import com.example.tenant.api.spec.exception.TenantException;
 import com.example.tenant.api.spec.model.TenantModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

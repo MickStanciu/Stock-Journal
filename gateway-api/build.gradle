@@ -23,6 +23,7 @@ version = '0.0.1-SNAPSHOT'
 
 dependencies {
     implementation project(':common')
+    implementation project(':gateway-api-spec')
     implementation project(':account-api-spec')
     implementation project(':tenant-api-spec')
 

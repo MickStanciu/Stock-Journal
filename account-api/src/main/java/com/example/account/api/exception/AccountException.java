@@ -1,4 +1,6 @@
-package com.example.account.api.spec.exception;
+package com.example.account.api.exception;
+
+import com.example.account.api.spec.exception.ExceptionCode;
 
 public class AccountException extends Exception {
     private final ExceptionCode code;

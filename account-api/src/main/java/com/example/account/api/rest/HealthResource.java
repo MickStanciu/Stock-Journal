@@ -1,8 +1,8 @@
 package com.example.account.api.rest;
 
+import com.example.account.api.exception.ResourceErrorException;
 import com.example.account.api.service.HealthService;
 import com.example.account.api.spec.exception.ExceptionCode;
-import com.example.account.api.spec.exception.ResourceErrorException;
 import com.example.account.api.spec.model.HealthModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;

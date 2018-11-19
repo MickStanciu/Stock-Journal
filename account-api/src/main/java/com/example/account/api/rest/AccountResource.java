@@ -1,9 +1,9 @@
 package com.example.account.api.rest;
 
+import com.example.account.api.exception.AccountException;
+import com.example.account.api.exception.ResourceErrorException;
 import com.example.account.api.facade.AccountFacade;
-import com.example.account.api.spec.exception.AccountException;
 import com.example.account.api.spec.exception.ExceptionCode;
-import com.example.account.api.spec.exception.ResourceErrorException;
 import com.example.account.api.spec.model.AccountModel;
 import com.example.common.rest.envelope.ErrorModel;
 import com.example.common.rest.envelope.ResponseEnvelope;

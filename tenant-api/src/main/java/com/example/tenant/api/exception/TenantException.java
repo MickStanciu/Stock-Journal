@@ -1,4 +1,6 @@
-package com.example.tenant.api.spec.exception;
+package com.example.tenant.api.exception;
+
+import com.example.tenant.api.spec.exception.ExceptionCode;
 
 public class TenantException extends Exception {
     private final ExceptionCode code;
