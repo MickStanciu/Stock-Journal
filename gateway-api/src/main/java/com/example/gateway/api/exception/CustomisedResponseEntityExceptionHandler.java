@@ -1,6 +1,7 @@
 package com.example.gateway.api.exception;
 
 import com.example.gateway.api.model.ExceptionModel;
+import feign.FeignException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -17,6 +18,12 @@ public class CustomisedResponseEntityExceptionHandler extends ResponseEntityExce
     public final ResponseEntity<ExceptionModel> handleAllExceptions(Exception ex, WebRequest request) {
         ExceptionModel exceptionModel = new ExceptionModel(ExceptionCode.UNKNOWN, ex.getMessage(), request.getDescription(false));
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionModel);
+    }
+
+    @ExceptionHandler(FeignException.class)
+    public final ResponseEntity<ExceptionModel> handleFeignExceptions(FeignException ex, WebRequest request) {
+        ExceptionModel exceptionModel = new ExceptionModel(ExceptionCode.UNKNOWN, ex.getMessage(), request.getDescription(false));
+        return ResponseEntity.status(HttpStatus.valueOf(ex.status())).body(exceptionModel);
     }
 
     @ExceptionHandler(GatewayApiException.class)
