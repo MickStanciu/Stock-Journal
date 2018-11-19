@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.PostConstruct;
 import java.math.BigInteger;
 import java.util.Optional;
 
@@ -31,12 +30,6 @@ public class AccountResource extends AbstractResource {
     public AccountResource(AccountService accountService) {
         this.accountService = accountService;
     }
-
-    @PostConstruct
-    public void init() {
-        log.debug(AccountResource.class.getName() + " was initialized");
-    }
-
 
     @RequestMapping(value = "/{accountId}", method = RequestMethod.GET)
     public ResponseEntity<AccountModel> getAccountDetails(
@@ -54,6 +47,5 @@ public class AccountResource extends AbstractResource {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(accountOptional.get());
-
     }
 }

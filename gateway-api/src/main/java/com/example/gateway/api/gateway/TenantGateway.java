@@ -1,5 +1,6 @@
 package com.example.gateway.api.gateway;
 
+import com.example.tenant.api.spec.exception.TenantException;
 import com.example.tenant.api.spec.model.TenantModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +22,7 @@ public class TenantGateway {
     @Autowired
     private TenantApiProxy tenantApiProxy;
 
-    public Optional<TenantModel> getTenant(String tenantId) {
+    public Optional<TenantModel> getTenant(String tenantId) throws TenantException {
         ResponseEntity<TenantModel> responseEntity = tenantApiProxy.tenantByUUID(tenantId);
         return Optional.ofNullable(responseEntity.getBody());
     }

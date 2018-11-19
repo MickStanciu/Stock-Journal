@@ -5,6 +5,7 @@ import com.example.account.api.spec.model.RoleInfoModel;
 import com.example.account.api.spec.model.RoleModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,9 @@ public class AccountGateway {
     @Value("gateway.account.address")
     private String SERVICE_URL = "localhost";
 
+    @Autowired
+    private AccountApiProxy accountApiProxy;
+
 
     public Optional<AccountModel> getAccount(String tenantId, BigInteger accountId) {
         return getFake();
@@ -34,7 +38,8 @@ public class AccountGateway {
 //        return getAccountModel(builder.build());
     }
 
-//    public Optional<AccountModel> getAccount(String tenantId, String email, String password) {
+    public Optional<AccountModel> getAccount(String tenantId, String email, String password) {
+        return getFake();
 //        UriBuilder builder = UriBuilder.builder(SERVICE_URL)
 //                .addPath("rest")
 //                .addPath("v1")
@@ -43,7 +48,7 @@ public class AccountGateway {
 //                .addQuery("password", password);
 //
 //        return getAccountModel(builder.build());
-//    }
+    }
 
 
 //    private Optional<AccountModel> getAccountModel(URI uri) {
