@@ -1,4 +1,4 @@
-package com.example.timesheet.statemachine;
+package com.example.timesheet.api.spec.statemachine;
 
 import java.util.HashMap;
 import java.util.Map;

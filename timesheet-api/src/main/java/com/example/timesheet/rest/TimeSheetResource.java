@@ -1,42 +1,36 @@
 package com.example.timesheet.rest;
 
 import com.example.common.converter.TimeConversion;
-import com.example.common.rest.dto.ErrorDto;
-import com.example.common.rest.envelope.ResponseEnvelope;
-import com.example.timesheet.exception.ExceptionCode;
-import com.example.timesheet.model.TimeSheetEntryModel;
-import com.example.timesheet.service.TimeSheetService;
+import com.example.timesheet.api.spec.model.TimeSheetEntryModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.inject.Inject;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Response;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Path("/v1")
-@Produces("application/json")
+@RestController
+@RequestMapping(value = "/api/v1", produces = "application/json")
 public class TimeSheetResource {
 
     private static final Logger log = LoggerFactory.getLogger(TimeSheetResource.class);
 
-    @Inject
+    @Autowired
     private TimeSheetService timeSheetService;
 
-    @GET
-    @Path("/{tenantId}/{accountId}")
-    public Response getTimeSheetEntries(
-            @PathParam("tenantId") @DefaultValue("0") String tenantId,
-            @PathParam("accountId") long accountId,
-            @QueryParam("from") String from,
-            @QueryParam("to") String to
+    @RequestMapping(value = "/{tenantId}/{accountId}", method = RequestMethod.GET)
+    public ResponseEntity<TimeSheetEntryModel> getTimeSheetEntries(
+            @PathVariable("tenantId") @DefaultValue("0") String tenantId,
+            @PathVariable("accountId") long accountId,
+            @RequestParam("from") String from,
+            @RequestParam("to") String to
             ) {
 
         if (!RequestValidation.validateGetTimesheet(tenantId, accountId, from, to)) {

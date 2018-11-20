@@ -1,19 +1,18 @@
-package com.example.timesheet.model;
+package com.example.timesheet.api.spec.model;
 
 import java.io.Serializable;
 
-public class TaskModel implements Serializable {
+public class ProjectModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private long id;
     private String tenantId;
-    private long projectId;
     private boolean active;
     private String title;
     private String description;
 
-    private TaskModel() {
+    private ProjectModel() {
         //required by Jackson
     }
 
@@ -23,10 +22,6 @@ public class TaskModel implements Serializable {
 
     public String getTenantId() {
         return tenantId;
-    }
-
-    public long getProjectId() {
-        return projectId;
     }
 
     public boolean isActive() {
@@ -43,7 +38,7 @@ public class TaskModel implements Serializable {
 
     @Override
     public String toString() {
-        return "TaskModel{" +
+        return "ProjectModel{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
@@ -55,48 +50,43 @@ public class TaskModel implements Serializable {
     }
 
     public static class Builder {
-        final TaskModel task;
+        final ProjectModel project;
 
         Builder() {
-            task = new TaskModel();
+            project = new ProjectModel();
         }
 
-        public Builder(TaskModel task) {
-            this.task = task;
+        public Builder(ProjectModel project) {
+            this.project = project;
         }
 
         public Builder withTenantId(String tenantId) {
-            task.tenantId = tenantId;
+            project.tenantId = tenantId;
             return this;
         }
 
         public Builder withId(long id) {
-            task.id = id;
+            project.id = id;
             return this;
         }
 
         public Builder active(boolean active) {
-            task.active = active;
+            project.active = active;
             return this;
         }
 
         public Builder withTitle(String title) {
-            task.title = title;
+            project.title = title;
             return this;
         }
 
         public Builder withDescription(String description) {
-            task.description = description;
+            project.description = description;
             return this;
         }
 
-        public Builder withProjectId(long projectId) {
-            task.projectId = projectId;
-            return this;
-        }
-
-        public TaskModel build() {
-            return task;
+        public ProjectModel build() {
+            return project;
         }
     }
 }

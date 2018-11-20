@@ -1,8 +1,6 @@
-package com.example.timesheet.statemachine;
+package com.example.timesheet.api.spec.statemachine;
 
 import org.testng.annotations.Test;
-
-import static org.testng.AssertJUnit.assertEquals;
 
 public class TimeSheetStateMachineTest {
 

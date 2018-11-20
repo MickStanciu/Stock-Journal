@@ -1,4 +1,4 @@
 description = 'Tenant API Spec'
 
-group = 'com.example.tenant.api'
+group = 'com.example.tenant.api.spec'
 version = '0.0.1-SNAPSHOT'

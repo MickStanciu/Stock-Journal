@@ -1,9 +1,9 @@
 package com.example.gateway.api.rest;
 
-import com.example.common.security.TokenClaims;
-import com.example.common.security.TokenUtil;
 import com.example.gateway.api.exception.ExceptionCode;
 import com.example.gateway.api.exception.GatewayApiException;
+import com.example.gateway.api.security.TokenClaims;
+import com.example.gateway.api.security.TokenUtil;
 
 import java.util.Optional;
 

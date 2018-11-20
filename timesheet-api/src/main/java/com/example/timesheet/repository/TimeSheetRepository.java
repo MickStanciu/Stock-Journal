@@ -1,22 +1,24 @@
 package com.example.timesheet.repository;
 
-import com.example.timesheet.model.ProjectModel;
-import com.example.timesheet.model.TaskModel;
-import com.example.timesheet.model.TimeSheetEntryModel;
-import com.example.timesheet.statemachine.State;
-import org.jdbi.v3.core.mapper.RowMapper;
-import org.jdbi.v3.core.statement.StatementContext;
+import com.example.timesheet.api.spec.model.ProjectModel;
+import com.example.timesheet.api.spec.model.TaskModel;
+import com.example.timesheet.api.spec.model.TimeSheetEntryModel;
+import com.example.timesheet.api.spec.statemachine.State;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
-import javax.inject.Inject;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class TimeSheetRepository implements TimeSheetDao {
+@Repository
+public class TimeSheetRepository {
 
     private static final Logger log = LoggerFactory.getLogger(TimeSheetRepository.class);
 
@@ -33,25 +35,17 @@ public class TimeSheetRepository implements TimeSheetDao {
             "and t.from_time >= ? " +
             "and t.to_time <= ?";
 
-    private DatabaseConnection conn;
+    private JdbcTemplate jdbcTemplate;
 
-    @Inject
-    public TimeSheetRepository(DatabaseConnection conn) {
-        this.conn = conn;
+    @Autowired
+    public TimeSheetRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
-    @Override
     public List<TimeSheetEntryModel> getEntriesByIdAndTime(String tenantId, long accountId, LocalDateTime from, LocalDateTime to) {
-        return conn.getJdbi().withHandle(handle ->
-                handle
-                    .createQuery(TIMESHEET_READ_BY_ACCOUNT)
-                    .bind(0, tenantId)
-                    .bind(1, accountId)
-                    .bind(2, Timestamp.valueOf(from))
-                    .bind(3, Timestamp.valueOf(to))
-                    .map(new TimeSheetEntryRowMapper())
-                    .list()
-        );
+        Object[] parameters = new Object[] {tenantId, accountId, Timestamp.valueOf(from), Timestamp.valueOf(to)};
+
+        return jdbcTemplate.query(TIMESHEET_READ_BY_ACCOUNT, parameters, new TimeSheetEntryRowMapper());
     }
 }
 
@@ -60,7 +54,7 @@ class TimeSheetEntryRowMapper implements RowMapper<TimeSheetEntryModel> {
     private static final Logger log = LoggerFactory.getLogger(TimeSheetEntryRowMapper.class);
 
     @Override
-    public TimeSheetEntryModel map(ResultSet rs, StatementContext ctx) throws SQLException {
+    public TimeSheetEntryModel mapRow(ResultSet rs, int rowNum) throws SQLException {
         String tenantId = rs.getString("tenant_id");
         long projectId = rs.getLong("project_id");
 

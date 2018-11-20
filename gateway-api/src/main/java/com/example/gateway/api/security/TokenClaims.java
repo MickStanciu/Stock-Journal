@@ -1,4 +1,4 @@
-package com.example.common.security;
+package com.example.gateway.api.security;
 
 import java.math.BigInteger;
 

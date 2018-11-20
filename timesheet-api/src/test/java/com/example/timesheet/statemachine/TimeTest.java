@@ -1,4 +1,4 @@
-package com.example.timesheet.statemachine;
+package com.example.timesheet.api.spec.statemachine;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

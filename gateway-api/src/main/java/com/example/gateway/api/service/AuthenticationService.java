@@ -1,10 +1,10 @@
 package com.example.gateway.api.service;
 
 import com.example.account.api.spec.model.AccountModel;
-import com.example.common.security.TokenUtil;
 import com.example.gateway.api.gateway.AccountGateway;
 import com.example.gateway.api.gateway.TenantGateway;
 import com.example.gateway.api.model.AuthTokenModel;
+import com.example.gateway.api.security.TokenUtil;
 import com.example.tenant.api.spec.model.TenantModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
