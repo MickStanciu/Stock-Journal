@@ -1,4 +1,4 @@
-package com.example.timesheet.rest;
+package com.example.timesheet.api.rest;
 
 
 import org.springframework.web.bind.annotation.RequestMapping;

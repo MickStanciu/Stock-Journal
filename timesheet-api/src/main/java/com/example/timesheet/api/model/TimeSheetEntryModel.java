@@ -1,6 +1,7 @@
-package com.example.timesheet.api.spec.model;
+package com.example.timesheet.api.model;
 
-import com.example.timesheet.api.spec.statemachine.State;
+
+import com.example.timesheet.api.statemachine.State;
 
 import java.io.Serializable;
 import java.time.Instant;

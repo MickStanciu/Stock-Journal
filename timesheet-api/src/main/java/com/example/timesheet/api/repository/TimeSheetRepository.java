@@ -1,9 +1,9 @@
-package com.example.timesheet.repository;
+package com.example.timesheet.api.repository;
 
-import com.example.timesheet.api.spec.model.ProjectModel;
-import com.example.timesheet.api.spec.model.TaskModel;
-import com.example.timesheet.api.spec.model.TimeSheetEntryModel;
-import com.example.timesheet.api.spec.statemachine.State;
+import com.example.timesheet.api.model.ProjectModel;
+import com.example.timesheet.api.model.TaskModel;
+import com.example.timesheet.api.model.TimeSheetEntryModel;
+import com.example.timesheet.api.statemachine.State;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
