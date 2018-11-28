@@ -70,8 +70,8 @@ services:
 
   postgresql:
     build: docker/database-server/.
-    image: toystore-db
-    container_name: toystore-db
+    image: personal-db
+    container_name: personal-db
     ports:
       - "5432:5432"
     volumes:
