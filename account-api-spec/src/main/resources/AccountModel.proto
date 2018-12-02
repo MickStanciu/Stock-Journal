@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package com.example.acout.api;
+package com.example.account.api.spec.model;
 
-message AccountModel {
+message AccountModelProto {
     int64 id = 1;
     string name = 2;
     string email = 3;
