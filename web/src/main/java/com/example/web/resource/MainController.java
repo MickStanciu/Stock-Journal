@@ -1,16 +1,18 @@
 package com.example.web.resource;
 
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 @RestController
 public class MainController {
 
-    @RequestMapping(value = "/")
-    public String index(Model model) {
-        model.addAttribute("eventName", "FIFA 2018");
-        return "index";
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public ModelAndView index() {
+        ModelAndView mav = new ModelAndView("index");
+        mav.addObject("eventName", "FIFA 2018");
+        return mav;
     }
 
 }
