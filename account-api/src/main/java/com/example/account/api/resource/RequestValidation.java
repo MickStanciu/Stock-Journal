@@ -1,4 +1,4 @@
-package com.example.account.api.rest;
+package com.example.account.api.resource;
 
 import com.example.account.api.spec.model.AccountModel;
 import com.example.account.api.spec.model.RoleModel;

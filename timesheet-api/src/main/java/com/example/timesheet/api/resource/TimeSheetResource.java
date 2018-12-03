@@ -1,4 +1,4 @@
-package com.example.timesheet.api.rest;
+package com.example.timesheet.api.resource;
 
 import com.example.common.converter.TimeConversion;
 import com.example.timesheet.api.exception.ExceptionCode;

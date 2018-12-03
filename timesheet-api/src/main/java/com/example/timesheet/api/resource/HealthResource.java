@@ -1,8 +1,10 @@
-package com.example.gateway.api.rest;
+package com.example.timesheet.api.resource;
+
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
 
 
 @RestController
@@ -10,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class HealthResource {
 
     @RequestMapping(value = "/ping", method = RequestMethod.GET)
-    public void pong() {
+    public void ping() {
 
     }
 }

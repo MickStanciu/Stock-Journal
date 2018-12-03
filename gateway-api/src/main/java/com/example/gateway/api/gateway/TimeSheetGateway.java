@@ -1,6 +1,6 @@
 //package com.example.gatewayapi.gateway;
 //
-//import com.example.common.rest.envelope.ResponseEnvelope;
+//import com.example.common.resource.envelope.ResponseEnvelope;
 //import com.example.common.util.UriBuilder;
 //import com.example.gatewayapi.configuration.Property;
 //import com.example.timesheet.model.TimeSheetEntryModel;
@@ -27,7 +27,7 @@
 //
 //    public List<TimeSheetEntryModel> getTimeSheetEntries(String tenantId, BigInteger accountId, String from, String to) {
 //        UriBuilder builder = UriBuilder.builder(SERVICE_URL)
-//                .addPath("rest")
+//                .addPath("resource")
 //                .addPath("v1")
 //                .addPath(tenantId)
 //                .addPath(accountId.toString())

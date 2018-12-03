@@ -1,13 +1,13 @@
 plugins {
     id "io.spring.dependency-management" version "1.0.6.RELEASE"
-    id "org.springframework.boot" version "2.1.0.RELEASE"
+    id "org.springframework.boot" version "2.1.1.RELEASE"
     id "com.moowork.node" version "1.2.0"
     id 'war'
     id "application"
 }
 
 ext {
-    springBootVersion = '2.1.0.RELEASE'
+    springBootVersion = '2.1.1.RELEASE'
     springCloudVersion = 'Finchley.RELEASE'
     springFeignVersion = '2.0.2.RELEASE'
     testNgVersion = '6.14.3'
@@ -30,6 +30,7 @@ dependencies {
     }
     implementation ("org.springframework.boot:spring-boot-starter-undertow:${springBootVersion}")
     implementation ("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
+    implementation ("org.springframework.boot:spring-boot-starter-thymeleaf:${springBootVersion}")
 
     runtimeOnly("org.springframework.boot:spring-boot-devtools:${springBootVersion}")
 

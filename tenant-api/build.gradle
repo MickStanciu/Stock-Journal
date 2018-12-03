@@ -4,12 +4,12 @@ buildscript {
 
 plugins {
     id "io.spring.dependency-management" version "1.0.6.RELEASE"
-    id "org.springframework.boot" version "2.1.0.RELEASE"
+    id "org.springframework.boot" version "2.1.1.RELEASE"
     id "application"
 }
 
 ext {
-    springBootVersion = '2.1.0.RELEASE'
+    springBootVersion = '2.1.1.RELEASE'
     postgreSqlVersion = '42.2.2'
     flywayDbVersion = '5.2.1'
     postgreSqlVersion = '42.2.5'

@@ -1,16 +1,4 @@
-//plugins {
-//    id "com.google.protobuf" version "0.8.7"
-//}
-
 description = 'Account API Spec'
 
 group = 'com.example.account.api.spec'
 version = '0.0.1-SNAPSHOT'
-
-ext {
-    protobufVersion = '3.6.1'
-}
-
-dependencies {
-    compile group: 'com.google.protobuf', name: 'protobuf-java', version: "${protobufVersion}"
-}

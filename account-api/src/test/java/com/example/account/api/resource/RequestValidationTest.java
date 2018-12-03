@@ -1,4 +1,4 @@
-package com.example.account.api.rest;
+package com.example.account.api.resource;
 
 
 import com.example.account.api.spec.model.AccountModel;
@@ -6,9 +6,7 @@ import com.example.account.api.spec.model.RoleModel;
 import org.junit.Test;
 import org.testng.Assert;
 
-import static com.example.account.api.rest.RequestValidation.validateCreateAccount;
-import static com.example.account.api.rest.RequestValidation.validateGetAccount;
-import static com.example.account.api.rest.RequestValidation.validateUpdateAccount;
+import static com.example.account.api.resource.RequestValidation.*;
 
 public class RequestValidationTest {
 

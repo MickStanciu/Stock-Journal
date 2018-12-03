@@ -1,7 +1,7 @@
-//package com.example.gatewayapi.rest;
+//package com.example.gatewayapi.resource;
 //
-//import com.example.common.rest.dto.ErrorDto;
-//import com.example.common.rest.envelope.ResponseEnvelope;
+//import com.example.common.resource.dto.ErrorDto;
+//import com.example.common.resource.envelope.ResponseEnvelope;
 //import com.example.gatewayapi.exception.ExceptionCode;
 //import com.example.gatewayapi.exception.GatewayApiException;
 //import com.example.gatewayapi.service.TimeSheetService;

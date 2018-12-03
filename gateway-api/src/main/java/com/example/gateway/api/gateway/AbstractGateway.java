@@ -1,6 +1,6 @@
 //package com.example.gatewayapi.gateway;
 //
-//import com.example.common.rest.dto.ErrorDto;
+//import com.example.common.resource.dto.ErrorDto;
 //import com.example.gatewayapi.configuration.JacksonConfig;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;

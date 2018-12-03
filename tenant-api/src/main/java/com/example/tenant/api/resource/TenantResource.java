@@ -1,4 +1,4 @@
-package com.example.tenant.api.rest;
+package com.example.tenant.api.resource;
 
 import com.example.tenant.api.exception.TenantException;
 import com.example.tenant.api.service.TenantService;

@@ -1,4 +1,4 @@
-package com.example.gateway.api.rest;
+package com.example.gateway.api.resource;
 
 import com.example.gateway.api.exception.ExceptionCode;
 import com.example.gateway.api.exception.GatewayApiException;

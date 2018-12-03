@@ -1,4 +1,4 @@
-//package com.example.common.rest.envelope;
+//package com.example.common.resource.envelope;
 //
 //import java.io.Serializable;
 //import java.util.List;

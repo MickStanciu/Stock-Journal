@@ -14,5 +14,5 @@ include ':gateway-api'
 include ':timesheet-api-spec'
 include ':timesheet-api'
 
-include 'web'
+include ':web'
 
