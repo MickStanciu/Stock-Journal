@@ -15,6 +15,7 @@ public class AccountListener {
     @SendTo("outbound.queue")
     public String receiveMessage(final Message jsonMessage) throws JMSException {
 //        https://www.devglan.com/spring-boot/spring-boot-jms-activemq-example
-        return "";
+        System.out.println("PULA");
+        return "MESSAGE RECEIVED";
     }
 }
