@@ -13,6 +13,7 @@ ext {
     springCloudVersion = 'Finchley.RELEASE'
     springFeignVersion = '2.0.2.RELEASE'
     testNgVersion = '6.14.3'
+    activeMQVersion = '5.15.8'
 }
 
 description = 'Gateway API'
@@ -32,7 +33,8 @@ dependencies {
     }
     implementation ("org.springframework.boot:spring-boot-starter-undertow:${springBootVersion}")
     implementation ("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
-
+    implementation ("org.springframework.boot:spring-boot-starter-activemq:${springBootVersion}")
+    implementation ("org.apache.activemq:activemq-broker:${activeMQVersion}")
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: "${springFeignVersion}"
     implementation group: 'io.jsonwebtoken', name: 'jjwt', version:'0.9.0'
 

@@ -5,9 +5,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.jms.annotation.EnableJms;
 
 @SpringBootApplication
 @EnableFeignClients("com.example.gateway.api.gateway")
+@EnableJms
 public class GatewayApi {
 
     private static final Logger log = LoggerFactory.getLogger(GatewayApi.class);
