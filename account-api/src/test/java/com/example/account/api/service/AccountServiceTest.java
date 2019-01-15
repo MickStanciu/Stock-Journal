@@ -1,20 +1,15 @@
 package com.example.account.api.service;
 
-import com.example.account.api.repository.AccountRepository;
 import com.example.account.api.spec.model.AccountModel;
 import com.example.account.api.spec.model.RoleModel;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 
 
-public class AccountServiceTest {
-
-    @Mock
-    private AccountRepository accountRepository;
+class AccountServiceTest {
 
     @InjectMocks
     private AccountService accountService;
@@ -49,24 +44,24 @@ public class AccountServiceTest {
                 .withRole(new RoleModel(4, "role"))
             .build();
 
-    @BeforeClass
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    public void testCopyAccount() {
+    void testCopyAccount() {
         AccountModel newAccount = accountService.copyAccount(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, originalAccountFixture,
                 newAccountFixture);
-        Assert.assertEquals(newAccount.getName(), newAccountFixture.getName(), "Test for name");
-        Assert.assertEquals(newAccount.getPassword(), newAccountFixture.getPassword(), "Test for password");
-        Assert.assertEquals(newAccount.getEmail(), newAccountFixture.getEmail(), "Test for email");
-        Assert.assertEquals(newAccount.isActive(), newAccountFixture.isActive(), "Test for active");
-        Assert.assertEquals(newAccount.getRole().getId(), newAccountFixture.getRole().getId(), "Test for role ID");
+        Assertions.assertEquals(newAccountFixture.getName(), newAccount.getName(), "Test for name");
+        Assertions.assertEquals(newAccountFixture.getPassword(), newAccount.getPassword(), "Test for password");
+        Assertions.assertEquals(newAccountFixture.getEmail(), newAccount.getEmail(), "Test for email");
+        Assertions.assertEquals(newAccountFixture.isActive(), newAccount.isActive(), "Test for active");
+        Assertions.assertEquals(newAccountFixture.getRole().getId(), newAccount.getRole().getId(), "Test for role ID");
     }
 
     @Test
-    public void testCopyAccountNulls() {
+    void testCopyAccountNulls() {
         AccountModel newAccountFixture = new AccountModel.Builder()
             .havingPersonalDetails()
                 .withTenantId(DEFAULT_TENANT_ID)
@@ -79,9 +74,10 @@ public class AccountServiceTest {
         AccountModel newAccount = accountService.copyAccount(DEFAULT_TENANT_ID, DEFAULT_ACCOUNT_ID, originalAccountFixture,
                 newAccountFixture);
 
-        Assert.assertEquals(newAccount.getName(), originalAccountFixture.getName(), "Test for name");
-        Assert.assertEquals(newAccount.getPassword(), originalAccountFixture.getPassword(), "Test for password");
-        Assert.assertEquals(newAccount.getEmail(), originalAccountFixture.getEmail(), "Test for email");
+        Assertions.assertEquals(originalAccountFixture.getName(), newAccount.getName(), "Test for name");
+        Assertions.assertEquals(originalAccountFixture.getPassword(), newAccount.getPassword(), "Test for password");
+        Assertions.assertEquals(originalAccountFixture.getEmail(), newAccount.getEmail(), "Test for email");
+        Assertions.assertEquals(originalAccountFixture.getEmail(), newAccount.getEmail(), "Test for email");
     }
 
 }

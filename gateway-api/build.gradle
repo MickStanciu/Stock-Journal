@@ -12,7 +12,6 @@ ext {
     springBootVersion = '2.1.1.RELEASE'
     springCloudVersion = 'Finchley.RELEASE'
     springFeignVersion = '2.0.2.RELEASE'
-    testNgVersion = '6.14.3'
     activeMQVersion = '5.15.8'
 }
 
@@ -41,7 +40,6 @@ dependencies {
     runtimeOnly("org.springframework.boot:spring-boot-devtools:${springBootVersion}")
 
     testImplementation ("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
-    testImplementation group: 'org.testng', name: 'testng', version: "${testNgVersion}"
 }
 
 dependencyManagement {
@@ -50,11 +48,5 @@ dependencyManagement {
     }
 }
 
-
-test {
-    useTestNG(){
-        suites("src/test/resources/testng.xml")
-    }
-}
 
 mainClassName = 'com.example.gateway.api.GatewayApi'

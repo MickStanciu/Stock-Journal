@@ -1,93 +1,93 @@
 package com.example.timesheet.api.statemachine;
 
 
-import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-public class TimeSheetStateMachineTest {
+class TimeSheetStateMachineTest {
 
     private TimeSheetEntryMachine tsm;
 
     @Test
-    public void testInitialState() {
+    void testInitialState() {
         tsm = new TimeSheetEntryMachine();
-        Assert.assertEquals(tsm.getState(), State.NOT_FILLED);
+        Assertions.assertEquals(State.NOT_FILLED, tsm.getState());
     }
 
     @Test
-    public void testInitialStateInvalidEvents() {
+    void testInitialStateInvalidEvents() {
         tsm = new TimeSheetEntryMachine();
         tsm.sendEvent(Event.CANCEL);
-        Assert.assertEquals(tsm.getState(), State.NOT_FILLED);
+        Assertions.assertEquals(State.NOT_FILLED, tsm.getState());
 
         tsm.sendEvent(Event.SEND_FOR_APPROVAL);
-        Assert.assertEquals(tsm.getState(), State.NOT_FILLED);
+        Assertions.assertEquals(State.NOT_FILLED, tsm.getState());
 
         tsm.sendEvent(Event.APPROVE);
-        Assert.assertEquals(tsm.getState(), State.NOT_FILLED);
+        Assertions.assertEquals(State.NOT_FILLED, tsm.getState());
     }
 
     @Test
-    public void testFilledState() {
+    void testFilledState() {
         tsm = new TimeSheetEntryMachine();
         tsm.sendEvent(Event.FILL);
-        Assert.assertEquals(tsm.getState(), State.FILLED);
+        Assertions.assertEquals(State.FILLED, tsm.getState());
     }
 
     @Test
-    public void testFilledStateInvalidEvents() {
+    void testFilledStateInvalidEvents() {
         tsm = new TimeSheetEntryMachine(State.FILLED);
         tsm.sendEvent(Event.FILL);
-        Assert.assertEquals(tsm.getState(), State.FILLED);
+        Assertions.assertEquals(State.FILLED, tsm.getState());
 
         tsm.sendEvent(Event.APPROVE);
-        Assert.assertEquals(tsm.getState(), State.FILLED);
+        Assertions.assertEquals(State.FILLED, tsm.getState());
 
         tsm.sendEvent(Event.CANCEL);
-        Assert.assertEquals(tsm.getState(), State.FILLED);
+        Assertions.assertEquals(State.FILLED, tsm.getState());
     }
 
     @Test
-    public void testSentForApprovalState() {
+    void testSentForApprovalState() {
         tsm = new TimeSheetEntryMachine(State.FILLED);
         tsm.sendEvent(Event.SEND_FOR_APPROVAL);
-        Assert.assertEquals(tsm.getState(), State.SENT_FOR_APPROVAL);
+        Assertions.assertEquals(State.SENT_FOR_APPROVAL, tsm.getState());
 
         tsm = new TimeSheetEntryMachine(State.FILLED);
         tsm.sendEvent(Event.CANCEL);
-        Assert.assertEquals(tsm.getState(), State.FILLED);
+        Assertions.assertEquals(State.FILLED, tsm.getState());
     }
 
     @Test
-    public void testSentForApprovalInvalidEvents() {
+    void testSentForApprovalInvalidEvents() {
         tsm = new TimeSheetEntryMachine(State.SENT_FOR_APPROVAL);
         tsm.sendEvent(Event.FILL);
-        Assert.assertEquals(tsm.getState(), State.SENT_FOR_APPROVAL);
+        Assertions.assertEquals(State.SENT_FOR_APPROVAL, tsm.getState());
 
         tsm.sendEvent(Event.SEND_FOR_APPROVAL);
-        Assert.assertEquals(tsm.getState(), State.SENT_FOR_APPROVAL);
+        Assertions.assertEquals(State.SENT_FOR_APPROVAL, tsm.getState());
     }
 
     @Test
-    public void testApprovedState() {
+    void testApprovedState() {
         tsm = new TimeSheetEntryMachine(State.SENT_FOR_APPROVAL);
         tsm.sendEvent(Event.APPROVE);
-        Assert.assertEquals(tsm.getState(), State.APPROVED);
+        Assertions.assertEquals(State.APPROVED, tsm.getState());
     }
 
     @Test
-    public void testApprovedInvalidEvents() {
+    void testApprovedInvalidEvents() {
         tsm = new TimeSheetEntryMachine(State.APPROVED);
         tsm.sendEvent(Event.FILL);
-        Assert.assertEquals(tsm.getState(), State.APPROVED);
+        Assertions.assertEquals(State.APPROVED, tsm.getState());
 
         tsm.sendEvent(Event.SEND_FOR_APPROVAL);
-        Assert.assertEquals(tsm.getState(), State.APPROVED);
+        Assertions.assertEquals(State.APPROVED, tsm.getState());
 
         tsm.sendEvent(Event.FILL);
-        Assert.assertEquals(tsm.getState(), State.APPROVED);
+        Assertions.assertEquals(State.APPROVED, tsm.getState());
 
         tsm.sendEvent(Event.CANCEL);
-        Assert.assertEquals(tsm.getState(), State.APPROVED);
+        Assertions.assertEquals(State.APPROVED, tsm.getState());
     }
 }

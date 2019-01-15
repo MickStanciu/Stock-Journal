@@ -4,19 +4,19 @@ import com.example.account.api.exception.AccountException;
 import com.example.account.api.facade.AccountFacade;
 import com.example.account.api.spec.model.AccountModel;
 import com.example.account.api.spec.model.RoleModel;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
-import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
 
 import java.util.Optional;
 
 
-public class AccountResourceTest {
+class AccountResourceTest {
 
     @Mock
     private AccountFacade accountFacade;
@@ -42,13 +42,13 @@ public class AccountResourceTest {
                 .withRole(new RoleModel(2, "role"))
             .build();
 
-    @BeforeClass
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    public void testGetAccount() throws AccountException {
+    void testGetAccount() throws AccountException {
         Mockito.when(accountFacade.getAccount(DEFAULT_TENANT_ID, "test.account", "Password"))
                 .thenReturn(Optional.of(accountFixture));
 
@@ -56,6 +56,6 @@ public class AccountResourceTest {
         AccountModel item = response.getBody();
 
         assert item != null;
-        Assert.assertEquals(item.getId(), 1L,"Id should be equal to: \'1\'");
+        Assertions.assertEquals(1L, item.getId(),"Id should be equal to: \'1\'");
     }
 }
