@@ -13,6 +13,7 @@ ext {
     postgreSqlVersion = '42.2.2'
     flywayDbVersion = '5.2.1'
     postgreSqlVersion = '42.2.5'
+    junitVersion = '5.3.2'
 }
 
 description = 'Tenant API'
@@ -36,7 +37,14 @@ dependencies {
 
     runtimeOnly("org.springframework.boot:spring-boot-devtools:${springBootVersion}")
 
+    testImplementation ("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testImplementation ("org.junit.jupiter:junit-jupiter-params:${junitVersion}")
+    testRuntimeOnly ("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
     testImplementation ("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
+}
+
+test {
+    useJUnitPlatform()
 }
 
 mainClassName = 'com.example.tenant.api.TenantApi'
