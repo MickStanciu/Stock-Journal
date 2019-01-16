@@ -56,6 +56,9 @@ dependencyManagement {
 
 test {
     useJUnitPlatform()
+    testLogging {
+        events 'PASSED', 'FAILED', 'SKIPPED'
+    }
 }
 
 mainClassName = 'com.example.gateway.api.GatewayApi'
