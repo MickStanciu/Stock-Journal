@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-
 @Service
 public class HealthService {
 
@@ -25,7 +24,7 @@ public class HealthService {
         health.setFirstRecordOk(false);
     }
 
-    public boolean isOk() {
+    boolean isOk() {
         boolean firstRecordOk;
         try {
             firstRecordOk = tenantRepository.checkFirstRecord();

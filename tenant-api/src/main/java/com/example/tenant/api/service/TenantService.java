@@ -25,7 +25,7 @@ public class TenantService {
     public Optional<TenantModel> getTenant(String id) {
         try {
             return Optional.ofNullable(tenantRepository.getTenant(id));
-        } catch (Exception ex) {
+        } catch (RuntimeException ex) {
             log.error(ex.getMessage());
             return Optional.empty();
         }
