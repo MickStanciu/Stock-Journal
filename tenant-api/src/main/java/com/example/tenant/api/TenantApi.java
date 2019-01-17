@@ -5,14 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import javax.servlet.ServletException;
-
 @SpringBootApplication
 public class TenantApi {
 
     private static final Logger log = LoggerFactory.getLogger(TenantApi.class);
 
-    public static void main(String[] args) throws ServletException {
+    public static void main(String[] args) {
         SpringApplication.run(TenantApi.class, args);
         log.info(generateLogo());
     }
