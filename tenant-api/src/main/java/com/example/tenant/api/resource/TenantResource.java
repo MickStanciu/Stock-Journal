@@ -32,7 +32,7 @@ public class TenantResource {
 
     @RequestMapping(value = "/{tenantId}", method = RequestMethod.GET)
     public ResponseEntity<TenantModel> tenantByUUID(@PathVariable("tenantId") String tenantId) throws TenantException {
-        if (tenantId.length() == 0 || tenantId.equals("0")) {
+        if (tenantId.length() != 36) {
             throw new TenantException(ExceptionCode.BAD_REQUEST);
         }
 
