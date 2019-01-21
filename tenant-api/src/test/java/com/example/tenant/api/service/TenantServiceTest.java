@@ -5,7 +5,6 @@ import com.example.tenant.api.spec.model.TenantModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;

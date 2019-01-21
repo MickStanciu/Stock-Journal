@@ -1,5 +1,4 @@
 -- user
-DROP USER IF EXISTS admin;
 CREATE USER admin WITH ENCRYPTED PASSWORD 'secret';
 
 -- database
@@ -12,6 +11,7 @@ GRANT ALL PRIVILEGES ON DATABASE tenant TO admin;
 CREATE DATABASE timesheet;
 GRANT ALL PRIVILEGES ON DATABASE timesheet TO admin;
 
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- CREATE DATABASE customer;
 -- GRANT ALL PRIVILEGES ON DATABASE customer TO admin;
+
+CREATE EXTENSION "uuid-ossp";

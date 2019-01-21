@@ -1,5 +1,4 @@
 -- user
-DROP USER IF EXISTS dev;
 CREATE USER dev WITH ENCRYPTED PASSWORD 'dev';
 
 -- database
