@@ -29,28 +29,39 @@ class TenantResourceTest {
     @MockBean
     private TenantService service;
 
+    private String goodUuid = "123-123-121-123-123-12123-123-123-12";
+    private String badUuid = "123-123-123";
+
 
     @Test
     void checkTest() throws Exception {
-        String uuid = "123-123-123";
-        TenantModel model = new TenantModel(uuid, "NAME");
+        TenantModel model = new TenantModel(goodUuid, "NAME");
 
         Mockito.when(service.getTenant(anyString())).thenReturn(Optional.of(model));
 
         mockMvc
-                .perform(get("/api/v1/{tenantId}", "123-123-123"))
+                .perform(get("/api/v1/{tenantId}", goodUuid))
 //                .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", CoreMatchers.is(uuid)));
+                .andExpect(jsonPath("$.id", CoreMatchers.is(goodUuid)));
+    }
+
+    @Test
+    void checkTestBadRequest() throws Exception {
+        Mockito.when(service.getTenant(anyString())).thenReturn(Optional.empty());
+
+        mockMvc
+                .perform(get("/api/v1/{tenantId}", badUuid))
+//                .andDo(print())
+                .andExpect(status().is(400));
     }
 
     @Test
     void checkTestNotFound() throws Exception {
-        String uuid = "123-123-123";
         Mockito.when(service.getTenant(anyString())).thenReturn(Optional.empty());
 
         mockMvc
-                .perform(get("/api/v1/{tenantId}", "123-123-123"))
+                .perform(get("/api/v1/{tenantId}", goodUuid))
 //                .andDo(print())
                 .andExpect(status().is(404));
     }
