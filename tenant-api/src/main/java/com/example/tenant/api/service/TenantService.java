@@ -5,6 +5,7 @@ import com.example.tenant.api.spec.model.TenantModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -25,7 +26,7 @@ public class TenantService {
     public Optional<TenantModel> getTenant(String id) {
         try {
             return Optional.ofNullable(tenantRepository.getTenant(id));
-        } catch (RuntimeException ex) {
+        } catch (DataAccessException ex) {
             log.error(ex.getMessage());
             return Optional.empty();
         }

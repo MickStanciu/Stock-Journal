@@ -2,3 +2,7 @@ description = 'Tenant API Spec'
 
 group = 'com.example.tenant.api.spec'
 version = '0.0.1-SNAPSHOT'
+
+dependencies {
+    implementation ('javax.validation:validation-api:2.0.1.Final')
+}
