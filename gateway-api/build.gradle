@@ -9,7 +9,7 @@ plugins {
 }
 
 ext {
-    springBootVersion = '2.1.1.RELEASE'
+    springBootVersion = '2.1.2.RELEASE'
     springCloudVersion = 'Finchley.RELEASE'
     springFeignVersion = '2.0.2.RELEASE'
     activeMQVersion = '5.15.8'

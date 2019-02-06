@@ -9,7 +9,7 @@ plugins {
 }
 
 ext {
-    springBootVersion = '2.1.1.RELEASE'
+    springBootVersion = '2.1.2.RELEASE'
     postgreSqlVersion = '42.2.2'
     flywayDbVersion = '5.2.1'
     postgreSqlVersion = '42.2.5'
