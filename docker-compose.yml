@@ -90,3 +90,7 @@ services:
 #    hostname: memcache
 #    ports:
 #      - "11211:11211" #MEMCACHED SERVER
+networks:
+  default:
+    external:
+      name: docker_default
