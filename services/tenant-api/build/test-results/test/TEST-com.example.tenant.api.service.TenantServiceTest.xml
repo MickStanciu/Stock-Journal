@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.tenant.api.service.TenantServiceTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2019-02-16T02:03:02" hostname="Mirceas-MacBook-Pro.local" time="0.02">
+  <properties/>
+  <testcase name="getTenantTest()" classname="com.example.tenant.api.service.TenantServiceTest" time="0.004"/>
+  <testcase name="getTenantFailedTest()" classname="com.example.tenant.api.service.TenantServiceTest" time="0.015"/>
+  <system-out><![CDATA[13:03:02.764 [Test worker] ERROR com.example.tenant.api.service.TenantService - null
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

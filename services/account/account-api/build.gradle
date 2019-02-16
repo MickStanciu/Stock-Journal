@@ -1,11 +1,35 @@
 buildscript {
-
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven {
+            url 'https://plugins.gradle.org/m2/'
+        }
+    }
 }
 
 plugins {
+    id "java"
     id "io.spring.dependency-management" version "1.0.6.RELEASE"
     id "org.springframework.boot" version "2.1.3.RELEASE"
     id "application"
+}
+
+sourceCompatibility = 11
+targetCompatibility = 11
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+sourceSets {
+    main {
+        output.resourcesDir = "build/classes/java/main"
+    }
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
 }
 
 ext {
@@ -21,8 +45,8 @@ group = 'com.example.account.api'
 version = '0.0.1-SNAPSHOT'
 
 dependencies {
-    implementation project(':services:common')
-    implementation project(':services:account:account-api-spec')
+    implementation project(':common')
+    implementation project(':account-api-spec')
 
     implementation("org.springframework.boot:spring-boot-starter-web:${springBootVersion}") {
         exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"
