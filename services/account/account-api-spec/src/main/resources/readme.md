@@ -1,0 +1,1 @@
+protoc -I=account-api-spec/src/main/resources --java_out=account-api-spec/src/main/java AccountModel.proto
