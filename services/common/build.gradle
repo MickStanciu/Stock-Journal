@@ -1,0 +1,23 @@
+description = 'Product API Commons'
+
+group = 'com.example.common'
+version = '0.0.1-SNAPSHOT'
+
+ext {
+    junitVersion = '5.4.0'
+}
+
+dependencies {
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version:'2.15.0'
+    testImplementation ("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testImplementation ("org.junit.jupiter:junit-jupiter-params:${junitVersion}")
+    testRuntimeOnly ("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events 'PASSED', 'FAILED', 'SKIPPED'
+    }
+}

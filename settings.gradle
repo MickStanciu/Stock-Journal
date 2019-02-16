@@ -1,9 +1,9 @@
 rootProject.name = 'product-api'
 
-include ':common'
+include ':services:common'
 
-include ':account-api-spec'
-include ':account-api'
+include ':services:account:account-api-spec'
+include ':services:account:account-api'
 
 //include ':tenant-api-spec'
 //include ':tenant-api'
@@ -14,5 +14,5 @@ include ':account-api'
 //include ':timesheet-api-spec'
 //include ':timesheet-api'
 
-include ':web'
+//include ':web'
 
