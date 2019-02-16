@@ -9,9 +9,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -27,19 +30,19 @@ public class AccountResource {
         this.accountFacade = accountFacade;
     }
 
-    @RequestMapping(value = "/{tenantId}", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity<AccountModel> accountByEmailAndPassword(
-            @PathVariable(name = "tenantId") String tenantId,
             @RequestParam(name = "email", defaultValue = "")  String email,
             @RequestParam(name = "password", defaultValue = "") String password
     ) throws AccountException {
-        if (!RequestValidation.validateGetAccount(tenantId, email, password)) {
+        if (!RequestValidation.validateGetAccount(email, password)) {
             throw new AccountException(ExceptionCode.BAD_REQUEST);
         }
 
-        Optional<AccountModel> accountOptional = accountFacade.getAccount(tenantId, email, password);
+        Optional<AccountModel> accountOptional = accountFacade.getAccount(email, password);
 
-        if (!accountOptional.isPresent()) {
+        if (accountOptional.isEmpty()) {
             throw new AccountException(ExceptionCode.ACCOUNT_NOT_FOUND);
         }
 
@@ -48,18 +51,16 @@ public class AccountResource {
                 .body(accountOptional.get());
     }
 
-    @RequestMapping(value = "/{tenantId}/{accountId}", method = RequestMethod.GET)
-    public ResponseEntity<AccountModel> accountById(
-            @PathVariable("tenantId") String tenantId,
-            @PathVariable("accountId") long accountId
-    ) throws AccountException {
-        if (!RequestValidation.validateGetAccount(tenantId, accountId)) {
+
+    @RequestMapping(value = "/{accountId}", method = RequestMethod.GET)
+    public ResponseEntity<AccountModel> accountById(@PathVariable("accountId") String accountId) throws AccountException {
+        if (!RequestValidation.validateGetAccount(accountId)) {
             throw new AccountException(ExceptionCode.BAD_REQUEST);
         }
 
-        Optional<AccountModel> accountOptional = accountFacade.getAccount(tenantId, accountId);
+        Optional<AccountModel> accountOptional = accountFacade.getAccount(accountId);
 
-        if (!accountOptional.isPresent()) {
+        if (accountOptional.isEmpty()) {
             throw new AccountException(ExceptionCode.ACCOUNT_NOT_FOUND);
         }
 
@@ -68,26 +69,7 @@ public class AccountResource {
                 .body(accountOptional.get());
     }
 
-    @RequestMapping(value = "/relations/{tenantId}/{parentId}", method = RequestMethod.GET)
-    public ResponseEntity<List<AccountModel>> getAccountByRelationship(
-            @PathVariable("tenantId") String tenantId,
-            @PathVariable("parentId") long parentId,
-            @RequestParam("depth") Integer depth
-    ) throws AccountException {
-        if (!RequestValidation.validateGetAccountsByRelationship(tenantId, parentId, depth)) {
-            throw new AccountException(ExceptionCode.BAD_REQUEST);
-        }
 
-        List<AccountModel> accountList = accountFacade.getAccountsByRelationship(tenantId, parentId, depth);
-
-        if (accountList.isEmpty()) {
-            throw new AccountException(ExceptionCode.ACCOUNTS_NOT_FOUND);
-        }
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(accountList);
-    }
 
 //    @RequestMapping(value = "/{tenantId}", method = RequestMethod.POST)
 //    public ResponseEnvelope createAccount(

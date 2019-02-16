@@ -5,14 +5,14 @@ include ':common'
 include ':account-api-spec'
 include ':account-api'
 
-include ':tenant-api-spec'
-include ':tenant-api'
+//include ':tenant-api-spec'
+//include ':tenant-api'
 
-include ':gateway-api-spec'
-include ':gateway-api'
+//include ':gateway-api-spec'
+//include ':gateway-api'
 
-include ':timesheet-api-spec'
-include ':timesheet-api'
+//include ':timesheet-api-spec'
+//include ':timesheet-api'
 
 include ':web'
 

@@ -6,14 +6,11 @@ public class AccountModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private long id;
+    private String id;
     private String name;
     private String email;
     private String password;
     private boolean active;
-
-    private String tenantId;
-    private int roleId;
 
     private RoleModel role;
 
@@ -21,7 +18,7 @@ public class AccountModel implements Serializable {
         //required by Jackson
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
@@ -39,14 +36,6 @@ public class AccountModel implements Serializable {
 
     public String getPassword() {
         return password;
-    }
-
-    public String getTenantId() {
-        return tenantId;
-    }
-
-    public int getRoleId() {
-        return roleId;
     }
 
     public boolean isActive() {
@@ -76,43 +65,18 @@ public class AccountModel implements Serializable {
             return account;
         }
 
-        public RoleBuilder havingRole() {
-            return new RoleBuilder(account);
-        }
-
         public AccountBuilder havingPersonalDetails() {
             return new AccountBuilder(account);
         }
     }
 
-    public static class RoleBuilder extends Builder {
-        RoleBuilder(AccountModel account) {
-            super(account);
-        }
-
-        public RoleBuilder withRoleId(int roleId) {
-            account.roleId = roleId;
-            return this;
-        }
-
-        public RoleBuilder withRole(RoleModel role) {
-            account.role = role;
-            return this;
-        }
-    }
-
-    private static class PermissionBuilder extends Builder {
-        public PermissionBuilder(AccountModel account) {
-            super(account);
-        }
-    }
 
     public static class AccountBuilder extends Builder {
         AccountBuilder(AccountModel account) {
             this.account = account;
         }
 
-        public AccountBuilder withId(long id) {
+        public AccountBuilder withId(String id) {
             account.id = id;
             return this;
         }
@@ -129,11 +93,6 @@ public class AccountModel implements Serializable {
 
         public AccountBuilder withPassword(String password) {
             account.password = password;
-            return this;
-        }
-
-        public AccountBuilder withTenantId(String tenantId) {
-            account.tenantId = tenantId;
             return this;
         }
 
