@@ -9,6 +9,9 @@ project (":account-api-spec").projectDir = file("./services/account/account-api-
 include (":account-api")
 project (":account-api").projectDir = file("./services/account/account-api")
 
+include (":tradelog-api")
+project (":tradelog-api").projectDir = file("./services/tradelog/tradelog-api")
+
 //include ':tenant-api-spec'
 //include ':tenant-api'
 
