@@ -53,7 +53,7 @@ public class AccountService {
 //        accountRepository.updateAccount(tenantId, accountId, newAccount);
 //    }
 
-    AccountModel copyAccount(String tenantId, String accountId, AccountModel originalAccount, AccountModel account) {
+    AccountModel copyAccount(String accountId, AccountModel originalAccount, AccountModel account) {
         AccountModel.Builder builder = new AccountModel.Builder();
         builder
                 .havingPersonalDetails()

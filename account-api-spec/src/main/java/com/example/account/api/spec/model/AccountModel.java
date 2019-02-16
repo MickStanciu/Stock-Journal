@@ -12,18 +12,12 @@ public class AccountModel implements Serializable {
     private String password;
     private boolean active;
 
-    private RoleModel role;
-
     private AccountModel() {
         //required by Jackson
     }
 
     public String getId() {
         return id;
-    }
-
-    public RoleModel getRole() {
-        return role;
     }
 
     public String getName() {

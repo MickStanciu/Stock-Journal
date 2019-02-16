@@ -37,6 +37,7 @@ public class HealthService {
     }
 
     public HealthModel getHealth() {
+        isOk();
         return health;
     }
 }

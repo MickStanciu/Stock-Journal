@@ -17,7 +17,11 @@ public class AccountRepository {
 
     private static final Logger log = LoggerFactory.getLogger(AccountRepository.class);
 
-    private static final String ACCOUNT_READ_FIRST_QUERY = "SELECT a.id FROM accounts a LIMIT 1";
+    private static final String ACCOUNT_READ_FIRST_QUERY =
+            "SELECT CAST(a.id AS VARCHAR(36)) AS account_id, a.name AS account_name, " +
+            "a.password, a.email, a.active " +
+            "FROM accounts a " +
+            "LIMIT 1";
 
     private static final String ACCOUNT_READ_BY_EMAIL_AND_PASSWORD_QUERY =
             "SELECT CAST(a.id AS VARCHAR(36)) AS account_id, a.name AS account_name, " +

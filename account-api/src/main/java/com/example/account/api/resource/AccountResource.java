@@ -31,7 +31,7 @@ public class AccountResource {
     }
 
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
     public ResponseEntity<AccountModel> accountByEmailAndPassword(
             @RequestParam(name = "email", defaultValue = "")  String email,
             @RequestParam(name = "password", defaultValue = "") String password
