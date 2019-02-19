@@ -32,6 +32,20 @@ public class JournalRepository {
             "from tradelog " +
             "limit 1;";
 
+    private static final String JOURNAL_READ_ALL_FOR_ACCOUNT =
+            "select CAST(transaction_id as VARCHAR(36)), " +
+                    "       CAST(account_fk as VARCHAR(36)), " +
+                    "       date, " +
+                    "       symbol, " +
+                    "       mark, " +
+                    "       stock_price, " +
+                    "       implied_volatility, " +
+                    "       implied_volatility_hist, " +
+                    "       action_fk, " +
+                    "       action_type_fk, " +
+                    "       broker_fees " +
+                    "from tradelog;";
+
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -42,6 +56,11 @@ public class JournalRepository {
     public boolean checkFirstRecord() {
         List<JournalModel> results = jdbcTemplate.query(JOURNAL_READ_FIRST_QUERY, new JournalModelRowMapper());
         return results.size() == 1;
+    }
+
+    public List<JournalModel> getAllByAccount(String accountId) {
+        Object[] parameters = new Object[] {accountId};
+        return jdbcTemplate.query(JOURNAL_READ_ALL_FOR_ACCOUNT, parameters, new JournalModelRowMapper());
     }
 }
 
