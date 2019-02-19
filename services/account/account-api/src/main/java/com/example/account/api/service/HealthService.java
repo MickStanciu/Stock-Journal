@@ -24,7 +24,7 @@ public class HealthService {
         health.setFirstRecordOk(false);
     }
 
-    public boolean isOk() {
+    private boolean isOk() {
         boolean firstRecordOk;
         try {
             firstRecordOk = accountRepository.checkFirstRecord();
