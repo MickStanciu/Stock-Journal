@@ -1,6 +1,8 @@
 package com.example.tradelog.api.resource;
 
+import com.example.tradelog.api.exception.ResourceErrorException;
 import com.example.tradelog.api.service.HealthService;
+import com.example.tradelog.api.spec.exception.ExceptionCode;
 import com.example.tradelog.api.spec.model.HealthModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,8 +30,8 @@ public class HealthResource {
 
     }
 
-//    @RequestMapping(value = "/test500", method = RequestMethod.GET)
-//    public void test500() {
-//        throw new ResourceErrorException(ExceptionCode.UNKNOWN);
-//    }
+    @RequestMapping(value = "/test500", method = RequestMethod.GET)
+    public void test500() {
+        throw new ResourceErrorException(ExceptionCode.UNKNOWN);
+    }
 }
