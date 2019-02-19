@@ -23,13 +23,14 @@ public class JournalModel implements Serializable {
     public static class Builder {
         JournalModel journalModel;
 
-        public Builder() {
+        Builder() {
             journalModel = new JournalModel();
         }
 
         public JournalModel build() {
-            //todo: copy
-            return journalModel;
+            JournalModel buildModel = this.journalModel;
+            this.journalModel = new JournalModel();
+            return buildModel;
         }
 
         public Builder withTransactionId(String transactionId) {
