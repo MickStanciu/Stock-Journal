@@ -12,6 +12,10 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 @Repository
@@ -74,7 +78,7 @@ class JournalModelRowMapper implements RowMapper<JournalModel> {
         return JournalModel.builder()
                 .withTransactionId(rs.getString("transaction_id"))
                 .withAccountId(rs.getString("account_fk"))
-//                .withDate()
+                .withDate(fromTimestamp(rs.getTimestamp("date")))
                 .withMark(rs.getString("mark"))
                 .withStockSymbol(rs.getString("symbol"))
                 .withStockPrice(rs.getFloat("stock_price"))
@@ -84,5 +88,11 @@ class JournalModelRowMapper implements RowMapper<JournalModel> {
                 .withActionType(ActionType.lookup(rs.getString("action_type_fk")))
                 .withBrokerFees(rs.getFloat("broker_fees"))
                 .build();
+    }
+
+    private OffsetDateTime fromTimestamp(Timestamp timestamp) {
+        //TODO: not sure about ZoneId
+        return OffsetDateTime.ofInstant(
+                Instant.ofEpochMilli(timestamp.getTime()), ZoneId.systemDefault());
     }
 }
