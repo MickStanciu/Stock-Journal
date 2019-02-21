@@ -8,7 +8,7 @@
 /jmeter.log
 
 .gradle
-build*
+build
 
 node_modules
 npm-debug.log*
