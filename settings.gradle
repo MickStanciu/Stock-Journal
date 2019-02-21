@@ -24,5 +24,6 @@ project (":tradelog-api").projectDir = file("./services/tradelog/tradelog-api")
 //include ':timesheet-api-spec'
 //include ':timesheet-api'
 
-//include ':web'
+include (":web")
+project (":web").projectDir = file("./services/web")
 
