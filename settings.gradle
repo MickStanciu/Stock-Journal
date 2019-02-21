@@ -15,14 +15,12 @@ project (":tradelog-api-spec").projectDir = file("./services/tradelog/tradelog-a
 include (":tradelog-api")
 project (":tradelog-api").projectDir = file("./services/tradelog/tradelog-api")
 
-//include ':tenant-api-spec'
-//include ':tenant-api'
+include (":gateway-api-spec")
+project (":gateway-api-spec").projectDir = file("./services/gateway/gateway-api-spec")
 
-//include ':gateway-api-spec'
-//include ':gateway-api'
+include (":gateway-api")
+project (":gateway-api").projectDir = file("./services/gateway/gateway-api")
 
-//include ':timesheet-api-spec'
-//include ':timesheet-api'
 
 include (":web")
 project (":web").projectDir = file("./services/web")
