@@ -1,5 +1,7 @@
 package com.example.tradelog.api.repository;
 
+import com.example.tradelog.api.spec.model.Action;
+import com.example.tradelog.api.spec.model.ActionType;
 import com.example.tradelog.api.spec.model.JournalModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,17 +36,18 @@ public class JournalRepository {
 
     private static final String JOURNAL_READ_ALL_FOR_ACCOUNT =
             "select CAST(transaction_id as VARCHAR(36)), " +
-                    "       CAST(account_fk as VARCHAR(36)), " +
-                    "       date, " +
-                    "       symbol, " +
-                    "       mark, " +
-                    "       stock_price, " +
-                    "       implied_volatility, " +
-                    "       implied_volatility_hist, " +
-                    "       action_fk, " +
-                    "       action_type_fk, " +
-                    "       broker_fees " +
-                    "from tradelog;";
+            "       CAST(account_fk as VARCHAR(36)), " +
+            "       date, " +
+            "       symbol, " +
+            "       mark, " +
+            "       stock_price, " +
+            "       implied_volatility, " +
+            "       implied_volatility_hist, " +
+            "       action_fk, " +
+            "       action_type_fk, " +
+            "       broker_fees " +
+            "from tradelog " +
+            "WHERE account_fk = CAST(? AS uuid);";
 
     private JdbcTemplate jdbcTemplate;
 
@@ -70,6 +73,16 @@ class JournalModelRowMapper implements RowMapper<JournalModel> {
     public JournalModel mapRow(ResultSet rs, int rowNum) throws SQLException {
         return JournalModel.builder()
                 .withTransactionId(rs.getString("transaction_id"))
+                .withAccountId(rs.getString("account_fk"))
+//                .withDate()
+                .withMark(rs.getString("mark"))
+                .withStockSymbol(rs.getString("symbol"))
+                .withStockPrice(rs.getFloat("stock_price"))
+                .withImpliedVolatility(rs.getFloat("implied_volatility"))
+                .withHistoricalImpliedVolatility(rs.getFloat("implied_volatility_hist"))
+                .withAction(Action.lookup(rs.getString("action_fk")))
+                .withActionType(ActionType.lookup(rs.getString("action_type_fk")))
+                .withBrokerFees(rs.getFloat("broker_fees"))
                 .build();
     }
 }
