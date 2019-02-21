@@ -21,7 +21,6 @@ project (":gateway-api-spec").projectDir = file("./services/gateway/gateway-api-
 include (":gateway-api")
 project (":gateway-api").projectDir = file("./services/gateway/gateway-api")
 
-
 include (":web")
 project (":web").projectDir = file("./services/web")
 
