@@ -49,6 +49,7 @@ dependencies {
     implementation project(':common')
     implementation project(':gateway-api-spec')
     implementation project(':account-api-spec')
+    implementation project(':tradelog-api-spec')
 
     implementation("org.springframework.boot:spring-boot-starter-web:${springBootVersion}") {
         exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'

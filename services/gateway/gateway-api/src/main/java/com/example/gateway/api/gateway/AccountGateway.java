@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.math.BigInteger;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -25,13 +24,13 @@ public class AccountGateway {
         this.accountApiProxy = accountApiProxy;
     }
 
-    public Optional<AccountModel> getAccount(String tenantId, BigInteger accountId) {
-        ResponseEntity<AccountModel> responseEntity = accountApiProxy.accountById(tenantId, accountId.longValue());
+    public Optional<AccountModel> getAccount(String accountId) {
+        ResponseEntity<AccountModel> responseEntity = accountApiProxy.accountById(accountId);
         return Optional.ofNullable(responseEntity.getBody());
     }
 
-    public Optional<AccountModel> getAccount(String tenantId, String email, String password) {
-        ResponseEntity<AccountModel> responseEntity = accountApiProxy.accountByEmailAndPassword(tenantId, email, password);
+    public Optional<AccountModel> getAccount(String email, String password) {
+        ResponseEntity<AccountModel> responseEntity = accountApiProxy.accountByEmailAndPassword(email, password);
         return Optional.ofNullable(responseEntity.getBody());
     }
 
