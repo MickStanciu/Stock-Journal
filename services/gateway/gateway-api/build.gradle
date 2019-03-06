@@ -35,7 +35,6 @@ ext {
     springBootVersion = '2.1.2.RELEASE'
     springCloudVersion = 'Finchley.RELEASE'
     springFeignVersion = '2.0.2.RELEASE'
-    activeMQVersion = '5.15.8'
     junitVersion = '5.3.2'
 }
 
@@ -56,8 +55,6 @@ dependencies {
     }
     implementation ("org.springframework.boot:spring-boot-starter-undertow:${springBootVersion}")
     implementation ("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
-    implementation ("org.springframework.boot:spring-boot-starter-activemq:${springBootVersion}")
-    implementation ("org.apache.activemq:activemq-broker:${activeMQVersion}")
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: "${springFeignVersion}"
     implementation group: 'io.jsonwebtoken', name: 'jjwt', version:'0.9.0'
 

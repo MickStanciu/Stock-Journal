@@ -23,11 +23,14 @@ public class AuthenticationService {
         this.accountGateway = accountGateway;
     }
 
-    public Optional<AuthTokenModel> getAuthResponse(String tenantId, String email, String password) {
-        Optional<AccountModel> accountOptional = accountGateway.getAccount(tenantId, email, password);
+    public Optional<AuthTokenModel> getAuthResponse(String email, String password) {
+        Optional<AccountModel> accountOptional = accountGateway.getAccount(email, password);
+
+        if (accountOptional.isEmpty()) {
+            return Optional.empty();
+        }
 
         AccountModel account = accountOptional.get();
-
         String token = TokenUtil.generateToken(account.getId(), 0);
 
         return Optional.of(new AuthTokenModel(token));

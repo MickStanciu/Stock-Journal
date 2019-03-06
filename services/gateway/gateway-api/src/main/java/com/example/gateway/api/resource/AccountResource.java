@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.math.BigInteger;
 import java.util.Optional;
 
 @RestController
@@ -34,13 +33,12 @@ public class AccountResource extends AbstractResource {
     @RequestMapping(value = "/{accountId}", method = RequestMethod.GET)
     public ResponseEntity<AccountModel> getAccountDetails(
             @RequestHeader(name = "authkey") String token,
-            @PathVariable(name = "accountId") BigInteger accountId) throws GatewayApiException {
+            @PathVariable(name = "accountId") String accountId) throws GatewayApiException {
         //todo validate input
 
-        String tenantId = getTenantId(token);
-        Optional<AccountModel> accountOptional = accountService.getAccount(tenantId, accountId);
+        Optional<AccountModel> accountOptional = accountService.getAccount(accountId);
 
-        if (!accountOptional.isPresent()) {
+        if (accountOptional.isEmpty()) {
             throw new GatewayApiException(ExceptionCode.ACCOUNT_NOT_FOUND);
         }
 

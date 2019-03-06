@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,15 +32,14 @@ public class AuthenticationResource {
 
     @RequestMapping(value = "/{tenantId}", method = RequestMethod.GET)
     public ResponseEntity<AuthTokenModel> authenticate (
-            @PathVariable("tenantId") String tenantId,
             @RequestParam("email") String email,
             @RequestParam("password") String password
     ) throws GatewayApiException {
         //todo validate input
 
-        Optional<AuthTokenModel> authOptional = authService.getAuthResponse(tenantId, email, password);
+        Optional<AuthTokenModel> authOptional = authService.getAuthResponse(email, password);
 
-        if (!authOptional.isPresent()) {
+        if (authOptional.isEmpty()) {
             throw new GatewayApiException(ExceptionCode.REQUEST_NOT_AUTHORIZED);
         }
 

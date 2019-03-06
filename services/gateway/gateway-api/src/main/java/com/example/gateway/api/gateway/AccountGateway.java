@@ -2,6 +2,7 @@ package com.example.gateway.api.gateway;
 
 import com.example.account.api.spec.model.AccountModel;
 import com.example.account.api.spec.model.RoleInfoModel;
+import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +26,23 @@ public class AccountGateway {
     }
 
     public Optional<AccountModel> getAccount(String accountId) {
-        ResponseEntity<AccountModel> responseEntity = accountApiProxy.accountById(accountId);
-        return Optional.ofNullable(responseEntity.getBody());
+        try {
+            ResponseEntity<AccountModel> responseEntity = accountApiProxy.accountById(accountId);
+            return Optional.ofNullable(responseEntity.getBody());
+        } catch (FeignException fex) {
+            log.error(fex.getMessage());
+            return Optional.empty();
+        }
     }
 
     public Optional<AccountModel> getAccount(String email, String password) {
-        ResponseEntity<AccountModel> responseEntity = accountApiProxy.accountByEmailAndPassword(email, password);
-        return Optional.ofNullable(responseEntity.getBody());
+        try {
+            ResponseEntity<AccountModel> responseEntity = accountApiProxy.accountByEmailAndPassword(email, password);
+            return Optional.ofNullable(responseEntity.getBody());
+        } catch (FeignException fex) {
+            log.error(fex.getMessage());
+            return Optional.empty();
+        }
     }
 
 //    private Optional<AccountModel> getAccountModel(URI uri) {

@@ -3,7 +3,7 @@ package com.example.tradelog.api.spec.exception;
 public enum ExceptionCode {
     UNKNOWN("Unknown"),
     BAD_REQUEST("Bad request"),
-    TRADELOG_EMPTY("AccountModel not found");
+    TRADELOG_EMPTY("Tradelog is empty");
 
 
     private final String message;

@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigInteger;
 import java.util.Optional;
 
 @Service
@@ -22,7 +21,7 @@ public class AccountService {
     }
 
 
-    public Optional<AccountModel> getAccount(String tenantId, BigInteger accountId) {
-        return accountGateway.getAccount(tenantId, accountId);
+    public Optional<AccountModel> getAccount(String accountId) {
+        return accountGateway.getAccount(accountId);
     }
 }
