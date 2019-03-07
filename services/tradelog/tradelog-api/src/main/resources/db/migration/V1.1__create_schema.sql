@@ -1,3 +1,5 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 -- clean up
 DROP TABLE IF EXISTS action;
 DROP TABLE IF EXISTS action_type;
@@ -17,7 +19,7 @@ CREATE TABLE action_type (
 GRANT ALL PRIVILEGES ON TABLE action_type TO admin;
 
 CREATE TABLE tradelog (
-  transaction_id UUID NOT NULL PRIMARY KEY,
+  transaction_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   account_fk UUID NOT NULL,
   date TIMESTAMPTZ NOT NULL,
   symbol VARCHAR(16) NOT NULL,
