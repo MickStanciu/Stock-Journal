@@ -1,3 +1,5 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 -- clean up
 DROP table IF EXISTS tenants;
 
