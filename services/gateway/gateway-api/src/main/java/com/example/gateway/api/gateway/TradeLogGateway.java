@@ -1,6 +1,6 @@
 package com.example.gateway.api.gateway;
 
-import com.example.tradelog.api.spec.model.JournalModel;
+import com.example.tradelog.api.spec.model.OptionJournalModel;
 import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,9 +23,9 @@ public class TradeLogGateway {
         this.tradeLogApiProxy = tradeLogApiProxy;
     }
 
-    public List<JournalModel> getAllByAccountId(String accountId) {
+    public List<OptionJournalModel> getAllByAccountId(String accountId) {
         try {
-            ResponseEntity<List<JournalModel>> responseEntity = tradeLogApiProxy.getAllByAccountId(accountId);
+            ResponseEntity<List<OptionJournalModel>> responseEntity = tradeLogApiProxy.getAllByAccountId(accountId);
             return responseEntity.getBody();
         } catch (FeignException fex) {
             log.error(fex.getMessage());
@@ -33,7 +33,7 @@ public class TradeLogGateway {
         }
     }
 
-    private List<JournalModel> getFake() {
+    private List<OptionJournalModel> getFake() {
         return Collections.emptyList();
     }
 }

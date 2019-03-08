@@ -3,7 +3,7 @@ package com.example.gateway.api.resource;
 import com.example.gateway.api.exception.ExceptionCode;
 import com.example.gateway.api.exception.GatewayApiException;
 import com.example.gateway.api.service.TradeLogService;
-import com.example.tradelog.api.spec.model.JournalModel;
+import com.example.tradelog.api.spec.model.OptionJournalModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +30,10 @@ public class TradeLogResource {
     }
 
     @RequestMapping(value = "/{accountId}", method = RequestMethod.GET)
-    public ResponseEntity<List<JournalModel>> getAllByAccountId(@PathVariable(name = "accountId") String accountId) throws GatewayApiException {
+    public ResponseEntity<List<OptionJournalModel>> getAllByAccountId(@PathVariable(name = "accountId") String accountId) throws GatewayApiException {
         //todo validate input
 
-        List<JournalModel> modelList = tradeLogService.getAllByAccountId(accountId);
+        List<OptionJournalModel> modelList = tradeLogService.getAllByAccountId(accountId);
 
         if (modelList == null || modelList.isEmpty()) {
             throw new GatewayApiException(ExceptionCode.TRADEJOURNAL_EMPTY);

@@ -1,6 +1,6 @@
 package com.example.gateway.api.gateway;
 
-import com.example.tradelog.api.spec.model.JournalModel;
+import com.example.tradelog.api.spec.model.OptionJournalModel;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,5 +14,5 @@ import java.util.List;
 public interface TradeLogApiProxy {
 
     @RequestMapping(value = "/{accountId}", method = RequestMethod.GET)
-    ResponseEntity<List<JournalModel>> getAllByAccountId(@PathVariable("accountId") String accountId);
+    ResponseEntity<List<OptionJournalModel>> getAllByAccountId(@PathVariable("accountId") String accountId);
 }
