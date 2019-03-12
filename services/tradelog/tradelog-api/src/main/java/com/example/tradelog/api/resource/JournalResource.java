@@ -3,7 +3,7 @@ package com.example.tradelog.api.resource;
 import com.example.tradelog.api.exception.TradeLogException;
 import com.example.tradelog.api.service.JournalService;
 import com.example.tradelog.api.spec.exception.ExceptionCode;
-import com.example.tradelog.api.spec.model.JournalModel;
+import com.example.tradelog.api.spec.model.OptionJournalModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +30,12 @@ public class JournalResource {
     }
 
     @RequestMapping(value = "/{accountId}", method = RequestMethod.GET)
-    public ResponseEntity<List<JournalModel>> getAllByAccountId(@PathVariable("accountId") String accountId) throws TradeLogException {
+    public ResponseEntity<List<OptionJournalModel>> getAllByAccountId(@PathVariable("accountId") String accountId) throws TradeLogException {
         if (!RequestValidation.validateGetAllByAccountId(accountId)) {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
-        List<JournalModel> tradeLogs = journalService.getAllByAccountId(accountId);
+        List<OptionJournalModel> tradeLogs = journalService.getAllByAccountId(accountId);
 
         if (tradeLogs.isEmpty()) {
             throw new TradeLogException(ExceptionCode.TRADELOG_EMPTY);

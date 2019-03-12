@@ -1,6 +1,6 @@
 package com.example.tradelog.api.service;
 
-import com.example.tradelog.api.repository.JournalRepository;
+import com.example.tradelog.api.repository.OptionsJournalRepository;
 import com.example.tradelog.api.spec.model.HealthModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,11 +14,11 @@ public class HealthService {
 
     private final HealthModel healthModel;
 
-    private JournalRepository journalRepository;
+    private OptionsJournalRepository optionsJournalRepository;
 
     @Autowired
-    public HealthService(JournalRepository journalRepository) {
-        this.journalRepository = journalRepository;
+    public HealthService(OptionsJournalRepository optionsJournalRepository) {
+        this.optionsJournalRepository = optionsJournalRepository;
         healthModel = new HealthModel();
         healthModel.setFirstRecordOk(false);
     }
@@ -26,7 +26,7 @@ public class HealthService {
     private void isOk() {
         boolean firstRecordOk;
         try {
-            firstRecordOk = journalRepository.checkFirstRecord();
+            firstRecordOk = optionsJournalRepository.checkFirstRecord();
         } catch (Exception ex) {
             log.error(ex.getMessage());
             firstRecordOk = false;

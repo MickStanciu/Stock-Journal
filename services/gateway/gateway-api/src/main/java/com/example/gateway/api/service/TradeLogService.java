@@ -1,7 +1,7 @@
 package com.example.gateway.api.service;
 
 import com.example.gateway.api.gateway.TradeLogGateway;
-import com.example.tradelog.api.spec.model.JournalModel;
+import com.example.tradelog.api.spec.model.OptionJournalModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class TradeLogService {
         this.tradeLogGateway = tradeLogGateway;
     }
 
-    public List<JournalModel> getAllByAccountId(String accountId) {
+    public List<OptionJournalModel> getAllByAccountId(String accountId) {
         return tradeLogGateway.getAllByAccountId(accountId);
     }
 }
