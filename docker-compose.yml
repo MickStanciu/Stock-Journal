@@ -77,6 +77,14 @@ services:
     volumes:
       - ${DOCKER_BASE}/database-server/data:/var/lib/postgresql/data:rw
 
+#  redis:
+#    build: docker/redis-server/.
+#    image: local-redis
+#    ports:
+#      - "6379:6379"
+#    volumes:
+#      - `/data:/data:rw
+
 #  lizardfs:
 #    build: docker/storage-server/.
 #    image: toystore-fs
