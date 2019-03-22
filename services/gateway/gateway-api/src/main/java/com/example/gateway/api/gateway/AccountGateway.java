@@ -2,12 +2,14 @@ package com.example.gateway.api.gateway;
 
 import com.example.account.api.spec.model.AccountModel;
 import com.example.account.api.spec.model.RoleInfoModel;
-import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -18,31 +20,33 @@ public class AccountGateway {
 
     private static final Logger log = LoggerFactory.getLogger(AccountGateway.class);
 
-    private AccountApiProxy accountApiProxy;
+    private RestTemplate restTemplate;
+
+    private final String API_URL;
 
     @Autowired
-    public AccountGateway(AccountApiProxy accountApiProxy) {
-        this.accountApiProxy = accountApiProxy;
+    public AccountGateway(RestTemplate restTemplate, @Value("${gateway.account.url}") String url) {
+        this.restTemplate = restTemplate;
+        this.API_URL = url;
     }
 
     public Optional<AccountModel> getAccount(String accountId) {
-        try {
-            ResponseEntity<AccountModel> responseEntity = accountApiProxy.accountById(accountId);
-            return Optional.ofNullable(responseEntity.getBody());
-        } catch (FeignException fex) {
-            log.error(fex.getMessage());
-            return Optional.empty();
-        }
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder
+                .fromHttpUrl(API_URL)
+                .path(accountId);
+
+        ResponseEntity<AccountModel> responseEntity = restTemplate.getForEntity(uriBuilder.toUriString(), AccountModel.class);
+        return Optional.ofNullable(responseEntity.getBody());
     }
 
     public Optional<AccountModel> getAccount(String email, String password) {
-        try {
-            ResponseEntity<AccountModel> responseEntity = accountApiProxy.accountByEmailAndPassword(email, password);
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder
+                .fromHttpUrl(API_URL)
+                .queryParam("email", email)
+                .queryParam("password", password);
+
+            ResponseEntity<AccountModel> responseEntity = restTemplate.getForEntity(uriBuilder.toUriString(), AccountModel.class);
             return Optional.ofNullable(responseEntity.getBody());
-        } catch (FeignException fex) {
-            log.error(fex.getMessage());
-            return Optional.empty();
-        }
     }
 
 //    private Optional<AccountModel> getAccountModel(URI uri) {

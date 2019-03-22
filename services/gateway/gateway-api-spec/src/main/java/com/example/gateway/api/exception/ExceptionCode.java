@@ -2,6 +2,7 @@ package com.example.gateway.api.exception;
 
 public enum ExceptionCode {
     UNKNOWN("Unknown"),
+    API_NOT_RESPONDING("Api not responding"),
     TENANT_NOT_FOUND("Tenant not found"),
     ACCOUNT_NOT_FOUND("Account not found"),
     TIMESHEET_EMPTY("No timesheet entries found"),
