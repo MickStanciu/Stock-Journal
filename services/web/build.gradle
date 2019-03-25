@@ -34,8 +34,6 @@ repositories {
 
 ext {
     springBootVersion = '2.1.3.RELEASE'
-    springCloudVersion = 'Finchley.RELEASE'
-    springFeignVersion = '2.0.2.RELEASE'
     junitVersion = '5.4.0'
 }
 
