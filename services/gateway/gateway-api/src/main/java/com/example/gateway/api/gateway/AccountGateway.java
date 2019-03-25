@@ -20,7 +20,7 @@ public class AccountGateway {
 
     private static final Logger log = LoggerFactory.getLogger(AccountGateway.class);
 
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
     private final String API_URL;
 
