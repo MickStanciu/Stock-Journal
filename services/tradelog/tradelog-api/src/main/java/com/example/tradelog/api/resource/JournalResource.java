@@ -7,10 +7,10 @@ import com.example.tradelog.api.spec.model.OptionJournalModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -28,7 +28,8 @@ public class JournalResource {
     }
 
     @RequestMapping(value = "/{accountId}", method = RequestMethod.GET)
-    public ResponseEntity<List<OptionJournalModel>> getAllByAccountId(@PathVariable("accountId") String accountId) throws TradeLogException {
+    @ResponseStatus(HttpStatus.OK)
+    public List<OptionJournalModel> getAllByAccountId(@PathVariable("accountId") String accountId) throws TradeLogException {
         if (!RequestValidation.validateGetAllByAccountId(accountId)) {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
@@ -39,8 +40,6 @@ public class JournalResource {
             throw new TradeLogException(ExceptionCode.TRADELOG_EMPTY);
         }
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(tradeLogs);
+        return tradeLogs;
     }
 }

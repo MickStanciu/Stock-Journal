@@ -10,7 +10,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
 
@@ -47,8 +46,7 @@ class AccountResourceTest {
         Mockito.when(accountFacade.getAccount("test.account", "Password"))
                 .thenReturn(Optional.of(accountFixture));
 
-        ResponseEntity<AccountModel> response = accountResource.accountByEmailAndPassword("test.account", "Password");
-        AccountModel item = response.getBody();
+        AccountModel item = accountResource.accountByEmailAndPassword("test.account", "Password");
 
         assert item != null;
         Assertions.assertEquals(DEFAULT_ACCOUNT_ID, item.getId(), String.format("Id should be equal to: %s", DEFAULT_ACCOUNT_ID));

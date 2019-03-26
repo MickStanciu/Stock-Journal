@@ -7,11 +7,11 @@ import com.example.account.api.spec.model.AccountModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
@@ -30,7 +30,8 @@ public class AccountResource {
 
 
     @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
-    public ResponseEntity<AccountModel> accountByEmailAndPassword(
+    @ResponseStatus(HttpStatus.OK)
+    public AccountModel accountByEmailAndPassword(
             @RequestParam(name = "email", defaultValue = "")  String email,
             @RequestParam(name = "password", defaultValue = "") String password
     ) throws AccountException {
@@ -44,14 +45,13 @@ public class AccountResource {
             throw new AccountException(ExceptionCode.ACCOUNT_NOT_FOUND);
         }
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(accountOptional.get());
+        return accountOptional.get();
     }
 
 
     @RequestMapping(value = "/{accountId}", method = RequestMethod.GET)
-    public ResponseEntity<AccountModel> accountById(@PathVariable("accountId") String accountId) throws AccountException {
+    @ResponseStatus(HttpStatus.OK)
+    public AccountModel accountById(@PathVariable("accountId") String accountId) throws AccountException {
         if (!RequestValidation.validateGetAccount(accountId)) {
             throw new AccountException(ExceptionCode.BAD_REQUEST);
         }
@@ -62,9 +62,7 @@ public class AccountResource {
             throw new AccountException(ExceptionCode.ACCOUNT_NOT_FOUND);
         }
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(accountOptional.get());
+        return accountOptional.get();
     }
 
 
