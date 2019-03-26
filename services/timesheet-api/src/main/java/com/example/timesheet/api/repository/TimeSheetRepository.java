@@ -37,7 +37,6 @@ public class TimeSheetRepository {
 
     private JdbcTemplate jdbcTemplate;
 
-    @Autowired
     public TimeSheetRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }

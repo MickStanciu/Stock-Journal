@@ -14,7 +14,6 @@ public class HealthResource {
 
     private HealthService service;
 
-    @Autowired
     public HealthResource(HealthService service) {
         this.service = service;
     }

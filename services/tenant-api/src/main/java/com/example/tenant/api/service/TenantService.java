@@ -18,7 +18,6 @@ public class TenantService {
 
     private TenantRepository tenantRepository;
 
-    @Autowired
     public TenantService(TenantRepository tenantRepository) {
         this.tenantRepository = tenantRepository;
     }

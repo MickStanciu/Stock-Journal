@@ -3,7 +3,6 @@ package com.example.web.gateway;
 import com.example.gateway.api.model.OptionJournalGWModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -23,7 +22,6 @@ public class TradeJournalGateway {
 
     private final String API_URL;
 
-    @Autowired
     public TradeJournalGateway(RestTemplate restTemplate, @Value("${gateway.url}") String url) {
         this.restTemplate = restTemplate;
         this.API_URL = url;

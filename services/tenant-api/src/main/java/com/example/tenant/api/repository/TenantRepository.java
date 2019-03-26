@@ -25,7 +25,6 @@ public class TenantRepository {
 
     private JdbcTemplate jdbcTemplate;
 
-    @Autowired
     public TenantRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }

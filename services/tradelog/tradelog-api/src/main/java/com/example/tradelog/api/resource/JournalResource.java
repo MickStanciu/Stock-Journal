@@ -6,7 +6,6 @@ import com.example.tradelog.api.spec.exception.ExceptionCode;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +23,6 @@ public class JournalResource {
 
     private JournalService journalService;
 
-    @Autowired
     public JournalResource(JournalService journalService) {
         this.journalService = journalService;
     }

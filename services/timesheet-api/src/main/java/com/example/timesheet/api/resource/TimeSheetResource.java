@@ -23,7 +23,6 @@ public class TimeSheetResource {
 
     private TimeSheetService timeSheetService;
 
-    @Autowired
     public TimeSheetResource(TimeSheetService timeSheetService) {
         this.timeSheetService = timeSheetService;
     }

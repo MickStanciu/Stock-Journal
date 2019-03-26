@@ -3,7 +3,6 @@ package com.example.gateway.api.gateway;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -24,7 +23,6 @@ public class TradeLogGateway {
 
     private final String API_URL;
 
-    @Autowired
     public TradeLogGateway(RestTemplate restTemplate, @Value("${gateway.tradelog.url}") String url) {
         this.restTemplate = restTemplate;
         this.API_URL = url;

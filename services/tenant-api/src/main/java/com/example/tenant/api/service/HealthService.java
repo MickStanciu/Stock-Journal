@@ -17,7 +17,6 @@ public class HealthService {
 
     private TenantRepository tenantRepository;
 
-    @Autowired
     public HealthService(TenantRepository tenantRepository) {
         this.tenantRepository = tenantRepository;
         health = new HealthModel();

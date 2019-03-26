@@ -25,7 +25,6 @@ public class TenantResource {
 
     private TenantService tenantService;
 
-    @Autowired
     public TenantResource(TenantService tenantService) {
         this.tenantService = tenantService;
     }

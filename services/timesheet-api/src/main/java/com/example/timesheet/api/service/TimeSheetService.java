@@ -17,7 +17,6 @@ public class TimeSheetService {
 
     private TimeSheetRepository timeSheetRepository;
 
-    @Autowired
     public TimeSheetService(TimeSheetRepository timeSheetRepository) {
         this.timeSheetRepository = timeSheetRepository;
     }

@@ -3,7 +3,6 @@ package com.example.account.api.repository;
 import com.example.account.api.spec.model.AccountModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -48,7 +47,6 @@ public class AccountRepository {
 
     private JdbcTemplate jdbcTemplate;
 
-    @Autowired
     public AccountRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }

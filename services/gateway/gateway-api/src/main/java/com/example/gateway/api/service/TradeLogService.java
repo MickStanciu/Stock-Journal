@@ -4,7 +4,6 @@ import com.example.gateway.api.gateway.TradeLogGateway;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +15,6 @@ public class TradeLogService {
 
     private TradeLogGateway tradeLogGateway;
 
-    @Autowired
     public TradeLogService(TradeLogGateway tradeLogGateway) {
         this.tradeLogGateway = tradeLogGateway;
     }

@@ -5,7 +5,6 @@ import com.example.tradelog.api.spec.model.ActionType;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -67,7 +66,6 @@ public class OptionsJournalRepository {
 
     private JdbcTemplate jdbcTemplate;
 
-    @Autowired
     public OptionsJournalRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }

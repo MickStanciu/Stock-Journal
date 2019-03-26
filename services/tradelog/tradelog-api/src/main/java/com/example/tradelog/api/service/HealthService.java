@@ -4,7 +4,6 @@ import com.example.tradelog.api.repository.OptionsJournalRepository;
 import com.example.tradelog.api.spec.model.HealthModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,7 +15,6 @@ public class HealthService {
 
     private OptionsJournalRepository optionsJournalRepository;
 
-    @Autowired
     public HealthService(OptionsJournalRepository optionsJournalRepository) {
         this.optionsJournalRepository = optionsJournalRepository;
         healthModel = new HealthModel();

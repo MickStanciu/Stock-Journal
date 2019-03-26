@@ -3,7 +3,6 @@ package com.example.account.api.facade;
 
 import com.example.account.api.service.AccountService;
 import com.example.account.api.spec.model.AccountModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,7 +15,6 @@ public class AccountFacade {
 
     private AccountService accountService;
 
-    @Autowired
     public AccountFacade(AccountService accountService) {
         this.accountService = accountService;
     }

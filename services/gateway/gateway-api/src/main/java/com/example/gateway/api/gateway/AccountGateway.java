@@ -4,7 +4,6 @@ import com.example.account.api.spec.model.AccountModel;
 import com.example.account.api.spec.model.RoleInfoModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,6 @@ public class AccountGateway {
 
     private final String API_URL;
 
-    @Autowired
     public AccountGateway(RestTemplate restTemplate, @Value("${gateway.account.url}") String url) {
         this.restTemplate = restTemplate;
         this.API_URL = url;

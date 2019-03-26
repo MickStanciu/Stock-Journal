@@ -4,7 +4,6 @@ import com.example.tradelog.api.exception.ResourceErrorException;
 import com.example.tradelog.api.service.HealthService;
 import com.example.tradelog.api.spec.exception.ExceptionCode;
 import com.example.tradelog.api.spec.model.HealthModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +14,6 @@ public class HealthResource {
 
     private HealthService healthService;
 
-    @Autowired
     public HealthResource(HealthService healthService) {
         this.healthService = healthService;
     }

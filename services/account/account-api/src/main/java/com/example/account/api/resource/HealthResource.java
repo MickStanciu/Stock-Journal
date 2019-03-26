@@ -4,7 +4,6 @@ import com.example.account.api.exception.ResourceErrorException;
 import com.example.account.api.service.HealthService;
 import com.example.account.api.spec.exception.ExceptionCode;
 import com.example.account.api.spec.model.HealthModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,7 +17,6 @@ public class HealthResource {
     private MessageSource messageSource;
     private HealthService service;
 
-    @Autowired
     public HealthResource(MessageSource messageSource, HealthService service) {
         this.messageSource = messageSource;
         this.service = service;
