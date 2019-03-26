@@ -17,7 +17,6 @@ public class WebApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(WebApplication.class, args);
-        log.info(generateLogo());
     }
 
     @Bean
@@ -25,9 +24,5 @@ public class WebApplication {
         AcceptHeaderLocaleResolver localeResolver = new AcceptHeaderLocaleResolver();
         localeResolver.setDefaultLocale(Locale.US);
         return localeResolver;
-    }
-
-    private static String generateLogo() {
-        return  " WEB STARTED ";
     }
 }

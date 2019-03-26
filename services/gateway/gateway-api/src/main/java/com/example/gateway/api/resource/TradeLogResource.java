@@ -1,7 +1,9 @@
 package com.example.gateway.api.resource;
 
+import com.example.gateway.api.converter.OptionJournalConverter;
 import com.example.gateway.api.exception.ExceptionCode;
 import com.example.gateway.api.exception.GatewayApiException;
+import com.example.gateway.api.model.OptionJournalGWModel;
 import com.example.gateway.api.service.TradeLogService;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
 import org.slf4j.Logger;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/v1/tradelog", produces = "application/json")
@@ -30,7 +33,7 @@ public class TradeLogResource {
     }
 
     @RequestMapping(value = "/{accountId}", method = RequestMethod.GET)
-    public ResponseEntity<List<OptionJournalModel>> getAllByAccountId(@PathVariable(name = "accountId") String accountId) throws GatewayApiException {
+    public ResponseEntity<List<OptionJournalGWModel>> getAllByAccountId(@PathVariable(name = "accountId") String accountId) throws GatewayApiException {
         //todo validate input
 
         List<OptionJournalModel> modelList = tradeLogService.getAllByAccountId(accountId);
@@ -39,8 +42,10 @@ public class TradeLogResource {
             throw new GatewayApiException(ExceptionCode.TRADEJOURNAL_EMPTY);
         }
 
+        List<OptionJournalGWModel> gwModelList = modelList.stream().map(OptionJournalConverter.gwModelConverter).collect(Collectors.toList());
+
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(modelList);
+                .body(gwModelList);
     }
 }
