@@ -1,4 +1,5 @@
 https://blog.codecentric.de/en/2018/04/spring-boot-vuejs/
+https://cli.vuejs.org/guide/css.html#automatic-imports
 
 **DONE**
 * yarn global add vue-cli
