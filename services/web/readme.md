@@ -1,13 +1,15 @@
-https://blog.codecentric.de/en/2018/04/spring-boot-vuejs/
-https://cli.vuejs.org/guide/css.html#automatic-imports
-https://codar.club/blogs/using-gradle-to-build-the-api-development-framework-of-springboot-vue.js.html
+**RESOURCES**
+* https://blog.codecentric.de/en/2018/04/spring-boot-vuejs/
+* https://cli.vuejs.org/guide/css.html#automatic-imports
+* https://codar.club/blogs/using-gradle-to-build-the-api-development-framework-of-springboot-vue.js.html
 
 **DONE**
-* yarn global add vue-cli
-* vue init webpack frontend
+* yarn global add @vue/cli
+* yarn global add @vue/cli-service-global
+* vue create frontend
 
 **HOW TO RUN LOCALLY**
-* cd frontend
+* cd hello-world
 * yarn start
 
 **HOW TO BUILD**

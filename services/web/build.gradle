@@ -11,7 +11,7 @@ buildscript {
 plugins {
     id "io.spring.dependency-management" version "1.0.6.RELEASE"
     id "org.springframework.boot" version "2.1.3.RELEASE"
-//    id "com.moowork.node" version "1.2.0"
+    id "com.moowork.node" version "1.3.1"
     id "application"
 }
 
@@ -42,10 +42,12 @@ description = 'Web'
 group = 'com.example.web'
 version = '0.0.1-SNAPSHOT'
 
-//node {
-//    version = '10.14.0'
-//    download = true
-//}
+node {
+    version = '11.13.0'
+    yarnVersion = '1.15.2'
+    nodeModulesDir = file("src/main/vuejs/frontend")
+    download = true
+}
 //npmInstall.enabled = false
 
 dependencies {
@@ -74,5 +76,9 @@ test {
         events 'PASSED', 'FAILED', 'SKIPPED'
     }
 }
+
+task buildWeb(type: YarnTask) {
+}
+
 
 mainClassName = 'com.example.web.Application'
