@@ -87,7 +87,7 @@ buildWeb.doLast {
 task copyWeb(type: Copy) {
     description ('Copies the resource directory to the target directory.')
     from ('src/main/vuejs/frontend/dist')
-    into ('src/main/resources/generated')
+    into ('build/classes/java/main/generated')
     exclude ('index.html', 'favicon.ico')
 }
 
