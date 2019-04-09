@@ -13,6 +13,7 @@ import java.util.function.Function;
 public class OptionJournalConverter {
 
     public static Function<OptionJournalModel, OptionJournalGWModel> gwModelConverter = p -> {
+
         Optional<ActionGW> actionGWOptional = ActionGW.fromValue(p.getAction().name());
         if (actionGWOptional.isEmpty()) {
             return null;
