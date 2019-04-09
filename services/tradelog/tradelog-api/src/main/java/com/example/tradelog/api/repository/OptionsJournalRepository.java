@@ -23,9 +23,9 @@ public class OptionsJournalRepository {
     private static final Logger log = LoggerFactory.getLogger(OptionsJournalRepository.class);
 
     private static final String JOURNAL_READ_FIRST_QUERY =
-            "select CAST(transaction_id as VARCHAR(36)), " +
-                    "       CAST(transaction_fk as VARCHAR(36)), " +
-                    "       CAST(account_fk as VARCHAR(36)), " +
+            "SELECT CAST(transaction_id AS VARCHAR(36)), " +
+                    "       CAST(transaction_fk AS VARCHAR(36)), " +
+                    "       CAST(account_fk AS VARCHAR(36)), " +
                     "       date, " +
                     "       symbol, " +
                     "       stock_price, " +
@@ -40,13 +40,13 @@ public class OptionsJournalRepository {
                     "       action_type_fk, " +
                     "       broker_fees, " +
                     "       mark " +
-                    "from simple_option " +
-                    "limit 1;";
+                    "FROM simple_option " +
+                    "LIMIT 1;";
 
     private static final String JOURNAL_READ_ALL_FOR_ACCOUNT =
-            "select CAST(transaction_id as VARCHAR(36)), " +
-                    "       CAST(transaction_fk as VARCHAR(36)), " +
-                    "       CAST(account_fk as VARCHAR(36)), " +
+            "SELECT CAST(transaction_id AS VARCHAR(36)), " +
+                    "       CAST(transaction_fk AS VARCHAR(36)), " +
+                    "       CAST(account_fk AS VARCHAR(36)), " +
                     "       date, " +
                     "       symbol, " +
                     "       stock_price, " +
@@ -61,8 +61,9 @@ public class OptionsJournalRepository {
                     "       action_type_fk, " +
                     "       broker_fees, " +
                     "       mark " +
-                    "from simple_option " +
-                    "WHERE account_fk = CAST(? AS uuid);";
+                    "FROM simple_option " +
+                    "WHERE account_fk = CAST(? AS uuid)" +
+                    "ORDER BY expiry_date, symbol ASC;";
 
     private JdbcTemplate jdbcTemplate;
 
