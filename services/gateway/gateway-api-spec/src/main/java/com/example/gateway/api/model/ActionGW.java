@@ -7,7 +7,8 @@ import java.util.Set;
 
 public enum ActionGW {
     UNKNOWN,
-    SELL_OPTION;
+    SELL_OPTION,
+    BUY_OPTION;
 
     private static final Set<String> VALUES = new HashSet<>();
 
