@@ -3,7 +3,7 @@
         <span>HELLO {{ msg }}</span>
         <ul>
             <li v-for="item in items">
-                {{ item.symbol }} - {{ item.stockPrice }} - {{ item.strikePrice }} - {{ item.contracts }} - {{ item.premium }}
+                {{item.date}} {{ item.symbol }} - {{ item.stockPrice }} - {{ item.strikePrice }} - {{ item.contracts }} - {{ item.premium }}
             </li>
         </ul>
 
