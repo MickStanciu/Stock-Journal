@@ -29,6 +29,7 @@
 
 <script>
     import * as moment from "moment";
+    import * as momenttz from "moment-timezone";
 
     class TradeLog {
         static get Builder() {
