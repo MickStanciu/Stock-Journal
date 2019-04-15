@@ -22,4 +22,8 @@ public class JournalService {
     public List<OptionJournalModel> getAllByAccountId(String accountId) {
         return optionsJournalRepository.getAllByAccount(accountId);
     }
+
+    public List<OptionJournalModel> getAccountAndSymbol(String accountId, String symbol) {
+        return optionsJournalRepository.getAccountAndSymbol(accountId, symbol);
+    }
 }

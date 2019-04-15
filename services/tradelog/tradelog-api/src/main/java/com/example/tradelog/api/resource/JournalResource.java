@@ -42,4 +42,22 @@ public class JournalResource {
 
         return tradeLogs;
     }
+
+    @RequestMapping(value = "/{accountId}/{symbol}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public List<OptionJournalModel> getAccountAndSymbol(
+            @PathVariable("accountId") String accountId,
+            @PathVariable("symbol") String symbol) throws TradeLogException {
+        if (!RequestValidation.validateGetAccountAndSymbol(accountId, symbol)) {
+            throw new TradeLogException(ExceptionCode.BAD_REQUEST);
+        }
+
+        List<OptionJournalModel> tradeLogs = journalService.getAccountAndSymbol(accountId, symbol);
+
+        if (tradeLogs.isEmpty()) {
+            throw new TradeLogException(ExceptionCode.TRADELOG_EMPTY);
+        }
+
+        return tradeLogs;
+    }
 }

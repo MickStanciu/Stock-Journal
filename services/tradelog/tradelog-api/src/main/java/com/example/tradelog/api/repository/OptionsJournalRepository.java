@@ -62,7 +62,29 @@ public class OptionsJournalRepository {
                     "       broker_fees, " +
                     "       mark " +
                     "FROM simple_option " +
-                    "WHERE account_fk = CAST(? AS uuid)" +
+                    "WHERE account_fk = CAST(? AS uuid) " +
+                    "ORDER BY expiry_date, symbol ASC;";
+
+    private static final String JOURNAL_READ_BY_SYMBOL_FOR_ACCOUNT =
+            "SELECT CAST(transaction_id AS VARCHAR(36)), " +
+                    "       CAST(transaction_fk AS VARCHAR(36)), " +
+                    "       CAST(account_fk AS VARCHAR(36)), " +
+                    "       date, " +
+                    "       symbol, " +
+                    "       stock_price, " +
+                    "       strike_price, " +
+                    "       expiry_date, " +
+                    "       implied_volatility, " +
+                    "       implied_volatility_hist, " +
+                    "       profit_probability, " +
+                    "       contract_number, " +
+                    "       premium, " +
+                    "       action_fk, " +
+                    "       action_type_fk, " +
+                    "       broker_fees, " +
+                    "       mark " +
+                    "FROM simple_option " +
+                    "WHERE account_fk = CAST(? AS uuid) and symbol = ? " +
                     "ORDER BY expiry_date, symbol ASC;";
 
     private JdbcTemplate jdbcTemplate;
@@ -79,6 +101,11 @@ public class OptionsJournalRepository {
     public List<OptionJournalModel> getAllByAccount(String accountId) {
         Object[] parameters = new Object[] {accountId};
         return jdbcTemplate.query(JOURNAL_READ_ALL_FOR_ACCOUNT, parameters, new JournalModelRowMapper());
+    }
+
+    public List<OptionJournalModel> getAccountAndSymbol(String accountId, String symbol) {
+        Object[] parameters = new Object[] {accountId, symbol};
+        return jdbcTemplate.query(JOURNAL_READ_BY_SYMBOL_FOR_ACCOUNT, parameters, new JournalModelRowMapper());
     }
 }
 

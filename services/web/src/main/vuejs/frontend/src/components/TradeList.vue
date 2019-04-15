@@ -1,28 +1,27 @@
 <template>
     <div>
-        <span>TEST FOR {{ msg }}</span>
+        <h2>Trade Log</h2>
+        <SymbolSearch class="pt-2"/>
 
-        <div class="container">
-            <div class="row">
-                <div class="col-md-2">Date</div>
-                <div class="col-md-4">Action</div>
-                <div class="col">Fees</div>
-                <div class="col">Total</div>
-            </div>
+        <div class="row mt-3 pb-2 pt-2 table-header">
+            <div class="col-md-2">Date</div>
+            <div class="col-md-4">Action</div>
+            <div class="col">Fees</div>
+            <div class="col">Total</div>
+        </div>
 
-            <div class="row" v-for="item in items">
-                <div class="col-md-2">{{ item.dateTz }}</div>
-                <div class="col-md-4">{{ encodeAction(item) }}</div>
-                <div class="col">{{ item.brokerFee }}</div>
-                <div class="col">{{ calculateLineItemTotal(item) }}</div>
-            </div>
+        <div class="row pb-2 pt-2" v-for="item in items">
+            <div class="col-md-2">{{ dateTz(item) }}</div>
+            <div class="col-md-4">{{ encodeAction(item) }}</div>
+            <div class="col">{{ item.brokerFee }}</div>
+            <div class="col">{{ calculateLineItemTotal(item).toFixed(4) }}</div>
+        </div>
 
-            <div class="row">
-                <div class="col-md-2">&nbsp;</div>
-                <div class="col-md-4">&nbsp;</div>
-                <div class="col">&nbsp;</div>
-                <div class="col">{{ calculateLineItemsTotal() }}</div>
-            </div>
+        <div class="row pb-1 pt-1 table-footer">
+            <div class="col-md-2">&nbsp;</div>
+            <div class="col-md-4">&nbsp;</div>
+            <div class="col">&nbsp;</div>
+            <div class="col">{{ calculateLineItemsTotal(items).toFixed(4) }}</div>
         </div>
     </div>
 </template>
@@ -30,6 +29,7 @@
 <script>
     import * as moment from "moment";
     import * as momenttz from "moment-timezone";
+    import SymbolSearch from './tradelist/SymbolSearch';
 
     class TradeLog {
         static get Builder() {
@@ -116,35 +116,30 @@
             }
             return Builder;
         }
-
-        constructor() {
-            this.tz = 'Australia/Sydney';
-            this.currency = 'USD';
-        }
-
-        //TODO: move these out of here
-        get expiryDateTz() {
-            //converts 2018-10-17 21:00:00.000000 +11:00 => 2018-10-17T10:00:00Z into ...Nov17'18
-            const date = moment(this.expiryDate).tz(this.tz);
-            return date.format('MMMDD\'YY');
-        }
-
-        get dateTz() {
-            const date = moment(this.date).tz(this.tz);
-            return date.format('DD MMM YYYY');
-        }
     }
 
     export default {
         name: "TradeList",
+        components: {SymbolSearch},
         data: function () {
             return {
-                msg : "MAT",
                 items : [],
-                totalLineItems: 0.00
+                timeZone : 'Australia/Sydney',
+                currency : 'USD'
             }
         },
         methods: {
+            expiryDateTz: function(item) {
+                //converts 2018-10-17 21:00:00.000000 +11:00 => 2018-10-17T10:00:00Z into ...Nov17'18
+                const date = moment(item.expiryDate).tz(this.timeZone);
+                return date.format('MMMDD\'YY');
+            },
+
+            dateTz: function(item) {
+                const date = moment(item.date).tz(this.timeZone);
+                return date.format('DD MMM YYYY');
+            },
+
             encodeAction: function (item) {
                 //SOLD 3 LKQ May17'19 30 PUT @ 1
                 let encoded = 'BOUGHT ';
@@ -152,7 +147,7 @@
                     encoded = 'SOLD '
                 }
 
-                encoded += item.contracts + ' ' + item.symbol + ' ' + item.actionType + ' ' + item.expiryDateTz + ' @ '
+                encoded += item.contracts + ' ' + item.symbol + ' ' + item.actionType + ' ' + this.expiryDateTz(item) + ' @ '
                     + item.premium;
                 return encoded;
             },
@@ -166,13 +161,18 @@
                     total *= item.premium * (-1);
                 }
                 total = total - item.brokerFee;
-                console.log('test');
-                return total.toFixed(4);
+                return total;
             },
 
-            calculateLineItemsTotal: function () {
-                return this.totalLineItems.toFixed(4);
-            }
+            calculateLineItemsTotal: function (items) {
+                let _this = this;
+                let total = 0.00;
+                items.forEach(function (item) {
+                    total += _this.calculateLineItemTotal(item);
+                });
+                return total;
+            },
+
         },
         created() {
             this.items = [
@@ -212,5 +212,26 @@
 </script>
 
 <style scoped>
+    .table-header {
+        background-color: #005cbf;
+        color: white;
+        vertical-align: center;
+        border: #005cbf 1px solid;
+    }
 
+    .table-footer {
+        background-color: #9fcdff;
+        color: #005cbf;
+        font-weight: bold;
+        vertical-align: center;
+        border: #9fcdff 1px solid;
+    }
+
+    .table-cell-odd {
+
+    }
+
+    .table-cell-even {
+
+    }
 </style>

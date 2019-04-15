@@ -7,4 +7,12 @@ public class FieldValidator {
                 .sizeEqualTo(36)
                 .isValid();
     }
+
+    protected static boolean symbol(String symbol) {
+        return new StringValidator(symbol)
+                .notNull()
+                .sizeGreaterOrEqualTo(2)
+                .sizeLessOrEqualTo(4)
+                .isValid();
+    }
 }
