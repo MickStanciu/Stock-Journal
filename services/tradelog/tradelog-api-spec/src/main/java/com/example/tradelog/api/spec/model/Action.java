@@ -2,8 +2,8 @@ package com.example.tradelog.api.spec.model;
 
 public enum Action {
     UNKNOWN,
-    SELL_OPTION,
-    BUY_OPTION;
+    SELL,
+    BUY;
 
     static public Action lookup(String id) {
         try {

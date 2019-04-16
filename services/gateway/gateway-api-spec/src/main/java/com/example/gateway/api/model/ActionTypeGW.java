@@ -7,7 +7,9 @@ import java.util.Set;
 
 public enum ActionTypeGW {
     UNKNOWN,
-    CASH_SECURED_PUT;
+    STOCK,
+    PUT_OPTION,
+    CALL_OPTION;
 
     private static final Set<String> VALUES = new HashSet<>();
 
