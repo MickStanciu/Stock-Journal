@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -33,7 +32,10 @@ public class AjaxController {
 
     @RequestMapping(value = "/tradelog/{accountId}/{symbol}")
     public List<OptionJournalGWModel> getAllByAccountAndSymbol(@PathVariable(name = "accountId") String accountId, @PathVariable(name = "symbol") String symbol) {
-        return Collections.emptyList();
+        List<OptionJournalGWModel> gwModelList = tradeJournalService.getAllByAccountAndSymbol(accountId, symbol);
+        //todo validate input
+        //todo validate exceptions when GatewayAPI is down
+        return gwModelList;
     }
 
 }

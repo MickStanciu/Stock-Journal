@@ -46,4 +46,26 @@ public class TradeLogResource {
 
         return gwModelList;
     }
+
+    @RequestMapping(value = "/{accountId}/{symbol}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public List<OptionJournalGWModel> getAllByAccountAndSymbol(
+            @PathVariable(name = "accountId") String accountId,
+            @PathVariable(name = "symbol") String symbol
+            ) throws GatewayApiException {
+        //todo validate input
+
+        List<OptionJournalModel> modelList = tradeLogService.getAllByAccountAndSymbol(accountId, symbol);
+
+        if (modelList == null || modelList.isEmpty()) {
+            throw new GatewayApiException(ExceptionCode.TRADEJOURNAL_EMPTY);
+        }
+
+        List<OptionJournalGWModel> gwModelList = modelList.stream()
+                .map(OptionJournalConverter.gwModelConverter)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+
+        return gwModelList;
+    }
 }

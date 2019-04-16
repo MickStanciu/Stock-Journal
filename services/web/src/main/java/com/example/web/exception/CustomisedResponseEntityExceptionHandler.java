@@ -1,5 +1,6 @@
-package com.example.gateway.api.exception;
+package com.example.web.exception;
 
+import com.example.gateway.api.exception.ExceptionCode;
 import com.example.gateway.api.model.ExceptionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,20 +28,5 @@ public class CustomisedResponseEntityExceptionHandler extends ResponseEntityExce
         }
         ExceptionModel exceptionModel = new ExceptionModel(ExceptionCode.API_NOT_RESPONDING, cause, null);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionModel);
-    }
-
-    @ExceptionHandler(GatewayApiException.class)
-    public final ResponseEntity<ExceptionModel> handleGatewayApiExceptions(GatewayApiException ex, WebRequest request) {
-        ExceptionModel exceptionModel = new ExceptionModel(ex.getCode(), ex.getMessage(), null);
-
-        switch (ex.getCode()) {
-            case REQUEST_NOT_AUTHORIZED:
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(exceptionModel);
-            case ACCOUNT_NOT_FOUND:
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionModel);
-            default:
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionModel);
-        }
-
     }
 }

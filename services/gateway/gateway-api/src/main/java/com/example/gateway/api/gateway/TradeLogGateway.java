@@ -40,4 +40,13 @@ public class TradeLogGateway {
     private List<OptionJournalModel> getFake() {
         return Collections.emptyList();
     }
+
+    public List<OptionJournalModel> getAllByAccountAndSymbol(String accountId, String symbol) {
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromHttpUrl(API_URL)
+                .path("/{accountId}/{symbol}");
+
+        ResponseEntity<List<OptionJournalModel>> responseEntity = restTemplate.exchange(builder.build(accountId, symbol), HttpMethod.GET, null, new ParameterizedTypeReference<List<OptionJournalModel>>() {});
+        return responseEntity.getBody();
+    }
 }

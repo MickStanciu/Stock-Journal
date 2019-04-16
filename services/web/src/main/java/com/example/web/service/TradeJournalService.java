@@ -18,4 +18,8 @@ public class TradeJournalService {
     public List<OptionJournalGWModel> getAllByAccountId(String accountId) {
         return tradeJournalGateway.getAllByAccountId(accountId);
     }
+
+    public List<OptionJournalGWModel> getAllByAccountAndSymbol(String accountId, String symbol) {
+        return tradeJournalGateway.getAllByAccountAndSymbol(accountId, symbol);
+    }
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -33,6 +34,15 @@ public class TradeJournalGateway {
                 .path(accountId);
 
         ResponseEntity<List<OptionJournalGWModel>> responseEntity = restTemplate.exchange(uriBuilder.toUriString(), HttpMethod.GET, null, new ParameterizedTypeReference<List<OptionJournalGWModel>>() {});
+        return responseEntity.getBody();
+    }
+
+    public List<OptionJournalGWModel> getAllByAccountAndSymbol(String accountId, String symbol) {
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromHttpUrl(API_URL)
+                .path("/{accountId}/{symbol}");
+
+        ResponseEntity<List<OptionJournalGWModel>> responseEntity = restTemplate.exchange(builder.build(accountId, symbol), HttpMethod.GET, null, new ParameterizedTypeReference<List<OptionJournalGWModel>>() {});
         return responseEntity.getBody();
     }
 }

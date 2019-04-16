@@ -22,4 +22,8 @@ public class TradeLogService {
     public List<OptionJournalModel> getAllByAccountId(String accountId) {
         return tradeLogGateway.getAllByAccountId(accountId);
     }
+
+    public List<OptionJournalModel> getAllByAccountAndSymbol(String accountId, String symbol) {
+        return tradeLogGateway.getAllByAccountAndSymbol(accountId, symbol);
+    }
 }
