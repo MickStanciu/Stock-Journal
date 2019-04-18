@@ -21,14 +21,13 @@
             <div class="col-md-2">&nbsp;</div>
             <div class="col-md-4">&nbsp;</div>
             <div class="col">&nbsp;</div>
-            <div class="col">{{ calculateLineItemsTotal(items).toFixed(4) }}</div>
+            <div class="col">{{ grandTotal.toFixed(4) }}</div>
         </div>
     </div>
 </template>
 
 <script>
     import * as moment from "moment";
-    import * as momenttz from "moment-timezone";
     import SymbolSearch from './tradelist/SymbolSearch';
 
     class TradeLog {
@@ -125,7 +124,13 @@
             return {
                 items : [],
                 timeZone : 'Australia/Sydney',
-                currency : 'USD'
+                currency : 'USD',
+                grandTotal : 0.00
+            }
+        },
+        computed: {
+            grandTotal: function () {
+                return this.grandTotal;
             }
         },
         methods: {
@@ -161,18 +166,9 @@
                     total *= item.premium * (-1);
                 }
                 total = total - item.brokerFee;
+                this.grandTotal += total;
                 return total;
             },
-
-            calculateLineItemsTotal: function (items) {
-                let _this = this;
-                let total = 0.00;
-                items.forEach(function (item) {
-                    total += _this.calculateLineItemTotal(item);
-                });
-                return total;
-            },
-
         },
         created() {
             this.items = [
