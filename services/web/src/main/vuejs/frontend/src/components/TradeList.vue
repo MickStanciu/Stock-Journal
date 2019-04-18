@@ -10,24 +10,28 @@
             <div class="col">Total</div>
         </div>
 
-        <div class="row pb-2 pt-2" v-for="item in items">
-            <div class="col-md-2">{{ dateTz(item) }}</div>
-            <div class="col-md-4">{{ encodeAction(item) }}</div>
-            <div class="col">{{ item.brokerFee }}</div>
-            <div class="col">{{ calculateLineItemTotal(item).toFixed(4) }}</div>
-        </div>
+        <template v-for="(item, idx) in items">
+            <div class="row pb-2 pt-2" v-bind:class="rowClass(idx)" v-bind:key="item.id">
+                <div class="col-md-2">{{ dateTz(item) }}</div>
+                <div class="col-md-4">{{ encodeAction(item) }}</div>
+                <div class="col">{{ item.brokerFee }}</div>
+                <div class="col">{{ calculateLineItemTotal(item).toFixed(4) }}</div>
+            </div>
+        </template>
+
 
         <div class="row pb-1 pt-1 table-footer">
             <div class="col-md-2">&nbsp;</div>
             <div class="col-md-4">&nbsp;</div>
             <div class="col">&nbsp;</div>
-            <div class="col">{{ grandTotal.toFixed(4) }}</div>
+            <div class="col">{{ calculateLineItemsTotal(items).toFixed(4) }}</div>
         </div>
     </div>
 </template>
 
 <script>
     import * as moment from "moment";
+    import * as moment_tz from "moment-timezone";
     import SymbolSearch from './tradelist/SymbolSearch';
 
     class TradeLog {
@@ -125,15 +129,16 @@
                 items : [],
                 timeZone : 'Australia/Sydney',
                 currency : 'USD',
-                grandTotal : 0.00
-            }
-        },
-        computed: {
-            grandTotal: function () {
-                return this.grandTotal;
             }
         },
         methods: {
+            rowClass: function (idx) {
+                return {
+                    'table-cell-odd' : idx%2 === 1,
+                    'table-cell-even' : idx%2 === 0
+                }
+            },
+
             expiryDateTz: function(item) {
                 //converts 2018-10-17 21:00:00.000000 +11:00 => 2018-10-17T10:00:00Z into ...Nov17'18
                 const date = moment(item.expiryDate).tz(this.timeZone);
@@ -169,6 +174,15 @@
                 this.grandTotal += total;
                 return total;
             },
+
+            calculateLineItemsTotal: function (items) {
+                let _this = this;
+                let total = 0.00;
+                items.forEach(function (item) {
+                    total += _this.calculateLineItemTotal(item);
+                });
+                return total;
+            }
         },
         created() {
             this.items = [
@@ -224,10 +238,11 @@
     }
 
     .table-cell-odd {
-
+        background-color: whitesmoke;
     }
 
     .table-cell-even {
+        background-color: white;
 
     }
 </style>
