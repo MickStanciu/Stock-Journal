@@ -1,21 +1,22 @@
 <template>
   <div id="app">
-    <div class="container">
-      <TradeList/>
+    <Header/>
+    <div class="container" style="margin-top: 80px;">
+      <router-view/>
     </div>
+    <Footer/>
   </div>
 </template>
 
 <script>
+  import Header from "./components/Header";
+  import Footer from "./components/Footer";
   require('../node_modules/bootstrap/dist/css/bootstrap.min.css');
-  import TradeList from './components/TradeList'
 
   export default {
   name: 'app',
-  components: {
-    TradeList
+    components: {Footer, Header}
   }
-}
 </script>
 
 <style>

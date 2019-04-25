@@ -26,13 +26,17 @@
             <div class="col">&nbsp;</div>
             <div class="col">{{ calculateLineItemsTotal(items).toFixed(4) }}</div>
         </div>
+
+        <div class="row pt-3">
+            <button type="button" class="btn btn-primary">Add new trade</button>
+        </div>
     </div>
 </template>
 
 <script>
-    import * as moment from "moment";
+    import * as moment from "moment/moment";
     import * as moment_tz from "moment-timezone";
-    import SymbolSearch from './tradelist/SymbolSearch';
+    import SymbolSearch from '../components/tradelist/SymbolSearch';
 
     class TradeLog {
         static get Builder() {
