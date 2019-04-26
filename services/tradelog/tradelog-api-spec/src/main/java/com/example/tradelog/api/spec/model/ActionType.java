@@ -3,8 +3,8 @@ package com.example.tradelog.api.spec.model;
 public enum ActionType {
     UNKNOWN,
     STOCK,
-    PUT_OPTION,
-    CALL_OPTION;
+    PUT,
+    CALL;
 
     static public ActionType lookup(String id) {
         try {

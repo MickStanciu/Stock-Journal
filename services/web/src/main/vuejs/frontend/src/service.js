@@ -4,13 +4,23 @@ axios.defaults.baseURL = 'http://localhost:8080/api/tradelog/d79ec11a-2011-4423-
 
 const appService = {
     getTradedSymbols() {
-
         return new Promise(resolve => {
-            axios.get('/symbols')
+            axios
+                .get('/symbols')
                 .then(response => {
                     resolve(response.data)
                 })
         });
+    },
+
+    getTradesPerSymbol(symbol) {
+      return new Promise(resolve => {
+          axios
+              .get('/symbols/' + symbol.toUpperCase())
+              .then(response => {
+                  resolve(response.data)
+              })
+      });
     }
 };
 

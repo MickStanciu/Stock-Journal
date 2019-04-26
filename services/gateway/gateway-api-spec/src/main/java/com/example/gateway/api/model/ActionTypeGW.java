@@ -8,8 +8,8 @@ import java.util.Set;
 public enum ActionTypeGW {
     UNKNOWN,
     STOCK,
-    PUT_OPTION,
-    CALL_OPTION;
+    PUT,
+    CALL;
 
     private static final Set<String> VALUES = new HashSet<>();
 

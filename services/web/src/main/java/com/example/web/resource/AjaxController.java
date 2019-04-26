@@ -30,7 +30,7 @@ public class AjaxController {
         return gwModelList;
     }
 
-    @RequestMapping(value = "/tradelog/{accountId}/{symbol}")
+    @RequestMapping(value = "/tradelog/{accountId}/symbols/{symbol}")
     public List<OptionJournalGWModel> getAllByAccountAndSymbol(@PathVariable(name = "accountId") String accountId, @PathVariable(name = "symbol") String symbol) {
         List<OptionJournalGWModel> gwModelList = tradeJournalService.getAllByAccountAndSymbol(accountId, symbol);
         //todo validate input

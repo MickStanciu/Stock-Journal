@@ -16,7 +16,7 @@ class OptionJournalConverterTest {
         OptionJournalModel model = OptionJournalModel.builder()
                 .withAccountId("123")
                 .withAction(Action.SELL)
-                .withActionType(ActionType.PUT_OPTION)
+                .withActionType(ActionType.PUT)
                 .withTransactionId("1234")
                 .withPairTransactionId("2345")
                 .withDate(OffsetDateTime.now())

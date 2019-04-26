@@ -5,8 +5,8 @@ VALUES ('SELL'),
 
 INSERT INTO action_type (name)
 VALUES ('STOCK'),
-       ('CALL_OPTION'),
-       ('PUT_OPTION');
+       ('CALL'),
+       ('PUT');
 
 
 INSERT INTO simple_option (transaction_id, transaction_fk, account_fk, date, symbol, stock_price, strike_price, expiry_date, implied_volatility, implied_volatility_hist, profit_probability, contract_number, premium, action_fk, action_type_fk, broker_fees, mark)

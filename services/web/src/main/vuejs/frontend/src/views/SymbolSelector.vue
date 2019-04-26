@@ -1,14 +1,15 @@
 <template>
     <div>
         <ul class="list-group">
-            <li class="list-group-item" v-for="(item) in items" v-bind:key="item.symbol">
-                <router-link v-bind:to="getLink(item.symbol)" exact>{{ item.symbol }}</router-link>
+            <li class="list-group-item" v-for="(item) in items" v-bind:key="item">
+                <router-link v-bind:to="getLink(item)" exact>{{ item }}</router-link>
             </li>
         </ul>
     </div>
 </template>
 
 <script>
+    import service from '../service';
     export default {
         name: "SymbolSelector",
         data: function () {
@@ -22,11 +23,11 @@
           }
         },
         created() {
-            this.items = [
-                {
-                    'symbol' : 'MAT'
-                }
-            ];
+            service
+                .getTradedSymbols()
+                .then(data => {
+                    this.items = data;
+                });
         }
     }
 </script>
