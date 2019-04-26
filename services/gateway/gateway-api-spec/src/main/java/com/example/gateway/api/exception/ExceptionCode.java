@@ -7,7 +7,8 @@ public enum ExceptionCode {
     ACCOUNT_NOT_FOUND("Account not found"),
     TIMESHEET_EMPTY("No timesheet entries found"),
     REQUEST_NOT_AUTHORIZED("Request not authorized"),
-    TRADEJOURNAL_EMPTY("No trades found")
+    TRADEJOURNAL_EMPTY("No trades found"),
+    TRADEJOURNAL_NO_SYMBOLS("No symbols found")
     ;
 
     private final String message;

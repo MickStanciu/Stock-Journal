@@ -49,4 +49,13 @@ public class TradeLogGateway {
         ResponseEntity<List<OptionJournalModel>> responseEntity = restTemplate.exchange(builder.build(accountId, symbol), HttpMethod.GET, null, new ParameterizedTypeReference<List<OptionJournalModel>>() {});
         return responseEntity.getBody();
     }
+
+    public List<String> getSymbolsByAccountId(String accountId) {
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromHttpUrl(API_URL)
+                .path("/{accountId}/symbols");
+
+        ResponseEntity<List<String>> responseEntity = restTemplate.exchange(builder.build(accountId), HttpMethod.GET, null, new ParameterizedTypeReference<List<String>>() {});
+        return responseEntity.getBody();
+    }
 }

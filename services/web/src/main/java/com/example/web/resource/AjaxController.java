@@ -38,4 +38,11 @@ public class AjaxController {
         return gwModelList;
     }
 
+    @RequestMapping(value = "/tradelog/{accountId}/symbols")
+    public List<String> getUniqueSymbolsByAccountId(@PathVariable(name = "accountId") String accountId) {
+        List<String> uniqueSymbols = tradeJournalService.getUniqueSymbolsByAccountId(accountId);
+        //todo validate input
+        //todo validate exceptions when GatewayAPI is down
+        return uniqueSymbols;
+    }
 }

@@ -68,4 +68,18 @@ public class TradeLogResource {
 
         return gwModelList;
     }
+
+    @RequestMapping(value = "/{accountId}/symbols", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public List<String> getUniqueSymbolsByAccountId(@PathVariable(name = "accountId") String accountId) throws GatewayApiException {
+        //todo validate input
+
+        List<String> tradedSymbols = tradeLogService.getSymbolsByAccountId(accountId);
+
+        if (tradedSymbols == null || tradedSymbols.isEmpty()) {
+            throw new GatewayApiException(ExceptionCode.TRADEJOURNAL_NO_SYMBOLS);
+        }
+
+        return tradedSymbols;
+    }
 }

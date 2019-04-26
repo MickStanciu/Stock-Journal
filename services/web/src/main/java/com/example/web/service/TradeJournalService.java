@@ -22,4 +22,8 @@ public class TradeJournalService {
     public List<OptionJournalGWModel> getAllByAccountAndSymbol(String accountId, String symbol) {
         return tradeJournalGateway.getAllByAccountAndSymbol(accountId, symbol);
     }
+
+    public List<String> getUniqueSymbolsByAccountId(String accountId) {
+        return tradeJournalGateway.getUniqueSymbolsByAccountId(accountId);
+    }
 }

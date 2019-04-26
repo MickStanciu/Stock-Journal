@@ -29,11 +29,11 @@ public class TradeJournalGateway {
     }
 
     public List<OptionJournalGWModel> getAllByAccountId(String accountId) {
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder
+        UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
                 .path(accountId);
 
-        ResponseEntity<List<OptionJournalGWModel>> responseEntity = restTemplate.exchange(uriBuilder.toUriString(), HttpMethod.GET, null, new ParameterizedTypeReference<List<OptionJournalGWModel>>() {});
+        ResponseEntity<List<OptionJournalGWModel>> responseEntity = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, null, new ParameterizedTypeReference<List<OptionJournalGWModel>>() {});
         return responseEntity.getBody();
     }
 
@@ -43,6 +43,15 @@ public class TradeJournalGateway {
                 .path("/{accountId}/{symbol}");
 
         ResponseEntity<List<OptionJournalGWModel>> responseEntity = restTemplate.exchange(builder.build(accountId, symbol), HttpMethod.GET, null, new ParameterizedTypeReference<List<OptionJournalGWModel>>() {});
+        return responseEntity.getBody();
+    }
+
+    public List<String> getUniqueSymbolsByAccountId(String accountId) {
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromHttpUrl(API_URL)
+                .path("/{accountId}/symbols");
+
+        ResponseEntity<List<String>> responseEntity = restTemplate.exchange(builder.build(accountId), HttpMethod.GET, null, new ParameterizedTypeReference<List<String>>() {});
         return responseEntity.getBody();
     }
 }
