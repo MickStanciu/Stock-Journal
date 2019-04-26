@@ -87,6 +87,11 @@ public class OptionsJournalRepository {
                     "WHERE account_fk = CAST(? AS uuid) and symbol = ? " +
                     "ORDER BY expiry_date, symbol ASC;";
 
+    private static final String JOURNAL_READ_SYMBOLS =
+            "SELECT DISTINCT symbol FROM simple_option " +
+                    "WHERE account_fk = CAST(? AS uuid) " +
+                    "ORDER BY symbol ASC;";
+
     private JdbcTemplate jdbcTemplate;
 
     public OptionsJournalRepository(JdbcTemplate jdbcTemplate) {
@@ -103,40 +108,14 @@ public class OptionsJournalRepository {
         return jdbcTemplate.query(JOURNAL_READ_ALL_FOR_ACCOUNT, parameters, new JournalModelRowMapper());
     }
 
-    public List<OptionJournalModel> getAccountAndSymbol(String accountId, String symbol) {
+    public List<OptionJournalModel> getAllBySymbolAndAccount(String accountId, String symbol) {
         Object[] parameters = new Object[] {accountId, symbol};
         return jdbcTemplate.query(JOURNAL_READ_BY_SYMBOL_FOR_ACCOUNT, parameters, new JournalModelRowMapper());
     }
-}
 
-class JournalModelRowMapper implements RowMapper<OptionJournalModel> {
-
-    @Override
-    public OptionJournalModel mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return OptionJournalModel.builder()
-                .withTransactionId(rs.getString("transaction_id"))
-                .withPairTransactionId(rs.getString("transaction_fk"))
-                .withAccountId(rs.getString("account_fk"))
-                .withDate(fromTimestamp(rs.getTimestamp("date")))
-                .withStockSymbol(rs.getString("symbol"))
-                .withStockPrice(rs.getFloat("stock_price"))
-                .withStrikePrice(rs.getFloat("strike_price"))
-                .withExpiryDate(fromTimestamp(rs.getTimestamp("expiry_date")))
-                .withImpliedVolatility(rs.getFloat("implied_volatility"))
-                .withHistoricalImpliedVolatility(rs.getFloat("implied_volatility_hist"))
-                .withProfitProbability(rs.getFloat("profit_probability"))
-                .withContracts(rs.getInt("contract_number"))
-                .withPremium(rs.getFloat("premium"))
-                .withAction(Action.lookup(rs.getString("action_fk")))
-                .withActionType(ActionType.lookup(rs.getString("action_type_fk")))
-                .withBrokerFees(rs.getFloat("broker_fees"))
-                .withMark(rs.getString("mark"))
-                .build();
-    }
-
-    private OffsetDateTime fromTimestamp(Timestamp timestamp) {
-        //TODO: not sure about ZoneId
-        return OffsetDateTime.ofInstant(
-                Instant.ofEpochMilli(timestamp.getTime()), ZoneId.systemDefault());
+    public List<String> getUniqueSymbolsByAccount(String accountId) {
+        Object[] parameters = new Object[] {accountId};
+        return jdbcTemplate.query(JOURNAL_READ_SYMBOLS, parameters, new SymbolRowMapper());
     }
 }
+

@@ -23,7 +23,12 @@ public class JournalService {
         return optionsJournalRepository.getAllByAccount(accountId);
     }
 
-    public List<OptionJournalModel> getAccountAndSymbol(String accountId, String symbol) {
-        return optionsJournalRepository.getAccountAndSymbol(accountId, symbol);
+    public List<OptionJournalModel> getAllBySymbolAndAccount(String accountId, String symbol) {
+        return optionsJournalRepository.getAllBySymbolAndAccount(accountId, symbol);
+    }
+
+    public List<String> getAllSymbolsByAccount(String accountId) {
+        //TODO: aggregate with STOCKS
+        return optionsJournalRepository.getUniqueSymbolsByAccount(accountId);
     }
 }

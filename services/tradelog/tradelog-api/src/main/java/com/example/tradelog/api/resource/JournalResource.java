@@ -52,12 +52,28 @@ public class JournalResource {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
-        List<OptionJournalModel> tradeLogs = journalService.getAccountAndSymbol(accountId, symbol);
+        List<OptionJournalModel> tradeLogs = journalService.getAllBySymbolAndAccount(accountId, symbol);
 
         if (tradeLogs.isEmpty()) {
             throw new TradeLogException(ExceptionCode.TRADELOG_EMPTY);
         }
 
         return tradeLogs;
+    }
+
+    @RequestMapping(value = "/{accountId}/symbols", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public List<String> getSymbolByAccountId(@PathVariable("accountId") String accountId) throws TradeLogException {
+        if (!RequestValidation.validateGetAllByAccountId(accountId)) {
+            throw new TradeLogException(ExceptionCode.BAD_REQUEST);
+        }
+
+        List<String> tradedSymbols = journalService.getAllSymbolsByAccount(accountId);
+
+        if (tradedSymbols.isEmpty()) {
+            throw new TradeLogException(ExceptionCode.TRADELOG_EMPTY);
+        }
+
+        return tradedSymbols;
     }
 }
