@@ -1,5 +1,5 @@
 <template>
-    <div>FOOTER</div>
+    <nav class="navbar fixed-bottom navbar-expand-lg navbar-dark bg-dark">&nbsp;</nav>
 </template>
 
 <script>

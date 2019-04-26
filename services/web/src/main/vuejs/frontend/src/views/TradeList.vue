@@ -1,7 +1,6 @@
 <template>
     <div>
         <h2>Trade Log</h2>
-        <SymbolSearch class="pt-2"/>
 
         <div class="row mt-3 pb-2 pt-2 table-header">
             <div class="col-md-2">Date</div>
@@ -36,7 +35,6 @@
 <script>
     import * as moment from "moment/moment";
     import * as moment_tz from "moment-timezone";
-    import SymbolSearch from '../components/tradelist/SymbolSearch';
 
     class TradeLog {
         static get Builder() {
@@ -127,7 +125,6 @@
 
     export default {
         name: "TradeList",
-        components: {SymbolSearch},
         data: function () {
             return {
                 items : [],

@@ -4,10 +4,10 @@
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Home</a>
+                        <router-link class="nav-link" to="/" exact>Home</router-link>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Log</a>
+                        <router-link class="nav-link" to="/log" exact>Log</router-link>
                     </li>
                 </ul>
             </div>
