@@ -106,8 +106,6 @@
                 .then(data => {
                     let self = this;
                     data.forEach(function (item) {
-                        console.log(item);
-
                         self.items.push(
                             new TradeLog.Builder()
                                 .withId(item.transactionId)

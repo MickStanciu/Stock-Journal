@@ -9,6 +9,8 @@ const appService = {
                 .get('/symbols')
                 .then(response => {
                     resolve(response.data)
+                }).catch(error => {
+                    console.error(error);
                 })
         });
     },
@@ -19,6 +21,8 @@ const appService = {
               .get('/symbols/' + symbol.toUpperCase())
               .then(response => {
                   resolve(response.data)
+              }).catch(error => {
+                  console.error(error);
               })
       });
     }
