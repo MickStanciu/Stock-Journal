@@ -44,7 +44,7 @@ public class TradeLogGateway {
     public List<OptionJournalModel> getAllByAccountAndSymbol(String accountId, String symbol) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
-                .path("/{accountId}/{symbol}");
+                .path("/{accountId}/trades/{symbol}");
 
         ResponseEntity<List<OptionJournalModel>> responseEntity = restTemplate.exchange(builder.build(accountId, symbol), HttpMethod.GET, null, new ParameterizedTypeReference<List<OptionJournalModel>>() {});
         return responseEntity.getBody();

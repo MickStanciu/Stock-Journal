@@ -47,7 +47,7 @@ public class TradeLogResource {
         return gwModelList;
     }
 
-    @RequestMapping(value = "/{accountId}/{symbol}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{accountId}/trades/{symbol}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<OptionJournalGWModel> getAllByAccountAndSymbol(
             @PathVariable(name = "accountId") String accountId,
