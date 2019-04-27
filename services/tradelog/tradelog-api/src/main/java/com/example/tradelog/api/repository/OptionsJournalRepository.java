@@ -165,14 +165,14 @@ public class OptionsJournalRepository {
             ps.setString(1, model.getAccountId());
             ps.setTimestamp(2, TimeConversion.fromOffsetDateTime(model.getDate()));
             ps.setString(3, model.getStockSymbol());
-            ps.setFloat(4, model.getStockPrice());
-            ps.setFloat(5, model.getStrikePrice());
+            ps.setDouble(4, model.getStockPrice());
+            ps.setDouble(5, model.getStrikePrice());
             ps.setTimestamp(6, TimeConversion.fromOffsetDateTime(model.getExpiryDate()));
             ps.setInt(7, model.getContracts());
-            ps.setFloat(8, model.getPremium());
+            ps.setDouble(8, model.getPremium());
             ps.setString(9, model.getAction().name());
             ps.setString(10, model.getActionType().name());
-            ps.setFloat(11, model.getBrokerFees());
+            ps.setDouble(11, model.getBrokerFees());
             return ps;
         }, keyHolder);
 

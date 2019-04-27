@@ -93,4 +93,23 @@ public class JournalResource {
         }
         return optionJournalModel.get();
     }
+
+    @RequestMapping(value = "/{accountId}/tradesmul", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    public void createOptionEntries(
+            @RequestBody List<OptionJournalModel> models,
+            @PathVariable("accountId") String accountId) throws TradeLogException {
+        if (!RequestValidation.validatePostByAccountId(accountId)) {
+            throw new TradeLogException(ExceptionCode.BAD_REQUEST);
+        }
+
+        //TODO: validate model
+        for (OptionJournalModel model : models) {
+            Optional<OptionJournalModel> optionJournalModel = journalService.createOptionRecord(model);
+            if (optionJournalModel.isEmpty()) {
+                log.error("COULD NOT CREATE FOR: " + model.getStockSymbol() + " " + model.getPremium());
+                throw new TradeLogException(ExceptionCode.CREATE_OPTION_FAILED);
+            }
+        }
+    }
 }

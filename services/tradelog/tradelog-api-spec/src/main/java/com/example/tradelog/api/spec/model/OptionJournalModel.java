@@ -12,17 +12,17 @@ public class OptionJournalModel implements Serializable {
     private String accountId;
     private OffsetDateTime date;
     private String stockSymbol;
-    private float stockPrice;
-    private float strikePrice;
+    private double stockPrice;
+    private double strikePrice;
     private OffsetDateTime expiryDate;
-    private float impliedVolatility;
-    private float historicalImpliedVolatility;
-    private float profitProbability;
+    private double impliedVolatility;
+    private double historicalImpliedVolatility;
+    private double profitProbability;
     private int contracts;
-    private float premium;
+    private double premium;
     private Action action;
     private ActionType actionType;
-    private float brokerFees;
+    private double brokerFees;
     private String mark;
 
 
@@ -50,15 +50,15 @@ public class OptionJournalModel implements Serializable {
         return stockSymbol;
     }
 
-    public float getStockPrice() {
+    public double getStockPrice() {
         return stockPrice;
     }
 
-    public float getImpliedVolatility() {
+    public double getImpliedVolatility() {
         return impliedVolatility;
     }
 
-    public float getHistoricalImpliedVolatility() {
+    public double getHistoricalImpliedVolatility() {
         return historicalImpliedVolatility;
     }
 
@@ -70,7 +70,7 @@ public class OptionJournalModel implements Serializable {
         return actionType;
     }
 
-    public float getBrokerFees() {
+    public double getBrokerFees() {
         return brokerFees;
     }
 
@@ -78,7 +78,7 @@ public class OptionJournalModel implements Serializable {
         return pairTransactionId;
     }
 
-    public float getStrikePrice() {
+    public double getStrikePrice() {
         return strikePrice;
     }
 
@@ -86,7 +86,7 @@ public class OptionJournalModel implements Serializable {
         return expiryDate;
     }
 
-    public float getProfitProbability() {
+    public double getProfitProbability() {
         return profitProbability;
     }
 
@@ -94,7 +94,7 @@ public class OptionJournalModel implements Serializable {
         return contracts;
     }
 
-    public float getPremium() {
+    public double getPremium() {
         return premium;
     }
 
@@ -140,17 +140,17 @@ public class OptionJournalModel implements Serializable {
             return this;
         }
 
-        public Builder withStockPrice(float stockPrice) {
+        public Builder withStockPrice(double stockPrice) {
             optionJournalModel.stockPrice = stockPrice;
             return this;
         }
 
-        public Builder withImpliedVolatility(float impliedVolatility) {
+        public Builder withImpliedVolatility(double impliedVolatility) {
             optionJournalModel.impliedVolatility = impliedVolatility;
             return this;
         }
 
-        public Builder withHistoricalImpliedVolatility(float historicalImpliedVolatility) {
+        public Builder withHistoricalImpliedVolatility(double historicalImpliedVolatility) {
             optionJournalModel.historicalImpliedVolatility = historicalImpliedVolatility;
             return this;
         }
@@ -165,7 +165,7 @@ public class OptionJournalModel implements Serializable {
             return this;
         }
 
-        public Builder withBrokerFees(float brokerFees) {
+        public Builder withBrokerFees(double brokerFees) {
             optionJournalModel.brokerFees = brokerFees;
             return this;
         }
@@ -175,7 +175,7 @@ public class OptionJournalModel implements Serializable {
             return this;
         }
 
-        public Builder withStrikePrice(float strikePrice) {
+        public Builder withStrikePrice(double strikePrice) {
             optionJournalModel.strikePrice = strikePrice;
             return this;
         }
@@ -185,7 +185,7 @@ public class OptionJournalModel implements Serializable {
             return this;
         }
 
-        public Builder withProfitProbability(float profitProbability) {
+        public Builder withProfitProbability(double profitProbability) {
             optionJournalModel.profitProbability = profitProbability;
             return this;
         }
@@ -195,7 +195,7 @@ public class OptionJournalModel implements Serializable {
             return this;
         }
 
-        public Builder withPremium(float premium) {
+        public Builder withPremium(double premium) {
             optionJournalModel.premium = premium;
             return this;
         }
