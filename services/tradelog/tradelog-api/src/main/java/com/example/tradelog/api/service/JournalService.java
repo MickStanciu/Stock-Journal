@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class JournalService {
@@ -30,5 +31,14 @@ public class JournalService {
     public List<String> getAllSymbolsByAccount(String accountId) {
         //TODO: aggregate with STOCKS
         return optionsJournalRepository.getUniqueSymbolsByAccount(accountId);
+    }
+
+    public Optional<OptionJournalModel> createOptionRecord(OptionJournalModel model) {
+        Optional<String> optionTransactionId = optionsJournalRepository.createOptionRecord(model);
+        if (optionTransactionId.isPresent()) {
+            return optionsJournalRepository.getByTransactionId(optionTransactionId.get());
+        } else {
+            return Optional.empty();
+        }
     }
 }

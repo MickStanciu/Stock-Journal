@@ -1,21 +1,18 @@
 package com.example.tradelog.api.repository;
 
-import com.example.tradelog.api.spec.model.Action;
-import com.example.tradelog.api.spec.model.ActionType;
+import com.example.common.converter.TimeConversion;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class OptionsJournalRepository {
@@ -87,10 +84,38 @@ public class OptionsJournalRepository {
                     "WHERE account_fk = CAST(? AS uuid) and symbol = ? " +
                     "ORDER BY expiry_date, symbol ASC;";
 
+    private static final String JOURNAL_READ_BY_TRANSACTION_ID =
+            "SELECT CAST(transaction_id AS VARCHAR(36)), " +
+                    "       CAST(transaction_fk AS VARCHAR(36)), " +
+                    "       CAST(account_fk AS VARCHAR(36)), " +
+                    "       date, " +
+                    "       symbol, " +
+                    "       stock_price, " +
+                    "       strike_price, " +
+                    "       expiry_date, " +
+                    "       implied_volatility, " +
+                    "       implied_volatility_hist, " +
+                    "       profit_probability, " +
+                    "       contract_number, " +
+                    "       premium, " +
+                    "       action_fk, " +
+                    "       action_type_fk, " +
+                    "       broker_fees, " +
+                    "       mark " +
+                    "FROM simple_option " +
+                    "WHERE transaction_id = CAST(? AS uuid)";
+
     private static final String JOURNAL_READ_SYMBOLS =
             "SELECT DISTINCT symbol FROM simple_option " +
                     "WHERE account_fk = CAST(? AS uuid) " +
                     "ORDER BY symbol ASC;";
+
+    private static final String JOURNAL_CREATE_OPTION_FOR_ACCOUNT =
+            "INSERT INTO simple_option (transaction_fk, account_fk, date, symbol, stock_price, strike_price, " +
+                    "expiry_date, implied_volatility, implied_volatility_hist, profit_probability, contract_number, premium, " +
+                    "action_fk, action_type_fk, broker_fees, mark) " +
+                    "VALUES (null, CAST(? AS uuid), ?, ?, ?, ?, ?, " +
+                    "null, null, null, ?, ?, ?, ?, ?, null); ";
 
     private JdbcTemplate jdbcTemplate;
 
@@ -113,9 +138,49 @@ public class OptionsJournalRepository {
         return jdbcTemplate.query(JOURNAL_READ_BY_SYMBOL_FOR_ACCOUNT, parameters, new JournalModelRowMapper());
     }
 
+    public Optional<OptionJournalModel> getByTransactionId(String transactionId) {
+        Object[] parameters = new Object[] {transactionId};
+        List<OptionJournalModel> modelList = jdbcTemplate.query(JOURNAL_READ_BY_TRANSACTION_ID, parameters, new JournalModelRowMapper());
+        if (modelList.size() == 1) {
+            return Optional.ofNullable(modelList.get(0));
+        }
+        return Optional.empty();
+    }
+
     public List<String> getUniqueSymbolsByAccount(String accountId) {
         Object[] parameters = new Object[] {accountId};
         return jdbcTemplate.query(JOURNAL_READ_SYMBOLS, parameters, new SymbolRowMapper());
+    }
+
+    /**
+     * Creates an option record
+     * @param model -
+     * @return Optional of the transaction ID
+     */
+    public Optional<String> createOptionRecord(OptionJournalModel model) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(JOURNAL_CREATE_OPTION_FOR_ACCOUNT, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, model.getAccountId());
+            ps.setTimestamp(2, TimeConversion.fromOffsetDateTime(model.getDate()));
+            ps.setString(3, model.getStockSymbol());
+            ps.setFloat(4, model.getStockPrice());
+            ps.setFloat(5, model.getStrikePrice());
+            ps.setTimestamp(6, TimeConversion.fromOffsetDateTime(model.getExpiryDate()));
+            ps.setInt(7, model.getContracts());
+            ps.setFloat(8, model.getPremium());
+            ps.setString(9, model.getAction().name());
+            ps.setString(10, model.getActionType().name());
+            ps.setFloat(11, model.getBrokerFees());
+            return ps;
+        }, keyHolder);
+
+        if (keyHolder.getKeyList().isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.ofNullable(keyHolder.getKeyList().get(0).get("transaction_id").toString());
     }
 }
 

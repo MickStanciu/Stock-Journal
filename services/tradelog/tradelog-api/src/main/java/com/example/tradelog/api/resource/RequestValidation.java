@@ -8,6 +8,10 @@ public class RequestValidation extends FieldValidator {
         return RequestValidation.accountId(accountId);
     }
 
+    static Boolean validatePostByAccountId(String accountId) {
+        return RequestValidation.accountId(accountId);
+    }
+
     static boolean validateGetAccountAndSymbol(String accountId, String symbol) {
         return RequestValidation.accountId(accountId) && RequestValidation.symbol(symbol);
     }
