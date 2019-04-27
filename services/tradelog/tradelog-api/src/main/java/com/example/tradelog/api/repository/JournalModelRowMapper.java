@@ -1,5 +1,6 @@
 package com.example.tradelog.api.repository;
 
+import com.example.common.converter.TimeConversion;
 import com.example.tradelog.api.spec.model.Action;
 import com.example.tradelog.api.spec.model.ActionType;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
@@ -7,10 +8,6 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
 
 public class JournalModelRowMapper implements RowMapper<OptionJournalModel> {
 
@@ -20,11 +17,11 @@ public class JournalModelRowMapper implements RowMapper<OptionJournalModel> {
                 .withTransactionId(rs.getString("transaction_id"))
                 .withPairTransactionId(rs.getString("transaction_fk"))
                 .withAccountId(rs.getString("account_fk"))
-                .withDate(fromTimestamp(rs.getTimestamp("date")))
+                .withDate(TimeConversion.fromTimestamp(rs.getTimestamp("date")))
                 .withStockSymbol(rs.getString("symbol"))
                 .withStockPrice(rs.getFloat("stock_price"))
                 .withStrikePrice(rs.getFloat("strike_price"))
-                .withExpiryDate(fromTimestamp(rs.getTimestamp("expiry_date")))
+                .withExpiryDate(TimeConversion.fromTimestamp(rs.getTimestamp("expiry_date")))
                 .withImpliedVolatility(rs.getFloat("implied_volatility"))
                 .withHistoricalImpliedVolatility(rs.getFloat("implied_volatility_hist"))
                 .withProfitProbability(rs.getFloat("profit_probability"))
@@ -35,11 +32,5 @@ public class JournalModelRowMapper implements RowMapper<OptionJournalModel> {
                 .withBrokerFees(rs.getFloat("broker_fees"))
                 .withMark(rs.getString("mark"))
                 .build();
-    }
-
-    private OffsetDateTime fromTimestamp(Timestamp timestamp) {
-        //TODO: not sure about ZoneId
-        return OffsetDateTime.ofInstant(
-                Instant.ofEpochMilli(timestamp.getTime()), ZoneId.systemDefault());
     }
 }

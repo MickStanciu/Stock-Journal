@@ -1,10 +1,7 @@
 package com.example.common.converter;
 
 import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
@@ -36,5 +33,11 @@ public class TimeConversion {
 
     public static Timestamp fromOffsetDateTime(OffsetDateTime offsetDateTime) {
         return Timestamp.from(offsetDateTime.toInstant());
+    }
+
+    public static OffsetDateTime fromTimestamp(Timestamp timestamp) {
+        //TODO: not sure about ZoneId
+        return OffsetDateTime.ofInstant(
+                Instant.ofEpochMilli(timestamp.getTime()), ZoneId.systemDefault());
     }
 }
