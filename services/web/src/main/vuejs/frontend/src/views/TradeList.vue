@@ -34,6 +34,7 @@
 
 <script>
     import * as moment from "moment/moment";
+    import * as moment_tz from "moment-timezone";
     import TradeLog from "../models/TradeLog";
     import service from '../service';
 
