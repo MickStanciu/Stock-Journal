@@ -34,7 +34,6 @@
 
 <script>
     import * as moment from "moment/moment";
-    import * as moment_tz from "moment-timezone";
     import TradeLog from "../models/TradeLog";
     import service from '../service';
 
@@ -79,16 +78,7 @@
             },
 
             calculateLineItemTotal: function (item) {
-                let total = item.contracts * 100;
-
-                if ('SELL' === item.action) {
-                    total *= item.premium;
-                } else {
-                    total *= item.premium * (-1);
-                }
-                total = total - item.brokerFee;
-                this.grandTotal += total;
-                return total;
+                return item.contracts * 100 * item.premium - item.brokerFee;
             },
 
             calculateLineItemsTotal: function (items) {

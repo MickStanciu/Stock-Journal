@@ -82,7 +82,7 @@ public class OptionsJournalRepository {
                     "       mark " +
                     "FROM simple_option " +
                     "WHERE account_fk = CAST(? AS uuid) and symbol = ? " +
-                    "ORDER BY expiry_date, symbol ASC;";
+                    "ORDER BY date ASC;";
 
     private static final String JOURNAL_READ_BY_TRANSACTION_ID =
             "SELECT CAST(transaction_id AS VARCHAR(36)), " +
