@@ -2,8 +2,6 @@ package com.example.tradelog.api.repository;
 
 import com.example.common.converter.TimeConversion;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -16,8 +14,6 @@ import java.util.Optional;
 
 @Repository
 public class OptionsJournalRepository {
-
-    private static final Logger log = LoggerFactory.getLogger(OptionsJournalRepository.class);
 
     private static final String JOURNAL_READ_FIRST_QUERY =
             "SELECT CAST(transaction_id AS VARCHAR(36)), " +
@@ -124,23 +120,23 @@ public class OptionsJournalRepository {
     }
 
     public boolean checkFirstRecord() {
-        List<OptionJournalModel> results = jdbcTemplate.query(JOURNAL_READ_FIRST_QUERY, new JournalModelRowMapper());
+        List<OptionJournalModel> results = jdbcTemplate.query(JOURNAL_READ_FIRST_QUERY, new OptionJournalModelRowMapper());
         return results.size() == 1;
     }
 
     public List<OptionJournalModel> getAllByAccount(String accountId) {
         Object[] parameters = new Object[] {accountId};
-        return jdbcTemplate.query(JOURNAL_READ_ALL_FOR_ACCOUNT, parameters, new JournalModelRowMapper());
+        return jdbcTemplate.query(JOURNAL_READ_ALL_FOR_ACCOUNT, parameters, new OptionJournalModelRowMapper());
     }
 
     public List<OptionJournalModel> getAllBySymbolAndAccount(String accountId, String symbol) {
         Object[] parameters = new Object[] {accountId, symbol};
-        return jdbcTemplate.query(JOURNAL_READ_BY_SYMBOL_FOR_ACCOUNT, parameters, new JournalModelRowMapper());
+        return jdbcTemplate.query(JOURNAL_READ_BY_SYMBOL_FOR_ACCOUNT, parameters, new OptionJournalModelRowMapper());
     }
 
     public Optional<OptionJournalModel> getByTransactionId(String transactionId) {
         Object[] parameters = new Object[] {transactionId};
-        List<OptionJournalModel> modelList = jdbcTemplate.query(JOURNAL_READ_BY_TRANSACTION_ID, parameters, new JournalModelRowMapper());
+        List<OptionJournalModel> modelList = jdbcTemplate.query(JOURNAL_READ_BY_TRANSACTION_ID, parameters, new OptionJournalModelRowMapper());
         if (modelList.size() == 1) {
             return Optional.ofNullable(modelList.get(0));
         }

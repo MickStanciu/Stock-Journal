@@ -3,19 +3,18 @@ CREATE EXTENSION "uuid-ossp";
 -- clean up
 DROP TABLE IF EXISTS action;
 DROP TABLE IF EXISTS action_type;
-DROP TABLE IF EXISTS tradelog;
+DROP TABLE IF EXISTS simple_option;
+DROP TABLE IF EXISTS shares_log;
 
 CREATE TABLE action (
   name VARCHAR(32) NOT NULL PRIMARY KEY
 );
-
 GRANT ALL PRIVILEGES ON TABLE action TO admin;
 
 
 CREATE TABLE action_type (
   name VARCHAR(32) NOT NULL PRIMARY KEY
 );
-
 GRANT ALL PRIVILEGES ON TABLE action_type TO admin;
 
 CREATE TABLE simple_option
@@ -38,11 +37,20 @@ CREATE TABLE simple_option
   broker_fees             FLOAT            DEFAULT 0.0,
   mark                    VARCHAR(16)      DEFAULT NULL
 );
-
-
-
-
-
-
-
 GRANT ALL PRIVILEGES ON TABLE simple_option TO admin;
+
+
+CREATE TABLE shares_log
+(
+    transaction_id UUID PRIMARY KEY DEFAULT uuid_generate_v4() NOT NULL,
+    account_fk     UUID                                        NOT NULL,
+    date           TIMESTAMPTZ                                 NOT NULL,
+    symbol         VARCHAR(16)                                 NOT NULL,
+    price          FLOAT                                       NOT NULL,
+    quantity       INTEGER,
+    action_fk      VARCHAR(32) REFERENCES action (name),
+    action_type_fk VARCHAR(32) REFERENCES action_type (name),
+    broker_fees    FLOAT            DEFAULT 0.0,
+    mark           VARCHAR(16)      DEFAULT NULL
+);
+GRANT ALL PRIVILEGES ON TABLE shares_log TO admin;

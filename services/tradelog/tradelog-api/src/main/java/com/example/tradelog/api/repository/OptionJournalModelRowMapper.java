@@ -9,7 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class JournalModelRowMapper implements RowMapper<OptionJournalModel> {
+public class OptionJournalModelRowMapper implements RowMapper<OptionJournalModel> {
 
     @Override
     public OptionJournalModel mapRow(ResultSet rs, int rowNum) throws SQLException {

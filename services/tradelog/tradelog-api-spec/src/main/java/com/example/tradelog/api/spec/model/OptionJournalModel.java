@@ -103,100 +103,100 @@ public class OptionJournalModel implements Serializable {
     }
 
     public static class Builder {
-        OptionJournalModel optionJournalModel;
+        OptionJournalModel model;
 
         Builder() {
-            optionJournalModel = new OptionJournalModel();
+            model = new OptionJournalModel();
         }
 
         public OptionJournalModel build() {
-            OptionJournalModel buildModel = this.optionJournalModel;
-            this.optionJournalModel = new OptionJournalModel();
+            OptionJournalModel buildModel = this.model;
+            this.model = new OptionJournalModel();
             return buildModel;
         }
 
         public Builder withTransactionId(String transactionId) {
-            optionJournalModel.transactionId = transactionId;
+            model.transactionId = transactionId;
             return this;
         }
 
         public Builder withAccountId(String accountId) {
-            optionJournalModel.accountId = accountId;
+            model.accountId = accountId;
             return this;
         }
 
         public Builder withDate(OffsetDateTime date) {
-            optionJournalModel.date = date;
+            model.date = date;
             return this;
         }
 
         public Builder withMark(String mark) {
-            optionJournalModel.mark = mark;
+            model.mark = mark;
             return this;
         }
 
         public Builder withStockSymbol(String stockSymbol) {
-            optionJournalModel.stockSymbol = stockSymbol;
+            model.stockSymbol = stockSymbol;
             return this;
         }
 
         public Builder withStockPrice(double stockPrice) {
-            optionJournalModel.stockPrice = stockPrice;
+            model.stockPrice = stockPrice;
             return this;
         }
 
         public Builder withImpliedVolatility(double impliedVolatility) {
-            optionJournalModel.impliedVolatility = impliedVolatility;
+            model.impliedVolatility = impliedVolatility;
             return this;
         }
 
         public Builder withHistoricalImpliedVolatility(double historicalImpliedVolatility) {
-            optionJournalModel.historicalImpliedVolatility = historicalImpliedVolatility;
+            model.historicalImpliedVolatility = historicalImpliedVolatility;
             return this;
         }
 
         public Builder withAction(Action action) {
-            optionJournalModel.action = action;
+            model.action = action;
             return this;
         }
 
         public Builder withActionType(ActionType actionType) {
-            optionJournalModel.actionType = actionType;
+            model.actionType = actionType;
             return this;
         }
 
         public Builder withBrokerFees(double brokerFees) {
-            optionJournalModel.brokerFees = brokerFees;
+            model.brokerFees = brokerFees;
             return this;
         }
 
         public Builder withPairTransactionId(String pairTransactionId) {
-            optionJournalModel.pairTransactionId = pairTransactionId;
+            model.pairTransactionId = pairTransactionId;
             return this;
         }
 
         public Builder withStrikePrice(double strikePrice) {
-            optionJournalModel.strikePrice = strikePrice;
+            model.strikePrice = strikePrice;
             return this;
         }
 
         public Builder withExpiryDate(OffsetDateTime expiryDate) {
-            optionJournalModel.expiryDate = expiryDate;
+            model.expiryDate = expiryDate;
             return this;
         }
 
         public Builder withProfitProbability(double profitProbability) {
-            optionJournalModel.profitProbability = profitProbability;
+            model.profitProbability = profitProbability;
             return this;
         }
 
         public Builder withContracts(int contracts) {
-            optionJournalModel.contracts = contracts;
+            model.contracts = contracts;
             return this;
         }
 
         public Builder withPremium(double premium) {
-            optionJournalModel.premium = premium;
+            model.premium = premium;
             return this;
         }
     }
