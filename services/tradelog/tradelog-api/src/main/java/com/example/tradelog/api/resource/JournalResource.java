@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/api/v1", produces = "application/json")
@@ -43,12 +44,12 @@ public class JournalResource {
 
     @RequestMapping(value = "/{accountId}/symbols", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public List<String> getSymbolByAccountId(@PathVariable("accountId") String accountId) throws TradeLogException {
+    public Set<String> getAllTradedSymbols(@PathVariable("accountId") String accountId) throws TradeLogException {
         if (!RequestValidation.validateGetAllByAccountId(accountId)) {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
-        List<String> tradedSymbols = journalService.getAllSymbolsByAccount(accountId);
+        Set<String> tradedSymbols = journalService.getAllTradedSymbols(accountId);
 
         if (tradedSymbols.isEmpty()) {
             throw new TradeLogException(ExceptionCode.TRADELOG_EMPTY);

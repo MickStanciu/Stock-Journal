@@ -36,7 +36,7 @@ public class SharesJournalRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<String> getUniqueSymbolsByAccount(String accountId) {
+    public List<String> getUniqueSymbols(String accountId) {
         Object[] parameters = new Object[] {accountId};
         return jdbcTemplate.query(JOURNAL_READ_SYMBOLS, parameters, new SymbolRowMapper());
     }

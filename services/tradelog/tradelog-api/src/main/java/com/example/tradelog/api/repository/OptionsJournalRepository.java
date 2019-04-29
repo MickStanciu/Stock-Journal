@@ -143,7 +143,7 @@ public class OptionsJournalRepository {
         return Optional.empty();
     }
 
-    public List<String> getUniqueSymbolsByAccount(String accountId) {
+    public List<String> getUniqueSymbols(String accountId) {
         Object[] parameters = new Object[] {accountId};
         return jdbcTemplate.query(JOURNAL_READ_SYMBOLS, parameters, new SymbolRowMapper());
     }
