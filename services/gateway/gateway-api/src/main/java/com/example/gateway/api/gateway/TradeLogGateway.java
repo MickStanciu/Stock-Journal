@@ -1,6 +1,7 @@
 package com.example.gateway.api.gateway;
 
 import com.example.tradelog.api.spec.model.OptionJournalModel;
+import com.example.tradelog.api.spec.model.TradeLogModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,29 +29,25 @@ public class TradeLogGateway {
         this.API_URL = url;
     }
 
-    public List<OptionJournalModel> getAllByAccountId(String accountId) {
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder
-                .fromHttpUrl(API_URL)
-                .path(accountId);
+//    public List<OptionJournalModel> getAllByAccountId(String accountId) {
+//        UriComponentsBuilder uriBuilder = UriComponentsBuilder
+//                .fromHttpUrl(API_URL)
+//                .path(accountId);
+//
+//        ResponseEntity<List<OptionJournalModel>> responseEntity = restTemplate.exchange(uriBuilder.toUriString(), HttpMethod.GET, null, new ParameterizedTypeReference<List<OptionJournalModel>>() {});
+//        return responseEntity.getBody();
+//    }
 
-        ResponseEntity<List<OptionJournalModel>> responseEntity = restTemplate.exchange(uriBuilder.toUriString(), HttpMethod.GET, null, new ParameterizedTypeReference<List<OptionJournalModel>>() {});
-        return responseEntity.getBody();
-    }
-
-    private List<OptionJournalModel> getFake() {
-        return Collections.emptyList();
-    }
-
-    public List<OptionJournalModel> getAllByAccountAndSymbol(String accountId, String symbol) {
+    public TradeLogModel getAllBySymbol(String accountId, String symbol) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
                 .path("/{accountId}/trades/{symbol}");
 
-        ResponseEntity<List<OptionJournalModel>> responseEntity = restTemplate.exchange(builder.build(accountId, symbol), HttpMethod.GET, null, new ParameterizedTypeReference<List<OptionJournalModel>>() {});
+        ResponseEntity<TradeLogModel> responseEntity = restTemplate.exchange(builder.build(accountId, symbol), HttpMethod.GET, null, TradeLogModel.class);
         return responseEntity.getBody();
     }
 
-    public List<String> getSymbolsByAccountId(String accountId) {
+    public List<String> getAllTradedSymbols(String accountId) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
                 .path("/{accountId}/symbols");

@@ -16,7 +16,7 @@ public class SharesJournalRepository {
 
     private static final String JOURNAL_READ_BY_SYMBOL_FOR_ACCOUNT =
             "SELECT CAST(transaction_id AS VARCHAR(36)), " +
-                    "       CAST(transaction_fk AS VARCHAR(36)), " +
+                    "       CAST(transaction_id AS VARCHAR(36)), " +
                     "       CAST(account_fk AS VARCHAR(36)), " +
                     "       date, " +
                     "       symbol, " +

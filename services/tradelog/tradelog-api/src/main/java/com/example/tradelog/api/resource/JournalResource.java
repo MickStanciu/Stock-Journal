@@ -4,6 +4,7 @@ import com.example.tradelog.api.exception.TradeLogException;
 import com.example.tradelog.api.service.JournalService;
 import com.example.tradelog.api.spec.exception.ExceptionCode;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
+import com.example.tradelog.api.spec.model.TradeLogModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -61,20 +62,15 @@ public class JournalResource {
 
     @RequestMapping(value = "/{accountId}/trades/{symbol}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public List<OptionJournalModel> getAllBySymbolAndAccountId(
+    public TradeLogModel getAllBySymbol(
             @PathVariable("accountId") String accountId,
             @PathVariable("symbol") String symbol) throws TradeLogException {
+
         if (!RequestValidation.validateGetAccountAndSymbol(accountId, symbol)) {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
-        List<OptionJournalModel> tradeLogs = journalService.getAllBySymbolAndAccount(accountId, symbol);
-
-        if (tradeLogs.isEmpty()) {
-            throw new TradeLogException(ExceptionCode.TRADELOG_EMPTY);
-        }
-
-        return tradeLogs;
+        return journalService.getAllBySymbol(accountId, symbol);
     }
 
 

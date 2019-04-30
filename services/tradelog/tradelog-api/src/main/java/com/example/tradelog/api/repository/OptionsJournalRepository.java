@@ -129,7 +129,7 @@ public class OptionsJournalRepository {
         return jdbcTemplate.query(JOURNAL_READ_ALL_FOR_ACCOUNT, parameters, new OptionJournalModelRowMapper());
     }
 
-    public List<OptionJournalModel> getAllBySymbolAndAccount(String accountId, String symbol) {
+    public List<OptionJournalModel> getAllBySymbol(String accountId, String symbol) {
         Object[] parameters = new Object[] {accountId, symbol};
         return jdbcTemplate.query(JOURNAL_READ_BY_SYMBOL_FOR_ACCOUNT, parameters, new OptionJournalModelRowMapper());
     }

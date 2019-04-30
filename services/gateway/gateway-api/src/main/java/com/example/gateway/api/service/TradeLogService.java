@@ -2,6 +2,7 @@ package com.example.gateway.api.service;
 
 import com.example.gateway.api.gateway.TradeLogGateway;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
+import com.example.tradelog.api.spec.model.TradeLogModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -19,15 +20,15 @@ public class TradeLogService {
         this.tradeLogGateway = tradeLogGateway;
     }
 
-    public List<OptionJournalModel> getAllByAccountId(String accountId) {
-        return tradeLogGateway.getAllByAccountId(accountId);
+//    public List<OptionJournalModel> getAllByAccountId(String accountId) {
+//        return tradeLogGateway.getAllByAccountId(accountId);
+//    }
+
+    public TradeLogModel getAllBySymbol(String accountId, String symbol) {
+        return tradeLogGateway.getAllBySymbol(accountId, symbol);
     }
 
-    public List<OptionJournalModel> getAllByAccountAndSymbol(String accountId, String symbol) {
-        return tradeLogGateway.getAllByAccountAndSymbol(accountId, symbol);
-    }
-
-    public List<String> getSymbolsByAccountId(String accountId) {
-        return tradeLogGateway.getSymbolsByAccountId(accountId);
+    public List<String> getAllTradedSymbols(String accountId) {
+        return tradeLogGateway.getAllTradedSymbols(accountId);
     }
 }

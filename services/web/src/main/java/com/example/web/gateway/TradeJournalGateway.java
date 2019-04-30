@@ -1,6 +1,7 @@
 package com.example.web.gateway;
 
 import com.example.gateway.api.model.OptionJournalGWModel;
+import com.example.gateway.api.model.TradeLogModelGW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,16 +37,16 @@ public class TradeJournalGateway {
         return responseEntity.getBody();
     }
 
-    public List<OptionJournalGWModel> getAllByAccountAndSymbol(String accountId, String symbol) {
+    public TradeLogModelGW getAllTradesByAndSymbol(String accountId, String symbol) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
                 .path("/{accountId}/trades/{symbol}");
 
-        ResponseEntity<List<OptionJournalGWModel>> responseEntity = restTemplate.exchange(builder.build(accountId, symbol), HttpMethod.GET, null, new ParameterizedTypeReference<List<OptionJournalGWModel>>() {});
+        ResponseEntity<TradeLogModelGW> responseEntity = restTemplate.exchange(builder.build(accountId, symbol), HttpMethod.GET, null, TradeLogModelGW.class);
         return responseEntity.getBody();
     }
 
-    public List<String> getUniqueSymbolsByAccountId(String accountId) {
+    public List<String> getUniqueSymbols(String accountId) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
                 .path("/{accountId}/symbols");
