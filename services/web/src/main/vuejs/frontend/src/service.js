@@ -18,7 +18,7 @@ const appService = {
     getTradesPerSymbol(symbol) {
       return new Promise(resolve => {
           axios
-              .get('/symbols/' + symbol.toUpperCase())
+              .get('/trades/' + symbol.toUpperCase())
               .then(response => {
                   resolve(response.data)
               }).catch(error => {

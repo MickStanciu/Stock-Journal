@@ -96,7 +96,7 @@
                 .getTradesPerSymbol(this.$route.params.symbol)
                 .then(data => {
                     let self = this;
-                    data.forEach(function (item) {
+                    data.optionList.forEach(function (item) {
                         self.items.push(
                             new TradeLog.Builder()
                                 .withId(item.transactionId)
