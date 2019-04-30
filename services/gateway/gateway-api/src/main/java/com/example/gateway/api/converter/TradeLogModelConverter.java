@@ -1,10 +1,10 @@
 package com.example.gateway.api.converter;
 
 import com.example.gateway.api.model.OptionJournalGWModel;
+import com.example.gateway.api.model.ShareJournalGWModel;
 import com.example.gateway.api.model.TradeLogModelGW;
 import com.example.tradelog.api.spec.model.TradeLogModel;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
@@ -18,12 +18,16 @@ public class TradeLogModelConverter implements Function<TradeLogModel, TradeLogM
         TradeLogModelGW tradeLogModelGW = new TradeLogModelGW();
 
         List<OptionJournalGWModel> optionList = tradeLogModel.getOptionList().stream()
-                .map(OptionJournalConverter.gwModelConverter)
+                .map(new OptionJournalConverter())
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
 
+        List<ShareJournalGWModel> shareList = tradeLogModel.getShareList().stream()
+                .map(new ShareJournalConverter())
+                .collect(Collectors.toList());
+
         tradeLogModelGW.setOptionList(optionList);
-        tradeLogModelGW.setShareList(Collections.emptyList());
+        tradeLogModelGW.setShareList(shareList);
         return tradeLogModelGW;
     }
 }

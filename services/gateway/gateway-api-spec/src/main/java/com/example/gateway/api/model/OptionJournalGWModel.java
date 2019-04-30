@@ -19,8 +19,8 @@ public class OptionJournalGWModel {
     private double profitProbability;
     private int contracts;
     private double premium;
-    private ActionGW actionGW;
-    private ActionTypeGW actionTypeGW;
+    private ActionGW action;
+    private ActionTypeGW actionType;
     private double brokerFees;
     private String mark;
 
@@ -61,12 +61,12 @@ public class OptionJournalGWModel {
         return historicalImpliedVolatility;
     }
 
-    public ActionGW getActionGW() {
-        return actionGW;
+    public ActionGW getAction() {
+        return action;
     }
 
-    public ActionTypeGW getActionTypeGW() {
-        return actionTypeGW;
+    public ActionTypeGW getActionType() {
+        return actionType;
     }
 
     public double getBrokerFees() {
@@ -102,100 +102,100 @@ public class OptionJournalGWModel {
     }
 
     public static class Builder {
-        OptionJournalGWModel optionJournalModel;
+        OptionJournalGWModel model;
 
         Builder() {
-            optionJournalModel = new OptionJournalGWModel();
+            model = new OptionJournalGWModel();
         }
 
         public OptionJournalGWModel build() {
-            OptionJournalGWModel buildModel = this.optionJournalModel;
-            this.optionJournalModel = new OptionJournalGWModel();
+            OptionJournalGWModel buildModel = this.model;
+            this.model = new OptionJournalGWModel();
             return buildModel;
         }
 
         public Builder withTransactionId(String transactionId) {
-            optionJournalModel.transactionId = transactionId;
+            model.transactionId = transactionId;
             return this;
         }
 
         public Builder withAccountId(String accountId) {
-            optionJournalModel.accountId = accountId;
+            model.accountId = accountId;
             return this;
         }
 
         public Builder withDate(OffsetDateTime date) {
-            optionJournalModel.date = date;
+            model.date = date;
             return this;
         }
 
         public Builder withMark(String mark) {
-            optionJournalModel.mark = mark;
+            model.mark = mark;
             return this;
         }
 
         public Builder withStockSymbol(String stockSymbol) {
-            optionJournalModel.stockSymbol = stockSymbol;
+            model.stockSymbol = stockSymbol;
             return this;
         }
 
         public Builder withStockPrice(double stockPrice) {
-            optionJournalModel.stockPrice = stockPrice;
+            model.stockPrice = stockPrice;
             return this;
         }
 
         public Builder withImpliedVolatility(double impliedVolatility) {
-            optionJournalModel.impliedVolatility = impliedVolatility;
+            model.impliedVolatility = impliedVolatility;
             return this;
         }
 
         public Builder withHistoricalImpliedVolatility(double historicalImpliedVolatility) {
-            optionJournalModel.historicalImpliedVolatility = historicalImpliedVolatility;
+            model.historicalImpliedVolatility = historicalImpliedVolatility;
             return this;
         }
 
         public Builder withAction(ActionGW actionGW) {
-            optionJournalModel.actionGW = actionGW;
+            model.action = actionGW;
             return this;
         }
 
         public Builder withActionType(ActionTypeGW actionTypeGW) {
-            optionJournalModel.actionTypeGW = actionTypeGW;
+            model.actionType = actionTypeGW;
             return this;
         }
 
         public Builder withBrokerFees(double brokerFees) {
-            optionJournalModel.brokerFees = brokerFees;
+            model.brokerFees = brokerFees;
             return this;
         }
 
         public Builder withPairTransactionId(String pairTransactionId) {
-            optionJournalModel.pairTransactionId = pairTransactionId;
+            model.pairTransactionId = pairTransactionId;
             return this;
         }
 
         public Builder withStrikePrice(double strikePrice) {
-            optionJournalModel.strikePrice = strikePrice;
+            model.strikePrice = strikePrice;
             return this;
         }
 
         public Builder withExpiryDate(OffsetDateTime expiryDate) {
-            optionJournalModel.expiryDate = expiryDate;
+            model.expiryDate = expiryDate;
             return this;
         }
 
         public Builder withProfitProbability(double profitProbability) {
-            optionJournalModel.profitProbability = profitProbability;
+            model.profitProbability = profitProbability;
             return this;
         }
 
         public Builder withContracts(int contracts) {
-            optionJournalModel.contracts = contracts;
+            model.contracts = contracts;
             return this;
         }
 
         public Builder withPremium(double premium) {
-            optionJournalModel.premium = premium;
+            model.premium = premium;
             return this;
         }
     }

@@ -33,11 +33,11 @@ class OptionJournalConverterTest {
                 .build();
 
 
-        OptionJournalGWModel gwModel = OptionJournalConverter.gwModelConverter.apply(model);
+        OptionJournalGWModel gwModel = new OptionJournalConverter().apply(model);
 
         Assertions.assertEquals(model.getAccountId(), gwModel.getAccountId());
-        Assertions.assertEquals(model.getAction().name(), gwModel.getActionGW().name());
-        Assertions.assertEquals(model.getActionType().name(), gwModel.getActionTypeGW().name());
+        Assertions.assertEquals(model.getAction().name(), gwModel.getAction().name());
+        Assertions.assertEquals(model.getActionType().name(), gwModel.getActionType().name());
         Assertions.assertEquals(model.getTransactionId(), gwModel.getTransactionId());
         Assertions.assertEquals(model.getPairTransactionId(), gwModel.getPairTransactionId());
         Assertions.assertEquals(model.getDate(), gwModel.getDate());
