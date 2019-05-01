@@ -1,7 +1,6 @@
 package com.example.web.resource;
 
-import com.example.gateway.api.model.OptionJournalGWModel;
-import com.example.gateway.api.model.TradeLogModelGW;
+import com.example.web.model.TradeLogModel;
 import com.example.web.service.TradeJournalService;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,11 +30,11 @@ public class AjaxController {
 //    }
 
     @RequestMapping(value = "/tradelog/{accountId}/trades/{symbol}")
-    public TradeLogModelGW getAllTradesBySymbol(@PathVariable(name = "accountId") String accountId, @PathVariable(name = "symbol") String symbol) {
-        TradeLogModelGW gwModel = tradeJournalService.getAllTradesByAndSymbol(accountId, symbol);
+    public TradeLogModel getAllTradesBySymbol(@PathVariable(name = "accountId") String accountId, @PathVariable(name = "symbol") String symbol) {
+        TradeLogModel model = tradeJournalService.getAllTradesBySymbol(accountId, symbol);
         //todo validate input
         //todo validate exceptions when GatewayAPI is down
-        return gwModel;
+        return model;
     }
 
     @RequestMapping(value = "/tradelog/{accountId}/symbols")

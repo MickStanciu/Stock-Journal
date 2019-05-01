@@ -37,7 +37,7 @@ public class TradeJournalGateway {
         return responseEntity.getBody();
     }
 
-    public TradeLogModelGW getAllTradesByAndSymbol(String accountId, String symbol) {
+    public TradeLogModelGW getAllTradesBySymbol(String accountId, String symbol) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
                 .path("/{accountId}/trades/{symbol}");

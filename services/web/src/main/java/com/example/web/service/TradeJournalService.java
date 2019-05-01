@@ -1,8 +1,10 @@
 package com.example.web.service;
 
-import com.example.gateway.api.model.OptionJournalGWModel;
 import com.example.gateway.api.model.TradeLogModelGW;
+import com.example.web.converter.SynteticSharesGenerator;
+import com.example.web.converter.TradeLogModelConverter;
 import com.example.web.gateway.TradeJournalGateway;
+import com.example.web.model.TradeLogModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,8 +22,11 @@ public class TradeJournalService {
 //        return tradeJournalGateway.getAllByAccountId(accountId);
 //    }
 
-    public TradeLogModelGW getAllTradesByAndSymbol(String accountId, String symbol) {
-        return tradeJournalGateway.getAllTradesByAndSymbol(accountId, symbol);
+    public TradeLogModel getAllTradesBySymbol(String accountId, String symbol) {
+        TradeLogModelGW tradeLogModelGW = tradeJournalGateway.getAllTradesBySymbol(accountId, symbol);
+        TradeLogModel tradeLogModel = new TradeLogModelConverter().apply(tradeLogModelGW);
+        tradeLogModel.setSyntheticShareList(new SynteticSharesGenerator().apply(tradeLogModelGW.getShareList()));
+        return tradeLogModel;
     }
 
     public List<String> getUniqueSymbols(String accountId) {
