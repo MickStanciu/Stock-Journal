@@ -33,7 +33,7 @@ public class OptionsJournalRepository {
                     "       action_type_fk, " +
                     "       broker_fees, " +
                     "       mark " +
-                    "FROM simple_option " +
+                    "FROM option_log " +
                     "LIMIT 1;";
 
     private static final String JOURNAL_READ_ALL_FOR_ACCOUNT =
@@ -54,7 +54,7 @@ public class OptionsJournalRepository {
                     "       action_type_fk, " +
                     "       broker_fees, " +
                     "       mark " +
-                    "FROM simple_option " +
+                    "FROM option_log " +
                     "WHERE account_fk = CAST(? AS uuid) " +
                     "ORDER BY expiry_date, symbol ASC;";
 
@@ -76,7 +76,7 @@ public class OptionsJournalRepository {
                     "       action_type_fk, " +
                     "       broker_fees, " +
                     "       mark " +
-                    "FROM simple_option " +
+                    "FROM option_log " +
                     "WHERE account_fk = CAST(? AS uuid) and symbol = ? " +
                     "ORDER BY date ASC;";
 
@@ -98,16 +98,16 @@ public class OptionsJournalRepository {
                     "       action_type_fk, " +
                     "       broker_fees, " +
                     "       mark " +
-                    "FROM simple_option " +
+                    "FROM option_log " +
                     "WHERE transaction_id = CAST(? AS uuid)";
 
     private static final String JOURNAL_READ_SYMBOLS =
-            "SELECT DISTINCT symbol FROM simple_option " +
+            "SELECT DISTINCT symbol FROM option_log " +
                     "WHERE account_fk = CAST(? AS uuid) " +
                     "ORDER BY symbol ASC;";
 
     private static final String JOURNAL_CREATE_OPTION_FOR_ACCOUNT =
-            "INSERT INTO simple_option (transaction_fk, account_fk, date, symbol, stock_price, strike_price, " +
+            "INSERT INTO option_log (transaction_fk, account_fk, date, symbol, stock_price, strike_price, " +
                     "expiry_date, implied_volatility, implied_volatility_hist, profit_probability, contract_number, premium, " +
                     "action_fk, action_type_fk, broker_fees, mark) " +
                     "VALUES (null, CAST(? AS uuid), ?, ?, ?, ?, ?, " +
