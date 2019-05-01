@@ -4,7 +4,7 @@
 
         <div class="row mt-3 pb-2 pt-2 table-header">
             <div class="col-md-2">Date</div>
-            <div class="col-md-4">Action</div>
+            <div class="col-md-5">Action</div>
             <div class="col">Fees</div>
             <div class="col">Total</div>
         </div>
@@ -12,18 +12,18 @@
         <template v-for="(item, idx) in items">
             <div class="row pb-2 pt-2" v-bind:class="rowClass(idx)" v-bind:key="item.id">
                 <div class="col-md-2">{{ dateTz(item) }}</div>
-                <div class="col-md-4">{{ encodeAction(item) }}</div>
-                <div class="col">{{ item.brokerFee }}</div>
-                <div class="col">{{ calculateLineItemTotal(item).toFixed(4) }}</div>
+                <div class="col-md-5">{{ encodeAction(item) }}</div>
+                <div class="col">{{ printCurrencyFormat(item.brokerFee, false) }}</div>
+                <div class="col">{{ printCurrencyFormat(calculateLineItemTotal(item), false) }}</div>
             </div>
         </template>
 
 
         <div class="row pb-1 pt-1 table-footer">
             <div class="col-md-2">&nbsp;</div>
-            <div class="col-md-4">&nbsp;</div>
+            <div class="col-md-5">&nbsp;</div>
             <div class="col">&nbsp;</div>
-            <div class="col">{{ calculateLineItemsTotal(items).toFixed(4) }}</div>
+            <div class="col">{{ printCurrencyFormat(calculateLineItemsTotal(items), true) }}</div>
         </div>
 
         <div class="row pt-3">
@@ -35,7 +35,8 @@
 <script>
     import * as moment from "moment/moment";
     import * as moment_tz from "moment-timezone";
-    import TradeLog from "../models/TradeLog";
+    import OptionTradeLog from "../models/OptionTradeLog";
+    import ShareTradeLog from "../models/ShareTradeLog";
     import service from '../service';
 
     export default {
@@ -67,19 +68,33 @@
             },
 
             encodeAction: function (item) {
-                //SOLD 3 LKQ May17'19 30 PUT @ 1
                 let encoded = 'BOUGHT ';
                 if ('SELL' === item.action) {
                     encoded = 'SOLD '
                 }
 
-                encoded += item.contracts + ' ' + item.symbol + ' ' + item.actionType + ' ' + this.expiryDateTz(item) + ' @ '
-                    + item.premium;
+                if (item.type === 'OPTION') {
+                    //SOLD 3 LKQ May17'19 30 PUT @ 1
+                    encoded += item.contracts + ' ' + item.symbol + ' ' + item.actionType + ' ' + this.expiryDateTz(item)
+                        + ' ' + item.strikePrice + ' @ ' + item.premium;
+                } else if (item.type === 'SHARE') {
+                    //BOUGHT 100 SWKS @ 87.17
+                    encoded += item.quantity + ' ' + item.symbol + ' @ ' + item.price;
+                }
                 return encoded;
             },
 
             calculateLineItemTotal: function (item) {
-                return item.contracts * 100 * item.premium - item.brokerFee;
+                if (item.type === 'OPTION') {
+                    return item.contracts * 100 * item.premium - item.brokerFee;
+                } else if (item.type === 'SHARE') {
+                    let price = item.price;
+                    if (item.action === 'BUY') {
+                        price = price * -1;
+                    }
+                    return item.quantity * price - item.brokerFee;
+                }
+                return 0;
             },
 
             calculateLineItemsTotal: function (items) {
@@ -89,6 +104,21 @@
                     total += _this.calculateLineItemTotal(item);
                 });
                 return total;
+            },
+
+            printCurrencyFormat: function (value, round) {
+                let params = {
+                    style: 'currency',
+                    currency: 'USD',
+                    minimumSignificantDigits: 1,
+                    maximumSignificantDigits: 21
+                };
+
+                if (round === true) {
+                    params.maximumSignificantDigits = 4;
+                }
+
+                return new Intl.NumberFormat('en-US', params).format(value);
             }
         },
         created() {
@@ -96,9 +126,10 @@
                 .getTradesPerSymbol(this.$route.params.symbol)
                 .then(data => {
                     let self = this;
+                    let localItems = [];
                     data.optionList.forEach(function (item) {
-                        self.items.push(
-                            new TradeLog.Builder()
+                        localItems.push(
+                            new OptionTradeLog.Builder()
                                 .withId(item.transactionId)
                                 .withPairId(null)
                                 .withSymbol(item.stockSymbol)
@@ -106,12 +137,33 @@
                                 .withStrikePrice(item.strikePrice)
                                 .withContracts(item.contracts)
                                 .withPremium(item.premium)
-                                .withAction(item.actionGW)
-                                .withActionType(item.actionTypeGW)
+                                .withAction(item.action)
+                                .withActionType(item.actionType)
                                 .withBrokerFee(item.brokerFees)
                                 .withDate(item.date)
                                 .withExpiryDate(item.expiryDate)
                                 .build())
+                    });
+
+                    data.shareList.forEach(function (item) {
+                        localItems.push(
+                            new ShareTradeLog.Builder()
+                                .withId(item.transactionId)
+                                .withSymbol(item.symbol)
+                                .withPrice(item.price)
+                                .withQuantity(item.quantity)
+                                .withAction(item.action)
+                                .withActionType(item.actionType)
+                                .withBrokerFee(item.brokerFees)
+                                .withDate(item.date)
+                                .build())
+                    });
+
+                    //todo: sort
+                    self.items = localItems.sort(function (a, b) {
+                        const dateA = moment(a.date).tz(self.timeZone);
+                        const dateB = moment(b.date).tz(self.timeZone);
+                        return dateA - dateB;
                     });
                 });
         }

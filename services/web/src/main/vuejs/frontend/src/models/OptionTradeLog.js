@@ -1,4 +1,6 @@
-class TradeLog {
+class OptionTradeLog {
+    type = 'OPTION';
+
     static get Builder() {
         class Builder {
             withId(id) {
@@ -62,7 +64,7 @@ class TradeLog {
             }
 
             build() {
-                let future = new TradeLog();
+                let future = new OptionTradeLog();
                 future.id = this.id;
                 future.pairId = this.pairId;
                 future.symbol = this.symbol;
@@ -83,4 +85,4 @@ class TradeLog {
     }
 }
 
-export default TradeLog;
+export default OptionTradeLog;
