@@ -1,5 +1,6 @@
 class ShareTradeLog {
     type = 'SHARE';
+    isSynthetic = false;
 
     static get Builder() {
         class Builder {
@@ -43,6 +44,11 @@ class ShareTradeLog {
                 return this;
             }
 
+            withSyntheticFlag(flag) {
+                this.isSynthetic = flag;
+                return this;
+            }
+
             build() {
                 let future = new ShareTradeLog();
                 future.id = this.id;
@@ -54,6 +60,7 @@ class ShareTradeLog {
                 future.actionType = this.actionType;
                 future.brokerFee = this.brokerFee;
                 future.date = this.date;
+                future.isSynthetic = this.isSynthetic;
 
                 return future;
             }

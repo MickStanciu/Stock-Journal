@@ -10,7 +10,7 @@
         </div>
 
         <template v-for="(item, idx) in items">
-            <div class="row pb-2 pt-2" v-bind:class="rowClass(idx)" v-bind:key="item.id">
+            <div class="row pb-2 pt-2" v-bind:class="rowClass(item, idx)" v-bind:key="item.id">
                 <div class="col-md-2">{{ dateTz(item) }}</div>
                 <div class="col-md-5">{{ encodeAction(item) }}</div>
                 <div class="col">{{ printCurrencyFormat(item.brokerFee, false) }}</div>
@@ -49,11 +49,17 @@
             }
         },
         methods: {
-            rowClass: function (idx) {
-                return {
-                    'table-cell-odd' : idx%2 === 1,
-                    'table-cell-even' : idx%2 === 0
+            rowClass: function (item, idx) {
+                let className = 'table-cell-odd';
+                if (idx%2 === 0) {
+                    className = 'table-cell-odd';
                 }
+
+                if (item.isSynthetic === true) {
+                    className += ' table-cell-synthetic';
+                }
+
+                return className;
             },
 
             expiryDateTz: function(item) {
@@ -159,6 +165,28 @@
                                 .build())
                     });
 
+                    data.syntheticShareList.forEach(function (item) {
+
+                        let price = 0.00;
+
+                        //SUPER HACK
+                        if (item.symbol === 'NOMD') {
+                            price = 20.0;
+                        }
+                        localItems.push(
+                            new ShareTradeLog.Builder()
+                                .withId(item.transactionId)
+                                .withSymbol(item.symbol)
+                                .withPrice(price)
+                                .withQuantity(item.quantity)
+                                .withAction(item.action)
+                                .withActionType(item.actionType)
+                                .withBrokerFee(item.brokerFees)
+                                .withDate(item.date)
+                                .withSyntheticFlag(true)
+                                .build())
+                    });
+
                     //todo: sort
                     self.items = localItems.sort(function (a, b) {
                         const dateA = moment(a.date).tz(self.timeZone);
@@ -193,6 +221,10 @@
 
     .table-cell-even {
         background-color: white;
-
     }
+
+    .table-cell-synthetic {
+        font-style: italic;
+    }
+
 </style>
