@@ -1,7 +1,5 @@
 <template>
     <div>
-        <h2>Trade Log</h2>
-
         <div class="row mt-3 pb-2 pt-2 table-header">
             <div class="col-md-2">Date</div>
             <div class="col-md-5">Action</div>
@@ -17,7 +15,6 @@
                 <div class="col">{{ printCurrencyFormat(calculateLineItemTotal(item), false) }}</div>
             </div>
         </template>
-
 
         <div class="row pb-1 pt-1 table-footer">
             <div class="col-md-2">&nbsp;</div>
@@ -52,7 +49,7 @@
             rowClass: function (item, idx) {
                 let className = 'table-cell-odd';
                 if (idx%2 === 0) {
-                    className = 'table-cell-odd';
+                    className = 'table-cell-even';
                 }
 
                 if (item.isSynthetic === true) {
