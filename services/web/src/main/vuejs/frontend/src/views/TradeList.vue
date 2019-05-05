@@ -11,8 +11,8 @@
             <div class="row pb-1 pt-1" v-bind:class="rowClass(item, idx)" v-bind:key="item.id">
                 <div class="col-md-2">{{ dateTz(item) }}</div>
                 <div class="col-md-5">{{ encodeAction(item) }}</div>
-                <div class="col">{{ printCurrencyFormat(item.brokerFee, false) }}</div>
-                <div class="col">{{ printCurrencyFormat(calculateLineItemTotal(item), false) }}</div>
+                <div class="col">{{ printCurrencyFormat(item.brokerFee) }}</div>
+                <div class="col">{{ printCurrencyFormat(calculateLineItemTotal(item)) }}</div>
             </div>
         </template>
 
@@ -20,7 +20,7 @@
             <div class="col-md-2">&nbsp;</div>
             <div class="col-md-5">&nbsp;</div>
             <div class="col">&nbsp;</div>
-            <div class="col">{{ printCurrencyFormat(calculateLineItemsTotal(items), true) }}</div>
+            <div class="col">{{ printCurrencyFormat(calculateLineItemsTotal(items)) }}</div>
         </div>
 
         <div class="row pt-3">
@@ -89,13 +89,14 @@
 
             calculateLineItemTotal: function (item) {
                 if (item.type === 'OPTION') {
-                    return item.contracts * 100 * item.premium - item.brokerFee;
+                    let transactionValue = item.contracts * 100 * item.premium - item.brokerFee;
+                    return parseFloat((transactionValue).toFixed(10));
                 } else if (item.type === 'SHARE') {
                     let price = item.price;
                     if (item.action === 'BUY') {
                         price = price * -1;
                     }
-                    return item.quantity * price - item.brokerFee;
+                    return parseFloat((item.quantity * price - item.brokerFee).toFixed(10));
                 }
                 return 0;
             },
@@ -109,18 +110,12 @@
                 return total;
             },
 
-            printCurrencyFormat: function (value, round) {
+            printCurrencyFormat: function (value) {
                 let params = {
                     style: 'currency',
                     currency: 'USD',
-                    minimumSignificantDigits: 1,
-                    maximumSignificantDigits: 21
+                    minimumFractionDigits: 2
                 };
-
-                if (round === true) {
-                    params.maximumSignificantDigits = 4;
-                }
-
                 return new Intl.NumberFormat('en-US', params).format(value);
             }
         },
