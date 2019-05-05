@@ -75,6 +75,36 @@ class SyntheticSharesGeneratorTest {
         ShareJournalGWModel csco100 = syn.get(0);
         Assertions.assertEquals(ActionGW.SELL, csco100.getAction());
         Assertions.assertEquals(100, csco100.getQuantity());
+        Assertions.assertEquals(10.0, csco100.getPrice());
+    }
+
+    @Test
+    void testAveragePriceCSCO() {
+        shareList.add(ShareJournalGWModel.builder()
+                .withSymbol("CSCO")
+                .withQuantity(100)
+                .withDate(OffsetDateTime.now())
+                .withPrice(55.0)
+                .withAction(ActionGW.BUY)
+                .withActionType(ActionTypeGW.STOCK)
+                .build());
+
+        shareList.add(ShareJournalGWModel.builder()
+                .withSymbol("CSCO")
+                .withQuantity(200)
+                .withDate(OffsetDateTime.now())
+                .withPrice(66.0)
+                .withAction(ActionGW.BUY)
+                .withActionType(ActionTypeGW.STOCK)
+                .build());
+
+        List<ShareJournalGWModel> syn = generator.apply(shareList);
+        Assertions.assertEquals(1, syn.size());
+
+        ShareJournalGWModel csco = syn.get(0);
+        Assertions.assertEquals(ActionGW.SELL, csco.getAction());
+        Assertions.assertEquals(300, csco.getQuantity());
+        Assertions.assertEquals(62.333333333333336, csco.getPrice());
     }
 
     @Test

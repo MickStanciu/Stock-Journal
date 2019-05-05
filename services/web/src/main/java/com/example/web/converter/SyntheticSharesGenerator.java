@@ -15,7 +15,8 @@ public class SyntheticSharesGenerator implements Function<List<ShareJournalGWMod
 
     @Override
     public List<ShareJournalGWModel> apply(List<ShareJournalGWModel> shareJournalGWModels) {
-        Map<String, Integer> stocks = new HashMap<>();
+        Map<String, ShareAggregator> stocks = new HashMap<>();
+
         shareJournalGWModels.stream()
                 .filter(f -> f.getActionType().equals(ActionTypeGW.STOCK))
                 .forEach(s -> {
@@ -26,26 +27,29 @@ public class SyntheticSharesGenerator implements Function<List<ShareJournalGWMod
                         quantity = s.getQuantity() * -1;
                     }
 
+                    ShareAggregator aggregator;
                     if (stocks.containsKey(s.getSymbol())) {
-                        quantity += stocks.get(s.getSymbol());
-
+                        aggregator = stocks.get(s.getSymbol());
+                    } else {
+                        aggregator = new ShareAggregator(s.getSymbol());
                     }
-                    stocks.put(s.getSymbol(), quantity);
+
+                    aggregator.addQuantityAndPrice(quantity, s.getPrice());
+                    stocks.put(s.getSymbol(), aggregator);
         });
 
         List<ShareJournalGWModel> synthetics = new ArrayList<>();
         stocks.forEach( (s, q) -> {
-            if (q != 0) {
+            if (q.getQuantity() != 0) {
                 synthetics.add(ShareJournalGWModel.builder()
                         .withSymbol(s)
-                        .withQuantity(q)
+                        .withQuantity(q.getQuantity())
                         .withDate(OffsetDateTime.now().plusYears(1))
-                        .withPrice(0.0)
+                        .withPrice(q.getAverageBoughtPrice())
                         .withAction(ActionGW.SELL)
                         .withActionType(ActionTypeGW.STOCK)
                         .build());
             }
-
         });
 
         return synthetics;

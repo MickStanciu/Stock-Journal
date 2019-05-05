@@ -10,7 +10,7 @@
         </div>
 
         <template v-for="(item, idx) in items">
-            <div class="row pb-2 pt-2" v-bind:class="rowClass(item, idx)" v-bind:key="item.id">
+            <div class="row pb-1 pt-1" v-bind:class="rowClass(item, idx)" v-bind:key="item.id">
                 <div class="col-md-2">{{ dateTz(item) }}</div>
                 <div class="col-md-5">{{ encodeAction(item) }}</div>
                 <div class="col">{{ printCurrencyFormat(item.brokerFee, false) }}</div>
@@ -167,17 +167,11 @@
 
                     data.syntheticShareList.forEach(function (item) {
 
-                        let price = 0.00;
-
-                        //SUPER HACK
-                        if (item.symbol === 'NOMD') {
-                            price = 20.0;
-                        }
                         localItems.push(
                             new ShareTradeLog.Builder()
                                 .withId(item.transactionId)
                                 .withSymbol(item.symbol)
-                                .withPrice(price)
+                                .withPrice(item.price)
                                 .withQuantity(item.quantity)
                                 .withAction(item.action)
                                 .withActionType(item.actionType)
@@ -224,6 +218,7 @@
     }
 
     .table-cell-synthetic {
+        background-color: antiquewhite;
         font-style: italic;
     }
 
