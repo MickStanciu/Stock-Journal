@@ -31,6 +31,7 @@ class SyntheticOptionsGeneratorTest {
                 .withStockSymbol("CSCO")
                 .withContracts(1)
                 .withDate(OffsetDateTime.now())
+                .withStrikePrice(55)
                 .withPremium(0.5)
                 .withExpiryDate(OffsetDateTime.now().plusMonths(1))
                 .withAction(ActionGW.SELL)
@@ -41,6 +42,7 @@ class SyntheticOptionsGeneratorTest {
                 .withStockSymbol("CSCO")
                 .withContracts(1)
                 .withDate(OffsetDateTime.now())
+                .withStrikePrice(55)
                 .withPremium(0.5)
                 .withExpiryDate(OffsetDateTime.now().plusMonths(1))
                 .withAction(ActionGW.BUY)
@@ -49,5 +51,33 @@ class SyntheticOptionsGeneratorTest {
 
         List<OptionJournalGWModel> syn = generator.apply(optionList);
         Assertions.assertEquals(0, syn.size());
+    }
+
+    @Test
+    void testSynCSCO1() {
+        OffsetDateTime exp = OffsetDateTime.now().plusMonths(1);
+
+        optionList.add(OptionJournalGWModel.builder()
+                .withStockSymbol("CSCO")
+                .withContracts(1)
+                .withDate(OffsetDateTime.now())
+                .withStrikePrice(55)
+                .withPremium(0.5)
+                .withExpiryDate(exp)
+                .withAction(ActionGW.SELL)
+                .withActionType(ActionTypeGW.PUT)
+                .build());
+
+        List<OptionJournalGWModel> syn = generator.apply(optionList);
+        Assertions.assertEquals(1, syn.size());
+
+        OptionJournalGWModel csco = syn.get(0);
+        Assertions.assertEquals("CSCO", csco.getStockSymbol());
+        Assertions.assertEquals(55, csco.getStrikePrice());
+        Assertions.assertEquals(ActionGW.BUY, csco.getAction());
+        Assertions.assertEquals(1, csco.getContracts());
+        Assertions.assertEquals(0, csco.getPremium());
+        Assertions.assertEquals(exp, csco.getExpiryDate());
+        Assertions.assertEquals(exp, csco.getDate());
     }
 }
