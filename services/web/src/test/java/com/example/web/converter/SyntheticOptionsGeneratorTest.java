@@ -1,0 +1,53 @@
+package com.example.web.converter;
+
+import com.example.gateway.api.model.ActionGW;
+import com.example.gateway.api.model.ActionTypeGW;
+import com.example.gateway.api.model.OptionJournalGWModel;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+class SyntheticOptionsGeneratorTest {
+
+    private SyntheticOptionsGenerator generator;
+    private List<OptionJournalGWModel> optionList;
+
+    SyntheticOptionsGeneratorTest() {
+        this.generator = new SyntheticOptionsGenerator();
+    }
+
+    @BeforeEach
+    void init() {
+        this.optionList = new ArrayList<>();
+    }
+
+    @Test
+    void testWhereThereIsNoNeedToGenerate() {
+        optionList.add(OptionJournalGWModel.builder()
+                .withStockSymbol("CSCO")
+                .withContracts(1)
+                .withDate(OffsetDateTime.now())
+                .withPremium(0.5)
+                .withExpiryDate(OffsetDateTime.now().plusMonths(1))
+                .withAction(ActionGW.SELL)
+                .withActionType(ActionTypeGW.PUT)
+                .build());
+
+        optionList.add(OptionJournalGWModel.builder()
+                .withStockSymbol("CSCO")
+                .withContracts(1)
+                .withDate(OffsetDateTime.now())
+                .withPremium(0.5)
+                .withExpiryDate(OffsetDateTime.now().plusMonths(1))
+                .withAction(ActionGW.BUY)
+                .withActionType(ActionTypeGW.PUT)
+                .build());
+
+        List<OptionJournalGWModel> syn = generator.apply(optionList);
+        Assertions.assertEquals(0, syn.size());
+    }
+}

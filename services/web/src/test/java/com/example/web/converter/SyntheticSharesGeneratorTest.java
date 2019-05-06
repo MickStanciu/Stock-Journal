@@ -17,12 +17,12 @@ class SyntheticSharesGeneratorTest {
     private List<ShareJournalGWModel> shareList;
 
     SyntheticSharesGeneratorTest() {
-        generator = new SyntheticSharesGenerator();
+        this.generator = new SyntheticSharesGenerator();
     }
 
     @BeforeEach
     void init() {
-        shareList = new ArrayList<>();
+        this.shareList = new ArrayList<>();
     }
 
     @Test
