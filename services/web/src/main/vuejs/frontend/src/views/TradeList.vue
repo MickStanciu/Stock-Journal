@@ -24,8 +24,21 @@
         </div>
 
         <div class="row pt-3">
-            <button type="button" class="btn btn-primary">Add new trade</button>
+            <div class="col">
+                <button type="button" class="btn btn-primary" v-on:click="addNewStockTradeClicked">Add new stock</button>
+            </div>
+
+            <div class="col">
+                <button type="button" class="btn btn-primary" v-on:click="addNewOptionTradeClicked">Add new option</button>
+            </div>
         </div>
+
+        <br/>
+
+
+        <b-modal ref="add-stock-modal" title="Using Component Methods">
+            <add-stock-trade v-bind:post="{symbol: symbol.toUpperCase()}"/>
+        </b-modal>
     </div>
 </template>
 
@@ -35,17 +48,25 @@
     import OptionTradeLog from "../models/OptionTradeLog";
     import ShareTradeLog from "../models/ShareTradeLog";
     import service from '../service';
+    import AddStockTrade from "../components/tradelist/AddStockTrade";
 
     export default {
         name: "TradeList",
+        components: {AddStockTrade},
         data: function () {
             return {
                 items : [],
                 timeZone : 'Australia/Sydney',
                 currency : 'USD',
+                symbol : this.$route.params.symbol,
             }
         },
         methods: {
+            addNewStockTradeClicked: function() {
+                this.$refs['add-stock-modal'].show();
+            },
+            addNewOptionTradeClicked: function() {
+            },
             rowClass: function (item, idx) {
                 let className = 'table-cell-odd';
                 if (idx%2 === 0) {

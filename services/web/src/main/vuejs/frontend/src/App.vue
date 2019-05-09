@@ -11,7 +11,6 @@
 <script>
   import Header from "./components/Header";
   import Footer from "./components/Footer";
-  require('../node_modules/bootstrap/dist/css/bootstrap.min.css');
 
   export default {
   name: 'app',
