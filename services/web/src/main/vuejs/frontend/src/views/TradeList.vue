@@ -35,10 +35,7 @@
 
         <br/>
 
-
-        <b-modal ref="add-stock-modal" title="Using Component Methods">
-            <add-stock-trade v-bind:post="{symbol: symbol.toUpperCase()}"/>
-        </b-modal>
+        <add-stock-trade v-if="isAddStockModalEnabled" v-bind:post="{symbol: symbol.toUpperCase()}"/>
     </div>
 </template>
 
@@ -58,12 +55,17 @@
                 items : [],
                 timeZone : 'Australia/Sydney',
                 currency : 'USD',
-                symbol : this.$route.params.symbol,
+                symbol : this.$route.params.symbol
+            }
+        },
+        computed: {
+            isAddStockModalEnabled() {
+              return this.$store.state.isAddStockModalEnabled;
             }
         },
         methods: {
             addNewStockTradeClicked: function() {
-                this.$refs['add-stock-modal'].show();
+                this.$store.dispatch('showAddStockModal');
             },
             addNewOptionTradeClicked: function() {
             },
