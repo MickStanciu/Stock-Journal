@@ -1,6 +1,5 @@
 <template>
-    <transition name="modal">
-        <div class="modal" id="exampleModal" style="display: block">
+    <div class="modal" id="exampleModal">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -68,7 +67,6 @@
                 </div>
             </div>
         </div>
-    </transition>
 </template>
 
 <script>
@@ -96,5 +94,7 @@
 </script>
 
 <style scoped>
-
+    .modal {
+        display: block;
+    }
 </style>

@@ -35,7 +35,9 @@
 
         <br/>
 
-        <add-stock-trade v-if="isAddStockModalEnabled" v-bind:post="{symbol: symbol.toUpperCase()}"/>
+        <transition name="fade">
+            <add-stock-trade v-if="isAddStockModalEnabled" v-bind:post="{symbol: symbol.toUpperCase()}"/>
+        </transition>
     </div>
 </template>
 
@@ -235,6 +237,17 @@
     .table-cell-synthetic {
         background-color: antiquewhite;
         font-style: italic;
+    }
+
+    .fade-enter-active {
+        transition: opacity .5s;
+    }
+
+    .fade-leave-active {
+        transition: opacity .5s;
+    }
+    .fade-enter, .fade-leave-to {
+        opacity: 0;
     }
 
 </style>
