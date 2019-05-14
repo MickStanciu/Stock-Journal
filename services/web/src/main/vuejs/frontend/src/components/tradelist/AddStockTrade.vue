@@ -70,6 +70,9 @@
 </template>
 
 <script>
+    import service from '../../service';
+    import ShareTradeLog from '../../models/ShareTradeLog'
+
     export default {
         name: "AddStockTrade",
         props: ['post'],
@@ -87,6 +90,7 @@
             },
             submitAndClose: function () {
                 console.log('submit');
+                service.recordShareTrade(new ShareTradeLog.Builder().withId(1).build());
                 this.$store.dispatch('hideAddStockModel');
             },
         }

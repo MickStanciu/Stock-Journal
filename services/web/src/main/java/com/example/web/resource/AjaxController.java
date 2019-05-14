@@ -1,10 +1,9 @@
 package com.example.web.resource;
 
+import com.example.gateway.api.model.ShareJournalGWModel;
 import com.example.web.model.TradeLogModel;
 import com.example.web.service.TradeJournalService;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -43,5 +42,13 @@ public class AjaxController {
         //todo validate input
         //todo validate exceptions when GatewayAPI is down
         return uniqueSymbols;
+    }
+
+    @PostMapping(value = "/tradelog/{accountId}/share")
+    public ShareJournalGWModel createNewShareTrade(
+            @PathVariable(name = "accountId") String accountId,
+            @RequestBody ShareJournalGWModel model) {
+        System.out.println("Received to create: " + model.getSymbol());
+        return null;
     }
 }
