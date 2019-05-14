@@ -16,33 +16,19 @@ const appService = {
     },
 
     getTradesPerSymbol(symbol) {
-      return new Promise(resolve => {
-          axios
-              .get('/trades/' + symbol.toUpperCase())
-              .then(response => {
-                  console.log(data);
-                  resolve(response.data)
-              }).catch(error => {
-                  console.error(error);
-              })
-      });
+        return new Promise(resolve => {
+            axios
+                .get('/trades/' + symbol.toUpperCase())
+                .then(response => {
+                    resolve(response.data);
+                }).catch(error => {
+                    console.error(error);
+                })
+            });
     },
 
-    recordShareTrade(shareTradeLog) {
-        console.log(shareTradeLog);
-
-        let dto = {
-            transactionId : null,
-            accountId : null,
-            date : null,
-            symbol : null,
-            price : 0.0,
-            quantity : 0,
-            action : null,
-            actionType : 'STOCK',
-            brokerFees : 0,
-            mark : null
-        };
+    recordShareTrade(dto) {
+        console.log(dto);
 
         return new Promise(resolve => {
             axios

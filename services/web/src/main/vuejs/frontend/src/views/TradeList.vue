@@ -42,11 +42,10 @@
 </template>
 
 <script>
-    import * as moment from "moment/moment";
-    import * as moment_tz from "moment-timezone";
     import OptionTradeLog from "../models/OptionTradeLog";
     import ShareTradeLog from "../models/ShareTradeLog";
     import service from '../service';
+    import dateTimeUtil from '../utils/time'
     import AddStockTrade from "../components/tradelist/AddStockTrade";
 
     export default {
@@ -85,14 +84,11 @@
             },
 
             expiryDateTz: function(item) {
-                //converts 2018-10-17 21:00:00.000000 +11:00 => 2018-10-17T10:00:00Z into ...Nov17'18
-                const date = moment(item.expiryDate).tz(this.timeZone);
-                return date.format('MMMDD\'YY');
+                return dateTimeUtil.convertExpiryDateForDisplay(item.expiryDate);
             },
 
             dateTz: function(item) {
-                const date = moment(item.date).tz(this.timeZone);
-                return date.format('DD MMM YYYY');
+                return dateTimeUtil.convertForDisplay(item.date);
             },
 
             encodeAction: function (item) {
@@ -198,11 +194,8 @@
                                 .build())
                     });
 
-                    //todo: sort
                     self.items = localItems.sort(function (a, b) {
-                        const dateA = moment(a.date).tz(self.timeZone);
-                        const dateB = moment(b.date).tz(self.timeZone);
-                        return dateA - dateB;
+                        return dateTimeUtil.sortDates(a, b);
                     });
                 });
         }
