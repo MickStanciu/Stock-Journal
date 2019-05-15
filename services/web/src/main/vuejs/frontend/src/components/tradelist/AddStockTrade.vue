@@ -9,16 +9,16 @@
                     <div class="modal-body">
                         <form>
                             <div class="form-group row">
-                                <label for="date" class="col-sm-2 col-form-label">Date:</label>
+                                <label for="date" class="col-sm-2 col-form-label" v-bind:class="{'text-danger': form_validation.date === false}">Date:</label>
                                 <div class="col-sm-10">
-                                    <input v-model="form_date" type="text" placeholder="dd-MMM-yyyy" id="date"/>
+                                    <input v-model="form_element.date" class="form-control" v-bind:class="{'is-invalid': form_validation.date === false}" type="text" placeholder="dd-MMM-yyyy" id="date"/>
                                 </div>
                             </div>
 
                             <div class="form-group row">
                                 <label for="symbol" class="col-sm-2 col-form-label">Symbol:</label>
                                 <div class="col-sm-10">
-                                    <input type="text" disabled id="symbol" v-bind:value="form_symbol"/>
+                                    <input class="form-control" type="text" disabled id="symbol" v-bind:value="form_element.symbol"/>
                                 </div>
                             </div>
 
@@ -26,35 +26,35 @@
                                 <div class="col-form-label col-sm-2 pt-0">Action</div>
                                 <div class="col-sm-10">
                                     <div class="form-check">
-                                        <input v-model="form_action" class="form-check-input" type="radio" name="actionBuySell" id="actionBuy" value="BUY" checked/>
+                                        <input v-model="form_element.action" class="form-check-input" type="radio" name="actionBuySell" id="actionBuy" value="BUY" checked/>
                                         <label class="form-check-label" for="actionBuy">Buy</label>
                                     </div>
 
                                     <div class="form-check">
-                                        <input v-model="form_action" class="form-check-input" type="radio" name="actionBuySell" id="actionSell" value="SELL"/>
+                                        <input v-model="form_element.action" class="form-check-input" type="radio" name="actionBuySell" id="actionSell" value="SELL"/>
                                         <label for="actionSell" class="form-check-label">Sell</label>
                                     </div>
                                 </div>
                             </fieldset>
 
                             <div class="form-group row">
-                                <label for="price" class="col-sm-2 col-form-label">Price:</label>
+                                <label for="price" class="col-sm-2 col-form-label" v-bind:class="{'text-danger': form_validation.price === false}">Price:</label>
                                 <div class="col-sm-10">
-                                    <input v-model="form_price" type="text" id="price"/>
+                                    <input class="form-control" v-bind:class="{'is-invalid': form_validation.price === false}" v-model="form_element.price" type="text" id="price"/>
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label for="quantity" class="col-sm-2 col-form-label">Quantity:</label>
+                                <label for="quantity" class="col-sm-2 col-form-label" v-bind:class="{'text-danger': form_validation.quantity === false}">Quantity:</label>
                                 <div class="col-sm-10">
-                                    <input v-model="form_quantity" type="text" id="quantity"/>
+                                    <input class="form-control" v-bind:class="{'is-invalid': form_validation.quantity === false}" v-model="form_element.quantity" type="text" id="quantity"/>
                                 </div>
                             </div>
 
                             <div class="form-group row">
-                                <label for="fee" class="col-sm-2 col-form-label">Fees:</label>
+                                <label for="fee" class="col-sm-2 col-form-label" v-bind:class="{'text-danger': form_validation.fees === false}">Fees:</label>
                                 <div class="col-sm-10">
-                                    <input v-model="form_fees" type="text" id="fee"/>
+                                    <input class="form-control" v-bind:class="{'is-invalid': form_validation.fees === false}" v-model="form_element.fees" type="text" id="fee"/>
                                 </div>
                             </div>
                         </form>
@@ -72,6 +72,7 @@
 <script>
     import service from '../../service';
     import dateTimeUtil from '../../utils/time'
+    import validation from "../../utils/validation";
     import ShareApiModel from '../../models/ShareApiModel'
 
     export default {
@@ -80,12 +81,25 @@
         data: function () {
             return {
                 currency : 'USD',
-                form_symbol : this.post.symbol,
-                form_date : dateTimeUtil.dateNowFormatted(),
-                form_action : 'BUY',
-                form_price : '0.00',
-                form_quantity: 0,
-                form_fees : '0.00'
+
+                form_element: {
+                    symbol : this.post.symbol,
+                    date: dateTimeUtil.dateNowFormatted(),
+                    action : 'BUY',
+                    price: '0.00',
+                    quantity: 0,
+                    fees: '0.00'
+                },
+
+                form_validation: {
+                    date: true,
+                    price: true,
+                    quantity: true,
+                    fees: true,
+                    isValid: function () {
+                        return this.date && this.price && this.quantity && this.fees;
+                    }
+                }
             }
         },
         methods: {
@@ -93,7 +107,12 @@
                 console.log('cancel');
                 this.$store.dispatch('hideAddStockModel');
             },
+
             submitAndClose: function () {
+                if (this.checkForm() === false) {
+                    return false;
+                }
+
                 let shareDto = new ShareApiModel(this.form_symbol);
                 shareDto.date = dateTimeUtil.convertToOffsetDateTime(this.form_date);
                 shareDto.action = this.form_action;
@@ -103,6 +122,15 @@
 
                 service.recordShareTrade(shareDto);
                 this.$store.dispatch('hideAddStockModel');
+            },
+
+            checkForm: function() {
+                this.form_validation.date = validation.isDate(this.form_element.date) !== false;
+                this.form_validation.price = validation.isNumber(this.form_element.price) !== false;
+                this.form_validation.quantity = validation.isPositiveInteger(this.form_element.quantity) !== false;
+                this.form_validation.fees = validation.isNumber(this.form_element.fees) !== false;
+
+                return this.form_validation.isValid();
             }
         }
     }

@@ -1,7 +1,15 @@
 class ShareTradeLog {
+
     type = 'SHARE';
     isSynthetic = false;
-
+    id = undefined;
+    symbol = undefined;
+    price = undefined;
+    quantity = undefined;
+    action = undefined;
+    actionType = undefined;
+    brokerFee = undefined;
+    date = undefined;
     static get Builder() {
         class Builder {
             withId(id) {
