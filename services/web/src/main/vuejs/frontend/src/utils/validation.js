@@ -8,7 +8,7 @@ const validation = {
         if (isNaN(test)) {
             return false;
         }
-        let value = parseInt(test, 10);
+        let value = parseFloat(test);
         return Number.isInteger(value) && value > 0;
     },
 
