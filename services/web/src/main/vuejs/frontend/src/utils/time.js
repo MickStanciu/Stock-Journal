@@ -25,6 +25,12 @@ const dateTimeUtil = {
         return moment(text, dateFormat).utc().format('YYYY-MM-DDTHH:mm:ssZ');
     },
 
+    checkIfDateIsCorrect(text) {
+        const dateFormat = 'DD-MMM-YYYY';
+        const obj = moment(text, dateFormat);
+        return obj !== null && obj !== 'undefined';
+    },
+
     //converts 2018-10-17 21:00:00.000000 +11:00 => 2018-10-17T10:00:00Z into ...Nov17'18
     convertExpiryDateForDisplay: function(item) {
         return moment(item.expiryDate).tz(timeZone).format('MMMDD\'YY');

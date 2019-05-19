@@ -1,5 +1,6 @@
 package com.example.web.service;
 
+import com.example.gateway.api.model.ShareJournalGWModel;
 import com.example.gateway.api.model.TradeLogModelGW;
 import com.example.web.converter.SyntheticSharesGenerator;
 import com.example.web.converter.TradeLogModelConverter;
@@ -31,5 +32,9 @@ public class TradeJournalService {
 
     public List<String> getUniqueSymbols(String accountId) {
         return tradeJournalGateway.getUniqueSymbols(accountId);
+    }
+
+    public ShareJournalGWModel createShareTrade(String accountId, ShareJournalGWModel model) {
+        return tradeJournalGateway.createShareTrade(accountId, model);
     }
 }

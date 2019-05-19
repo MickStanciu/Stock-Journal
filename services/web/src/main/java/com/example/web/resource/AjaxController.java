@@ -49,6 +49,6 @@ public class AjaxController {
             @PathVariable(name = "accountId") String accountId,
             @RequestBody ShareJournalGWModel model) {
         System.out.println("Received to create: " + model.getSymbol());
-        return null;
+        return tradeJournalService.createShareTrade(accountId, model);
     }
 }

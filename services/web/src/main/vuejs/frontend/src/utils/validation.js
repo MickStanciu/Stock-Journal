@@ -1,3 +1,4 @@
+import dateTimeUtil from "./time";
 
 const validation = {
     isNumber(test) {
@@ -13,7 +14,7 @@ const validation = {
     },
 
     isDate(test) {
-        return false;
+        return dateTimeUtil.checkIfDateIsCorrect(test);
     }
 };
 

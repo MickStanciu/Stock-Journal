@@ -1,11 +1,13 @@
 package com.example.web.gateway;
 
 import com.example.gateway.api.model.OptionJournalGWModel;
+import com.example.gateway.api.model.ShareJournalGWModel;
 import com.example.gateway.api.model.TradeLogModelGW;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -52,6 +54,16 @@ public class TradeJournalGateway {
                 .path("/{accountId}/symbols");
 
         ResponseEntity<List<String>> responseEntity = restTemplate.exchange(builder.build(accountId), HttpMethod.GET, null, new ParameterizedTypeReference<List<String>>() {});
+        return responseEntity.getBody();
+    }
+
+    public ShareJournalGWModel createShareTrade(String accountId, ShareJournalGWModel model) {
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromHttpUrl(API_URL)
+                .path("/{accountId}/share");
+
+        HttpEntity<ShareJournalGWModel> request = new HttpEntity<>(model);
+        ResponseEntity<ShareJournalGWModel> responseEntity = restTemplate.exchange(builder.build(accountId), HttpMethod.POST, request, ShareJournalGWModel.class);
         return responseEntity.getBody();
     }
 }
