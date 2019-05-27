@@ -1,22 +1,24 @@
 package com.example.gateway.api.resource;
 
-import com.example.gateway.api.converter.OptionJournalConverter;
 import com.example.gateway.api.converter.TradeLogModelConverter;
 import com.example.gateway.api.exception.ExceptionCode;
 import com.example.gateway.api.exception.GatewayApiException;
-import com.example.gateway.api.model.OptionJournalGWModel;
+import com.example.gateway.api.model.ShareJournalGWModel;
 import com.example.gateway.api.model.TradeLogModelGW;
 import com.example.gateway.api.service.TradeLogService;
-import com.example.tradelog.api.spec.model.OptionJournalModel;
 import com.example.tradelog.api.spec.model.TradeLogModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/v1/tradelog", produces = "application/json")
@@ -30,25 +32,6 @@ public class TradeLogResource {
         this.tradeLogService = tradeLogService;
     }
 
-
-//    @RequestMapping(value = "/{accountId}", method = RequestMethod.GET)
-//    @ResponseStatus(HttpStatus.OK)
-//    public List<OptionJournalGWModel> getAllByAccountId(@PathVariable(name = "accountId") String accountId) throws GatewayApiException {
-//        //todo validate input
-//
-//        List<OptionJournalModel> modelList = tradeLogService.getAllByAccountId(accountId);
-//
-//        if (modelList == null || modelList.isEmpty()) {
-//            throw new GatewayApiException(ExceptionCode.TRADEJOURNAL_EMPTY);
-//        }
-//
-//        List<OptionJournalGWModel> gwModelList = modelList.stream()
-//                .map(OptionJournalConverter.gwModelConverter)
-//                .filter(Objects::nonNull)
-//                .collect(Collectors.toList());
-//
-//        return gwModelList;
-//    }
 
     @RequestMapping(value = "/{accountId}/trades/{symbol}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
@@ -74,5 +57,14 @@ public class TradeLogResource {
         }
 
         return tradedSymbols;
+    }
+
+    @PostMapping(value = "/{accountId}/share")
+    @ResponseStatus(HttpStatus.OK)
+    public ShareJournalGWModel createNewShareTrade(
+            @PathVariable(name = "accountId") String accountId,
+            @RequestBody ShareJournalGWModel model) {
+        System.out.println("Received to create: " + model.getSymbol());
+        return tradeLogService.createShareTrade(accountId, model);
     }
 }

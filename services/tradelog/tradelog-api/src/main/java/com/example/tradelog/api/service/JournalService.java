@@ -3,14 +3,16 @@ package com.example.tradelog.api.service;
 import com.example.tradelog.api.repository.OptionsJournalRepository;
 import com.example.tradelog.api.repository.SharesJournalRepository;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
+import com.example.tradelog.api.spec.model.ShareJournalModel;
 import com.example.tradelog.api.spec.model.TradeLogModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Service
 public class JournalService {
@@ -24,10 +26,6 @@ public class JournalService {
         this.optionsJournalRepository = optionsJournalRepository;
         this.sharesJournalRepository = sharesJournalRepository;
     }
-
-//    public List<OptionJournalModel> getAllByAccountId(String accountId) {
-//        return optionsJournalRepository.getAllByAccount(accountId);
-//    }
 
     public TradeLogModel getAllBySymbol(String accountId, String symbol) {
         TradeLogModel tradeLogModel = new TradeLogModel();
@@ -47,9 +45,18 @@ public class JournalService {
     }
 
     public Optional<OptionJournalModel> createOptionRecord(OptionJournalModel model) {
-        Optional<String> optionTransactionId = optionsJournalRepository.createOptionRecord(model);
-        if (optionTransactionId.isPresent()) {
-            return optionsJournalRepository.getByTransactionId(optionTransactionId.get());
+        Optional<String> optionalId = optionsJournalRepository.createOptionRecord(model);
+        if (optionalId.isPresent()) {
+            return optionsJournalRepository.getByTransactionId(optionalId.get());
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    public Optional<ShareJournalModel> createShareRecord(ShareJournalModel model) {
+        Optional<String> optionalId = sharesJournalRepository.createShareRecord(model);
+        if (optionalId.isPresent()) {
+            return sharesJournalRepository.getByTransactionId(optionalId.get());
         } else {
             return Optional.empty();
         }

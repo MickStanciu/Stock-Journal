@@ -36,28 +36,6 @@ public class OptionsJournalRepository {
                     "FROM option_log " +
                     "LIMIT 1;";
 
-    private static final String JOURNAL_READ_ALL_FOR_ACCOUNT =
-            "SELECT CAST(transaction_id AS VARCHAR(36)), " +
-                    "       CAST(transaction_fk AS VARCHAR(36)), " +
-                    "       CAST(account_fk AS VARCHAR(36)), " +
-                    "       date, " +
-                    "       symbol, " +
-                    "       stock_price, " +
-                    "       strike_price, " +
-                    "       expiry_date, " +
-                    "       implied_volatility, " +
-                    "       implied_volatility_hist, " +
-                    "       profit_probability, " +
-                    "       contract_number, " +
-                    "       premium, " +
-                    "       action_fk, " +
-                    "       action_type_fk, " +
-                    "       broker_fees, " +
-                    "       mark " +
-                    "FROM option_log " +
-                    "WHERE account_fk = CAST(? AS uuid) " +
-                    "ORDER BY expiry_date, symbol ASC;";
-
     private static final String JOURNAL_READ_BY_SYMBOL_FOR_ACCOUNT =
             "SELECT CAST(transaction_id AS VARCHAR(36)), " +
                     "       CAST(transaction_fk AS VARCHAR(36)), " +
@@ -122,11 +100,6 @@ public class OptionsJournalRepository {
     public boolean checkFirstRecord() {
         List<OptionJournalModel> results = jdbcTemplate.query(JOURNAL_READ_FIRST_QUERY, new OptionJournalModelRowMapper());
         return results.size() == 1;
-    }
-
-    public List<OptionJournalModel> getAllByAccount(String accountId) {
-        Object[] parameters = new Object[] {accountId};
-        return jdbcTemplate.query(JOURNAL_READ_ALL_FOR_ACCOUNT, parameters, new OptionJournalModelRowMapper());
     }
 
     public List<OptionJournalModel> getAllBySymbol(String accountId, String symbol) {

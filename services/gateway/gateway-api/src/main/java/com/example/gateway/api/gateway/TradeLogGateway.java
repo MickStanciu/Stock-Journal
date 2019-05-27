@@ -1,18 +1,18 @@
 package com.example.gateway.api.gateway;
 
-import com.example.tradelog.api.spec.model.OptionJournalModel;
+import com.example.gateway.api.model.ShareJournalGWModel;
 import com.example.tradelog.api.spec.model.TradeLogModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -29,15 +29,6 @@ public class TradeLogGateway {
         this.API_URL = url;
     }
 
-//    public List<OptionJournalModel> getAllByAccountId(String accountId) {
-//        UriComponentsBuilder uriBuilder = UriComponentsBuilder
-//                .fromHttpUrl(API_URL)
-//                .path(accountId);
-//
-//        ResponseEntity<List<OptionJournalModel>> responseEntity = restTemplate.exchange(uriBuilder.toUriString(), HttpMethod.GET, null, new ParameterizedTypeReference<List<OptionJournalModel>>() {});
-//        return responseEntity.getBody();
-//    }
-
     public TradeLogModel getAllBySymbol(String accountId, String symbol) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
@@ -53,6 +44,16 @@ public class TradeLogGateway {
                 .path("/{accountId}/symbols");
 
         ResponseEntity<List<String>> responseEntity = restTemplate.exchange(builder.build(accountId), HttpMethod.GET, null, new ParameterizedTypeReference<List<String>>() {});
+        return responseEntity.getBody();
+    }
+
+    public ShareJournalGWModel createShareTrade(String accountId, ShareJournalGWModel model) {
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromHttpUrl(API_URL)
+                .path("/{accountId}/share");
+
+        HttpEntity<ShareJournalGWModel> request = new HttpEntity<>(model);
+        ResponseEntity<ShareJournalGWModel> responseEntity = restTemplate.exchange(builder.build(accountId), HttpMethod.POST, request, ShareJournalGWModel.class);
         return responseEntity.getBody();
     }
 }

@@ -4,11 +4,18 @@ import com.example.tradelog.api.exception.TradeLogException;
 import com.example.tradelog.api.service.JournalService;
 import com.example.tradelog.api.spec.exception.ExceptionCode;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
+import com.example.tradelog.api.spec.model.ShareJournalModel;
 import com.example.tradelog.api.spec.model.TradeLogModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,22 +32,6 @@ public class JournalResource {
     public JournalResource(JournalService journalService) {
         this.journalService = journalService;
     }
-
-//    @RequestMapping(value = "/{accountId}", method = RequestMethod.GET)
-//    @ResponseStatus(HttpStatus.OK)
-//    public List<OptionJournalModel> getAllByAccountId(@PathVariable("accountId") String accountId) throws TradeLogException {
-//        if (!RequestValidation.validateGetAllByAccountId(accountId)) {
-//            throw new TradeLogException(ExceptionCode.BAD_REQUEST);
-//        }
-//
-//        List<OptionJournalModel> tradeLogs = journalService.getAllByAccountId(accountId);
-//
-//        if (tradeLogs.isEmpty()) {
-//            throw new TradeLogException(ExceptionCode.TRADELOG_EMPTY);
-//        }
-//
-//        return tradeLogs;
-//    }
 
 
     @RequestMapping(value = "/{accountId}/symbols", method = RequestMethod.GET)
@@ -84,11 +75,11 @@ public class JournalResource {
         }
 
         //TODO: validate model
-        Optional<OptionJournalModel> optionJournalModel = journalService.createOptionRecord(model);
-        if (optionJournalModel.isEmpty()) {
+        Optional<OptionJournalModel> optionalModel = journalService.createOptionRecord(model);
+        if (optionalModel.isEmpty()) {
             throw new TradeLogException(ExceptionCode.CREATE_OPTION_FAILED);
         }
-        return optionJournalModel.get();
+        return optionalModel.get();
     }
 
     @RequestMapping(value = "/{accountId}/tradesmul", method = RequestMethod.POST)
@@ -102,11 +93,29 @@ public class JournalResource {
 
         //TODO: validate model
         for (OptionJournalModel model : models) {
-            Optional<OptionJournalModel> optionJournalModel = journalService.createOptionRecord(model);
-            if (optionJournalModel.isEmpty()) {
+            Optional<OptionJournalModel> optionalModel = journalService.createOptionRecord(model);
+            if (optionalModel.isEmpty()) {
                 log.error("COULD NOT CREATE FOR: " + model.getStockSymbol() + " " + model.getPremium());
                 throw new TradeLogException(ExceptionCode.CREATE_OPTION_FAILED);
             }
         }
+    }
+
+    @PostMapping(value = "/{accountId}/share")
+    @ResponseStatus(HttpStatus.OK)
+    public ShareJournalModel createNewShareTrade(
+            @PathVariable(name = "accountId") String accountId,
+            @RequestBody ShareJournalModel model) throws TradeLogException {
+        if (!RequestValidation.validatePostByAccountId(accountId)) {
+            throw new TradeLogException(ExceptionCode.BAD_REQUEST);
+        }
+
+        //TODO: validate model
+        Optional<ShareJournalModel> optionalModel = journalService.createShareRecord(model);
+        if (optionalModel.isEmpty()) {
+            log.error("COULD NOT CREATE FOR: " + model.getSymbol());
+            throw new TradeLogException(ExceptionCode.CREATE_SHARE_FAILED);
+        }
+        return optionalModel.get();
     }
 }
