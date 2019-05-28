@@ -65,22 +65,6 @@ public class JournalResource {
     }
 
 
-    @RequestMapping(value = "/{accountId}/trades", method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.OK)
-    public OptionJournalModel createOptionEntry(
-            @RequestBody OptionJournalModel model,
-            @PathVariable("accountId") String accountId) throws TradeLogException {
-        if (!RequestValidation.validatePostByAccountId(accountId)) {
-            throw new TradeLogException(ExceptionCode.BAD_REQUEST);
-        }
-
-        //TODO: validate model
-        Optional<OptionJournalModel> optionalModel = journalService.createOptionRecord(model);
-        if (optionalModel.isEmpty()) {
-            throw new TradeLogException(ExceptionCode.CREATE_OPTION_FAILED);
-        }
-        return optionalModel.get();
-    }
 
     @RequestMapping(value = "/{accountId}/tradesmul", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
@@ -101,6 +85,15 @@ public class JournalResource {
         }
     }
 
+
+
+    /**
+     * Create SHARE trade record
+     * @param accountId - account uuid
+     * @param model - ShareJournalModel
+     * @return created ShareJournalModel
+     * @throws TradeLogException -
+     */
     @PostMapping(value = "/{accountId}/share")
     @ResponseStatus(HttpStatus.OK)
     public ShareJournalModel createNewShareTrade(
@@ -115,6 +108,30 @@ public class JournalResource {
         if (optionalModel.isEmpty()) {
             log.error("COULD NOT CREATE FOR: " + model.getSymbol());
             throw new TradeLogException(ExceptionCode.CREATE_SHARE_FAILED);
+        }
+        return optionalModel.get();
+    }
+
+    /**
+     * Create OPTION trade record
+     * @param accountId - account uuid
+     * @param model - OptionJournalModel
+     * @return created OptionJournalModel
+     * @throws TradeLogException -
+     */
+    @RequestMapping(value = "/{accountId}/option", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    public OptionJournalModel createNewOptionTrade(
+            @PathVariable("accountId") String accountId,
+            @RequestBody OptionJournalModel model) throws TradeLogException {
+        if (!RequestValidation.validatePostByAccountId(accountId)) {
+            throw new TradeLogException(ExceptionCode.BAD_REQUEST);
+        }
+
+        //TODO: validate model
+        Optional<OptionJournalModel> optionalModel = journalService.createOptionRecord(model);
+        if (optionalModel.isEmpty()) {
+            throw new TradeLogException(ExceptionCode.CREATE_OPTION_FAILED);
         }
         return optionalModel.get();
     }

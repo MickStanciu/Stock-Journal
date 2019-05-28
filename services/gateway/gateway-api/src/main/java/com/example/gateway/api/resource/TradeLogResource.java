@@ -64,7 +64,6 @@ public class TradeLogResource {
     public ShareJournalGWModel createNewShareTrade(
             @PathVariable(name = "accountId") String accountId,
             @RequestBody ShareJournalGWModel model) {
-        System.out.println("Received to create: " + model.getSymbol());
         return tradeLogService.createShareTrade(accountId, model);
     }
 }

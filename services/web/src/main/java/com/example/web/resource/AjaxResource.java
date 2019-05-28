@@ -9,24 +9,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api", produces = "application/json")
-public class AjaxController {
+public class AjaxResource {
 
     private TradeJournalService tradeJournalService;
 
-    public AjaxController(TradeJournalService tradeJournalService) {
+    public AjaxResource(TradeJournalService tradeJournalService) {
         this.tradeJournalService = tradeJournalService;
     }
 
-
-//    @RequestMapping(value = "/tradelog/{accountId}", method = RequestMethod.GET)
-//    public List<OptionJournalGWModel> getAllByAccountId(@PathVariable(name = "accountId") String accountId) {
-//        List<OptionJournalGWModel> gwModelList = tradeJournalService.getAllByAccountId(accountId);
-////        gwModelList.forEach(p -> System.out.println(p.getStockSymbol() + "  " + p.getPremium()));
-//        //todo validate input
-//        //todo validate exceptions when GatewayAPI is down
-//
-//        return gwModelList;
-//    }
 
     @RequestMapping(value = "/tradelog/{accountId}/trades/{symbol}")
     public TradeLogModel getAllTradesBySymbol(@PathVariable(name = "accountId") String accountId, @PathVariable(name = "symbol") String symbol) {
@@ -48,7 +38,6 @@ public class AjaxController {
     public ShareJournalGWModel createNewShareTrade(
             @PathVariable(name = "accountId") String accountId,
             @RequestBody ShareJournalGWModel model) {
-        System.out.println("Received to create: " + model.getSymbol());
         return tradeJournalService.createShareTrade(accountId, model);
     }
 }

@@ -19,10 +19,6 @@ public class TradeJournalService {
         this.tradeJournalGateway = tradeJournalGateway;
     }
 
-//    public List<OptionJournalGWModel> getAllByAccountId(String accountId) {
-//        return tradeJournalGateway.getAllByAccountId(accountId);
-//    }
-
     public TradeLogModel getAllTradesBySymbol(String accountId, String symbol) {
         TradeLogModelGW tradeLogModelGW = tradeJournalGateway.getAllTradesBySymbol(accountId, symbol);
         TradeLogModel tradeLogModel = new TradeLogModelConverter().apply(tradeLogModelGW);

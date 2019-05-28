@@ -1,5 +1,6 @@
 package com.example.tradelog.api.repository;
 
+import com.example.common.converter.TimeConversion;
 import com.example.tradelog.api.spec.model.ShareJournalModel;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -17,7 +18,7 @@ public class SharesJournalRepository {
     private static final String JOURNAL_READ_SYMBOLS =
             "SELECT DISTINCT symbol FROM shares_log " +
                     "WHERE account_fk = CAST(? AS uuid) " +
-                    "ORDER BY symbol ASC;";
+                    "ORDER BY symbol";
 
     private static final String JOURNAL_READ_BY_SYMBOL_FOR_ACCOUNT =
             "SELECT CAST(transaction_id AS VARCHAR(36)), " +
@@ -33,10 +34,27 @@ public class SharesJournalRepository {
                     "       mark " +
                     "FROM shares_log " +
                     "WHERE account_fk = CAST(? AS uuid) and symbol = ? " +
-                    "ORDER BY date ASC;";
+                    "ORDER BY date;";
 
-    private static final String JOURNAL_READ_BY_TRANSACTION_ID = "NOT IMPLEMENTED";
-    private static final String JOURNAL_CREATE_OPTION_FOR_ACCOUNT = "NOT IMPLEMENTED";
+    private static final String JOURNAL_READ_BY_TRANSACTION_ID =
+            "SELECT CAST(transaction_id AS VARCHAR(36)), " +
+                    "       CAST(transaction_id AS VARCHAR(36)), " +
+                    "       CAST(account_fk AS VARCHAR(36)), " +
+                    "       date, " +
+                    "       symbol, " +
+                    "       price, " +
+                    "       quantity, " +
+                    "       action_fk, " +
+                    "       action_type_fk, " +
+                    "       broker_fees, " +
+                    "       mark " +
+                    "FROM shares_log " +
+                    "WHERE transaction_id = CAST(? AS uuid)";
+
+    private static final String JOURNAL_CREATE_OPTION_FOR_ACCOUNT =
+            "INSERT INTO shares_log (account_fk, date, symbol, price, quantity, action_fk, " +
+                    "action_type_fk, broker_fees, mark) " +
+                    "VALUES (CAST(? AS uuid), ?, ?, ?, ?, ?, ?, ?, null)";
 
     private JdbcTemplate jdbcTemplate;
 
@@ -73,7 +91,14 @@ public class SharesJournalRepository {
 
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(JOURNAL_CREATE_OPTION_FOR_ACCOUNT, Statement.RETURN_GENERATED_KEYS);
-            //TODO: fill up the arguments
+            ps.setString(1, model.getAccountId());
+            ps.setTimestamp(2, TimeConversion.fromOffsetDateTime(model.getDate()));
+            ps.setString(3, model.getSymbol());
+            ps.setDouble(4, model.getPrice());
+            ps.setInt(5, model.getQuantity());
+            ps.setString(6, model.getAction().name());
+            ps.setString(7, model.getActionType().name());
+            ps.setDouble(8, model.getBrokerFees());
             return ps;
         }, keyHolder);
 

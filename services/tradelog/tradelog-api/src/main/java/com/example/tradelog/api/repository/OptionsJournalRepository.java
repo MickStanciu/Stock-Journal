@@ -34,7 +34,7 @@ public class OptionsJournalRepository {
                     "       broker_fees, " +
                     "       mark " +
                     "FROM option_log " +
-                    "LIMIT 1;";
+                    "LIMIT 1";
 
     private static final String JOURNAL_READ_BY_SYMBOL_FOR_ACCOUNT =
             "SELECT CAST(transaction_id AS VARCHAR(36)), " +
@@ -56,7 +56,7 @@ public class OptionsJournalRepository {
                     "       mark " +
                     "FROM option_log " +
                     "WHERE account_fk = CAST(? AS uuid) and symbol = ? " +
-                    "ORDER BY date ASC;";
+                    "ORDER BY date";
 
     private static final String JOURNAL_READ_BY_TRANSACTION_ID =
             "SELECT CAST(transaction_id AS VARCHAR(36)), " +
@@ -82,14 +82,14 @@ public class OptionsJournalRepository {
     private static final String JOURNAL_READ_SYMBOLS =
             "SELECT DISTINCT symbol FROM option_log " +
                     "WHERE account_fk = CAST(? AS uuid) " +
-                    "ORDER BY symbol ASC;";
+                    "ORDER BY symbol";
 
     private static final String JOURNAL_CREATE_OPTION_FOR_ACCOUNT =
             "INSERT INTO option_log (transaction_fk, account_fk, date, symbol, stock_price, strike_price, " +
                     "expiry_date, implied_volatility, implied_volatility_hist, profit_probability, contract_number, premium, " +
                     "action_fk, action_type_fk, broker_fees, mark) " +
                     "VALUES (null, CAST(? AS uuid), ?, ?, ?, ?, ?, " +
-                    "null, null, null, ?, ?, ?, ?, ?, null); ";
+                    "null, null, null, ?, ?, ?, ?, ?, null)";
 
     private JdbcTemplate jdbcTemplate;
 
