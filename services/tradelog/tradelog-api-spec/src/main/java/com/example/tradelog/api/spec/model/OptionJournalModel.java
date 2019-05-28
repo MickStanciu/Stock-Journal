@@ -105,7 +105,7 @@ public class OptionJournalModel implements Serializable {
     public static class Builder {
         OptionJournalModel model;
 
-        Builder() {
+        public Builder() {
             model = new OptionJournalModel();
         }
 

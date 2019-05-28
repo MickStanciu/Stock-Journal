@@ -26,18 +26,27 @@ public class RequestValidation extends FieldValidator {
         return RequestValidation.accountId.test(accountId) && RequestValidation.validateOptionJournalModel.test(model);
     }
 
-    private static Predicate<ShareJournalModel> validateShareJournalModel = s -> RequestValidation.accountId.test(s.getAccountId())
+    static Predicate<ShareJournalModel> validateShareJournalModel = s -> s != null
             && s.getAction() != null
             && s.getAction() != Action.UNKNOWN
             && s.getActionType() != null
-            && s.getActionType() != ActionType.UNKNOWN
+            && s.getActionType() == ActionType.STOCK
             && s.getDate() != null
             && s.getPrice() >= 0.00
             && s.getQuantity() >= 1
             && symbol.test(s.getSymbol())
-            && s.getTransactionId() == null;
+            && s.getTransactionId() == null
+            && RequestValidation.accountId.test(s.getAccountId());
 
-    private static Predicate<OptionJournalModel> validateOptionJournalModel = s -> {
-        return true;
-    };
+    static Predicate<OptionJournalModel> validateOptionJournalModel = s -> s != null
+            && s.getAction() != null
+            && s.getAction() != Action.UNKNOWN
+            && (s.getActionType() == ActionType.CALL || s.getActionType() == ActionType.PUT)
+            && s.getContracts() > 0
+            && s.getDate() != null
+            && s.getExpiryDate() != null
+            && s.getStockPrice() >= 0.00
+            && symbol.test(s.getStockSymbol())
+            && s.getStrikePrice() > 0
+            && RequestValidation.accountId.test(s.getAccountId());
 }
