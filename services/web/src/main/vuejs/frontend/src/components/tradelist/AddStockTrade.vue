@@ -119,9 +119,9 @@
                 shareDto.price = this.form_element.price;
                 shareDto.quantity = this.form_element.quantity;
                 shareDto.brokerFees = this.form_element.fees;
-
-                console.log(shareDto);
-                service.recordShareTrade(shareDto);
+                service.recordShareTrade(shareDto).then(data => {
+                  console.log(data)
+                });
                 this.$store.dispatch('hideAddStockModel');
             },
 

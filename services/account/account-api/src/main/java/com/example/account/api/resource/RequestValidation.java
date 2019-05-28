@@ -91,7 +91,7 @@ class RequestValidation extends FieldValidator {
     }
 
     static Boolean validateGetAccount(String accountId) {
-        return RequestValidation.accountId(accountId);
+        return RequestValidation.accountId.test(accountId);
     }
 
 //    public static Boolean validateGetAccountsByRelationship(String tenantId, long accountId, Integer depth) {

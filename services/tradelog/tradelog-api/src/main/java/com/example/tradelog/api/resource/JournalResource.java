@@ -6,6 +6,7 @@ import com.example.tradelog.api.spec.exception.ExceptionCode;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
 import com.example.tradelog.api.spec.model.ShareJournalModel;
 import com.example.tradelog.api.spec.model.TradeLogModel;
+import com.example.tradelog.api.validator.RequestValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -37,7 +37,7 @@ public class JournalResource {
     @RequestMapping(value = "/{accountId}/symbols", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public Set<String> getAllTradedSymbols(@PathVariable("accountId") String accountId) throws TradeLogException {
-        if (!RequestValidation.validateGetAllByAccountId(accountId)) {
+        if (!RequestValidation.validateGetAllTradedSymbols(accountId)) {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
@@ -65,25 +65,21 @@ public class JournalResource {
     }
 
 
-
-    @RequestMapping(value = "/{accountId}/tradesmul", method = RequestMethod.POST)
-    @ResponseStatus(HttpStatus.OK)
-    public void createOptionEntries(
-            @RequestBody List<OptionJournalModel> models,
-            @PathVariable("accountId") String accountId) throws TradeLogException {
-        if (!RequestValidation.validatePostByAccountId(accountId)) {
-            throw new TradeLogException(ExceptionCode.BAD_REQUEST);
-        }
-
-        //TODO: validate model
-        for (OptionJournalModel model : models) {
-            Optional<OptionJournalModel> optionalModel = journalService.createOptionRecord(model);
-            if (optionalModel.isEmpty()) {
-                log.error("COULD NOT CREATE FOR: " + model.getStockSymbol() + " " + model.getPremium());
-                throw new TradeLogException(ExceptionCode.CREATE_OPTION_FAILED);
-            }
-        }
-    }
+//    @RequestMapping(value = "/{accountId}/tradesmul", method = RequestMethod.POST)
+//    @ResponseStatus(HttpStatus.OK)
+//    public void createOptionEntries(
+//            @RequestBody List<OptionJournalModel> models,
+//            @PathVariable("accountId") String accountId) throws TradeLogException {
+//
+//        //TODO: validate model
+//        for (OptionJournalModel model : models) {
+//            Optional<OptionJournalModel> optionalModel = journalService.createOptionRecord(model);
+//            if (optionalModel.isEmpty()) {
+//                log.error("COULD NOT CREATE FOR: " + model.getStockSymbol() + " " + model.getPremium());
+//                throw new TradeLogException(ExceptionCode.CREATE_OPTION_FAILED);
+//            }
+//        }
+//    }
 
 
 
@@ -99,11 +95,10 @@ public class JournalResource {
     public ShareJournalModel createNewShareTrade(
             @PathVariable(name = "accountId") String accountId,
             @RequestBody ShareJournalModel model) throws TradeLogException {
-        if (!RequestValidation.validatePostByAccountId(accountId)) {
+        if (!RequestValidation.validateCreateNewShareTrade(accountId, model)) {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
-        //TODO: validate model
         Optional<ShareJournalModel> optionalModel = journalService.createShareRecord(model);
         if (optionalModel.isEmpty()) {
             log.error("COULD NOT CREATE FOR: " + model.getSymbol());
@@ -124,11 +119,10 @@ public class JournalResource {
     public OptionJournalModel createNewOptionTrade(
             @PathVariable("accountId") String accountId,
             @RequestBody OptionJournalModel model) throws TradeLogException {
-        if (!RequestValidation.validatePostByAccountId(accountId)) {
+        if (!RequestValidation.validateCreateNewOptionTrade(accountId, model)) {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
-        //TODO: validate model
         Optional<OptionJournalModel> optionalModel = journalService.createOptionRecord(model);
         if (optionalModel.isEmpty()) {
             throw new TradeLogException(ExceptionCode.CREATE_OPTION_FAILED);
