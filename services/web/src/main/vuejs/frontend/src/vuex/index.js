@@ -3,31 +3,60 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex);
 
-const state = {
-    isAddStockModalEnabled: false,
-};
-
 const store = new Vuex.Store({
-    state,
-    getters: {
-        isAddStockModalEnabled: state => {
-            return state.isAddStockModalEnabled
-        }
+    state: {
+        isAddStockModalEnabled: false,
+        isAddErrorEnabled: false,
     },
+    // getters: {
+    //     isAddStockModalEnabled: state => {
+    //         return state.isAddStockModalEnabled
+    //     },
+    //     isAddErrorEnabled: state => {
+    //         return state.isAddErrorEnabled
+    //     },
+    //     isRefreshEnabled: state => {
+    //         return state.isRefreshEnabled
+    //     }
+    // },
     actions: {
         showAddStockModal(context) {
             context.commit('showAddStockModal')
         },
-        hideAddStockModel(context) {
-            context.commit('hideAddStockModel')
+        hideAddStockModal(context) {
+            context.commit('hideAddStockModalWithoutRefresh')
+        },
+        hideAddStockModalWithOptions(context, option) {
+            //TRUE means refresh screen
+            //FALSE means show error
+            if (option === true) {
+                context.commit('hideAddStockModalWithRefresh')
+            } else {
+                context.commit('hideAddStockModalWithError')
+            }
+        },
+        hideAddStockErrorModal(context) {
+            context.commit('hideAddStockErrorModal')
         }
     },
     mutations: {
         showAddStockModal(state) {
             state.isAddStockModalEnabled = true;
         },
-        hideAddStockModel(state) {
+        hideAddStockModalWithoutRefresh(state) {
             state.isAddStockModalEnabled = false;
+            state.isAddErrorEnabled = false;
+        },
+        hideAddStockModalWithRefresh(state) {
+            state.isAddStockModalEnabled = false;
+            state.isAddErrorEnabled = false;
+        },
+        hideAddStockModalWithError(state) {
+            state.isAddStockModalEnabled = false;
+            state.isAddErrorEnabled = true;
+        },
+        hideAddStockErrorModal(state) {
+            state.isAddErrorEnabled = false;
         }
     }
 });

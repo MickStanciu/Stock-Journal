@@ -38,6 +38,11 @@
         <transition name="fade">
             <add-stock-trade v-if="isAddStockModalEnabled" v-bind:post="{symbol: symbol.toUpperCase()}"/>
         </transition>
+
+        <transition name="fade">
+            <add-error v-if="isAddErrorEnabled"/>
+        </transition>
+
     </div>
 </template>
 
@@ -47,10 +52,11 @@
     import service from '../service';
     import dateTimeUtil from '../utils/time'
     import AddStockTrade from "../components/tradelist/AddStockTrade";
+    import AddError from "../components/tradelist/AddError";
 
     export default {
         name: "TradeList",
-        components: {AddStockTrade},
+        components: {AddError, AddStockTrade},
         data: function () {
             return {
                 items : [],
@@ -61,8 +67,11 @@
         },
         computed: {
             isAddStockModalEnabled() {
-              return this.$store.state.isAddStockModalEnabled;
-            }
+                return this.$store.state.isAddStockModalEnabled;
+            },
+            isAddErrorEnabled() {
+                return this.$store.state.isAddErrorEnabled;
+            },
         },
         methods: {
             addNewStockTradeClicked: function() {
@@ -138,66 +147,77 @@
                     minimumFractionDigits: 2
                 };
                 return new Intl.NumberFormat('en-US', params).format(value);
+            },
+
+            loadData: function () {
+                service
+                    .getTradesPerSymbol(this.$route.params.symbol)
+                    .then(data => {
+                        let self = this;
+                        let localItems = [];
+                        data.optionList.forEach(function (item) {
+                            localItems.push(
+                                new OptionTradeLog.Builder()
+                                    .withId(item.transactionId)
+                                    .withPairId(null)
+                                    .withSymbol(item.stockSymbol)
+                                    .withStockPrice(item.stockPrice)
+                                    .withStrikePrice(item.strikePrice)
+                                    .withContracts(item.contracts)
+                                    .withPremium(item.premium)
+                                    .withAction(item.action)
+                                    .withActionType(item.actionType)
+                                    .withBrokerFee(item.brokerFees)
+                                    .withDate(item.date)
+                                    .withExpiryDate(item.expiryDate)
+                                    .build())
+                        });
+
+                        data.shareList.forEach(function (item) {
+                            localItems.push(
+                                new ShareTradeLog.Builder()
+                                    .withId(item.transactionId)
+                                    .withSymbol(item.symbol)
+                                    .withPrice(item.price)
+                                    .withQuantity(item.quantity)
+                                    .withAction(item.action)
+                                    .withActionType(item.actionType)
+                                    .withBrokerFee(item.brokerFees)
+                                    .withDate(item.date)
+                                    .build())
+                        });
+
+                        data.syntheticShareList.forEach(function (item) {
+
+                            localItems.push(
+                                new ShareTradeLog.Builder()
+                                    .withId(item.transactionId)
+                                    .withSymbol(item.symbol)
+                                    .withPrice(item.price)
+                                    .withQuantity(item.quantity)
+                                    .withAction(item.action)
+                                    .withActionType(item.actionType)
+                                    .withBrokerFee(item.brokerFees)
+                                    .withDate(item.date)
+                                    .withSyntheticFlag(true)
+                                    .build())
+                        });
+
+                        self.items = localItems.sort(function (a, b) {
+                            return dateTimeUtil.sortDates(a, b);
+                        });
+                    });
             }
         },
         created() {
-            service
-                .getTradesPerSymbol(this.$route.params.symbol)
-                .then(data => {
-                    let self = this;
-                    let localItems = [];
-                    data.optionList.forEach(function (item) {
-                        localItems.push(
-                            new OptionTradeLog.Builder()
-                                .withId(item.transactionId)
-                                .withPairId(null)
-                                .withSymbol(item.stockSymbol)
-                                .withStockPrice(item.stockPrice)
-                                .withStrikePrice(item.strikePrice)
-                                .withContracts(item.contracts)
-                                .withPremium(item.premium)
-                                .withAction(item.action)
-                                .withActionType(item.actionType)
-                                .withBrokerFee(item.brokerFees)
-                                .withDate(item.date)
-                                .withExpiryDate(item.expiryDate)
-                                .build())
-                    });
-
-                    data.shareList.forEach(function (item) {
-                        localItems.push(
-                            new ShareTradeLog.Builder()
-                                .withId(item.transactionId)
-                                .withSymbol(item.symbol)
-                                .withPrice(item.price)
-                                .withQuantity(item.quantity)
-                                .withAction(item.action)
-                                .withActionType(item.actionType)
-                                .withBrokerFee(item.brokerFees)
-                                .withDate(item.date)
-                                .build())
-                    });
-
-                    data.syntheticShareList.forEach(function (item) {
-
-                        localItems.push(
-                            new ShareTradeLog.Builder()
-                                .withId(item.transactionId)
-                                .withSymbol(item.symbol)
-                                .withPrice(item.price)
-                                .withQuantity(item.quantity)
-                                .withAction(item.action)
-                                .withActionType(item.actionType)
-                                .withBrokerFee(item.brokerFees)
-                                .withDate(item.date)
-                                .withSyntheticFlag(true)
-                                .build())
-                    });
-
-                    self.items = localItems.sort(function (a, b) {
-                        return dateTimeUtil.sortDates(a, b);
-                    });
-                });
+            this.loadData();
+        },
+        mounted() {
+            this.$store.subscribe( (mutation, state) => {
+                if (mutation.type === 'hideAddStockModalWithRefresh') {
+                    this.loadData();
+                }
+            })
         }
     }
 

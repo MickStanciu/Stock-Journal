@@ -1,72 +1,72 @@
 <template>
     <div class="modal" id="exampleModal">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3 class="modal-title">Add Stock Position</h3>
-                    </div>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Add Stock Position</h3>
+                </div>
 
-                    <div class="modal-body">
-                        <form>
-                            <div class="form-group row">
-                                <label for="date" class="col-sm-2 col-form-label" v-bind:class="{'text-danger': form_validation.date === false}">Date:</label>
-                                <div class="col-sm-10">
-                                    <input v-model="form_element.date" class="form-control" v-bind:class="{'is-invalid': form_validation.date === false}" type="text" placeholder="dd-MMM-yyyy" id="date"/>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group row">
+                            <label for="date" class="col-sm-2 col-form-label" v-bind:class="{'text-danger': form_validation.date === false}">Date:</label>
+                            <div class="col-sm-10">
+                                <input v-model="form_element.date" class="form-control" v-bind:class="{'is-invalid': form_validation.date === false}" type="text" placeholder="dd-MMM-yyyy" id="date"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="symbol" class="col-sm-2 col-form-label">Symbol:</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="text" disabled id="symbol" v-bind:value="form_element.symbol"/>
+                            </div>
+                        </div>
+
+                        <fieldset class="form-group row">
+                            <div class="col-form-label col-sm-2 pt-0">Action</div>
+                            <div class="col-sm-10">
+                                <div class="form-check">
+                                    <input v-model="form_element.action" class="form-check-input" type="radio" name="actionBuySell" id="actionBuy" value="BUY" checked/>
+                                    <label class="form-check-label" for="actionBuy">Buy</label>
+                                </div>
+
+                                <div class="form-check">
+                                    <input v-model="form_element.action" class="form-check-input" type="radio" name="actionBuySell" id="actionSell" value="SELL"/>
+                                    <label for="actionSell" class="form-check-label">Sell</label>
                                 </div>
                             </div>
+                        </fieldset>
 
-                            <div class="form-group row">
-                                <label for="symbol" class="col-sm-2 col-form-label">Symbol:</label>
-                                <div class="col-sm-10">
-                                    <input class="form-control" type="text" disabled id="symbol" v-bind:value="form_element.symbol"/>
-                                </div>
+                        <div class="form-group row">
+                            <label for="price" class="col-sm-2 col-form-label" v-bind:class="{'text-danger': form_validation.price === false}">Price:</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" v-bind:class="{'is-invalid': form_validation.price === false}" v-model="form_element.price" type="text" id="price"/>
                             </div>
+                        </div>
 
-                            <fieldset class="form-group row">
-                                <div class="col-form-label col-sm-2 pt-0">Action</div>
-                                <div class="col-sm-10">
-                                    <div class="form-check">
-                                        <input v-model="form_element.action" class="form-check-input" type="radio" name="actionBuySell" id="actionBuy" value="BUY" checked/>
-                                        <label class="form-check-label" for="actionBuy">Buy</label>
-                                    </div>
-
-                                    <div class="form-check">
-                                        <input v-model="form_element.action" class="form-check-input" type="radio" name="actionBuySell" id="actionSell" value="SELL"/>
-                                        <label for="actionSell" class="form-check-label">Sell</label>
-                                    </div>
-                                </div>
-                            </fieldset>
-
-                            <div class="form-group row">
-                                <label for="price" class="col-sm-2 col-form-label" v-bind:class="{'text-danger': form_validation.price === false}">Price:</label>
-                                <div class="col-sm-10">
-                                    <input class="form-control" v-bind:class="{'is-invalid': form_validation.price === false}" v-model="form_element.price" type="text" id="price"/>
-                                </div>
+                        <div class="form-group row">
+                            <label for="quantity" class="col-sm-2 col-form-label" v-bind:class="{'text-danger': form_validation.quantity === false}">Quantity:</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" v-bind:class="{'is-invalid': form_validation.quantity === false}" v-model="form_element.quantity" type="text" id="quantity"/>
                             </div>
+                        </div>
 
-                            <div class="form-group row">
-                                <label for="quantity" class="col-sm-2 col-form-label" v-bind:class="{'text-danger': form_validation.quantity === false}">Quantity:</label>
-                                <div class="col-sm-10">
-                                    <input class="form-control" v-bind:class="{'is-invalid': form_validation.quantity === false}" v-model="form_element.quantity" type="text" id="quantity"/>
-                                </div>
+                        <div class="form-group row">
+                            <label for="fee" class="col-sm-2 col-form-label" v-bind:class="{'text-danger': form_validation.fees === false}">Fees:</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" v-bind:class="{'is-invalid': form_validation.fees === false}" v-model="form_element.fees" type="text" id="fee"/>
                             </div>
+                        </div>
+                    </form>
+                </div>
 
-                            <div class="form-group row">
-                                <label for="fee" class="col-sm-2 col-form-label" v-bind:class="{'text-danger': form_validation.fees === false}">Fees:</label>
-                                <div class="col-sm-10">
-                                    <input class="form-control" v-bind:class="{'is-invalid': form_validation.fees === false}" v-model="form_element.fees" type="text" id="fee"/>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-info" v-on:click="closeModal()"> Close </button>
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" v-on:click="submitAndClose()">Submit</button>
-                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-info" v-on:click="closeModal()"> Close </button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" v-on:click="submitAndClose()">Submit</button>
                 </div>
             </div>
         </div>
+    </div>
 </template>
 
 <script>
@@ -104,8 +104,8 @@
         },
         methods: {
             closeModal: function () {
-                console.log('cancel');
-                this.$store.dispatch('hideAddStockModel');
+                console.log('cancel button was pressed');
+                this.$store.dispatch('hideAddStockModal');
             },
 
             submitAndClose: function () {
@@ -120,9 +120,13 @@
                 shareDto.quantity = this.form_element.quantity;
                 shareDto.brokerFees = this.form_element.fees;
                 service.recordShareTrade(shareDto).then(data => {
-                  console.log(data)
+                  if (data === null) {
+                      this.$store.dispatch('hideAddStockModalWithOptions', false);
+                  } else {
+                      this.$store.dispatch('hideAddStockModalWithOptions', true);
+                  }
                 });
-                this.$store.dispatch('hideAddStockModel');
+
             },
 
             checkForm: function() {

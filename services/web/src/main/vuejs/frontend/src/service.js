@@ -34,7 +34,8 @@ const appService = {
                 .then(response => {
                     resolve(response.data);
                 }).catch(error => {
-                console.error(error);
+                    console.error(error);
+                    resolve(null);
             })
         });
     }
