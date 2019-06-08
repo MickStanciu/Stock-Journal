@@ -22,12 +22,12 @@ services:
 #      - GATEWAY_API_ADDRESS=http://gatewayapi:8080
 #      - MOCK_SERVICES=true
 
-#  gatewayapi:
-#    build: gateway-api/.
-#    image: gatewayapi
-#    container_name: gatewayapi
-#    ports:
-#      - "8085:8080" #App
+  gateway-api:
+    build: docker/gateway-api/.
+    image: gateway-api
+    container_name: gateway-api
+    ports:
+      - "8085:8080"
 
 #  tenantapi:
 #    build: tenant.spring/.
