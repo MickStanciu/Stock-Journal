@@ -3,34 +3,27 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title">Add Stock Position</h3>
+                    <h3 class="modal-title">Add Stock Position for {{form_element.symbol}}</h3>
                 </div>
 
                 <div class="modal-body">
                     <form>
                         <div class="form-group row">
-                            <label for="date" class="col-sm-2 col-form-label" v-bind:class="{'text-danger': form_validation.date === false}">Date:</label>
-                            <div class="col-sm-10">
+                            <label for="date" class="col-sm-3 col-form-label" v-bind:class="{'text-danger': form_validation.date === false}">Date:</label>
+                            <div class="col-sm-9">
                                 <input v-model="form_element.date" class="form-control" v-bind:class="{'is-invalid': form_validation.date === false}" type="text" placeholder="dd-MMM-yyyy" id="date"/>
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="symbol" class="col-sm-2 col-form-label">Symbol:</label>
-                            <div class="col-sm-10">
-                                <input class="form-control" type="text" disabled id="symbol" v-bind:value="form_element.symbol"/>
-                            </div>
-                        </div>
-
                         <fieldset class="form-group row">
-                            <div class="col-form-label col-sm-2 pt-0">Action</div>
-                            <div class="col-sm-10">
-                                <div class="form-check">
+                            <div class="col-form-label col-sm-3 pt-0">Action</div>
+                            <div class="col-sm-9">
+                                <div class="form-check form-check-inline">
                                     <input v-model="form_element.action" class="form-check-input" type="radio" name="actionBuySell" id="actionBuy" value="BUY" checked/>
                                     <label class="form-check-label" for="actionBuy">Buy</label>
                                 </div>
 
-                                <div class="form-check">
+                                <div class="form-check form-check-inline">
                                     <input v-model="form_element.action" class="form-check-input" type="radio" name="actionBuySell" id="actionSell" value="SELL"/>
                                     <label for="actionSell" class="form-check-label">Sell</label>
                                 </div>
@@ -38,22 +31,22 @@
                         </fieldset>
 
                         <div class="form-group row">
-                            <label for="price" class="col-sm-2 col-form-label" v-bind:class="{'text-danger': form_validation.price === false}">Price:</label>
-                            <div class="col-sm-10">
+                            <label for="price" class="col-sm-3 col-form-label" v-bind:class="{'text-danger': form_validation.price === false}">Price:</label>
+                            <div class="col-sm-9">
                                 <input class="form-control" v-bind:class="{'is-invalid': form_validation.price === false}" v-model="form_element.price" type="text" id="price"/>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="quantity" class="col-sm-2 col-form-label" v-bind:class="{'text-danger': form_validation.quantity === false}">Quantity:</label>
-                            <div class="col-sm-10">
+                            <label for="quantity" class="col-sm-3 col-form-label" v-bind:class="{'text-danger': form_validation.quantity === false}">Quantity:</label>
+                            <div class="col-sm-9">
                                 <input class="form-control" v-bind:class="{'is-invalid': form_validation.quantity === false}" v-model="form_element.quantity" type="text" id="quantity"/>
                             </div>
                         </div>
 
                         <div class="form-group row">
-                            <label for="fee" class="col-sm-2 col-form-label" v-bind:class="{'text-danger': form_validation.fees === false}">Fees:</label>
-                            <div class="col-sm-10">
+                            <label for="fee" class="col-sm-3 col-form-label" v-bind:class="{'text-danger': form_validation.fees === false}">Fees:</label>
+                            <div class="col-sm-9">
                                 <input class="form-control" v-bind:class="{'is-invalid': form_validation.fees === false}" v-model="form_element.fees" type="text" id="fee"/>
                             </div>
                         </div>
@@ -97,14 +90,16 @@
                     quantity: true,
                     fees: true,
                     isValid: function () {
-                        return this.date && this.price && this.quantity && this.fees;
+                        return this.date
+                            && this.price
+                            && this.quantity
+                            && this.fees;
                     }
                 }
             }
         },
         methods: {
             closeModal: function () {
-                console.log('cancel button was pressed');
                 this.$store.dispatch('hideAddStockModal');
             },
 
@@ -121,9 +116,9 @@
                 shareDto.brokerFees = this.form_element.fees;
                 service.recordShareTrade(shareDto).then(data => {
                   if (data === null) {
-                      this.$store.dispatch('hideAddStockModalWithOptions', false);
+                      this.$store.dispatch('hideModalWithError');
                   } else {
-                      this.$store.dispatch('hideAddStockModalWithOptions', true);
+                      this.$store.dispatch('hideModalWithRefresh');
                   }
                 });
 

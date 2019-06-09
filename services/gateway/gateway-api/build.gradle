@@ -36,6 +36,11 @@ ext {
     junitVersion = '5.4.2'
 }
 
+//task copyJarToBin(type: Copy) {
+//    from from createJar
+//    into "docker/gateway-api"
+//}
+
 description = 'Gateway API'
 
 group = 'com.example.gateway.api'

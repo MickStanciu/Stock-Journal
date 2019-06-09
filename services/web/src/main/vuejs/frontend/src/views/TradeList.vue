@@ -40,6 +40,10 @@
         </transition>
 
         <transition name="fade">
+            <add-option-trade v-if="isAddOptionModalEnabled" v-bind:post="{symbol: symbol.toUpperCase()}"/>
+        </transition>
+
+        <transition name="fade">
             <add-error v-if="isAddErrorEnabled"/>
         </transition>
 
@@ -52,11 +56,12 @@
     import service from '../service';
     import dateTimeUtil from '../utils/time'
     import AddStockTrade from "../components/tradelist/AddStockTrade";
+    import AddOptionTrade from "../components/tradelist/AddOptionTrade";
     import AddError from "../components/tradelist/AddError";
 
     export default {
         name: "TradeList",
-        components: {AddError, AddStockTrade},
+        components: {AddOptionTrade, AddError, AddStockTrade},
         data: function () {
             return {
                 items : [],
@@ -69,6 +74,9 @@
             isAddStockModalEnabled() {
                 return this.$store.state.isAddStockModalEnabled;
             },
+            isAddOptionModalEnabled() {
+                return this.$store.state.isAddOptionModalEnabled;
+            },
             isAddErrorEnabled() {
                 return this.$store.state.isAddErrorEnabled;
             },
@@ -78,6 +86,7 @@
                 this.$store.dispatch('showAddStockModal');
             },
             addNewOptionTradeClicked: function() {
+                this.$store.dispatch('showAddOptionModal');
             },
             rowClass: function (item, idx) {
                 let className = 'table-cell-odd';
@@ -214,7 +223,7 @@
         },
         mounted() {
             this.$store.subscribe( (mutation, state) => {
-                if (mutation.type === 'hideAddStockModalWithRefresh') {
+                if (mutation.type === 'hideModalWithRefresh') {
                     this.loadData();
                 }
             })

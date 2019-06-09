@@ -6,56 +6,55 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
     state: {
         isAddStockModalEnabled: false,
+        isAddOptionModalEnabled: false,
         isAddErrorEnabled: false,
     },
-    // getters: {
-    //     isAddStockModalEnabled: state => {
-    //         return state.isAddStockModalEnabled
-    //     },
-    //     isAddErrorEnabled: state => {
-    //         return state.isAddErrorEnabled
-    //     },
-    //     isRefreshEnabled: state => {
-    //         return state.isRefreshEnabled
-    //     }
-    // },
     actions: {
         showAddStockModal(context) {
             context.commit('showAddStockModal')
         },
+        showAddOptionModal(context) {
+            context.commit('showAddOptionModal')
+        },
+
         hideAddStockModal(context) {
-            context.commit('hideAddStockModalWithoutRefresh')
+            context.commit('hideModalWithoutRefresh')
         },
-        hideAddStockModalWithOptions(context, option) {
-            //TRUE means refresh screen
-            //FALSE means show error
-            if (option === true) {
-                context.commit('hideAddStockModalWithRefresh')
-            } else {
-                context.commit('hideAddStockModalWithError')
-            }
+        hideAddOptionModal(context) {
+            context.commit('hideModalWithoutRefresh')
         },
-        hideAddStockErrorModal(context) {
-            context.commit('hideAddStockErrorModal')
+        hideModalWithError(context) {
+            context.commit('hideModalWithError')
+        },
+        hideModalWithRefresh(context) {
+            context.commit('hideModalWithRefresh')
+        },
+        hideErrorModal(context) {
+            context.commit('hideErrorModal')
         }
     },
     mutations: {
         showAddStockModal(state) {
             state.isAddStockModalEnabled = true;
         },
-        hideAddStockModalWithoutRefresh(state) {
+        showAddOptionModal(state) {
+            state.isAddOptionModalEnabled = true;
+        },
+        hideModalWithoutRefresh(state) {
             state.isAddStockModalEnabled = false;
+            state.isAddOptionModalEnabled = false;
             state.isAddErrorEnabled = false;
         },
-        hideAddStockModalWithRefresh(state) {
+        hideModalWithRefresh(state) {
             state.isAddStockModalEnabled = false;
+            state.isAddOptionModalEnabled = false;
             state.isAddErrorEnabled = false;
         },
-        hideAddStockModalWithError(state) {
+        hideModalWithError(state) {
             state.isAddStockModalEnabled = false;
             state.isAddErrorEnabled = true;
         },
-        hideAddStockErrorModal(state) {
+        hideErrorModal(state) {
             state.isAddErrorEnabled = false;
         }
     }

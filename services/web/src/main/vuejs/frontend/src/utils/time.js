@@ -7,9 +7,15 @@ const timeZone = 'Australia/Sydney';
 
 const dateTimeUtil = {
 
-    //Returns date 'DD-MM-YYYY' for now
+    //Returns date 'DD-MMM-YYYY'
     dateNowFormatted() {
         const dateFormat = 'DD-MMM-YYYY';
+        return moment().tz(timeZone).format(dateFormat);
+    },
+
+    //Returns expiry date 'MMM DD'
+    expDateNowFormatted() {
+        const dateFormat = 'MMM DD';
         return moment().tz(timeZone).format(dateFormat);
     },
 
@@ -27,8 +33,14 @@ const dateTimeUtil = {
 
     checkIfDateIsCorrect(text) {
         const dateFormat = 'DD-MMM-YYYY';
-        const obj = moment(text, dateFormat);
-        return obj !== null && obj !== 'undefined';
+        const obj = moment(text, dateFormat, true);
+        return obj !== null && obj !== 'undefined' && obj.isValid() === true;
+    },
+
+    checkIfExpDateIsCorrect(text) {
+        const dateFormat = 'MMM DD';
+        const obj = moment(text, dateFormat, true);
+        return obj !== null && obj !== 'undefined' && obj.isValid() === true;
     },
 
     //converts 2018-10-17 21:00:00.000000 +11:00 => 2018-10-17T10:00:00Z into ...Nov17'18
