@@ -8,7 +8,7 @@ class ShareApiModel {
     price = undefined;
     quantity = undefined;
     action = undefined;
-    actionType = undefined;
+    actionType = 'STOCK';
     brokerFees = undefined;
     mark = null;
     isSynthetic = false;
