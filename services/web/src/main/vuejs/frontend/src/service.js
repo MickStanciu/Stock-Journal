@@ -38,6 +38,19 @@ const appService = {
                     resolve(null);
             })
         });
+    },
+
+    recordOptionTrade(dto) {
+        return new Promise(resolve => {
+            axios
+                .post('/option', dto)
+                .then(response => {
+                    resolve(response.data);
+                }).catch(error => {
+                console.error(error);
+                resolve(null);
+            })
+        });
     }
 };
 

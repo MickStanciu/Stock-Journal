@@ -100,6 +100,7 @@
 </template>
 
 <script>
+    import service from '../../service';
     import dateTimeUtil from '../../utils/time'
     import validation from "../../utils/validation";
     import OptionApiModel from "../../models/OptionApiModel";
@@ -157,6 +158,24 @@
 
                 let optionDto = new OptionApiModel(this.form_element.symbol);
                 optionDto.date = dateTimeUtil.convertToOffsetDateTime(this.form_element.date);
+                optionDto.stockPrice = this.form_element.stock_price;
+                optionDto.strikePrice = this.form_element.strike_price;
+
+                //?
+                optionDto.expiryDate = dateTimeUtil.convertToOffsetDateTime(this.form_element.exp_date);
+
+                optionDto.contracts = this.form_element.contracts;
+                optionDto.premium = this.form_element.premium;
+                optionDto.action = this.form_element.action;
+                optionDto.brokerFees = this.form_element.fees;
+
+                service.recordOptionTrade(optionDto).then(data => {
+                    if (data === null) {
+                        this.$store.dispatch('hideModalWithError');
+                    } else {
+                        this.$store.dispatch('hideModalWithRefresh');
+                    }
+                });
             },
             
             checkForm: function () {

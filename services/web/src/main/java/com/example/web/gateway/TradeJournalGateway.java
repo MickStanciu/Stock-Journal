@@ -30,15 +30,6 @@ public class TradeJournalGateway {
         this.API_URL = url;
     }
 
-    public List<OptionJournalGWModel> getAllByAccountId(String accountId) {
-        UriComponentsBuilder builder = UriComponentsBuilder
-                .fromHttpUrl(API_URL)
-                .path(accountId);
-
-        ResponseEntity<List<OptionJournalGWModel>> responseEntity = restTemplate.exchange(builder.toUriString(), HttpMethod.GET, null, new ParameterizedTypeReference<List<OptionJournalGWModel>>() {});
-        return responseEntity.getBody();
-    }
-
     public TradeLogModelGW getAllTradesBySymbol(String accountId, String symbol) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
@@ -64,6 +55,16 @@ public class TradeJournalGateway {
 
         HttpEntity<ShareJournalGWModel> request = new HttpEntity<>(model);
         ResponseEntity<ShareJournalGWModel> responseEntity = restTemplate.exchange(builder.build(accountId), HttpMethod.POST, request, ShareJournalGWModel.class);
+        return responseEntity.getBody();
+    }
+
+    public OptionJournalGWModel createOptionTrade(String accountId, OptionJournalGWModel model) {
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromHttpUrl(API_URL)
+                .path("/{accountId}/option");
+
+        HttpEntity<OptionJournalGWModel> request = new HttpEntity<>(model);
+        ResponseEntity<OptionJournalGWModel> responseEntity = restTemplate.exchange(builder.build(accountId), HttpMethod.POST, request, OptionJournalGWModel.class);
         return responseEntity.getBody();
     }
 }

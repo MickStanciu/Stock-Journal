@@ -8,10 +8,10 @@
         </div>
 
         <template v-for="(item, idx) in items">
-            <div class="row pb-1 pt-1" v-bind:class="rowClass(item, idx)" v-bind:key="item.id">
+            <div class="row pb-1 pt-1" v-bind:class="rowClass(item, idx)" v-bind:key="item.transactionId">
                 <div class="col-md-2">{{ dateTz(item) }}</div>
                 <div class="col-md-5">{{ encodeAction(item) }}</div>
-                <div class="col">{{ printCurrencyFormat(item.brokerFee) }}</div>
+                <div class="col">{{ printCurrencyFormat(item.brokerFees) }}</div>
                 <div class="col">{{ printCurrencyFormat(calculateLineItemTotal(item)) }}</div>
             </div>
         </template>
@@ -51,17 +51,18 @@
 </template>
 
 <script>
-    import OptionTradeLog from "../models/OptionTradeLog";
-    import ShareTradeLog from "../models/ShareTradeLog";
     import service from '../service';
     import dateTimeUtil from '../utils/time'
     import AddStockTrade from "../components/tradelist/AddStockTrade";
     import AddOptionTrade from "../components/tradelist/AddOptionTrade";
     import AddError from "../components/tradelist/AddError";
+    import OptionApiModel from "../models/OptionApiModel";
+    import ShareApiModel from "../models/ShareApiModel";
 
     export default {
         name: "TradeList",
         components: {AddOptionTrade, AddError, AddStockTrade},
+
         data: function () {
             return {
                 items : [],
@@ -70,6 +71,7 @@
                 symbol : this.$route.params.symbol
             }
         },
+
         computed: {
             isAddStockModalEnabled() {
                 return this.$store.state.isAddStockModalEnabled;
@@ -81,6 +83,7 @@
                 return this.$store.state.isAddErrorEnabled;
             },
         },
+
         methods: {
             addNewStockTradeClicked: function() {
                 this.$store.dispatch('showAddStockModal');
@@ -117,9 +120,9 @@
 
                 if (item.type === 'OPTION') {
                     //SOLD 3 LKQ May17'19 30 PUT @ 1
-                    encoded += item.contracts + ' ' + item.symbol + ' ' + item.actionType + ' ' + this.expiryDateTz(item)
+                    encoded += item.contracts + ' ' + item.stockSymbol + ' ' + item.actionType + ' ' + this.expiryDateTz(item)
                         + ' ' + item.strikePrice + ' @ ' + item.premium;
-                } else if (item.type === 'SHARE') {
+                } else if (item.type === 'STOCK') {
                     //BOUGHT 100 SWKS @ 87.17
                     encoded += item.quantity + ' ' + item.symbol + ' @ ' + item.price;
                 }
@@ -128,14 +131,14 @@
 
             calculateLineItemTotal: function (item) {
                 if (item.type === 'OPTION') {
-                    let transactionValue = item.contracts * 100 * item.premium - item.brokerFee;
+                    let transactionValue = item.contracts * 100 * item.premium - item.brokerFees;
                     return parseFloat((transactionValue).toFixed(10));
-                } else if (item.type === 'SHARE') {
+                } else if (item.type === 'STOCK') {
                     let price = item.price;
                     if (item.action === 'BUY') {
                         price = price * -1;
                     }
-                    return parseFloat((item.quantity * price - item.brokerFee).toFixed(10));
+                    return parseFloat((item.quantity * price - item.brokerFees).toFixed(10));
                 }
                 return 0;
             },
@@ -165,51 +168,47 @@
                         let self = this;
                         let localItems = [];
                         data.optionList.forEach(function (item) {
-                            localItems.push(
-                                new OptionTradeLog.Builder()
-                                    .withId(item.transactionId)
-                                    .withPairId(null)
-                                    .withSymbol(item.stockSymbol)
-                                    .withStockPrice(item.stockPrice)
-                                    .withStrikePrice(item.strikePrice)
-                                    .withContracts(item.contracts)
-                                    .withPremium(item.premium)
-                                    .withAction(item.action)
-                                    .withActionType(item.actionType)
-                                    .withBrokerFee(item.brokerFees)
-                                    .withDate(item.date)
-                                    .withExpiryDate(item.expiryDate)
-                                    .build())
+                            let model = new OptionApiModel(item.stockSymbol);
+                            model.stockPrice = item.stockPrice;
+                            model.strikePrice = item.strikePrice;
+                            model.contracts = item.contracts;
+                            model.premium = item.premium;
+                            model.action = item.action;
+                            model.actionType = item.actionType;
+                            model.brokerFees = item.brokerFees;
+                            model.date = item.date;
+                            model.expiryDate = item.expiryDate;
+                            model.transactionId = item.transactionId;
+
+                            localItems.push(model);
                         });
 
                         data.shareList.forEach(function (item) {
-                            localItems.push(
-                                new ShareTradeLog.Builder()
-                                    .withId(item.transactionId)
-                                    .withSymbol(item.symbol)
-                                    .withPrice(item.price)
-                                    .withQuantity(item.quantity)
-                                    .withAction(item.action)
-                                    .withActionType(item.actionType)
-                                    .withBrokerFee(item.brokerFees)
-                                    .withDate(item.date)
-                                    .build())
+                            let model = new ShareApiModel(item.symbol);
+                            model.price = item.price;
+                            model.quantity = item.quantity;
+                            model.action = item.action;
+                            model.actionType = item.actionType;
+                            model.brokerFees = item.brokerFees;
+                            model.date = item.date;
+                            model.transactionId = item.transactionId;
+
+                            localItems.push(model);
                         });
 
                         data.syntheticShareList.forEach(function (item) {
 
-                            localItems.push(
-                                new ShareTradeLog.Builder()
-                                    .withId(item.transactionId)
-                                    .withSymbol(item.symbol)
-                                    .withPrice(item.price)
-                                    .withQuantity(item.quantity)
-                                    .withAction(item.action)
-                                    .withActionType(item.actionType)
-                                    .withBrokerFee(item.brokerFees)
-                                    .withDate(item.date)
-                                    .withSyntheticFlag(true)
-                                    .build())
+                            let model = new ShareApiModel(item.symbol);
+                            model.price = item.price;
+                            model.quantity = item.quantity;
+                            model.action = item.action;
+                            model.actionType = item.actionType;
+                            model.brokerFees = item.brokerFees;
+                            model.date = item.date;
+                            model.transactionId = 0;
+                            model.isSynthetic = true;
+
+                            localItems.push(model);
                         });
 
                         self.items = localItems.sort(function (a, b) {

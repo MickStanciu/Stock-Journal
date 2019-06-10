@@ -39,15 +39,12 @@ class OptionJournalConverterTest {
         Assertions.assertEquals(model.getAction().name(), gwModel.getAction().name());
         Assertions.assertEquals(model.getActionType().name(), gwModel.getActionType().name());
         Assertions.assertEquals(model.getTransactionId(), gwModel.getTransactionId());
-        Assertions.assertEquals(model.getPairTransactionId(), gwModel.getPairTransactionId());
         Assertions.assertEquals(model.getDate(), gwModel.getDate());
         Assertions.assertEquals(model.getStockSymbol(), gwModel.getStockSymbol());
         Assertions.assertEquals(model.getStockPrice(), gwModel.getStockPrice());
         Assertions.assertEquals(model.getStrikePrice(), gwModel.getStrikePrice());
         Assertions.assertEquals(model.getExpiryDate(), gwModel.getExpiryDate());
         Assertions.assertEquals(model.getImpliedVolatility(), gwModel.getImpliedVolatility());
-        Assertions.assertEquals(model.getHistoricalImpliedVolatility(), gwModel.getHistoricalImpliedVolatility());
-        Assertions.assertEquals(model.getProfitProbability(), gwModel.getProfitProbability());
         Assertions.assertEquals(model.getContracts(), gwModel.getContracts());
         Assertions.assertEquals(model.getPremium(), gwModel.getPremium());
         Assertions.assertEquals(model.getBrokerFees(), gwModel.getBrokerFees());

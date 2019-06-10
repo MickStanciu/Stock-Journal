@@ -7,7 +7,6 @@ public class OptionJournalGWModel {
     private static final long serialVersionUID = 1L;
 
     private String transactionId;
-    private String pairTransactionId;
     private String accountId;
     private OffsetDateTime date;
     private String stockSymbol;
@@ -15,8 +14,6 @@ public class OptionJournalGWModel {
     private double strikePrice;
     private OffsetDateTime expiryDate;
     private double impliedVolatility;
-    private double historicalImpliedVolatility;
-    private double profitProbability;
     private int contracts;
     private double premium;
     private ActionGW action;
@@ -57,10 +54,6 @@ public class OptionJournalGWModel {
         return impliedVolatility;
     }
 
-    public double getHistoricalImpliedVolatility() {
-        return historicalImpliedVolatility;
-    }
-
     public ActionGW getAction() {
         return action;
     }
@@ -73,20 +66,12 @@ public class OptionJournalGWModel {
         return brokerFees;
     }
 
-    public String getPairTransactionId() {
-        return pairTransactionId;
-    }
-
     public double getStrikePrice() {
         return strikePrice;
     }
 
     public OffsetDateTime getExpiryDate() {
         return expiryDate;
-    }
-
-    public double getProfitProbability() {
-        return profitProbability;
     }
 
     public int getContracts() {
@@ -149,11 +134,6 @@ public class OptionJournalGWModel {
             return this;
         }
 
-        public Builder withHistoricalImpliedVolatility(double historicalImpliedVolatility) {
-            model.historicalImpliedVolatility = historicalImpliedVolatility;
-            return this;
-        }
-
         public Builder withAction(ActionGW actionGW) {
             model.action = actionGW;
             return this;
@@ -169,11 +149,6 @@ public class OptionJournalGWModel {
             return this;
         }
 
-        public Builder withPairTransactionId(String pairTransactionId) {
-            model.pairTransactionId = pairTransactionId;
-            return this;
-        }
-
         public Builder withStrikePrice(double strikePrice) {
             model.strikePrice = strikePrice;
             return this;
@@ -181,11 +156,6 @@ public class OptionJournalGWModel {
 
         public Builder withExpiryDate(OffsetDateTime expiryDate) {
             model.expiryDate = expiryDate;
-            return this;
-        }
-
-        public Builder withProfitProbability(double profitProbability) {
-            model.profitProbability = profitProbability;
             return this;
         }
 

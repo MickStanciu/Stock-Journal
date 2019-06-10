@@ -1,5 +1,6 @@
 package com.example.web.service;
 
+import com.example.gateway.api.model.OptionJournalGWModel;
 import com.example.gateway.api.model.ShareJournalGWModel;
 import com.example.gateway.api.model.TradeLogModelGW;
 import com.example.web.converter.SyntheticSharesGenerator;
@@ -32,5 +33,9 @@ public class TradeJournalService {
 
     public ShareJournalGWModel createShareTrade(String accountId, ShareJournalGWModel model) {
         return tradeJournalGateway.createShareTrade(accountId, model);
+    }
+
+    public OptionJournalGWModel createOptionTrade(String accountId, OptionJournalGWModel model) {
+        return tradeJournalGateway.createOptionTrade(accountId, model);
     }
 }

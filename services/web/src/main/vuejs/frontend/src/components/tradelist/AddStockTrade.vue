@@ -114,6 +114,7 @@
                 shareDto.price = this.form_element.price;
                 shareDto.quantity = this.form_element.quantity;
                 shareDto.brokerFees = this.form_element.fees;
+
                 service.recordShareTrade(shareDto).then(data => {
                   if (data === null) {
                       this.$store.dispatch('hideModalWithError');

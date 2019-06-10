@@ -1,5 +1,6 @@
 package com.example.web.resource;
 
+import com.example.gateway.api.model.OptionJournalGWModel;
 import com.example.gateway.api.model.ShareJournalGWModel;
 import com.example.web.model.TradeLogModel;
 import com.example.web.service.TradeJournalService;
@@ -39,5 +40,12 @@ public class AjaxResource {
             @PathVariable(name = "accountId") String accountId,
             @RequestBody ShareJournalGWModel model) {
         return tradeJournalService.createShareTrade(accountId, model);
+    }
+
+    @PostMapping(value = "/tradelog/{accountId}/option")
+    public OptionJournalGWModel createNewOptionTrade(
+            @PathVariable(name = "accountId") String accountId,
+            @RequestBody OptionJournalGWModel model) {
+        return tradeJournalService.createOptionTrade(accountId, model);
     }
 }
