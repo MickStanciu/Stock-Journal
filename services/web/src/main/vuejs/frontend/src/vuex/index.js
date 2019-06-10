@@ -52,6 +52,7 @@ const store = new Vuex.Store({
         },
         hideModalWithError(state) {
             state.isAddStockModalEnabled = false;
+            state.isAddOptionModalEnabled = false;
             state.isAddErrorEnabled = true;
         },
         hideErrorModal(state) {

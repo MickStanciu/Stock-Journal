@@ -2,7 +2,6 @@ package com.example.web.exception;
 
 import com.example.gateway.api.exception.ExceptionCode;
 import com.example.gateway.api.model.ExceptionModel;
-import com.example.web.gateway.TradeJournalGateway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -17,7 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class CustomisedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(TradeJournalGateway.class);
+    private static final Logger log = LoggerFactory.getLogger(CustomisedResponseEntityExceptionHandler.class);
 
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<ExceptionModel> handleAllExceptions(Exception ex, WebRequest request) {

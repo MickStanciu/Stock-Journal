@@ -1,6 +1,7 @@
 package com.example.gateway.api.service;
 
 import com.example.gateway.api.gateway.TradeLogGateway;
+import com.example.gateway.api.model.OptionJournalGWModel;
 import com.example.gateway.api.model.ShareJournalGWModel;
 import com.example.tradelog.api.spec.model.TradeLogModel;
 import org.slf4j.Logger;
@@ -30,5 +31,9 @@ public class TradeLogService {
 
     public ShareJournalGWModel createShareTrade(String accountId, ShareJournalGWModel model) {
         return tradeLogGateway.createShareTrade(accountId, model);
+    }
+
+    public OptionJournalGWModel createOptionTrade(String accountId, OptionJournalGWModel model) {
+        return tradeLogGateway.createOptionTrade(accountId, model);
     }
 }

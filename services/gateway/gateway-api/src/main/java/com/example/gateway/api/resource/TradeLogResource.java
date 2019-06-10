@@ -3,6 +3,7 @@ package com.example.gateway.api.resource;
 import com.example.gateway.api.converter.TradeLogModelConverter;
 import com.example.gateway.api.exception.ExceptionCode;
 import com.example.gateway.api.exception.GatewayApiException;
+import com.example.gateway.api.model.OptionJournalGWModel;
 import com.example.gateway.api.model.ShareJournalGWModel;
 import com.example.gateway.api.model.TradeLogModelGW;
 import com.example.gateway.api.service.TradeLogService;
@@ -65,5 +66,13 @@ public class TradeLogResource {
             @PathVariable(name = "accountId") String accountId,
             @RequestBody ShareJournalGWModel model) {
         return tradeLogService.createShareTrade(accountId, model);
+    }
+
+    @PostMapping(value = "/{accountId}/option")
+    @ResponseStatus(HttpStatus.OK)
+    public OptionJournalGWModel createNewOptionTrade(
+            @PathVariable(name = "accountId") String accountId,
+            @RequestBody OptionJournalGWModel model) {
+        return tradeLogService.createOptionTrade(accountId, model);
     }
 }
