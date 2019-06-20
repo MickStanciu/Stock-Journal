@@ -135,7 +135,6 @@ class ValidateShareJournalModelTest {
                 .withAccountId("123456789012345678901234567890123456")
                 .withBrokerFees(0)
                 .withDate(OffsetDateTime.now())
-                .withMark("1")
                 .withPrice(10.00)
                 .withQuantity(100)
                 .build();

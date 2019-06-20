@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Header/>
-    <div class="container" style="margin-top: 80px;">
+    <div class="container">
       <router-view/>
     </div>
     <Footer/>
@@ -22,4 +22,9 @@
 #app {
 
 }
+
+  .container {
+    margin-top: 80px;
+    margin-bottom: 80px;
+  }
 </style>

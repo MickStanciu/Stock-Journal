@@ -15,7 +15,6 @@ public class ShareJournalGWModel {
     private ActionGW action;
     private ActionTypeGW actionType;
     private double brokerFees;
-    private String mark;
 
     public ShareJournalGWModel() {
         //required by Jackson
@@ -57,10 +56,6 @@ public class ShareJournalGWModel {
         return brokerFees;
     }
 
-    public String getMark() {
-        return mark;
-    }
-
     public static Builder builder() {
         return new Builder();
     }
@@ -90,11 +85,6 @@ public class ShareJournalGWModel {
 
         public Builder withDate(OffsetDateTime date) {
             model.date = date;
-            return this;
-        }
-
-        public Builder withMark(String mark) {
-            model.mark = mark;
             return this;
         }
 

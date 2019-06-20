@@ -2,6 +2,8 @@ package com.example.tradelog.api.repository;
 
 import com.example.common.converter.TimeConversion;
 import com.example.tradelog.api.spec.model.ShareJournalModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -15,46 +17,52 @@ import java.util.Optional;
 @Repository
 public class SharesJournalRepository {
 
+    private static final Logger log = LoggerFactory.getLogger(SharesJournalRepository.class);
+
     private static final String JOURNAL_READ_SYMBOLS =
-            "SELECT DISTINCT symbol FROM shares_log " +
-                    "WHERE account_fk = CAST(? AS uuid) " +
+            "SELECT DISTINCT symbol " +
+                    "FROM transaction_log " +
+                    "WHERE transaction_type_fk = 'SHARE' AND account_fk = CAST(? AS uuid)" +
                     "ORDER BY symbol";
 
     private static final String JOURNAL_READ_BY_SYMBOL_FOR_ACCOUNT =
-            "SELECT CAST(transaction_id AS VARCHAR(36)), " +
-                    "       CAST(transaction_id AS VARCHAR(36)), " +
-                    "       CAST(account_fk AS VARCHAR(36)), " +
-                    "       date, " +
-                    "       symbol, " +
-                    "       price, " +
-                    "       quantity, " +
-                    "       action_fk, " +
-                    "       action_type_fk, " +
-                    "       broker_fees, " +
-                    "       mark " +
-                    "FROM shares_log " +
-                    "WHERE account_fk = CAST(? AS uuid) and symbol = ? " +
+            "SELECT CAST(tl.id AS VARCHAR(36)), " +
+                    "       CAST(tl.account_fk AS VARCHAR(36)), " +
+                    "       tl.date, " +
+                    "       tl.symbol, " +
+                    "       sl.price, " +
+                    "       sl.quantity, " +
+                    "       sl.action_fk, " +
+                    "       sl.action_type_fk, " +
+                    "       sl.broker_fees " +
+                    "FROM transaction_log tl " +
+                    "         inner join shares_log sl on tl.id = sl.transaction_fk " +
+                    "WHERE account_fk = CAST(? AS uuid) " +
+                    "  and tl.transaction_type_fk = 'SHARE' " +
+                    "  and symbol = ? " +
                     "ORDER BY date;";
 
     private static final String JOURNAL_READ_BY_TRANSACTION_ID =
-            "SELECT CAST(transaction_id AS VARCHAR(36)), " +
-                    "       CAST(transaction_id AS VARCHAR(36)), " +
-                    "       CAST(account_fk AS VARCHAR(36)), " +
-                    "       date, " +
-                    "       symbol, " +
-                    "       price, " +
-                    "       quantity, " +
-                    "       action_fk, " +
-                    "       action_type_fk, " +
-                    "       broker_fees, " +
-                    "       mark " +
-                    "FROM shares_log " +
-                    "WHERE transaction_id = CAST(? AS uuid)";
+            "SELECT CAST(tl.id AS VARCHAR(36)), " +
+                    "       CAST(tl.account_fk AS VARCHAR(36)), " +
+                    "       tl.date, " +
+                    "       tl.symbol, " +
+                    "       sl.price, " +
+                    "       sl.quantity, " +
+                    "       sl.action_fk, " +
+                    "       sl.action_type_fk, " +
+                    "       sl.broker_fees " +
+                    "FROM transaction_log tl " +
+                    "         inner join shares_log sl on tl.id = sl.transaction_fk " +
+                    "WHERE tl.id = CAST(? AS uuid);";
 
-    private static final String JOURNAL_CREATE_OPTION_FOR_ACCOUNT =
-            "INSERT INTO shares_log (account_fk, date, symbol, price, quantity, action_fk, " +
-                    "action_type_fk, broker_fees, mark) " +
-                    "VALUES (CAST(? AS uuid), ?, ?, ?, ?, ?, ?, ?, null)";
+    private static final String JOURNAL_CREATE_SHARE_FOR_ACCOUNT_1 =
+            "INSERT INTO transaction_log (account_fk, date, symbol, transaction_type_fk) " +
+                    "VALUES (CAST(? AS uuid), ?, ?, 'SHARE')";
+
+    private static final String JOURNAL_CREATE_SHARE_FOR_ACCOUNT_2 =
+            "INSERT INTO shares_log (transaction_fk, price, quantity, action_fk, action_type_fk, broker_fees) " +
+                    "VALUES (CAST(? AS uuid), ?, ?, ?, ?, ?);";
 
     private JdbcTemplate jdbcTemplate;
 
@@ -85,27 +93,40 @@ public class SharesJournalRepository {
      * Creates a share record
      * @param model -
      * @return Optional of the transaction ID
+     * TODO: add transactional
      */
     public Optional<String> createShareRecord(ShareJournalModel model) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
-
         jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(JOURNAL_CREATE_OPTION_FOR_ACCOUNT, Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = connection.prepareStatement(JOURNAL_CREATE_SHARE_FOR_ACCOUNT_1, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, model.getAccountId());
             ps.setTimestamp(2, TimeConversion.fromOffsetDateTime(model.getDate()));
             ps.setString(3, model.getSymbol());
-            ps.setDouble(4, model.getPrice());
-            ps.setInt(5, model.getQuantity());
-            ps.setString(6, model.getAction().name());
-            ps.setString(7, model.getActionType().name());
-            ps.setDouble(8, model.getBrokerFees());
             return ps;
         }, keyHolder);
 
         if (keyHolder.getKeyList().isEmpty()) {
+            log.error("FAILED TO INSERT TRANSACTION");
             return Optional.empty();
         }
 
-        return Optional.ofNullable(keyHolder.getKeyList().get(0).get("transaction_id").toString());
+        String key = keyHolder.getKeyList().get(0).get("id").toString();
+        if (key == null || key.trim().length() == 0) {
+            log.error("FAILED TO INSERT TRANSACTION");
+            return Optional.empty();
+        }
+
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(JOURNAL_CREATE_SHARE_FOR_ACCOUNT_2);
+            ps.setString(1, key);
+            ps.setDouble(2, model.getPrice());
+            ps.setInt(3, model.getQuantity());
+            ps.setString(4, model.getAction().name());
+            ps.setString(5, model.getActionType().name());
+            ps.setDouble(6, model.getBrokerFees());
+            return ps;
+        });
+
+        return Optional.of(key);
     }
 }

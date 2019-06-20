@@ -1,11 +1,19 @@
 CREATE EXTENSION "uuid-ossp";
 
 -- clean up
-DROP TABLE IF EXISTS action;
-DROP TABLE IF EXISTS action_type;
 DROP TABLE IF EXISTS option_log;
 DROP TABLE IF EXISTS shares_log;
+DROP TABLE IF EXISTS transaction_log;
 DROP TABLE IF EXISTS shares_data;
+
+DROP TABLE IF EXISTS action;
+DROP TABLE IF EXISTS action_type;
+DROP TABLE IF EXISTS transaction_type;
+
+CREATE TABLE transaction_type (
+    name VARCHAR(32) NOT NULL PRIMARY KEY
+);
+GRANT ALL PRIVILEGES ON TABLE action TO admin;
 
 CREATE TABLE action (
   name VARCHAR(32) NOT NULL PRIMARY KEY
@@ -18,43 +26,57 @@ CREATE TABLE action_type (
 );
 GRANT ALL PRIVILEGES ON TABLE action_type TO admin;
 
-CREATE TABLE option_log
+CREATE TABLE transaction_log
 (
-  transaction_id          UUID PRIMARY KEY DEFAULT uuid_generate_v4() NOT NULL,
-  transaction_fk          UUID REFERENCES option_log (transaction_id),
-  account_fk              UUID                                        NOT NULL,
-  date                    TIMESTAMPTZ                                 NOT NULL,
-  symbol                  VARCHAR(16)                                 NOT NULL,
-  stock_price             FLOAT                                       NOT NULL,
-  strike_price            FLOAT                                       NOT NULL,
-  expiry_date             DATE,
-  implied_volatility      FLOAT            DEFAULT NULL,
-  implied_volatility_hist FLOAT            DEFAULT NULL,
-  profit_probability      FLOAT            DEFAULT NULL,
-  contract_number         INTEGER,
-  premium                 FLOAT,
-  action_fk               VARCHAR(32) REFERENCES action (name),
-  action_type_fk          VARCHAR(32) REFERENCES action_type (name),
-  broker_fees             FLOAT            DEFAULT 0.0,
-  mark                    VARCHAR(16)      DEFAULT NULL
+    id                  UUID DEFAULT uuid_generate_v4() NOT NULL
+        CONSTRAINT transaction_log_pkey PRIMARY KEY,
+    account_fk          UUID                            NOT NULL,
+    date                TIMESTAMPTZ                     NOT NULL,
+    symbol              VARCHAR(16)                     NOT NULL,
+    transaction_type_fk VARCHAR(32)                     NOT NULL
+        CONSTRAINT transaction_log_action_type_fk_fkey REFERENCES transaction_type (name)
 );
-GRANT ALL PRIVILEGES ON TABLE option_log TO admin;
+
+GRANT ALL PRIVILEGES ON TABLE transaction_log TO admin;
+
 
 
 CREATE TABLE shares_log
 (
     transaction_id UUID PRIMARY KEY DEFAULT uuid_generate_v4() NOT NULL,
-    account_fk     UUID                                        NOT NULL,
-    date           TIMESTAMPTZ                                 NOT NULL,
-    symbol         VARCHAR(16)                                 NOT NULL,
     price          FLOAT                                       NOT NULL,
     quantity       INTEGER,
     action_fk      VARCHAR(32) REFERENCES action (name),
     action_type_fk VARCHAR(32) REFERENCES action_type (name),
-    broker_fees    FLOAT            DEFAULT 0.0,
-    mark           VARCHAR(16)      DEFAULT NULL
+    broker_fees    FLOAT            DEFAULT 0.0
 );
 GRANT ALL PRIVILEGES ON TABLE shares_log TO admin;
+
+
+
+CREATE TABLE option_log
+(
+    transaction_fk          UUID        NOT NULL
+        CONSTRAINT transaction_log_pkey REFERENCES transaction_log (id),
+    account_fk              UUID        NOT NULL,
+    date                    TIMESTAMPTZ NOT NULL,
+    symbol                  VARCHAR(16) NOT NULL,
+    stock_price             FLOAT       NOT NULL,
+    strike_price            FLOAT       NOT NULL,
+    expiry_date             DATE,
+    implied_volatility      FLOAT       DEFAULT NULL,
+    implied_volatility_hist FLOAT       DEFAULT NULL,
+    profit_probability      FLOAT       DEFAULT NULL,
+    contract_number         INTEGER,
+    premium                 FLOAT,
+    action_fk               VARCHAR(32) REFERENCES action (name),
+    action_type_fk          VARCHAR(32) REFERENCES action_type (name),
+    broker_fees             FLOAT       DEFAULT 0.0,
+    mark                    VARCHAR(16) DEFAULT NULL
+);
+
+GRANT ALL PRIVILEGES ON TABLE option_log TO admin;
+
 
 
 CREATE TABLE shares_data

@@ -14,7 +14,7 @@ public class ShareJournalModelRowMapper implements RowMapper<ShareJournalModel> 
     @Override
     public ShareJournalModel mapRow(ResultSet rs, int rowNum) throws SQLException {
         return ShareJournalModel.builder()
-                .withTransactionId(rs.getString("transaction_id"))
+                .withTransactionId(rs.getString("id"))
                 .withAccountId(rs.getString("account_fk"))
                 .withDate(TimeConversion.fromTimestamp(rs.getTimestamp("date")))
                 .withSymbol(rs.getString("symbol"))
@@ -23,7 +23,6 @@ public class ShareJournalModelRowMapper implements RowMapper<ShareJournalModel> 
                 .withAction(Action.lookup(rs.getString("action_fk")))
                 .withActionType(ActionType.lookup(rs.getString("action_type_fk")))
                 .withBrokerFees(rs.getDouble("broker_fees"))
-                .withMark(rs.getString("mark"))
                 .build();
     }
 }

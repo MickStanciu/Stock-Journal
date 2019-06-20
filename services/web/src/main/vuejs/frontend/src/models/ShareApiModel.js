@@ -10,7 +10,6 @@ class ShareApiModel {
     action = undefined;
     actionType = 'STOCK';
     brokerFees = undefined;
-    mark = null;
     isSynthetic = false;
 
 

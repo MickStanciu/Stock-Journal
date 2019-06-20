@@ -20,7 +20,6 @@ public class ShareJournalConverter implements Function<ShareJournalModel, ShareJ
                 .withBrokerFees(model.getBrokerFees())
                 .withQuantity(model.getQuantity())
                 .withDate(model.getDate())
-                .withMark(model.getMark())
                 .withPrice(model.getPrice())
                 .withSymbol(model.getSymbol())
                 .withTransactionId(model.getTransactionId())
