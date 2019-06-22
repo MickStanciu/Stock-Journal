@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -36,12 +37,12 @@ public class JournalResource {
 
     @RequestMapping(value = "/{accountId}/symbols", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public Set<String> getAllTradedSymbols(@PathVariable("accountId") String accountId) throws TradeLogException {
+    public List<String> getAllTradedSymbols(@PathVariable("accountId") String accountId) throws TradeLogException {
         if (!RequestValidation.validateGetAllTradedSymbols(accountId)) {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
-        Set<String> tradedSymbols = journalService.getAllTradedSymbols(accountId);
+        List<String> tradedSymbols = journalService.getAllTradedSymbols(accountId);
 
         if (tradedSymbols.isEmpty()) {
             throw new TradeLogException(ExceptionCode.TRADELOG_EMPTY);
@@ -65,24 +66,6 @@ public class JournalResource {
     }
 
 
-//    @RequestMapping(value = "/{accountId}/tradesmul", method = RequestMethod.POST)
-//    @ResponseStatus(HttpStatus.OK)
-//    public void createOptionEntries(
-//            @RequestBody List<OptionJournalModel> models,
-//            @PathVariable("accountId") String accountId) throws TradeLogException {
-//
-//        //TODO: validate model
-//        for (OptionJournalModel model : models) {
-//            Optional<OptionJournalModel> optionalModel = journalService.createOptionRecord(model);
-//            if (optionalModel.isEmpty()) {
-//                log.error("COULD NOT CREATE FOR: " + model.getStockSymbol() + " " + model.getPremium());
-//                throw new TradeLogException(ExceptionCode.CREATE_OPTION_FAILED);
-//            }
-//        }
-//    }
-
-
-
     /**
      * Create SHARE trade record
      * @param accountId - account uuid
@@ -101,11 +84,12 @@ public class JournalResource {
 
         Optional<ShareJournalModel> optionalModel = journalService.createShareRecord(model);
         if (optionalModel.isEmpty()) {
-            log.error("COULD NOT CREATE FOR: " + model.getSymbol());
+            log.error("COULD NOT CREATE FOR: " + model.getTransactionModel().getSymbol());
             throw new TradeLogException(ExceptionCode.CREATE_SHARE_FAILED);
         }
         return optionalModel.get();
     }
+
 
     /**
      * Create OPTION trade record

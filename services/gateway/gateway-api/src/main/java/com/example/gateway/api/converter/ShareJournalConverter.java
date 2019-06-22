@@ -14,15 +14,15 @@ public class ShareJournalConverter implements Function<ShareJournalModel, ShareJ
         ActionTypeConverter actionTypeConverter = new ActionTypeConverter();
 
         return ShareJournalGWModel.builder()
-                .withAccountId(model.getAccountId())
+                .withTransactionId(model.getTransactionModel().getId())
+                .withAccountId(model.getTransactionModel().getAccountId())
+                .withDate(model.getTransactionModel().getDate())
+                .withSymbol(model.getTransactionModel().getSymbol())
                 .withAction(actionConverter.apply(model.getAction()))
                 .withActionType(actionTypeConverter.apply(model.getActionType()))
                 .withBrokerFees(model.getBrokerFees())
                 .withQuantity(model.getQuantity())
-                .withDate(model.getDate())
                 .withPrice(model.getPrice())
-                .withSymbol(model.getSymbol())
-                .withTransactionId(model.getTransactionId())
                 .build();
     }
 }

@@ -1,9 +1,6 @@
 package com.example.tradelog.api.repository;
 
-import com.example.common.converter.TimeConversion;
-import com.example.tradelog.api.spec.model.Action;
-import com.example.tradelog.api.spec.model.ActionType;
-import com.example.tradelog.api.spec.model.ShareJournalModel;
+import com.example.tradelog.api.spec.model.*;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -13,11 +10,10 @@ public class ShareJournalModelRowMapper implements RowMapper<ShareJournalModel> 
 
     @Override
     public ShareJournalModel mapRow(ResultSet rs, int rowNum) throws SQLException {
+        TransactionModel transactionModel = new TransactionModelRowMapper(rs).invoke();
+
         return ShareJournalModel.builder()
-                .withTransactionId(rs.getString("id"))
-                .withAccountId(rs.getString("account_fk"))
-                .withDate(TimeConversion.fromTimestamp(rs.getTimestamp("date")))
-                .withSymbol(rs.getString("symbol"))
+                .withTransactionModel(transactionModel)
                 .withPrice(rs.getDouble("price"))
                 .withQuantity(rs.getInt("quantity"))
                 .withAction(Action.lookup(rs.getString("action_fk")))

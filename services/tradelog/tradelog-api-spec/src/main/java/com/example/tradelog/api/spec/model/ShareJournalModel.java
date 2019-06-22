@@ -1,15 +1,11 @@
 package com.example.tradelog.api.spec.model;
 
-import java.time.OffsetDateTime;
 
 public class ShareJournalModel {
 
     private static final long serialVersionUID = 1L;
 
-    private String transactionId;
-    private String accountId;
-    private OffsetDateTime date;
-    private String symbol;
+    private TransactionModel transactionModel;
     private double price;
     private int quantity;
     private Action action;
@@ -18,22 +14,6 @@ public class ShareJournalModel {
 
     public ShareJournalModel() {
         //required by Jackson
-    }
-
-    public String getTransactionId() {
-        return transactionId;
-    }
-
-    public String getAccountId() {
-        return accountId;
-    }
-
-    public OffsetDateTime getDate() {
-        return date;
-    }
-
-    public String getSymbol() {
-        return symbol;
     }
 
     public double getPrice() {
@@ -56,6 +36,9 @@ public class ShareJournalModel {
         return brokerFees;
     }
 
+    public TransactionModel getTransactionModel() {
+        return transactionModel;
+    }
 
     public static Builder builder() {
         return new Builder();
@@ -74,23 +57,8 @@ public class ShareJournalModel {
             return buildModel;
         }
 
-        public Builder withTransactionId(String transactionId) {
-            model.transactionId = transactionId;
-            return this;
-        }
-
-        public Builder withAccountId(String accountId) {
-            model.accountId = accountId;
-            return this;
-        }
-
-        public Builder withDate(OffsetDateTime date) {
-            model.date = date;
-            return this;
-        }
-
-        public Builder withSymbol(String symbol) {
-            model.symbol = symbol;
+        public Builder withTransactionModel(TransactionModel transactionModel) {
+            model.transactionModel = transactionModel;
             return this;
         }
 

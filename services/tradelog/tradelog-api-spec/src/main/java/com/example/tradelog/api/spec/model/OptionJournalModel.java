@@ -7,59 +7,19 @@ public class OptionJournalModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private String transactionId;
-    private String pairTransactionId;
-    private String accountId;
-    private OffsetDateTime date;
-    private String stockSymbol;
+    private TransactionModel transactionModel;
     private double stockPrice;
     private double strikePrice;
     private OffsetDateTime expiryDate;
-    private double impliedVolatility;
-    private double historicalImpliedVolatility;
-    private double profitProbability;
     private int contracts;
     private double premium;
     private Action action;
     private ActionType actionType;
     private double brokerFees;
-    private String mark;
 
 
     public OptionJournalModel() {
         //required by Jackson
-    }
-
-    public String getTransactionId() {
-        return transactionId;
-    }
-
-    public String getAccountId() {
-        return accountId;
-    }
-
-    public OffsetDateTime getDate() {
-        return date;
-    }
-
-    public String getMark() {
-        return mark;
-    }
-
-    public String getStockSymbol() {
-        return stockSymbol;
-    }
-
-    public double getStockPrice() {
-        return stockPrice;
-    }
-
-    public double getImpliedVolatility() {
-        return impliedVolatility;
-    }
-
-    public double getHistoricalImpliedVolatility() {
-        return historicalImpliedVolatility;
     }
 
     public Action getAction() {
@@ -74,10 +34,6 @@ public class OptionJournalModel implements Serializable {
         return brokerFees;
     }
 
-    public String getPairTransactionId() {
-        return pairTransactionId;
-    }
-
     public double getStrikePrice() {
         return strikePrice;
     }
@@ -86,16 +42,20 @@ public class OptionJournalModel implements Serializable {
         return expiryDate;
     }
 
-    public double getProfitProbability() {
-        return profitProbability;
-    }
-
     public int getContracts() {
         return contracts;
     }
 
     public double getPremium() {
         return premium;
+    }
+
+    public double getStockPrice() {
+        return stockPrice;
+    }
+
+    public TransactionModel getTransactionModel() {
+        return transactionModel;
     }
 
     public static Builder builder() {
@@ -115,43 +75,8 @@ public class OptionJournalModel implements Serializable {
             return buildModel;
         }
 
-        public Builder withTransactionId(String transactionId) {
-            model.transactionId = transactionId;
-            return this;
-        }
-
-        public Builder withAccountId(String accountId) {
-            model.accountId = accountId;
-            return this;
-        }
-
-        public Builder withDate(OffsetDateTime date) {
-            model.date = date;
-            return this;
-        }
-
-        public Builder withMark(String mark) {
-            model.mark = mark;
-            return this;
-        }
-
-        public Builder withStockSymbol(String stockSymbol) {
-            model.stockSymbol = stockSymbol;
-            return this;
-        }
-
-        public Builder withStockPrice(double stockPrice) {
-            model.stockPrice = stockPrice;
-            return this;
-        }
-
-        public Builder withImpliedVolatility(double impliedVolatility) {
-            model.impliedVolatility = impliedVolatility;
-            return this;
-        }
-
-        public Builder withHistoricalImpliedVolatility(double historicalImpliedVolatility) {
-            model.historicalImpliedVolatility = historicalImpliedVolatility;
+        public Builder withTransactionModel(TransactionModel transactionModel) {
+            model.transactionModel = transactionModel;
             return this;
         }
 
@@ -165,13 +90,13 @@ public class OptionJournalModel implements Serializable {
             return this;
         }
 
-        public Builder withBrokerFees(double brokerFees) {
-            model.brokerFees = brokerFees;
+        public Builder withStockPrice(double stockPrice) {
+            model.stockPrice = stockPrice;
             return this;
         }
 
-        public Builder withPairTransactionId(String pairTransactionId) {
-            model.pairTransactionId = pairTransactionId;
+        public Builder withBrokerFees(double brokerFees) {
+            model.brokerFees = brokerFees;
             return this;
         }
 
@@ -182,11 +107,6 @@ public class OptionJournalModel implements Serializable {
 
         public Builder withExpiryDate(OffsetDateTime expiryDate) {
             model.expiryDate = expiryDate;
-            return this;
-        }
-
-        public Builder withProfitProbability(double profitProbability) {
-            model.profitProbability = profitProbability;
             return this;
         }
 

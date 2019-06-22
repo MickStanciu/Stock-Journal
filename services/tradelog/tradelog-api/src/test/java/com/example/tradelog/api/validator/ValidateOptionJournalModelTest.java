@@ -1,8 +1,6 @@
 package com.example.tradelog.api.validator;
 
-import com.example.tradelog.api.spec.model.Action;
-import com.example.tradelog.api.spec.model.ActionType;
-import com.example.tradelog.api.spec.model.OptionJournalModel;
+import com.example.tradelog.api.spec.model.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -11,6 +9,12 @@ import java.time.OffsetDateTime;
 class ValidateOptionJournalModelTest {
 
     private OptionJournalModel.Builder optionBuilder;
+
+    private TransactionModel.Builder transactionModelBuilder = TransactionModel.builder()
+            .withAccountId("123456789012345678901234567890123456")
+            .withType(TransactionType.OPTION)
+            .withDate(OffsetDateTime.now())
+            .withSymbol("XYZ");
 
     ValidateOptionJournalModelTest() {
         optionBuilder = new OptionJournalModel.Builder();
@@ -23,14 +27,16 @@ class ValidateOptionJournalModelTest {
 
     @Test
     void testValidateOptionJournalModelWhenDefault() {
-        OptionJournalModel model = optionBuilder.build();
+        OptionJournalModel model = optionBuilder
+                .withTransactionModel(transactionModelBuilder.build())
+                .build();
         Assertions.assertFalse(RequestValidation.validateOptionJournalModel.test(model));
     }
 
     @Test
     void testValidateOptionJournalModelWhenAccountIdIsNull() {
         OptionJournalModel model = optionBuilder
-                .withAccountId(null)
+                .withTransactionModel(transactionModelBuilder.withAccountId(null).build())
                 .build();
 
         Assertions.assertFalse(RequestValidation.validateOptionJournalModel.test(model));
@@ -39,6 +45,7 @@ class ValidateOptionJournalModelTest {
     @Test
     void testValidateOptionJournalModelWhenActionIsNull() {
         OptionJournalModel model = optionBuilder
+                .withTransactionModel(transactionModelBuilder.build())
                 .withAction(null)
                 .build();
 
@@ -48,6 +55,7 @@ class ValidateOptionJournalModelTest {
     @Test
     void testValidateOptionJournalModelWhenActionIsInvalid() {
         OptionJournalModel model = optionBuilder
+                .withTransactionModel(transactionModelBuilder.build())
                 .withAction(Action.UNKNOWN)
                 .build();
 
@@ -57,6 +65,7 @@ class ValidateOptionJournalModelTest {
     @Test
     void testValidateOptionJournalModelWhenActionTypeIsNull() {
         OptionJournalModel model = optionBuilder
+                .withTransactionModel(transactionModelBuilder.build())
                 .withActionType(null)
                 .build();
 
@@ -66,6 +75,7 @@ class ValidateOptionJournalModelTest {
     @Test
     void testValidateOptionJournalModelWhenActionTypeIsUnknown() {
         OptionJournalModel model = optionBuilder
+                .withTransactionModel(transactionModelBuilder.build())
                 .withActionType(ActionType.UNKNOWN)
                 .build();
 
@@ -75,6 +85,7 @@ class ValidateOptionJournalModelTest {
     @Test
     void testValidateOptionJournalModelWhenActionTypeIsStock() {
         OptionJournalModel model = optionBuilder
+                .withTransactionModel(transactionModelBuilder.build())
                 .withActionType(ActionType.STOCK)
                 .build();
 
@@ -84,7 +95,7 @@ class ValidateOptionJournalModelTest {
     @Test
     void testValidateOptionJournalModelWhenDateIsNull() {
         OptionJournalModel model = optionBuilder
-                .withDate(null)
+                .withTransactionModel(transactionModelBuilder.withDate(null).build())
                 .build();
 
         Assertions.assertFalse(RequestValidation.validateOptionJournalModel.test(model));
@@ -93,6 +104,7 @@ class ValidateOptionJournalModelTest {
     @Test
     void testValidateOptionJournalModelWhenStockPriceIsNegative() {
         OptionJournalModel model = optionBuilder
+                .withTransactionModel(transactionModelBuilder.build())
                 .withStockPrice(-1)
                 .build();
 
@@ -102,6 +114,7 @@ class ValidateOptionJournalModelTest {
     @Test
     void testValidateOptionJournalModelWhenContractsIsZero() {
         OptionJournalModel model = optionBuilder
+                .withTransactionModel(transactionModelBuilder.build())
                 .withContracts(0)
                 .build();
 
@@ -111,7 +124,7 @@ class ValidateOptionJournalModelTest {
     @Test
     void testValidateOptionJournalModelWhenSymbolIsNull() {
         OptionJournalModel model = optionBuilder
-                .withStockSymbol(null)
+                .withTransactionModel(transactionModelBuilder.withSymbol(null).build())
                 .build();
 
         Assertions.assertFalse(RequestValidation.validateOptionJournalModel.test(model));
@@ -120,7 +133,7 @@ class ValidateOptionJournalModelTest {
     @Test
     void testValidateOptionJournalModelWhenSymbolIsEmpty() {
         OptionJournalModel model = optionBuilder
-                .withStockSymbol("")
+                .withTransactionModel(transactionModelBuilder.withSymbol("").build())
                 .build();
 
         Assertions.assertFalse(RequestValidation.validateOptionJournalModel.test(model));
@@ -129,7 +142,7 @@ class ValidateOptionJournalModelTest {
     @Test
     void testValidateOptionJournalModelWhenSymbolIsSpace() {
         OptionJournalModel model = optionBuilder
-                .withStockSymbol("     ")
+                .withTransactionModel(transactionModelBuilder.withSymbol(" ").build())
                 .build();
 
         Assertions.assertFalse(RequestValidation.validateOptionJournalModel.test(model));
@@ -138,20 +151,14 @@ class ValidateOptionJournalModelTest {
     @Test
     void testValidateOptionJournalModelTruthy() {
         OptionJournalModel model = optionBuilder
-                .withStockSymbol("XYZ")
+                .withTransactionModel(transactionModelBuilder.build())
                 .withAction(Action.BUY)
                 .withActionType(ActionType.CALL)
-                .withAccountId("123456789012345678901234567890123456")
                 .withBrokerFees(0)
-                .withDate(OffsetDateTime.now())
                 .withExpiryDate(OffsetDateTime.now())
-                .withMark("1")
                 .withStockPrice(10.00)
                 .withStrikePrice(10.00)
                 .withContracts(1)
-                .withImpliedVolatility(0)
-                .withHistoricalImpliedVolatility(0)
-                .withProfitProbability(0)
                 .withPremium(1.50)
                 .build();
 

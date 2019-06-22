@@ -14,20 +14,18 @@ public class OptionJournalConverter implements Function<OptionJournalModel, Opti
         ActionTypeConverter actionTypeConverter = new ActionTypeConverter();
 
         return OptionJournalGWModel.builder()
-                .withAccountId(model.getAccountId())
+                .withTransactionId(model.getTransactionModel().getId())
+                .withAccountId(model.getTransactionModel().getAccountId())
+                .withStockSymbol(model.getTransactionModel().getSymbol())
+                .withDate(model.getTransactionModel().getDate())
                 .withAction(actionConverter.apply(model.getAction()))
                 .withActionType(actionTypeConverter.apply(model.getActionType()))
                 .withBrokerFees(model.getBrokerFees())
                 .withContracts(model.getContracts())
-                .withDate(model.getDate())
                 .withExpiryDate(model.getExpiryDate())
-                .withImpliedVolatility(model.getImpliedVolatility())
-                .withMark(model.getMark())
                 .withPremium(model.getPremium())
                 .withStockPrice(model.getStockPrice())
-                .withStockSymbol(model.getStockSymbol())
                 .withStrikePrice(model.getStrikePrice())
-                .withTransactionId(model.getTransactionId())
                 .build();
     }
 }
