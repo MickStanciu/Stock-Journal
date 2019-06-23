@@ -1,4 +1,0 @@
-description = 'TimeSheet API Spec'
-
-group = 'com.example.timesheet.api.spec'
-version = '0.0.1-SNAPSHOT'

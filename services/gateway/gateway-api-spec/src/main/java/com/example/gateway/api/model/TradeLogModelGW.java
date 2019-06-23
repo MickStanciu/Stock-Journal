@@ -6,6 +6,7 @@ public class TradeLogModelGW {
 
     private List<OptionJournalGWModel> optionList;
     private List<ShareJournalGWModel> shareList;
+    private List<DividendGWModel> dividendList;
 
     public List<OptionJournalGWModel> getOptionList() {
         return optionList;
@@ -21,5 +22,13 @@ public class TradeLogModelGW {
 
     public void setShareList(List<ShareJournalGWModel> shareList) {
         this.shareList = shareList;
+    }
+
+    public List<DividendGWModel> getDividendList() {
+        return dividendList;
+    }
+
+    public void setDividendList(List<DividendGWModel> dividendList) {
+        this.dividendList = dividendList;
     }
 }
