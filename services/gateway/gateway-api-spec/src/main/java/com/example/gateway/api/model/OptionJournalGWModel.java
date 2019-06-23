@@ -13,13 +13,11 @@ public class OptionJournalGWModel {
     private double stockPrice;
     private double strikePrice;
     private OffsetDateTime expiryDate;
-    private double impliedVolatility;
     private int contracts;
     private double premium;
     private ActionGW action;
     private ActionTypeGW actionType;
     private double brokerFees;
-    private String mark;
 
 
     public OptionJournalGWModel() {
@@ -38,20 +36,12 @@ public class OptionJournalGWModel {
         return date;
     }
 
-    public String getMark() {
-        return mark;
-    }
-
     public String getStockSymbol() {
         return stockSymbol;
     }
 
     public double getStockPrice() {
         return stockPrice;
-    }
-
-    public double getImpliedVolatility() {
-        return impliedVolatility;
     }
 
     public ActionGW getAction() {
@@ -114,11 +104,6 @@ public class OptionJournalGWModel {
             return this;
         }
 
-        public Builder withMark(String mark) {
-            model.mark = mark;
-            return this;
-        }
-
         public Builder withStockSymbol(String stockSymbol) {
             model.stockSymbol = stockSymbol;
             return this;
@@ -126,11 +111,6 @@ public class OptionJournalGWModel {
 
         public Builder withStockPrice(double stockPrice) {
             model.stockPrice = stockPrice;
-            return this;
-        }
-
-        public Builder withImpliedVolatility(double impliedVolatility) {
-            model.impliedVolatility = impliedVolatility;
             return this;
         }
 
