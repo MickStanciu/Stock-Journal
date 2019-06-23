@@ -6,6 +6,7 @@ public class TradeLogModel {
 
     private List<OptionJournalModel> optionList;
     private List<ShareJournalModel> shareList;
+    private List<DividendJournalModel> dividendList;
 
     public List<OptionJournalModel> getOptionList() {
         return optionList;
@@ -21,5 +22,13 @@ public class TradeLogModel {
 
     public void setShareList(List<ShareJournalModel> shareList) {
         this.shareList = shareList;
+    }
+
+    public List<DividendJournalModel> getDividendList() {
+        return dividendList;
+    }
+
+    public void setDividendList(List<DividendJournalModel> dividendList) {
+        this.dividendList = dividendList;
     }
 }

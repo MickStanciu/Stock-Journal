@@ -3,6 +3,7 @@ CREATE EXTENSION "uuid-ossp";
 -- clean up
 DROP TABLE IF EXISTS option_log;
 DROP TABLE IF EXISTS shares_log;
+DROP TABLE IF EXISTS dividend_log;
 DROP TABLE IF EXISTS transaction_log;
 DROP TABLE IF EXISTS shares_data;
 
@@ -73,6 +74,17 @@ CREATE TABLE option_log
 
 
 GRANT ALL PRIVILEGES ON TABLE option_log TO admin;
+
+
+
+CREATE TABLE dividend_log
+(
+    transaction_fk UUID  NOT NULL
+        CONSTRAINT transaction_log_pkey REFERENCES transaction_log (id),
+    dividend       FLOAT NOT NULL
+);
+
+GRANT ALL PRIVILEGES ON TABLE dividend_log TO admin;
 
 
 
