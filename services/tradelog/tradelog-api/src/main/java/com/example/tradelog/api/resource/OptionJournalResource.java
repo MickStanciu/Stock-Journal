@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/api/v1", produces = "application/json")
+@RequestMapping(value = "/api/v1/options", produces = "application/json")
 public class OptionJournalResource {
 
     private static final Logger log = LoggerFactory.getLogger(OptionJournalResource.class);
@@ -32,7 +32,7 @@ public class OptionJournalResource {
      * @return list of OptionJournalModel
      * @throws TradeLogException -
      */
-    @RequestMapping(value = "/options/{symbol}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{symbol}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<OptionJournalModel> getAllBySymbol(
             @RequestHeader("accountId") String accountId,
@@ -52,7 +52,7 @@ public class OptionJournalResource {
      * @return created OptionJournalModel
      * @throws TradeLogException -
      */
-    @RequestMapping(value = "/option", method = RequestMethod.POST)
+    @RequestMapping(value = "/", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public OptionJournalModel createNewOptionTrade(
             @RequestHeader("accountId") String accountId,

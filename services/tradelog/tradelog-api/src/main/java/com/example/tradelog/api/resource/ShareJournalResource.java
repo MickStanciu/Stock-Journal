@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/api/v1", produces = "application/json")
+@RequestMapping(value = "/api/v1/shares", produces = "application/json")
 public class ShareJournalResource {
 
     private static final Logger log = LoggerFactory.getLogger(ShareJournalResource.class);
@@ -32,7 +32,7 @@ public class ShareJournalResource {
      * @return list of ShareJournalModel
      * @throws TradeLogException -
      */
-    @RequestMapping(value = "/shares/{symbol}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{symbol}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<ShareJournalModel> getAllBySymbol(
             @RequestHeader("accountId") String accountId,
@@ -53,7 +53,7 @@ public class ShareJournalResource {
      * @return created ShareJournalModel
      * @throws TradeLogException -
      */
-    @PostMapping(value = "/{accountId}/share")
+    @PostMapping(value = "/")
     @ResponseStatus(HttpStatus.OK)
     public ShareJournalModel createNewShareTrade(
             @RequestHeader(name = "accountId") String accountId,

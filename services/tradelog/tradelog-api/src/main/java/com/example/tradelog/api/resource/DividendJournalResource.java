@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/v1", produces = "application/json")
+@RequestMapping(value = "/api/v1/dividends", produces = "application/json")
 public class DividendJournalResource {
 
     private static final Logger log = LoggerFactory.getLogger(DividendJournalResource.class);
@@ -31,7 +31,7 @@ public class DividendJournalResource {
      * @return list of DividendJournalModel
      * @throws TradeLogException -
      */
-    @RequestMapping(value = "/shares/{symbol}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{symbol}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<DividendJournalModel> getAllBySymbol(
             @RequestHeader("accountId") String accountId,
