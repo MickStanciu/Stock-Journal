@@ -11,13 +11,7 @@ import com.example.tradelog.api.spec.model.TradeLogModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,10 +28,10 @@ public class TradeLogResource {
     }
 
 
-    @RequestMapping(value = "/{accountId}/trades/{symbol}", method = RequestMethod.GET)
+    @RequestMapping(value = "/all/{symbol}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public TradeLogModelGW getAllBySymbol(
-            @PathVariable(name = "accountId") String accountId,
+            @RequestHeader(name = "accountId") String accountId,
             @PathVariable(name = "symbol") String symbol
             ) {
         //todo validate input
@@ -46,9 +40,28 @@ public class TradeLogResource {
         return new TradeLogModelConverter().apply(tradeLogModel);
     }
 
-    @RequestMapping(value = "/{accountId}/symbols", method = RequestMethod.GET)
+
+    @PostMapping(value = "/shares")
     @ResponseStatus(HttpStatus.OK)
-    public List<String> getAllTradedSymbols(@PathVariable(name = "accountId") String accountId) throws GatewayApiException {
+    public ShareJournalGWModel createNewShareTrade(
+            @RequestHeader(name = "accountId") String accountId,
+            @RequestBody ShareJournalGWModel model) {
+        return tradeLogService.createShareTrade(accountId, model);
+    }
+
+
+    @PostMapping(value = "/options")
+    @ResponseStatus(HttpStatus.OK)
+    public OptionJournalGWModel createNewOptionTrade(
+            @RequestHeader(name = "accountId") String accountId,
+            @RequestBody OptionJournalGWModel model) {
+        return tradeLogService.createOptionTrade(accountId, model);
+    }
+
+
+    @RequestMapping(value = "/symbols", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public List<String> getAllTradedSymbols(@RequestHeader(name = "accountId") String accountId) throws GatewayApiException {
         //todo validate input
 
         List<String> tradedSymbols = tradeLogService.getAllTradedSymbols(accountId);
@@ -58,21 +71,5 @@ public class TradeLogResource {
         }
 
         return tradedSymbols;
-    }
-
-    @PostMapping(value = "/{accountId}/share")
-    @ResponseStatus(HttpStatus.OK)
-    public ShareJournalGWModel createNewShareTrade(
-            @PathVariable(name = "accountId") String accountId,
-            @RequestBody ShareJournalGWModel model) {
-        return tradeLogService.createShareTrade(accountId, model);
-    }
-
-    @PostMapping(value = "/{accountId}/option")
-    @ResponseStatus(HttpStatus.OK)
-    public OptionJournalGWModel createNewOptionTrade(
-            @PathVariable(name = "accountId") String accountId,
-            @RequestBody OptionJournalGWModel model) {
-        return tradeLogService.createOptionTrade(accountId, model);
     }
 }
