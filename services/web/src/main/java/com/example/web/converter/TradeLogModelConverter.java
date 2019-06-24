@@ -12,6 +12,7 @@ public class TradeLogModelConverter implements Function<TradeLogModelGW, TradeLo
         TradeLogModel model = new TradeLogModel();
         model.setOptionList(tradeLogModelGW.getOptionList());
         model.setShareList(tradeLogModelGW.getShareList());
+        model.setDividendList(tradeLogModelGW.getDividendList());
         return model;
     }
 }

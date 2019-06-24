@@ -1,11 +1,16 @@
 package com.example.gateway.api.model;
 
+import java.time.OffsetDateTime;
+
 public class DividendGWModel {
 
     private static final long serialVersionUID = 1L;
 
     private String transactionId;
     private double dividend;
+    private String accountId;
+    private OffsetDateTime date;
+    private String symbol;
 
     public DividendGWModel() {
         //required by Jackson
@@ -17,6 +22,18 @@ public class DividendGWModel {
 
     public double getDividend() {
         return dividend;
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public OffsetDateTime getDate() {
+        return date;
+    }
+
+    public String getSymbol() {
+        return symbol;
     }
 
     public static Builder builder() {
@@ -43,6 +60,21 @@ public class DividendGWModel {
 
         public Builder withDividend(double dividend) {
             model.dividend = dividend;
+            return this;
+        }
+
+        public Builder withAccountId(String accountId) {
+            model.accountId = accountId;
+            return this;
+        }
+
+        public Builder withDate(OffsetDateTime date) {
+            model.date = date;
+            return this;
+        }
+
+        public Builder withSymbol(String symbol) {
+            model.symbol = symbol;
             return this;
         }
     }

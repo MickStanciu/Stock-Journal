@@ -12,6 +12,9 @@ public class DividendJournalConverter implements Function<DividendJournalModel, 
         return DividendGWModel.builder()
                 .withTransactionId(model.getTransactionModel().getId())
                 .withDividend(model.getDividend())
+                .withAccountId(model.getTransactionModel().getAccountId())
+                .withDate(model.getTransactionModel().getDate())
+                .withSymbol(model.getTransactionModel().getSymbol())
                 .build();
     }
 }
