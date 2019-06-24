@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping(value = "/api/v1/tradelog", produces = "application/json")
@@ -33,7 +34,7 @@ public class TradeLogResource {
     public TradeLogModelGW getAllBySymbol(
             @RequestHeader(name = "accountId") String accountId,
             @PathVariable(name = "symbol") String symbol
-            ) {
+            ) throws ExecutionException, InterruptedException {
         //todo validate input
 
         TradeLogModel tradeLogModel = tradeLogService.getAllBySymbol(accountId, symbol);
