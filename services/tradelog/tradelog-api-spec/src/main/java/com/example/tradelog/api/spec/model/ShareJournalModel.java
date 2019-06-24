@@ -5,7 +5,7 @@ public class ShareJournalModel {
 
     private static final long serialVersionUID = 1L;
 
-    private TransactionModel transactionModel;
+    private TransactionModel transactionDetails;
     private double price;
     private int quantity;
     private Action action;
@@ -36,8 +36,8 @@ public class ShareJournalModel {
         return brokerFees;
     }
 
-    public TransactionModel getTransactionModel() {
-        return transactionModel;
+    public TransactionModel getTransactionDetails() {
+        return transactionDetails;
     }
 
     public static Builder builder() {
@@ -57,8 +57,8 @@ public class ShareJournalModel {
             return buildModel;
         }
 
-        public Builder withTransactionModel(TransactionModel transactionModel) {
-            model.transactionModel = transactionModel;
+        public Builder withTransactionModel(TransactionModel transactionDetails) {
+            model.transactionDetails = transactionDetails;
             return this;
         }
 

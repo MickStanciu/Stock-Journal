@@ -65,7 +65,7 @@ public class ShareJournalResource {
 
         Optional<ShareJournalModel> optionalModel = service.createShareRecord(model);
         if (optionalModel.isEmpty()) {
-            log.error("COULD NOT CREATE FOR: " + model.getTransactionModel().getSymbol());
+            log.error("COULD NOT CREATE FOR: " + model.getTransactionDetails().getSymbol());
             throw new TradeLogException(ExceptionCode.CREATE_SHARE_FAILED);
         }
         return optionalModel.get();

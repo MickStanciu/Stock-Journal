@@ -3,8 +3,6 @@ package com.example.tradelog.api.repository;
 import com.example.common.converter.TimeConversion;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
@@ -107,7 +105,7 @@ public class OptionsJournalRepository {
     public void createOptionRecord(OptionJournalModel model) {
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(JOURNAL_CREATE_OPTION_FOR_ACCOUNT, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, model.getTransactionModel().getId());
+            ps.setString(1, model.getTransactionDetails().getId());
             ps.setDouble(2, model.getStockPrice());
             ps.setDouble(3, model.getStrikePrice());
             ps.setTimestamp(4, TimeConversion.fromOffsetDateTime(model.getExpiryDate()));

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/v1", produces = "application/json")
+@RequestMapping(value = "/api/v1/transactions", produces = "application/json")
 public class TransactionJournalResource {
 
     private static final Logger log = LoggerFactory.getLogger(TransactionJournalResource.class);
@@ -23,9 +23,10 @@ public class TransactionJournalResource {
         this.service = transactionJournalService;
     }
 
-    @RequestMapping(value = "/{accountId}/symbols", method = RequestMethod.GET)
+    @RequestMapping(value = "/symbols", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public List<String> getAllTradedSymbols(@PathVariable("accountId") String accountId) throws TradeLogException {
+    public List<String> getAllTradedSymbols(@RequestHeader("accountId") String accountId) throws TradeLogException {
+
         if (!RequestValidation.validateGetAllTradedSymbols(accountId)) {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }

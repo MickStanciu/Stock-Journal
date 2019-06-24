@@ -4,15 +4,15 @@ public class DividendJournalModel {
 
     private static final long serialVersionUID = 1L;
 
-    private TransactionModel transactionModel;
+    private TransactionModel transactionDetails;
     private double dividend;
 
     public DividendJournalModel() {
         //required by Jackson
     }
 
-    public TransactionModel getTransactionModel() {
-        return transactionModel;
+    public TransactionModel getTransactionDetails() {
+        return transactionDetails;
     }
 
     public double getDividend() {
@@ -37,7 +37,7 @@ public class DividendJournalModel {
         }
 
         public Builder withTransactionModel(TransactionModel transactionModel) {
-            model.transactionModel = transactionModel;
+            model.transactionDetails = transactionModel;
             return this;
         }
 

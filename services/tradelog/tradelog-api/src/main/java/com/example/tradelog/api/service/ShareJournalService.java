@@ -32,7 +32,7 @@ public class ShareJournalService {
 
 
     public Optional<ShareJournalModel> createShareRecord(ShareJournalModel model) {
-        Optional<String> optionalId = transactionRepository.createTransactionRecord(model.getTransactionModel());
+        Optional<String> optionalId = transactionRepository.createTransactionRecord(model.getTransactionDetails());
 
         if (optionalId.isPresent()) {
             sharesJournalRepository.createShareRecord(model);

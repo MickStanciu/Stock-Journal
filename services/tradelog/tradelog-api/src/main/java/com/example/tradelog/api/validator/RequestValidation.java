@@ -16,12 +16,12 @@ public class RequestValidation extends FieldValidator {
     }
 
     static Predicate<ShareJournalModel> validateShareJournalModel = s -> s != null
-            && s.getTransactionModel() != null
-            && s.getTransactionModel().getType().equals(TransactionType.SHARE)
-            && s.getTransactionModel().getDate() != null
-            && symbol.test(s.getTransactionModel().getSymbol())
-            && RequestValidation.accountId.test(s.getTransactionModel().getAccountId())
-            && s.getTransactionModel().getId() == null
+            && s.getTransactionDetails() != null
+            && s.getTransactionDetails().getType().equals(TransactionType.SHARE)
+            && s.getTransactionDetails().getDate() != null
+            && symbol.test(s.getTransactionDetails().getSymbol())
+            && RequestValidation.accountId.test(s.getTransactionDetails().getAccountId())
+            && s.getTransactionDetails().getId() == null
             && s.getAction() != null
             && s.getAction() != Action.UNKNOWN
             && s.getActionType() != null
@@ -38,12 +38,12 @@ public class RequestValidation extends FieldValidator {
     }
 
     static Predicate<OptionJournalModel> validateOptionJournalModel = s -> s != null
-            && s.getTransactionModel() != null
-            && s.getTransactionModel().getType().equals(TransactionType.OPTION)
-            && s.getTransactionModel().getDate() != null
-            && symbol.test(s.getTransactionModel().getSymbol())
-            && RequestValidation.accountId.test(s.getTransactionModel().getAccountId())
-            && s.getTransactionModel().getId() == null
+            && s.getTransactionDetails() != null
+            && s.getTransactionDetails().getType().equals(TransactionType.OPTION)
+            && s.getTransactionDetails().getDate() != null
+            && symbol.test(s.getTransactionDetails().getSymbol())
+            && RequestValidation.accountId.test(s.getTransactionDetails().getAccountId())
+            && s.getTransactionDetails().getId() == null
             && s.getAction() != null
             && s.getAction() != Action.UNKNOWN
             && (s.getActionType() == ActionType.CALL || s.getActionType() == ActionType.PUT)

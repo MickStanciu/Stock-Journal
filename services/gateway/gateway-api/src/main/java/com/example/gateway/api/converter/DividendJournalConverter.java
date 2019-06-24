@@ -10,11 +10,11 @@ public class DividendJournalConverter implements Function<DividendJournalModel, 
     @Override
     public DividendGWModel apply(DividendJournalModel model) {
         return DividendGWModel.builder()
-                .withTransactionId(model.getTransactionModel().getId())
+                .withTransactionId(model.getTransactionDetails().getId())
                 .withDividend(model.getDividend())
-                .withAccountId(model.getTransactionModel().getAccountId())
-                .withDate(model.getTransactionModel().getDate())
-                .withSymbol(model.getTransactionModel().getSymbol())
+                .withAccountId(model.getTransactionDetails().getAccountId())
+                .withDate(model.getTransactionDetails().getDate())
+                .withSymbol(model.getTransactionDetails().getSymbol())
                 .build();
     }
 }

@@ -7,7 +7,7 @@ public class OptionJournalModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private TransactionModel transactionModel;
+    private TransactionModel transactionDetails;
     private double stockPrice;
     private double strikePrice;
     private OffsetDateTime expiryDate;
@@ -54,8 +54,8 @@ public class OptionJournalModel implements Serializable {
         return stockPrice;
     }
 
-    public TransactionModel getTransactionModel() {
-        return transactionModel;
+    public TransactionModel getTransactionDetails() {
+        return transactionDetails;
     }
 
     public static Builder builder() {
@@ -76,7 +76,7 @@ public class OptionJournalModel implements Serializable {
         }
 
         public Builder withTransactionModel(TransactionModel transactionModel) {
-            model.transactionModel = transactionModel;
+            model.transactionDetails = transactionModel;
             return this;
         }
 

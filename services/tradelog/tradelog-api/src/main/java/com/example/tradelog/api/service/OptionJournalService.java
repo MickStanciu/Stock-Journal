@@ -28,7 +28,7 @@ public class OptionJournalService {
     }
 
     public Optional<OptionJournalModel> createOptionRecord(OptionJournalModel model) {
-        Optional<String> optionalId = transactionRepository.createTransactionRecord(model.getTransactionModel());
+        Optional<String> optionalId = transactionRepository.createTransactionRecord(model.getTransactionDetails());
 
         if (optionalId.isPresent()) {
             optionsJournalRepository.createOptionRecord(model);

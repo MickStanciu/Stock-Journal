@@ -14,10 +14,10 @@ public class ShareJournalConverter implements Function<ShareJournalModel, ShareJ
         ActionTypeConverter actionTypeConverter = new ActionTypeConverter();
 
         return ShareJournalGWModel.builder()
-                .withTransactionId(model.getTransactionModel().getId())
-                .withAccountId(model.getTransactionModel().getAccountId())
-                .withDate(model.getTransactionModel().getDate())
-                .withSymbol(model.getTransactionModel().getSymbol())
+                .withTransactionId(model.getTransactionDetails().getId())
+                .withAccountId(model.getTransactionDetails().getAccountId())
+                .withDate(model.getTransactionDetails().getDate())
+                .withSymbol(model.getTransactionDetails().getSymbol())
                 .withAction(actionConverter.apply(model.getAction()))
                 .withActionType(actionTypeConverter.apply(model.getActionType()))
                 .withBrokerFees(model.getBrokerFees())
