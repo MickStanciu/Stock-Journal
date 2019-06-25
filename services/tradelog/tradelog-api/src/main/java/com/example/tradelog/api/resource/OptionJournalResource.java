@@ -52,7 +52,7 @@ public class OptionJournalResource {
      * @return created OptionJournalModel
      * @throws TradeLogException -
      */
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = {"/", ""}, method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public OptionJournalModel createNewOptionTrade(
             @RequestHeader("accountId") String accountId,
