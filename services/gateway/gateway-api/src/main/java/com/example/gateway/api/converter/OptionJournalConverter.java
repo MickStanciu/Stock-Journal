@@ -10,16 +10,13 @@ public class OptionJournalConverter implements Function<OptionJournalModel, Opti
     @Override
     public OptionJournalGWModel apply(OptionJournalModel model) {
 
-        ActionConverter actionConverter = new ActionConverter();
-        ActionTypeConverter actionTypeConverter = new ActionTypeConverter();
-
         return OptionJournalGWModel.builder()
                 .withTransactionId(model.getTransactionDetails().getId())
                 .withAccountId(model.getTransactionDetails().getAccountId())
                 .withStockSymbol(model.getTransactionDetails().getSymbol())
                 .withDate(model.getTransactionDetails().getDate())
-                .withAction(actionConverter.apply(model.getAction()))
-                .withActionType(actionTypeConverter.apply(model.getActionType()))
+                .withAction(ActionConverter.toActionGW.apply(model.getAction()))
+                .withActionType(ActionTypeConverter.toActionTypeGW.apply(model.getActionType()))
                 .withBrokerFees(model.getBrokerFees())
                 .withContracts(model.getContracts())
                 .withExpiryDate(model.getExpiryDate())
