@@ -31,11 +31,12 @@ public class ShareJournalService {
     }
 
 
+    //TODO: if the second leg fails, delete the first one. Transactional
     public Optional<ShareJournalModel> createShareRecord(ShareJournalModel model) {
         Optional<String> optionalId = transactionRepository.createTransactionRecord(model.getTransactionDetails());
 
         if (optionalId.isPresent()) {
-            sharesJournalRepository.createShareRecord(model);
+            sharesJournalRepository.createShareRecord(optionalId.get(), model);
             return sharesJournalRepository.getByTransactionId(optionalId.get());
         } else {
             return Optional.empty();
