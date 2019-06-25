@@ -53,7 +53,7 @@ public class ShareJournalResource {
      * @return created ShareJournalModel
      * @throws TradeLogException -
      */
-    @PostMapping(value = "/")
+    @PostMapping(value = {"/", ""})
     @ResponseStatus(HttpStatus.OK)
     public ShareJournalModel createNewShareTrade(
             @RequestHeader(name = "accountId") String accountId,
