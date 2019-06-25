@@ -30,11 +30,15 @@ public class RequestValidation extends FieldValidator {
             && s.getQuantity() >= 1;
 
     public static boolean validateCreateNewShareTrade(String accountId, ShareJournalModel model) {
-        return RequestValidation.accountId.test(accountId) && RequestValidation.validateShareJournalModel.test(model);
+        return RequestValidation.accountId.test(accountId)
+                && RequestValidation.validateShareJournalModel.test(model)
+                && accountId.equals(model.getTransactionDetails().getAccountId());
     }
 
     public static boolean validateCreateNewOptionTrade(String accountId, OptionJournalModel model) {
-        return RequestValidation.accountId.test(accountId) && RequestValidation.validateOptionJournalModel.test(model);
+        return RequestValidation.accountId.test(accountId)
+                && RequestValidation.validateOptionJournalModel.test(model)
+                && accountId.equals(model.getTransactionDetails().getAccountId());
     }
 
     static Predicate<OptionJournalModel> validateOptionJournalModel = s -> s != null
