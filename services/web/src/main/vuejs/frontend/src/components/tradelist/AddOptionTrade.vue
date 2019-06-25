@@ -160,7 +160,7 @@
                 optionDto.date = dateTimeUtil.convertToOffsetDateTime(this.form_element.date);
                 optionDto.stockPrice = this.form_element.stock_price;
                 optionDto.strikePrice = this.form_element.strike_price;
-                optionDto.expiryDate = dateTimeUtil.convertToOffsetDateTime(this.form_element.exp_date);
+                optionDto.expiryDate = dateTimeUtil.convertExpToOffsetDateTime(this.form_element.exp_date);
 
                 optionDto.contracts = this.form_element.contracts;
                 optionDto.premium = this.form_element.premium;

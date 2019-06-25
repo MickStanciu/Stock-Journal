@@ -114,20 +114,29 @@
             },
 
             encodeAction: function (item) {
-                let encoded = 'BOUGHT ';
-                if ('SELL' === item.action) {
-                    encoded = 'SOLD '
+
+                let encoded = '';
+
+                if ('STOCK' === item.type  || 'OPTION' === item.type) {
+                    if ('SELL' === item.action) {
+                        encoded = 'SOLD'
+                    } else {
+                        encoded = 'BOUGHT'
+                    }
+                } else if ('DIVIDEND' === item.type) {
+                    encoded = 'RECEIVED DIVIDEND';
                 }
+
 
                 if (item.type === 'OPTION') {
                     //SOLD 3 LKQ May17'19 30 PUT @ 1
-                    encoded += item.contracts + ' ' + item.stockSymbol + ' ' + item.actionType + ' ' + this.expiryDateTz(item)
+                    encoded += ' ' + item.contracts + ' ' + item.stockSymbol + ' ' + item.actionType + ' ' + this.expiryDateTz(item)
                         + ' ' + item.strikePrice + ' @ ' + item.premium;
                 } else if (item.type === 'STOCK') {
                     //BOUGHT 100 SWKS @ 87.17
-                    encoded += item.quantity + ' ' + item.symbol + ' @ ' + item.price;
+                    encoded += ' ' + item.quantity + ' ' + item.symbol + ' @ ' + item.price;
                 } else if (item.type === 'DIVIDEND') {
-                    encoded = 'RECEIVED DIVIDEND'  + ' ' + item.symbol + ' @ ' + item.dividend;
+                    encoded += ' ' + item.symbol + ' @ ' + item.dividend;
                 }
                 return encoded;
             },

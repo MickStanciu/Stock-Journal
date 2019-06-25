@@ -31,6 +31,12 @@ const dateTimeUtil = {
         return moment(text, dateFormat).utc().format('YYYY-MM-DDTHH:mm:ssZ');
     },
 
+    //Converts 'MMM DD to OffsetZulu example: 2018-12-25T10:00:00Z
+    convertExpToOffsetDateTime(text) {
+        const dateFormat = 'MMM DD';
+        return moment(text, dateFormat).utc().format('YYYY-MM-DDTHH:mm:ssZ');
+    },
+
     checkIfDateIsCorrect(text) {
         const dateFormat = 'DD-MMM-YYYY';
         const obj = moment(text, dateFormat, true);
@@ -44,8 +50,8 @@ const dateTimeUtil = {
     },
 
     //converts 2018-10-17 21:00:00.000000 +11:00 => 2018-10-17T10:00:00Z into ...Nov17'18
-    convertExpiryDateForDisplay: function(item) {
-        return moment(item.expiryDate).tz(timeZone).format('MMMDD\'YY');
+    convertExpiryDateForDisplay: function(date) {
+        return moment(date).tz(timeZone).format('MMMDD\'YY');
     },
 
     //sort dates
