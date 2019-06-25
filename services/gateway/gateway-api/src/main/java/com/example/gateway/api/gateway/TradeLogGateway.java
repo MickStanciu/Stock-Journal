@@ -9,10 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -28,13 +25,10 @@ public class TradeLogGateway {
 
     private final RestTemplate restTemplate;
     private final String API_URL;
-    private final HttpHeaders headers;
 
     public TradeLogGateway(RestTemplate restTemplate, @Value("${gateway.tradelog.url}") String url) {
         this.restTemplate = restTemplate;
         this.API_URL = url;
-        this.headers = new HttpHeaders();
-//        this.headers.setContentType(MediaType.APPLICATION_JSON);
     }
 
 
@@ -43,7 +37,9 @@ public class TradeLogGateway {
                 .fromHttpUrl(API_URL)
                 .path("/transactions/symbols");
 
-        this.headers.set("accountId", accountId);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("accountId", accountId);
 
         ResponseEntity<List<String>> responseEntity = restTemplate
                 .exchange(builder.build(""), HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<List<String>>() {});
@@ -57,7 +53,9 @@ public class TradeLogGateway {
                 .fromHttpUrl(API_URL)
                 .path("/shares/{symbol}");
 
-        this.headers.set("accountId", accountId);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("accountId", accountId);
 
         ResponseEntity<List<ShareJournalModel>> responseEntity =
                 restTemplate.exchange(builder.build(symbol), HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<List<ShareJournalModel>>() {});
@@ -71,7 +69,9 @@ public class TradeLogGateway {
                 .fromHttpUrl(API_URL)
                 .path("/options/{symbol}");
 
-        this.headers.set("accountId", accountId);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("accountId", accountId);
 
         ResponseEntity<List<OptionJournalModel>> responseEntity =
                 restTemplate.exchange(builder.build(symbol), HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<List<OptionJournalModel>>() {});
@@ -85,7 +85,9 @@ public class TradeLogGateway {
                 .fromHttpUrl(API_URL)
                 .path("/dividends/{symbol}");
 
-        this.headers.set("accountId", accountId);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("accountId", accountId);
 
         ResponseEntity<List<DividendJournalModel>> responseEntity =
                 restTemplate.exchange(builder.build(symbol), HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<List<DividendJournalModel>>() {});
@@ -96,20 +98,28 @@ public class TradeLogGateway {
     public ShareJournalGWModel createShareTrade(String accountId, ShareJournalGWModel model) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
-                .path("/{accountId}/share");
+                .path("/shares");
 
-        HttpEntity<ShareJournalGWModel> request = new HttpEntity<>(model);
-        ResponseEntity<ShareJournalGWModel> responseEntity = restTemplate.exchange(builder.build(accountId), HttpMethod.POST, request, ShareJournalGWModel.class);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("accountId", accountId);
+
+        HttpEntity<ShareJournalGWModel> request = new HttpEntity<>(model, headers);
+        ResponseEntity<ShareJournalGWModel> responseEntity = restTemplate.exchange(builder.build(""), HttpMethod.POST, request, ShareJournalGWModel.class);
         return responseEntity.getBody();
     }
 
     public OptionJournalGWModel createOptionTrade(String accountId, OptionJournalGWModel model) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
-                .path("/{accountId}/option");
+                .path("/options");
 
-        HttpEntity<OptionJournalGWModel> request = new HttpEntity<>(model);
-        ResponseEntity<OptionJournalGWModel> responseEntity = restTemplate.exchange(builder.build(accountId), HttpMethod.POST, request, OptionJournalGWModel.class);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("accountId", accountId);
+
+        HttpEntity<OptionJournalGWModel> request = new HttpEntity<>(model, headers);
+        ResponseEntity<OptionJournalGWModel> responseEntity = restTemplate.exchange(builder.build(""), HttpMethod.POST, request, OptionJournalGWModel.class);
         return responseEntity.getBody();
     }
 }
