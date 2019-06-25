@@ -75,12 +75,13 @@ public class SharesJournalRepository {
 
     /**
      * Creates a share record
+     * @param id -
      * @param model -
      */
-    public void createShareRecord(ShareJournalModel model) {
+    public void createShareRecord(String id, ShareJournalModel model) {
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(JOURNAL_CREATE_SHARE_FOR_ACCOUNT);
-            ps.setString(1, model.getTransactionDetails().getId());
+            ps.setString(1,id);
             ps.setDouble(2, model.getPrice());
             ps.setInt(3, model.getQuantity());
             ps.setString(4, model.getAction().name());

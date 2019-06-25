@@ -100,12 +100,13 @@ public class OptionsJournalRepository {
 
     /**
      * Creates an option record
+     * @param id -
      * @param model -
      */
-    public void createOptionRecord(OptionJournalModel model) {
+    public void createOptionRecord(String id, OptionJournalModel model) {
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(JOURNAL_CREATE_OPTION_FOR_ACCOUNT, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, model.getTransactionDetails().getId());
+            ps.setString(1, id);
             ps.setDouble(2, model.getStockPrice());
             ps.setDouble(3, model.getStrikePrice());
             ps.setTimestamp(4, TimeConversion.fromOffsetDateTime(model.getExpiryDate()));
