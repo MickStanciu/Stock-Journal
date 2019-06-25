@@ -4,7 +4,6 @@ import com.example.gateway.api.model.DividendGWModel;
 import com.example.gateway.api.model.OptionJournalGWModel;
 import com.example.gateway.api.model.ShareJournalGWModel;
 import com.example.gateway.api.model.TradeLogModelGW;
-import com.example.tradelog.api.spec.model.DividendJournalModel;
 import com.example.tradelog.api.spec.model.TradeLogModel;
 
 import java.util.List;
@@ -20,12 +19,12 @@ public class TradeLogModelConverter implements Function<TradeLogModel, TradeLogM
         TradeLogModelGW tradeLogModelGW = new TradeLogModelGW();
 
         List<OptionJournalGWModel> optionList = tradeLogModel.getOptionList().stream()
-                .map(new OptionJournalConverter())
+                .map(OptionJournalConverter.toOptionGWModel)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
 
         List<ShareJournalGWModel> shareList = tradeLogModel.getShareList().stream()
-                .map(new ShareJournalConverter())
+                .map(ShareJournalConverter.toShareGWModel)
                 .collect(Collectors.toList());
 
         List<DividendGWModel> dividendList = tradeLogModel.getDividendList().stream()

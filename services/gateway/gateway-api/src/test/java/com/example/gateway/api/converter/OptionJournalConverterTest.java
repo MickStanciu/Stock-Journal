@@ -34,7 +34,7 @@ class OptionJournalConverterTest {
                 .build();
 
 
-        OptionJournalGWModel gwModel = new OptionJournalConverter().apply(model);
+        OptionJournalGWModel gwModel = OptionJournalConverter.toOptionGWModel.apply(model);
 
         Assertions.assertEquals(model.getTransactionDetails().getId(), gwModel.getTransactionId());
         Assertions.assertEquals(model.getTransactionDetails().getAccountId(), gwModel.getAccountId());

@@ -58,6 +58,7 @@
     import AddError from "../components/tradelist/AddError";
     import OptionApiModel from "../models/OptionApiModel";
     import ShareApiModel from "../models/ShareApiModel";
+    import DividendApiModel from "../models/DividendApiModel";
 
     export default {
         name: "TradeList",
@@ -125,6 +126,8 @@
                 } else if (item.type === 'STOCK') {
                     //BOUGHT 100 SWKS @ 87.17
                     encoded += item.quantity + ' ' + item.symbol + ' @ ' + item.price;
+                } else if (item.type === 'DIVIDEND') {
+                    encoded = 'RECEIVED DIVIDEND'  + ' ' + item.symbol + ' @ ' + item.dividend;
                 }
                 return encoded;
             },
@@ -192,6 +195,15 @@
                             model.brokerFees = item.brokerFees;
                             model.date = item.date;
                             model.transactionId = item.transactionId;
+
+                            localItems.push(model);
+                        });
+
+                        data.dividendList.forEach(function (item) {
+                            let model = new DividendApiModel(item.symbol);
+                            model.date = item.date;
+                            model.transactionId = item.transactionId;
+                            model.dividend = item.dividend;
 
                             localItems.push(model);
                         });

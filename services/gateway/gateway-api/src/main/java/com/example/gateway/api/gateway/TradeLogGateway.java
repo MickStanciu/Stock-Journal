@@ -1,7 +1,5 @@
 package com.example.gateway.api.gateway;
 
-import com.example.gateway.api.model.OptionJournalGWModel;
-import com.example.gateway.api.model.ShareJournalGWModel;
 import com.example.tradelog.api.spec.model.DividendJournalModel;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
 import com.example.tradelog.api.spec.model.ShareJournalModel;
@@ -95,7 +93,7 @@ public class TradeLogGateway {
     }
 
 
-    public ShareJournalGWModel createShareTrade(String accountId, ShareJournalGWModel model) {
+    public ShareJournalModel createShareTrade(String accountId, ShareJournalModel model) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
                 .path("/shares");
@@ -104,12 +102,12 @@ public class TradeLogGateway {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("accountId", accountId);
 
-        HttpEntity<ShareJournalGWModel> request = new HttpEntity<>(model, headers);
-        ResponseEntity<ShareJournalGWModel> responseEntity = restTemplate.exchange(builder.build(""), HttpMethod.POST, request, ShareJournalGWModel.class);
+        HttpEntity<ShareJournalModel> request = new HttpEntity<>(model, headers);
+        ResponseEntity<ShareJournalModel> responseEntity = restTemplate.exchange(builder.build(""), HttpMethod.POST, request, ShareJournalModel.class);
         return responseEntity.getBody();
     }
 
-    public OptionJournalGWModel createOptionTrade(String accountId, OptionJournalGWModel model) {
+    public OptionJournalModel createOptionTrade(String accountId, OptionJournalModel model) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
                 .path("/options");
@@ -118,8 +116,8 @@ public class TradeLogGateway {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("accountId", accountId);
 
-        HttpEntity<OptionJournalGWModel> request = new HttpEntity<>(model, headers);
-        ResponseEntity<OptionJournalGWModel> responseEntity = restTemplate.exchange(builder.build(""), HttpMethod.POST, request, OptionJournalGWModel.class);
+        HttpEntity<OptionJournalModel> request = new HttpEntity<>(model, headers);
+        ResponseEntity<OptionJournalModel> responseEntity = restTemplate.exchange(builder.build(""), HttpMethod.POST, request, OptionJournalModel.class);
         return responseEntity.getBody();
     }
 }

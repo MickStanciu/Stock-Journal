@@ -1,5 +1,7 @@
 package com.example.gateway.api.service;
 
+import com.example.gateway.api.converter.OptionJournalConverter;
+import com.example.gateway.api.converter.ShareJournalConverter;
 import com.example.gateway.api.gateway.TradeLogGateway;
 import com.example.gateway.api.model.OptionJournalGWModel;
 import com.example.gateway.api.model.ShareJournalGWModel;
@@ -45,10 +47,12 @@ public class TradeLogService {
     }
 
     public ShareJournalGWModel createShareTrade(String accountId, ShareJournalGWModel model) {
-        return tradeLogGateway.createShareTrade(accountId, model);
+        ShareJournalModel returnModel = tradeLogGateway.createShareTrade(accountId, ShareJournalConverter.toShareModel.apply(model));
+        return ShareJournalConverter.toShareGWModel.apply(returnModel);
     }
 
     public OptionJournalGWModel createOptionTrade(String accountId, OptionJournalGWModel model) {
-        return tradeLogGateway.createOptionTrade(accountId, model);
+        OptionJournalModel returnModel = tradeLogGateway.createOptionTrade(accountId, OptionJournalConverter.toOptionModel.apply(model));
+        return OptionJournalConverter.toOptionGWModel.apply(returnModel);
     }
 }
