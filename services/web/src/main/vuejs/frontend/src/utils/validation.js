@@ -6,7 +6,7 @@ const validation = {
     },
 
     isPositiveInteger(test) {
-        if (isNaN(test) || test.trim() === '') {
+        if (isNaN(test) || (test + '').trim() === '') {
             return false;
         }
         let value = parseFloat(test);
