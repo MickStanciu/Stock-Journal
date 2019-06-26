@@ -23,8 +23,12 @@
 
 }
 
-  .container {
-    margin-top: 80px;
-    margin-bottom: 80px;
-  }
+html {
+  font-size: 16px;
+}
+
+.container {
+  margin-top: 80px;
+  margin-bottom: 80px;
+}
 </style>

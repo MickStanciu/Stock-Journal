@@ -1,26 +1,29 @@
 <template>
-    <div>
+    <div id="trade-list">
         <div class="row mt-3 pb-2 pt-2 table-header">
+            <div class="col-md-1">#</div>
             <div class="col-md-2">Date</div>
             <div class="col-md-5">Action</div>
-            <div class="col">Fees</div>
-            <div class="col">Total</div>
+            <div class="col-md-1">Fees</div>
+            <div class="col-md text-right">Total</div>
         </div>
 
         <template v-for="(item, idx) in items">
             <div class="row pb-1 pt-1" v-bind:class="rowClass(item, idx)" v-bind:key="item.transactionId">
+                <div class="col-md-1">{{ idx + 1 }}</div>
                 <div class="col-md-2">{{ dateTz(item) }}</div>
                 <div class="col-md-5">{{ encodeAction(item) }}</div>
-                <div class="col">{{ printCurrencyFormat(item.brokerFees) }}</div>
-                <div class="col">{{ printCurrencyFormat(calculateLineItemTotal(item)) }}</div>
+                <div class="col-md-1">{{ printCurrencyFormat(item.brokerFees) }}</div>
+                <div class="col-md text-right">{{ printCurrencyFormat(calculateLineItemTotal(item)) }}</div>
             </div>
         </template>
 
         <div class="row pb-1 pt-1 table-footer">
+            <div class="col-md-1">&nbsp;</div>
             <div class="col-md-2">&nbsp;</div>
             <div class="col-md-5">&nbsp;</div>
-            <div class="col">&nbsp;</div>
-            <div class="col">{{ printCurrencyFormat(calculateLineItemsTotal(items)) }}</div>
+            <div class="col-1">&nbsp;</div>
+            <div class="col text-right">{{ printCurrencyFormat(calculateLineItemsTotal(items)) }}</div>
         </div>
 
         <div class="row pt-3">
@@ -253,6 +256,11 @@
 </script>
 
 <style scoped>
+
+    #trade-list {
+        font-size: 0.75rem;
+    }
+
     .table-header {
         background-color: #005cbf;
         color: white;

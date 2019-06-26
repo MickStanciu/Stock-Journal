@@ -140,5 +140,14 @@
 <style scoped>
     .modal {
         display: block;
+        font-size: 0.75rem;
+    }
+
+    .modal-title {
+        font-size: 1.5rem;
+    }
+
+    .form-control {
+        font-size: 0.75rem;
     }
 </style>
