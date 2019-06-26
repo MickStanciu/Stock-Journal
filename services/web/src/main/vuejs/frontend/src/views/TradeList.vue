@@ -130,16 +130,21 @@
                     encoded = 'RECEIVED DIVIDEND';
                 }
 
+                let params = {
+                    style: 'decimal',
+                    minimumFractionDigits: 2
+                };
+
 
                 if (item.type === 'OPTION') {
                     //SOLD 3 LKQ May17'19 30 PUT @ 1
                     encoded += ' ' + item.contracts + ' ' + item.stockSymbol + ' ' + item.actionType + ' ' + this.expiryDateTz(item)
-                        + ' ' + item.strikePrice + ' @ ' + item.premium;
+                        + ' ' + item.strikePrice + ' @ ' + Intl.NumberFormat('en-US', params).format(item.premium);
                 } else if (item.type === 'STOCK') {
                     //BOUGHT 100 SWKS @ 87.17
-                    encoded += ' ' + item.quantity + ' ' + item.symbol + ' @ ' + item.price;
+                    encoded += ' ' + item.quantity + ' ' + item.symbol + ' @ ' + Intl.NumberFormat('en-US', params).format(item.price);
                 } else if (item.type === 'DIVIDEND') {
-                    encoded += ' ' + item.symbol + ' @ ' + item.dividend;
+                    encoded += ' ' + item.symbol + ' @ ' + Intl.NumberFormat('en-US', params).format(item.dividend);
                 }
                 return encoded;
             },
@@ -266,6 +271,7 @@
         color: white;
         vertical-align: center;
         border: #005cbf 1px solid;
+        font-weight: bold;
     }
 
     .table-footer {
