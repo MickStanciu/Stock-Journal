@@ -5,7 +5,8 @@
             <div class="col-md-2">Date</div>
             <div class="col-md-5">Action</div>
             <div class="col-md-1">Fees</div>
-            <div class="col-md text-right">Total</div>
+            <div class="col-md-2 text-right">Total</div>
+            <div class="col-md-1">Action</div>
         </div>
 
         <template v-for="(item, idx) in items">
@@ -14,7 +15,11 @@
                 <div class="col-md-2">{{ dateTz(item) }}</div>
                 <div class="col-md-5">{{ encodeAction(item) }}</div>
                 <div class="col-md-1">{{ printCurrencyFormat(item.brokerFees) }}</div>
-                <div class="col-md text-right">{{ printCurrencyFormat(calculateLineItemTotal(item)) }}</div>
+                <div class="col-md-2 text-right">{{ printCurrencyFormat(calculateLineItemTotal(item)) }}</div>
+                <div class="col-md-1">
+                    <font-awesome-icon icon="edit" class="action-icon"></font-awesome-icon>
+                    <font-awesome-icon icon="trash-alt" class="action-icon"></font-awesome-icon>
+                </div>
             </div>
         </template>
 
@@ -291,8 +296,16 @@
         background-color: whitesmoke;
     }
 
+    .table-cell-odd:hover {
+        background-color: #abdde5;
+    }
+
     .table-cell-even {
         background-color: white;
+    }
+
+    .table-cell-even:hover {
+        background-color: #abdde5;
     }
 
     .table-cell-synthetic {
@@ -307,8 +320,18 @@
     .fade-leave-active {
         transition: opacity .5s;
     }
+
     .fade-enter, .fade-leave-to {
         opacity: 0;
+    }
+
+    .action-icon {
+        margin-left: 2px;
+    }
+
+    .action-icon:hover {
+        cursor: pointer;
+        color:red;
     }
 
 </style>

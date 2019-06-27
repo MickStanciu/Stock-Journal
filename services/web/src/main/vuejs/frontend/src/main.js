@@ -3,10 +3,17 @@ import store from './vuex/index'
 import Vuex from 'vuex'
 import App from './App.vue'
 import router from './router'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { faEdit } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+library.add(faTrashAlt);
+library.add(faEdit);
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 
-
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.config.productionTip = false;
 Vue.use(Vuex);
 

@@ -7,7 +7,7 @@
         </div>
 
         <template v-for="(item, idx) in items">
-            <router-link v-bind:to="getLink(item)" exact>
+            <router-link v-bind:to="getLink(item)" v-bind:key="idx" exact>
                 <div class="row pb-1 pt-1" v-bind:class="rowClass(item, idx)" v-bind:key="item.id">
                     <div class="col-md-5">{{ item }}</div>
                     <div class="col-md-5">&nbsp;</div>
