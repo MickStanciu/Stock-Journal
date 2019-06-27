@@ -159,6 +159,8 @@
                         price = price * -1;
                     }
                     return parseFloat((item.quantity * price - item.brokerFees).toFixed(10));
+                } else if (item.type === 'DIVIDEND') {
+                    return parseFloat((item.dividend * 100).toFixed(10));
                 }
                 return 0;
             },
@@ -173,6 +175,9 @@
             },
 
             printCurrencyFormat: function (value) {
+                if (typeof value === 'undefined') {
+                    value = 0;
+                }
                 let params = {
                     style: 'currency',
                     currency: 'USD',

@@ -180,7 +180,7 @@
             checkForm: function () {
                 this.form_validation.date = validation.isDate(this.form_element.date) !== false;
                 this.form_validation.stock_price = validation.isNumber(this.form_element.stock_price) !== false;
-                this.form_validation.strike_price = validation.isNumber(this.form_element.strike_price) !== false;
+                this.form_validation.strike_price = validation.isPositiveNumber(this.form_element.strike_price) !== false;
                 this.form_validation.exp_date = validation.isExpDate(this.form_element.exp_date) !== false;
                 this.form_validation.contracts = validation.isPositiveInteger(this.form_element.contracts) !== false;
                 this.form_validation.premium = validation.isNumber(this.form_element.premium) !== false;
