@@ -1,1 +1,7 @@
-* missing TZ when querying the DB (all data is in UTC)
+### Stock Journal
+
+Records 
+* Stock Trades
+* Option Trades
+
+Calculates P&L per traded symbol
