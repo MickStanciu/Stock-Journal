@@ -1,5 +1,5 @@
 <template>
-    <div class="modal" id="addStockModal">
+    <div class="modal" id="deleteStockModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -63,75 +63,16 @@
 </template>
 
 <script>
-    import service from '../../service';
-    import dateTimeUtil from '../../utils/time'
-    import validation from "../../utils/validation";
-    import ShareApiModel from '../../models/ShareApiModel'
-
     export default {
-        name: "AddStockTrade",
-        props: ['post'],
-        data: function () {
-            return {
-                currency : 'USD',
+        name: "DeleteStockTrade",
 
-                form_element: {
-                    symbol : this.post.symbol,
-                    date: dateTimeUtil.dateNowFormatted(),
-                    action : 'BUY',
-                    price: '0.00',
-                    quantity: 0,
-                    fees: '0.00',
-                },
-
-                form_validation: {
-                    date: true,
-                    price: true,
-                    quantity: true,
-                    fees: true,
-                    isValid: function () {
-                        return this.date
-                            && this.price
-                            && this.quantity
-                            && this.fees;
-                    }
-                }
-            }
-        },
         methods: {
             closeModal: function () {
-                this.$store.dispatch('hideAddStockModal');
+                this.$store.dispatch('hideModalWithoutRefresh');
             },
 
             submitAndClose: function () {
-                if (this.checkForm() === false) {
-                    return false;
-                }
-
-                let shareDto = new ShareApiModel(this.form_element.symbol);
-                shareDto.date = dateTimeUtil.convertToOffsetDateTime(this.form_element.date);
-                shareDto.action = this.form_element.action;
-                shareDto.price = this.form_element.price;
-                shareDto.quantity = this.form_element.quantity;
-                shareDto.brokerFees = this.form_element.fees;
-
-                service.recordShareTrade(shareDto).then(data => {
-                  if (data === null) {
-                      this.$store.dispatch('hideModalWithError');
-                  } else {
-                      this.$store.dispatch('hideModalWithRefresh');
-                  }
-                });
-
-            },
-
-            checkForm: function() {
-                this.form_validation.date = validation.isDate(this.form_element.date) !== false;
-                this.form_validation.price = validation.isNumber(this.form_element.price) !== false;
-                this.form_validation.quantity = validation.isPositiveInteger(this.form_element.quantity) !== false;
-                this.form_validation.fees = validation.isNumber(this.form_element.fees) !== false;
-
-                return this.form_validation.isValid();
+                this.$store.dispatch('hideModalWithoutRefresh');
             }
         }
     }

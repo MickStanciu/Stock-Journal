@@ -17,8 +17,8 @@
                 <div class="col-md-1">{{ printCurrencyFormat(item.brokerFees) }}</div>
                 <div class="col-md-2 text-right">{{ printCurrencyFormat(calculateLineItemTotal(item)) }}</div>
                 <div class="col-md-1">
-                    <font-awesome-icon icon="edit" class="action-icon"></font-awesome-icon>
-                    <font-awesome-icon icon="trash-alt" class="action-icon"></font-awesome-icon>
+<!--                    <font-awesome-icon icon="edit" class="action-icon"></font-awesome-icon>-->
+                    <font-awesome-icon icon="trash-alt" class="action-icon" v-on:click="deleteRecordClicked(item.transactionId)"></font-awesome-icon>
                 </div>
             </div>
         </template>
@@ -55,6 +55,10 @@
             <add-error v-if="isAddErrorEnabled"/>
         </transition>
 
+        <transition name="fade">
+            <delete-stock-trade v-if="isDeleteStockModalnEnabled" v-bind:post="{model: selectedModel}"/>
+        </transition>
+
     </div>
 </template>
 
@@ -62,6 +66,7 @@
     import service from '../service';
     import dateTimeUtil from '../utils/time'
     import AddStockTrade from "../components/tradelist/AddStockTrade";
+    import DeleteStockTrade from "../components/tradelist/DeleteStockTrade";
     import AddOptionTrade from "../components/tradelist/AddOptionTrade";
     import AddError from "../components/tradelist/AddError";
     import OptionApiModel from "../models/OptionApiModel";
@@ -70,20 +75,24 @@
 
     export default {
         name: "TradeList",
-        components: {AddOptionTrade, AddError, AddStockTrade},
+        components: {AddOptionTrade, AddError, AddStockTrade, DeleteStockTrade},
 
         data: function () {
             return {
                 items : [],
                 timeZone : 'Australia/Sydney',
                 currency : 'USD',
-                symbol : this.$route.params.symbol
+                symbol : this.$route.params.symbol,
+                selectedModel : undefined
             }
         },
 
         computed: {
             isAddStockModalEnabled() {
                 return this.$store.state.isAddStockModalEnabled;
+            },
+            isDeleteStockModalnEnabled() {
+                return this.$store.state.isDeleteStockModalEnabled;
             },
             isAddOptionModalEnabled() {
                 return this.$store.state.isAddOptionModalEnabled;
@@ -96,6 +105,13 @@
         methods: {
             addNewStockTradeClicked: function() {
                 this.$store.dispatch('showAddStockModal');
+            },
+            deleteRecordClicked: function(id) {
+                this.selectedModel = this.getModelById(id);
+                //todo: identify record type
+                if (typeof this.selectedModel !== 'undefined') {
+                    this.$store.dispatch('showDeleteStockModal');
+                }
             },
             addNewOptionTradeClicked: function() {
                 this.$store.dispatch('showAddOptionModal');
@@ -111,6 +127,16 @@
                 }
 
                 return className;
+            },
+
+            getModelById: function (id) {
+                for(let i = 0; i < this.items.length; i++) {
+                    let item = this.items[i];
+                    if (item.transactionId === id) {
+                        return item;
+                    }
+                }
+                return undefined;
             },
 
             expiryDateTz: function(item) {
@@ -210,7 +236,7 @@
                             model.expiryDate = item.expiryDate;
                             model.transactionId = item.transactionId;
 
-                            localItems.push(model);
+                            // localItems.push(model);
                         });
 
                         data.shareList.forEach(function (item) {
@@ -232,7 +258,7 @@
                             model.transactionId = item.transactionId;
                             model.dividend = item.dividend;
 
-                            localItems.push(model);
+                            // localItems.push(model);
                         });
 
                         data.syntheticShareList.forEach(function (item) {
@@ -247,7 +273,7 @@
                             model.transactionId = 0;
                             model.isSynthetic = true;
 
-                            localItems.push(model);
+                            // localItems.push(model);
                         });
 
                         self.items = localItems.sort(function (a, b) {
@@ -256,9 +282,11 @@
                     });
             }
         },
+
         created() {
             this.loadData();
         },
+
         mounted() {
             this.$store.subscribe( (mutation, state) => {
                 if (mutation.type === 'hideModalWithRefresh') {

@@ -1,5 +1,5 @@
 <template>
-    <div class="modal" id="exampleModal">
+    <div class="modal" id="addOptionModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
