@@ -38,4 +38,8 @@ public class TradeJournalService {
     public OptionJournalGWModel createOptionTrade(String accountId, OptionJournalGWModel model) {
         return tradeJournalGateway.createOptionTrade(accountId, model);
     }
+
+    public void deleteShareTrade(String accountId, String symbol, String transactionId) {
+        tradeJournalGateway.deleteShareTrade(accountId, symbol, transactionId);
+    }
 }

@@ -19,7 +19,7 @@ public class AjaxResource {
     }
 
 
-    @RequestMapping(value = "/tradelog/{accountId}/trades/{symbol}")
+    @RequestMapping(value = "/tradelog/{accountId}/trades/{symbol}", method = RequestMethod.GET)
     public TradeLogModel getAllTradesBySymbol(@PathVariable(name = "accountId") String accountId, @PathVariable(name = "symbol") String symbol) {
         TradeLogModel model = tradeJournalService.getAllTradesBySymbol(accountId, symbol);
         //todo validate input
@@ -27,7 +27,7 @@ public class AjaxResource {
         return model;
     }
 
-    @RequestMapping(value = "/tradelog/{accountId}/symbols")
+    @RequestMapping(value = "/tradelog/{accountId}/symbols", method = RequestMethod.GET)
     public List<String> getUniqueSymbols(@PathVariable(name = "accountId") String accountId) {
         List<String> uniqueSymbols = tradeJournalService.getUniqueSymbols(accountId);
         //todo validate input
@@ -35,14 +35,23 @@ public class AjaxResource {
         return uniqueSymbols;
     }
 
-    @PostMapping(value = "/tradelog/{accountId}/share")
+    @RequestMapping(value = "/tradelog/{accountId}/share", method = RequestMethod.POST)
     public ShareJournalGWModel createNewShareTrade(
             @PathVariable(name = "accountId") String accountId,
             @RequestBody ShareJournalGWModel model) {
         return tradeJournalService.createShareTrade(accountId, model);
     }
 
-    @PostMapping(value = "/tradelog/{accountId}/option")
+    @RequestMapping(value = "/tradelog/{accountId}/share/{symbol}/{id}", method = RequestMethod.DELETE)
+    public void deleteShareTrade(
+            @PathVariable(name = "accountId") String accountId,
+            @PathVariable(name = "symbol") String symbol,
+            @PathVariable(name = "id") String transactionId
+    ) {
+        tradeJournalService.deleteShareTrade(accountId, symbol, transactionId);
+    }
+
+    @RequestMapping(value = "/tradelog/{accountId}/option", method = RequestMethod.POST)
     public OptionJournalGWModel createNewOptionTrade(
             @PathVariable(name = "accountId") String accountId,
             @RequestBody OptionJournalGWModel model) {
