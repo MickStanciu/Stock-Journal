@@ -51,6 +51,10 @@ const appService = {
                 resolve(null);
             })
         });
+    },
+
+    deleteTrade(transactionId, accountId) {
+        console.log('Received order to terminate: ' + transactionId + ' for account: ' + accountId);
     }
 };
 

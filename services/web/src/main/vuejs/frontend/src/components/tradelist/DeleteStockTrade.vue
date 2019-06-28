@@ -3,59 +3,16 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title">Add Stock Position for {{form_element.symbol}}</h3>
+                    <h3 class="modal-title">Delete Stock Position</h3>
                 </div>
 
                 <div class="modal-body">
-                    <form>
-                        <div class="form-group row">
-                            <label for="date" class="col-sm-3 col-form-label" v-bind:class="{'text-danger': form_validation.date === false}">Date:</label>
-                            <div class="col-sm-9">
-                                <input v-model="form_element.date" class="form-control" v-bind:class="{'is-invalid': form_validation.date === false}" type="text" placeholder="dd-MMM-yyyy" id="date"/>
-                            </div>
-                        </div>
-
-                        <fieldset class="form-group row">
-                            <div class="col-form-label col-sm-3 pt-0">Action</div>
-                            <div class="col-sm-9">
-                                <div class="form-check form-check-inline">
-                                    <input v-model="form_element.action" class="form-check-input" type="radio" name="actionBuySell" id="actionBuy" value="BUY" checked/>
-                                    <label class="form-check-label" for="actionBuy">Buy</label>
-                                </div>
-
-                                <div class="form-check form-check-inline">
-                                    <input v-model="form_element.action" class="form-check-input" type="radio" name="actionBuySell" id="actionSell" value="SELL"/>
-                                    <label for="actionSell" class="form-check-label">Sell</label>
-                                </div>
-                            </div>
-                        </fieldset>
-
-                        <div class="form-group row">
-                            <label for="price" class="col-sm-3 col-form-label" v-bind:class="{'text-danger': form_validation.price === false}">Price:</label>
-                            <div class="col-sm-9">
-                                <input class="form-control" v-bind:class="{'is-invalid': form_validation.price === false}" v-model="form_element.price" type="text" id="price"/>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="quantity" class="col-sm-3 col-form-label" v-bind:class="{'text-danger': form_validation.quantity === false}">Quantity:</label>
-                            <div class="col-sm-9">
-                                <input class="form-control" v-bind:class="{'is-invalid': form_validation.quantity === false}" v-model="form_element.quantity" type="text" id="quantity"/>
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="fee" class="col-sm-3 col-form-label" v-bind:class="{'text-danger': form_validation.fees === false}">Fees:</label>
-                            <div class="col-sm-9">
-                                <input class="form-control" v-bind:class="{'is-invalid': form_validation.fees === false}" v-model="form_element.fees" type="text" id="fee"/>
-                            </div>
-                        </div>
-                    </form>
+                    <stock-fragment v-bind:post="{model: this.post.model}"/>
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-info" v-on:click="closeModal()"> Close </button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" v-on:click="submitAndClose()">Submit</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" v-on:click="submitAndClose()">Submit</button>
                 </div>
             </div>
         </div>
@@ -63,15 +20,21 @@
 </template>
 
 <script>
+
+    import service from '../../service';
+    import StockFragment from "./StockFragment";
+
     export default {
         name: "DeleteStockTrade",
-
+        components: {StockFragment},
+        props: ['post'],
         methods: {
             closeModal: function () {
                 this.$store.dispatch('hideModalWithoutRefresh');
             },
 
             submitAndClose: function () {
+                service.deleteTrade(this.post.model.transactionId, this.post.model.accountId);
                 this.$store.dispatch('hideModalWithoutRefresh');
             }
         }
@@ -86,9 +49,5 @@
 
     .modal-title {
         font-size: 1.5rem;
-    }
-
-    .form-control {
-        font-size: 0.75rem;
     }
 </style>
