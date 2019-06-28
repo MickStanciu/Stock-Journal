@@ -32,6 +32,7 @@ public class CustomisedResponseEntityExceptionHandler extends ResponseEntityExce
             case BAD_REQUEST:
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionModel);
             case TRADELOG_EMPTY:
+            case DELETE_SHARE_FAILED:
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionModel);
             default:
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionModel);
