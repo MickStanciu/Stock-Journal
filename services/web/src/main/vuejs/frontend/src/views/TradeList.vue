@@ -236,7 +236,7 @@
                             model.expiryDate = item.expiryDate;
                             model.transactionId = item.transactionId;
 
-                            // localItems.push(model);
+                            localItems.push(model);
                         });
 
                         data.shareList.forEach(function (item) {
@@ -258,7 +258,7 @@
                             model.transactionId = item.transactionId;
                             model.dividend = item.dividend;
 
-                            // localItems.push(model);
+                            localItems.push(model);
                         });
 
                         data.syntheticShareList.forEach(function (item) {
@@ -273,7 +273,7 @@
                             model.transactionId = 0;
                             model.isSynthetic = true;
 
-                            // localItems.push(model);
+                            localItems.push(model);
                         });
 
                         self.items = localItems.sort(function (a, b) {

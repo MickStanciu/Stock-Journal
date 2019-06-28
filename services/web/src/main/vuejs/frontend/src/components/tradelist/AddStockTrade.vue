@@ -3,7 +3,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title">Add Stock Position for {{form_element.symbol}}</h3>
+                    <h3 class="modal-title">Add Stock Position for {{form_validation.symbol}}</h3>
                 </div>
 
                 <div class="modal-body">
@@ -73,15 +73,16 @@
         props: ['post'],
         data: function () {
             return {
-                currency : 'USD',
+                is_form_readonly: false,
+                received_model: 'initial',
 
                 form_element: {
                     symbol : this.post.symbol,
-                    date: dateTimeUtil.dateNowFormatted(),
+                    date: dateTimeUtil.convertFromOffsetZuluToDisplay(),
                     action : 'BUY',
                     price: '0.00',
                     quantity: 0,
-                    fees: '0.00',
+                    brokerFees: '0.00',
                 },
 
                 form_validation: {

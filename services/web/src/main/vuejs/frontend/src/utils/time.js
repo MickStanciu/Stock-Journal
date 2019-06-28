@@ -22,6 +22,11 @@ const dateTimeUtil = {
         return moment().tz(timeZone).format(dateFormat);
     },
 
+    //Returns NOW
+    dateNowUnformatted : function() {
+        return moment().tz(timeZone);
+    },
+
     /*
         CONVERTS FROM OFFSET ZULU TO ...
      */

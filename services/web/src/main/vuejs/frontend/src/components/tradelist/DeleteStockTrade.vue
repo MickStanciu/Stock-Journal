@@ -7,7 +7,7 @@
                 </div>
 
                 <div class="modal-body">
-                    <stock-fragment v-bind:post="{model: this.post.model}"/>
+                    <stock-fragment v-bind:stock_model="this.post.model" v-bind:readonly="this.is_form_readonly"/>
                 </div>
 
                 <div class="modal-footer">
@@ -28,13 +28,18 @@
         name: "DeleteStockTrade",
         components: {StockFragment},
         props: ['post'],
+        data: function () {
+            return {
+                is_form_readonly: true,
+            }
+        },
         methods: {
             closeModal: function () {
                 this.$store.dispatch('hideModalWithoutRefresh');
             },
 
             submitAndClose: function () {
-                service.deleteTrade(this.post.model);
+                service.deleteShareTrade(this.post.model);
                 this.$store.dispatch('hideModalWithRefresh');
             }
         }

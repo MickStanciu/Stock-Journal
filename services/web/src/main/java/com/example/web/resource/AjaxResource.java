@@ -43,12 +43,13 @@ public class AjaxResource {
     }
 
     @RequestMapping(value = "/tradelog/{accountId}/share/{symbol}/{id}", method = RequestMethod.DELETE)
-    public void deleteShareTrade(
+    public String deleteShareTrade(
             @PathVariable(name = "accountId") String accountId,
             @PathVariable(name = "symbol") String symbol,
             @PathVariable(name = "id") String transactionId
     ) {
         tradeJournalService.deleteShareTrade(accountId, symbol, transactionId);
+        return "{}";
     }
 
     @RequestMapping(value = "/tradelog/{accountId}/option", method = RequestMethod.POST)

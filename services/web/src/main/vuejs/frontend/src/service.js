@@ -40,13 +40,10 @@ const appService = {
         });
     },
 
-    deleteTrade(dto) {
+    deleteShareTrade(dto) {
         return new Promise(resolve => {
             axios
                 .delete('/share/' + dto.symbol + '/' + dto.transactionId)
-                .then(response => {
-                    resolve(response.data)
-                })
                 .catch(error => {
                     console.error(error);
                     resolve(null);
