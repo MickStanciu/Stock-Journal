@@ -8,6 +8,7 @@ public enum ExceptionCode {
     TIMESHEET_EMPTY("No timesheet entries found"),
     REQUEST_NOT_AUTHORIZED("Request not authorized"),
     TRADEJOURNAL_EMPTY("No trades found"),
+    TRADEJOURNAL_CANNOT_DELETE("Cannot delete"),
     TRADEJOURNAL_NO_SYMBOLS("No symbols found")
     ;
 
