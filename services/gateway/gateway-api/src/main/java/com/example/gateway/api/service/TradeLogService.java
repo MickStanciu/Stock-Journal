@@ -55,4 +55,8 @@ public class TradeLogService {
         OptionJournalModel returnModel = tradeLogGateway.createOptionTrade(accountId, OptionJournalConverter.toOptionModel.apply(model));
         return OptionJournalConverter.toOptionGWModel.apply(returnModel);
     }
+
+    public void deleteShareTrade(String accountId, String transactionId, String symbol) {
+        tradeLogGateway.deleteShareTrade(accountId, transactionId, symbol);
+    }
 }

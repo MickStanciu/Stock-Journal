@@ -96,14 +96,14 @@ public class TradeLogGateway {
     public ShareJournalModel createShareTrade(String accountId, ShareJournalModel model) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
-                .path("/shares");
+                .path("/shares/{symbol}");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("accountId", accountId);
 
         HttpEntity<ShareJournalModel> request = new HttpEntity<>(model, headers);
-        ResponseEntity<ShareJournalModel> responseEntity = restTemplate.exchange(builder.build(""), HttpMethod.POST, request, ShareJournalModel.class);
+        ResponseEntity<ShareJournalModel> responseEntity = restTemplate.exchange(builder.build(model.getTransactionDetails().getSymbol()), HttpMethod.POST, request, ShareJournalModel.class);
         return responseEntity.getBody();
     }
 
@@ -119,5 +119,17 @@ public class TradeLogGateway {
         HttpEntity<OptionJournalModel> request = new HttpEntity<>(model, headers);
         ResponseEntity<OptionJournalModel> responseEntity = restTemplate.exchange(builder.build(""), HttpMethod.POST, request, OptionJournalModel.class);
         return responseEntity.getBody();
+    }
+
+    public void deleteShareTrade(String accountId, String transactionId, String symbol) {
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromHttpUrl(API_URL)
+                .path("/shares/{symbol}/{id}");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("accountId", accountId);
+
+        restTemplate.exchange(builder.build(symbol, transactionId), HttpMethod.DELETE, new HttpEntity(headers), Object.class);
     }
 }
