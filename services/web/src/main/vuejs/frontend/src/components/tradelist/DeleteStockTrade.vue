@@ -34,8 +34,8 @@
             },
 
             submitAndClose: function () {
-                service.deleteTrade(this.post.model.transactionId, this.post.model.accountId);
-                this.$store.dispatch('hideModalWithoutRefresh');
+                service.deleteTrade(this.post.model);
+                this.$store.dispatch('hideModalWithRefresh');
             }
         }
     }

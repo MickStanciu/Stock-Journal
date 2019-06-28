@@ -40,6 +40,20 @@ const appService = {
         });
     },
 
+    deleteTrade(dto) {
+        return new Promise(resolve => {
+            axios
+                .delete('/share/' + dto.symbol + '/' + dto.transactionId)
+                .then(response => {
+                    resolve(response.data)
+                })
+                .catch(error => {
+                    console.error(error);
+                    resolve(null);
+                })
+        })
+    },
+
     recordOptionTrade(dto) {
         return new Promise(resolve => {
             axios
@@ -52,10 +66,6 @@ const appService = {
             })
         });
     },
-
-    deleteTrade(transactionId, accountId) {
-        console.log('Received order to terminate: ' + transactionId + ' for account: ' + accountId);
-    }
 };
 
 export default appService;

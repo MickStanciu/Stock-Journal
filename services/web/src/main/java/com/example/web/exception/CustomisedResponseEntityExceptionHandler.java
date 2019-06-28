@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -26,7 +27,7 @@ public class CustomisedResponseEntityExceptionHandler extends ResponseEntityExce
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionModel);
     }
 
-    @ExceptionHandler(RestClientException.class)
+    @ExceptionHandler(HttpClientErrorException.class)
     public final ResponseEntity<ExceptionModel> handleRestExceptions(HttpClientErrorException ex, WebRequest request) {
         String cause = ex.getMessage();
         if (ex.getRootCause() != null) {
@@ -43,5 +44,16 @@ public class CustomisedResponseEntityExceptionHandler extends ResponseEntityExce
             exceptionModel = new ExceptionModel(ExceptionCode.API_NOT_RESPONDING, cause, null);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionModel);
         }
+    }
+
+    @ExceptionHandler(HttpServerErrorException.class)
+    public final ResponseEntity<ExceptionModel> handleServerException(HttpServerErrorException ex, WebRequest request) {
+        String cause = ex.getMessage();
+        if (ex.getRootCause() != null) {
+            cause = ex.getRootCause().toString();
+        }
+
+        ExceptionModel exceptionModel = new ExceptionModel(ExceptionCode.API_NOT_RESPONDING, cause, null);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionModel);
     }
 }
