@@ -12,7 +12,15 @@ public class RequestValidation extends FieldValidator {
     }
 
     public static boolean validateGetAccountAndSymbol(String accountId, String symbol) {
-        return RequestValidation.accountId.test(accountId) && RequestValidation.symbol.test(symbol);
+        return !RequestValidation.accountId.test(accountId) || !RequestValidation.symbol.test(symbol);
+    }
+
+
+    public static boolean validateDeleteShareTrade(String accountId, String transactionId, String symbol) {
+
+        return RequestValidation.accountId.test(accountId)
+                && RequestValidation.transactionId.test(transactionId)
+                && RequestValidation.symbol.test(symbol);
     }
 
     static Predicate<ShareJournalModel> validateShareJournalModel = s -> s != null
@@ -29,9 +37,10 @@ public class RequestValidation extends FieldValidator {
             && s.getPrice() >= 0.00
             && s.getQuantity() >= 1;
 
-    public static boolean validateCreateNewShareTrade(String accountId, ShareJournalModel model) {
+    public static boolean validateCreateNewShareTrade(String accountId, String symbol, ShareJournalModel model) {
         return RequestValidation.accountId.test(accountId)
                 && RequestValidation.validateShareJournalModel.test(model)
+                && model.getTransactionDetails().getSymbol().equals(symbol)
                 && accountId.equals(model.getTransactionDetails().getAccountId());
     }
 

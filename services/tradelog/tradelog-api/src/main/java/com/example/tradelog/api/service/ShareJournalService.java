@@ -42,4 +42,9 @@ public class ShareJournalService {
             return Optional.empty();
         }
     }
+
+    public boolean deleteShareRecord(String accountId, String transactionId, String symbol) {
+        return sharesJournalRepository.deleteRecord(transactionId)
+                && transactionRepository.deleteRecord(transactionId, accountId, symbol);
+    }
 }

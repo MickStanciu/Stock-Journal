@@ -9,6 +9,11 @@ public class FieldValidator {
             .sizeEqualTo(36)
             .isValid();
 
+    protected static Predicate<String> transactionId = s -> new StringValidator(s)
+            .notNull()
+            .sizeEqualTo(36)
+            .isValid();
+
     protected static Predicate<String> symbol = s -> new StringValidator(s)
             .notNull()
             .sizeGreaterOrEqualTo(2)

@@ -2,6 +2,7 @@ package com.example.tradelog.api.repository;
 
 import com.example.common.converter.TimeConversion;
 import com.example.tradelog.api.spec.model.TransactionModel;
+import com.example.tradelog.api.spec.model.TransactionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -28,6 +29,10 @@ public class TransactionRepository {
     private static final String JOURNAL_CREATE_TRANSACTION_FOR_ACCOUNT =
             "INSERT INTO transaction_log (account_fk, date, symbol, transaction_type_fk) " +
                     "VALUES (CAST(? AS uuid), ?, ?, ?)";
+
+    private static final String JOURNAL_DELETE_TRANSACTION_FOR_ACCOUNT =
+            "DELETE FROM transaction_log WHERE id = CAST(? AS uuid) and account_fk = CAST(? AS uuid) " +
+                    "and symbol = ? and transaction_type_fk = ?";
 
     private JdbcTemplate jdbcTemplate;
 
@@ -68,5 +73,17 @@ public class TransactionRepository {
         }
 
         return Optional.of(key);
+    }
+
+    /**
+     * Deletes a share record
+     * @param id -
+     * @param accountId -
+     * @param symbol -
+     * @return true/false
+     */
+    public boolean deleteRecord(String id, String accountId, String symbol) {
+        Object[] parameters = new Object[] {id, accountId, symbol, TransactionType.SHARE.name()};
+        return jdbcTemplate.update(JOURNAL_DELETE_TRANSACTION_FOR_ACCOUNT, parameters) == 1;
     }
 }

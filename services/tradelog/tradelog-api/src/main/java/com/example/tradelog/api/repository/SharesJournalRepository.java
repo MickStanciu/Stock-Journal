@@ -1,8 +1,6 @@
 package com.example.tradelog.api.repository;
 
 import com.example.tradelog.api.spec.model.ShareJournalModel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -12,8 +10,6 @@ import java.util.Optional;
 
 @Repository
 public class SharesJournalRepository {
-
-    private static final Logger log = LoggerFactory.getLogger(SharesJournalRepository.class);
 
     private static final String JOURNAL_READ_BY_SYMBOL_FOR_ACCOUNT =
             "SELECT CAST(tl.id AS VARCHAR(36)), " +
@@ -52,6 +48,8 @@ public class SharesJournalRepository {
             "INSERT INTO shares_log (transaction_fk, price, quantity, action_fk, action_type_fk, broker_fees) " +
                     "VALUES (CAST(? AS uuid), ?, ?, ?, ?, ?);";
 
+    private static final String JOURNAL_DELETE_SHARE = "DELETE FROM shares_log WHERE transaction_fk = CAST(? AS uuid) and action_type_fk = 'STOCK'";
+
     private JdbcTemplate jdbcTemplate;
 
     public SharesJournalRepository(JdbcTemplate jdbcTemplate) {
@@ -89,5 +87,16 @@ public class SharesJournalRepository {
             ps.setDouble(6, model.getBrokerFees());
             return ps;
         });
+    }
+
+
+    /**
+     * Deletes a share record
+     * @param id -
+     * @return true/false
+     */
+    public boolean deleteRecord(String id) {
+        Object[] parameters = new Object[] {id};
+        return jdbcTemplate.update(JOURNAL_DELETE_SHARE, parameters) == 1;
     }
 }

@@ -38,7 +38,7 @@ public class ShareJournalResource {
             @RequestHeader("accountId") String accountId,
             @PathVariable("symbol") String symbol) throws TradeLogException {
 
-        if (!RequestValidation.validateGetAccountAndSymbol(accountId, symbol)) {
+        if (RequestValidation.validateGetAccountAndSymbol(accountId, symbol)) {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
@@ -53,13 +53,14 @@ public class ShareJournalResource {
      * @return created ShareJournalModel
      * @throws TradeLogException -
      */
-    @PostMapping(value = {"/", ""})
+    @RequestMapping(value = "/{symbol}", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public ShareJournalModel createNewShareTrade(
             @RequestHeader(name = "accountId") String accountId,
+            @PathVariable("symbol") String symbol,
             @RequestBody ShareJournalModel model) throws TradeLogException {
 
-        if (!RequestValidation.validateCreateNewShareTrade(accountId, model)) {
+        if (!RequestValidation.validateCreateNewShareTrade(accountId, symbol, model)) {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
@@ -71,8 +72,24 @@ public class ShareJournalResource {
         return optionalModel.get();
     }
 
+
+
+    @RequestMapping(value = "/{symbol}/{transactionId}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteShareTrade(
+            @RequestHeader(name = "accountId") String accountId,
+            @PathVariable("symbol") String symbol,
+            @PathVariable("transactionId") String transactionId) throws TradeLogException {
+
+        if (!RequestValidation.validateDeleteShareTrade(accountId, transactionId, symbol)) {
+            throw new TradeLogException(ExceptionCode.BAD_REQUEST);
+        }
+
+        if (!service.deleteShareRecord(accountId, transactionId, symbol)) {
+            log.error("COULD NOT DELETE FOR tID: {}", transactionId);
+            throw new TradeLogException(ExceptionCode.DELETE_SHARE_FAILED);
+        }
+    }
+
     //TODO: missing update share
-
-
-
 }

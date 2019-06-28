@@ -5,6 +5,7 @@ public enum ExceptionCode {
     BAD_REQUEST("Bad request"),
     TRADELOG_EMPTY("Tradelog is empty"),
     CREATE_SHARE_FAILED("Could not create share record"),
+    DELETE_SHARE_FAILED("Could not delete share record"),
     CREATE_OPTION_FAILED("Could not create option record");
 
 

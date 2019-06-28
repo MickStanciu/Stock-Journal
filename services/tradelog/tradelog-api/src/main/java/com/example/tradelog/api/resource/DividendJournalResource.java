@@ -37,7 +37,7 @@ public class DividendJournalResource {
             @RequestHeader("accountId") String accountId,
             @PathVariable("symbol") String symbol) throws TradeLogException {
 
-        if (!RequestValidation.validateGetAccountAndSymbol(accountId, symbol)) {
+        if (RequestValidation.validateGetAccountAndSymbol(accountId, symbol)) {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
