@@ -1,4 +1,4 @@
-CREATE EXTENSION "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 -- clean up
 DROP TABLE IF EXISTS option_log;
@@ -14,7 +14,7 @@ DROP TABLE IF EXISTS transaction_type;
 CREATE TABLE transaction_type (
     name VARCHAR(32) NOT NULL PRIMARY KEY
 );
-GRANT ALL PRIVILEGES ON TABLE action TO admin;
+GRANT ALL PRIVILEGES ON TABLE transaction_type TO admin;
 
 CREATE TABLE action (
   name VARCHAR(32) NOT NULL PRIMARY KEY
