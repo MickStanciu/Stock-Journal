@@ -74,7 +74,6 @@
         data: function () {
             return {
                 is_form_readonly: false,
-                received_model: 'initial',
 
                 form_element: {
                     symbol : this.post.symbol,

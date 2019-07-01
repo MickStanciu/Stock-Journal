@@ -63,6 +63,17 @@ const appService = {
             })
         });
     },
+
+    deleteOptionTrade(dto) {
+        return new Promise(resolve => {
+            axios
+                .delete('/option/' + dto.symbol + '/' + dto.transactionId)
+                .catch(error => {
+                    console.error(error);
+                    resolve(null);
+                })
+        })
+    },
 };
 
 export default appService;

@@ -8,6 +8,7 @@ const store = new Vuex.Store({
         isAddStockModalEnabled: false,
         isDeleteStockModalEnabled: false,
         isAddOptionModalEnabled: false,
+        isDeleteOptionModalEnabled: false,
         isAddErrorEnabled: false
     },
     actions: {
@@ -19,6 +20,9 @@ const store = new Vuex.Store({
         },
         showAddOptionModal(context) {
             context.commit('showAddOptionModal')
+        },
+        showDeleteOptionModal(context) {
+            context.commit('showDeleteOptionModal')
         },
 
         hideAddStockModal(context) {
@@ -44,28 +48,35 @@ const store = new Vuex.Store({
         showAddStockModal(state) {
             state.isAddStockModalEnabled = true;
         },
-        showAddOptionModal(state) {
-            state.isAddOptionModalEnabled = true;
-        },
         showDeleteStockModal(state) {
             state.isDeleteStockModalEnabled = true;
         },
+        showAddOptionModal(state) {
+            state.isAddOptionModalEnabled = true;
+        },
+        showDeleteOptionModal(state) {
+            state.isDeleteOptionModalEnabled = true;
+        },
+
         hideModalWithoutRefresh(state) {
             state.isAddStockModalEnabled = false;
             state.isAddOptionModalEnabled = false;
             state.isAddErrorEnabled = false;
             state.isDeleteStockModalEnabled = false;
+            state.isDeleteOptionModalEnabled = false;
         },
         hideModalWithRefresh(state) {
             state.isAddStockModalEnabled = false;
             state.isAddOptionModalEnabled = false;
             state.isAddErrorEnabled = false;
             state.isDeleteStockModalEnabled = false;
+            state.isDeleteOptionModalEnabled = false;
         },
         hideModalWithError(state) {
             state.isAddStockModalEnabled = false;
             state.isAddOptionModalEnabled = false;
             state.isDeleteStockModalEnabled = false;
+            state.isDeleteOptionModalEnabled = false;
             state.isAddErrorEnabled = true;
         },
         hideErrorModal(state) {

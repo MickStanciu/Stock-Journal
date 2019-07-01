@@ -57,7 +57,7 @@
         data: function () {
             return {
                 form_element: {
-                    date: this.formattedDate(),
+                    date: dateTimeUtil.convertFromOffsetZuluToDisplay(this.stock_model.date),
                     action: this.stock_model.action,
                     price: this.stock_model.price,
                     quantity: this.stock_model.quantity,
@@ -73,9 +73,7 @@
             }
         },
         methods: {
-            formattedDate: function () {
-                return dateTimeUtil.convertFromOffsetZuluToDisplay(this.stock_model.date);
-            }
+
         }
     }
 </script>

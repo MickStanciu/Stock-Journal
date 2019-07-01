@@ -44,8 +44,8 @@ const dateTimeUtil = {
     },
 
     //converts 2018-10-17 21:00:00.000000 +11:00 => 2018-10-17T10:00:00Z into ...Nov17'18
-    convertExpiryDateForDisplay: function(date) {
-        return moment(date).tz(timeZone).format('MMMDD\'YY');
+    convertExpiryDateForDisplay: function(item) {
+        return moment(item).tz(timeZone).format('MMMDD\'YY');
     },
 
     /*

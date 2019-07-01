@@ -56,7 +56,11 @@
         </transition>
 
         <transition name="fade">
-            <delete-stock-trade v-if="isDeleteStockModalnEnabled" v-bind:post="{model: selectedModel}"/>
+            <delete-stock-trade v-if="isDeleteStockModalEnabled" v-bind:post="{model: selectedModel}"/>
+        </transition>
+
+        <transition name="fade">
+            <delete-option-trade v-if="isDeleteOptionModalEnabled" v-bind:option_model="selectedModel"/>
         </transition>
 
     </div>
@@ -67,6 +71,7 @@
     import dateTimeUtil from '../utils/time'
     import AddStockTrade from "../components/tradelist/AddStockTrade";
     import DeleteStockTrade from "../components/tradelist/DeleteStockTrade";
+    import DeleteOptionTrade from "../components/tradelist/DeleteOptionTrade";
     import AddOptionTrade from "../components/tradelist/AddOptionTrade";
     import AddError from "../components/tradelist/AddError";
     import OptionApiModel from "../models/OptionApiModel";
@@ -75,7 +80,7 @@
 
     export default {
         name: "TradeList",
-        components: {AddOptionTrade, AddError, AddStockTrade, DeleteStockTrade},
+        components: {AddOptionTrade, AddError, AddStockTrade, DeleteStockTrade, DeleteOptionTrade},
 
         data: function () {
             return {
@@ -91,11 +96,14 @@
             isAddStockModalEnabled() {
                 return this.$store.state.isAddStockModalEnabled;
             },
-            isDeleteStockModalnEnabled() {
+            isDeleteStockModalEnabled() {
                 return this.$store.state.isDeleteStockModalEnabled;
             },
             isAddOptionModalEnabled() {
                 return this.$store.state.isAddOptionModalEnabled;
+            },
+            isDeleteOptionModalEnabled() {
+                return this.$store.state.isDeleteOptionModalEnabled;
             },
             isAddErrorEnabled() {
                 return this.$store.state.isAddErrorEnabled;
@@ -108,9 +116,13 @@
             },
             deleteRecordClicked: function(id) {
                 this.selectedModel = this.getModelById(id);
-                //todo: identify record type
+
                 if (typeof this.selectedModel !== 'undefined') {
-                    this.$store.dispatch('showDeleteStockModal');
+                    if ("STOCK" === this.selectedModel.type) {
+                        this.$store.dispatch('showDeleteStockModal');
+                    } else if ("OPTION" === this.selectedModel.type) {
+                        this.$store.dispatch('showDeleteOptionModal');
+                    }
                 }
             },
             addNewOptionTradeClicked: function() {
