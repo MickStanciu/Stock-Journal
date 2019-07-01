@@ -42,4 +42,8 @@ public class TradeJournalService {
     public void deleteShareTrade(String accountId, String symbol, String transactionId) {
         tradeJournalGateway.deleteShareTrade(accountId, symbol, transactionId);
     }
+
+    public void deleteOptionTrade(String accountId, String symbol, String transactionId) {
+        tradeJournalGateway.deleteOptionTrade(accountId, symbol, transactionId);
+    }
 }

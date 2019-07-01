@@ -58,4 +58,14 @@ public class AjaxResource {
             @RequestBody OptionJournalGWModel model) {
         return tradeJournalService.createOptionTrade(accountId, model);
     }
+
+    @RequestMapping(value = "/tradelog/{accountId}/option/{symbol}/{id}", method = RequestMethod.DELETE)
+    public String deleteOptionTrade(
+            @PathVariable(name = "accountId") String accountId,
+            @PathVariable(name = "symbol") String symbol,
+            @PathVariable(name = "id") String transactionId
+    ) {
+        tradeJournalService.deleteOptionTrade(accountId, symbol, transactionId);
+        return "{}";
+    }
 }
