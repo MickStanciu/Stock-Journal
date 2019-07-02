@@ -11,6 +11,10 @@ public class RequestValidation extends FieldValidator {
         return RequestValidation.accountId.test(accountId);
     }
 
+    public static boolean validateGetSummary(String accountId) {
+        return RequestValidation.accountId.test(accountId);
+    }
+
     public static boolean validateGetAccountAndSymbol(String accountId, String symbol) {
         return !RequestValidation.accountId.test(accountId) || !RequestValidation.symbol.test(symbol);
     }

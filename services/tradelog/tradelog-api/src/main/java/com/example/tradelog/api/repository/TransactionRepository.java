@@ -1,6 +1,7 @@
 package com.example.tradelog.api.repository;
 
 import com.example.common.converter.TimeConversion;
+import com.example.tradelog.api.spec.model.TradeSummaryModel;
 import com.example.tradelog.api.spec.model.TransactionModel;
 import com.example.tradelog.api.spec.model.TransactionType;
 import org.slf4j.Logger;

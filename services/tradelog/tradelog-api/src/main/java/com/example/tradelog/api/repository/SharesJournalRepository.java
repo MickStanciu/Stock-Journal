@@ -1,6 +1,7 @@
 package com.example.tradelog.api.repository;
 
 import com.example.tradelog.api.spec.model.ShareJournalModel;
+import com.example.tradelog.api.spec.model.TradeSummaryModel;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -49,6 +50,14 @@ public class SharesJournalRepository {
                     "VALUES (CAST(? AS uuid), ?, ?, ?, ?, ?);";
 
     private static final String JOURNAL_DELETE_SHARE = "DELETE FROM shares_log WHERE transaction_fk = CAST(? AS uuid) and action_type_fk = 'STOCK'";
+
+    private static final String JOURNAL_GET_SUMMARIES =
+            "SELECT tl.symbol, sl.price, sl.broker_fees, sl.quantity, sl.action_fk " +
+                    "FROM transaction_log tl" +
+                    "         INNER JOIN shares_log sl ON tl.id = sl.transaction_fk " +
+                    "WHERE tl.account_fk = CAST(? AS uuid)" +
+                    "  AND transaction_type_fk = 'SHARE' " +
+                    "ORDER BY symbol;";
 
     private JdbcTemplate jdbcTemplate;
 
@@ -99,5 +108,16 @@ public class SharesJournalRepository {
     public boolean deleteRecord(String id) {
         Object[] parameters = new Object[] {id};
         return jdbcTemplate.update(JOURNAL_DELETE_SHARE, parameters) == 1;
+    }
+
+
+    /**
+     * Get list of share trade summaries
+     * @param accountId -
+     * @return -
+     */
+    public List<TradeSummaryModel> getSummaries(String accountId) {
+        Object[] parameters = new Object[] {accountId};
+        return jdbcTemplate.query(JOURNAL_GET_SUMMARIES, parameters, new TradeSummaryModelRowMapper());
     }
 }

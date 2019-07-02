@@ -3,6 +3,7 @@ package com.example.tradelog.api.service;
 import com.example.tradelog.api.repository.SharesJournalRepository;
 import com.example.tradelog.api.repository.TransactionRepository;
 import com.example.tradelog.api.spec.model.ShareJournalModel;
+import com.example.tradelog.api.spec.model.TradeSummaryModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,8 +40,14 @@ public class ShareJournalService {
         }
     }
 
+
     public boolean deleteShareRecord(String accountId, String transactionId, String symbol) {
         return sharesJournalRepository.deleteRecord(transactionId)
                 && transactionRepository.deleteShareRecord(transactionId, accountId, symbol);
+    }
+
+
+    public List<TradeSummaryModel> getSummaries(String accountId) {
+        return sharesJournalRepository.getSummaries(accountId);
     }
 }

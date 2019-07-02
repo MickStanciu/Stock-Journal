@@ -3,10 +3,7 @@ package com.example.tradelog.api.spec.model;
 public class TradeSummaryModel {
     private String symbol;
     private int trades;
-    private int optionTrades;
-    private int stockTrades;
     private double total;
-    private double fees;
 
     public TradeSummaryModel() {
         //required by Jackson
@@ -24,8 +21,8 @@ public class TradeSummaryModel {
         return total;
     }
 
-    public double getFees() {
-        return fees;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder {
@@ -53,11 +50,6 @@ public class TradeSummaryModel {
 
         public Builder withTotal(double total) {
             tradeSummaryModel.total = total;
-            return this;
-        }
-
-        public Builder withFees(double fees) {
-            tradeSummaryModel.fees = fees;
             return this;
         }
     }

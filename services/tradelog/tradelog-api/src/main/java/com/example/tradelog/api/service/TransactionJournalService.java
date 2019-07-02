@@ -1,6 +1,7 @@
 package com.example.tradelog.api.service;
 
 import com.example.tradelog.api.repository.TransactionRepository;
+import com.example.tradelog.api.spec.model.TradeSummaryModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
