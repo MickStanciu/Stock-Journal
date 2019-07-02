@@ -1,5 +1,6 @@
 package com.example.tradelog.api.service;
 
+import com.example.tradelog.api.converter.TradeSummaryListConverter;
 import com.example.tradelog.api.repository.SharesJournalRepository;
 import com.example.tradelog.api.repository.TransactionRepository;
 import com.example.tradelog.api.spec.model.ShareJournalModel;
@@ -50,23 +51,7 @@ public class ShareJournalService {
 
 
     public Map<String, TradeSummaryModel> getSummaries(String accountId) {
-        Map<String, TradeSummaryModel> summaryModelMap = new HashMap<>();
-
         List<TradeSummaryModel> modelList = sharesJournalRepository.getSummaries(accountId);
-
-        modelList.forEach(m -> {
-            if (summaryModelMap.containsKey(m.getSymbol())) {
-                TradeSummaryModel storedModel = summaryModelMap.get(m.getSymbol());
-                summaryModelMap.put(m.getSymbol(), TradeSummaryModel.builder()
-                        .withSymbol(storedModel.getSymbol())
-                        .withTrades(storedModel.getTrades() + 1)
-                        .withTotal(storedModel.getTotal() + m.getTotal())
-                        .build());
-            } else {
-                summaryModelMap.put(m.getSymbol(), m);
-            }
-        });
-
-        return summaryModelMap;
+        return TradeSummaryListConverter.toMap.apply(modelList);
     }
 }

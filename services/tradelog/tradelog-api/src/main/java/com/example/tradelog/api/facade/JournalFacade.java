@@ -8,8 +8,10 @@ import com.example.tradelog.api.spec.model.TradeSummaryModel;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class JournalFacade {
@@ -33,10 +35,42 @@ public class JournalFacade {
 
     public List<TradeSummaryModel> getSummary(String accountId) {
         Map<String, TradeSummaryModel> shareSummaries = this.shareService.getSummaries(accountId);
+        Map<String, TradeSummaryModel> optionSummaries = this.optionService.getSummaries(accountId);
+        Map<String, TradeSummaryModel> dividendSummaries = this.dividendService.getSummaries(accountId);
+
+        Map<String, TradeSummaryModel> summaryModelMap = new HashMap<>();
+        shareSummaries.forEach(summaryModelMap::put);
+
+
+        optionSummaries.forEach( (k, v) -> {
+            if (summaryModelMap.containsKey(v.getSymbol())) {
+                TradeSummaryModel storedModel = summaryModelMap.get(v.getSymbol());
+                summaryModelMap.put(v.getSymbol(), TradeSummaryModel.builder()
+                        .withSymbol(storedModel.getSymbol())
+                        .withTrades(storedModel.getTrades() + v.getTrades())
+                        .withTotal(storedModel.getTotal() + v.getTotal())
+                        .build());
+            } else {
+                summaryModelMap.put(v.getSymbol(), v);
+            }
+        });
+
+        dividendSummaries.forEach( (k, v) -> {
+            if (summaryModelMap.containsKey(v.getSymbol())) {
+                TradeSummaryModel storedModel = summaryModelMap.get(v.getSymbol());
+                summaryModelMap.put(v.getSymbol(), TradeSummaryModel.builder()
+                        .withSymbol(storedModel.getSymbol())
+                        .withTrades(storedModel.getTrades() + v.getTrades())
+                        .withTotal(storedModel.getTotal() + v.getTotal())
+                        .build());
+            } else {
+                summaryModelMap.put(v.getSymbol(), v);
+            }
+        });
+
 
         List<TradeSummaryModel> models = new ArrayList<>();
-        shareSummaries.forEach( (key, val) -> models.add(val));
-
+        summaryModelMap.forEach( (key, val) -> models.add(val));
         return models;
     }
 }

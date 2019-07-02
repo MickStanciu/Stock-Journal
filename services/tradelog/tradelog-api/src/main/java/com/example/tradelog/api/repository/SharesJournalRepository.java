@@ -52,7 +52,7 @@ public class SharesJournalRepository {
     private static final String JOURNAL_DELETE_SHARE = "DELETE FROM shares_log WHERE transaction_fk = CAST(? AS uuid) and action_type_fk = 'STOCK'";
 
     private static final String JOURNAL_GET_SUMMARIES =
-            "SELECT tl.symbol, sl.price, sl.broker_fees, sl.quantity, sl.action_fk " +
+            "SELECT tl.symbol, sl.price, sl.broker_fees, sl.quantity, sl.action_fk, tl.transaction_type_fk " +
                     "FROM transaction_log tl" +
                     "         INNER JOIN shares_log sl ON tl.id = sl.transaction_fk " +
                     "WHERE tl.account_fk = CAST(? AS uuid)" +

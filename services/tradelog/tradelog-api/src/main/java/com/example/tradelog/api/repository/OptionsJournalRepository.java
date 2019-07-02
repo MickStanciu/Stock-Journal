@@ -2,6 +2,7 @@ package com.example.tradelog.api.repository;
 
 import com.example.common.converter.TimeConversion;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
+import com.example.tradelog.api.spec.model.TradeSummaryModel;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -75,6 +76,14 @@ public class OptionsJournalRepository {
 
     private static final String JOURNAL_DELETE_OPTION = "DELETE FROM option_log WHERE transaction_fk = CAST(? AS uuid) and action_type_fk in ('CALL', 'PUT')";
 
+    private static final String JOURNAL_GET_SUMMARIES =
+            "SELECT tl.symbol, ol.premium, ol.broker_fees, ol.contract_number, tl.transaction_type_fk " +
+                    "FROM transaction_log tl" +
+                    "         INNER JOIN option_log ol ON tl.id = ol.transaction_fk " +
+                    "WHERE tl.account_fk = CAST(? AS uuid)" +
+                    "  AND transaction_type_fk = 'OPTION' " +
+                    "ORDER BY symbol;";
+
     private JdbcTemplate jdbcTemplate;
 
     public OptionsJournalRepository(JdbcTemplate jdbcTemplate) {
@@ -131,6 +140,17 @@ public class OptionsJournalRepository {
     public boolean deleteRecord(String id) {
         Object[] parameters = new Object[] {id};
         return jdbcTemplate.update(JOURNAL_DELETE_OPTION, parameters) == 1;
+    }
+
+
+    /**
+     * Get list of option trade summaries
+     * @param accountId -
+     * @return -
+     */
+    public List<TradeSummaryModel> getSummaries(String accountId) {
+        Object[] parameters = new Object[] {accountId};
+        return jdbcTemplate.query(JOURNAL_GET_SUMMARIES, parameters, new TradeSummaryModelRowMapper());
     }
 }
 
