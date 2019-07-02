@@ -6,7 +6,9 @@ import com.example.tradelog.api.spec.model.ShareJournalModel;
 import com.example.tradelog.api.spec.model.TradeSummaryModel;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -47,7 +49,24 @@ public class ShareJournalService {
     }
 
 
-    public List<TradeSummaryModel> getSummaries(String accountId) {
-        return sharesJournalRepository.getSummaries(accountId);
+    public Map<String, TradeSummaryModel> getSummaries(String accountId) {
+        Map<String, TradeSummaryModel> summaryModelMap = new HashMap<>();
+
+        List<TradeSummaryModel> modelList = sharesJournalRepository.getSummaries(accountId);
+
+        modelList.forEach(m -> {
+            if (summaryModelMap.containsKey(m.getSymbol())) {
+                TradeSummaryModel storedModel = summaryModelMap.get(m.getSymbol());
+                summaryModelMap.put(m.getSymbol(), TradeSummaryModel.builder()
+                        .withSymbol(storedModel.getSymbol())
+                        .withTrades(storedModel.getTrades() + 1)
+                        .withTotal(storedModel.getTotal() + m.getTotal())
+                        .build());
+            } else {
+                summaryModelMap.put(m.getSymbol(), m);
+            }
+        });
+
+        return summaryModelMap;
     }
 }
