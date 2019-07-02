@@ -17,8 +17,7 @@
                 <div class="col-md-1">{{ printCurrencyFormat(item.brokerFees) }}</div>
                 <div class="col-md-2 text-right">{{ printCurrencyFormat(calculateLineItemTotal(item)) }}</div>
                 <div class="col-md-1">
-<!--                    <font-awesome-icon icon="edit" class="action-icon"></font-awesome-icon>-->
-                    <font-awesome-icon icon="trash-alt" class="action-icon" v-on:click="deleteRecordClicked(item.transactionId)"></font-awesome-icon>
+                    <font-awesome-icon icon="trash-alt" class="action-icon" v-if="!item.isSynthetic" v-on:click="deleteRecordClicked(item.transactionId)"></font-awesome-icon>
                 </div>
             </div>
         </template>

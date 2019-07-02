@@ -59,4 +59,8 @@ public class TradeLogService {
     public void deleteShareTrade(String accountId, String transactionId, String symbol) {
         tradeLogGateway.deleteShareTrade(accountId, transactionId, symbol);
     }
+
+    public void deleteOptionTrade(String accountId, String transactionId, String symbol) {
+        tradeLogGateway.deleteOptionTrade(accountId, transactionId, symbol);
+    }
 }

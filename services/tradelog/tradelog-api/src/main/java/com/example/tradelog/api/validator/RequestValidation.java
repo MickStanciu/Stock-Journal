@@ -17,7 +17,12 @@ public class RequestValidation extends FieldValidator {
 
 
     public static boolean validateDeleteShareTrade(String accountId, String transactionId, String symbol) {
+        return RequestValidation.accountId.test(accountId)
+                && RequestValidation.transactionId.test(transactionId)
+                && RequestValidation.symbol.test(symbol);
+    }
 
+    public static boolean validateDeleteOptionTrade(String accountId, String transactionId, String symbol) {
         return RequestValidation.accountId.test(accountId)
                 && RequestValidation.transactionId.test(transactionId)
                 && RequestValidation.symbol.test(symbol);

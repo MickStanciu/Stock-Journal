@@ -73,7 +73,13 @@ public class ShareJournalResource {
     }
 
 
-
+    /**
+     * Delete SHARE trade record
+     * @param accountId - account uuid
+     * @param symbol -
+     * @param transactionId -
+     * @throws TradeLogException -
+     */
     @RequestMapping(value = "/{symbol}/{transactionId}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     public void deleteShareTrade(
@@ -90,6 +96,7 @@ public class ShareJournalResource {
             throw new TradeLogException(ExceptionCode.DELETE_SHARE_FAILED);
         }
     }
+
 
     //TODO: missing update share
 }

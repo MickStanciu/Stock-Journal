@@ -3,8 +3,6 @@ package com.example.tradelog.api.service;
 import com.example.tradelog.api.repository.SharesJournalRepository;
 import com.example.tradelog.api.repository.TransactionRepository;
 import com.example.tradelog.api.spec.model.ShareJournalModel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,8 +11,6 @@ import java.util.Optional;
 
 @Service
 public class ShareJournalService {
-
-    private static final Logger log = LoggerFactory.getLogger(ShareJournalService.class);
 
     private TransactionRepository transactionRepository;
     private SharesJournalRepository sharesJournalRepository;
@@ -45,6 +41,6 @@ public class ShareJournalService {
 
     public boolean deleteShareRecord(String accountId, String transactionId, String symbol) {
         return sharesJournalRepository.deleteRecord(transactionId)
-                && transactionRepository.deleteRecord(transactionId, accountId, symbol);
+                && transactionRepository.deleteShareRecord(transactionId, accountId, symbol);
     }
 }

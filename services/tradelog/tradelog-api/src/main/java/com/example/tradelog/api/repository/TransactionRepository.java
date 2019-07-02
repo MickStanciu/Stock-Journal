@@ -82,8 +82,13 @@ public class TransactionRepository {
      * @param symbol -
      * @return true/false
      */
-    public boolean deleteRecord(String id, String accountId, String symbol) {
+    public boolean deleteShareRecord(String id, String accountId, String symbol) {
         Object[] parameters = new Object[] {id, accountId, symbol, TransactionType.SHARE.name()};
+        return jdbcTemplate.update(JOURNAL_DELETE_TRANSACTION_FOR_ACCOUNT, parameters) == 1;
+    }
+
+    public boolean deleteOptionRecord(String id, String accountId, String symbol) {
+        Object[] parameters = new Object[] {id, accountId, symbol, TransactionType.OPTION.name()};
         return jdbcTemplate.update(JOURNAL_DELETE_TRANSACTION_FOR_ACCOUNT, parameters) == 1;
     }
 }

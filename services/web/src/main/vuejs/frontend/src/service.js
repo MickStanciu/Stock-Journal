@@ -67,7 +67,7 @@ const appService = {
     deleteOptionTrade(dto) {
         return new Promise(resolve => {
             axios
-                .delete('/option/' + dto.symbol + '/' + dto.transactionId)
+                .delete('/option/' + dto.stockSymbol + '/' + dto.transactionId)
                 .catch(error => {
                     console.error(error);
                     resolve(null);

@@ -73,6 +73,8 @@ public class OptionsJournalRepository {
             "INSERT INTO option_log (transaction_fk, stock_price, strike_price, expiry_date, contract_number, premium, action_fk, action_type_fk, broker_fees) " +
                     "VALUES (CAST(? AS uuid), ?, ?, ?, ?, ?, ?, ?, ?)";
 
+    private static final String JOURNAL_DELETE_OPTION = "DELETE FROM option_log WHERE transaction_fk = CAST(? AS uuid) and action_type_fk in ('CALL', 'PUT')";
+
     private JdbcTemplate jdbcTemplate;
 
     public OptionsJournalRepository(JdbcTemplate jdbcTemplate) {
@@ -98,6 +100,7 @@ public class OptionsJournalRepository {
         return Optional.empty();
     }
 
+
     /**
      * Creates an option record
      * @param id -
@@ -117,6 +120,17 @@ public class OptionsJournalRepository {
             ps.setDouble(9, model.getBrokerFees());
             return ps;
         });
+    }
+
+
+    /**
+     * Deletes a share record
+     * @param id -
+     * @return true/false
+     */
+    public boolean deleteRecord(String id) {
+        Object[] parameters = new Object[] {id};
+        return jdbcTemplate.update(JOURNAL_DELETE_OPTION, parameters) == 1;
     }
 }
 

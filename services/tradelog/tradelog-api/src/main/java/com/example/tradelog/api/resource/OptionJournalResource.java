@@ -45,6 +45,7 @@ public class OptionJournalResource {
         return service.getAllBySymbol(accountId, symbol);
     }
 
+
     /**
      * Create OPTION trade record
      * @param accountId - account uuid
@@ -68,6 +69,32 @@ public class OptionJournalResource {
         }
         return optionalModel.get();
     }
+
+
+    /**
+     * Delete OPTION trade record
+     * @param accountId - account uuid
+     * @param symbol -
+     * @param transactionId -
+     * @throws TradeLogException -
+     */
+    @RequestMapping(value = "/{symbol}/{transactionId}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteOptionTrade(
+            @RequestHeader(name = "accountId") String accountId,
+            @PathVariable("symbol") String symbol,
+            @PathVariable("transactionId") String transactionId) throws TradeLogException {
+
+        if (!RequestValidation.validateDeleteOptionTrade(accountId, transactionId, symbol)) {
+            throw new TradeLogException(ExceptionCode.BAD_REQUEST);
+        }
+
+        if (!service.deleteOptionRecord(accountId, transactionId, symbol)) {
+            log.error("COULD NOT DELETE FOR tID: {}", transactionId);
+            throw new TradeLogException(ExceptionCode.DELETE_OPTION_FAILED);
+        }
+    }
+
 
     //TODO: missing update option
 }

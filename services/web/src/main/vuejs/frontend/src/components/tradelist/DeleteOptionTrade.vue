@@ -113,7 +113,6 @@
                 is_form_readonly: true,
 
                 form_element: {
-                    symbol : 'xx',
                     date: dateTimeUtil.convertFromOffsetZuluToDisplay(this.option_model.date),
                     action: this.option_model.action,
                     type: this.option_model.actionType,

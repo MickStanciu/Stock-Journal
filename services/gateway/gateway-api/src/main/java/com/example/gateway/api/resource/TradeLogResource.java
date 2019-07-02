@@ -50,6 +50,7 @@ public class TradeLogResource {
         return tradeLogService.createShareTrade(accountId, model);
     }
 
+
     @RequestMapping(value = "/shares/{symbol}/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     public void deleteShareTrade(
@@ -67,6 +68,17 @@ public class TradeLogResource {
             @RequestBody OptionJournalGWModel model) {
         return tradeLogService.createOptionTrade(accountId, model);
     }
+
+
+    @RequestMapping(value = "/options/{symbol}/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteOptionTrade(
+            @RequestHeader(name = "accountId") String accountId,
+            @PathVariable(name = "symbol") String symbol,
+            @PathVariable(name = "id") String transactionId) {
+        tradeLogService.deleteOptionTrade(accountId, transactionId, symbol);
+    }
+
 
 
     @RequestMapping(value = "/symbols", method = RequestMethod.GET)
