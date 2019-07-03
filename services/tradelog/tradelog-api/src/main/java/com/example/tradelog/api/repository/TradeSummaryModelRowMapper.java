@@ -56,8 +56,7 @@ public class TradeSummaryModelRowMapper implements RowMapper<TradeSummaryModel> 
 
     private TradeSummaryModel fromDividend(ResultSet rs) throws SQLException {
         double dividend = rs.getDouble("dividend");
-        int quantity = 100;
-        //todo: add qty for dividends
+        int quantity = rs.getInt("quantity");
 
         return TradeSummaryModel.builder()
                 .withSymbol(rs.getString("symbol"))

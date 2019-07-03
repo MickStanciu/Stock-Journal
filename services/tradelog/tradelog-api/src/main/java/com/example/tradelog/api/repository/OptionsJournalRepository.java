@@ -125,7 +125,7 @@ public class OptionsJournalRepository {
             ps.setInt(5, model.getContracts());
             ps.setDouble(6, model.getPremium());
             ps.setString(7, model.getAction().name());
-            ps.setString(8, model.getActionType().name());
+            ps.setString(8, model.getOptionType().name());
             ps.setDouble(9, model.getBrokerFees());
             return ps;
         });

@@ -14,7 +14,7 @@ public class OptionJournalModel implements Serializable {
     private int contracts;
     private double premium;
     private Action action;
-    private ActionType actionType;
+    private OptionType optionType;
     private double brokerFees;
 
 
@@ -26,8 +26,8 @@ public class OptionJournalModel implements Serializable {
         return action;
     }
 
-    public ActionType getActionType() {
-        return actionType;
+    public OptionType getOptionType() {
+        return optionType;
     }
 
     public double getBrokerFees() {
@@ -85,8 +85,8 @@ public class OptionJournalModel implements Serializable {
             return this;
         }
 
-        public Builder withActionType(ActionType actionType) {
-            model.actionType = actionType;
+        public Builder withActionType(OptionType optionType) {
+            model.optionType = optionType;
             return this;
         }
 

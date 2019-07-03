@@ -41,8 +41,6 @@ public class RequestValidation extends FieldValidator {
             && s.getTransactionDetails().getId() == null
             && s.getAction() != null
             && s.getAction() != Action.UNKNOWN
-            && s.getActionType() != null
-            && s.getActionType() == ActionType.STOCK
             && s.getPrice() >= 0.00
             && s.getQuantity() >= 1;
 
@@ -68,7 +66,7 @@ public class RequestValidation extends FieldValidator {
             && s.getTransactionDetails().getId() == null
             && s.getAction() != null
             && s.getAction() != Action.UNKNOWN
-            && (s.getActionType() == ActionType.CALL || s.getActionType() == ActionType.PUT)
+            && (s.getOptionType() == OptionType.CALL || s.getOptionType() == OptionType.PUT)
             && s.getContracts() > 0
             && s.getExpiryDate() != null
             && s.getStockPrice() >= 0.00

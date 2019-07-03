@@ -8,8 +8,7 @@ VALUES ('SELL'),
        ('BUY');
 
 
-INSERT INTO action_type (name)
-VALUES ('STOCK'),
-       ('CALL'),
+INSERT INTO option_type (name)
+VALUES ('CALL'),
        ('PUT');
 

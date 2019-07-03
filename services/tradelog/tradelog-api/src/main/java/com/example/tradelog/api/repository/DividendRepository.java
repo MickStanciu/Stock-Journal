@@ -25,7 +25,7 @@ public class DividendRepository {
                     "ORDER BY date;";
 
     private static final String JOURNAL_GET_SUMMARIES =
-            "SELECT tl.symbol, dl.dividend, tl.transaction_type_fk " +
+            "SELECT tl.symbol, dl.dividend, dl.quantity, tl.transaction_type_fk " +
                     "FROM transaction_log tl" +
                     "         INNER JOIN dividend_log dl ON tl.id = dl.transaction_fk " +
                     "WHERE tl.account_fk = CAST(? AS uuid)" +

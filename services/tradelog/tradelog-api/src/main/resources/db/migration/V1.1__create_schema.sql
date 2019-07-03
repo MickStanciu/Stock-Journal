@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS transaction_log;
 DROP TABLE IF EXISTS shares_data;
 
 DROP TABLE IF EXISTS action;
-DROP TABLE IF EXISTS action_type;
+DROP TABLE IF EXISTS option_type;
 DROP TABLE IF EXISTS transaction_type;
 
 CREATE TABLE transaction_type (
@@ -22,10 +22,10 @@ CREATE TABLE action (
 GRANT ALL PRIVILEGES ON TABLE action TO admin;
 
 
-CREATE TABLE action_type (
+CREATE TABLE option_type (
   name VARCHAR(32) NOT NULL PRIMARY KEY
 );
-GRANT ALL PRIVILEGES ON TABLE action_type TO admin;
+GRANT ALL PRIVILEGES ON TABLE option_type TO admin;
 
 CREATE TABLE transaction_log
 (
@@ -50,7 +50,6 @@ CREATE TABLE shares_log
     price          FLOAT NOT NULL,
     quantity       INTEGER,
     action_fk      VARCHAR(32) REFERENCES action (name),
-    action_type_fk VARCHAR(32) REFERENCES action_type (name),
     broker_fees    FLOAT DEFAULT 0.0
 );
 
@@ -68,7 +67,7 @@ CREATE TABLE option_log
     contract_number INTEGER,
     premium         FLOAT,
     action_fk       VARCHAR(32) REFERENCES action (name),
-    action_type_fk  VARCHAR(32) REFERENCES action_type (name),
+    option_type_fk  VARCHAR(32) REFERENCES option_type (name),
     broker_fees    FLOAT DEFAULT 0.0
 );
 

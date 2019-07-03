@@ -2,7 +2,7 @@ package com.example.tradelog.api.repository;
 
 import com.example.common.converter.TimeConversion;
 import com.example.tradelog.api.spec.model.Action;
-import com.example.tradelog.api.spec.model.ActionType;
+import com.example.tradelog.api.spec.model.OptionType;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
 import com.example.tradelog.api.spec.model.TransactionModel;
 import org.springframework.jdbc.core.RowMapper;
@@ -24,7 +24,7 @@ public class OptionJournalModelRowMapper implements RowMapper<OptionJournalModel
                 .withContracts(rs.getInt("contract_number"))
                 .withPremium(rs.getDouble("premium"))
                 .withAction(Action.lookup(rs.getString("action_fk")))
-                .withActionType(ActionType.lookup(rs.getString("action_type_fk")))
+                .withActionType(OptionType.lookup(rs.getString("option_type_fk")))
                 .withBrokerFees(rs.getDouble("broker_fees"))
                 .build();
     }

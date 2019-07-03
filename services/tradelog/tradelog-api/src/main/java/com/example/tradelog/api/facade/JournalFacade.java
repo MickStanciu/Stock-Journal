@@ -40,7 +40,6 @@ public class JournalFacade {
         Map<String, TradeSummaryModel> summaryModelMap = new HashMap<>();
         shareSummaries.forEach(summaryModelMap::put);
 
-
         optionSummaries.forEach( (k, v) -> {
             if (summaryModelMap.containsKey(v.getSymbol())) {
                 TradeSummaryModel storedModel = summaryModelMap.get(v.getSymbol());

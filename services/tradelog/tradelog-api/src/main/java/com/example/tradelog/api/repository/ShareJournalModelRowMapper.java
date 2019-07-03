@@ -17,7 +17,6 @@ public class ShareJournalModelRowMapper implements RowMapper<ShareJournalModel> 
                 .withPrice(rs.getDouble("price"))
                 .withQuantity(rs.getInt("quantity"))
                 .withAction(Action.lookup(rs.getString("action_fk")))
-                .withActionType(ActionType.lookup(rs.getString("action_type_fk")))
                 .withBrokerFees(rs.getDouble("broker_fees"))
                 .build();
     }

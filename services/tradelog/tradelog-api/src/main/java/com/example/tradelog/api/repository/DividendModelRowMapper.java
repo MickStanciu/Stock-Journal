@@ -15,6 +15,7 @@ public class DividendModelRowMapper implements RowMapper<DividendJournalModel> {
         return DividendJournalModel.builder()
                 .withTransactionModel(transactionModel)
                 .withDividend(rs.getDouble("dividend"))
+                .withQuantity(rs.getInt("quantity"))
                 .build();
     }
 }

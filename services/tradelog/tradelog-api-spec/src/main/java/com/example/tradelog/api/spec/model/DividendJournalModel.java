@@ -1,11 +1,14 @@
 package com.example.tradelog.api.spec.model;
 
-public class DividendJournalModel {
+import java.io.Serializable;
+
+public class DividendJournalModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private TransactionModel transactionDetails;
     private double dividend;
+    private int quantity;
 
     public DividendJournalModel() {
         //required by Jackson
@@ -17,6 +20,10 @@ public class DividendJournalModel {
 
     public double getDividend() {
         return dividend;
+    }
+
+    public int getQuantity() {
+        return quantity;
     }
 
     public static Builder builder() {
@@ -43,6 +50,11 @@ public class DividendJournalModel {
 
         public Builder withDividend(double dividend) {
             model.dividend = dividend;
+            return this;
+        }
+
+        public Builder withQuantity(int quantity) {
+            model.quantity = quantity;
             return this;
         }
     }

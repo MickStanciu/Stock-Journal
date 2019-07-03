@@ -1,7 +1,9 @@
 package com.example.tradelog.api.spec.model;
 
 
-public class ShareJournalModel {
+import java.io.Serializable;
+
+public class ShareJournalModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -9,7 +11,6 @@ public class ShareJournalModel {
     private double price;
     private int quantity;
     private Action action;
-    private ActionType actionType;
     private double brokerFees;
 
     public ShareJournalModel() {
@@ -26,10 +27,6 @@ public class ShareJournalModel {
 
     public Action getAction() {
         return action;
-    }
-
-    public ActionType getActionType() {
-        return actionType;
     }
 
     public double getBrokerFees() {
@@ -69,11 +66,6 @@ public class ShareJournalModel {
 
         public Builder withAction(Action action) {
             model.action = action;
-            return this;
-        }
-
-        public Builder withActionType(ActionType actionType) {
-            model.actionType = actionType;
             return this;
         }
 

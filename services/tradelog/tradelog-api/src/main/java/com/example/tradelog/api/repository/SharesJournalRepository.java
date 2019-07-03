@@ -21,7 +21,6 @@ public class SharesJournalRepository {
                     "       sl.price, " +
                     "       sl.quantity, " +
                     "       sl.action_fk, " +
-                    "       sl.action_type_fk, " +
                     "       sl.broker_fees " +
                     "FROM transaction_log tl " +
                     "         inner join shares_log sl on tl.id = sl.transaction_fk " +
@@ -39,17 +38,16 @@ public class SharesJournalRepository {
                     "       sl.price, " +
                     "       sl.quantity, " +
                     "       sl.action_fk, " +
-                    "       sl.action_type_fk, " +
                     "       sl.broker_fees " +
                     "FROM transaction_log tl " +
                     "         inner join shares_log sl on tl.id = sl.transaction_fk " +
                     "WHERE tl.id = CAST(? AS uuid);";
 
     private static final String JOURNAL_CREATE_SHARE_FOR_ACCOUNT =
-            "INSERT INTO shares_log (transaction_fk, price, quantity, action_fk, action_type_fk, broker_fees) " +
+            "INSERT INTO shares_log (transaction_fk, price, quantity, action_fk, broker_fees) " +
                     "VALUES (CAST(? AS uuid), ?, ?, ?, ?, ?);";
 
-    private static final String JOURNAL_DELETE_SHARE = "DELETE FROM shares_log WHERE transaction_fk = CAST(? AS uuid) and action_type_fk = 'STOCK'";
+    private static final String JOURNAL_DELETE_SHARE = "DELETE FROM shares_log WHERE transaction_fk = CAST(? AS uuid)";
 
     private static final String JOURNAL_GET_SUMMARIES =
             "SELECT tl.symbol, sl.price, sl.broker_fees, sl.quantity, sl.action_fk, tl.transaction_type_fk " +
@@ -93,8 +91,7 @@ public class SharesJournalRepository {
             ps.setDouble(2, model.getPrice());
             ps.setInt(3, model.getQuantity());
             ps.setString(4, model.getAction().name());
-            ps.setString(5, model.getActionType().name());
-            ps.setDouble(6, model.getBrokerFees());
+            ps.setDouble(5, model.getBrokerFees());
             return ps;
         });
     }

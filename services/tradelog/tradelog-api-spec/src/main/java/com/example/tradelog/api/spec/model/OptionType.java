@@ -1,14 +1,13 @@
 package com.example.tradelog.api.spec.model;
 
-public enum ActionType {
+public enum OptionType {
     UNKNOWN,
-    STOCK,
     PUT,
     CALL;
 
-    static public ActionType lookup(String id) {
+    static public OptionType lookup(String id) {
         try {
-            return ActionType.valueOf(id);
+            return OptionType.valueOf(id);
         } catch (IllegalArgumentException ex) {
             return UNKNOWN;
         }
