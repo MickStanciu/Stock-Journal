@@ -10,6 +10,7 @@ public class DividendJournalConverter implements Function<DividendJournalModel, 
     @Override
     public DividendGWModel apply(DividendJournalModel model) {
         return DividendGWModel.builder()
+                .withType(TransactionTypeConverter.toTransactionTypeGW.apply(model.getTransactionDetails().getType()))
                 .withTransactionId(model.getTransactionDetails().getId())
                 .withDividend(model.getDividend())
                 .withAccountId(model.getTransactionDetails().getAccountId())

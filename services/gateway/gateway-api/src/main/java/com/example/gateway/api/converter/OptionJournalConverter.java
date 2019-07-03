@@ -10,12 +10,13 @@ import java.util.function.Function;
 public class OptionJournalConverter {
 
     public static Function<OptionJournalModel, OptionJournalGWModel> toOptionGWModel = model -> OptionJournalGWModel.builder()
+            .withType(TransactionTypeConverter.toTransactionTypeGW.apply(model.getTransactionDetails().getType()))
             .withTransactionId(model.getTransactionDetails().getId())
             .withAccountId(model.getTransactionDetails().getAccountId())
             .withStockSymbol(model.getTransactionDetails().getSymbol())
             .withDate(model.getTransactionDetails().getDate())
             .withAction(ActionConverter.toActionGW.apply(model.getAction()))
-            .withActionType(ActionTypeConverter.toActionTypeGW.apply(model.getActionType()))
+            .withActionType(ActionTypeConverter.toActionTypeGW.apply(model.getOptionType()))
             .withBrokerFees(model.getBrokerFees())
             .withContracts(model.getContracts())
             .withExpiryDate(model.getExpiryDate())

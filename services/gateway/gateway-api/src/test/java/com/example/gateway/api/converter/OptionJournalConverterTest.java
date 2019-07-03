@@ -1,10 +1,7 @@
 package com.example.gateway.api.converter;
 
 import com.example.gateway.api.model.OptionJournalGWModel;
-import com.example.tradelog.api.spec.model.Action;
-import com.example.tradelog.api.spec.model.ActionType;
-import com.example.tradelog.api.spec.model.OptionJournalModel;
-import com.example.tradelog.api.spec.model.TransactionModel;
+import com.example.tradelog.api.spec.model.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -19,12 +16,13 @@ class OptionJournalConverterTest {
                 .withAccountId("123")
                 .withDate(OffsetDateTime.now())
                 .withSymbol("XYZ")
+                .withType(TransactionType.OPTION)
                 .build();
 
         OptionJournalModel model = OptionJournalModel.builder()
                 .withTransactionModel(transactionModel)
                 .withAction(Action.SELL)
-                .withActionType(ActionType.PUT)
+                .withActionType(OptionType.PUT)
                 .withStockPrice(1.1f)
                 .withStrikePrice(2.1f)
                 .withExpiryDate(OffsetDateTime.now())
@@ -41,7 +39,8 @@ class OptionJournalConverterTest {
         Assertions.assertEquals(model.getTransactionDetails().getDate(), gwModel.getDate());
         Assertions.assertEquals(model.getTransactionDetails().getSymbol(), gwModel.getStockSymbol());
         Assertions.assertEquals(model.getAction().name(), gwModel.getAction().name());
-        Assertions.assertEquals(model.getActionType().name(), gwModel.getActionType().name());
+        Assertions.assertEquals(model.getTransactionDetails().getType().name(), gwModel.getType().name());
+        Assertions.assertEquals(model.getOptionType().name(), gwModel.getActionType().name());
         Assertions.assertEquals(model.getStockPrice(), gwModel.getStockPrice());
         Assertions.assertEquals(model.getStrikePrice(), gwModel.getStrikePrice());
         Assertions.assertEquals(model.getExpiryDate(), gwModel.getExpiryDate());

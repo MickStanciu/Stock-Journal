@@ -10,12 +10,12 @@ import java.util.function.Function;
 public class ShareJournalConverter {
 
     public static Function<ShareJournalModel, ShareJournalGWModel> toShareGWModel = model -> ShareJournalGWModel.builder()
+            .withType(TransactionTypeConverter.toTransactionTypeGW.apply(model.getTransactionDetails().getType()))
             .withTransactionId(model.getTransactionDetails().getId())
             .withAccountId(model.getTransactionDetails().getAccountId())
             .withDate(model.getTransactionDetails().getDate())
             .withSymbol(model.getTransactionDetails().getSymbol())
             .withAction(ActionConverter.toActionGW.apply(model.getAction()))
-            .withActionType(ActionTypeConverter.toActionTypeGW.apply(model.getActionType()))
             .withBrokerFees(model.getBrokerFees())
             .withQuantity(model.getQuantity())
             .withPrice(model.getPrice())
@@ -34,7 +34,6 @@ public class ShareJournalConverter {
         return ShareJournalModel.builder()
                 .withTransactionModel(transactionModel)
                 .withAction(ActionConverter.toAction.apply(model.getAction()))
-                .withActionType(ActionTypeConverter.toActionType.apply(model.getActionType()))
                 .withBrokerFees(model.getBrokerFees())
                 .withQuantity(model.getQuantity())
                 .withPrice(model.getPrice())
