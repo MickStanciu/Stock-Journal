@@ -9,7 +9,8 @@ public enum ExceptionCode {
     REQUEST_NOT_AUTHORIZED("Request not authorized"),
     TRADEJOURNAL_EMPTY("No trades found"),
     TRADEJOURNAL_CANNOT_DELETE("Cannot delete"),
-    TRADEJOURNAL_NO_SYMBOLS("No symbols found")
+    TRADEJOURNAL_NO_SYMBOLS("No symbols found"),
+    RESOURCE_NOT_FOUND("Resource not found")
     ;
 
     private final String message;

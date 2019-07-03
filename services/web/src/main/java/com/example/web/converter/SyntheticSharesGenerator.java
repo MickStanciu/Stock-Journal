@@ -1,8 +1,8 @@
 package com.example.web.converter;
 
 import com.example.gateway.api.model.ActionGW;
-import com.example.gateway.api.model.ActionTypeGW;
 import com.example.gateway.api.model.ShareJournalGWModel;
+import com.example.gateway.api.model.TransactionTypeGW;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ public class SyntheticSharesGenerator implements Function<List<ShareJournalGWMod
         Map<String, ShareAggregator> stocks = new HashMap<>();
 
         shareJournalGWModels.stream()
-                .filter(f -> f.getActionType().equals(ActionTypeGW.STOCK))
+                .filter(f -> f.getType().equals(TransactionTypeGW.SHARE))
                 .forEach(s -> {
                     int quantity;
                     if (ActionGW.BUY == s.getAction()) {
@@ -47,7 +47,7 @@ public class SyntheticSharesGenerator implements Function<List<ShareJournalGWMod
                         .withDate(OffsetDateTime.now().plusYears(1))
                         .withPrice(q.getAverageBoughtPrice())
                         .withAction(ActionGW.SELL)
-                        .withActionType(ActionTypeGW.STOCK)
+                        .withType(TransactionTypeGW.SHARE)
                         .build());
             }
         });

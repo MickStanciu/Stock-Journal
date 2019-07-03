@@ -3,6 +3,7 @@ package com.example.web.converter;
 import com.example.gateway.api.model.ActionGW;
 import com.example.gateway.api.model.ActionTypeGW;
 import com.example.gateway.api.model.ShareJournalGWModel;
+import com.example.gateway.api.model.TransactionTypeGW;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,7 +34,7 @@ class SyntheticSharesGeneratorTest {
                 .withDate(OffsetDateTime.now())
                 .withPrice(10.0)
                 .withAction(ActionGW.BUY)
-                .withActionType(ActionTypeGW.STOCK)
+                .withType(TransactionTypeGW.SHARE)
                 .build());
 
         shareList.add(ShareJournalGWModel.builder()
@@ -42,7 +43,7 @@ class SyntheticSharesGeneratorTest {
                 .withDate(OffsetDateTime.now())
                 .withPrice(10.0)
                 .withAction(ActionGW.SELL)
-                .withActionType(ActionTypeGW.STOCK)
+                .withType(TransactionTypeGW.SHARE)
                 .build());
 
         List<ShareJournalGWModel> syn = generator.apply(shareList);
@@ -57,7 +58,7 @@ class SyntheticSharesGeneratorTest {
                 .withDate(OffsetDateTime.now())
                 .withPrice(10.0)
                 .withAction(ActionGW.BUY)
-                .withActionType(ActionTypeGW.STOCK)
+                .withType(TransactionTypeGW.SHARE)
                 .build());
 
         shareList.add(ShareJournalGWModel.builder()
@@ -66,7 +67,7 @@ class SyntheticSharesGeneratorTest {
                 .withDate(OffsetDateTime.now())
                 .withPrice(10.0)
                 .withAction(ActionGW.SELL)
-                .withActionType(ActionTypeGW.STOCK)
+                .withType(TransactionTypeGW.SHARE)
                 .build());
 
         List<ShareJournalGWModel> syn = generator.apply(shareList);
@@ -86,7 +87,7 @@ class SyntheticSharesGeneratorTest {
                 .withDate(OffsetDateTime.now())
                 .withPrice(55.0)
                 .withAction(ActionGW.BUY)
-                .withActionType(ActionTypeGW.STOCK)
+                .withType(TransactionTypeGW.SHARE)
                 .build());
 
         shareList.add(ShareJournalGWModel.builder()
@@ -95,7 +96,7 @@ class SyntheticSharesGeneratorTest {
                 .withDate(OffsetDateTime.now())
                 .withPrice(66.0)
                 .withAction(ActionGW.BUY)
-                .withActionType(ActionTypeGW.STOCK)
+                .withType(TransactionTypeGW.SHARE)
                 .build());
 
         List<ShareJournalGWModel> syn = generator.apply(shareList);
@@ -115,7 +116,7 @@ class SyntheticSharesGeneratorTest {
                 .withDate(OffsetDateTime.now())
                 .withPrice(10.0)
                 .withAction(ActionGW.BUY)
-                .withActionType(ActionTypeGW.STOCK)
+                .withType(TransactionTypeGW.SHARE)
                 .build());
 
         shareList.add(ShareJournalGWModel.builder()
@@ -124,7 +125,7 @@ class SyntheticSharesGeneratorTest {
                 .withDate(OffsetDateTime.now())
                 .withPrice(10.0)
                 .withAction(ActionGW.BUY)
-                .withActionType(ActionTypeGW.STOCK)
+                .withType(TransactionTypeGW.SHARE)
                 .build());
 
 
@@ -134,7 +135,7 @@ class SyntheticSharesGeneratorTest {
                 .withDate(OffsetDateTime.now())
                 .withPrice(10.0)
                 .withAction(ActionGW.SELL)
-                .withActionType(ActionTypeGW.STOCK)
+                .withType(TransactionTypeGW.SHARE)
                 .build());
 
         shareList.add(ShareJournalGWModel.builder()
@@ -143,7 +144,7 @@ class SyntheticSharesGeneratorTest {
                 .withDate(OffsetDateTime.now())
                 .withPrice(10.0)
                 .withAction(ActionGW.SELL)
-                .withActionType(ActionTypeGW.STOCK)
+                .withType(TransactionTypeGW.SHARE)
                 .build());
 
 

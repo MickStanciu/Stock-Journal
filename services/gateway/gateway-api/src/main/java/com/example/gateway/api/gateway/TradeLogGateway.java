@@ -110,14 +110,14 @@ public class TradeLogGateway {
     public OptionJournalModel createOptionTrade(String accountId, OptionJournalModel model) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
-                .path("/options");
+                .path("/options/{symbol}");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("accountId", accountId);
 
         HttpEntity<OptionJournalModel> request = new HttpEntity<>(model, headers);
-        ResponseEntity<OptionJournalModel> responseEntity = restTemplate.exchange(builder.build(""), HttpMethod.POST, request, OptionJournalModel.class);
+        ResponseEntity<OptionJournalModel> responseEntity = restTemplate.exchange(builder.build(model.getTransactionDetails().getSymbol()), HttpMethod.POST, request, OptionJournalModel.class);
         return responseEntity.getBody();
     }
 

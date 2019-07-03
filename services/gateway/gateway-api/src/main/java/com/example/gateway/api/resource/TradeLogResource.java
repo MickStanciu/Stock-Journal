@@ -8,8 +8,6 @@ import com.example.gateway.api.model.ShareJournalGWModel;
 import com.example.gateway.api.model.TradeLogModelGW;
 import com.example.gateway.api.service.TradeLogService;
 import com.example.tradelog.api.spec.model.TradeLogModel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +17,6 @@ import java.util.concurrent.ExecutionException;
 @RestController
 @RequestMapping(value = "/api/v1/tradelog", produces = "application/json")
 public class TradeLogResource {
-
-    private static final Logger log = LoggerFactory.getLogger(TradeLogResource.class);
 
     private TradeLogService tradeLogService;
 

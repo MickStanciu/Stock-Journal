@@ -24,7 +24,7 @@ public class CustomisedResponseEntityExceptionHandler extends ResponseEntityExce
     }
 
     @ExceptionHandler(TradeLogException.class)
-    public final ResponseEntity<ExceptionModel> handleAllExceptions(TradeLogException ex, WebRequest request) {
+    public final ResponseEntity<ExceptionModel> handleTradeLogExceptions(TradeLogException ex, WebRequest request) {
         ExceptionModel exceptionModel = new ExceptionModel(ex.getCode(), ex.getMessage(), request.getDescription(false));
         log.error(ex.getMessage(), ex);
 
@@ -32,7 +32,9 @@ public class CustomisedResponseEntityExceptionHandler extends ResponseEntityExce
             case BAD_REQUEST:
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionModel);
             case TRADELOG_EMPTY:
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body(exceptionModel);
             case DELETE_SHARE_FAILED:
+            case DELETE_OPTION_FAILED:
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionModel);
             default:
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionModel);
