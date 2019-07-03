@@ -51,9 +51,10 @@ public class RequestValidation extends FieldValidator {
                 && accountId.equals(model.getTransactionDetails().getAccountId());
     }
 
-    public static boolean validateCreateNewOptionTrade(String accountId, OptionJournalModel model) {
+    public static boolean validateCreateNewOptionTrade(String accountId, String symbol, OptionJournalModel model) {
         return RequestValidation.accountId.test(accountId)
                 && RequestValidation.validateOptionJournalModel.test(model)
+                && model.getTransactionDetails().getSymbol().equals(symbol)
                 && accountId.equals(model.getTransactionDetails().getAccountId());
     }
 

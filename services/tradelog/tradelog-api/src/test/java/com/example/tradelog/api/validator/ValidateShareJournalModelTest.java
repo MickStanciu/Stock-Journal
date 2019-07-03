@@ -37,7 +37,6 @@ class ValidateShareJournalModelTest {
                 .withTransactionModel(transactionModelBuilder.withAccountId(null).build())
                 .withQuantity(1)
                 .withAction(Action.BUY)
-                .withActionType(ActionType.CALL)
                 .withPrice(1)
                 .build();
 
@@ -50,7 +49,6 @@ class ValidateShareJournalModelTest {
                 .withTransactionModel(transactionModelBuilder.build())
                 .withQuantity(1)
                 .withAction(null)
-                .withActionType(ActionType.CALL)
                 .withPrice(1)
                 .build();
 
@@ -63,25 +61,12 @@ class ValidateShareJournalModelTest {
                 .withTransactionModel(transactionModelBuilder.withAccountId(null).build())
                 .withQuantity(1)
                 .withAction(Action.UNKNOWN)
-                .withActionType(ActionType.CALL)
                 .withPrice(1)
                 .build();
 
         Assertions.assertFalse(RequestValidation.validateShareJournalModel.test(model));
     }
 
-    @Test
-    void testValidateShareJournalModelWhenActionTypeIsNull() {
-        ShareJournalModel model = shareBuilder
-                .withTransactionModel(transactionModelBuilder.withAccountId(null).build())
-                .withQuantity(1)
-                .withAction(Action.BUY)
-                .withActionType(null)
-                .withPrice(1)
-                .build();
-
-        Assertions.assertFalse(RequestValidation.validateShareJournalModel.test(model));
-    }
 
     @Test
     void testValidateShareJournalModelWhenActionTypeIsUnknown() {
@@ -89,7 +74,6 @@ class ValidateShareJournalModelTest {
                 .withTransactionModel(transactionModelBuilder.withAccountId(null).build())
                 .withQuantity(1)
                 .withAction(Action.BUY)
-                .withActionType(ActionType.UNKNOWN)
                 .withPrice(1)
                 .build();
 
@@ -166,7 +150,6 @@ class ValidateShareJournalModelTest {
         ShareJournalModel model = shareBuilder
                 .withTransactionModel(transactionModelBuilder.build())
                 .withAction(Action.BUY)
-                .withActionType(ActionType.STOCK)
                 .withBrokerFees(0)
                 .withPrice(10.00)
                 .withQuantity(100)

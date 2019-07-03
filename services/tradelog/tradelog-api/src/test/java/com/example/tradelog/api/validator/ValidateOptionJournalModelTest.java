@@ -76,17 +76,17 @@ class ValidateOptionJournalModelTest {
     void testValidateOptionJournalModelWhenActionTypeIsUnknown() {
         OptionJournalModel model = optionBuilder
                 .withTransactionModel(transactionModelBuilder.build())
-                .withActionType(ActionType.UNKNOWN)
+                .withActionType(OptionType.UNKNOWN)
                 .build();
 
         Assertions.assertFalse(RequestValidation.validateOptionJournalModel.test(model));
     }
 
     @Test
-    void testValidateOptionJournalModelWhenActionTypeIsStock() {
+    void testValidateOptionJournalModelWhenActionTypeIsInvalid() {
         OptionJournalModel model = optionBuilder
                 .withTransactionModel(transactionModelBuilder.build())
-                .withActionType(ActionType.STOCK)
+                .withActionType(OptionType.UNKNOWN)
                 .build();
 
         Assertions.assertFalse(RequestValidation.validateOptionJournalModel.test(model));
@@ -153,7 +153,7 @@ class ValidateOptionJournalModelTest {
         OptionJournalModel model = optionBuilder
                 .withTransactionModel(transactionModelBuilder.build())
                 .withAction(Action.BUY)
-                .withActionType(ActionType.CALL)
+                .withActionType(OptionType.CALL)
                 .withBrokerFees(0)
                 .withExpiryDate(OffsetDateTime.now())
                 .withStockPrice(10.00)

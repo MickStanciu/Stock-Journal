@@ -53,13 +53,14 @@ public class OptionJournalResource {
      * @return created OptionJournalModel
      * @throws TradeLogException -
      */
-    @RequestMapping(value = {"/", ""}, method = RequestMethod.POST)
+    @RequestMapping(value = "/{symbol}", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public OptionJournalModel createNewOptionTrade(
             @RequestHeader("accountId") String accountId,
+            @PathVariable("symbol") String symbol,
             @RequestBody OptionJournalModel model) throws TradeLogException {
 
-        if (!RequestValidation.validateCreateNewOptionTrade(accountId, model)) {
+        if (!RequestValidation.validateCreateNewOptionTrade(accountId, symbol, model)) {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 

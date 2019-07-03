@@ -45,7 +45,7 @@ public class SharesJournalRepository {
 
     private static final String JOURNAL_CREATE_SHARE_FOR_ACCOUNT =
             "INSERT INTO shares_log (transaction_fk, price, quantity, action_fk, broker_fees) " +
-                    "VALUES (CAST(? AS uuid), ?, ?, ?, ?, ?);";
+                    "VALUES (CAST(? AS uuid), ?, ?, ?, ?);";
 
     private static final String JOURNAL_DELETE_SHARE = "DELETE FROM shares_log WHERE transaction_fk = CAST(? AS uuid)";
 

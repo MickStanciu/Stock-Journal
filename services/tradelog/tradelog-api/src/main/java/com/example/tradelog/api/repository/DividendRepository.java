@@ -16,9 +16,10 @@ public class DividendRepository {
                     "       tl.date, " +
                     "       tl.symbol, " +
                     "       tl.transaction_type_fk, " +
-                    "       sl.dividend " +
+                    "       dl.dividend, " +
+                    "       dl.quantity " +
                     "FROM transaction_log tl " +
-                    "         inner join dividend_log sl on tl.id = sl.transaction_fk " +
+                    "         inner join dividend_log dl on tl.id = dl.transaction_fk " +
                     "WHERE account_fk = CAST(? AS uuid) " +
                     "  and tl.transaction_type_fk = 'DIVIDEND' " +
                     "  and symbol = ? " +

@@ -26,7 +26,7 @@ public class OptionsJournalRepository {
                     "       ol.contract_number, " +
                     "       ol.premium, " +
                     "       ol.action_fk, " +
-                    "       ol.action_type_fk, " +
+                    "       ol.option_type_fk, " +
                     "       ol.broker_fees " +
                     "FROM transaction_log tl " +
                     "         inner join option_log ol on tl.id = ol.transaction_fk " +
@@ -44,7 +44,7 @@ public class OptionsJournalRepository {
                     "       ol.contract_number, " +
                     "       ol.premium, " +
                     "       ol.action_fk, " +
-                    "       ol.action_type_fk, " +
+                    "       ol.option_type_fk, " +
                     "       ol.broker_fees " +
                     "FROM transaction_log tl " +
                     "         inner join option_log ol on tl.id = ol.transaction_fk " +
@@ -63,7 +63,7 @@ public class OptionsJournalRepository {
                     "       ol.contract_number, " +
                     "       ol.premium, " +
                     "       ol.action_fk, " +
-                    "       ol.action_type_fk, " +
+                    "       ol.option_type_fk, " +
                     "       ol.broker_fees " +
                     "FROM transaction_log tl " +
                     "         inner join option_log ol on tl.id = ol.transaction_fk " +
@@ -71,10 +71,10 @@ public class OptionsJournalRepository {
 
 
     private static final String JOURNAL_CREATE_OPTION_FOR_ACCOUNT =
-            "INSERT INTO option_log (transaction_fk, stock_price, strike_price, expiry_date, contract_number, premium, action_fk, action_type_fk, broker_fees) " +
+            "INSERT INTO option_log (transaction_fk, stock_price, strike_price, expiry_date, contract_number, premium, action_fk, option_type_fk, broker_fees) " +
                     "VALUES (CAST(? AS uuid), ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    private static final String JOURNAL_DELETE_OPTION = "DELETE FROM option_log WHERE transaction_fk = CAST(? AS uuid) and action_type_fk in ('CALL', 'PUT')";
+    private static final String JOURNAL_DELETE_OPTION = "DELETE FROM option_log WHERE transaction_fk = CAST(? AS uuid) and option_type_fk in ('CALL', 'PUT')";
 
     private static final String JOURNAL_GET_SUMMARIES =
             "SELECT tl.symbol, ol.premium, ol.broker_fees, ol.contract_number, tl.transaction_type_fk " +
