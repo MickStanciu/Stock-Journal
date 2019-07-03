@@ -1,8 +1,9 @@
 package com.example.gateway.api.model;
 
+import java.io.Serializable;
 import java.time.OffsetDateTime;
 
-public class OptionJournalGWModel {
+public class OptionJournalGWModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -17,6 +18,7 @@ public class OptionJournalGWModel {
     private double premium;
     private ActionGW action;
     private ActionTypeGW actionType;
+    private TransactionTypeGW type;
     private double brokerFees;
 
 
@@ -50,6 +52,10 @@ public class OptionJournalGWModel {
 
     public ActionTypeGW getActionType() {
         return actionType;
+    }
+
+    public TransactionTypeGW getType() {
+        return type;
     }
 
     public double getBrokerFees() {
@@ -146,6 +152,11 @@ public class OptionJournalGWModel {
 
         public Builder withPremium(double premium) {
             model.premium = premium;
+            return this;
+        }
+
+        public Builder withType(TransactionTypeGW type) {
+            model.type = type;
             return this;
         }
     }

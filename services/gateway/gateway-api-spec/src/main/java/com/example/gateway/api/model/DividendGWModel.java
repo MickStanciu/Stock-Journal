@@ -1,8 +1,9 @@
 package com.example.gateway.api.model;
 
+import java.io.Serializable;
 import java.time.OffsetDateTime;
 
-public class DividendGWModel {
+public class DividendGWModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -11,6 +12,7 @@ public class DividendGWModel {
     private String accountId;
     private OffsetDateTime date;
     private String symbol;
+    private TransactionTypeGW type;
 
     public DividendGWModel() {
         //required by Jackson
@@ -34,6 +36,10 @@ public class DividendGWModel {
 
     public String getSymbol() {
         return symbol;
+    }
+
+    public TransactionTypeGW getType() {
+        return type;
     }
 
     public static Builder builder() {
@@ -75,6 +81,11 @@ public class DividendGWModel {
 
         public Builder withSymbol(String symbol) {
             model.symbol = symbol;
+            return this;
+        }
+
+        public Builder withType(TransactionTypeGW type) {
+            model.type = type;
             return this;
         }
     }
