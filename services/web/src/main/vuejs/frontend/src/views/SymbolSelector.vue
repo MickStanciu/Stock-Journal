@@ -11,7 +11,7 @@
                 <div class="row pb-1 pt-1" v-bind:class="rowClass(item, idx)" v-bind:key="item.id">
                     <div class="col-md-5">{{ item.symbol }}</div>
                     <div class="col-md-5">{{ item.trades }}</div>
-                    <div class="col text-right">{{ printCurrencyFormat(item.total) }}</div>
+                    <div class="col text-right" v-bind:class="colorClass(item.total)">{{ printCurrencyFormat(item.total) }}</div>
                 </div>
             </router-link>
         </template>
@@ -37,12 +37,22 @@
             getLink: function (symbol) {
               return "/log/" + symbol.toLowerCase();
             },
+
             rowClass: function (item, idx) {
                 let className = 'table-cell-odd';
                 if (idx%2 === 0) {
                     className = 'table-cell-even';
                 }
                 return className;
+            },
+
+            colorClass: function (item) {
+                if (item > 0.00) {
+                    return 'text-green';
+                }
+                if (item < 0.00) {
+                    return 'text-red';
+                }
             },
 
             printCurrencyFormat: function (value) {
@@ -96,5 +106,13 @@
 
     #symbol-list {
         font-size: 0.75rem;
+    }
+
+    .text-red {
+        color: red;
+    }
+
+    .text-green {
+        color: green;
     }
 </style>
