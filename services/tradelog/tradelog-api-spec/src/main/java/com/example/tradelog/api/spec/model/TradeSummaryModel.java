@@ -1,9 +1,11 @@
 package com.example.tradelog.api.spec.model;
 
+import java.math.BigDecimal;
+
 public class TradeSummaryModel {
     private String symbol;
     private int trades;
-    private double total;
+    private BigDecimal total;
 
     public TradeSummaryModel() {
         //required by Jackson
@@ -17,7 +19,7 @@ public class TradeSummaryModel {
         return trades;
     }
 
-    public double getTotal() {
+    public BigDecimal getTotal() {
         return total;
     }
 
@@ -48,7 +50,7 @@ public class TradeSummaryModel {
             return this;
         }
 
-        public Builder withTotal(double total) {
+        public Builder withTotal(BigDecimal total) {
             tradeSummaryModel.total = total;
             return this;
         }

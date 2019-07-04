@@ -46,7 +46,7 @@ public class JournalFacade {
                 summaryModelMap.put(v.getSymbol(), TradeSummaryModel.builder()
                         .withSymbol(storedModel.getSymbol())
                         .withTrades(storedModel.getTrades() + v.getTrades())
-                        .withTotal(storedModel.getTotal() + v.getTotal())
+                        .withTotal(storedModel.getTotal().add(v.getTotal()))
                         .build());
             } else {
                 summaryModelMap.put(v.getSymbol(), v);
@@ -59,7 +59,7 @@ public class JournalFacade {
                 summaryModelMap.put(v.getSymbol(), TradeSummaryModel.builder()
                         .withSymbol(storedModel.getSymbol())
                         .withTrades(storedModel.getTrades() + v.getTrades())
-                        .withTotal(storedModel.getTotal() + v.getTotal())
+                        .withTotal(storedModel.getTotal().add(v.getTotal()))
                         .build());
             } else {
                 summaryModelMap.put(v.getSymbol(), v);

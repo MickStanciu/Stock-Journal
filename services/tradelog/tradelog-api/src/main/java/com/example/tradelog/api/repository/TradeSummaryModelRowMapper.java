@@ -5,6 +5,8 @@ import com.example.tradelog.api.spec.model.TradeSummaryModel;
 import com.example.tradelog.api.spec.model.TransactionType;
 import org.springframework.jdbc.core.RowMapper;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -27,40 +29,42 @@ public class TradeSummaryModelRowMapper implements RowMapper<TradeSummaryModel> 
 
     private TradeSummaryModel fromStock(ResultSet rs) throws SQLException {
         Action action = Action.lookup(rs.getString("action_fk"));
-        double price = rs.getDouble("price");
+
+        BigDecimal price = BigDecimal.valueOf(rs.getDouble("price"));
+
         if (Action.BUY.equals(action)) {
-            price = price * -1;
+            price = price.negate();
         }
 
-        double fees = rs.getDouble("broker_fees");
-        double quantity = rs.getInt("quantity");
+        BigDecimal fees = BigDecimal.valueOf(rs.getDouble("broker_fees"));
+        BigDecimal quantity = BigDecimal.valueOf(rs.getInt("quantity"));
 
         return TradeSummaryModel.builder()
                 .withSymbol(rs.getString("symbol"))
-                .withTotal(price * quantity - fees)
+                .withTotal(price.multiply(quantity).min(fees))
                 .withTrades(1)
                 .build();
     }
 
     private TradeSummaryModel fromOption(ResultSet rs) throws SQLException {
-        double premium = rs.getDouble("premium");
-        double fees = rs.getDouble("broker_fees");
-        double quantity = rs.getInt("contract_number");
+        BigDecimal premium = BigDecimal.valueOf(rs.getDouble("premium"));
+        BigDecimal fees = BigDecimal.valueOf(rs.getDouble("broker_fees"));
+        BigDecimal quantity = BigDecimal.valueOf(rs.getInt("contract_number"));
 
         return TradeSummaryModel.builder()
                 .withSymbol(rs.getString("symbol"))
-                .withTotal(premium * quantity * 100 - fees)
+                .withTotal(premium.multiply(quantity).multiply(new BigDecimal(100)).min(fees))
                 .withTrades(1)
                 .build();
     }
 
     private TradeSummaryModel fromDividend(ResultSet rs) throws SQLException {
-        double dividend = rs.getDouble("dividend");
-        int quantity = rs.getInt("quantity");
+        BigDecimal dividend = BigDecimal.valueOf(rs.getDouble("dividend"));
+        BigDecimal quantity = BigDecimal.valueOf(rs.getInt("quantity"));
 
         return TradeSummaryModel.builder()
                 .withSymbol(rs.getString("symbol"))
-                .withTotal(dividend * quantity)
+                .withTotal(dividend.multiply(quantity))
                 .withTrades(1)
                 .build();
     }

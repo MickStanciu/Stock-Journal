@@ -18,7 +18,7 @@ public class TradeSummaryListConverter {
                 summaryModelMap.put(m.getSymbol(), TradeSummaryModel.builder()
                         .withSymbol(storedModel.getSymbol())
                         .withTrades(storedModel.getTrades() + 1)
-                        .withTotal(storedModel.getTotal() + m.getTotal())
+                        .withTotal(storedModel.getTotal().add(m.getTotal()))
                         .build());
             } else {
                 summaryModelMap.put(m.getSymbol(), m);
