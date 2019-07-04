@@ -2,13 +2,12 @@ package com.example.gateway.api.service;
 
 import com.example.gateway.api.converter.OptionJournalConverter;
 import com.example.gateway.api.converter.ShareJournalConverter;
+import com.example.gateway.api.converter.TradeSummaryConverter;
 import com.example.gateway.api.gateway.TradeLogGateway;
 import com.example.gateway.api.model.OptionJournalGWModel;
 import com.example.gateway.api.model.ShareJournalGWModel;
-import com.example.tradelog.api.spec.model.DividendJournalModel;
-import com.example.tradelog.api.spec.model.OptionJournalModel;
-import com.example.tradelog.api.spec.model.ShareJournalModel;
-import com.example.tradelog.api.spec.model.TradeLogModel;
+import com.example.gateway.api.model.TradeSummaryGWModel;
+import com.example.tradelog.api.spec.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 @Service
 public class TradeLogService {
@@ -62,5 +62,10 @@ public class TradeLogService {
 
     public void deleteOptionTrade(String accountId, String transactionId, String symbol) {
         tradeLogGateway.deleteOptionTrade(accountId, transactionId, symbol);
+    }
+
+    public List<TradeSummaryGWModel> getSummary(String accountId) {
+        List<TradeSummaryModel> returnModels = tradeLogGateway.getSummary(accountId);
+        return returnModels.stream().map(m -> TradeSummaryConverter.toTradeSummaryGWModel.apply(m)).collect(Collectors.toList());
     }
 }

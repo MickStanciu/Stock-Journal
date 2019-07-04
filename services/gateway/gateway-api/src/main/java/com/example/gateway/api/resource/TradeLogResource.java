@@ -6,6 +6,7 @@ import com.example.gateway.api.exception.GatewayApiException;
 import com.example.gateway.api.model.OptionJournalGWModel;
 import com.example.gateway.api.model.ShareJournalGWModel;
 import com.example.gateway.api.model.TradeLogModelGW;
+import com.example.gateway.api.model.TradeSummaryGWModel;
 import com.example.gateway.api.service.TradeLogService;
 import com.example.tradelog.api.spec.model.TradeLogModel;
 import org.springframework.http.HttpStatus;
@@ -89,5 +90,17 @@ public class TradeLogResource {
         }
 
         return tradedSymbols;
+    }
+
+    @RequestMapping(value = "/summary", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public List<TradeSummaryGWModel> getSummary(@RequestHeader("accountId") String accountId) throws GatewayApiException {
+        List<TradeSummaryGWModel> summaryModels = tradeLogService.getSummary(accountId);
+
+        if (summaryModels == null || summaryModels.isEmpty()) {
+            throw new GatewayApiException(ExceptionCode.TRADEJOURNAL_NO_SYMBOLS);
+        }
+
+        return summaryModels;
     }
 }

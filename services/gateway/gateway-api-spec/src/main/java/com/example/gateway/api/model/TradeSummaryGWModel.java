@@ -1,9 +1,9 @@
-package com.example.tradelog.api.spec.model;
+package com.example.gateway.api.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class TradeSummaryModel implements Serializable {
+public class TradeSummaryGWModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -11,7 +11,7 @@ public class TradeSummaryModel implements Serializable {
     private int trades;
     private BigDecimal total;
 
-    public TradeSummaryModel() {
+    public TradeSummaryGWModel() {
         //required by Jackson
     }
 
@@ -32,30 +32,30 @@ public class TradeSummaryModel implements Serializable {
     }
 
     public static class Builder {
-        TradeSummaryModel tradeSummaryModel;
+        TradeSummaryGWModel model;
 
         Builder() {
-            tradeSummaryModel = new TradeSummaryModel();
+            model = new TradeSummaryGWModel();
         }
 
-        public TradeSummaryModel build() {
-            TradeSummaryModel buildModel = this.tradeSummaryModel;
-            this.tradeSummaryModel = new TradeSummaryModel();
+        public TradeSummaryGWModel build() {
+            TradeSummaryGWModel buildModel = this.model;
+            this.model = new TradeSummaryGWModel();
             return buildModel;
         }
 
         public Builder withSymbol(String symbol) {
-            tradeSummaryModel.symbol = symbol;
+            model.symbol = symbol;
             return this;
         }
 
         public Builder withTrades(int trades) {
-            tradeSummaryModel.trades = trades;
+            model.trades = trades;
             return this;
         }
 
         public Builder withTotal(BigDecimal total) {
-            tradeSummaryModel.total = total;
+            model.total = total;
             return this;
         }
     }
