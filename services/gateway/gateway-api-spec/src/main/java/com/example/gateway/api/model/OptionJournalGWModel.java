@@ -17,7 +17,7 @@ public class OptionJournalGWModel implements Serializable {
     private int contracts;
     private double premium;
     private ActionGW action;
-    private ActionTypeGW actionType;
+    private OptionTypeGW optionType;
     private TransactionTypeGW type;
     private double brokerFees;
 
@@ -50,8 +50,8 @@ public class OptionJournalGWModel implements Serializable {
         return action;
     }
 
-    public ActionTypeGW getActionType() {
-        return actionType;
+    public OptionTypeGW getOptionType() {
+        return optionType;
     }
 
     public TransactionTypeGW getType() {
@@ -125,8 +125,8 @@ public class OptionJournalGWModel implements Serializable {
             return this;
         }
 
-        public Builder withActionType(ActionTypeGW actionTypeGW) {
-            model.actionType = actionTypeGW;
+        public Builder withOptionType(OptionTypeGW optionTypeGW) {
+            model.optionType = optionTypeGW;
             return this;
         }
 

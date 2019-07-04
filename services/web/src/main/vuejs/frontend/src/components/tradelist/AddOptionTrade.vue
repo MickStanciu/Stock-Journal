@@ -165,7 +165,7 @@
                 optionDto.contracts = this.form_element.contracts;
                 optionDto.premium = this.form_element.premium;
                 optionDto.action = this.form_element.action;
-                optionDto.actionType = this.form_element.type;
+                optionDto.optionType = this.form_element.type;
                 optionDto.brokerFees = this.form_element.fees;
 
                 service.recordOptionTrade(optionDto).then(data => {

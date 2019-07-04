@@ -82,7 +82,7 @@ public class OptionsJournalRepository {
                     "         INNER JOIN option_log ol ON tl.id = ol.transaction_fk " +
                     "WHERE tl.account_fk = CAST(? AS uuid)" +
                     "  AND transaction_type_fk = 'OPTION' " +
-                    "ORDER BY symbol;";
+                    "ORDER BY tl.symbol;";
 
     private JdbcTemplate jdbcTemplate;
 

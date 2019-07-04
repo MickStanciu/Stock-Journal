@@ -1,7 +1,7 @@
 package com.example.web.converter;
 
 import com.example.gateway.api.model.ActionGW;
-import com.example.gateway.api.model.ActionTypeGW;
+import com.example.gateway.api.model.OptionTypeGW;
 import com.example.gateway.api.model.OptionJournalGWModel;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class SyntheticOptionsGenerator implements Function<List<OptionJournalGWM
         OptionConverterUtil optionConverterUtil = new OptionConverterUtil();
 
         optionJournalGWModels.stream()
-            .filter(f -> f.getActionType().equals(ActionTypeGW.CALL) || f.getActionType().equals(ActionTypeGW.PUT))
+            .filter(f -> f.getOptionType().equals(OptionTypeGW.CALL) || f.getOptionType().equals(OptionTypeGW.PUT))
             .forEach(o -> {
                 String key = optionConverterUtil.generateName.apply(o);
                 String oppositeKey = optionConverterUtil.generateOppositeActionName.apply(o);
@@ -55,7 +55,7 @@ public class SyntheticOptionsGenerator implements Function<List<OptionJournalGWM
                         .withStockSymbol(o.getStockSymbol())
                         .withStrikePrice(o.getStrikePrice())
                         .withAction(newAction)
-                        .withActionType(o.getActionType())
+                        .withOptionType(o.getOptionType())
                         .withContracts(o.getContracts())
                         .withExpiryDate(o.getExpiryDate())
                         .withDate(o.getExpiryDate())

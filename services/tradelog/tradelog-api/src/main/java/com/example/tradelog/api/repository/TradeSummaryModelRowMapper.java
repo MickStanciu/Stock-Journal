@@ -6,7 +6,6 @@ import com.example.tradelog.api.spec.model.TransactionType;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -41,7 +40,7 @@ public class TradeSummaryModelRowMapper implements RowMapper<TradeSummaryModel> 
 
         return TradeSummaryModel.builder()
                 .withSymbol(rs.getString("symbol"))
-                .withTotal(price.multiply(quantity).min(fees))
+                .withTotal(price.multiply(quantity).subtract(fees))
                 .withTrades(1)
                 .build();
     }
@@ -53,7 +52,7 @@ public class TradeSummaryModelRowMapper implements RowMapper<TradeSummaryModel> 
 
         return TradeSummaryModel.builder()
                 .withSymbol(rs.getString("symbol"))
-                .withTotal(premium.multiply(quantity).multiply(new BigDecimal(100)).min(fees))
+                .withTotal(premium.multiply(quantity).multiply(new BigDecimal(100)).subtract(fees))
                 .withTrades(1)
                 .build();
     }

@@ -26,7 +26,7 @@ public class OptionConverterUtil {
         DecimalFormat df = new DecimalFormat("#.##");
 
         operation += " " + df.format(model.getStrikePrice());
-        operation += " " + model.getActionType().toString();
+        operation += " " + model.getOptionType().toString();
         operation += " " + "@";
         operation += " " + df.format(model.getPremium());
         return operation;
@@ -48,7 +48,7 @@ public class OptionConverterUtil {
         DecimalFormat df = new DecimalFormat("#.##");
 
         operation += " " + df.format(model.getStrikePrice());
-        operation += " " + model.getActionType().toString();
+        operation += " " + model.getOptionType().toString();
         operation += " " + "@";
         operation += " " + df.format(model.getPremium());
         return operation;

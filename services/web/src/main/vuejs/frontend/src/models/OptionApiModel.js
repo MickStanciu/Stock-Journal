@@ -12,7 +12,7 @@ class OptionApiModel {
     contracts = undefined;
     premium = undefined;
     action = undefined;
-    actionType = undefined;
+    optionType = undefined;
     brokerFees = undefined;
     mark = null;
     isSynthetic = false;

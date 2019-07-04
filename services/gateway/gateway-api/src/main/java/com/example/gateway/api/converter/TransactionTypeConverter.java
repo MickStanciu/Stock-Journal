@@ -9,5 +9,5 @@ public class TransactionTypeConverter {
 
     static Function<TransactionType, TransactionTypeGW> toTransactionTypeGW = transactionType -> TransactionTypeGW.lookup(transactionType.name());
 
-//    static Function<ActionTypeGW, OptionType> toActionType = actionType -> OptionType.lookup(actionType.name());
+//    static Function<OptionTypeGW, OptionType> toActionType = actionType -> OptionType.lookup(actionType.name());
 }

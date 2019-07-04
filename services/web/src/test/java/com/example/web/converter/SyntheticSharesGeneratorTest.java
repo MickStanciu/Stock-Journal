@@ -1,7 +1,6 @@
 package com.example.web.converter;
 
 import com.example.gateway.api.model.ActionGW;
-import com.example.gateway.api.model.ActionTypeGW;
 import com.example.gateway.api.model.ShareJournalGWModel;
 import com.example.gateway.api.model.TransactionTypeGW;
 import org.junit.jupiter.api.Assertions;

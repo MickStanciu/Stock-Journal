@@ -81,7 +81,7 @@
                     action : 'BUY',
                     price: '0.00',
                     quantity: 0,
-                    brokerFees: '0.00',
+                    fees: '0.00',
                 },
 
                 form_validation: {

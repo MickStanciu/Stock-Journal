@@ -15,6 +15,18 @@ const appService = {
         });
     },
 
+    getSummary() {
+        return new Promise(resolve => {
+            axios
+                .get('/summary')
+                .then(response => {
+                    resolve(response.data)
+                }).catch(error => {
+                console.error(error);
+            })
+        });
+    },
+
     getTradesPerSymbol(symbol) {
         return new Promise(resolve => {
             axios

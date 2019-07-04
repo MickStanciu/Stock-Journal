@@ -115,7 +115,7 @@
                 form_element: {
                     date: dateTimeUtil.convertFromOffsetZuluToDisplay(this.option_model.date),
                     action: this.option_model.action,
-                    type: this.option_model.actionType,
+                    type: this.option_model.optionType,
                     stock_price : this.option_model.stockPrice,
                     strike_price: this.option_model.strikePrice,
                     exp_date: dateTimeUtil.convertExpiryDateForDisplay(this.option_model.expiryDate),

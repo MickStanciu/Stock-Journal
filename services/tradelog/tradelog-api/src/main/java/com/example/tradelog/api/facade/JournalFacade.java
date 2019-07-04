@@ -7,10 +7,10 @@ import com.example.tradelog.api.service.TransactionJournalService;
 import com.example.tradelog.api.spec.model.TradeSummaryModel;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class JournalFacade {
@@ -67,8 +67,9 @@ public class JournalFacade {
         });
 
 
-        List<TradeSummaryModel> models = new ArrayList<>();
-        summaryModelMap.forEach( (key, val) -> models.add(val));
-        return models;
+        return summaryModelMap.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .map(Map.Entry::getValue)
+                .collect(Collectors.toList());
     }
 }

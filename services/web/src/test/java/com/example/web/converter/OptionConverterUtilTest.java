@@ -1,7 +1,7 @@
 package com.example.web.converter;
 
 import com.example.gateway.api.model.ActionGW;
-import com.example.gateway.api.model.ActionTypeGW;
+import com.example.gateway.api.model.OptionTypeGW;
 import com.example.gateway.api.model.OptionJournalGWModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ class OptionConverterUtilTest {
                 .withStrikePrice(77.5)
                 .withExpiryDate(this.expDate)
                 .withAction(ActionGW.SELL)
-                .withActionType(ActionTypeGW.PUT)
+                .withOptionType(OptionTypeGW.PUT)
                 .build();
 
         String expected = "SOLD 1 CSCO May12'19 77.5 PUT @ 0.5";
@@ -50,7 +50,7 @@ class OptionConverterUtilTest {
                 .withStrikePrice(77.5)
                 .withExpiryDate(this.expDate)
                 .withAction(ActionGW.SELL)
-                .withActionType(ActionTypeGW.PUT)
+                .withOptionType(OptionTypeGW.PUT)
                 .build();
 
         String expected = "BOUGHT 1 CSCO May12'19 77.5 PUT @ 0.5";
@@ -68,7 +68,7 @@ class OptionConverterUtilTest {
                 .withStrikePrice(77.5)
                 .withExpiryDate(this.expDate)
                 .withAction(ActionGW.BUY)
-                .withActionType(ActionTypeGW.PUT)
+                .withOptionType(OptionTypeGW.PUT)
                 .build();
 
         String expected = "BOUGHT 1 CSCO May12'19 77.5 PUT @ 0.5";
@@ -86,7 +86,7 @@ class OptionConverterUtilTest {
                 .withStrikePrice(77.5)
                 .withExpiryDate(this.expDate)
                 .withAction(ActionGW.SELL)
-                .withActionType(ActionTypeGW.CALL)
+                .withOptionType(OptionTypeGW.CALL)
                 .build();
 
         String expected = "SOLD 1 CSCO May12'19 77.5 CALL @ 0.5";

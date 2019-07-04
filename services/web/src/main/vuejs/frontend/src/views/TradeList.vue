@@ -117,7 +117,7 @@
                 this.selectedModel = this.getModelById(id);
 
                 if (typeof this.selectedModel !== 'undefined') {
-                    if ("STOCK" === this.selectedModel.type) {
+                    if ("SHARE" === this.selectedModel.type) {
                         this.$store.dispatch('showDeleteStockModal');
                     } else if ("OPTION" === this.selectedModel.type) {
                         this.$store.dispatch('showDeleteOptionModal');
@@ -159,10 +159,9 @@
             },
 
             encodeAction: function (item) {
-
                 let encoded = '';
 
-                if ('STOCK' === item.type  || 'OPTION' === item.type) {
+                if ('SHARE' === item.type  || 'OPTION' === item.type) {
                     if ('SELL' === item.action) {
                         encoded = 'SOLD'
                     } else {
@@ -180,9 +179,9 @@
 
                 if (item.type === 'OPTION') {
                     //SOLD 3 LKQ May17'19 30 PUT @ 1
-                    encoded += ' ' + item.contracts + ' ' + item.stockSymbol + ' ' + item.actionType + ' ' + this.expiryDateTz(item)
+                    encoded += ' ' + item.contracts + ' ' + item.stockSymbol + ' ' + item.optionType + ' ' + this.expiryDateTz(item)
                         + ' ' + item.strikePrice + ' @ ' + Intl.NumberFormat('en-US', params).format(item.premium);
-                } else if (item.type === 'STOCK') {
+                } else if (item.type === 'SHARE') {
                     //BOUGHT 100 SWKS @ 87.17
                     encoded += ' ' + item.quantity + ' ' + item.symbol + ' @ ' + Intl.NumberFormat('en-US', params).format(item.price);
                 } else if (item.type === 'DIVIDEND') {
@@ -195,7 +194,7 @@
                 if (item.type === 'OPTION') {
                     let transactionValue = item.contracts * 100 * item.premium - item.brokerFees;
                     return parseFloat((transactionValue).toFixed(10));
-                } else if (item.type === 'STOCK') {
+                } else if (item.type === 'SHARE') {
                     let price = item.price;
                     if (item.action === 'BUY') {
                         price = price * -1;
@@ -232,6 +231,8 @@
                 service
                     .getTradesPerSymbol(this.$route.params.symbol)
                     .then(data => {
+                        // console.log("DATA RELOADED");
+                        // console.log(data);
                         let self = this;
                         let localItems = [];
                         data.optionList.forEach(function (item) {
@@ -241,7 +242,7 @@
                             model.contracts = item.contracts;
                             model.premium = item.premium;
                             model.action = item.action;
-                            model.actionType = item.actionType;
+                            model.optionType = item.optionType;
                             model.brokerFees = item.brokerFees;
                             model.date = item.date;
                             model.expiryDate = item.expiryDate;
@@ -255,7 +256,6 @@
                             model.price = item.price;
                             model.quantity = item.quantity;
                             model.action = item.action;
-                            model.actionType = item.actionType;
                             model.brokerFees = item.brokerFees;
                             model.date = item.date;
                             model.transactionId = item.transactionId;
@@ -278,7 +278,6 @@
                             model.price = item.price;
                             model.quantity = item.quantity;
                             model.action = item.action;
-                            model.actionType = item.actionType;
                             model.brokerFees = item.brokerFees;
                             model.date = item.date;
                             model.transactionId = 0;

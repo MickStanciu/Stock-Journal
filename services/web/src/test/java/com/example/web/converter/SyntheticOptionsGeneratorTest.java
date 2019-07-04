@@ -1,7 +1,7 @@
 package com.example.web.converter;
 
 import com.example.gateway.api.model.ActionGW;
-import com.example.gateway.api.model.ActionTypeGW;
+import com.example.gateway.api.model.OptionTypeGW;
 import com.example.gateway.api.model.OptionJournalGWModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +35,7 @@ class SyntheticOptionsGeneratorTest {
                 .withPremium(0.5)
                 .withExpiryDate(OffsetDateTime.now().plusMonths(1))
                 .withAction(ActionGW.SELL)
-                .withActionType(ActionTypeGW.PUT)
+                .withOptionType(OptionTypeGW.PUT)
                 .build());
 
         optionList.add(OptionJournalGWModel.builder()
@@ -46,7 +46,7 @@ class SyntheticOptionsGeneratorTest {
                 .withPremium(0.5)
                 .withExpiryDate(OffsetDateTime.now().plusMonths(1))
                 .withAction(ActionGW.BUY)
-                .withActionType(ActionTypeGW.PUT)
+                .withOptionType(OptionTypeGW.PUT)
                 .build());
 
         List<OptionJournalGWModel> syn = generator.apply(optionList);
@@ -65,7 +65,7 @@ class SyntheticOptionsGeneratorTest {
                 .withPremium(0.5)
                 .withExpiryDate(exp)
                 .withAction(ActionGW.SELL)
-                .withActionType(ActionTypeGW.PUT)
+                .withOptionType(OptionTypeGW.PUT)
                 .build());
 
         List<OptionJournalGWModel> syn = generator.apply(optionList);
