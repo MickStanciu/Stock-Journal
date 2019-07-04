@@ -3,6 +3,7 @@ package com.example.web.service;
 import com.example.gateway.api.model.OptionJournalGWModel;
 import com.example.gateway.api.model.ShareJournalGWModel;
 import com.example.gateway.api.model.TradeLogModelGW;
+import com.example.gateway.api.model.TradeSummaryGWModel;
 import com.example.web.converter.SyntheticSharesGenerator;
 import com.example.web.converter.TradeLogModelConverter;
 import com.example.web.gateway.TradeJournalGateway;
@@ -45,5 +46,9 @@ public class TradeJournalService {
 
     public void deleteOptionTrade(String accountId, String symbol, String transactionId) {
         tradeJournalGateway.deleteOptionTrade(accountId, symbol, transactionId);
+    }
+
+    public List<TradeSummaryGWModel> getSummary(String accountId) {
+        return tradeJournalGateway.getSummary(accountId);
     }
 }

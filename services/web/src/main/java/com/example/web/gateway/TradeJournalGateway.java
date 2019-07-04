@@ -3,6 +3,7 @@ package com.example.web.gateway;
 import com.example.gateway.api.model.OptionJournalGWModel;
 import com.example.gateway.api.model.ShareJournalGWModel;
 import com.example.gateway.api.model.TradeLogModelGW;
+import com.example.gateway.api.model.TradeSummaryGWModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -103,5 +104,18 @@ public class TradeJournalGateway {
         headers.set("accountId", accountId);
 
         restTemplate.exchange(builder.build(symbol, transactionId), HttpMethod.DELETE, new HttpEntity(headers), Object.class);
+    }
+
+    public List<TradeSummaryGWModel> getSummary(String accountId) {
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromHttpUrl(API_URL)
+                .path("/summary");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("accountId", accountId);
+
+        ResponseEntity<List<TradeSummaryGWModel>> responseEntity = restTemplate.exchange(builder.build(accountId), HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<List<TradeSummaryGWModel>>() {});
+        return responseEntity.getBody();
     }
 }
