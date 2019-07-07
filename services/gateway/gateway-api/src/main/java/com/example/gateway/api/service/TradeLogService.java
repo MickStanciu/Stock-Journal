@@ -1,10 +1,12 @@
 package com.example.gateway.api.service;
 
 import com.example.gateway.api.converter.OptionJournalConverter;
+import com.example.gateway.api.converter.ShareDataConverter;
 import com.example.gateway.api.converter.ShareJournalConverter;
 import com.example.gateway.api.converter.TradeSummaryConverter;
 import com.example.gateway.api.gateway.TradeLogGateway;
 import com.example.gateway.api.model.OptionJournalGWModel;
+import com.example.gateway.api.model.ShareDataGWModel;
 import com.example.gateway.api.model.ShareJournalGWModel;
 import com.example.gateway.api.model.TradeSummaryGWModel;
 import com.example.tradelog.api.spec.model.*;
@@ -67,5 +69,10 @@ public class TradeLogService {
     public List<TradeSummaryGWModel> getSummary(String accountId) {
         List<TradeSummaryModel> returnModels = tradeLogGateway.getSummary(accountId);
         return returnModels.stream().map(m -> TradeSummaryConverter.toTradeSummaryGWModel.apply(m)).collect(Collectors.toList());
+    }
+
+    public ShareDataGWModel getData(String accountId, String symbol) {
+        ShareDataModel returnModel = tradeLogGateway.getShareDataBySymbol(accountId, symbol);
+        return ShareDataConverter.toShareDataGWModel.apply(returnModel);
     }
 }

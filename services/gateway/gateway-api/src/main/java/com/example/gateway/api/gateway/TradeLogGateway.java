@@ -1,9 +1,6 @@
 package com.example.gateway.api.gateway;
 
-import com.example.tradelog.api.spec.model.DividendJournalModel;
-import com.example.tradelog.api.spec.model.OptionJournalModel;
-import com.example.tradelog.api.spec.model.ShareJournalModel;
-import com.example.tradelog.api.spec.model.TradeSummaryModel;
+import com.example.tradelog.api.spec.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -157,6 +154,20 @@ public class TradeLogGateway {
 
         ResponseEntity<List<TradeSummaryModel>> responseEntity = restTemplate
                 .exchange(builder.build(""), HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<List<TradeSummaryModel>>() {});
+        return responseEntity.getBody();
+    }
+
+    public ShareDataModel getShareDataBySymbol(String accountId, String symbol) {
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromHttpUrl(API_URL)
+                .path("/data/share/{symbol}");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("accountId", accountId);
+
+        ResponseEntity<ShareDataModel> responseEntity =
+                restTemplate.exchange(builder.build(symbol), HttpMethod.GET, new HttpEntity<>(headers), ShareDataModel.class);
         return responseEntity.getBody();
     }
 }

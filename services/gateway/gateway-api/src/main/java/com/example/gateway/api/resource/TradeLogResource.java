@@ -3,10 +3,7 @@ package com.example.gateway.api.resource;
 import com.example.gateway.api.converter.TradeLogModelConverter;
 import com.example.gateway.api.exception.ExceptionCode;
 import com.example.gateway.api.exception.GatewayApiException;
-import com.example.gateway.api.model.OptionJournalGWModel;
-import com.example.gateway.api.model.ShareJournalGWModel;
-import com.example.gateway.api.model.TradeLogModelGW;
-import com.example.gateway.api.model.TradeSummaryGWModel;
+import com.example.gateway.api.model.*;
 import com.example.gateway.api.service.TradeLogService;
 import com.example.tradelog.api.spec.model.TradeLogModel;
 import org.springframework.http.HttpStatus;
@@ -36,6 +33,16 @@ public class TradeLogResource {
 
         TradeLogModel tradeLogModel = tradeLogService.getAllBySymbol(accountId, symbol);
         return new TradeLogModelConverter().apply(tradeLogModel);
+    }
+
+
+    @RequestMapping(value = "/shares/data/{symbol}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    public ShareDataGWModel getDataBySymbol(
+            @RequestHeader(name = "accountId") String accountId,
+            @PathVariable(name = "symbol") String symbol
+    ) {
+        return tradeLogService.getData(accountId, symbol);
     }
 
 
