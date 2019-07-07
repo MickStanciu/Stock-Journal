@@ -35,6 +35,7 @@ public class CustomisedResponseEntityExceptionHandler extends ResponseEntityExce
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body(exceptionModel);
             case DELETE_SHARE_FAILED:
             case DELETE_OPTION_FAILED:
+            case SHARE_DATA_EMPTY:
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionModel);
             default:
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionModel);

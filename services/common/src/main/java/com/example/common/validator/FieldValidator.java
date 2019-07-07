@@ -17,6 +17,6 @@ public class FieldValidator {
     protected static Predicate<String> symbol = s -> new StringValidator(s)
             .notNull()
             .sizeGreaterOrEqualTo(2)
-            .sizeLessOrEqualTo(4)
+            .sizeLessOrEqualTo(6)
             .isValid();
 }

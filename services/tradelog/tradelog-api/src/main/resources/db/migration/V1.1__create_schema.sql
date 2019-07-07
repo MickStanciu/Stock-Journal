@@ -100,8 +100,8 @@ CREATE TABLE shares_data
     eps               FLOAT       DEFAULT NULL,
     future_eps        FLOAT       DEFAULT NULL,
     price             FLOAT                   NOT NULL,
-    finviz_target     FLOAT       DEFAULT NULL,
-    p_e_future_target FLOAT       DEFAULT NULL
+    finviz_target     NUMERIC     DEFAULT NULL,
+    p_e_future_target NUMERIC     DEFAULT NULL
 );
 
 GRANT ALL PRIVILEGES ON TABLE shares_data TO admin;

@@ -32,6 +32,10 @@ public class RequestValidation extends FieldValidator {
                 && RequestValidation.symbol.test(symbol);
     }
 
+    public static boolean validateGetDataBySymbol(String accountId, String symbol) {
+        return !RequestValidation.accountId.test(accountId) || !RequestValidation.symbol.test(symbol);
+    }
+
     static Predicate<ShareJournalModel> validateShareJournalModel = s -> s != null
             && s.getTransactionDetails() != null
             && s.getTransactionDetails().getType().equals(TransactionType.SHARE)
