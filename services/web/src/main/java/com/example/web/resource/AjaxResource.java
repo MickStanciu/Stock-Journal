@@ -1,6 +1,7 @@
 package com.example.web.resource;
 
 import com.example.gateway.api.model.OptionJournalGWModel;
+import com.example.gateway.api.model.ShareDataGWModel;
 import com.example.gateway.api.model.ShareJournalGWModel;
 import com.example.gateway.api.model.TradeSummaryGWModel;
 import com.example.web.model.TradeLogModel;
@@ -42,6 +43,14 @@ public class AjaxResource {
         //todo validate input
         //todo validate exceptions when GatewayAPI is down
         return summary;
+    }
+
+    @RequestMapping(value = "/tradelog/{accountId}/data/{symbol}", method = RequestMethod.GET)
+    public ShareDataGWModel getShareData(
+            @PathVariable(name = "accountId") String accountId,
+            @PathVariable(name = "symbol") String symbol
+    ) {
+        return tradeJournalService.getShareData(accountId, symbol);
     }
 
 

@@ -1,9 +1,6 @@
 package com.example.web.service;
 
-import com.example.gateway.api.model.OptionJournalGWModel;
-import com.example.gateway.api.model.ShareJournalGWModel;
-import com.example.gateway.api.model.TradeLogModelGW;
-import com.example.gateway.api.model.TradeSummaryGWModel;
+import com.example.gateway.api.model.*;
 import com.example.web.converter.SyntheticSharesGenerator;
 import com.example.web.converter.TradeLogModelConverter;
 import com.example.web.gateway.TradeJournalGateway;
@@ -50,5 +47,9 @@ public class TradeJournalService {
 
     public List<TradeSummaryGWModel> getSummary(String accountId) {
         return tradeJournalGateway.getSummary(accountId);
+    }
+
+    public ShareDataGWModel getShareData(String accountId, String symbol) {
+        return tradeJournalGateway.getShareData(accountId, symbol);
     }
 }

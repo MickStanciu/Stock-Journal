@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -38,7 +37,7 @@ public class CustomisedResponseEntityExceptionHandler extends ResponseEntityExce
 
         ExceptionModel exceptionModel;
         if (HttpStatus.NOT_FOUND.equals(ex.getStatusCode())) {
-            exceptionModel = new ExceptionModel(ExceptionCode.TRADEJOURNAL_CANNOT_DELETE, cause, null);
+            exceptionModel = new ExceptionModel(ExceptionCode.RESOURCE_NOT_FOUND, cause, null);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionModel);
         } else {
             exceptionModel = new ExceptionModel(ExceptionCode.API_NOT_RESPONDING, cause, null);
