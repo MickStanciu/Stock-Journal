@@ -1,5 +1,7 @@
 <template>
     <div id="trade-list">
+        <share-data v-bind:datamodel="shareData" v-if="shareDataLoaded"/>
+
         <div class="row mt-3 pb-2 pt-2 table-header">
             <div class="col-md-1">#</div>
             <div class="col-md-2">Date</div>
@@ -76,17 +78,20 @@
     import OptionApiModel from "../models/OptionApiModel";
     import ShareApiModel from "../models/ShareApiModel";
     import DividendApiModel from "../models/DividendApiModel";
+    import ShareData from "../components/tradelist/ShareData";
 
     export default {
         name: "TradeList",
-        components: {AddOptionTrade, AddError, AddStockTrade, DeleteStockTrade, DeleteOptionTrade},
+        components: {ShareData, AddOptionTrade, AddError, AddStockTrade, DeleteStockTrade, DeleteOptionTrade},
 
         data: function () {
             return {
-                items : [],
-                timeZone : 'Australia/Sydney',
-                currency : 'USD',
-                symbol : this.$route.params.symbol,
+                items: [],
+                shareData: undefined,
+                shareDataLoaded: false,
+                timeZone: 'Australia/Sydney',
+                currency: 'USD',
+                symbol: this.$route.params.symbol,
                 selectedModel : undefined
             }
         },
@@ -290,6 +295,14 @@
                             return dateTimeUtil.sortDates(a, b);
                         });
                     });
+
+                service
+                    .getShareData(this.$route.params.symbol)
+                    .then(data => {
+                        let self = this;
+                        self.shareData = data;
+                        self.shareDataLoaded = true;
+                    })
             }
         },
 

@@ -27,6 +27,18 @@ const appService = {
         });
     },
 
+    getShareData(symbol) {
+        return new Promise(resolve => {
+            axios
+                .get('/share/data/' + symbol.toUpperCase())
+                .then(response => {
+                    resolve(response.data);
+                }).catch(error => {
+                    console.log(error);
+            })
+        });
+    },
+
     getTradesPerSymbol(symbol) {
         return new Promise(resolve => {
             axios

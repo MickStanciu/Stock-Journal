@@ -45,7 +45,7 @@ public class AjaxResource {
         return summary;
     }
 
-    @RequestMapping(value = "/tradelog/{accountId}/data/{symbol}", method = RequestMethod.GET)
+    @RequestMapping(value = "/tradelog/{accountId}/share/data/{symbol}", method = RequestMethod.GET)
     public ShareDataGWModel getShareData(
             @PathVariable(name = "accountId") String accountId,
             @PathVariable(name = "symbol") String symbol
