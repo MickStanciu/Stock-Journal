@@ -4,11 +4,13 @@ public class ShareAggregator {
 
     private String symbol;
     private double averageBoughtPrice;
+    private double actualPrice;
     private int quantity;
 
     public ShareAggregator(String symbol) {
         this.symbol = symbol;
         this.averageBoughtPrice = 0.00;
+        this.actualPrice = 0.00;
         this.quantity = 0;
     }
 
@@ -21,6 +23,14 @@ public class ShareAggregator {
 
     public void setSymbol(String symbol) {
         this.symbol = symbol;
+    }
+
+    public double getActualPrice() {
+        return actualPrice;
+    }
+
+    public void setActualPrice(double actualPrice) {
+        this.actualPrice = actualPrice;
     }
 
     public double getAverageBoughtPrice() {

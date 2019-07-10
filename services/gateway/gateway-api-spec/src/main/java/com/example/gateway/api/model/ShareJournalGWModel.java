@@ -12,6 +12,7 @@ public class ShareJournalGWModel implements Serializable {
     private OffsetDateTime date;
     private String symbol;
     private double price;
+    private double actualPrice;
     private int quantity;
     private ActionGW action;
     private TransactionTypeGW type;
@@ -39,6 +40,10 @@ public class ShareJournalGWModel implements Serializable {
 
     public double getPrice() {
         return price;
+    }
+
+    public double getActualPrice() {
+        return actualPrice;
     }
 
     public int getQuantity() {
@@ -96,6 +101,11 @@ public class ShareJournalGWModel implements Serializable {
 
         public Builder withPrice(double price) {
             model.price = price;
+            return this;
+        }
+
+        public Builder withActualPrice(double price) {
+            model.actualPrice = price;
             return this;
         }
 

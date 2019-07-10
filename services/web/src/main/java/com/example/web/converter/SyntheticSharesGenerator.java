@@ -32,6 +32,7 @@ public class SyntheticSharesGenerator implements Function<List<ShareJournalGWMod
                         aggregator = stocks.get(s.getSymbol());
                     } else {
                         aggregator = new ShareAggregator(s.getSymbol());
+                        aggregator.setActualPrice(s.getActualPrice());
                     }
 
                     aggregator.addQuantityAndPrice(quantity, s.getPrice());
@@ -41,11 +42,16 @@ public class SyntheticSharesGenerator implements Function<List<ShareJournalGWMod
         List<ShareJournalGWModel> synthetics = new ArrayList<>();
         stocks.forEach( (s, q) -> {
             if (q.getQuantity() != 0) {
+
+                double calculatedPrice = q.getActualPrice();
+                if (calculatedPrice == 0.00) {
+                    calculatedPrice = q.getAverageBoughtPrice();
+                }
                 synthetics.add(ShareJournalGWModel.builder()
                         .withSymbol(s)
                         .withQuantity(q.getQuantity())
                         .withDate(OffsetDateTime.now().plusYears(1))
-                        .withPrice(q.getAverageBoughtPrice())
+                        .withPrice(calculatedPrice)
                         .withAction(ActionGW.SELL)
                         .withType(TransactionTypeGW.SHARE)
                         .build());

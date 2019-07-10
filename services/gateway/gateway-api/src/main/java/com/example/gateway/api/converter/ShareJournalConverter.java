@@ -19,6 +19,7 @@ public class ShareJournalConverter {
             .withBrokerFees(model.getBrokerFees())
             .withQuantity(model.getQuantity())
             .withPrice(model.getPrice())
+            .withActualPrice(model.getActualPrice())
             .build();
 
     public static Function<ShareJournalGWModel, ShareJournalModel> toShareModel = model -> {
@@ -37,6 +38,7 @@ public class ShareJournalConverter {
                 .withBrokerFees(model.getBrokerFees())
                 .withQuantity(model.getQuantity())
                 .withPrice(model.getPrice())
+                .withActualPrice(model.getActualPrice())
                 .build();
     };
 }
