@@ -1,20 +1,19 @@
 <template>
     <div id="share-data">
-        <div class="row mt-3 pb-2 pt-2 table-header">
-            <div class="col-md-12 text-center">Share Data</div>
+        <div class="row table-header text-center align-items-center">
+            <div class="col-md-1">Price</div>
+            <div class="col-md-2">Sector</div>
+            <div class="col-md-1">FinViz Target</div>
+            <div class="col-md-1">Computed Target</div>
+            <div class="col-md-2">Updated On</div>
         </div>
-
-        <div class="row pb-1 pt-1">symbol {{ share_model.symbol }}</div>
-        <div class="row pb-1 pt-1">book value {{ share_model.bookValue }}</div>
-        <div class="row pb-1 pt-1">calc tg {{ share_model.calculatedTarget }}</div>
-        <div class="row pb-1 pt-1">eps {{ share_model.eps }}</div>
-        <div class="row pb-1 pt-1">eps 2 {{ share_model.epsFuture }}</div>
-        <div class="row pb-1 pt-1">finv tg {{ share_model.finvizTarget }}</div>
-        <div class="row pb-1 pt-1">mcap {{ share_model.marketCapitalization }}</div>
-        <div class="row pb-1 pt-1">pe {{ share_model.peRatio }}</div>
-        <div class="row pb-1 pt-1">pe2 {{ share_model.peRatioFuture }}</div>
-        <div class="row pb-1 pt-1">price {{ share_model.price }}</div>
-        <div class="row pb-1 pt-1">sector {{ share_model.sector }}</div>
+        <div class="row pb-1 pt-1 text-center">
+            <div class="col-md-1">{{ share_model.price }}</div>
+            <div class="col-md-2">{{ share_model.sector }}</div>
+            <div class="col-md-1">{{ share_model.finvizTarget }}</div>
+            <div class="col-md-1">{{ share_model.calculatedTarget }}</div>
+            <div class="col-md-2">{{ dateTz(share_model.lastUpdatedOn) }}</div>
+        </div>
 
         <div class="row pb-1 pt-1 table-footer">
             <div class="col-md-12 text-center">&nbsp;</div>
@@ -23,6 +22,8 @@
 </template>
 
 <script>
+    import dateTimeUtil from "../../utils/time";
+
     export default {
         name: "datamodel",
         props: {
@@ -31,6 +32,11 @@
         data: function () {
             return {
                 share_model : this.datamodel
+            }
+        },
+        methods: {
+            dateTz: function(item) {
+                return dateTimeUtil.convertForDisplay(item.date);
             }
         }
 

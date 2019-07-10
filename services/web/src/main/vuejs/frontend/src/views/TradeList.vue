@@ -2,7 +2,7 @@
     <div id="trade-list">
         <share-data v-bind:datamodel="shareData" v-if="shareDataLoaded"/>
 
-        <div class="row mt-3 pb-2 pt-2 table-header">
+        <div class="row mt-5 pb-2 pt-2 table-header">
             <div class="col-md-1">#</div>
             <div class="col-md-2">Date</div>
             <div class="col-md-5">Action</div>
@@ -296,17 +296,18 @@
                         });
                     });
 
-                service
-                    .getShareData(this.$route.params.symbol)
-                    .then(data => {
-                        let self = this;
-                        self.shareData = data;
-                        self.shareDataLoaded = true;
-                    })
             }
         },
 
         created() {
+            service
+                .getShareData(this.$route.params.symbol)
+                .then(data => {
+                    let self = this;
+                    self.shareData = data;
+                    self.shareDataLoaded = true;
+                });
+
             this.loadData();
         },
 

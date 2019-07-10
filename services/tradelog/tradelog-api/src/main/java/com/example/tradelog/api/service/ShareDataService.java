@@ -28,6 +28,10 @@ public class ShareDataService {
 
         ShareDataModel model = optionalShareDataModel.get();
 
+        if (model.getCalculatedTarget() != null) {
+            return Optional.of(model);
+        }
+
         //temporary code until batch function will write values in the calculated target
         BigDecimal peRatioFuture = BigDecimal.valueOf(model.getPeRatioFuture());
         BigDecimal epsFuture = BigDecimal.valueOf(model.getEpsFuture());

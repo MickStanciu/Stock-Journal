@@ -24,7 +24,7 @@ export default new Router({
     },
     {
       path: '/log/:symbol',
-      name: 'log',
+      name: 'log_symbol',
       component: TradeList
     },
     {
