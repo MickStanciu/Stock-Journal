@@ -9,6 +9,7 @@ public class ShareJournalModel implements Serializable {
 
     private TransactionModel transactionDetails;
     private double price;
+    private double actualPrice;
     private int quantity;
     private Action action;
     private double brokerFees;
@@ -19,6 +20,10 @@ public class ShareJournalModel implements Serializable {
 
     public double getPrice() {
         return price;
+    }
+
+    public double getActualPrice() {
+        return actualPrice;
     }
 
     public int getQuantity() {
@@ -61,6 +66,11 @@ public class ShareJournalModel implements Serializable {
 
         public Builder withPrice(double price) {
             model.price = price;
+            return this;
+        }
+
+        public Builder withActualPrice(double price) {
+            model.actualPrice = price;
             return this;
         }
 

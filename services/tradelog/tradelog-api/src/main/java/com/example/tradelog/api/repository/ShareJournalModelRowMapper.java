@@ -12,9 +12,16 @@ public class ShareJournalModelRowMapper implements RowMapper<ShareJournalModel> 
     public ShareJournalModel mapRow(ResultSet rs, int rowNum) throws SQLException {
         TransactionModel transactionModel = new TransactionModelRowMapper(rs).invoke();
 
+        double price = rs.getDouble("price");
+        double actualPrice = rs.getDouble("current_price");
+        if (actualPrice == 0) {
+            actualPrice = price;
+        }
+
         return ShareJournalModel.builder()
                 .withTransactionModel(transactionModel)
-                .withPrice(rs.getDouble("price"))
+                .withPrice(price)
+                .withActualPrice(actualPrice)
                 .withQuantity(rs.getInt("quantity"))
                 .withAction(Action.lookup(rs.getString("action_fk")))
                 .withBrokerFees(rs.getDouble("broker_fees"))

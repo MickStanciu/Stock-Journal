@@ -19,14 +19,16 @@ public class SharesJournalRepository {
                     "       tl.symbol, " +
                     "       tl.transaction_type_fk, " +
                     "       sl.price, " +
+                    "       sd.price as current_price, " +
                     "       sl.quantity, " +
                     "       sl.action_fk, " +
                     "       sl.broker_fees " +
                     "FROM transaction_log tl " +
-                    "         inner join shares_log sl on tl.id = sl.transaction_fk " +
+                    "         INNER JOIN shares_log sl ON tl.id = sl.transaction_fk " +
+                    "         LEFT JOIN shares_data sd ON sd.symbol = tl.symbol " +
                     "WHERE account_fk = CAST(? AS uuid) " +
                     "  and tl.transaction_type_fk = 'SHARE' " +
-                    "  and symbol = ? " +
+                    "  and tl.symbol = ? " +
                     "ORDER BY date;";
 
     private static final String JOURNAL_READ_BY_TRANSACTION_ID =
@@ -36,11 +38,13 @@ public class SharesJournalRepository {
                     "       tl.symbol, " +
                     "       tl.transaction_type_fk, " +
                     "       sl.price, " +
+                    "       sd.price as current_price, " +
                     "       sl.quantity, " +
                     "       sl.action_fk, " +
                     "       sl.broker_fees " +
                     "FROM transaction_log tl " +
-                    "         inner join shares_log sl on tl.id = sl.transaction_fk " +
+                    "         INNER JOIN shares_log sl ON tl.id = sl.transaction_fk " +
+                    "         LEFT JOIN shares_data sd ON sd.symbol = tl.symbol " +
                     "WHERE tl.id = CAST(? AS uuid);";
 
     private static final String JOURNAL_CREATE_SHARE_FOR_ACCOUNT =
@@ -50,11 +54,12 @@ public class SharesJournalRepository {
     private static final String JOURNAL_DELETE_SHARE = "DELETE FROM shares_log WHERE transaction_fk = CAST(? AS uuid)";
 
     private static final String JOURNAL_GET_SUMMARIES =
-            "SELECT tl.symbol, sl.price, sl.broker_fees, sl.quantity, sl.action_fk, tl.transaction_type_fk " +
+            "SELECT tl.symbol, sl.price, sl.broker_fees, sl.quantity, sl.action_fk, tl.transaction_type_fk, sd.price AS current_price " +
                     "FROM transaction_log tl" +
                     "         INNER JOIN shares_log sl ON tl.id = sl.transaction_fk " +
+                    "         LEFT JOIN shares_data sd ON sd.symbol = tl.symbol " +
                     "WHERE tl.account_fk = CAST(? AS uuid)" +
-                    "  AND transaction_type_fk = 'SHARE' " +
+                    "  AND tl.transaction_type_fk = 'SHARE' " +
                     "ORDER BY symbol;";
 
     private JdbcTemplate jdbcTemplate;
