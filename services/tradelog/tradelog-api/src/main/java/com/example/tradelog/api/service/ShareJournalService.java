@@ -1,5 +1,6 @@
 package com.example.tradelog.api.service;
 
+import com.example.tradelog.api.converter.SyntheticSharesGenerator;
 import com.example.tradelog.api.converter.TradeSummaryListConverter;
 import com.example.tradelog.api.repository.SharesJournalRepository;
 import com.example.tradelog.api.repository.TransactionRepository;
@@ -7,7 +8,6 @@ import com.example.tradelog.api.spec.model.ShareJournalModel;
 import com.example.tradelog.api.spec.model.TradeSummaryModel;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -26,8 +26,16 @@ public class ShareJournalService {
     }
 
 
+    /**
+     * Returns all shares per symbol including a calculated synthetic one
+     * @param accountId -
+     * @param symbol -
+     * @return list
+     */
     public List<ShareJournalModel> getAllBySymbol(String accountId, String symbol) {
-        return sharesJournalRepository.getAllBySymbol(accountId, symbol);
+        List<ShareJournalModel> shareJournalModelList = sharesJournalRepository.getAllBySymbol(accountId, symbol);
+        shareJournalModelList.addAll(SyntheticSharesGenerator.createSynthetic.apply(shareJournalModelList));
+        return shareJournalModelList;
     }
 
 

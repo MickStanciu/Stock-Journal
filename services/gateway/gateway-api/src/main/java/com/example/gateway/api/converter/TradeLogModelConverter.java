@@ -3,7 +3,7 @@ package com.example.gateway.api.converter;
 import com.example.gateway.api.model.DividendGWModel;
 import com.example.gateway.api.model.OptionJournalGWModel;
 import com.example.gateway.api.model.ShareJournalGWModel;
-import com.example.gateway.api.model.TradeLogModelGW;
+import com.example.gateway.api.model.TradeLogGWModel;
 import com.example.tradelog.api.spec.model.TradeLogModel;
 
 import java.util.List;
@@ -11,12 +11,12 @@ import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class TradeLogModelConverter implements Function<TradeLogModel, TradeLogModelGW> {
+public class TradeLogModelConverter implements Function<TradeLogModel, TradeLogGWModel> {
 
     @Override
-    public TradeLogModelGW apply(TradeLogModel tradeLogModel) {
+    public TradeLogGWModel apply(TradeLogModel tradeLogModel) {
 
-        TradeLogModelGW tradeLogModelGW = new TradeLogModelGW();
+        TradeLogGWModel tradeLogGWModel = new TradeLogGWModel();
 
         List<OptionJournalGWModel> optionList = tradeLogModel.getOptionList().stream()
                 .map(OptionJournalConverter.toOptionGWModel)
@@ -31,9 +31,9 @@ public class TradeLogModelConverter implements Function<TradeLogModel, TradeLogM
                 .map(new DividendJournalConverter())
                 .collect(Collectors.toList());
 
-        tradeLogModelGW.setOptionList(optionList);
-        tradeLogModelGW.setShareList(shareList);
-        tradeLogModelGW.setDividendList(dividendList);
-        return tradeLogModelGW;
+        tradeLogGWModel.setOptionList(optionList);
+        tradeLogGWModel.setShareList(shareList);
+        tradeLogGWModel.setDividendList(dividendList);
+        return tradeLogGWModel;
     }
 }

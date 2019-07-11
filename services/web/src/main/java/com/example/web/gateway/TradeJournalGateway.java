@@ -25,7 +25,7 @@ public class TradeJournalGateway {
         this.API_URL = url;
     }
 
-    public TradeLogModelGW getAllTradesBySymbol(String accountId, String symbol) {
+    public TradeLogGWModel getAllTradesBySymbol(String accountId, String symbol) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
                 .path("/all/{symbol}");
@@ -34,7 +34,7 @@ public class TradeJournalGateway {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("accountId", accountId);
 
-        ResponseEntity<TradeLogModelGW> responseEntity = restTemplate.exchange(builder.build(symbol), HttpMethod.GET, new HttpEntity<>(headers), TradeLogModelGW.class);
+        ResponseEntity<TradeLogGWModel> responseEntity = restTemplate.exchange(builder.build(symbol), HttpMethod.GET, new HttpEntity<>(headers), TradeLogGWModel.class);
         return responseEntity.getBody();
     }
 

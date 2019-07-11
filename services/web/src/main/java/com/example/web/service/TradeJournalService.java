@@ -1,10 +1,7 @@
 package com.example.web.service;
 
 import com.example.gateway.api.model.*;
-import com.example.web.converter.SyntheticSharesGenerator;
-import com.example.web.converter.TradeLogModelConverter;
 import com.example.web.gateway.TradeJournalGateway;
-import com.example.web.model.TradeLogModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,11 +15,8 @@ public class TradeJournalService {
         this.tradeJournalGateway = tradeJournalGateway;
     }
 
-    public TradeLogModel getAllTradesBySymbol(String accountId, String symbol) {
-        TradeLogModelGW tradeLogModelGW = tradeJournalGateway.getAllTradesBySymbol(accountId, symbol);
-        TradeLogModel tradeLogModel = new TradeLogModelConverter().apply(tradeLogModelGW);
-        tradeLogModel.setSyntheticShareList(new SyntheticSharesGenerator().apply(tradeLogModelGW.getShareList()));
-        return tradeLogModel;
+    public TradeLogGWModel getAllTradesBySymbol(String accountId, String symbol) {
+        return tradeJournalGateway.getAllTradesBySymbol(accountId, symbol);
     }
 
     public List<String> getUniqueSymbols(String accountId) {

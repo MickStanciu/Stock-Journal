@@ -1,6 +1,6 @@
 class ShareApiModel {
 
-    type = 'SHARE';
+    type = undefined;
     transactionId = undefined;
     accountId = undefined;
     date = undefined;
@@ -8,7 +8,6 @@ class ShareApiModel {
     price = undefined;
     quantity = undefined;
     action = undefined;
-    actionType = 'STOCK';
     brokerFees = undefined;
     isSynthetic = false;
 

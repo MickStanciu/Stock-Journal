@@ -25,7 +25,7 @@ public class TradeLogResource {
 
     @RequestMapping(value = "/all/{symbol}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public TradeLogModelGW getAllBySymbol(
+    public TradeLogGWModel getAllBySymbol(
             @RequestHeader(name = "accountId") String accountId,
             @PathVariable(name = "symbol") String symbol
             ) throws ExecutionException, InterruptedException {

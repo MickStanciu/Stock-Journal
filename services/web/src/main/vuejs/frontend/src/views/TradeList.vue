@@ -174,6 +174,13 @@
                     }
                 } else if ('DIVIDEND' === item.type) {
                     encoded = 'RECEIVED DIVIDEND';
+                } else if ('SYNTHETIC_SHARE' === item.type) {
+                    encoded = "WILL";
+                    if ('SELL' === item.action) {
+                        encoded += ' SELL'
+                    } else {
+                        encoded += ' BUY'
+                    }
                 }
 
                 let params = {
@@ -186,7 +193,7 @@
                     //SOLD 3 LKQ May17'19 30 PUT @ 1
                     encoded += ' ' + item.contracts + ' ' + item.stockSymbol + ' ' + item.optionType + ' ' + this.expiryDateTz(item)
                         + ' ' + item.strikePrice + ' @ ' + Intl.NumberFormat('en-US', params).format(item.premium);
-                } else if (item.type === 'SHARE') {
+                } else if (item.type === 'SHARE' || item.type === 'SYNTHETIC_SHARE') {
                     //BOUGHT 100 SWKS @ 87.17
                     encoded += ' ' + item.quantity + ' ' + item.symbol + ' @ ' + Intl.NumberFormat('en-US', params).format(item.price);
                 } else if (item.type === 'DIVIDEND') {
@@ -199,7 +206,7 @@
                 if (item.type === 'OPTION') {
                     let transactionValue = item.contracts * 100 * item.premium - item.brokerFees;
                     return parseFloat((transactionValue).toFixed(10));
-                } else if (item.type === 'SHARE') {
+                } else if (item.type === 'SHARE' || item.type === 'SYNTHETIC_SHARE') {
                     let price = item.price;
                     if (item.action === 'BUY') {
                         price = price * -1;
@@ -233,6 +240,7 @@
             },
 
             loadData: function () {
+                console.log("RELOADING");
                 service
                     .getTradesPerSymbol(this.$route.params.symbol)
                     .then(data => {
@@ -264,6 +272,11 @@
                             model.brokerFees = item.brokerFees;
                             model.date = item.date;
                             model.transactionId = item.transactionId;
+                            model.type = item.type;
+
+                            if (model.type === 'SYNTHETIC_SHARE') {
+                                model.isSynthetic = true;
+                            }
 
                             localItems.push(model);
                         });
@@ -273,20 +286,6 @@
                             model.date = item.date;
                             model.transactionId = item.transactionId;
                             model.dividend = item.dividend;
-
-                            localItems.push(model);
-                        });
-
-                        data.syntheticShareList.forEach(function (item) {
-
-                            let model = new ShareApiModel(item.symbol);
-                            model.price = item.price;
-                            model.quantity = item.quantity;
-                            model.action = item.action;
-                            model.brokerFees = item.brokerFees;
-                            model.date = item.date;
-                            model.transactionId = 0;
-                            model.isSynthetic = true;
 
                             localItems.push(model);
                         });

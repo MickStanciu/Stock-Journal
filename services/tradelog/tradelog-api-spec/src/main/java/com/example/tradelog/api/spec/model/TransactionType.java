@@ -3,6 +3,7 @@ package com.example.tradelog.api.spec.model;
 public enum TransactionType {
 
     SHARE,
+    SYNTHETIC_SHARE,
     OPTION,
     DIVIDEND,
     UNKNOWN;

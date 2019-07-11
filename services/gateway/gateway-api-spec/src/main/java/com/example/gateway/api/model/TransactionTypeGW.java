@@ -1,7 +1,12 @@
 package com.example.gateway.api.model;
 
 public enum TransactionTypeGW {
-    DIVIDEND, SHARE, OPTION, UNKNOWN;
+
+    DIVIDEND,
+    SHARE,
+    SYNTHETIC_SHARE,
+    OPTION,
+    UNKNOWN;
 
     static public TransactionTypeGW lookup(String id) {
         try {
