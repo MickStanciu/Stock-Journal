@@ -12,6 +12,7 @@ plugins {
     id "java"
     id "io.spring.dependency-management" version "1.0.8.RELEASE"
     id "org.springframework.boot" version "2.1.6.RELEASE"
+    id "org.openapi.generator" version "4.0.3"
     id "application"
 }
 
@@ -53,7 +54,6 @@ dependencies {
     implementation ("org.springframework.boot:spring-boot-starter-undertow")
     implementation ("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation ("org.springframework.boot:spring-boot-starter-actuator")
-//    implementation ("org.springframework.boot:spring-boot-starter-amqp")
     implementation ("org.postgresql:postgresql:${postgreSqlVersion}")
     implementation ("org.flywaydb:flyway-core:${flywayDbVersion}")
 
@@ -70,6 +70,20 @@ test {
     testLogging {
         events 'PASSED', 'FAILED', 'SKIPPED'
     }
+}
+
+openApiGenerate {
+    generatorName = "spring"
+    inputSpec = "$rootDir/src/main/resources/openapi-transaction-model.yaml".toString()
+    outputDir = "$rootDir".toString()
+    modelPackage = "com.example.tradelog.api.spec.model"
+    configOptions = [
+            dateLibrary: "java8"
+    ]
+    systemProperties = [
+            modelDocs: "false",
+            apis: "false"
+    ]
 }
 
 mainClassName = 'com.example.tradelog.api.TradeLogApi'
