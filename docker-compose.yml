@@ -22,12 +22,12 @@ services:
 #      - GATEWAY_API_ADDRESS=http://gatewayapi:8080
 #      - MOCK_SERVICES=true
 
-  gateway-api:
-    build: docker/gateway-api/.
-    image: gateway-api
-    container_name: gateway-api
-    ports:
-      - "8085:8080"
+#  gateway-api:
+#    build: docker/gateway-api/.
+#    image: gateway-api
+#    container_name: gateway-api
+#    ports:
+#      - "8085:8080"
 
 #  tenantapi:
 #    build: tenant.spring/.
@@ -76,6 +76,7 @@ services:
       - "5432:5432"
     volumes:
       - ${DOCKER_BASE}/database-server/data:/var/lib/postgresql/data:rw
+      - ${DOCKER_BASE}/database-server/backup:/var/lib/postgresql/backup:rw
 
 #  redis:
 #    build: docker/redis-server/.
