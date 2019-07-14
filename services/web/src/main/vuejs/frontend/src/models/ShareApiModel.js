@@ -11,6 +11,8 @@ class ShareApiModel {
     brokerFees = undefined;
     isSynthetic = false;
 
+    isIncludedInTotalCalculation = true;
+
 
     constructor(symbol) {
         this.symbol = symbol;

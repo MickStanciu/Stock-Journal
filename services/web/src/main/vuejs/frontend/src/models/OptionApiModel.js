@@ -17,6 +17,7 @@ class OptionApiModel {
     mark = null;
     isSynthetic = false;
 
+    isIncludedInTotalCalculation = true;
 
     constructor(symbol) {
         this.stockSymbol = symbol;

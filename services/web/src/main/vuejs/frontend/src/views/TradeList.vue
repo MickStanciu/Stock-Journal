@@ -13,11 +13,11 @@
 
         <template v-for="(item, idx) in items">
             <div class="row pb-1 pt-1" v-bind:class="rowClass(item, idx)" v-bind:key="item.transactionId">
-                <div class="col-md-1">{{ idx + 1 }}</div>
-                <div class="col-md-2">{{ dateTz(item) }}</div>
-                <div class="col-md-5">{{ encodeAction(item) }}</div>
-                <div class="col-md-1">{{ printCurrencyFormat(item.brokerFees) }}</div>
-                <div class="col-md-2 text-right">{{ printCurrencyFormat(calculateLineItemTotal(item)) }}</div>
+                <div class="col-md-1 action-element" v-bind:class="[item.isIncludedInTotalCalculation ? 'row-selected' : 'row-not-selected']" v-on:click="rowClick(item)">{{ idx + 1 }}</div>
+                <div class="col-md-2" v-bind:class="[item.isIncludedInTotalCalculation ? 'row-selected' : 'row-not-selected']">{{ dateTz(item) }}</div>
+                <div class="col-md-5" v-bind:class="[item.isIncludedInTotalCalculation ? 'row-selected' : 'row-not-selected']">{{ encodeAction(item) }}</div>
+                <div class="col-md-1" v-bind:class="[item.isIncludedInTotalCalculation ? 'row-selected' : 'row-not-selected']">{{ printCurrencyFormat(item.brokerFees) }}</div>
+                <div class="col-md-2 text-right" v-bind:class="[item.isIncludedInTotalCalculation ? 'row-selected' : 'row-not-selected']">{{ printCurrencyFormat(calculateLineItemTotal(item)) }}</div>
                 <div class="col-md-1">
                     <font-awesome-icon icon="trash-alt" class="action-icon" v-if="!item.isSynthetic" v-on:click="deleteRecordClicked(item.transactionId)"></font-awesome-icon>
                 </div>
@@ -29,7 +29,7 @@
             <div class="col-md-2">&nbsp;</div>
             <div class="col-md-5">&nbsp;</div>
             <div class="col-1">&nbsp;</div>
-            <div class="col text-right">{{ printCurrencyFormat(calculateLineItemsTotal(items)) }}</div>
+            <div class="col text-right">{{ printCurrencyFormat(getTotal) }}</div>
         </div>
 
         <div class="row pt-3">
@@ -92,7 +92,7 @@
                 timeZone: 'Australia/Sydney',
                 currency: 'USD',
                 symbol: this.$route.params.symbol,
-                selectedModel : undefined
+                selectedModel : undefined,
             }
         },
 
@@ -112,12 +112,23 @@
             isAddErrorEnabled() {
                 return this.$store.state.isAddErrorEnabled;
             },
+            getTotal: function () {
+                let _this = this;
+                let total = 0.00;
+                this.items.forEach(function (item) {
+                    if (item.isIncludedInTotalCalculation === true) {
+                        total += _this.calculateLineItemTotal(item);
+                    }
+                });
+                return total;
+            }
         },
 
         methods: {
             addNewStockTradeClicked: function() {
                 this.$store.dispatch('showAddStockModal');
             },
+
             deleteRecordClicked: function(id) {
                 this.selectedModel = this.getModelById(id);
 
@@ -129,9 +140,11 @@
                     }
                 }
             },
+
             addNewOptionTradeClicked: function() {
                 this.$store.dispatch('showAddOptionModal');
             },
+
             rowClass: function (item, idx) {
                 let className = 'table-cell-odd';
                 if (idx%2 === 0) {
@@ -143,6 +156,10 @@
                 }
 
                 return className;
+            },
+
+            rowClick : function (item) {
+                item.isIncludedInTotalCalculation = !item.isIncludedInTotalCalculation;
             },
 
             getModelById: function (id) {
@@ -216,15 +233,6 @@
                     return parseFloat((item.dividend * 100).toFixed(10));
                 }
                 return 0;
-            },
-
-            calculateLineItemsTotal: function (items) {
-                let _this = this;
-                let total = 0.00;
-                items.forEach(function (item) {
-                    total += _this.calculateLineItemTotal(item);
-                });
-                return total;
             },
 
             printCurrencyFormat: function (value) {
@@ -383,6 +391,20 @@
     .action-icon:hover {
         cursor: pointer;
         color:red;
+    }
+
+    .action-element:hover {
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+
+    .row-selected {
+        color: black;
+    }
+
+    .row-not-selected {
+        color: gray;
     }
 
 </style>
