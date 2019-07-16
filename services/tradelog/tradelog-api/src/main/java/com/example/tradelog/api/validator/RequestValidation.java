@@ -73,6 +73,7 @@ public class RequestValidation extends FieldValidator {
             && s.getAction() != Action.UNKNOWN
             && (s.getOptionType() == OptionType.CALL || s.getOptionType() == OptionType.PUT)
             && s.getContracts() > 0
+            && s.getPremium() >= 0
             && s.getExpiryDate() != null
             && s.getStockPrice() >= 0.00
             && s.getStrikePrice() > 0;
