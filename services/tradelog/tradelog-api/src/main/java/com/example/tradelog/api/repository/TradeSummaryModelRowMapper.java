@@ -49,6 +49,11 @@ public class TradeSummaryModelRowMapper implements RowMapper<TradeSummaryModel> 
         BigDecimal premium = BigDecimal.valueOf(rs.getDouble("premium"));
         BigDecimal fees = BigDecimal.valueOf(rs.getDouble("broker_fees"));
         BigDecimal quantity = BigDecimal.valueOf(rs.getInt("contract_number"));
+        Action action = Action.valueOf(rs.getString("action_fk"));
+
+        if (action.equals(Action.BUY)) {
+            premium = premium.multiply(BigDecimal.valueOf(-1));
+        }
 
         return TradeSummaryModel.builder()
                 .withSymbol(rs.getString("symbol"))

@@ -77,7 +77,7 @@ public class OptionsJournalRepository {
     private static final String JOURNAL_DELETE_OPTION = "DELETE FROM option_log WHERE transaction_fk = CAST(? AS uuid) and option_type_fk in ('CALL', 'PUT')";
 
     private static final String JOURNAL_GET_SUMMARIES =
-            "SELECT tl.symbol, ol.premium, ol.broker_fees, ol.contract_number, tl.transaction_type_fk " +
+            "SELECT tl.symbol, ol.action_fk, ol.premium, ol.broker_fees, ol.contract_number, tl.transaction_type_fk " +
                     "FROM transaction_log tl" +
                     "         INNER JOIN option_log ol ON tl.id = ol.transaction_fk " +
                     "WHERE tl.account_fk = CAST(? AS uuid)" +
