@@ -5,6 +5,7 @@ import com.example.tradelog.api.service.OptionJournalService;
 import com.example.tradelog.api.service.ShareJournalService;
 import com.example.tradelog.api.service.TransactionJournalService;
 import com.example.tradelog.api.spec.model.TradeSummaryModel;
+import com.example.tradelog.api.spec.model.TransactionOptionsModel;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -72,5 +73,9 @@ public class JournalFacade {
                 .sorted(Map.Entry.comparingByKey())
                 .map(Map.Entry::getValue)
                 .collect(Collectors.toList());
+    }
+
+    public boolean updateOptions(String accountId, String transactionId, TransactionOptionsModel model) {
+        return transactionService.updateOptions(accountId, transactionId, model);
     }
 }

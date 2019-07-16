@@ -5,6 +5,7 @@ import com.example.tradelog.api.facade.JournalFacade;
 import com.example.tradelog.api.service.TransactionJournalService;
 import com.example.tradelog.api.spec.exception.ExceptionCode;
 import com.example.tradelog.api.spec.model.TradeSummaryModel;
+import com.example.tradelog.api.spec.model.TransactionOptionsModel;
 import com.example.tradelog.api.validator.RequestValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,5 +61,22 @@ public class TransactionJournalResource {
         }
 
         return summaryList;
+    }
+
+
+    @RequestMapping(value = "/options/{transactionId}", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public void updateOptions(@RequestHeader("accountId") String accountId,
+                              @PathVariable("transactionId") String transactionId,
+                              @RequestBody TransactionOptionsModel model) throws TradeLogException {
+
+        if (!RequestValidation.validateUpdateOptions(accountId, transactionId, model)) {
+            throw new TradeLogException(ExceptionCode.BAD_REQUEST);
+        }
+
+        if (!facade.updateOptions(accountId, transactionId, model)) {
+            log.error("COULD NOT UPDATE OPTIONS FOR tID: {}", transactionId);
+            throw new TradeLogException(ExceptionCode.UPDATE_TRANSACTION_OPTIONS_FAILED);
+        }
     }
 }

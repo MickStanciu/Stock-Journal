@@ -3,6 +3,7 @@ package com.example.tradelog.api.repository;
 import com.example.common.converter.TimeConversion;
 import com.example.tradelog.api.spec.model.TradeSummaryModel;
 import com.example.tradelog.api.spec.model.TransactionModel;
+import com.example.tradelog.api.spec.model.TransactionOptionsModel;
 import com.example.tradelog.api.spec.model.TransactionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,12 +29,15 @@ public class TransactionRepository {
                     "ORDER BY symbol ASC";
 
     private static final String JOURNAL_CREATE_TRANSACTION_FOR_ACCOUNT =
-            "INSERT INTO transaction_log (account_fk, date, symbol, transaction_type_fk) " +
-                    "VALUES (CAST(? AS uuid), ?, ?, ?)";
+            "INSERT INTO transaction_log (account_fk, date, symbol, transaction_type_fk, group_selected) " +
+                    "VALUES (CAST(? AS uuid), ?, ?, ?, true)";
 
     private static final String JOURNAL_DELETE_TRANSACTION_FOR_ACCOUNT =
             "DELETE FROM transaction_log WHERE id = CAST(? AS uuid) and account_fk = CAST(? AS uuid) " +
                     "and symbol = ? and transaction_type_fk = ?";
+
+    private static final String JOURNAL_UPDATE_OPTIONS_FOR_ACCOUNT =
+            "UPDATE transaction_log SET group_selected = ? WHERE id = CAST(? AS uuid) and account_fk = CAST(? AS uuid)";
 
     private JdbcTemplate jdbcTemplate;
 
@@ -91,5 +95,10 @@ public class TransactionRepository {
     public boolean deleteOptionRecord(String id, String accountId, String symbol) {
         Object[] parameters = new Object[] {id, accountId, symbol, TransactionType.OPTION.name()};
         return jdbcTemplate.update(JOURNAL_DELETE_TRANSACTION_FOR_ACCOUNT, parameters) == 1;
+    }
+
+    public boolean updateOptions(String accountId, String transactionId, TransactionOptionsModel model) {
+        Object[] parameters = new Object[] {model.isGroupSelected(), transactionId, accountId};
+        return jdbcTemplate.update(JOURNAL_UPDATE_OPTIONS_FOR_ACCOUNT, parameters) == 1;
     }
 }

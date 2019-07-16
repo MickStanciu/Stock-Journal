@@ -110,4 +110,12 @@ public class TradeLogResource {
 
         return summaryModels;
     }
+
+    @RequestMapping(value = "/transaction/{transactionId}/{enabled}", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public void updateGroupOption(@RequestHeader("accountId") String accountId,
+                                  @PathVariable("enabled") Boolean enabled,
+                                  @PathVariable("transactionId") String transactionId) {
+       tradeLogService.updateGroupOption(accountId, transactionId, enabled);
+    }
 }

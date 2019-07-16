@@ -36,6 +36,12 @@ public class RequestValidation extends FieldValidator {
         return !RequestValidation.accountId.test(accountId) || !RequestValidation.symbol.test(symbol);
     }
 
+    public static boolean validateUpdateOptions(String accountId, String transactionId, TransactionOptionsModel model) {
+        return RequestValidation.accountId.test(accountId)
+                && RequestValidation.transactionId.test(transactionId)
+                && model != null;
+    }
+
     static Predicate<ShareJournalModel> validateShareJournalModel = s -> s != null
             && s.getTransactionDetails() != null
             && s.getTransactionDetails().getType().equals(TransactionType.SHARE)

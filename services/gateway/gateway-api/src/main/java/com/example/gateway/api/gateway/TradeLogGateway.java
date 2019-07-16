@@ -143,6 +143,20 @@ public class TradeLogGateway {
         restTemplate.exchange(builder.build(symbol, transactionId), HttpMethod.DELETE, new HttpEntity(headers), Object.class);
     }
 
+    public void updateGroupOption(String accountId, String transactionId, TransactionOptionsModel optionsModel) {
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromHttpUrl(API_URL)
+                .path("/transactions/options/{id}");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("accountId", accountId);
+
+        HttpEntity<TransactionOptionsModel> request = new HttpEntity<>(optionsModel, headers);
+
+        restTemplate.exchange(builder.build(transactionId), HttpMethod.PUT, request, Object.class);
+    }
+
     public List<TradeSummaryModel> getSummary(String accountId) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)

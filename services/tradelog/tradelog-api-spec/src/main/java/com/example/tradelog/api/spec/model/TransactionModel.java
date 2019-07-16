@@ -1,8 +1,9 @@
 package com.example.tradelog.api.spec.model;
 
+import java.io.Serializable;
 import java.time.OffsetDateTime;
 
-public class TransactionModel {
+public class TransactionModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -11,6 +12,7 @@ public class TransactionModel {
     private OffsetDateTime date;
     private String symbol;
     private TransactionType type;
+    private TransactionOptionsModel options;
 
     public TransactionModel() {
         //required by Jackson
@@ -34,6 +36,10 @@ public class TransactionModel {
 
     public TransactionType getType() {
         return type;
+    }
+
+    public TransactionOptionsModel getOptions() {
+        return options;
     }
 
     public static Builder builder() {
@@ -75,6 +81,11 @@ public class TransactionModel {
 
         public Builder withType(TransactionType type) {
             model.type = type;
+            return this;
+        }
+
+        public Builder withTransactionOptionsModel(TransactionOptionsModel options) {
+            model.options = options;
             return this;
         }
     }

@@ -2,6 +2,7 @@ package com.example.tradelog.api.service;
 
 import com.example.tradelog.api.repository.TransactionRepository;
 import com.example.tradelog.api.spec.model.TradeSummaryModel;
+import com.example.tradelog.api.spec.model.TransactionOptionsModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -21,5 +22,9 @@ public class TransactionJournalService {
 
     public List<String> getAllTradedSymbols(String accountId) {
         return transactionRepository.getUniqueSymbols(accountId);
+    }
+
+    public boolean updateOptions(String accountId, String transactionId, TransactionOptionsModel model) {
+        return transactionRepository.updateOptions(accountId, transactionId, model);
     }
 }

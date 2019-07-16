@@ -13,6 +13,7 @@ public class DividendGWModel implements Serializable {
     private OffsetDateTime date;
     private String symbol;
     private TransactionTypeGW type;
+    private boolean groupEnabled;
 
     public DividendGWModel() {
         //required by Jackson
@@ -40,6 +41,10 @@ public class DividendGWModel implements Serializable {
 
     public TransactionTypeGW getType() {
         return type;
+    }
+
+    public boolean isGroupEnabled() {
+        return groupEnabled;
     }
 
     public static Builder builder() {
@@ -86,6 +91,11 @@ public class DividendGWModel implements Serializable {
 
         public Builder withType(TransactionTypeGW type) {
             model.type = type;
+            return this;
+        }
+
+        public Builder withGroupEnabled(boolean groupEnabled) {
+            model.groupEnabled = groupEnabled;
             return this;
         }
     }

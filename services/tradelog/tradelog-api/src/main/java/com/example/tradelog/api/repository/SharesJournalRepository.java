@@ -18,6 +18,7 @@ public class SharesJournalRepository {
                     "       tl.date, " +
                     "       tl.symbol, " +
                     "       tl.transaction_type_fk, " +
+                    "       tl.group_selected, " +
                     "       sl.price, " +
                     "       sd.price as current_price, " +
                     "       sl.quantity, " +
@@ -37,6 +38,7 @@ public class SharesJournalRepository {
                     "       tl.date, " +
                     "       tl.symbol, " +
                     "       tl.transaction_type_fk, " +
+                    "       tl.group_selected, " +
                     "       sl.price, " +
                     "       sd.price as current_price, " +
                     "       sl.quantity, " +

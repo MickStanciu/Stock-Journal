@@ -16,6 +16,7 @@ public class DividendRepository {
                     "       tl.date, " +
                     "       tl.symbol, " +
                     "       tl.transaction_type_fk, " +
+                    "       tl.group_selected, " +
                     "       dl.dividend, " +
                     "       dl.quantity " +
                     "FROM transaction_log tl " +

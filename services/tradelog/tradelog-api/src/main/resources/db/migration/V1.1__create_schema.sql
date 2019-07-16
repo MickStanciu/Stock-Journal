@@ -29,13 +29,14 @@ GRANT ALL PRIVILEGES ON TABLE option_type TO admin;
 
 CREATE TABLE transaction_log
 (
-    id                  UUID DEFAULT uuid_generate_v4() NOT NULL
+    id                  UUID    DEFAULT uuid_generate_v4() NOT NULL
         CONSTRAINT transaction_log_pkey PRIMARY KEY,
-    account_fk          UUID                            NOT NULL,
-    date                TIMESTAMPTZ                     NOT NULL,
-    symbol              VARCHAR(16)                     NOT NULL,
-    transaction_type_fk VARCHAR(32)                     NOT NULL
-        CONSTRAINT transaction_log_action_type_fk_fkey REFERENCES transaction_type (name)
+    account_fk          UUID                               NOT NULL,
+    date                TIMESTAMPTZ                        NOT NULL,
+    symbol              VARCHAR(16)                        NOT NULL,
+    transaction_type_fk VARCHAR(32)                        NOT NULL
+        CONSTRAINT transaction_log_action_type_fk_fkey REFERENCES transaction_type (name),
+    group_selected      BOOLEAN DEFAULT TRUE
 );
 
 GRANT ALL PRIVILEGES ON TABLE transaction_log TO admin;

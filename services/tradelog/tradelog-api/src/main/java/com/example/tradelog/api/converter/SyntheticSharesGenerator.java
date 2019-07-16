@@ -1,9 +1,6 @@
 package com.example.tradelog.api.converter;
 
-import com.example.tradelog.api.spec.model.Action;
-import com.example.tradelog.api.spec.model.ShareJournalModel;
-import com.example.tradelog.api.spec.model.TransactionModel;
-import com.example.tradelog.api.spec.model.TransactionType;
+import com.example.tradelog.api.spec.model.*;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -53,10 +50,14 @@ public class SyntheticSharesGenerator {
                     syntheticAction = Action.BUY;
                 }
 
+                TransactionOptionsModel optionsModel = new TransactionOptionsModel();
+                optionsModel.setGroupSelected(true);
+
                 TransactionModel transactionModel = TransactionModel.builder()
                         .withSymbol(s)
                         .withDate(OffsetDateTime.now().plusYears(1))
                         .withType(TransactionType.SYNTHETIC_SHARE)
+                        .withTransactionOptionsModel(optionsModel)
                         .build();
                 synthetics.add(ShareJournalModel.builder()
                         .withTransactionModel(transactionModel)

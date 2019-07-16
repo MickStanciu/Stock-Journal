@@ -75,4 +75,10 @@ public class TradeLogService {
         ShareDataModel returnModel = tradeLogGateway.getShareDataBySymbol(accountId, symbol);
         return ShareDataConverter.toShareDataGWModel.apply(returnModel);
     }
+
+    public void updateGroupOption(String accountId, String transactionId, boolean enabled) {
+        TransactionOptionsModel optionsModel = new TransactionOptionsModel();
+        optionsModel.setGroupSelected(enabled);
+        tradeLogGateway.updateGroupOption(accountId, transactionId, optionsModel);
+    }
 }

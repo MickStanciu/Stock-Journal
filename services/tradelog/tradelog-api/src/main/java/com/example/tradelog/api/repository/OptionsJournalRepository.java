@@ -20,6 +20,7 @@ public class OptionsJournalRepository {
                     "       tl.date, " +
                     "       tl.symbol, " +
                     "       tl.transaction_type_fk, " +
+                    "       tl.group_selected, " +
                     "       ol.stock_price, " +
                     "       ol.strike_price, " +
                     "       ol.expiry_date, " +
@@ -38,6 +39,7 @@ public class OptionsJournalRepository {
                     "       tl.date, " +
                     "       tl.symbol, " +
                     "       tl.transaction_type_fk, " +
+                    "       tl.group_selected, " +
                     "       ol.stock_price, " +
                     "       ol.strike_price, " +
                     "       ol.expiry_date, " +
@@ -57,6 +59,7 @@ public class OptionsJournalRepository {
                     "       tl.date, " +
                     "       tl.symbol, " +
                     "       tl.transaction_type_fk, " +
+                    "       tl.group_selected, " +
                     "       ol.stock_price, " +
                     "       ol.strike_price, " +
                     "       ol.expiry_date, " +
