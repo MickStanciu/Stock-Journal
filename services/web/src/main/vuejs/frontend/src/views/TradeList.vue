@@ -221,7 +221,11 @@
 
             calculateLineItemTotal: function (item) {
                 if (item.type === 'OPTION') {
-                    let transactionValue = item.contracts * 100 * item.premium - item.brokerFees;
+                    let price = item.premium;
+                    if (item.action === 'BUY') {
+                        price = price * -1;
+                    }
+                    let transactionValue = item.contracts * 100 * price - item.brokerFees;
                     return parseFloat((transactionValue).toFixed(10));
                 } else if (item.type === 'SHARE' || item.type === 'SYNTHETIC_SHARE') {
                     let price = item.price;
