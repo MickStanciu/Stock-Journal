@@ -52,6 +52,7 @@ public class SyntheticSharesGenerator {
 
                 TransactionOptionsModel optionsModel = new TransactionOptionsModel();
                 optionsModel.setGroupSelected(true);
+                optionsModel.setLegClosed(false);
 
                 TransactionModel transactionModel = TransactionModel.builder()
                         .withSymbol(s)
@@ -59,9 +60,10 @@ public class SyntheticSharesGenerator {
                         .withType(TransactionType.SYNTHETIC_SHARE)
                         .withTransactionOptionsModel(optionsModel)
                         .build();
+
                 synthetics.add(ShareJournalModel.builder()
                         .withTransactionModel(transactionModel)
-                        .withQuantity(aggregator.getQuantity())
+                        .withQuantity(Math.abs(aggregator.getQuantity()))
                         .withPrice(calculatedPrice)
                         .withActualPrice(calculatedPrice)
                         .withAction(syntheticAction)

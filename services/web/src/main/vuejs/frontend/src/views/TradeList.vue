@@ -13,11 +13,11 @@
 
         <template v-for="(item, idx) in items">
             <div class="row pb-1 pt-1" v-bind:class="rowClass(item, idx)" v-bind:key="item.transactionId">
-                <div class="col-md-1 action-element" v-bind:class="[item.isIncludedInTotalCalculation ? 'row-selected' : 'row-not-selected']" v-on:click="rowClick(item)">{{ idx + 1 }}</div>
-                <div class="col-md-2" v-bind:class="[item.isIncludedInTotalCalculation ? 'row-selected' : 'row-not-selected']">{{ dateTz(item) }}</div>
-                <div class="col-md-5" v-bind:class="[item.isIncludedInTotalCalculation ? 'row-selected' : 'row-not-selected']">{{ encodeAction(item) }}</div>
-                <div class="col-md-1" v-bind:class="[item.isIncludedInTotalCalculation ? 'row-selected' : 'row-not-selected']">{{ printCurrencyFormat(item.brokerFees) }}</div>
-                <div class="col-md-2 text-right" v-bind:class="[item.isIncludedInTotalCalculation ? 'row-selected' : 'row-not-selected']">{{ printCurrencyFormat(calculateLineItemTotal(item)) }}</div>
+                <div class="col-md-1 action-element" v-bind:class="[item.groupSelected ? 'row-selected' : 'row-not-selected']" v-on:click="rowClick(item)">{{ idx + 1 }}</div>
+                <div class="col-md-2" v-bind:class="[item.groupSelected ? 'row-selected' : 'row-not-selected']">{{ dateTz(item) }}</div>
+                <div class="col-md-5" v-bind:class="[item.groupSelected ? 'row-selected' : 'row-not-selected']">{{ encodeAction(item) }}</div>
+                <div class="col-md-1" v-bind:class="[item.groupSelected ? 'row-selected' : 'row-not-selected']">{{ printCurrencyFormat(item.brokerFees) }}</div>
+                <div class="col-md-2 text-right" v-bind:class="[item.groupSelected ? 'row-selected' : 'row-not-selected']">{{ printCurrencyFormat(calculateLineItemTotal(item)) }}</div>
                 <div class="col-md-1">
                     <font-awesome-icon icon="trash-alt" class="action-icon" v-if="!item.isSynthetic" v-on:click="deleteRecordClicked(item.transactionId)"></font-awesome-icon>
                 </div>
@@ -116,7 +116,7 @@
                 let _this = this;
                 let total = 0.00;
                 this.items.forEach(function (item) {
-                    if (item.isIncludedInTotalCalculation === true) {
+                    if (item.groupSelected === true) {
                         total += _this.calculateLineItemTotal(item);
                     }
                 });
@@ -159,7 +159,7 @@
             },
 
             rowClick : function (item) {
-                item.isIncludedInTotalCalculation = !item.isIncludedInTotalCalculation;
+                item.groupSelected = !item.groupSelected;
             },
 
             getModelById: function (id) {
@@ -285,6 +285,7 @@
                             model.date = item.date;
                             model.transactionId = item.transactionId;
                             model.type = item.type;
+                            model.groupSelected = item.groupSelected;
 
                             if (model.type === 'SYNTHETIC_SHARE') {
                                 model.isSynthetic = true;
@@ -304,7 +305,7 @@
 
                         self.items = localItems.sort(function (a, b) {
                             return dateTimeUtil.sortDates(a, b);
-                        });
+                        }).reverse();
                     });
 
             }

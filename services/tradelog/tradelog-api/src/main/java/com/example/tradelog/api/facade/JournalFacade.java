@@ -75,7 +75,7 @@ public class JournalFacade {
                 .collect(Collectors.toList());
     }
 
-    public boolean updateOptions(String accountId, String transactionId, TransactionOptionsModel model) {
-        return transactionService.updateOptions(accountId, transactionId, model);
+    public boolean updateOptions(String transactionId, TransactionOptionsModel model) {
+        return transactionService.updateOptions(transactionId, model);
     }
 }

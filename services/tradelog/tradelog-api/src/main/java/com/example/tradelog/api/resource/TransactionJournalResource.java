@@ -74,7 +74,9 @@ public class TransactionJournalResource {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
-        if (!facade.updateOptions(accountId, transactionId, model)) {
+        //todo: validate account id against transaction?
+
+        if (!facade.updateOptions(transactionId, model)) {
             log.error("COULD NOT UPDATE OPTIONS FOR tID: {}", transactionId);
             throw new TradeLogException(ExceptionCode.UPDATE_TRANSACTION_OPTIONS_FAILED);
         }

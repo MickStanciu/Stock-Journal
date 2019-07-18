@@ -4,6 +4,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 DROP TABLE IF EXISTS option_log;
 DROP TABLE IF EXISTS shares_log;
 DROP TABLE IF EXISTS dividend_log;
+DROP TABLE IF EXISTS transaction_settings_log;
 DROP TABLE IF EXISTS transaction_log;
 DROP TABLE IF EXISTS shares_data;
 
@@ -35,8 +36,7 @@ CREATE TABLE transaction_log
     date                TIMESTAMPTZ                        NOT NULL,
     symbol              VARCHAR(16)                        NOT NULL,
     transaction_type_fk VARCHAR(32)                        NOT NULL
-        CONSTRAINT transaction_log_action_type_fk_fkey REFERENCES transaction_type (name),
-    group_selected      BOOLEAN DEFAULT TRUE
+        CONSTRAINT transaction_log_action_type_fk_fkey REFERENCES transaction_type (name)
 );
 
 GRANT ALL PRIVILEGES ON TABLE transaction_log TO admin;
@@ -106,3 +106,17 @@ CREATE TABLE shares_data
 );
 
 GRANT ALL PRIVILEGES ON TABLE shares_data TO admin;
+
+
+
+CREATE TABLE transaction_settings_log
+(
+    transaction_fk UUID NOT NULL
+        CONSTRAINT transaction_log_pkey
+            REFERENCES transaction_log,
+    group_selected BOOLEAN DEFAULT TRUE,
+    leg_closed     BOOLEAN DEFAULT FALSE
+);
+
+
+GRANT ALL PRIVILEGES ON TABLE transaction_settings_log TO admin;

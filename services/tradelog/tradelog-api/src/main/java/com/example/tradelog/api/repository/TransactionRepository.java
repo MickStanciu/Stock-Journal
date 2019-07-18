@@ -8,11 +8,14 @@ import com.example.tradelog.api.spec.model.TransactionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
@@ -29,15 +32,18 @@ public class TransactionRepository {
                     "ORDER BY symbol ASC";
 
     private static final String JOURNAL_CREATE_TRANSACTION_FOR_ACCOUNT =
-            "INSERT INTO transaction_log (account_fk, date, symbol, transaction_type_fk, group_selected) " +
-                    "VALUES (CAST(? AS uuid), ?, ?, ?, true)";
+            "INSERT INTO transaction_log (account_fk, date, symbol, transaction_type_fk) " +
+                    "VALUES (CAST(? AS uuid), ?, ?, ?)";
 
     private static final String JOURNAL_DELETE_TRANSACTION_FOR_ACCOUNT =
             "DELETE FROM transaction_log WHERE id = CAST(? AS uuid) and account_fk = CAST(? AS uuid) " +
                     "and symbol = ? and transaction_type_fk = ?";
 
-    private static final String JOURNAL_UPDATE_OPTIONS_FOR_ACCOUNT =
-            "UPDATE transaction_log SET group_selected = ? WHERE id = CAST(? AS uuid) and account_fk = CAST(? AS uuid)";
+    private static final String JOURNAL_CREATE_SETTINGS =
+            "INSERT INTO transaction_settings_log (transaction_fk, group_selected, leg_closed) VALUES (CAST(? AS uuid), ?, ?)";
+
+    private static final String JOURNAL_UPDATE_SETTINGS =
+            "UPDATE transaction_settings_log SET group_selected = ?, leg_closed = ? WHERE transaction_fk = CAST(? AS uuid)";
 
     private JdbcTemplate jdbcTemplate;
 
@@ -97,8 +103,13 @@ public class TransactionRepository {
         return jdbcTemplate.update(JOURNAL_DELETE_TRANSACTION_FOR_ACCOUNT, parameters) == 1;
     }
 
-    public boolean updateOptions(String accountId, String transactionId, TransactionOptionsModel model) {
-        Object[] parameters = new Object[] {model.isGroupSelected(), transactionId, accountId};
-        return jdbcTemplate.update(JOURNAL_UPDATE_OPTIONS_FOR_ACCOUNT, parameters) == 1;
+    public boolean updateSettings(String transactionId, TransactionOptionsModel model) {
+        Object[] parameters = new Object[] {transactionId, model.isGroupSelected(), model.isLegClosed()};
+        return jdbcTemplate.update(JOURNAL_UPDATE_SETTINGS, parameters) == 1;
+    }
+
+    public boolean createSettings(String transactionId, TransactionOptionsModel model) {
+        Object[] parameters = new Object[] {transactionId, model.isGroupSelected(), model.isLegClosed()};
+        return jdbcTemplate.update(JOURNAL_CREATE_SETTINGS, parameters) == 1;
     }
 }

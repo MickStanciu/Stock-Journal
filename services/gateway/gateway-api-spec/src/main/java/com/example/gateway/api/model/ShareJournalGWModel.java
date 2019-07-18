@@ -17,7 +17,8 @@ public class ShareJournalGWModel implements Serializable {
     private ActionGW action;
     private TransactionTypeGW type;
     private double brokerFees;
-    private boolean groupEnabled;
+    private boolean groupSelected;
+    private boolean legClosed;
 
     public ShareJournalGWModel() {
         //required by Jackson
@@ -63,8 +64,12 @@ public class ShareJournalGWModel implements Serializable {
         return brokerFees;
     }
 
-    public boolean isGroupEnabled() {
-        return groupEnabled;
+    public boolean isGroupSelected() {
+        return groupSelected;
+    }
+
+    public boolean isLegClosed() {
+        return legClosed;
     }
 
     public static Builder builder() {
@@ -134,8 +139,13 @@ public class ShareJournalGWModel implements Serializable {
             return this;
         }
 
-        public Builder withGroupEnabled(boolean groupEnabled) {
-            model.groupEnabled = groupEnabled;
+        public Builder withGroupSelected(boolean groupSelected) {
+            model.groupSelected = groupSelected;
+            return this;
+        }
+
+        public Builder withLegClosed(boolean legClosed) {
+            model.legClosed = legClosed;
             return this;
         }
     }

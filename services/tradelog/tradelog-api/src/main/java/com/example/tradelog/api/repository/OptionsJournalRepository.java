@@ -20,7 +20,6 @@ public class OptionsJournalRepository {
                     "       tl.date, " +
                     "       tl.symbol, " +
                     "       tl.transaction_type_fk, " +
-                    "       tl.group_selected, " +
                     "       ol.stock_price, " +
                     "       ol.strike_price, " +
                     "       ol.expiry_date, " +
@@ -28,9 +27,12 @@ public class OptionsJournalRepository {
                     "       ol.premium, " +
                     "       ol.action_fk, " +
                     "       ol.option_type_fk, " +
-                    "       ol.broker_fees " +
+                    "       ol.broker_fees, " +
+                    "       tsl.group_selected, " +
+                    "       tsl.leg_closed " +
                     "FROM transaction_log tl " +
-                    "         inner join option_log ol on tl.id = ol.transaction_fk " +
+                    "         INNER JOIN option_log ol on tl.id = ol.transaction_fk " +
+                    "         LEFT JOIN transaction_settings_log tsl on tl.id = tsl.transaction_fk " +
                     "LIMIT 1";
 
     private static final String JOURNAL_READ_BY_SYMBOL_FOR_ACCOUNT =
@@ -39,7 +41,6 @@ public class OptionsJournalRepository {
                     "       tl.date, " +
                     "       tl.symbol, " +
                     "       tl.transaction_type_fk, " +
-                    "       tl.group_selected, " +
                     "       ol.stock_price, " +
                     "       ol.strike_price, " +
                     "       ol.expiry_date, " +
@@ -47,9 +48,12 @@ public class OptionsJournalRepository {
                     "       ol.premium, " +
                     "       ol.action_fk, " +
                     "       ol.option_type_fk, " +
-                    "       ol.broker_fees " +
+                    "       ol.broker_fees, " +
+                    "       tsl.group_selected, " +
+                    "       tsl.leg_closed " +
                     "FROM transaction_log tl " +
-                    "         inner join option_log ol on tl.id = ol.transaction_fk " +
+                    "         INNER JOIN option_log ol on tl.id = ol.transaction_fk " +
+                    "         LEFT JOIN transaction_settings_log tsl on tl.id = tsl.transaction_fk " +
                     "WHERE account_fk = CAST(? AS uuid) and symbol = ? " +
                     "ORDER BY date";
 
@@ -59,7 +63,6 @@ public class OptionsJournalRepository {
                     "       tl.date, " +
                     "       tl.symbol, " +
                     "       tl.transaction_type_fk, " +
-                    "       tl.group_selected, " +
                     "       ol.stock_price, " +
                     "       ol.strike_price, " +
                     "       ol.expiry_date, " +
@@ -67,9 +70,12 @@ public class OptionsJournalRepository {
                     "       ol.premium, " +
                     "       ol.action_fk, " +
                     "       ol.option_type_fk, " +
-                    "       ol.broker_fees " +
+                    "       ol.broker_fees, " +
+                    "       tsl.group_selected, " +
+                    "       tsl.leg_closed " +
                     "FROM transaction_log tl " +
-                    "         inner join option_log ol on tl.id = ol.transaction_fk " +
+                    "         INNER JOIN option_log ol on tl.id = ol.transaction_fk " +
+                    "         LEFT JOIN transaction_settings_log tsl on tl.id = tsl.transaction_fk " +
                     "WHERE tl.id = CAST(? AS uuid)";
 
 

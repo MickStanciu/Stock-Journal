@@ -20,7 +20,8 @@ public class OptionJournalGWModel implements Serializable {
     private OptionTypeGW optionType;
     private TransactionTypeGW type;
     private double brokerFees;
-    private boolean groupEnabled;
+    private boolean groupSelected;
+    private boolean legClosed;
 
 
     public OptionJournalGWModel() {
@@ -79,8 +80,12 @@ public class OptionJournalGWModel implements Serializable {
         return premium;
     }
 
-    public boolean isGroupEnabled() {
-        return groupEnabled;
+    public boolean isGroupSelected() {
+        return groupSelected;
+    }
+
+    public boolean isLegClosed() {
+        return legClosed;
     }
 
     public static Builder builder() {
@@ -165,8 +170,13 @@ public class OptionJournalGWModel implements Serializable {
             return this;
         }
 
-        public Builder withGroupEnabled(boolean groupEnabled) {
-            model.groupEnabled = groupEnabled;
+        public Builder withGroupSelected(boolean groupSelected) {
+            model.groupSelected = groupSelected;
+            return this;
+        }
+
+        public Builder withLegClosed(boolean legClosed) {
+            model.legClosed = legClosed;
             return this;
         }
     }

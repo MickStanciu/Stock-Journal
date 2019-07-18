@@ -18,14 +18,16 @@ public class SharesJournalRepository {
                     "       tl.date, " +
                     "       tl.symbol, " +
                     "       tl.transaction_type_fk, " +
-                    "       tl.group_selected, " +
                     "       sl.price, " +
                     "       sd.price as current_price, " +
                     "       sl.quantity, " +
                     "       sl.action_fk, " +
-                    "       sl.broker_fees " +
+                    "       sl.broker_fees, " +
+                    "       tsl.group_selected, " +
+                    "       tsl.leg_closed " +
                     "FROM transaction_log tl " +
                     "         INNER JOIN shares_log sl ON tl.id = sl.transaction_fk " +
+                    "         LEFT JOIN transaction_settings_log tsl ON tl.id = tsl.transaction_fk " +
                     "         LEFT JOIN shares_data sd ON sd.symbol = tl.symbol " +
                     "WHERE account_fk = CAST(? AS uuid) " +
                     "  and tl.transaction_type_fk = 'SHARE' " +
@@ -38,14 +40,16 @@ public class SharesJournalRepository {
                     "       tl.date, " +
                     "       tl.symbol, " +
                     "       tl.transaction_type_fk, " +
-                    "       tl.group_selected, " +
                     "       sl.price, " +
                     "       sd.price as current_price, " +
                     "       sl.quantity, " +
                     "       sl.action_fk, " +
-                    "       sl.broker_fees " +
+                    "       sl.broker_fees, " +
+                    "       tsl.group_selected, " +
+                    "       tsl.leg_closed " +
                     "FROM transaction_log tl " +
                     "         INNER JOIN shares_log sl ON tl.id = sl.transaction_fk " +
+                    "         LEFT JOIN transaction_settings_log tsl ON tl.id = tsl.transaction_fk " +
                     "         LEFT JOIN shares_data sd ON sd.symbol = tl.symbol " +
                     "WHERE tl.id = CAST(? AS uuid);";
 

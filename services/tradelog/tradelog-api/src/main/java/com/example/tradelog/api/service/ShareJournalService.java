@@ -6,6 +6,7 @@ import com.example.tradelog.api.repository.SharesJournalRepository;
 import com.example.tradelog.api.repository.TransactionRepository;
 import com.example.tradelog.api.spec.model.ShareJournalModel;
 import com.example.tradelog.api.spec.model.TradeSummaryModel;
+import com.example.tradelog.api.spec.model.TransactionOptionsModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,7 +44,15 @@ public class ShareJournalService {
     public Optional<ShareJournalModel> createShareRecord(ShareJournalModel model) {
         Optional<String> optionalId = transactionRepository.createTransactionRecord(model.getTransactionDetails());
 
+        boolean transactionSettingsSuccess = false;
         if (optionalId.isPresent()) {
+            TransactionOptionsModel transactionOptionsModel = new TransactionOptionsModel();
+            transactionOptionsModel.setGroupSelected(true);
+            transactionOptionsModel.setLegClosed(false);
+            transactionSettingsSuccess = transactionRepository.createSettings(optionalId.get(), transactionOptionsModel);
+        }
+
+        if (optionalId.isPresent() && transactionSettingsSuccess) {
             sharesJournalRepository.createShareRecord(optionalId.get(), model);
             return sharesJournalRepository.getByTransactionId(optionalId.get());
         } else {

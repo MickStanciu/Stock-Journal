@@ -24,7 +24,7 @@ public class TransactionJournalService {
         return transactionRepository.getUniqueSymbols(accountId);
     }
 
-    public boolean updateOptions(String accountId, String transactionId, TransactionOptionsModel model) {
-        return transactionRepository.updateOptions(accountId, transactionId, model);
+    public boolean updateOptions(String transactionId, TransactionOptionsModel model) {
+        return transactionRepository.updateSettings(transactionId, model);
     }
 }

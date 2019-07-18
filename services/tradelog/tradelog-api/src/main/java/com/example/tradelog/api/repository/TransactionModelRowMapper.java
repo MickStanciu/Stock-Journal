@@ -18,6 +18,8 @@ class TransactionModelRowMapper {
     TransactionModel invoke() throws SQLException {
         TransactionOptionsModel optionsModel = new TransactionOptionsModel();
         optionsModel.setGroupSelected(rs.getBoolean("group_selected"));
+        optionsModel.setLegClosed(rs.getBoolean("leg_closed"));
+        optionsModel.setTransactionId(rs.getString("id"));
 
         return TransactionModel.builder()
                 .withId(rs.getString("id"))
