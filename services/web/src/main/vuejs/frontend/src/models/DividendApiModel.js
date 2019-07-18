@@ -7,7 +7,8 @@ class DividendApiModel {
     symbol = undefined;
     dividend = undefined;
 
-    isIncludedInTotalCalculation = true;
+    groupSelected = undefined;
+    legClosed = undefined;
 
     constructor(symbol) {
         this.symbol = symbol;

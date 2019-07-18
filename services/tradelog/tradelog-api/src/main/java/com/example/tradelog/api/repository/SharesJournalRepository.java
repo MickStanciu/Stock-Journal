@@ -27,7 +27,7 @@ public class SharesJournalRepository {
                     "       tsl.leg_closed " +
                     "FROM transaction_log tl " +
                     "         INNER JOIN shares_log sl ON tl.id = sl.transaction_fk " +
-                    "         LEFT JOIN transaction_settings_log tsl ON tl.id = tsl.transaction_fk " +
+                    "         INNER JOIN transaction_settings_log tsl ON tl.id = tsl.transaction_fk " +
                     "         LEFT JOIN shares_data sd ON sd.symbol = tl.symbol " +
                     "WHERE account_fk = CAST(? AS uuid) " +
                     "  and tl.transaction_type_fk = 'SHARE' " +
@@ -49,7 +49,7 @@ public class SharesJournalRepository {
                     "       tsl.leg_closed " +
                     "FROM transaction_log tl " +
                     "         INNER JOIN shares_log sl ON tl.id = sl.transaction_fk " +
-                    "         LEFT JOIN transaction_settings_log tsl ON tl.id = tsl.transaction_fk " +
+                    "         INNER JOIN transaction_settings_log tsl ON tl.id = tsl.transaction_fk " +
                     "         LEFT JOIN shares_data sd ON sd.symbol = tl.symbol " +
                     "WHERE tl.id = CAST(? AS uuid);";
 

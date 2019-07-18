@@ -272,6 +272,8 @@
                             model.date = item.date;
                             model.expiryDate = item.expiryDate;
                             model.transactionId = item.transactionId;
+                            model.groupSelected = item.groupSelected;
+                            model.legClosed = item.legClosed;
 
                             localItems.push(model);
                         });
@@ -300,6 +302,8 @@
                             model.date = item.date;
                             model.transactionId = item.transactionId;
                             model.dividend = item.dividend;
+                            model.groupSelected = item.groupSelected;
+                            model.legClosed = item.legClosed;
 
                             localItems.push(model);
                         });

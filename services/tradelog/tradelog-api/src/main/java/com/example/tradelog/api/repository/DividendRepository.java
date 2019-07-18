@@ -22,7 +22,7 @@ public class DividendRepository {
                     "       tsl.leg_closed " +
                     "FROM transaction_log tl " +
                     "         INNER JOIN dividend_log dl ON tl.id = dl.transaction_fk " +
-                    "         LEFT JOIN transaction_settings_log tsl ON tl.id = tsl.transaction_fk " +
+                    "         INNER JOIN transaction_settings_log tsl ON tl.id = tsl.transaction_fk " +
                     "WHERE account_fk = CAST(? AS uuid) " +
                     "  and tl.transaction_type_fk = 'DIVIDEND' " +
                     "  and symbol = ? " +

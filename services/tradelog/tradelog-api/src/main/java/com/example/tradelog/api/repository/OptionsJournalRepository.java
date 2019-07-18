@@ -32,7 +32,7 @@ public class OptionsJournalRepository {
                     "       tsl.leg_closed " +
                     "FROM transaction_log tl " +
                     "         INNER JOIN option_log ol on tl.id = ol.transaction_fk " +
-                    "         LEFT JOIN transaction_settings_log tsl on tl.id = tsl.transaction_fk " +
+                    "         INNER JOIN transaction_settings_log tsl on tl.id = tsl.transaction_fk " +
                     "LIMIT 1";
 
     private static final String JOURNAL_READ_BY_SYMBOL_FOR_ACCOUNT =
@@ -53,7 +53,7 @@ public class OptionsJournalRepository {
                     "       tsl.leg_closed " +
                     "FROM transaction_log tl " +
                     "         INNER JOIN option_log ol on tl.id = ol.transaction_fk " +
-                    "         LEFT JOIN transaction_settings_log tsl on tl.id = tsl.transaction_fk " +
+                    "         INNER JOIN transaction_settings_log tsl on tl.id = tsl.transaction_fk " +
                     "WHERE account_fk = CAST(? AS uuid) and symbol = ? " +
                     "ORDER BY date";
 
@@ -75,7 +75,7 @@ public class OptionsJournalRepository {
                     "       tsl.leg_closed " +
                     "FROM transaction_log tl " +
                     "         INNER JOIN option_log ol on tl.id = ol.transaction_fk " +
-                    "         LEFT JOIN transaction_settings_log tsl on tl.id = tsl.transaction_fk " +
+                    "         INNER JOIN transaction_settings_log tsl on tl.id = tsl.transaction_fk " +
                     "WHERE tl.id = CAST(? AS uuid)";
 
 

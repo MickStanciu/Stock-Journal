@@ -46,8 +46,7 @@ GRANT ALL PRIVILEGES ON TABLE transaction_log TO admin;
 CREATE TABLE shares_log
 (
     transaction_fk UUID  NOT NULL
-        CONSTRAINT transaction_log_pkey
-            REFERENCES transaction_log,
+        CONSTRAINT transaction_log_pkey REFERENCES transaction_log (id) UNIQUE,
     price          FLOAT NOT NULL,
     quantity       INTEGER,
     action_fk      VARCHAR(32) REFERENCES action (name),
@@ -61,7 +60,7 @@ GRANT ALL PRIVILEGES ON TABLE shares_log TO admin;
 CREATE TABLE option_log
 (
     transaction_fk  UUID  NOT NULL
-        CONSTRAINT transaction_log_pkey REFERENCES transaction_log (id),
+        CONSTRAINT transaction_log_pkey REFERENCES transaction_log (id) UNIQUE,
     stock_price     FLOAT NOT NULL,
     strike_price    FLOAT NOT NULL,
     expiry_date     DATE,
@@ -108,15 +107,12 @@ CREATE TABLE shares_data
 GRANT ALL PRIVILEGES ON TABLE shares_data TO admin;
 
 
-
 CREATE TABLE transaction_settings_log
 (
     transaction_fk UUID NOT NULL
-        CONSTRAINT transaction_log_pkey
-            REFERENCES transaction_log,
+        CONSTRAINT transaction_log_pkey REFERENCES transaction_log (id) UNIQUE,
     group_selected BOOLEAN DEFAULT TRUE,
     leg_closed     BOOLEAN DEFAULT FALSE
 );
-
 
 GRANT ALL PRIVILEGES ON TABLE transaction_settings_log TO admin;
