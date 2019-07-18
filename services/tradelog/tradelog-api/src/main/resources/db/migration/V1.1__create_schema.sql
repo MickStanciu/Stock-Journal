@@ -78,8 +78,7 @@ GRANT ALL PRIVILEGES ON TABLE option_log TO admin;
 create table if not exists dividend_log
 (
     transaction_fk UUID NOT NULL
-        CONSTRAINT transaction_log_pkey
-            REFERENCES transaction_log (id),
+        CONSTRAINT transaction_log_pkey REFERENCES transaction_log (id) UNIQUE,
     dividend FLOAT NOT NULL,
     quantity INTEGER NOT NULL
 );
