@@ -286,6 +286,7 @@
                             model.transactionId = item.transactionId;
                             model.type = item.type;
                             model.groupSelected = item.groupSelected;
+                            model.legClosed = item.legClosed;
 
                             if (model.type === 'SYNTHETIC_SHARE') {
                                 model.isSynthetic = true;
