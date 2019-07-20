@@ -45,6 +45,9 @@ public class TransactionRepository {
     private static final String JOURNAL_UPDATE_SETTINGS =
             "UPDATE transaction_settings_log SET group_selected = ?, leg_closed = ? WHERE transaction_fk = CAST(? AS uuid)";
 
+    private static final String JOURNAL_DELETE_SETTINGS =
+            "DELETE FROM transaction_settings_log WHERE transaction_fk = CAST(? AS uuid)";
+
     private JdbcTemplate jdbcTemplate;
 
     public TransactionRepository(JdbcTemplate jdbcTemplate) {
@@ -111,5 +114,10 @@ public class TransactionRepository {
     public boolean createSettings(String transactionId, TransactionOptionsModel model) {
         Object[] parameters = new Object[] {transactionId, model.isGroupSelected(), model.isLegClosed()};
         return jdbcTemplate.update(JOURNAL_CREATE_SETTINGS, parameters) == 1;
+    }
+
+    public boolean deleteSettingsRecord(String transactionId) {
+        Object[] parameters = new Object[] {transactionId};
+        return jdbcTemplate.update(JOURNAL_DELETE_SETTINGS, parameters) == 1;
     }
 }

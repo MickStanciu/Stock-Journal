@@ -63,6 +63,7 @@ public class ShareJournalService {
 
     public boolean deleteShareRecord(String accountId, String transactionId, String symbol) {
         return sharesJournalRepository.deleteRecord(transactionId)
+                && transactionRepository.deleteSettingsRecord(transactionId)
                 && transactionRepository.deleteShareRecord(transactionId, accountId, symbol);
     }
 

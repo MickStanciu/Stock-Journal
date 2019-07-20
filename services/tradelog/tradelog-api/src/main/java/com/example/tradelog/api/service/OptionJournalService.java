@@ -52,6 +52,7 @@ public class OptionJournalService {
 
     public boolean deleteOptionRecord(String accountId, String transactionId, String symbol) {
         return optionsJournalRepository.deleteRecord(transactionId)
+                && transactionRepository.deleteSettingsRecord(transactionId)
                 && transactionRepository.deleteOptionRecord(transactionId, accountId, symbol);
     }
 
