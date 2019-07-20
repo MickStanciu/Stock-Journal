@@ -2,7 +2,17 @@
     <div id="trade-list">
         <share-data v-bind:datamodel="shareData" v-if="shareDataLoaded"/>
 
-        <div class="row mt-5 pb-2 pt-2 table-header">
+        <div class="row pt-2 mt-3">
+            <div class="col">
+                <button type="button" class="btn btn-primary" v-on:click="addNewStockTradeClicked">Add new stock</button>
+            </div>
+
+            <div class="col">
+                <button type="button" class="btn btn-primary" v-on:click="addNewOptionTradeClicked">Add new option</button>
+            </div>
+        </div>
+
+        <div class="row mt-3 pb-2 pt-2 table-header">
             <div class="col-md-1">#</div>
             <div class="col-md-2">Date</div>
             <div class="col-md-5">Action</div>
@@ -32,17 +42,6 @@
             <div class="col text-right">{{ printCurrencyFormat(getTotal) }}</div>
         </div>
 
-        <div class="row pt-3">
-            <div class="col">
-                <button type="button" class="btn btn-primary" v-on:click="addNewStockTradeClicked">Add new stock</button>
-            </div>
-
-            <div class="col">
-                <button type="button" class="btn btn-primary" v-on:click="addNewOptionTradeClicked">Add new option</button>
-            </div>
-        </div>
-
-        <br/>
 
         <transition name="fade">
             <add-stock-trade v-if="isAddStockModalEnabled" v-bind:post="{symbol: symbol.toUpperCase()}"/>
