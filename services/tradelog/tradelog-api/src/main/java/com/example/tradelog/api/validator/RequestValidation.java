@@ -3,6 +3,7 @@ package com.example.tradelog.api.validator;
 import com.example.common.validator.FieldValidator;
 import com.example.tradelog.api.spec.model.*;
 
+import java.util.List;
 import java.util.function.Predicate;
 
 public class RequestValidation extends FieldValidator {
@@ -36,10 +37,18 @@ public class RequestValidation extends FieldValidator {
         return !RequestValidation.accountId.test(accountId) || !RequestValidation.symbol.test(symbol);
     }
 
-    public static boolean validateUpdateOptions(String accountId, String transactionId, TransactionOptionsModel model) {
+    public static boolean validateUpdateOptions(String accountId, String transactionId, TransactionSettingsModel model) {
         return RequestValidation.accountId.test(accountId)
                 && RequestValidation.transactionId.test(transactionId)
                 && model != null;
+    }
+
+    public static boolean validateUpdateSettingsBulk(String accountId, List<TransactionSettingsModel> models) {
+        boolean modelsValid = models != null && models.stream()
+                .map(TransactionSettingsModel::getTransactionId)
+                .anyMatch(f -> RequestValidation.transactionId.test(f));
+
+        return RequestValidation.accountId.test(accountId) && modelsValid;
     }
 
     static Predicate<ShareJournalModel> validateShareJournalModel = s -> s != null
@@ -83,4 +92,6 @@ public class RequestValidation extends FieldValidator {
             && s.getExpiryDate() != null
             && s.getStockPrice() >= 0.00
             && s.getStrikePrice() > 0;
+
+
 }

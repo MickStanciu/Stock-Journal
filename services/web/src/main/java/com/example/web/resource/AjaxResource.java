@@ -83,4 +83,13 @@ public class AjaxResource {
         tradeJournalService.deleteOptionTrade(accountId, symbol, transactionId);
         return "{}";
     }
+
+    @RequestMapping(value = "/tradelog/{accountId}/settings/bulk", method = RequestMethod.PUT)
+    public String updateSettings(
+            @PathVariable(name = "accountId") String accountId,
+            @RequestBody List<TransactionSettingsGWModel> transactionSettingsGWModelList
+    ) {
+        tradeJournalService.updateSettings(accountId, transactionSettingsGWModelList);
+        return "{}";
+    }
 }

@@ -98,6 +98,18 @@ const appService = {
                 })
         })
     },
+    saveSettings(settings) {
+        return new Promise(resolve => {
+           axios.put('/settings/bulk', settings)
+               .then(response => {
+                   console.debug("Settings saved");
+               })
+               .catch(error => {
+                   console.error(error);
+                   resolve(null);
+               })
+        });
+    }
 };
 
 export default appService;

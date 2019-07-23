@@ -2,10 +2,9 @@ package com.example.tradelog.api.resource;
 
 import com.example.tradelog.api.exception.TradeLogException;
 import com.example.tradelog.api.facade.JournalFacade;
-import com.example.tradelog.api.service.TransactionJournalService;
 import com.example.tradelog.api.spec.exception.ExceptionCode;
 import com.example.tradelog.api.spec.model.TradeSummaryModel;
-import com.example.tradelog.api.spec.model.TransactionOptionsModel;
+import com.example.tradelog.api.spec.model.TransactionSettingsModel;
 import com.example.tradelog.api.validator.RequestValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,7 +67,7 @@ public class TransactionJournalResource {
     @ResponseStatus(HttpStatus.OK)
     public void updateOptions(@RequestHeader("accountId") String accountId,
                               @PathVariable("transactionId") String transactionId,
-                              @RequestBody TransactionOptionsModel model) throws TradeLogException {
+                              @RequestBody TransactionSettingsModel model) throws TradeLogException {
 
         if (!RequestValidation.validateUpdateOptions(accountId, transactionId, model)) {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
@@ -76,9 +75,22 @@ public class TransactionJournalResource {
 
         //todo: validate account id against transaction?
 
-        if (!facade.updateOptions(transactionId, model)) {
+        if (!facade.updateOptions(model)) {
             log.error("COULD NOT UPDATE OPTIONS FOR tID: {}", transactionId);
             throw new TradeLogException(ExceptionCode.UPDATE_TRANSACTION_OPTIONS_FAILED);
         }
     }
+
+    @RequestMapping(value = "/settings/bulk", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public void updateSettingsBulk(@RequestHeader("accountId") String accountId,
+                                   @RequestBody List<TransactionSettingsModel> models) throws TradeLogException {
+
+        if (!RequestValidation.validateUpdateSettingsBulk(accountId, models)) {
+            throw new TradeLogException(ExceptionCode.BAD_REQUEST);
+        }
+
+        facade.updateSettingsBulk(models);
+    }
+
 }

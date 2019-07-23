@@ -128,4 +128,17 @@ public class TradeJournalGateway {
         ResponseEntity<ShareDataGWModel> responseEntity = restTemplate.exchange(builder.build(symbol), HttpMethod.GET, new HttpEntity<>(headers), ShareDataGWModel.class);
         return responseEntity.getBody();
     }
+
+    public void updateSettings(String accountId, List<TransactionSettingsGWModel> transactionSettingsGWModelList) {
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromHttpUrl(API_URL)
+                .path("/transaction/settings/bulk");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("accountId", accountId);
+
+        HttpEntity<List<TransactionSettingsGWModel>> request = new HttpEntity<>(transactionSettingsGWModelList, headers);
+        restTemplate.exchange(builder.build(""), HttpMethod.PUT, request, Object.class);
+    }
 }

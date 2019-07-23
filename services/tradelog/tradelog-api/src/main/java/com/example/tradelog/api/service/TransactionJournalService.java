@@ -1,8 +1,7 @@
 package com.example.tradelog.api.service;
 
 import com.example.tradelog.api.repository.TransactionRepository;
-import com.example.tradelog.api.spec.model.TradeSummaryModel;
-import com.example.tradelog.api.spec.model.TransactionOptionsModel;
+import com.example.tradelog.api.spec.model.TransactionSettingsModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,16 @@ public class TransactionJournalService {
         return transactionRepository.getUniqueSymbols(accountId);
     }
 
-    public boolean updateOptions(String transactionId, TransactionOptionsModel model) {
-        return transactionRepository.updateSettings(transactionId, model);
+    public boolean updateOptions(TransactionSettingsModel model) {
+        return transactionRepository.updateSettings(model);
+    }
+
+    public void updateSettingsBulk(List<TransactionSettingsModel> models) {
+        //todo: find a better way
+        for (TransactionSettingsModel model : models) {
+            if (!transactionRepository.updateSettings(model)) {
+                log.error("Failed to update settings for {}", model.getTransactionId());
+            }
+        }
     }
 }

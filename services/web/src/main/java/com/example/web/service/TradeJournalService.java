@@ -46,4 +46,8 @@ public class TradeJournalService {
     public ShareDataGWModel getShareData(String accountId, String symbol) {
         return tradeJournalGateway.getShareData(accountId, symbol);
     }
+
+    public void updateSettings(String accountId, List<TransactionSettingsGWModel> transactionSettingsGWModelList) {
+        tradeJournalGateway.updateSettings(accountId, transactionSettingsGWModelList);
+    }
 }

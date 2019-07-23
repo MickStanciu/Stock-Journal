@@ -1,21 +1,17 @@
 package com.example.tradelog.api.repository;
 
 import com.example.common.converter.TimeConversion;
-import com.example.tradelog.api.spec.model.TradeSummaryModel;
 import com.example.tradelog.api.spec.model.TransactionModel;
-import com.example.tradelog.api.spec.model.TransactionOptionsModel;
+import com.example.tradelog.api.spec.model.TransactionSettingsModel;
 import com.example.tradelog.api.spec.model.TransactionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
@@ -106,12 +102,12 @@ public class TransactionRepository {
         return jdbcTemplate.update(JOURNAL_DELETE_TRANSACTION_FOR_ACCOUNT, parameters) == 1;
     }
 
-    public boolean updateSettings(String transactionId, TransactionOptionsModel model) {
-        Object[] parameters = new Object[] {transactionId, model.isGroupSelected(), model.isLegClosed()};
+    public boolean updateSettings(TransactionSettingsModel model) {
+        Object[] parameters = new Object[] {model.isGroupSelected(), model.isLegClosed(), model.getTransactionId()};
         return jdbcTemplate.update(JOURNAL_UPDATE_SETTINGS, parameters) == 1;
     }
 
-    public boolean createSettings(String transactionId, TransactionOptionsModel model) {
+    public boolean createSettings(String transactionId, TransactionSettingsModel model) {
         Object[] parameters = new Object[] {transactionId, model.isGroupSelected(), model.isLegClosed()};
         return jdbcTemplate.update(JOURNAL_CREATE_SETTINGS, parameters) == 1;
     }

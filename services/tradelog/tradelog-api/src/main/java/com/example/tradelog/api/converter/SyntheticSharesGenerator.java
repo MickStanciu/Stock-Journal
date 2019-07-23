@@ -50,7 +50,7 @@ public class SyntheticSharesGenerator {
                     syntheticAction = Action.BUY;
                 }
 
-                TransactionOptionsModel optionsModel = new TransactionOptionsModel();
+                TransactionSettingsModel optionsModel = new TransactionSettingsModel();
                 optionsModel.setGroupSelected(true);
                 optionsModel.setLegClosed(false);
 

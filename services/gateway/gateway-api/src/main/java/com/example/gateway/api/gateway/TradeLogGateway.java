@@ -143,20 +143,6 @@ public class TradeLogGateway {
         restTemplate.exchange(builder.build(symbol, transactionId), HttpMethod.DELETE, new HttpEntity(headers), Object.class);
     }
 
-    public void updateGroupOption(String accountId, String transactionId, TransactionOptionsModel optionsModel) {
-        UriComponentsBuilder builder = UriComponentsBuilder
-                .fromHttpUrl(API_URL)
-                .path("/transactions/options/{id}");
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("accountId", accountId);
-
-        HttpEntity<TransactionOptionsModel> request = new HttpEntity<>(optionsModel, headers);
-
-        restTemplate.exchange(builder.build(transactionId), HttpMethod.PUT, request, Object.class);
-    }
-
     public List<TradeSummaryModel> getSummary(String accountId) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
@@ -183,5 +169,31 @@ public class TradeLogGateway {
         ResponseEntity<ShareDataModel> responseEntity =
                 restTemplate.exchange(builder.build(symbol), HttpMethod.GET, new HttpEntity<>(headers), ShareDataModel.class);
         return responseEntity.getBody();
+    }
+
+    public void updateTransactionSettings(String accountId, String transactionId, TransactionSettingsModel optionsModel) {
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromHttpUrl(API_URL)
+                .path("/transactions/options/{id}");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("accountId", accountId);
+
+        HttpEntity<TransactionSettingsModel> request = new HttpEntity<>(optionsModel, headers);
+        restTemplate.exchange(builder.build(transactionId), HttpMethod.PUT, request, Object.class);
+    }
+
+    public void updateTransactionSettingsBulk(String accountId, List<TransactionSettingsModel> models) {
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromHttpUrl(API_URL)
+                .path("/transactions/settings/bulk");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("accountId", accountId);
+
+        HttpEntity<List<TransactionSettingsModel>> request = new HttpEntity<>(models, headers);
+        restTemplate.exchange(builder.build(""), HttpMethod.PUT, request, Object.class);
     }
 }

@@ -5,10 +5,9 @@ import com.example.tradelog.api.service.OptionJournalService;
 import com.example.tradelog.api.service.ShareJournalService;
 import com.example.tradelog.api.service.TransactionJournalService;
 import com.example.tradelog.api.spec.model.TradeSummaryModel;
-import com.example.tradelog.api.spec.model.TransactionOptionsModel;
+import com.example.tradelog.api.spec.model.TransactionSettingsModel;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,7 +74,11 @@ public class JournalFacade {
                 .collect(Collectors.toList());
     }
 
-    public boolean updateOptions(String transactionId, TransactionOptionsModel model) {
-        return transactionService.updateOptions(transactionId, model);
+    public boolean updateOptions(TransactionSettingsModel model) {
+        return transactionService.updateOptions(model);
+    }
+
+    public void updateSettingsBulk(List<TransactionSettingsModel> models) {
+        transactionService.updateSettingsBulk(models);
     }
 }

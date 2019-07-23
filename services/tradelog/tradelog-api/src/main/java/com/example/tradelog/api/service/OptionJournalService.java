@@ -5,10 +5,9 @@ import com.example.tradelog.api.repository.OptionsJournalRepository;
 import com.example.tradelog.api.repository.TransactionRepository;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
 import com.example.tradelog.api.spec.model.TradeSummaryModel;
-import com.example.tradelog.api.spec.model.TransactionOptionsModel;
+import com.example.tradelog.api.spec.model.TransactionSettingsModel;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -36,10 +35,10 @@ public class OptionJournalService {
 
         boolean transactionSettingsSuccess = false;
         if (optionalId.isPresent()) {
-            TransactionOptionsModel transactionOptionsModel = new TransactionOptionsModel();
-            transactionOptionsModel.setGroupSelected(true);
-            transactionOptionsModel.setLegClosed(false);
-            transactionSettingsSuccess = transactionRepository.createSettings(optionalId.get(), transactionOptionsModel);
+            TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel();
+            transactionSettingsModel.setGroupSelected(true);
+            transactionSettingsModel.setLegClosed(false);
+            transactionSettingsSuccess = transactionRepository.createSettings(optionalId.get(), transactionSettingsModel);
         }
 
         if (optionalId.isPresent() && transactionSettingsSuccess) {

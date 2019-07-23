@@ -10,6 +10,10 @@
             <div class="col">
                 <button type="button" class="btn btn-primary" v-on:click="addNewOptionTradeClicked">Add new option</button>
             </div>
+
+            <div class="col">
+                <button type="button" class="btn btn-primary" v-on:click="saveSettingsClicked">Save options</button>
+            </div>
         </div>
 
         <div class="row mt-3 pb-2 pt-2 table-header">
@@ -78,6 +82,7 @@
     import ShareApiModel from "../models/ShareApiModel";
     import DividendApiModel from "../models/DividendApiModel";
     import ShareData from "../components/tradelist/ShareData";
+    import SettingsApiModel from "../models/SettingsApiModel";
 
     export default {
         name: "TradeList",
@@ -142,6 +147,21 @@
 
             addNewOptionTradeClicked: function() {
                 this.$store.dispatch('showAddOptionModal');
+            },
+
+            saveSettingsClicked: function() {
+                let settings = [];
+                this.items.forEach(function (item) {
+                    let settingModel = new SettingsApiModel();
+                    settingModel.transactionId = item.transactionId;
+                    settingModel.groupSelected = item.groupSelected;
+                    settingModel.legClosed = item.legClosed;
+
+                    if (settingModel.transactionId != null) {
+                        settings.push(settingModel);
+                    }
+                });
+                service.saveSettings(settings);
             },
 
             rowClass: function (item, idx) {

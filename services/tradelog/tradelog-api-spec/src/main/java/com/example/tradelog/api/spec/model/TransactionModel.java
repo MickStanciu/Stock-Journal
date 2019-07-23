@@ -12,7 +12,7 @@ public class TransactionModel implements Serializable {
     private OffsetDateTime date;
     private String symbol;
     private TransactionType type;
-    private TransactionOptionsModel options;
+    private TransactionSettingsModel options;
 
     public TransactionModel() {
         //required by Jackson
@@ -38,7 +38,7 @@ public class TransactionModel implements Serializable {
         return type;
     }
 
-    public TransactionOptionsModel getOptions() {
+    public TransactionSettingsModel getOptions() {
         return options;
     }
 
@@ -84,7 +84,7 @@ public class TransactionModel implements Serializable {
             return this;
         }
 
-        public Builder withTransactionOptionsModel(TransactionOptionsModel options) {
+        public Builder withTransactionOptionsModel(TransactionSettingsModel options) {
             model.options = options;
             return this;
         }

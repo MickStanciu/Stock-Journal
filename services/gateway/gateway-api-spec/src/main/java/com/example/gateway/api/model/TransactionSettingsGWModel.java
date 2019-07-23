@@ -1,16 +1,18 @@
-package com.example.tradelog.api.spec.model;
+package com.example.gateway.api.model;
 
 import java.io.Serializable;
 
-public class TransactionOptionsModel implements Serializable {
+public class TransactionSettingsGWModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    //todo: not sure if necessary
     private String transactionId;
-
     private boolean groupSelected;
     private boolean legClosed;
+
+    public TransactionSettingsGWModel() {
+        //required by Jackson
+    }
 
     public String getTransactionId() {
         return transactionId;
@@ -24,12 +26,12 @@ public class TransactionOptionsModel implements Serializable {
         return groupSelected;
     }
 
-    public boolean isLegClosed() {
-        return legClosed;
-    }
-
     public void setGroupSelected(boolean groupSelected) {
         this.groupSelected = groupSelected;
+    }
+
+    public boolean isLegClosed() {
+        return legClosed;
     }
 
     public void setLegClosed(boolean legClosed) {

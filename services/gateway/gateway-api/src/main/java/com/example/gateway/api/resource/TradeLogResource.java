@@ -118,4 +118,11 @@ public class TradeLogResource {
                                   @PathVariable("transactionId") String transactionId) {
        tradeLogService.updateGroupOption(accountId, transactionId, enabled);
     }
+
+    @RequestMapping(value = "/transaction/settings/bulk", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public void updateBulkSettings(@RequestHeader("accountId") String accountId,
+                                   @RequestBody List<TransactionSettingsGWModel> modelList) {
+        tradeLogService.updateGroupSettings(accountId, modelList);
+    }
 }

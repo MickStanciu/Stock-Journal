@@ -1,14 +1,8 @@
 package com.example.gateway.api.service;
 
-import com.example.gateway.api.converter.OptionJournalConverter;
-import com.example.gateway.api.converter.ShareDataConverter;
-import com.example.gateway.api.converter.ShareJournalConverter;
-import com.example.gateway.api.converter.TradeSummaryConverter;
+import com.example.gateway.api.converter.*;
 import com.example.gateway.api.gateway.TradeLogGateway;
-import com.example.gateway.api.model.OptionJournalGWModel;
-import com.example.gateway.api.model.ShareDataGWModel;
-import com.example.gateway.api.model.ShareJournalGWModel;
-import com.example.gateway.api.model.TradeSummaryGWModel;
+import com.example.gateway.api.model.*;
 import com.example.tradelog.api.spec.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,8 +71,13 @@ public class TradeLogService {
     }
 
     public void updateGroupOption(String accountId, String transactionId, boolean enabled) {
-        TransactionOptionsModel optionsModel = new TransactionOptionsModel();
-        optionsModel.setGroupSelected(enabled);
-        tradeLogGateway.updateGroupOption(accountId, transactionId, optionsModel);
+        TransactionSettingsModel settingsModel = new TransactionSettingsModel();
+        settingsModel.setGroupSelected(enabled);
+        tradeLogGateway.updateTransactionSettings(accountId, transactionId, settingsModel);
+    }
+
+    public void updateGroupSettings(String accountId, List<TransactionSettingsGWModel> modelList) {
+        List<TransactionSettingsModel> models = modelList.stream().map(TransactionSettingConverter.toTransactionSettinsGWModel).collect(Collectors.toList());
+        tradeLogGateway.updateTransactionSettingsBulk(accountId, models);
     }
 }

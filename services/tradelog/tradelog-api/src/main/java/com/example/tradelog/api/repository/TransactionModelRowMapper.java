@@ -2,7 +2,7 @@ package com.example.tradelog.api.repository;
 
 import com.example.common.converter.TimeConversion;
 import com.example.tradelog.api.spec.model.TransactionModel;
-import com.example.tradelog.api.spec.model.TransactionOptionsModel;
+import com.example.tradelog.api.spec.model.TransactionSettingsModel;
 import com.example.tradelog.api.spec.model.TransactionType;
 
 import java.sql.ResultSet;
@@ -16,7 +16,7 @@ class TransactionModelRowMapper {
     }
 
     TransactionModel invoke() throws SQLException {
-        TransactionOptionsModel optionsModel = new TransactionOptionsModel();
+        TransactionSettingsModel optionsModel = new TransactionSettingsModel();
         optionsModel.setGroupSelected(rs.getBoolean("group_selected"));
         optionsModel.setLegClosed(rs.getBoolean("leg_closed"));
         optionsModel.setTransactionId(rs.getString("id"));

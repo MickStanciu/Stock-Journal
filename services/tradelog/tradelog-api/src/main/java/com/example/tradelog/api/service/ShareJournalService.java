@@ -6,7 +6,7 @@ import com.example.tradelog.api.repository.SharesJournalRepository;
 import com.example.tradelog.api.repository.TransactionRepository;
 import com.example.tradelog.api.spec.model.ShareJournalModel;
 import com.example.tradelog.api.spec.model.TradeSummaryModel;
-import com.example.tradelog.api.spec.model.TransactionOptionsModel;
+import com.example.tradelog.api.spec.model.TransactionSettingsModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,10 +46,10 @@ public class ShareJournalService {
 
         boolean transactionSettingsSuccess = false;
         if (optionalId.isPresent()) {
-            TransactionOptionsModel transactionOptionsModel = new TransactionOptionsModel();
-            transactionOptionsModel.setGroupSelected(true);
-            transactionOptionsModel.setLegClosed(false);
-            transactionSettingsSuccess = transactionRepository.createSettings(optionalId.get(), transactionOptionsModel);
+            TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel();
+            transactionSettingsModel.setGroupSelected(true);
+            transactionSettingsModel.setLegClosed(false);
+            transactionSettingsSuccess = transactionRepository.createSettings(optionalId.get(), transactionSettingsModel);
         }
 
         if (optionalId.isPresent() && transactionSettingsSuccess) {
