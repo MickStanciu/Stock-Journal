@@ -36,10 +36,10 @@ public class TransactionRepository {
                     "and symbol = ? and transaction_type_fk = ?";
 
     private static final String JOURNAL_CREATE_SETTINGS =
-            "INSERT INTO transaction_settings_log (transaction_fk, group_selected, leg_closed) VALUES (CAST(? AS uuid), ?, ?)";
+            "INSERT INTO transaction_settings_log (transaction_fk, preferred_price, group_selected, leg_closed) VALUES (CAST(? AS uuid), ?, ?, ?)";
 
     private static final String JOURNAL_UPDATE_SETTINGS =
-            "UPDATE transaction_settings_log SET group_selected = ?, leg_closed = ? WHERE transaction_fk = CAST(? AS uuid)";
+            "UPDATE transaction_settings_log SET preferred_price = ?, group_selected = ?, leg_closed = ? WHERE transaction_fk = CAST(? AS uuid)";
 
     private static final String JOURNAL_DELETE_SETTINGS =
             "DELETE FROM transaction_settings_log WHERE transaction_fk = CAST(? AS uuid)";
@@ -103,12 +103,12 @@ public class TransactionRepository {
     }
 
     public boolean updateSettings(TransactionSettingsModel model) {
-        Object[] parameters = new Object[] {model.isGroupSelected(), model.isLegClosed(), model.getTransactionId()};
+        Object[] parameters = new Object[] {model.getPreferredPrice(), model.isGroupSelected(), model.isLegClosed(), model.getTransactionId()};
         return jdbcTemplate.update(JOURNAL_UPDATE_SETTINGS, parameters) == 1;
     }
 
     public boolean createSettings(String transactionId, TransactionSettingsModel model) {
-        Object[] parameters = new Object[] {transactionId, model.isGroupSelected(), model.isLegClosed()};
+        Object[] parameters = new Object[] {transactionId, model.getPreferredPrice(), model.isGroupSelected(), model.isLegClosed()};
         return jdbcTemplate.update(JOURNAL_CREATE_SETTINGS, parameters) == 1;
     }
 

@@ -9,15 +9,16 @@ public class TransactionSettingsModel implements Serializable {
     //todo: not sure if necessary
     private String transactionId;
 
+    private Double preferredPrice;
     private boolean groupSelected;
     private boolean legClosed;
 
-    public String getTransactionId() {
-        return transactionId;
+    public TransactionSettingsModel() {
+        //required by Jackson
     }
 
-    public void setTransactionId(String transactionId) {
-        this.transactionId = transactionId;
+    public String getTransactionId() {
+        return transactionId;
     }
 
     public boolean isGroupSelected() {
@@ -28,11 +29,46 @@ public class TransactionSettingsModel implements Serializable {
         return legClosed;
     }
 
-    public void setGroupSelected(boolean groupSelected) {
-        this.groupSelected = groupSelected;
+    public Double getPreferredPrice() {
+        return preferredPrice;
     }
 
-    public void setLegClosed(boolean legClosed) {
-        this.legClosed = legClosed;
+    public static Builder builder() {
+        return new Builder();
     }
+
+    public static class Builder {
+        TransactionSettingsModel model;
+
+        public Builder() {
+            model = new TransactionSettingsModel();
+        }
+
+        public TransactionSettingsModel build() {
+            TransactionSettingsModel buildModel = this.model;
+            this.model = new TransactionSettingsModel();
+            return buildModel;
+        }
+
+        public Builder withTransactionId(String transactionId) {
+            model.transactionId = transactionId;
+            return this;
+        }
+
+        public Builder withGroupSelected(boolean groupSelected) {
+            model.groupSelected = groupSelected;
+            return this;
+        }
+
+        public Builder withLegClosed(boolean legClosed) {
+            model.legClosed = legClosed;
+            return this;
+        }
+
+        public Builder withPreferredPrice(Double preferredPrice) {
+            model.preferredPrice = preferredPrice;
+            return this;
+        }
+    }
+
 }

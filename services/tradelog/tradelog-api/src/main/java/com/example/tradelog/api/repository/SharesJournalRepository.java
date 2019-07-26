@@ -23,6 +23,7 @@ public class SharesJournalRepository {
                     "       sl.quantity, " +
                     "       sl.action_fk, " +
                     "       sl.broker_fees, " +
+                    "       tsl.preferred_price, " +
                     "       tsl.group_selected, " +
                     "       tsl.leg_closed " +
                     "FROM transaction_log tl " +
@@ -45,6 +46,7 @@ public class SharesJournalRepository {
                     "       sl.quantity, " +
                     "       sl.action_fk, " +
                     "       sl.broker_fees, " +
+                    "       tsl.preferred_price, " +
                     "       tsl.group_selected, " +
                     "       tsl.leg_closed " +
                     "FROM transaction_log tl " +

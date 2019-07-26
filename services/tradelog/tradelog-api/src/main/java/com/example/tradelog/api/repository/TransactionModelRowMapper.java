@@ -16,10 +16,17 @@ class TransactionModelRowMapper {
     }
 
     TransactionModel invoke() throws SQLException {
-        TransactionSettingsModel optionsModel = new TransactionSettingsModel();
-        optionsModel.setGroupSelected(rs.getBoolean("group_selected"));
-        optionsModel.setLegClosed(rs.getBoolean("leg_closed"));
-        optionsModel.setTransactionId(rs.getString("id"));
+        Double prefferedPrice = rs.getDouble("preferred_price");
+        if (rs.wasNull()) {
+            prefferedPrice = null;
+        }
+
+        TransactionSettingsModel optionsModel = TransactionSettingsModel.builder()
+                .withTransactionId(rs.getString("id"))
+                .withPreferredPrice(prefferedPrice)
+                .withGroupSelected(rs.getBoolean("group_selected"))
+                .withLegClosed(rs.getBoolean("leg_closed"))
+                .build();
 
         return TransactionModel.builder()
                 .withId(rs.getString("id"))

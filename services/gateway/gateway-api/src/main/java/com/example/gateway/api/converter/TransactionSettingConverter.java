@@ -7,11 +7,12 @@ import java.util.function.Function;
 
 public class TransactionSettingConverter {
 
-    public static Function<TransactionSettingsGWModel, TransactionSettingsModel> toTransactionSettinsGWModel = gwModel -> {
-        TransactionSettingsModel model = new TransactionSettingsModel();
-        model.setTransactionId(gwModel.getTransactionId());
-        model.setGroupSelected(gwModel.isGroupSelected());
-        model.setLegClosed(gwModel.isLegClosed());
-        return model;
-    };
+    public static Function<TransactionSettingsGWModel, TransactionSettingsModel> toTransactionSettingsGWModel =
+            gwModel ->
+                    TransactionSettingsModel.builder()
+                            .withTransactionId(gwModel.getTransactionId())
+                            .withPreferredPrice(gwModel.getPreferredPrice())
+                            .withLegClosed(gwModel.isLegClosed())
+                            .withGroupSelected(gwModel.isGroupSelected())
+                            .build();
 }

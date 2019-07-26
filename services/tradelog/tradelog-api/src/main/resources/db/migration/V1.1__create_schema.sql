@@ -108,10 +108,11 @@ GRANT ALL PRIVILEGES ON TABLE shares_data TO admin;
 
 CREATE TABLE transaction_settings_log
 (
-    transaction_fk UUID NOT NULL
+    transaction_fk  UUID  NOT NULL
         CONSTRAINT transaction_log_pkey REFERENCES transaction_log (id) UNIQUE,
-    group_selected BOOLEAN DEFAULT TRUE,
-    leg_closed     BOOLEAN DEFAULT FALSE
+    preferred_price FLOAT DEFAULT NULL,
+    group_selected  BOOLEAN DEFAULT TRUE,
+    leg_closed      BOOLEAN DEFAULT FALSE
 );
 
 GRANT ALL PRIVILEGES ON TABLE transaction_settings_log TO admin;

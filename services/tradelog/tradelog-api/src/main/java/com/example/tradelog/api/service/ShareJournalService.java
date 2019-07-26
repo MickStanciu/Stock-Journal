@@ -46,9 +46,10 @@ public class ShareJournalService {
 
         boolean transactionSettingsSuccess = false;
         if (optionalId.isPresent()) {
-            TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel();
-            transactionSettingsModel.setGroupSelected(true);
-            transactionSettingsModel.setLegClosed(false);
+            TransactionSettingsModel transactionSettingsModel = TransactionSettingsModel.builder()
+                    .withGroupSelected(true)
+                    .withLegClosed(false)
+                    .build();
             transactionSettingsSuccess = transactionRepository.createSettings(optionalId.get(), transactionSettingsModel);
         }
 
