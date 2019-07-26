@@ -18,6 +18,7 @@ public class DividendRepository {
                     "       tl.transaction_type_fk, " +
                     "       dl.dividend, " +
                     "       dl.quantity, " +
+                    "       tsl.preferred_price, " +
                     "       tsl.group_selected, " +
                     "       tsl.leg_closed " +
                     "FROM transaction_log tl " +

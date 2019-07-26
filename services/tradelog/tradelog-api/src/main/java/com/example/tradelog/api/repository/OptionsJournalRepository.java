@@ -28,6 +28,7 @@ public class OptionsJournalRepository {
                     "       ol.action_fk, " +
                     "       ol.option_type_fk, " +
                     "       ol.broker_fees, " +
+                    "       tsl.preferred_price, " +
                     "       tsl.group_selected, " +
                     "       tsl.leg_closed " +
                     "FROM transaction_log tl " +
@@ -49,6 +50,7 @@ public class OptionsJournalRepository {
                     "       ol.action_fk, " +
                     "       ol.option_type_fk, " +
                     "       ol.broker_fees, " +
+                    "       tsl.preferred_price, " +
                     "       tsl.group_selected, " +
                     "       tsl.leg_closed " +
                     "FROM transaction_log tl " +
@@ -71,6 +73,7 @@ public class OptionsJournalRepository {
                     "       ol.action_fk, " +
                     "       ol.option_type_fk, " +
                     "       ol.broker_fees, " +
+                    "       tsl.preferred_price, " +
                     "       tsl.group_selected, " +
                     "       tsl.leg_closed " +
                     "FROM transaction_log tl " +

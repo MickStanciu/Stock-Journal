@@ -16,14 +16,14 @@ class TransactionModelRowMapper {
     }
 
     TransactionModel invoke() throws SQLException {
-        Double prefferedPrice = rs.getDouble("preferred_price");
+        Double preferredPrice = rs.getDouble("preferred_price");
         if (rs.wasNull()) {
-            prefferedPrice = null;
+            preferredPrice = null;
         }
 
         TransactionSettingsModel optionsModel = TransactionSettingsModel.builder()
                 .withTransactionId(rs.getString("id"))
-                .withPreferredPrice(prefferedPrice)
+                .withPreferredPrice(preferredPrice)
                 .withGroupSelected(rs.getBoolean("group_selected"))
                 .withLegClosed(rs.getBoolean("leg_closed"))
                 .build();
