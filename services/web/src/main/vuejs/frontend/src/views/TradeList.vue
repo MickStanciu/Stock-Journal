@@ -17,23 +17,41 @@
         </div>
 
         <div class="row mt-3 pb-2 pt-2 table-header">
-            <div class="col-md-1">#</div>
             <div class="col-md-2">Date</div>
             <div class="col-md-5">Action</div>
             <div class="col-md-1">Fees</div>
             <div class="col-md-2 text-right">Total</div>
-            <div class="col-md-1">Action</div>
+            <div class="col-md-2">Action</div>
+        </div>
+
+        <div class="row pb-1 pt-1 table-footer">
+            <div class="col-md-1">&nbsp;</div>
+            <div class="col-md-2">&nbsp;</div>
+            <div class="col-md-5">&nbsp;</div>
+            <div class="col text-right">{{ printCurrencyFormat(getTotal) }}</div>
+            <div class="col-1">&nbsp;</div>
         </div>
 
         <template v-for="(item, idx) in items">
             <div class="row pb-1 pt-1" v-bind:class="rowClass(item, idx)" v-bind:key="item.transactionId">
-                <div class="col-md-1 action-element" v-bind:class="[item.groupSelected ? 'row-selected' : 'row-not-selected']" v-on:click="rowClick(item)">{{ idx + 1 }}</div>
                 <div class="col-md-2" v-bind:class="[item.groupSelected ? 'row-selected' : 'row-not-selected']">{{ dateTz(item) }}</div>
                 <div class="col-md-5" v-bind:class="[item.groupSelected ? 'row-selected' : 'row-not-selected']">{{ encodeAction(item) }}</div>
                 <div class="col-md-1" v-bind:class="[item.groupSelected ? 'row-selected' : 'row-not-selected']">{{ printCurrencyFormat(item.brokerFees) }}</div>
                 <div class="col-md-2 text-right" v-bind:class="[item.groupSelected ? 'row-selected' : 'row-not-selected']">{{ printCurrencyFormat(calculateLineItemTotal(item)) }}</div>
-                <div class="col-md-1">
-                    <font-awesome-icon icon="trash-alt" class="action-icon" v-if="!item.isSynthetic" v-on:click="deleteRecordClicked(item.transactionId)"></font-awesome-icon>
+                <div class="col-md-2">
+                    <template  v-if="!item.isSynthetic">
+                        <template v-if="item.legClosed">
+                            <font-awesome-icon icon="unlock" class="action-icon" v-on:click="legClosedClicked(item)" v-bind:class="[item.legClosed ? 'item-not-active' : 'item-active']"></font-awesome-icon>
+                        </template>
+                        <template v-else>
+                            <font-awesome-icon icon="lock-open" class="action-icon" v-on:click="legClosedClicked(item)" v-bind:class="[item.legClosed ? 'item-not-active' : 'item-active']"></font-awesome-icon>
+                        </template>
+                        <font-awesome-icon icon="calculator" class="action-icon" v-on:click="groupSelectClicked(item)" v-bind:class="[item.groupSelected ? 'item-active' : 'item-not-active']"></font-awesome-icon>
+                        <font-awesome-icon icon="trash-alt" class="action-icon" v-on:click="deleteRecordClicked(item.transactionId)"></font-awesome-icon>
+                    </template>
+
+
+
                 </div>
             </div>
         </template>
@@ -42,8 +60,8 @@
             <div class="col-md-1">&nbsp;</div>
             <div class="col-md-2">&nbsp;</div>
             <div class="col-md-5">&nbsp;</div>
-            <div class="col-1">&nbsp;</div>
             <div class="col text-right">{{ printCurrencyFormat(getTotal) }}</div>
+            <div class="col-1">&nbsp;</div>
         </div>
 
 
@@ -145,6 +163,14 @@
                 }
             },
 
+            legClosedClicked: function(item) {
+                item.legClosed = !item.legClosed;
+            },
+
+            groupSelectClicked : function (item) {
+                item.groupSelected = !item.groupSelected;
+            },
+
             addNewOptionTradeClicked: function() {
                 this.$store.dispatch('showAddOptionModal');
             },
@@ -165,20 +191,19 @@
             },
 
             rowClass: function (item, idx) {
-                let className = 'table-cell-odd';
-                if (idx%2 === 0) {
-                    className = 'table-cell-even';
-                }
-
                 if (item.isSynthetic === true) {
-                    className += ' table-cell-synthetic';
+                    return 'table-cell-synthetic';
                 }
 
-                return className;
-            },
-
-            rowClick : function (item) {
-                item.groupSelected = !item.groupSelected;
+                if (item.legClosed === true) {
+                    return 'table-cell-closed';
+                } else {
+                    let className = 'table-cell-odd';
+                    if (idx%2 === 0) {
+                        className = 'table-cell-even';
+                    }
+                    return className;
+                }
             },
 
             getModelById: function (id) {
@@ -401,6 +426,15 @@
         font-style: italic;
     }
 
+    .table-cell-synthetic:hover {
+        background-color: #abdde5;
+    }
+
+    .table-cell-closed {
+        background-color: lightgray;
+        font-style: italic;
+    }
+
     .fade-enter-active {
         transition: opacity .5s;
     }
@@ -415,18 +449,13 @@
 
     .action-icon {
         margin-left: 2px;
+        margin-right: 2px;
+        width: 1rem;
     }
 
     .action-icon:hover {
         cursor: pointer;
-        color:red;
     }
-
-    .action-element:hover {
-        cursor: pointer;
-        font-weight: bold;
-    }
-
 
     .row-selected {
         color: black;
@@ -434,6 +463,14 @@
 
     .row-not-selected {
         color: gray;
+    }
+
+    .item-active {
+        color: green;
+    }
+
+    .item-not-active {
+        color: red;
     }
 
 </style>

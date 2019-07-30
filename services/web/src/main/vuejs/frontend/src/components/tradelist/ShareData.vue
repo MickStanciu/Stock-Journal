@@ -12,7 +12,7 @@
             <div class="col-md-2">{{ share_model.sector }}</div>
             <div class="col-md-1">{{ share_model.finvizTarget }}</div>
             <div class="col-md-1">{{ share_model.calculatedTarget }}</div>
-            <div class="col-md-2">{{ dateTz(share_model.lastUpdatedOn) }}</div>
+            <div class="col-md-2">{{dateTz(share_model.lastUpdatedOn) }}</div>
         </div>
 
         <div class="row pb-1 pt-1 table-footer">
@@ -36,7 +36,7 @@
         },
         methods: {
             dateTz: function(item) {
-                return dateTimeUtil.convertForDisplay(item.date);
+                return dateTimeUtil.convertForDisplay(item);
             }
         }
 
