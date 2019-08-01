@@ -1,9 +1,6 @@
 package com.example.tradelog.api.converter;
 
-import com.example.tradelog.api.spec.model.Action;
-import com.example.tradelog.api.spec.model.ShareJournalModel;
-import com.example.tradelog.api.spec.model.TransactionModel;
-import com.example.tradelog.api.spec.model.TransactionType;
+import com.example.tradelog.api.spec.model.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -23,11 +20,19 @@ class SyntheticSharesGeneratorTest {
 
     @Test
     void testWhereThereIsNoNeedToGenerate() {
+        TransactionSettingsModel settingsModel = TransactionSettingsModel.builder()
+                .withGroupSelected(false)
+                .withPreferredPrice(44.00)
+                .withLegClosed(false)
+                .withTransactionId("1234")
+                .build();
+
         shareList.add(ShareJournalModel.builder()
                 .withTransactionModel(TransactionModel.builder()
                         .withType(TransactionType.SHARE)
                         .withDate(OffsetDateTime.now())
                         .withSymbol("XYZ")
+                        .withSettings(settingsModel)
                         .build())
                 .withQuantity(500)
                 .withPrice(10.0)
@@ -39,6 +44,7 @@ class SyntheticSharesGeneratorTest {
                         .withType(TransactionType.SHARE)
                         .withDate(OffsetDateTime.now())
                         .withSymbol("XYZ")
+                        .withSettings(settingsModel)
                         .build())
                 .withQuantity(500)
                 .withPrice(10.0)
@@ -52,11 +58,19 @@ class SyntheticSharesGeneratorTest {
 
     @Test
     void testAveragePriceCSCO() {
+        TransactionSettingsModel settingsModel = TransactionSettingsModel.builder()
+                .withGroupSelected(false)
+                .withPreferredPrice(44.00)
+                .withLegClosed(false)
+                .withTransactionId("1234")
+                .build();
+
         shareList.add(ShareJournalModel.builder()
                 .withTransactionModel(TransactionModel.builder()
                         .withType(TransactionType.SHARE)
                         .withDate(OffsetDateTime.now())
                         .withSymbol("XYZ")
+                        .withSettings(settingsModel)
                         .build())
                 .withQuantity(100)
                 .withPrice(55.0)
@@ -68,6 +82,7 @@ class SyntheticSharesGeneratorTest {
                         .withType(TransactionType.SHARE)
                         .withDate(OffsetDateTime.now())
                         .withSymbol("XYZ")
+                        .withSettings(settingsModel)
                         .build())
                 .withQuantity(200)
                 .withPrice(66.0)
@@ -87,11 +102,19 @@ class SyntheticSharesGeneratorTest {
 
     @Test
     void testSynCSCO100AndADBE200() {
+        TransactionSettingsModel settingsModel = TransactionSettingsModel.builder()
+                .withGroupSelected(false)
+                .withPreferredPrice(44.00)
+                .withLegClosed(false)
+                .withTransactionId("1234")
+                .build();
+
         shareList.add(ShareJournalModel.builder()
                 .withTransactionModel(TransactionModel.builder()
                         .withType(TransactionType.SHARE)
                         .withDate(OffsetDateTime.now())
                         .withSymbol("CSCO")
+                        .withSettings(settingsModel)
                         .build())
                 .withQuantity(500)
                 .withPrice(10.0)
@@ -103,6 +126,7 @@ class SyntheticSharesGeneratorTest {
                         .withType(TransactionType.SHARE)
                         .withDate(OffsetDateTime.now())
                         .withSymbol("ADBE")
+                        .withSettings(settingsModel)
                         .build())
                 .withQuantity(500)
                 .withPrice(10.0)
@@ -115,6 +139,7 @@ class SyntheticSharesGeneratorTest {
                         .withType(TransactionType.SHARE)
                         .withDate(OffsetDateTime.now())
                         .withSymbol("CSCO")
+                        .withSettings(settingsModel)
                         .build())
                 .withQuantity(400)
                 .withPrice(10.0)
@@ -126,6 +151,7 @@ class SyntheticSharesGeneratorTest {
                         .withType(TransactionType.SHARE)
                         .withDate(OffsetDateTime.now())
                         .withSymbol("ADBE")
+                        .withSettings(settingsModel)
                         .build())
                 .withQuantity(300)
                 .withPrice(10.0)
@@ -150,11 +176,18 @@ class SyntheticSharesGeneratorTest {
 
     @Test
     void testSingleBuyTrade() {
+        TransactionSettingsModel settingsModel = TransactionSettingsModel.builder()
+                .withGroupSelected(false)
+                .withPreferredPrice(44.00)
+                .withLegClosed(false)
+                .withTransactionId("1234")
+                .build();
 
         ShareJournalModel model = ShareJournalModel.builder()
                 .withTransactionModel(TransactionModel.builder()
                         .withType(TransactionType.SHARE)
                         .withSymbol("XYZ")
+                        .withSettings(settingsModel)
                         .build())
                 .withPrice(10)
                 .withQuantity(100)

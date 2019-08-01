@@ -84,7 +84,7 @@ public class TransactionModel implements Serializable {
             return this;
         }
 
-        public Builder withTransactionOptionsModel(TransactionSettingsModel options) {
+        public Builder withSettings(TransactionSettingsModel options) {
             model.options = options;
             return this;
         }

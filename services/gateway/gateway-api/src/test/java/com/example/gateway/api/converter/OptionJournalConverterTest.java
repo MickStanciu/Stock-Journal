@@ -11,12 +11,20 @@ class OptionJournalConverterTest {
 
     @Test
     void testConverter() {
+        TransactionSettingsModel settingsModel = TransactionSettingsModel.builder()
+                .withGroupSelected(false)
+                .withPreferredPrice(44.00)
+                .withLegClosed(false)
+                .withTransactionId("1234")
+                .build();
+
         TransactionModel transactionModel = TransactionModel.builder()
                 .withId("1234")
                 .withAccountId("123")
                 .withDate(OffsetDateTime.now())
                 .withSymbol("XYZ")
                 .withType(TransactionType.OPTION)
+                .withSettings(settingsModel)
                 .build();
 
         OptionJournalModel model = OptionJournalModel.builder()

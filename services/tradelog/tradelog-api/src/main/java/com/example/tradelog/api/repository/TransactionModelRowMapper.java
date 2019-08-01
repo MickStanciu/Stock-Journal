@@ -34,7 +34,7 @@ class TransactionModelRowMapper {
                 .withSymbol(rs.getString("symbol"))
                 .withDate(TimeConversion.fromTimestamp(rs.getTimestamp("date")))
                 .withAccountId(rs.getString("account_fk"))
-                .withTransactionOptionsModel(optionsModel)
+                .withSettings(optionsModel)
                 .build();
     }
 }

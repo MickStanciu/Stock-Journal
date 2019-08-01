@@ -16,6 +16,7 @@ public class SyntheticSharesGenerator {
 
         shareJournalModels.stream()
                 .filter(f -> f.getTransactionDetails().getType().equals(TransactionType.SHARE))
+                .filter(f -> !f.getTransactionDetails().getOptions().isLegClosed())
                 .forEach(s -> {
                     int quantity;
                     if (Action.BUY == s.getAction()) {
@@ -60,7 +61,7 @@ public class SyntheticSharesGenerator {
                         .withSymbol(s)
                         .withDate(OffsetDateTime.now().plusYears(1))
                         .withType(TransactionType.SYNTHETIC_SHARE)
-                        .withTransactionOptionsModel(optionsModel)
+                        .withSettings(optionsModel)
                         .build();
 
                 synthetics.add(ShareJournalModel.builder()
