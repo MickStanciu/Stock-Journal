@@ -55,7 +55,15 @@ const dateTimeUtil = {
     //Converts 'DD-MM-YYYY to OffsetZulu example: 2018-12-25T10:00:00Z
     convertToOffsetDateTime: function(text) {
         const dateFormat = 'DD-MMM-YYYY';
-        return moment(text, dateFormat).utc().format('YYYY-MM-DDTHH:mm:ssZ');
+        const offsetFormat = 'YYYY-MM-DDTHH:mm:ssZ';
+        const nowUtc = moment.utc();
+
+        return moment(text, dateFormat)
+            .utc()
+            .hour(nowUtc.get('hour'))
+            .minute(nowUtc.get('minute'))
+            .second(nowUtc.get('second'))
+            .format(offsetFormat);
     },
 
     //Converts 'MMM DD to OffsetZulu example: 2018-12-25T10:00:00Z
