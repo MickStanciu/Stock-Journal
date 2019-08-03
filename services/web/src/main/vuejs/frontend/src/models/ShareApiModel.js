@@ -1,6 +1,6 @@
 class ShareApiModel {
 
-    type = undefined;
+    type = 'SHARE';
     transactionId = undefined;
     accountId = undefined;
     date = undefined;

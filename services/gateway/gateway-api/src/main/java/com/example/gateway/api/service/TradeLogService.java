@@ -52,6 +52,11 @@ public class TradeLogService {
         return OptionJournalConverter.toOptionGWModel.apply(returnModel);
     }
 
+    public DividendGWModel createDividendRecord(String accountId, DividendGWModel model) {
+        DividendJournalModel returnModel = tradeLogGateway.createDividendTrade(accountId, DividendJournalConverter.toDividendModel.apply(model));
+        return DividendJournalConverter.toDividendGWModel.apply(returnModel);
+    }
+
     public void deleteShareTrade(String accountId, String transactionId, String symbol) {
         tradeLogGateway.deleteShareTrade(accountId, transactionId, symbol);
     }
@@ -81,4 +86,5 @@ public class TradeLogService {
         List<TransactionSettingsModel> models = modelList.stream().map(TransactionSettingConverter.toTransactionSettingsGWModel).collect(Collectors.toList());
         tradeLogGateway.updateTransactionSettingsBulk(accountId, models);
     }
+
 }

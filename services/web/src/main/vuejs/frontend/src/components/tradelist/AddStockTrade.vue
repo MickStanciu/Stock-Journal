@@ -100,7 +100,7 @@
         },
         methods: {
             closeModal: function () {
-                this.$store.dispatch('hideAddStockModal');
+                this.$store.dispatch('hideModalWithoutRefresh');
             },
 
             submitAndClose: function () {

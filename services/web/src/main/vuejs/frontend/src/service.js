@@ -9,7 +9,8 @@ const appService = {
                 .get('/symbols')
                 .then(response => {
                     resolve(response.data)
-                }).catch(error => {
+                })
+                .catch(error => {
                     console.error(error);
                 })
         });
@@ -21,8 +22,9 @@ const appService = {
                 .get('/summary')
                 .then(response => {
                     resolve(response.data)
-                }).catch(error => {
-                console.error(error);
+                })
+                .catch(error => {
+                    console.error(error);
             })
         });
     },
@@ -33,7 +35,8 @@ const appService = {
                 .get('/share/data/' + symbol.toUpperCase())
                 .then(response => {
                     resolve(response.data);
-                }).catch(error => {
+                })
+                .catch(error => {
                     console.log(error);
             })
         });
@@ -45,7 +48,8 @@ const appService = {
                 .get('/trades/' + symbol.toUpperCase())
                 .then(response => {
                     resolve(response.data);
-                }).catch(error => {
+                })
+                .catch(error => {
                     console.error(error);
                 })
             });
@@ -57,7 +61,8 @@ const appService = {
                 .post('/share', dto)
                 .then(response => {
                     resolve(response.data);
-                }).catch(error => {
+                })
+                .catch(error => {
                     console.error(error);
                     resolve(null);
             })
@@ -81,9 +86,10 @@ const appService = {
                 .post('/option', dto)
                 .then(response => {
                     resolve(response.data);
-                }).catch(error => {
-                console.error(error);
-                resolve(null);
+                })
+                .catch(error => {
+                    console.error(error);
+                    resolve(null);
             })
         });
     },
@@ -98,6 +104,21 @@ const appService = {
                 })
         })
     },
+
+    recordDividendTrade(dto) {
+        return new Promise(resolve => {
+            axios
+                .post('/dividend', dto)
+                .then(response => {
+                    resolve(response.data);
+                })
+                .catch(error => {
+                    console.error(error);
+                    resolve(null);
+                });
+        })
+    },
+
     saveSettings(settings) {
         return new Promise(resolve => {
            axios.put('/settings/bulk', settings)

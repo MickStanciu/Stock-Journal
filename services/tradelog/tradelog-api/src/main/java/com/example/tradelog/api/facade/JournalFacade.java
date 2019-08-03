@@ -4,6 +4,7 @@ import com.example.tradelog.api.service.DividendJournalService;
 import com.example.tradelog.api.service.OptionJournalService;
 import com.example.tradelog.api.service.ShareJournalService;
 import com.example.tradelog.api.service.TransactionJournalService;
+import com.example.tradelog.api.spec.model.DividendJournalModel;
 import com.example.tradelog.api.spec.model.TradeSummaryModel;
 import com.example.tradelog.api.spec.model.TransactionSettingsModel;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -81,4 +83,19 @@ public class JournalFacade {
     public void updateSettingsBulk(List<TransactionSettingsModel> models) {
         transactionService.updateSettingsBulk(models);
     }
+
+    public List<DividendJournalModel> getAllDividendsBySymbol(String accountId, String symbol) {
+        return dividendService.getAllBySymbol(accountId, symbol);
+    }
+
+    public Optional<DividendJournalModel> createDividendRecord(DividendJournalModel model) {
+        Optional<String> optionalId = transactionService.createTransactionRecord(model.getTransactionDetails());
+        if (optionalId.isPresent()) {
+            return dividendService.createDividendRecord(optionalId.get(), model);
+        }
+        return Optional.empty();
+    }
+
+    //TODO: migrate create SHARE RECORD
+    //TODO: migrate create OPTION RECORD
 }

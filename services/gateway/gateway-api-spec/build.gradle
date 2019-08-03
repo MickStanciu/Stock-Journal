@@ -24,6 +24,10 @@ tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
 
+dependencies {
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.9.2'
+}
+
 sourceSets {
     main {
         output.resourcesDir = "build/classes/java/main"

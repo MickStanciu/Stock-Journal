@@ -16,7 +16,7 @@
         methods: {
             closeModal: function () {
                 console.log('error modal was pressed');
-                this.$store.dispatch('hideAddStockModal');
+                this.$store.dispatch('hideModalWithoutRefresh');
             },
         }
     }

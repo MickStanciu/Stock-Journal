@@ -79,6 +79,20 @@ public class TradeJournalGateway {
         return responseEntity.getBody();
     }
 
+    public DividendGWModel createDividendRecord(String accountId, DividendGWModel model) {
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromHttpUrl(API_URL)
+                .path("/dividends");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("accountId", accountId);
+
+        HttpEntity<DividendGWModel> request = new HttpEntity<>(model, headers);
+        ResponseEntity<DividendGWModel> responseEntity = restTemplate.exchange(builder.build(""), HttpMethod.POST, request, DividendGWModel.class);
+        return responseEntity.getBody();
+    }
+
     public void deleteShareTrade(String accountId, String symbol, String transactionId) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)

@@ -1,4 +1,4 @@
-package com.example.tradelog.api.resource;
+package com.example.tradelog.api.controller;
 
 import com.example.tradelog.api.exception.TradeLogException;
 import com.example.tradelog.api.service.ShareDataService;

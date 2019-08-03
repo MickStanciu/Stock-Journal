@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 
 public class SyntheticSharesGenerator {
@@ -30,7 +31,8 @@ public class SyntheticSharesGenerator {
                         aggregator = stocks.get(s.getTransactionDetails().getSymbol());
                     } else {
                         aggregator = new ShareAggregator(s.getTransactionDetails().getSymbol());
-                        aggregator.setActualPrice(s.getActualPrice());
+                        Double preferredPrice = s.getTransactionDetails().getOptions().getPreferredPrice();
+                        aggregator.setActualPrice(Objects.requireNonNullElseGet(preferredPrice, s::getActualPrice));
                     }
 
                     aggregator.addQuantityAndPrice(quantity, s.getPrice());

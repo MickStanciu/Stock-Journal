@@ -1,14 +1,19 @@
 package com.example.gateway.api.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+
 import java.io.Serializable;
 import java.time.OffsetDateTime;
 
+@JsonDeserialize(builder = DividendGWModel.Builder.class)
 public class DividendGWModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private String transactionId;
     private double dividend;
+    private int quantity;
     private String accountId;
     private OffsetDateTime date;
     private String symbol;
@@ -16,17 +21,16 @@ public class DividendGWModel implements Serializable {
     private boolean groupSelected;
     private boolean legClosed;
 
-
-    public DividendGWModel() {
-        //required by Jackson
-    }
-
     public String getTransactionId() {
         return transactionId;
     }
 
     public double getDividend() {
         return dividend;
+    }
+
+    public int getQuantity() {
+        return quantity;
     }
 
     public String getAccountId() {
@@ -57,6 +61,7 @@ public class DividendGWModel implements Serializable {
         return new Builder();
     }
 
+    @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "with")
     public static class Builder {
         DividendGWModel model;
 
@@ -77,6 +82,11 @@ public class DividendGWModel implements Serializable {
 
         public Builder withDividend(double dividend) {
             model.dividend = dividend;
+            return this;
+        }
+
+        public Builder withQuantity(int quantity) {
+            model.quantity = quantity;
             return this;
         }
 

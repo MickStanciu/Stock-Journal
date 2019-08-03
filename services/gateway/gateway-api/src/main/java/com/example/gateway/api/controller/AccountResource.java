@@ -1,4 +1,4 @@
-package com.example.gateway.api.resource;
+package com.example.gateway.api.controller;
 
 import com.example.account.api.spec.model.AccountModel;
 import com.example.gateway.api.exception.ExceptionCode;

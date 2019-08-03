@@ -9,9 +9,9 @@ public enum ExceptionCode {
     DELETE_SHARE_FAILED("Could not delete share record"),
     CREATE_OPTION_FAILED("Could not create option record"),
     DELETE_OPTION_FAILED("Could not delete option record"),
+    CREATE_DIVIDEND_FAILED("Could not create dividend record"),
     UPDATE_TRANSACTION_OPTIONS_FAILED("Could not update transaction options record")
     ;
-
 
     private final String message;
 

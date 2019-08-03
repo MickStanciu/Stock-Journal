@@ -1,7 +1,11 @@
 package com.example.tradelog.api.spec.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+
 import java.io.Serializable;
 
+@JsonDeserialize(builder = TransactionModel.Builder.class)
 public class DividendJournalModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -9,10 +13,6 @@ public class DividendJournalModel implements Serializable {
     private TransactionModel transactionDetails;
     private double dividend;
     private int quantity;
-
-    public DividendJournalModel() {
-        //required by Jackson
-    }
 
     public TransactionModel getTransactionDetails() {
         return transactionDetails;
@@ -30,6 +30,7 @@ public class DividendJournalModel implements Serializable {
         return new Builder();
     }
 
+    @JsonPOJOBuilder(buildMethodName = "build", withPrefix = "with")
     public static class Builder {
         DividendJournalModel model;
 

@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class DividendRepository {
@@ -57,5 +58,13 @@ public class DividendRepository {
     public List<TradeSummaryModel> getSummaries(String accountId) {
         Object[] parameters = new Object[] {accountId};
         return jdbcTemplate.query(JOURNAL_GET_SUMMARIES, parameters, new TradeSummaryModelRowMapper());
+    }
+
+    public void createRecord(String transactionId, DividendJournalModel model) {
+
+    }
+
+    public Optional<DividendJournalModel> getByTransactionId(String transactionId) {
+        return null;
     }
 }

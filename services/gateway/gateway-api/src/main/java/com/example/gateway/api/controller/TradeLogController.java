@@ -1,4 +1,4 @@
-package com.example.gateway.api.resource;
+package com.example.gateway.api.controller;
 
 import com.example.gateway.api.converter.TradeLogModelConverter;
 import com.example.gateway.api.exception.ExceptionCode;
@@ -14,11 +14,11 @@ import java.util.concurrent.ExecutionException;
 
 @RestController
 @RequestMapping(value = "/api/v1/tradelog", produces = "application/json")
-public class TradeLogResource {
+public class TradeLogController {
 
     private TradeLogService tradeLogService;
 
-    public TradeLogResource(TradeLogService tradeLogService) {
+    public TradeLogController(TradeLogService tradeLogService) {
         this.tradeLogService = tradeLogService;
     }
 
@@ -84,6 +84,13 @@ public class TradeLogResource {
     }
 
 
+    @RequestMapping(value = "/dividends", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    public DividendGWModel createDividendRecord(
+            @RequestHeader(name = "accountId") String accountId,
+            @RequestBody DividendGWModel model) {
+        return tradeLogService.createDividendRecord(accountId, model);
+    }
 
     @RequestMapping(value = "/symbols", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)

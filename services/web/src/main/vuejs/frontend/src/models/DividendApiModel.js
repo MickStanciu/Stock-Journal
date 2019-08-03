@@ -6,6 +6,7 @@ class DividendApiModel {
     date = undefined;
     symbol = undefined;
     dividend = undefined;
+    quantity = undefined;
 
     groupSelected = undefined;
     legClosed = undefined;

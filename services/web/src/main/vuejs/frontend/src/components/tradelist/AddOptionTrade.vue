@@ -148,7 +148,7 @@
         },
         methods: {
             closeModal: function () {
-                this.$store.dispatch('hideAddOptionModal');
+                this.$store.dispatch('hideModalWithoutRefresh');
             },
 
             submitAndClose: function () {

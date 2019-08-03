@@ -119,6 +119,20 @@ public class TradeLogGateway {
         return responseEntity.getBody();
     }
 
+    public DividendJournalModel createDividendTrade(String accountId, DividendJournalModel model) {
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromHttpUrl(API_URL)
+                .path("/dividends/{symbol}");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("accountId", accountId);
+
+        HttpEntity<DividendJournalModel> request = new HttpEntity<>(model, headers);
+        ResponseEntity<DividendJournalModel> responseEntity = restTemplate.exchange(builder.build(model.getTransactionDetails().getSymbol()), HttpMethod.POST, request, DividendJournalModel.class);
+        return responseEntity.getBody();
+    }
+
     public void deleteShareTrade(String accountId, String transactionId, String symbol) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)

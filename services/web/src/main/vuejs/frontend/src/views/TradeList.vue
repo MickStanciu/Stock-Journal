@@ -4,11 +4,21 @@
 
         <div class="row pt-2 mt-3">
             <div class="col">
-                <button type="button" class="btn btn-primary" v-on:click="addNewStockTradeClicked">Add new stock</button>
+                <button type="button" class="btn btn-primary" v-on:click="addNewStockTradeClicked">
+                    <font-awesome-icon icon="plus-circle"/>&nbsp;Stock
+                </button>
             </div>
 
             <div class="col">
-                <button type="button" class="btn btn-primary" v-on:click="addNewOptionTradeClicked">Add new option</button>
+                <button type="button" class="btn btn-primary" v-on:click="addNewOptionTradeClicked">
+                    <font-awesome-icon icon="plus-circle"/>&nbsp;Option
+                </button>
+            </div>
+
+            <div class="col">
+                <button type="button" class="btn btn-primary" v-on:click="addNewDividendTradeClicked">
+                    <font-awesome-icon icon="plus-circle"/>&nbsp;Dividend
+                </button>
             </div>
 
             <div class="col">
@@ -67,24 +77,15 @@
 
         <transition name="fade">
             <add-stock-trade v-if="isAddStockModalEnabled" v-bind:post="{symbol: symbol.toUpperCase()}"/>
-        </transition>
+            <delete-stock-trade v-if="isDeleteStockModalEnabled" v-bind:post="{model: selectedModel}"/>
 
-        <transition name="fade">
             <add-option-trade v-if="isAddOptionModalEnabled" v-bind:post="{symbol: symbol.toUpperCase()}"/>
-        </transition>
+            <delete-option-trade v-if="isDeleteOptionModalEnabled" v-bind:option_model="selectedModel"/>
 
-        <transition name="fade">
+            <add-dividend-trade v-if="isAddDividendModalEnabled" v-bind:post="{symbol: symbol.toUpperCase()}"/>
+
             <add-error v-if="isAddErrorEnabled"/>
         </transition>
-
-        <transition name="fade">
-            <delete-stock-trade v-if="isDeleteStockModalEnabled" v-bind:post="{model: selectedModel}"/>
-        </transition>
-
-        <transition name="fade">
-            <delete-option-trade v-if="isDeleteOptionModalEnabled" v-bind:option_model="selectedModel"/>
-        </transition>
-
     </div>
 </template>
 
@@ -101,10 +102,14 @@
     import DividendApiModel from "../models/DividendApiModel";
     import ShareData from "../components/tradelist/ShareData";
     import SettingsApiModel from "../models/SettingsApiModel";
+    import AddDividendTrade from "../components/tradelist/AddDividendTrade";
 
     export default {
         name: "TradeList",
-        components: {ShareData, AddOptionTrade, AddError, AddStockTrade, DeleteStockTrade, DeleteOptionTrade},
+        components: {
+            AddDividendTrade,
+            ShareData, AddOptionTrade, AddError, AddStockTrade, DeleteStockTrade, DeleteOptionTrade
+        },
 
         data: function () {
             return {
@@ -130,6 +135,12 @@
             },
             isDeleteOptionModalEnabled() {
                 return this.$store.state.isDeleteOptionModalEnabled;
+            },
+            isAddDividendModalEnabled() {
+                return this.$store.state.isAddDividendModalEnabled;
+            },
+            isDeleteDividendModalEnabled() {
+                return this.$store.state.isDeleteDividendModalEnabled;
             },
             isAddErrorEnabled() {
                 return this.$store.state.isAddErrorEnabled;
@@ -173,6 +184,10 @@
 
             addNewOptionTradeClicked: function() {
                 this.$store.dispatch('showAddOptionModal');
+            },
+
+            addNewDividendTradeClicked: function() {
+                this.$store.dispatch('showAddDividendModal');
             },
 
             saveSettingsClicked: function() {

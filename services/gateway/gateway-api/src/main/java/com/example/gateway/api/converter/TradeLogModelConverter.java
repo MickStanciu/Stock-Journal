@@ -28,7 +28,7 @@ public class TradeLogModelConverter implements Function<TradeLogModel, TradeLogG
                 .collect(Collectors.toList());
 
         List<DividendGWModel> dividendList = tradeLogModel.getDividendList().stream()
-                .map(new DividendJournalConverter())
+                .map(DividendJournalConverter.toDividendGWModel)
                 .collect(Collectors.toList());
 
         tradeLogGWModel.setOptionList(optionList);

@@ -51,18 +51,6 @@ public class RequestValidation extends FieldValidator {
         return RequestValidation.accountId.test(accountId) && modelsValid;
     }
 
-    static Predicate<ShareJournalModel> validateShareJournalModel = s -> s != null
-            && s.getTransactionDetails() != null
-            && s.getTransactionDetails().getType().equals(TransactionType.SHARE)
-            && s.getTransactionDetails().getDate() != null
-            && symbol.test(s.getTransactionDetails().getSymbol())
-            && RequestValidation.accountId.test(s.getTransactionDetails().getAccountId())
-            && s.getTransactionDetails().getId() == null
-            && s.getAction() != null
-            && s.getAction() != Action.UNKNOWN
-            && s.getPrice() >= 0.00
-            && s.getQuantity() >= 1;
-
     public static boolean validateCreateNewShareTrade(String accountId, String symbol, ShareJournalModel model) {
         return RequestValidation.accountId.test(accountId)
                 && RequestValidation.validateShareJournalModel.test(model)
@@ -76,6 +64,25 @@ public class RequestValidation extends FieldValidator {
                 && model.getTransactionDetails().getSymbol().equals(symbol)
                 && accountId.equals(model.getTransactionDetails().getAccountId());
     }
+
+    public static boolean validateCreateNewDividendRecord(String accountId, String symbol, DividendJournalModel model) {
+        return RequestValidation.accountId.test(accountId)
+                && RequestValidation.validateDividendJournalModel.test(model)
+                && model.getTransactionDetails().getSymbol().equals(symbol)
+                && accountId.equals(model.getTransactionDetails().getAccountId());
+    }
+
+    static Predicate<ShareJournalModel> validateShareJournalModel = s -> s != null
+            && s.getTransactionDetails() != null
+            && s.getTransactionDetails().getType().equals(TransactionType.SHARE)
+            && s.getTransactionDetails().getDate() != null
+            && symbol.test(s.getTransactionDetails().getSymbol())
+            && RequestValidation.accountId.test(s.getTransactionDetails().getAccountId())
+            && s.getTransactionDetails().getId() == null
+            && s.getAction() != null
+            && s.getAction() != Action.UNKNOWN
+            && s.getPrice() >= 0.00
+            && s.getQuantity() >= 1;
 
     static Predicate<OptionJournalModel> validateOptionJournalModel = s -> s != null
             && s.getTransactionDetails() != null
@@ -93,5 +100,13 @@ public class RequestValidation extends FieldValidator {
             && s.getStockPrice() >= 0.00
             && s.getStrikePrice() > 0;
 
-
+    static Predicate<DividendJournalModel> validateDividendJournalModel = s-> s != null
+            && s.getTransactionDetails() != null
+            && s.getTransactionDetails().getType().equals(TransactionType.DIVIDEND)
+            && s.getTransactionDetails().getDate() != null
+            && symbol.test(s.getTransactionDetails().getSymbol())
+            && RequestValidation.accountId.test(s.getTransactionDetails().getAccountId())
+            && s.getTransactionDetails().getId() == null
+            && s.getQuantity() >= 0
+            && s.getDividend() >= 0;
 }

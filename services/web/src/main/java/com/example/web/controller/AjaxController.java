@@ -1,4 +1,4 @@
-package com.example.web.resource;
+package com.example.web.controller;
 
 import com.example.gateway.api.model.*;
 import com.example.web.service.TradeJournalService;
@@ -8,11 +8,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api", produces = "application/json")
-public class AjaxResource {
+public class AjaxController {
 
     private TradeJournalService tradeJournalService;
 
-    public AjaxResource(TradeJournalService tradeJournalService) {
+    public AjaxController(TradeJournalService tradeJournalService) {
         this.tradeJournalService = tradeJournalService;
     }
 
@@ -83,6 +83,14 @@ public class AjaxResource {
         tradeJournalService.deleteOptionTrade(accountId, symbol, transactionId);
         return "{}";
     }
+
+    @RequestMapping(value = "/tradelog/{accountId}/dividend", method = RequestMethod.POST)
+    public DividendGWModel createDividendRecord(
+            @PathVariable(name = "accountId") String accountId,
+            @RequestBody DividendGWModel model) {
+        return tradeJournalService.createDividendRecord(accountId, model);
+    }
+
 
     @RequestMapping(value = "/tradelog/{accountId}/settings/bulk", method = RequestMethod.PUT)
     public String updateSettings(
