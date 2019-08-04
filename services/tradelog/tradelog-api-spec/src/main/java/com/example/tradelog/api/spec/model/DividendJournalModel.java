@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
 import java.io.Serializable;
 
-@JsonDeserialize(builder = TransactionModel.Builder.class)
+@JsonDeserialize(builder = DividendJournalModel.Builder.class)
 public class DividendJournalModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,7 +44,7 @@ public class DividendJournalModel implements Serializable {
             return buildModel;
         }
 
-        public Builder withTransactionModel(TransactionModel transactionModel) {
+        public Builder withTransactionDetails(TransactionModel transactionModel) {
             model.transactionDetails = transactionModel;
             return this;
         }

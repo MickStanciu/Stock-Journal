@@ -33,7 +33,7 @@ public class DividendJournalService {
     }
 
     public Optional<DividendJournalModel> createDividendRecord(String transactionId, DividendJournalModel model) {
-            dividendRepository.createRecord(transactionId, model);
-            return dividendRepository.getByTransactionId(transactionId);
+        dividendRepository.createRecord(transactionId, model);
+        return dividendRepository.getByTransactionId(transactionId);
     }
 }

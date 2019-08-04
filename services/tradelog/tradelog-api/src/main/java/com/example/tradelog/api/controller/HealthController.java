@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/api/v1/health", produces = "application/json")
-public class HealthResource {
+public class HealthController {
 
     private HealthService healthService;
 
-    public HealthResource(HealthService healthService) {
+    public HealthController(HealthService healthService) {
         this.healthService = healthService;
     }
 

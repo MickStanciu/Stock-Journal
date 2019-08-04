@@ -39,7 +39,7 @@ public class DividendJournalController {
             @RequestHeader("accountId") String accountId,
             @PathVariable("symbol") String symbol) throws TradeLogException {
 
-        if (RequestValidation.validateGetAccountAndSymbol(accountId, symbol)) {
+        if (!RequestValidation.validateGetAccountAndSymbol(accountId, symbol)) {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
@@ -61,7 +61,7 @@ public class DividendJournalController {
             @PathVariable("symbol") String symbol,
             @RequestBody DividendJournalModel model) throws TradeLogException {
 
-        if (RequestValidation.validateCreateNewDividendRecord(accountId, symbol, model)) {
+        if (!RequestValidation.validateCreateNewDividendRecord(accountId, symbol, model)) {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 

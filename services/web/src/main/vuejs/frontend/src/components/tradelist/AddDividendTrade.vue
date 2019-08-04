@@ -63,7 +63,7 @@
                     dividend: true,
                     quantity: true,
                     isValid: function () {
-                        return this.date && this.dividend && this.contracts;
+                        return this.date && this.dividend && this.quantity;
                     }
                 }
             }
@@ -95,7 +95,7 @@
             checkForm: function() {
                 this.form_validation.date = validation.isDate(this.form_element.date) !== false;
                 this.form_validation.dividend = validation.isPositiveNumber(this.form_element.dividend) !== false;
-                this.form_validation.contracts = validation.isPositiveInteger(this.form_element.contracts) !== false;
+                this.form_validation.quantity = validation.isPositiveInteger(this.form_element.quantity) !== false;
 
                 return this.form_validation.isValid();
             }

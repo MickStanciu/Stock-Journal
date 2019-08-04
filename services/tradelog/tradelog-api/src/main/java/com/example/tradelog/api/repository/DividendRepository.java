@@ -5,6 +5,7 @@ import com.example.tradelog.api.spec.model.TradeSummaryModel;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,6 +39,25 @@ public class DividendRepository {
                     "  AND transaction_type_fk = 'DIVIDEND' " +
                     "ORDER BY symbol;";
 
+    private static final String CREATE_RECORD =
+            "INSERT INTO dividend_log (transaction_fk, dividend, quantity) VALUES (CAST(? AS uuid), ?, ?)";
+
+    private static final String GET_RECORD_BY_ID =
+            "SELECT CAST(tl.id AS uuid), " +
+                    "       CAST(tl.account_fk AS uuid), " +
+                    "       tl.date, " +
+                    "       tl.symbol, " +
+                    "       tl.transaction_type_fk, " +
+                    "       dl.dividend, " +
+                    "       dl.quantity, " +
+                    "       tsl.preferred_price, " +
+                    "       tsl.group_selected, " +
+                    "       tsl.leg_closed " +
+                    "FROM transaction_log tl " +
+                    "         INNER JOIN dividend_log dl ON tl.id = dl.transaction_fk " +
+                    "         INNER JOIN transaction_settings_log tsl ON tl.id = tsl.transaction_fk " +
+                    "WHERE dl.transaction_fk = CAST(? AS uuid)";
+
     private JdbcTemplate jdbcTemplate;
 
     public DividendRepository(JdbcTemplate jdbcTemplate) {
@@ -61,10 +81,21 @@ public class DividendRepository {
     }
 
     public void createRecord(String transactionId, DividendJournalModel model) {
-
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(CREATE_RECORD);
+            ps.setString(1, transactionId);
+            ps.setDouble(2, model.getDividend());
+            ps.setInt(3, model.getQuantity());
+            return ps;
+        });
     }
 
     public Optional<DividendJournalModel> getByTransactionId(String transactionId) {
-        return null;
+        Object[] parameters = new Object[] {transactionId};
+        List<DividendJournalModel> modelList = jdbcTemplate.query(GET_RECORD_BY_ID, parameters, new DividendModelRowMapper());
+        if (modelList.size() == 1) {
+            return Optional.ofNullable(modelList.get(0));
+        }
+        return Optional.empty();
     }
 }

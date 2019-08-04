@@ -36,7 +36,7 @@ class ValidateDividendModelTest {
     @Test
     void testValidateDividendJournalModelWhenAccountIdIsNull() {
         DividendJournalModel model = dividendBuilder
-                .withTransactionModel(transactionModelBuilder.withAccountId(null).build())
+                .withTransactionDetails(transactionModelBuilder.withAccountId(null).build())
                 .withQuantity(1)
                 .withDividend(1)
                 .build();
@@ -47,7 +47,7 @@ class ValidateDividendModelTest {
     @Test
     void testValidateDividendJournalModelWhenDateIsNull() {
         DividendJournalModel model = dividendBuilder
-                .withTransactionModel(transactionModelBuilder.withDate(null).build())
+                .withTransactionDetails(transactionModelBuilder.withDate(null).build())
                 .build();
 
         Assertions.assertFalse(RequestValidation.validateDividendJournalModel.test(model));
@@ -56,7 +56,7 @@ class ValidateDividendModelTest {
     @Test
     void testValidateDividendJournalModelWhenDividendIsNegative() {
         DividendJournalModel model = dividendBuilder
-                .withTransactionModel(transactionModelBuilder.build())
+                .withTransactionDetails(transactionModelBuilder.build())
                 .withDividend(-1)
                 .withQuantity(10)
                 .build();
@@ -67,7 +67,7 @@ class ValidateDividendModelTest {
     @Test
     void testValidateDividendJournalModelWhenQuantityIsNegative() {
         DividendJournalModel model = dividendBuilder
-                .withTransactionModel(transactionModelBuilder.build())
+                .withTransactionDetails(transactionModelBuilder.build())
                 .withDividend(1)
                 .withQuantity(-1)
                 .build();
@@ -78,7 +78,7 @@ class ValidateDividendModelTest {
     @Test
     void testValidateDividendJournalModelWhenSymbolIsNull() {
         DividendJournalModel model = dividendBuilder
-                .withTransactionModel(transactionModelBuilder.withSymbol(null).build())
+                .withTransactionDetails(transactionModelBuilder.withSymbol(null).build())
                 .build();
 
         Assertions.assertFalse(RequestValidation.validateDividendJournalModel.test(model));
@@ -87,7 +87,7 @@ class ValidateDividendModelTest {
     @Test
     void testValidateDividendJournalModelWhenTransactionTypeIsNotDividend() {
         DividendJournalModel model = dividendBuilder
-                .withTransactionModel(transactionModelBuilder.withType(TransactionType.UNKNOWN).build())
+                .withTransactionDetails(transactionModelBuilder.withType(TransactionType.UNKNOWN).build())
                 .build();
 
         Assertions.assertFalse(RequestValidation.validateDividendJournalModel.test(model));
@@ -96,7 +96,7 @@ class ValidateDividendModelTest {
     @Test
     void testValidateDividendJournalModelTruthy() {
         DividendJournalModel model = dividendBuilder
-                .withTransactionModel(transactionModelBuilder.build())
+                .withTransactionDetails(transactionModelBuilder.build())
                 .withDividend(10.00)
                 .withQuantity(100)
                 .build();

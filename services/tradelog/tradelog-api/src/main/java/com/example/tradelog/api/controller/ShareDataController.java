@@ -14,13 +14,13 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/v1/data", produces = "application/json")
-public class ShareDataResource {
+public class ShareDataController {
 
-    private static final Logger log = LoggerFactory.getLogger(ShareDataResource.class);
+    private static final Logger log = LoggerFactory.getLogger(ShareDataController.class);
 
     private ShareDataService shareDataService;
 
-    public ShareDataResource(ShareDataService shareDataService) {
+    public ShareDataController(ShareDataService shareDataService) {
         this.shareDataService = shareDataService;
     }
 
@@ -36,7 +36,7 @@ public class ShareDataResource {
             @RequestHeader("accountId") String accountId,
             @PathVariable("symbol") String symbol) throws TradeLogException {
 
-        if (RequestValidation.validateGetDataBySymbol(accountId, symbol)) {
+        if (!RequestValidation.validateGetDataBySymbol(accountId, symbol)) {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 

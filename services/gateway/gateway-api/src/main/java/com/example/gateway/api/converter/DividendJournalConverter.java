@@ -33,7 +33,7 @@ public class DividendJournalConverter {
                 .build();
 
         return DividendJournalModel.builder()
-                .withTransactionModel(transactionModel)
+                .withTransactionDetails(transactionModel)
                 .withDividend(model.getDividend())
                 .withQuantity(model.getQuantity())
                 .build();

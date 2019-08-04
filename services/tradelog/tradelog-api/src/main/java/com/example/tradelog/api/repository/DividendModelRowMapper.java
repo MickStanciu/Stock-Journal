@@ -13,7 +13,7 @@ public class DividendModelRowMapper implements RowMapper<DividendJournalModel> {
         TransactionModel transactionModel = new TransactionModelRowMapper(rs).invoke();
 
         return DividendJournalModel.builder()
-                .withTransactionModel(transactionModel)
+                .withTransactionDetails(transactionModel)
                 .withDividend(rs.getDouble("dividend"))
                 .withQuantity(rs.getInt("quantity"))
                 .build();

@@ -17,7 +17,7 @@ public class RequestValidation extends FieldValidator {
     }
 
     public static boolean validateGetAccountAndSymbol(String accountId, String symbol) {
-        return !RequestValidation.accountId.test(accountId) || !RequestValidation.symbol.test(symbol);
+        return RequestValidation.accountId.test(accountId) && RequestValidation.symbol.test(symbol);
     }
 
 
@@ -34,7 +34,7 @@ public class RequestValidation extends FieldValidator {
     }
 
     public static boolean validateGetDataBySymbol(String accountId, String symbol) {
-        return !RequestValidation.accountId.test(accountId) || !RequestValidation.symbol.test(symbol);
+        return RequestValidation.accountId.test(accountId) && RequestValidation.symbol.test(symbol);
     }
 
     public static boolean validateUpdateOptions(String accountId, String transactionId, TransactionSettingsModel model) {

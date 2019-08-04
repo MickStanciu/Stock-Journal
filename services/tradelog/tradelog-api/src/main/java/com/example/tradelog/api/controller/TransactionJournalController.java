@@ -15,14 +15,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/v1/transactions", produces = "application/json")
-public class TransactionJournalResource {
+public class TransactionJournalController {
 
-    private static final Logger log = LoggerFactory.getLogger(TransactionJournalResource.class);
+    private static final Logger log = LoggerFactory.getLogger(TransactionJournalController.class);
 
     private JournalFacade facade;
 
 
-    public TransactionJournalResource(JournalFacade journalFacade) {
+    public TransactionJournalController(JournalFacade journalFacade) {
         this.facade = journalFacade;
     }
 
