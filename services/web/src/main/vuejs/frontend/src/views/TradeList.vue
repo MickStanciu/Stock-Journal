@@ -59,9 +59,6 @@
                         <font-awesome-icon icon="calculator" class="action-icon" v-on:click="groupSelectClicked(item)" v-bind:class="[item.groupSelected ? 'item-active' : 'item-not-active']"></font-awesome-icon>
                         <font-awesome-icon icon="trash-alt" class="action-icon" v-on:click="deleteRecordClicked(item.transactionId)"></font-awesome-icon>
                     </template>
-
-
-
                 </div>
             </div>
         </template>
@@ -74,15 +71,15 @@
             <div class="col-1">&nbsp;</div>
         </div>
 
-
         <transition name="fade">
             <add-stock-trade v-if="isAddStockModalEnabled" v-bind:post="{symbol: symbol.toUpperCase()}"/>
             <delete-stock-trade v-if="isDeleteStockModalEnabled" v-bind:post="{model: selectedModel}"/>
 
             <add-option-trade v-if="isAddOptionModalEnabled" v-bind:post="{symbol: symbol.toUpperCase()}"/>
-            <delete-option-trade v-if="isDeleteOptionModalEnabled" v-bind:option_model="selectedModel"/>
+            <delete-option-trade v-if="isDeleteOptionModalEnabled" v-bind:post="{model: selectedModel}"/>
 
             <add-dividend-trade v-if="isAddDividendModalEnabled" v-bind:post="{symbol: symbol.toUpperCase()}"/>
+            <delete-dividend-trade v-if="isDeleteDividendModalEnabled" v-bind:post="{model: selectedModel}"/>
 
             <add-error v-if="isAddErrorEnabled"/>
         </transition>
@@ -103,11 +100,12 @@
     import ShareData from "../components/tradelist/ShareData";
     import SettingsApiModel from "../models/SettingsApiModel";
     import AddDividendTrade from "../components/tradelist/AddDividendTrade";
+    import DeleteDividendTrade from "../components/tradelist/DeleteDividendTrade";
 
     export default {
         name: "TradeList",
         components: {
-            AddDividendTrade,
+            DeleteDividendTrade, AddDividendTrade,
             ShareData, AddOptionTrade, AddError, AddStockTrade, DeleteStockTrade, DeleteOptionTrade
         },
 
@@ -170,6 +168,10 @@
                         this.$store.dispatch('showDeleteStockModal');
                     } else if ("OPTION" === this.selectedModel.type) {
                         this.$store.dispatch('showDeleteOptionModal');
+                    } else if ("DIVIDEND" === this.selectedModel.type) {
+                        this.$store.dispatch('showDeleteDividendModal');
+                    } else {
+                        console.error("Clicked on unknown type: " + this.selectedModel.type);
                     }
                 }
             },
@@ -249,7 +251,7 @@
                         encoded = 'BOUGHT'
                     }
                 } else if ('DIVIDEND' === item.type) {
-                    encoded = 'RECEIVED DIVIDEND';
+                    encoded = 'RECEIVED ' + item.quantity + ' DIVIDEND';
                 } else if ('SYNTHETIC_SHARE' === item.type) {
                     encoded = "WILL";
                     if ('SELL' === item.action) {
@@ -293,7 +295,7 @@
                     }
                     return parseFloat((item.quantity * price - item.brokerFees).toFixed(10));
                 } else if (item.type === 'DIVIDEND') {
-                    return parseFloat((item.dividend * 100).toFixed(10));
+                    return parseFloat((item.dividend * item.quantity).toFixed(10));
                 }
                 return 0;
             },
@@ -361,6 +363,7 @@
                             model.date = item.date;
                             model.transactionId = item.transactionId;
                             model.dividend = item.dividend;
+                            model.quantity = item.quantity;
                             model.groupSelected = item.groupSelected;
                             model.legClosed = item.legClosed;
 

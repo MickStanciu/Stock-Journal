@@ -29,6 +29,9 @@ const store = new Vuex.Store({
         showAddDividendModal(context) {
             context.commit('showAddDividendModal');
         },
+        showDeleteDividendModal(context) {
+            context.commit('showDeleteDividendModal');
+        },
 
         hideModalWithError(context) {
             context.commit('hideModalWithError')
@@ -59,33 +62,36 @@ const store = new Vuex.Store({
         showAddDividendModal(state) {
             state.isAddDividendModalEnabled = true;
         },
+        showDeleteDividendModal(state) {
+            state.isDeleteDividendModalEnabled = true;
+        },
 
         hideModalWithoutRefresh(state) {
             state.isAddStockModalEnabled = false;
             state.isAddOptionModalEnabled = false;
-            state.isAddErrorEnabled = false;
+            state.isAddDividendModalEnabled = false;
             state.isDeleteStockModalEnabled = false;
             state.isDeleteOptionModalEnabled = false;
-            state.isAddDividendModalEnabled = false;
-            state.isDeleteOptionModalEnabled = false;
+            state.isDeleteDividendModalEnabled = false;
+            state.isAddErrorEnabled = false;
         },
 
         hideModalWithRefresh(state) {
             state.isAddStockModalEnabled = false;
             state.isAddOptionModalEnabled = false;
-            state.isAddErrorEnabled = false;
+            state.isAddDividendModalEnabled = false;
             state.isDeleteStockModalEnabled = false;
             state.isDeleteOptionModalEnabled = false;
-            state.isAddDividendModalEnabled = false;
-            state.isDeleteOptionModalEnabled = false;
+            state.isDeleteDividendModalEnabled = false;
+            state.isAddErrorEnabled = false;
         },
 
         hideModalWithError(state) {
             state.isAddStockModalEnabled = false;
             state.isAddOptionModalEnabled = false;
+            state.isAddDividendModalEnabled = false;
             state.isDeleteStockModalEnabled = false;
             state.isDeleteOptionModalEnabled = false;
-            state.isAddDividendModalEnabled = false;
             state.isDeleteOptionModalEnabled = false;
             state.isAddErrorEnabled = true;
         },

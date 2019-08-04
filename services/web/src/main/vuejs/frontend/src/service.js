@@ -119,6 +119,17 @@ const appService = {
         })
     },
 
+    deleteDividendRecord(dto) {
+        return new Promise(resolve => {
+            axios
+                .delete('/dividend/' + dto.symbol + '/' + dto.transactionId)
+                .catch(error => {
+                    console.error(error);
+                    resolve(null);
+                })
+        })
+    },
+
     saveSettings(settings) {
         return new Promise(resolve => {
            axios.put('/settings/bulk', settings)

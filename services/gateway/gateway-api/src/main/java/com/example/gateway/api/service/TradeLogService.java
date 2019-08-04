@@ -65,6 +65,10 @@ public class TradeLogService {
         tradeLogGateway.deleteOptionTrade(accountId, transactionId, symbol);
     }
 
+    public void deleteDividendRecord(String accountId, String transactionId, String symbol) {
+        tradeLogGateway.deleteDividendTrade(accountId, transactionId, symbol);
+    }
+
     public List<TradeSummaryGWModel> getSummary(String accountId) {
         List<TradeSummaryModel> returnModels = tradeLogGateway.getSummary(accountId);
         return returnModels.stream().map(m -> TradeSummaryConverter.toTradeSummaryGWModel.apply(m)).collect(Collectors.toList());

@@ -73,6 +73,31 @@ public class DividendJournalController {
         return optionalModel.get();
     }
 
+
+    /**
+     * Delete DIVIDEND trade record
+     * @param accountId - account uuid
+     * @param symbol -
+     * @param transactionId -
+     * @throws TradeLogException -
+     */
+    @RequestMapping(value = "/{symbol}/{transactionId}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteDividendRecord(
+            @RequestHeader(name = "accountId") String accountId,
+            @PathVariable("symbol") String symbol,
+            @PathVariable("transactionId") String transactionId) throws TradeLogException {
+
+        if (!RequestValidation.validateDeleteDividendRecord(accountId, transactionId, symbol)) {
+            throw new TradeLogException(ExceptionCode.BAD_REQUEST);
+        }
+
+        if (!journalFacade.deleteDividendRecord(accountId, transactionId, symbol)) {
+            log.error("COULD NOT DELETE FOR tID: {}", transactionId);
+            throw new TradeLogException(ExceptionCode.DELETE_DIVIDEND_FAILED);
+        }
+    }
+
     //TODO: missing update dividend
-    //TODO: missing delete dividend
+
 }

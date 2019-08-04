@@ -157,6 +157,18 @@ public class TradeLogGateway {
         restTemplate.exchange(builder.build(symbol, transactionId), HttpMethod.DELETE, new HttpEntity(headers), Object.class);
     }
 
+    public void deleteDividendTrade(String accountId, String transactionId, String symbol) {
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromHttpUrl(API_URL)
+                .path("/dividends/{symbol}/{id}");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("accountId", accountId);
+
+        restTemplate.exchange(builder.build(symbol, transactionId), HttpMethod.DELETE, new HttpEntity(headers), Object.class);
+    }
+
     public List<TradeSummaryModel> getSummary(String accountId) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)

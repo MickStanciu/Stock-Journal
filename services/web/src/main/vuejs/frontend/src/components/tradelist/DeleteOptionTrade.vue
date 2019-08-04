@@ -106,22 +106,22 @@
     export default {
         name: "DeleteOptionTrade",
         props: {
-            option_model: Object
+            post: Object
         },
         data: function () {
             return {
                 is_form_readonly: true,
 
                 form_element: {
-                    date: dateTimeUtil.convertFromOffsetZuluToDisplay(this.option_model.date),
-                    action: this.option_model.action,
-                    type: this.option_model.optionType,
-                    stock_price : this.option_model.stockPrice,
-                    strike_price: this.option_model.strikePrice,
-                    exp_date: dateTimeUtil.convertExpiryDateForDisplay(this.option_model.expiryDate),
-                    contracts: this.option_model.contracts,
-                    premium : this.option_model.premium,
-                    fees: this.option_model.brokerFees
+                    date: dateTimeUtil.convertFromOffsetZuluToDisplay(this.post.model.date),
+                    action: this.post.model.action,
+                    type: this.post.model.optionType,
+                    stock_price : this.post.model.stockPrice,
+                    strike_price: this.post.model.strikePrice,
+                    exp_date: dateTimeUtil.convertExpiryDateForDisplay(this.post.model.expiryDate),
+                    contracts: this.post.model.contracts,
+                    premium : this.post.model.premium,
+                    fees: this.post.model.brokerFees
                 },
 
                 form_validation: {
@@ -141,7 +141,7 @@
             },
 
             submitAndClose: function () {
-                service.deleteOptionTrade(this.option_model);
+                service.deleteOptionTrade(this.post.model);
                 this.$store.dispatch('hideModalWithRefresh');
             }
         }

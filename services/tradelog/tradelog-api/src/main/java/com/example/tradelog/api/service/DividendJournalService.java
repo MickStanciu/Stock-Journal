@@ -36,4 +36,8 @@ public class DividendJournalService {
         dividendRepository.createRecord(transactionId, model);
         return dividendRepository.getByTransactionId(transactionId);
     }
+
+    public boolean deleteRecord(String transactionId) {
+        return dividendRepository.deleteRecord(transactionId);
+    }
 }

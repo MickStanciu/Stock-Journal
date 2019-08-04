@@ -91,6 +91,16 @@ public class AjaxController {
         return tradeJournalService.createDividendRecord(accountId, model);
     }
 
+    @RequestMapping(value = "/tradelog/{accountId}/dividend/{symbol}/{id}", method = RequestMethod.DELETE)
+    public String deleteDividendRecord(
+            @PathVariable(name = "accountId") String accountId,
+            @PathVariable(name = "symbol") String symbol,
+            @PathVariable(name = "id") String transactionId
+    ) {
+        tradeJournalService.deleteDividendRecord(accountId, symbol, transactionId);
+        return "{}";
+    }
+
 
     @RequestMapping(value = "/tradelog/{accountId}/settings/bulk", method = RequestMethod.PUT)
     public String updateSettings(

@@ -72,6 +72,12 @@ public class RequestValidation extends FieldValidator {
                 && accountId.equals(model.getTransactionDetails().getAccountId());
     }
 
+    public static boolean validateDeleteDividendRecord(String accountId, String transactionId, String symbol) {
+        return RequestValidation.accountId.test(accountId)
+                && RequestValidation.transactionId.test(transactionId)
+                && RequestValidation.symbol.test(symbol);
+    }
+
     static Predicate<ShareJournalModel> validateShareJournalModel = s -> s != null
             && s.getTransactionDetails() != null
             && s.getTransactionDetails().getType().equals(TransactionType.SHARE)

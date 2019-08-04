@@ -58,6 +58,8 @@ public class DividendRepository {
                     "         INNER JOIN transaction_settings_log tsl ON tl.id = tsl.transaction_fk " +
                     "WHERE dl.transaction_fk = CAST(? AS uuid)";
 
+    private static final String DELETE_RECORD_BY_ID = "DELETE FROM dividend_log WHERE transaction_fk = CAST(? AS uuid)";
+
     private JdbcTemplate jdbcTemplate;
 
     public DividendRepository(JdbcTemplate jdbcTemplate) {
@@ -97,5 +99,15 @@ public class DividendRepository {
             return Optional.ofNullable(modelList.get(0));
         }
         return Optional.empty();
+    }
+
+    /**
+     * Deletes a dividend record
+     * @param transactionId -
+     * @return true/false
+     */
+    public boolean deleteRecord(String transactionId) {
+        Object[] parameters = new Object[] {transactionId};
+        return jdbcTemplate.update(DELETE_RECORD_BY_ID, parameters) == 1;
     }
 }

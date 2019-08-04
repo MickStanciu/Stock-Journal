@@ -43,6 +43,10 @@ public class TradeJournalService {
         return tradeJournalGateway.createDividendRecord(accountId, model);
     }
 
+    public void deleteDividendRecord(String accountId, String symbol, String transactionId) {
+        tradeJournalGateway.deleteDividendRecord(accountId, symbol, transactionId);
+    }
+
     public List<TradeSummaryGWModel> getSummary(String accountId) {
         return tradeJournalGateway.getSummary(accountId);
     }

@@ -96,6 +96,12 @@ public class JournalFacade {
         return Optional.empty();
     }
 
+    public boolean deleteDividendRecord(String accountId, String transactionId, String symbol) {
+        return dividendService.deleteRecord(transactionId)
+                && transactionService.deleteSettingsRecord(transactionId)
+                && transactionService.deleteDividendRecord(transactionId, accountId, symbol);
+    }
+
     //TODO: migrate create SHARE RECORD
     //TODO: migrate create OPTION RECORD
 }

@@ -102,6 +102,11 @@ public class TransactionRepository {
         return jdbcTemplate.update(JOURNAL_DELETE_TRANSACTION_FOR_ACCOUNT, parameters) == 1;
     }
 
+    public boolean deleteDividendRecord(String id, String accountId, String symbol) {
+        Object[] parameters = new Object[] {id, accountId, symbol, TransactionType.DIVIDEND.name()};
+        return jdbcTemplate.update(JOURNAL_DELETE_TRANSACTION_FOR_ACCOUNT, parameters) == 1;
+    }
+
     public boolean updateSettings(TransactionSettingsModel model) {
         Object[] parameters = new Object[] {model.getPreferredPrice(), model.isGroupSelected(), model.isLegClosed(), model.getTransactionId()};
         return jdbcTemplate.update(JOURNAL_UPDATE_SETTINGS, parameters) == 1;

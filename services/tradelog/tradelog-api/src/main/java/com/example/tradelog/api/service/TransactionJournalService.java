@@ -54,4 +54,12 @@ public class TransactionJournalService {
 
         return Optional.empty();
     }
+
+    public boolean deleteSettingsRecord(String transactionId) {
+        return transactionRepository.deleteSettingsRecord(transactionId);
+    }
+
+    public boolean deleteDividendRecord(String transactionId, String accountId, String symbol) {
+        return transactionRepository.deleteDividendRecord(transactionId, accountId, symbol);
+    }
 }

@@ -92,6 +92,17 @@ public class TradeLogController {
         return tradeLogService.createDividendRecord(accountId, model);
     }
 
+
+    @RequestMapping(value = "/dividends/{symbol}/{id}", method = RequestMethod.DELETE)
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteDividendRecord(
+            @RequestHeader(name = "accountId") String accountId,
+            @PathVariable(name = "symbol") String symbol,
+            @PathVariable(name = "id") String transactionId) {
+        tradeLogService.deleteDividendRecord(accountId, transactionId, symbol);
+    }
+
+
     @RequestMapping(value = "/symbols", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public List<String> getAllTradedSymbols(@RequestHeader(name = "accountId") String accountId) throws GatewayApiException {
