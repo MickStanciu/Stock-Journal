@@ -5,6 +5,8 @@ import com.example.tradelog.api.service.OptionJournalService;
 import com.example.tradelog.api.service.ShareJournalService;
 import com.example.tradelog.api.service.TransactionJournalService;
 import com.example.tradelog.api.spec.model.DividendJournalModel;
+import com.example.tradelog.api.spec.model.OptionJournalModel;
+import com.example.tradelog.api.spec.model.ShareJournalModel;
 import com.example.tradelog.api.spec.model.TradeSummaryModel;
 import com.example.tradelog.api.spec.model.TransactionSettingsModel;
 import org.springframework.stereotype.Service;
@@ -91,7 +93,7 @@ public class JournalFacade {
     public Optional<DividendJournalModel> createDividendRecord(DividendJournalModel model) {
         Optional<String> optionalId = transactionService.createTransactionRecord(model.getTransactionDetails());
         if (optionalId.isPresent()) {
-            return dividendService.createDividendRecord(optionalId.get(), model);
+            return dividendService.createRecord(optionalId.get(), model);
         }
         return Optional.empty();
     }
@@ -102,6 +104,40 @@ public class JournalFacade {
                 && transactionService.deleteDividendRecord(transactionId, accountId, symbol);
     }
 
-    //TODO: migrate create SHARE RECORD
-    //TODO: migrate create OPTION RECORD
+
+    public List<ShareJournalModel> getAllSharesBySymbol(String accountId, String symbol) {
+        return shareService.getAllBySymbol(accountId, symbol);
+    }
+
+    public Optional<ShareJournalModel> createShareRecord(ShareJournalModel model) {
+        Optional<String> optionalId = transactionService.createTransactionRecord(model.getTransactionDetails());
+        if (optionalId.isPresent()) {
+            return shareService.createRecord(optionalId.get(), model);
+        }
+        return Optional.empty();
+    }
+
+    public boolean deleteShareRecord(String accountId, String transactionId, String symbol) {
+        return shareService.deleteRecord(transactionId)
+                && transactionService.deleteSettingsRecord(transactionId)
+                && transactionService.deleteShareRecord(transactionId, accountId, symbol);
+    }
+
+    public List<OptionJournalModel> getAllOptionsBySymbol(String accountId, String symbol) {
+        return optionService.getAllBySymbol(accountId, symbol);
+    }
+
+    public Optional<OptionJournalModel> createOptionRecord(OptionJournalModel model) {
+        Optional<String> optionalId = transactionService.createTransactionRecord(model.getTransactionDetails());
+        if (optionalId.isPresent()) {
+            return optionService.createRecord(optionalId.get(), model);
+        }
+        return Optional.empty();
+    }
+
+    public boolean deleteOptionRecord(String accountId, String transactionId, String symbol) {
+        return optionService.deleteRecord(transactionId)
+                && transactionService.deleteSettingsRecord(transactionId)
+                && transactionService.deleteOptionRecord(transactionId, accountId, symbol);
+    }
 }

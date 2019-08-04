@@ -1,14 +1,20 @@
 package com.example.tradelog.api.controller;
 
 import com.example.tradelog.api.exception.TradeLogException;
-import com.example.tradelog.api.service.ShareJournalService;
+import com.example.tradelog.api.facade.JournalFacade;
 import com.example.tradelog.api.spec.exception.ExceptionCode;
 import com.example.tradelog.api.spec.model.ShareJournalModel;
 import com.example.tradelog.api.validator.RequestValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,10 +25,10 @@ public class ShareJournalController {
 
     private static final Logger log = LoggerFactory.getLogger(ShareJournalController.class);
 
-    private ShareJournalService service;
+    private JournalFacade facade;
 
-    public ShareJournalController(ShareJournalService service) {
-        this.service = service;
+    public ShareJournalController(JournalFacade facade) {
+        this.facade = facade;
     }
 
 
@@ -42,7 +48,7 @@ public class ShareJournalController {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
-        return service.getAllBySymbol(accountId, symbol);
+        return facade.getAllSharesBySymbol(accountId, symbol);
     }
 
 
@@ -64,7 +70,7 @@ public class ShareJournalController {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
-        Optional<ShareJournalModel> optionalModel = service.createShareRecord(model);
+        Optional<ShareJournalModel> optionalModel = facade.createShareRecord(model);
         if (optionalModel.isEmpty()) {
             log.error("COULD NOT CREATE FOR: " + model.getTransactionDetails().getSymbol());
             throw new TradeLogException(ExceptionCode.CREATE_SHARE_FAILED);
@@ -91,7 +97,7 @@ public class ShareJournalController {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
-        if (!service.deleteShareRecord(accountId, transactionId, symbol)) {
+        if (!facade.deleteShareRecord(accountId, transactionId, symbol)) {
             log.error("COULD NOT DELETE FOR tID: {}", transactionId);
             throw new TradeLogException(ExceptionCode.DELETE_SHARE_FAILED);
         }

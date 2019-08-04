@@ -1,28 +1,34 @@
 package com.example.tradelog.api.controller;
 
 import com.example.tradelog.api.exception.TradeLogException;
-import com.example.tradelog.api.service.OptionJournalService;
+import com.example.tradelog.api.facade.JournalFacade;
 import com.example.tradelog.api.spec.exception.ExceptionCode;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
 import com.example.tradelog.api.validator.RequestValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/v1/options", produces = "application/json")
-public class OptionJournalResource {
+public class OptionJournalController {
 
-    private static final Logger log = LoggerFactory.getLogger(OptionJournalResource.class);
+    private static final Logger log = LoggerFactory.getLogger(OptionJournalController.class);
 
-    private OptionJournalService service;
+    private JournalFacade facade;
 
-    public OptionJournalResource(OptionJournalService service) {
-        this.service = service;
+    public OptionJournalController(JournalFacade facade) {
+        this.facade = facade;
     }
 
 
@@ -42,7 +48,7 @@ public class OptionJournalResource {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
-        return service.getAllBySymbol(accountId, symbol);
+        return facade.getAllOptionsBySymbol(accountId, symbol);
     }
 
 
@@ -64,7 +70,7 @@ public class OptionJournalResource {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
-        Optional<OptionJournalModel> optionalModel = service.createOptionRecord(model);
+        Optional<OptionJournalModel> optionalModel = facade.createOptionRecord(model);
         if (optionalModel.isEmpty()) {
             throw new TradeLogException(ExceptionCode.CREATE_OPTION_FAILED);
         }
@@ -90,7 +96,7 @@ public class OptionJournalResource {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
-        if (!service.deleteOptionRecord(accountId, transactionId, symbol)) {
+        if (!facade.deleteOptionRecord(accountId, transactionId, symbol)) {
             log.error("COULD NOT DELETE FOR tID: {}", transactionId);
             throw new TradeLogException(ExceptionCode.DELETE_OPTION_FAILED);
         }

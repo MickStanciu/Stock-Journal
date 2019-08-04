@@ -62,4 +62,12 @@ public class TransactionJournalService {
     public boolean deleteDividendRecord(String transactionId, String accountId, String symbol) {
         return transactionRepository.deleteDividendRecord(transactionId, accountId, symbol);
     }
+
+    public boolean deleteShareRecord(String transactionId, String accountId, String symbol) {
+        return transactionRepository.deleteShareRecord(transactionId, accountId, symbol);
+    }
+
+    public boolean deleteOptionRecord(String transactionId, String accountId, String symbol) {
+        return transactionRepository.deleteOptionRecord(transactionId, accountId, symbol);
+    }
 }

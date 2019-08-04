@@ -1,6 +1,10 @@
 package com.example.tradelog.api.converter;
 
-import com.example.tradelog.api.spec.model.*;
+import com.example.tradelog.api.spec.model.Action;
+import com.example.tradelog.api.spec.model.ShareJournalModel;
+import com.example.tradelog.api.spec.model.TransactionModel;
+import com.example.tradelog.api.spec.model.TransactionSettingsModel;
+import com.example.tradelog.api.spec.model.TransactionType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -60,7 +64,7 @@ class SyntheticSharesGeneratorTest {
     void testAveragePriceCSCO() {
         TransactionSettingsModel settingsModel = TransactionSettingsModel.builder()
                 .withGroupSelected(false)
-                .withPreferredPrice(44.00)
+                .withPreferredPrice(null)
                 .withLegClosed(false)
                 .withTransactionId("1234")
                 .build();
