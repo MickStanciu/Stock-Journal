@@ -57,8 +57,13 @@
                             <font-awesome-icon icon="lock-open" class="action-icon" v-on:click="legClosedClicked(item)" v-bind:class="[item.legClosed ? 'item-not-active' : 'item-active']"></font-awesome-icon>
                         </template>
                         <font-awesome-icon icon="calculator" class="action-icon" v-on:click="groupSelectClicked(item)" v-bind:class="[item.groupSelected ? 'item-active' : 'item-not-active']"></font-awesome-icon>
-                        <font-awesome-icon icon="trash-alt" class="action-icon" v-on:click="deleteRecordClicked(item.transactionId)"></font-awesome-icon>
+                        <font-awesome-icon icon="trash-alt" class="action-icon" v-on:click="deleteRecordClicked(item)"></font-awesome-icon>
+
+                        <template v-if="item.type === 'SHARE'">
+                            <font-awesome-icon icon="dollar-sign" class="action-icon" v-on:click="syntheticPriceClicked(item)"></font-awesome-icon>
+                        </template>
                     </template>
+
                 </div>
             </div>
         </template>
@@ -81,6 +86,8 @@
             <add-dividend-trade v-if="isAddDividendModalEnabled" v-bind:post="{symbol: symbol.toUpperCase()}"/>
             <delete-dividend-trade v-if="isDeleteDividendModalEnabled" v-bind:post="{model: selectedModel}"/>
 
+            <synthetic-price v-if="isSyntheticModalEnabled" v-bind:post="{model: selectedModel}"/>
+
             <add-error v-if="isAddErrorEnabled"/>
         </transition>
     </div>
@@ -101,10 +108,12 @@
     import SettingsApiModel from "../models/SettingsApiModel";
     import AddDividendTrade from "../components/tradelist/AddDividendTrade";
     import DeleteDividendTrade from "../components/tradelist/DeleteDividendTrade";
+    import SyntheticPrice from "../components/tradelist/SyntheticPrice";
 
     export default {
         name: "TradeList",
         components: {
+            SyntheticPrice,
             DeleteDividendTrade, AddDividendTrade,
             ShareData, AddOptionTrade, AddError, AddStockTrade, DeleteStockTrade, DeleteOptionTrade
         },
@@ -140,6 +149,9 @@
             isDeleteDividendModalEnabled() {
                 return this.$store.state.isDeleteDividendModalEnabled;
             },
+            isSyntheticModalEnabled() {
+                return this.$store.state.isSyntheticModalEnabled;
+            },
             isAddErrorEnabled() {
                 return this.$store.state.isAddErrorEnabled;
             },
@@ -160,8 +172,8 @@
                 this.$store.dispatch('showAddStockModal');
             },
 
-            deleteRecordClicked: function(id) {
-                this.selectedModel = this.getModelById(id);
+            deleteRecordClicked: function(item) {
+                this.selectedModel = item;
 
                 if (typeof this.selectedModel !== 'undefined') {
                     if ("SHARE" === this.selectedModel.type) {
@@ -182,6 +194,19 @@
 
             groupSelectClicked : function (item) {
                 item.groupSelected = !item.groupSelected;
+            },
+
+            syntheticPriceClicked: function (item) {
+                this.selectedModel = item;
+
+                if (typeof this.selectedModel !== 'undefined') {
+                    if ("SHARE" === item.type) {
+                        this.selectedModel = item;
+                        this.$store.dispatch('showSyntheticShareModal');
+                    } else {
+                        console.error("Clicked on unknown type: " + this.selectedModel.type);
+                    }
+                }
             },
 
             addNewOptionTradeClicked: function() {

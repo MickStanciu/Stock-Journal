@@ -33,7 +33,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-info" v-on:click="closeModal()">Close</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" v-on:click="submitAndClose()">Submit</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" v-on:click="submitAndClose()">Submit</button>
                 </div>
             </div>
         </div>

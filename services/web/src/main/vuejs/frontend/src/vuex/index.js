@@ -11,6 +11,7 @@ const store = new Vuex.Store({
         isDeleteOptionModalEnabled: false,
         isAddDividendModalEnabled: false,
         isDeleteDividendModalEnabled: false,
+        isSyntheticModalEnabled: false,
         isAddErrorEnabled: false
     },
     actions: {
@@ -31,6 +32,9 @@ const store = new Vuex.Store({
         },
         showDeleteDividendModal(context) {
             context.commit('showDeleteDividendModal');
+        },
+        showSyntheticShareModal(context) {
+            context.commit('showSyntheticShareModal');
         },
 
         hideModalWithError(context) {
@@ -65,6 +69,9 @@ const store = new Vuex.Store({
         showDeleteDividendModal(state) {
             state.isDeleteDividendModalEnabled = true;
         },
+        showSyntheticShareModal(state) {
+            state.isSyntheticModalEnabled = true;
+        },
 
         hideModalWithoutRefresh(state) {
             state.isAddStockModalEnabled = false;
@@ -73,6 +80,7 @@ const store = new Vuex.Store({
             state.isDeleteStockModalEnabled = false;
             state.isDeleteOptionModalEnabled = false;
             state.isDeleteDividendModalEnabled = false;
+            state.isSyntheticModalEnabled = false;
             state.isAddErrorEnabled = false;
         },
 
@@ -83,6 +91,7 @@ const store = new Vuex.Store({
             state.isDeleteStockModalEnabled = false;
             state.isDeleteOptionModalEnabled = false;
             state.isDeleteDividendModalEnabled = false;
+            state.isSyntheticModalEnabled = false;
             state.isAddErrorEnabled = false;
         },
 
@@ -93,6 +102,8 @@ const store = new Vuex.Store({
             state.isDeleteStockModalEnabled = false;
             state.isDeleteOptionModalEnabled = false;
             state.isDeleteOptionModalEnabled = false;
+            state.isDeleteDividendModalEnabled = false;
+            state.isSyntheticModalEnabled = false;
             state.isAddErrorEnabled = true;
         },
 
