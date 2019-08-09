@@ -1,6 +1,12 @@
 package com.example.web.service;
 
-import com.example.gateway.api.model.*;
+import com.example.gateway.api.model.DividendGWModel;
+import com.example.gateway.api.model.OptionJournalGWModel;
+import com.example.gateway.api.model.ShareDataGWModel;
+import com.example.gateway.api.model.ShareJournalGWModel;
+import com.example.gateway.api.model.TradeLogGWModel;
+import com.example.gateway.api.model.TradeSummaryGWModel;
+import com.example.gateway.api.model.TransactionSettingsGWModel;
 import com.example.web.gateway.TradeJournalGateway;
 import org.springframework.stereotype.Service;
 
@@ -57,5 +63,9 @@ public class TradeJournalService {
 
     public void updateSettings(String accountId, List<TransactionSettingsGWModel> transactionSettingsGWModelList) {
         tradeJournalGateway.updateSettings(accountId, transactionSettingsGWModelList);
+    }
+
+    public void updateSetting(String accountId, TransactionSettingsGWModel transactionSettingsGWModel) {
+        tradeJournalGateway.updateSetting(accountId, transactionSettingsGWModel);
     }
 }

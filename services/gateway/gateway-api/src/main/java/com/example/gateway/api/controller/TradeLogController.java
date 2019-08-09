@@ -3,11 +3,23 @@ package com.example.gateway.api.controller;
 import com.example.gateway.api.converter.TradeLogModelConverter;
 import com.example.gateway.api.exception.ExceptionCode;
 import com.example.gateway.api.exception.GatewayApiException;
-import com.example.gateway.api.model.*;
+import com.example.gateway.api.model.DividendGWModel;
+import com.example.gateway.api.model.OptionJournalGWModel;
+import com.example.gateway.api.model.ShareDataGWModel;
+import com.example.gateway.api.model.ShareJournalGWModel;
+import com.example.gateway.api.model.TradeLogGWModel;
+import com.example.gateway.api.model.TradeSummaryGWModel;
+import com.example.gateway.api.model.TransactionSettingsGWModel;
 import com.example.gateway.api.service.TradeLogService;
 import com.example.tradelog.api.spec.model.TradeLogModel;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -142,5 +154,13 @@ public class TradeLogController {
     public void updateBulkSettings(@RequestHeader("accountId") String accountId,
                                    @RequestBody List<TransactionSettingsGWModel> modelList) {
         tradeLogService.updateGroupSettings(accountId, modelList);
+    }
+
+    @RequestMapping(value = "/transaction/settings/{id}", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public void updateSettings(@RequestHeader("accountId") String accountId,
+                               @PathVariable(name = "id") String transactionId,
+                               @RequestBody TransactionSettingsGWModel model) {
+        tradeLogService.updateGroupSetting(accountId, transactionId, model);
     }
 }

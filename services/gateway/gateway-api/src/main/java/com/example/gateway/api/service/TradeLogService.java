@@ -1,9 +1,25 @@
 package com.example.gateway.api.service;
 
-import com.example.gateway.api.converter.*;
+import com.example.gateway.api.converter.DividendJournalConverter;
+import com.example.gateway.api.converter.OptionJournalConverter;
+import com.example.gateway.api.converter.ShareDataConverter;
+import com.example.gateway.api.converter.ShareJournalConverter;
+import com.example.gateway.api.converter.TradeSummaryConverter;
+import com.example.gateway.api.converter.TransactionSettingConverter;
 import com.example.gateway.api.gateway.TradeLogGateway;
-import com.example.gateway.api.model.*;
-import com.example.tradelog.api.spec.model.*;
+import com.example.gateway.api.model.DividendGWModel;
+import com.example.gateway.api.model.OptionJournalGWModel;
+import com.example.gateway.api.model.ShareDataGWModel;
+import com.example.gateway.api.model.ShareJournalGWModel;
+import com.example.gateway.api.model.TradeSummaryGWModel;
+import com.example.gateway.api.model.TransactionSettingsGWModel;
+import com.example.tradelog.api.spec.model.DividendJournalModel;
+import com.example.tradelog.api.spec.model.OptionJournalModel;
+import com.example.tradelog.api.spec.model.ShareDataModel;
+import com.example.tradelog.api.spec.model.ShareJournalModel;
+import com.example.tradelog.api.spec.model.TradeLogModel;
+import com.example.tradelog.api.spec.model.TradeSummaryModel;
+import com.example.tradelog.api.spec.model.TransactionSettingsModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -91,4 +107,8 @@ public class TradeLogService {
         tradeLogGateway.updateTransactionSettingsBulk(accountId, models);
     }
 
+    public void updateGroupSetting(String accountId, String transactionId, TransactionSettingsGWModel gwModel) {
+        TransactionSettingsModel model = TransactionSettingConverter.toTransactionSettingsGWModel.apply(gwModel);
+        tradeLogGateway.updateTransactionSettings(accountId, transactionId, model);
+    }
 }

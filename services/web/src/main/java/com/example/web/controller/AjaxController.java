@@ -1,8 +1,18 @@
 package com.example.web.controller;
 
-import com.example.gateway.api.model.*;
+import com.example.gateway.api.model.DividendGWModel;
+import com.example.gateway.api.model.OptionJournalGWModel;
+import com.example.gateway.api.model.ShareDataGWModel;
+import com.example.gateway.api.model.ShareJournalGWModel;
+import com.example.gateway.api.model.TradeLogGWModel;
+import com.example.gateway.api.model.TradeSummaryGWModel;
+import com.example.gateway.api.model.TransactionSettingsGWModel;
 import com.example.web.service.TradeJournalService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -108,6 +118,16 @@ public class AjaxController {
             @RequestBody List<TransactionSettingsGWModel> transactionSettingsGWModelList
     ) {
         tradeJournalService.updateSettings(accountId, transactionSettingsGWModelList);
+        return "{}";
+    }
+
+
+    @RequestMapping(value = "/tradelog/{accountId}/settings/{id}", method = RequestMethod.PUT)
+    public String updateSingleSetting(
+            @PathVariable(name = "accountId") String accountId,
+            @RequestBody TransactionSettingsGWModel transactionSettingsGWModel
+    ) {
+        tradeJournalService.updateSetting(accountId, transactionSettingsGWModel);
         return "{}";
     }
 }

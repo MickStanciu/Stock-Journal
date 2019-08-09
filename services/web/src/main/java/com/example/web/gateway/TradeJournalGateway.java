@@ -1,11 +1,21 @@
 package com.example.web.gateway;
 
-import com.example.gateway.api.model.*;
+import com.example.gateway.api.model.DividendGWModel;
+import com.example.gateway.api.model.OptionJournalGWModel;
+import com.example.gateway.api.model.ShareDataGWModel;
+import com.example.gateway.api.model.ShareJournalGWModel;
+import com.example.gateway.api.model.TradeLogGWModel;
+import com.example.gateway.api.model.TradeSummaryGWModel;
+import com.example.gateway.api.model.TransactionSettingsGWModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -167,5 +177,18 @@ public class TradeJournalGateway {
 
         HttpEntity<List<TransactionSettingsGWModel>> request = new HttpEntity<>(transactionSettingsGWModelList, headers);
         restTemplate.exchange(builder.build(""), HttpMethod.PUT, request, Object.class);
+    }
+
+    public void updateSetting(String accountId, TransactionSettingsGWModel transactionSettingsGWModel) {
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromHttpUrl(API_URL)
+                .path("/transaction/settings/{id}");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("accountId", accountId);
+
+        HttpEntity<TransactionSettingsGWModel> request = new HttpEntity<>(transactionSettingsGWModel, headers);
+        restTemplate.exchange(builder.build(transactionSettingsGWModel.getTransactionId()), HttpMethod.PUT, request, Object.class);
     }
 }
