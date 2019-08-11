@@ -8,7 +8,13 @@ import com.example.tradelog.api.validator.RequestValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Optional;
 
@@ -46,6 +52,37 @@ public class ShareDataController {
             return optionalShareDataModel.get();
         } else {
             log.error("COULD NOT OBTAIN DATA FOR: {}", symbol);
+            throw new TradeLogException(ExceptionCode.SHARE_DATA_EMPTY);
+        }
+    }
+
+
+    /**
+     * Sets data for given symbol
+     * @param accountId -
+     * @param symbol -
+     * @param model -
+     * @return ShareDataModel
+     * @throws TradeLogException
+     */
+    @RequestMapping(value = "/share/{symbol}", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    public ShareDataModel setDataForSymbol(
+            @RequestHeader("accountId") String accountId,
+            @PathVariable("symbol") String symbol,
+            @RequestBody ShareDataModel model
+            ) throws TradeLogException {
+
+        if (!RequestValidation.validateSetDataBySymbol(accountId, symbol, model)) {
+            throw new TradeLogException(ExceptionCode.BAD_REQUEST);
+        }
+
+        Optional<ShareDataModel> optionalShareDataModel = shareDataService.setShareData(symbol, model);
+
+        if (optionalShareDataModel.isPresent()) {
+            return optionalShareDataModel.get();
+        } else {
+            log.error("COULD NOT SET DATA FOR: {}", symbol);
             throw new TradeLogException(ExceptionCode.SHARE_DATA_EMPTY);
         }
     }

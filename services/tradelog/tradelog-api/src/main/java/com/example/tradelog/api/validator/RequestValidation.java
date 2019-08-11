@@ -1,7 +1,14 @@
 package com.example.tradelog.api.validator;
 
 import com.example.common.validator.FieldValidator;
-import com.example.tradelog.api.spec.model.*;
+import com.example.tradelog.api.spec.model.Action;
+import com.example.tradelog.api.spec.model.DividendJournalModel;
+import com.example.tradelog.api.spec.model.OptionJournalModel;
+import com.example.tradelog.api.spec.model.OptionType;
+import com.example.tradelog.api.spec.model.ShareDataModel;
+import com.example.tradelog.api.spec.model.ShareJournalModel;
+import com.example.tradelog.api.spec.model.TransactionSettingsModel;
+import com.example.tradelog.api.spec.model.TransactionType;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -35,6 +42,13 @@ public class RequestValidation extends FieldValidator {
 
     public static boolean validateGetDataBySymbol(String accountId, String symbol) {
         return RequestValidation.accountId.test(accountId) && RequestValidation.symbol.test(symbol);
+    }
+
+    public static boolean validateSetDataBySymbol(String accountId, String symbol, ShareDataModel model) {
+        return RequestValidation.accountId.test(accountId)
+                && RequestValidation.symbol.test(symbol)
+                && model.getSymbol().equals(symbol)
+                && validateShareDataModel.test(model);
     }
 
     public static boolean validateUpdateOptions(String accountId, String transactionId, TransactionSettingsModel model) {
@@ -115,4 +129,7 @@ public class RequestValidation extends FieldValidator {
             && s.getTransactionDetails().getId() == null
             && s.getQuantity() >= 0
             && s.getDividend() >= 0;
+
+    static Predicate<ShareDataModel> validateShareDataModel = s -> s != null
+            && s.getSymbol() != null;
 }

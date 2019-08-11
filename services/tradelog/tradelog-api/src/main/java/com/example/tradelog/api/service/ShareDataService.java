@@ -41,4 +41,12 @@ public class ShareDataService {
         return Optional.of(ShareDataModel.builder(model).withCalculatedTarget(calculatedTarget).build());
     }
 
+    public Optional<ShareDataModel> setShareData(String symbol, ShareDataModel model) {
+
+        boolean success = repository.setForSymbol(symbol, model);
+        if (success) {
+            return this.getShareData(symbol);
+        }
+        return Optional.empty();
+    }
 }
