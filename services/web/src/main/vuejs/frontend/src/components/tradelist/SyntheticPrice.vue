@@ -40,7 +40,7 @@
             return {
                 form_element: {
                     symbol : this.post.model[0].symbol,
-                    price: this.post.model[0].price
+                    price: this.post.model[0].preferredPrice !== null ? this.post.model[0].preferredPrice : this.post.model[0].price
                 },
 
                 form_validation: {
