@@ -45,7 +45,7 @@
         <template v-for="(item, idx) in items">
             <div class="row pb-1 pt-1" v-bind:class="rowClass(item, idx)" v-bind:key="item.transactionId">
                 <div class="col-md-2" v-bind:class="[item.groupSelected ? 'row-selected' : 'row-not-selected']">{{ dateTz(item) }}</div>
-                <div class="col-md-5" v-bind:class="[item.groupSelected ? 'row-selected' : 'row-not-selected']">{{ encodeAction(item) }}</div>
+                <div class="col-md-5" v-bind:class="[item.groupSelected ? 'row-selected' : 'row-not-selected']" v-html="encodeAction(item)"></div>
                 <div class="col-md-1" v-bind:class="[item.groupSelected ? 'row-selected' : 'row-not-selected']">{{ printCurrencyFormat(item.brokerFees) }}</div>
                 <div class="col-md-2 text-right" v-bind:class="[item.groupSelected ? 'row-selected' : 'row-not-selected']">{{ printCurrencyFormat(calculateLineItemTotal(item)) }}</div>
                 <div class="col-md-2">
@@ -58,10 +58,10 @@
                         </template>
                         <font-awesome-icon icon="calculator" class="action-icon" v-on:click="groupSelectClicked(item)" v-bind:class="[item.groupSelected ? 'item-active' : 'item-not-active']"></font-awesome-icon>
                         <font-awesome-icon icon="trash-alt" class="action-icon" v-on:click="deleteRecordClicked(item)"></font-awesome-icon>
+                    </template>
 
-                        <template v-if="item.type === 'SHARE'">
-                            <font-awesome-icon icon="dollar-sign" class="action-icon" v-on:click="syntheticPriceClicked(item)"></font-awesome-icon>
-                        </template>
+                    <template v-else>
+                        <font-awesome-icon icon="dollar-sign" class="action-icon" v-on:click="syntheticPriceClicked()"></font-awesome-icon>
                     </template>
 
                 </div>
@@ -86,7 +86,7 @@
             <add-dividend-trade v-if="isAddDividendModalEnabled" v-bind:post="{symbol: symbol.toUpperCase()}"/>
             <delete-dividend-trade v-if="isDeleteDividendModalEnabled" v-bind:post="{model: selectedModel}"/>
 
-            <synthetic-price v-if="isSyntheticModalEnabled" v-bind:post="{model: selectedModel}"/>
+            <synthetic-price v-if="isSyntheticModalEnabled" v-bind:post="{model: selectedModels}"/>
 
             <add-error v-if="isAddErrorEnabled"/>
         </transition>
@@ -127,6 +127,7 @@
                 currency: 'USD',
                 symbol: this.$route.params.symbol,
                 selectedModel : undefined,
+                selectedModels : []
             }
         },
 
@@ -196,17 +197,10 @@
                 item.groupSelected = !item.groupSelected;
             },
 
-            syntheticPriceClicked: function (item) {
-                this.selectedModel = item;
-
-                if (typeof this.selectedModel !== 'undefined') {
-                    if ("SHARE" === item.type) {
-                        this.selectedModel = item;
-                        this.$store.dispatch('showSyntheticShareModal');
-                    } else {
-                        console.error("Clicked on unknown type: " + this.selectedModel.type);
-                    }
-                }
+            syntheticPriceClicked: function () {
+                //will scan all items and update the price into them!
+                this.selectedModels = this.getAllActiveShares();
+                this.$store.dispatch('showSyntheticShareModal');
             },
 
             addNewOptionTradeClicked: function() {
@@ -258,6 +252,16 @@
                 return undefined;
             },
 
+            getAllActiveShares: function() {
+                let activeShares = [];
+                for(let i = 0; i < this.items.length; i++) {
+                    if (this.items[i].type === 'SHARE' && this.items[i].groupSelected === true && this.items[i].legClosed === false) {
+                        activeShares.push(this.items[i]);
+                    }
+                }
+                return activeShares;
+            },
+
             expiryDateTz: function(item) {
                 return dateTimeUtil.convertExpiryDateForDisplay(item.expiryDate);
             },
@@ -296,9 +300,17 @@
                     //SOLD 3 LKQ May17'19 30 PUT @ 1
                     encoded += ' ' + item.contracts + ' ' + item.stockSymbol + ' ' + item.optionType + ' ' + this.expiryDateTz(item)
                         + ' ' + item.strikePrice + ' @ ' + Intl.NumberFormat('en-US', params).format(item.premium);
-                } else if (item.type === 'SHARE' || item.type === 'SYNTHETIC_SHARE') {
+                } else if (item.type === 'SHARE') {
                     //BOUGHT 100 SWKS @ 87.17
                     encoded += ' ' + item.quantity + ' ' + item.symbol + ' @ ' + Intl.NumberFormat('en-US', params).format(item.price);
+                } else if (item.type === 'SYNTHETIC_SHARE') {
+                    if (item.preferredPrice !== null && item.preferredPrice !== 0.00) {
+                        encoded += ' ' + item.quantity + ' ' + item.symbol + ' @ ' + '<s style="background-color: #ed969e">' + Intl.NumberFormat('en-US', params).format(item.price) + '</s>' + ' '
+                            + Intl.NumberFormat('en-US', params).format(item.preferredPrice);
+                    } else {
+                        encoded += ' ' + item.quantity + ' ' + item.symbol + ' @ ' + Intl.NumberFormat('en-US', params).format(item.price);
+
+                    }
                 } else if (item.type === 'DIVIDEND') {
                     encoded += ' ' + item.symbol + ' @ ' + Intl.NumberFormat('en-US', params).format(item.dividend);
                 }
@@ -313,8 +325,17 @@
                     }
                     let transactionValue = item.contracts * 100 * price - item.brokerFees;
                     return parseFloat((transactionValue).toFixed(10));
-                } else if (item.type === 'SHARE' || item.type === 'SYNTHETIC_SHARE') {
+                } else if (item.type === 'SHARE') {
                     let price = item.price;
+                    if (item.action === 'BUY') {
+                        price = price * -1;
+                    }
+                    return parseFloat((item.quantity * price - item.brokerFees).toFixed(10));
+                } else if (item.type === 'SYNTHETIC_SHARE') {
+                    let price = item.price;
+                    if (item.preferredPrice !== null && item.preferredPrice !== 0.00) {
+                        price = item.preferredPrice;
+                    }
                     if (item.action === 'BUY') {
                         price = price * -1;
                     }
@@ -367,6 +388,7 @@
                         data.shareList.forEach(function (item) {
                             let model = new ShareApiModel(item.symbol);
                             model.price = item.price;
+                            model.preferredPrice = item.preferredPrice;
                             model.quantity = item.quantity;
                             model.action = item.action;
                             model.brokerFees = item.brokerFees;

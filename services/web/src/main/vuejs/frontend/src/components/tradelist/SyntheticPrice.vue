@@ -39,8 +39,8 @@
         data: function () {
             return {
                 form_element: {
-                    symbol : this.post.model.symbol,
-                    price: this.post.model.price
+                    symbol : this.post.model[0].symbol,
+                    price: this.post.model[0].price
                 },
 
                 form_validation: {
@@ -57,12 +57,20 @@
             },
 
             submitAndClose: function () {
-                let settingModel = new SettingsApiModel();
-                settingModel.transactionId = this.post.model.transactionId;
-                settingModel.groupSelected = this.post.model.groupSelected;
-                settingModel.legClosed = this.post.model.legClosed;
-                settingModel.preferredPrice = this.form_element.price;
-                service.saveSetting(settingModel);
+                let settings = [];
+                for(let i = 0; i < this.post.model.length; i++) {
+                    let settingModel = new SettingsApiModel();
+                    settingModel.transactionId = this.post.model[i].transactionId;
+                    settingModel.groupSelected = this.post.model[i].groupSelected;
+                    settingModel.legClosed = this.post.model[i].legClosed;
+                    settingModel.preferredPrice = this.form_element.price;
+
+                    if (settingModel.transactionId != null) {
+                        settings.push(settingModel);
+                    }
+                }
+
+                service.saveSettings(settings);
                 this.$store.dispatch('hideModalWithRefresh');
             },
 

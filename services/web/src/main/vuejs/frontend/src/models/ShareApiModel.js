@@ -6,6 +6,7 @@ class ShareApiModel {
     date = undefined;
     symbol = undefined;
     price = undefined;
+    preferredPrice = undefined;
     quantity = undefined;
     action = undefined;
     brokerFees = undefined;
