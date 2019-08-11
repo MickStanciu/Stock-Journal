@@ -13,6 +13,7 @@ public class ShareJournalGWModel implements Serializable {
     private String symbol;
     private double price;
     private double actualPrice;
+    private Double preferredPrice;
     private int quantity;
     private ActionGW action;
     private TransactionTypeGW type;
@@ -46,6 +47,10 @@ public class ShareJournalGWModel implements Serializable {
 
     public double getActualPrice() {
         return actualPrice;
+    }
+
+    public Double getPreferredPrice() {
+        return preferredPrice;
     }
 
     public int getQuantity() {
@@ -116,6 +121,11 @@ public class ShareJournalGWModel implements Serializable {
 
         public Builder withActualPrice(double price) {
             model.actualPrice = price;
+            return this;
+        }
+
+        public Builder withPreferredPrice(Double preferredPrice) {
+            model.preferredPrice = preferredPrice;
             return this;
         }
 

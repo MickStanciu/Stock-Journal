@@ -23,8 +23,8 @@ public class OptionJournalConverter {
             .withPremium(model.getPremium())
             .withStockPrice(model.getStockPrice())
             .withStrikePrice(model.getStrikePrice())
-            .withGroupSelected(model.getTransactionDetails().getOptions().isGroupSelected())
-            .withLegClosed(model.getTransactionDetails().getOptions().isLegClosed())
+            .withGroupSelected(model.getTransactionDetails().getSettings().isGroupSelected())
+            .withLegClosed(model.getTransactionDetails().getSettings().isLegClosed())
             .build();
 
     public static Function<OptionJournalGWModel, OptionJournalModel> toOptionModel = model -> {

@@ -5,12 +5,14 @@ public class ShareAggregator {
     private String symbol;
     private double averageBoughtPrice;
     private double actualPrice;
+    private Double preferredPrice;
     private int quantity;
 
     public ShareAggregator(String symbol) {
         this.symbol = symbol;
         this.averageBoughtPrice = 0.00;
         this.actualPrice = 0.00;
+        this.preferredPrice = 0.00;
         this.quantity = 0;
     }
 
@@ -43,6 +45,14 @@ public class ShareAggregator {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public Double getPreferredPrice() {
+        return preferredPrice;
+    }
+
+    public void setPreferredPrice(Double preferredPrice) {
+        this.preferredPrice = preferredPrice;
     }
 
     public void addQuantityAndPrice(int quantity, double price) {

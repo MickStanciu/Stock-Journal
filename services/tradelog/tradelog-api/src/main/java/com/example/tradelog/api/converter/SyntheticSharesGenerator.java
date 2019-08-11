@@ -1,13 +1,16 @@
 package com.example.tradelog.api.converter;
 
-import com.example.tradelog.api.spec.model.*;
+import com.example.tradelog.api.spec.model.Action;
+import com.example.tradelog.api.spec.model.ShareJournalModel;
+import com.example.tradelog.api.spec.model.TransactionModel;
+import com.example.tradelog.api.spec.model.TransactionSettingsModel;
+import com.example.tradelog.api.spec.model.TransactionType;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Function;
 
 public class SyntheticSharesGenerator {
@@ -17,7 +20,7 @@ public class SyntheticSharesGenerator {
 
         shareJournalModels.stream()
                 .filter(f -> f.getTransactionDetails().getType().equals(TransactionType.SHARE))
-                .filter(f -> !f.getTransactionDetails().getOptions().isLegClosed())
+                .filter(f -> !f.getTransactionDetails().getSettings().isLegClosed())
                 .forEach(s -> {
                     int quantity;
                     if (Action.BUY == s.getAction()) {
@@ -31,8 +34,9 @@ public class SyntheticSharesGenerator {
                         aggregator = stocks.get(s.getTransactionDetails().getSymbol());
                     } else {
                         aggregator = new ShareAggregator(s.getTransactionDetails().getSymbol());
-                        Double preferredPrice = s.getTransactionDetails().getOptions().getPreferredPrice();
-                        aggregator.setActualPrice(Objects.requireNonNullElseGet(preferredPrice, s::getActualPrice));
+                        aggregator.setActualPrice(s.getActualPrice());
+                        Double preferredPrice = s.getTransactionDetails().getSettings().getPreferredPrice();
+                        aggregator.setPreferredPrice(preferredPrice);
                     }
 
                     aggregator.addQuantityAndPrice(quantity, s.getPrice());
@@ -44,9 +48,7 @@ public class SyntheticSharesGenerator {
             if (aggregator.getQuantity() != 0) {
 
                 double calculatedPrice = aggregator.getActualPrice();
-                if (calculatedPrice == 0.00) {
-                    calculatedPrice = aggregator.getAverageBoughtPrice();
-                }
+                double averageBoughtPrice = aggregator.getAverageBoughtPrice();
 
                 Action syntheticAction = Action.SELL;
                 if (aggregator.getQuantity() < 0) {
@@ -57,6 +59,7 @@ public class SyntheticSharesGenerator {
                         .withPreferredPrice(null)
                         .withGroupSelected(true)
                         .withLegClosed(false)
+                        .withPreferredPrice(aggregator.getPreferredPrice())
                         .build();
 
                 TransactionModel transactionModel = TransactionModel.builder()
@@ -69,8 +72,8 @@ public class SyntheticSharesGenerator {
                 synthetics.add(ShareJournalModel.builder()
                         .withTransactionModel(transactionModel)
                         .withQuantity(Math.abs(aggregator.getQuantity()))
-                        .withPrice(calculatedPrice)
-                        .withActualPrice(calculatedPrice)
+                        .withPrice(averageBoughtPrice)
+                        .withActualPrice(aggregator.getActualPrice())
                         .withAction(syntheticAction)
                         .build());
             }

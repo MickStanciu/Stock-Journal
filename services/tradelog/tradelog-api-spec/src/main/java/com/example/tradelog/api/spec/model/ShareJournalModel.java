@@ -8,7 +8,15 @@ public class ShareJournalModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private TransactionModel transactionDetails;
+
+    /*
+        Paid price when transaction was made
+     */
     private double price;
+
+    /*
+        Current price of the stock now
+     */
     private double actualPrice;
     private int quantity;
     private Action action;

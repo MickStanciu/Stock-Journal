@@ -20,8 +20,9 @@ public class ShareJournalConverter {
             .withQuantity(model.getQuantity())
             .withPrice(model.getPrice())
             .withActualPrice(model.getActualPrice())
-            .withGroupSelected(model.getTransactionDetails().getOptions().isGroupSelected())
-            .withLegClosed(model.getTransactionDetails().getOptions().isLegClosed())
+            .withPreferredPrice(model.getTransactionDetails().getSettings().getPreferredPrice())
+            .withGroupSelected(model.getTransactionDetails().getSettings().isGroupSelected())
+            .withLegClosed(model.getTransactionDetails().getSettings().isLegClosed())
             .build();
 
     public static Function<ShareJournalGWModel, ShareJournalModel> toShareModel = model -> {

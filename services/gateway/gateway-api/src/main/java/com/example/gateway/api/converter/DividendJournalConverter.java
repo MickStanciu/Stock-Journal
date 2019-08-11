@@ -18,8 +18,8 @@ public class DividendJournalConverter {
                 .withAccountId(model.getTransactionDetails().getAccountId())
                 .withDate(model.getTransactionDetails().getDate())
                 .withSymbol(model.getTransactionDetails().getSymbol())
-                .withGroupSelected(model.getTransactionDetails().getOptions().isGroupSelected())
-                .withLegClosed(model.getTransactionDetails().getOptions().isLegClosed())
+                .withGroupSelected(model.getTransactionDetails().getSettings().isGroupSelected())
+                .withLegClosed(model.getTransactionDetails().getSettings().isLegClosed())
                 .build();
 
 
