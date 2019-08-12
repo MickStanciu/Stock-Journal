@@ -35,11 +35,11 @@
         </div>
 
         <div class="row pb-1 pt-1 table-footer">
-            <div class="col-md-1">&nbsp;</div>
             <div class="col-md-2">&nbsp;</div>
             <div class="col-md-5">&nbsp;</div>
-            <div class="col text-right">{{ printCurrencyFormat(getTotal) }}</div>
-            <div class="col-1">&nbsp;</div>
+            <div class="col-md-1">&nbsp;</div>
+            <div class="col-md-2 text-right">{{ printCurrencyFormat(getTotal) }}</div>
+            <div class="col-md-2">&nbsp;</div>
         </div>
 
         <template v-for="(item, idx) in items">
@@ -69,11 +69,11 @@
         </template>
 
         <div class="row pb-1 pt-1 table-footer">
-            <div class="col-md-1">&nbsp;</div>
             <div class="col-md-2">&nbsp;</div>
-            <div class="col-md-5">&nbsp;</div>
-            <div class="col text-right">{{ printCurrencyFormat(getTotal) }}</div>
-            <div class="col-1">&nbsp;</div>
+            <div class="col-md-5">Realised premium: {{ printCurrencyFormat(getTotalActivePremium) }}</div>
+            <div class="col-md-1">&nbsp;</div>
+            <div class="col-md-2 text-right">{{ printCurrencyFormat(getTotal) }}</div>
+            <div class="col-md-2">&nbsp;</div>
         </div>
 
         <transition name="fade">
@@ -165,6 +165,20 @@
                     }
                 });
                 return total;
+            },
+            getTotalActivePremium: function () {
+                let _this = this;
+                let totalPremium = 0.00;
+                this.items.forEach(function (item) {
+                    if (item.groupSelected === true) {
+                        if (item.type === 'OPTION') {
+                            totalPremium += _this.calculateOptionLineItemPremium(item);
+                        } else if (item.type === 'DIVIDEND') {
+                            totalPremium += _this.calculateDividendLineItemIncome(item);
+                        }
+                    }
+                });
+                return totalPremium;
             }
         },
 
@@ -319,12 +333,8 @@
 
             calculateLineItemTotal: function (item) {
                 if (item.type === 'OPTION') {
-                    let price = item.premium;
-                    if (item.action === 'BUY') {
-                        price = price * -1;
-                    }
-                    let transactionValue = item.contracts * 100 * price - item.brokerFees;
-                    return parseFloat((transactionValue).toFixed(10));
+                    let transactionValue = item.contracts * 100 * this.calculateOptionLineItemPremium(item) - item.brokerFees;
+                    return parseFloat(transactionValue.toFixed(10));
                 } else if (item.type === 'SHARE') {
                     let price = item.price;
                     if (item.action === 'BUY') {
@@ -341,9 +351,22 @@
                     }
                     return parseFloat((item.quantity * price - item.brokerFees).toFixed(10));
                 } else if (item.type === 'DIVIDEND') {
-                    return parseFloat((item.dividend * item.quantity).toFixed(10));
+                    let transactionValue = item.quantity * this.calculateDividendLineItemIncome(item);
+                    return parseFloat(transactionValue.toFixed(10));
                 }
                 return 0;
+            },
+
+            calculateOptionLineItemPremium: function (item) {
+                let income = item.premium;
+                    if (item.action === 'BUY') {
+                        income = income * -1;
+                    }
+                return income;
+            },
+
+            calculateDividendLineItemIncome: function (item) {
+                return item.dividend;
             },
 
             printCurrencyFormat: function (value) {
