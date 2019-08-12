@@ -3,6 +3,7 @@ package com.example.gateway.api.converter;
 import com.example.gateway.api.model.DividendGWModel;
 import com.example.gateway.api.model.OptionJournalGWModel;
 import com.example.gateway.api.model.ShareJournalGWModel;
+import com.example.gateway.api.model.StatisticsGWModel;
 import com.example.gateway.api.model.TradeLogGWModel;
 import com.example.tradelog.api.spec.model.TradeLogModel;
 
@@ -34,6 +35,8 @@ public class TradeLogModelConverter implements Function<TradeLogModel, TradeLogG
         tradeLogGWModel.setOptionList(optionList);
         tradeLogGWModel.setShareList(shareList);
         tradeLogGWModel.setDividendList(dividendList);
+
+        tradeLogGWModel.setStatistics(StatisticsGWModel.builder().build());
         return tradeLogGWModel;
     }
 }

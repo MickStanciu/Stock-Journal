@@ -4,6 +4,7 @@ import com.example.gateway.api.converter.DividendJournalConverter;
 import com.example.gateway.api.converter.OptionJournalConverter;
 import com.example.gateway.api.converter.ShareDataConverter;
 import com.example.gateway.api.converter.ShareJournalConverter;
+import com.example.gateway.api.converter.TradeLogModelConverter;
 import com.example.gateway.api.converter.TradeSummaryConverter;
 import com.example.gateway.api.converter.TransactionSettingConverter;
 import com.example.gateway.api.gateway.TradeLogGateway;
@@ -11,6 +12,7 @@ import com.example.gateway.api.model.DividendGWModel;
 import com.example.gateway.api.model.OptionJournalGWModel;
 import com.example.gateway.api.model.ShareDataGWModel;
 import com.example.gateway.api.model.ShareJournalGWModel;
+import com.example.gateway.api.model.TradeLogGWModel;
 import com.example.gateway.api.model.TradeSummaryGWModel;
 import com.example.gateway.api.model.TransactionSettingsGWModel;
 import com.example.tradelog.api.spec.model.DividendJournalModel;
@@ -40,7 +42,7 @@ public class TradeLogService {
         this.tradeLogGateway = tradeLogGateway;
     }
 
-    public TradeLogModel getAllBySymbol(String accountId, String symbol) throws ExecutionException, InterruptedException {
+    public TradeLogGWModel getAllBySymbol(String accountId, String symbol) throws ExecutionException, InterruptedException {
         CompletableFuture<List<ShareJournalModel>> futureShareList = tradeLogGateway.getShareTransactionsBySymbol(accountId, symbol);
         CompletableFuture<List<OptionJournalModel>> futureOptionList = tradeLogGateway.getOptionTransactionsBySymbol(accountId, symbol);
         CompletableFuture<List<DividendJournalModel>> futureDividendList = tradeLogGateway.getDividendTransactionsBySymbol(accountId, symbol);
@@ -51,7 +53,8 @@ public class TradeLogService {
         tradeLogModel.setShareList(futureShareList.get());
         tradeLogModel.setOptionList(futureOptionList.get());
         tradeLogModel.setDividendList(futureDividendList.get());
-        return tradeLogModel;
+
+        return new TradeLogModelConverter().apply(tradeLogModel);
     }
 
     public List<String> getAllTradedSymbols(String accountId) {

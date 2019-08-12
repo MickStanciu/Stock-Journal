@@ -1,6 +1,5 @@
 package com.example.gateway.api.controller;
 
-import com.example.gateway.api.converter.TradeLogModelConverter;
 import com.example.gateway.api.exception.ExceptionCode;
 import com.example.gateway.api.exception.GatewayApiException;
 import com.example.gateway.api.model.DividendGWModel;
@@ -11,7 +10,6 @@ import com.example.gateway.api.model.TradeLogGWModel;
 import com.example.gateway.api.model.TradeSummaryGWModel;
 import com.example.gateway.api.model.TransactionSettingsGWModel;
 import com.example.gateway.api.service.TradeLogService;
-import com.example.tradelog.api.spec.model.TradeLogModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,8 +41,7 @@ public class TradeLogController {
             ) throws ExecutionException, InterruptedException {
         //todo validate input
 
-        TradeLogModel tradeLogModel = tradeLogService.getAllBySymbol(accountId, symbol);
-        return new TradeLogModelConverter().apply(tradeLogModel);
+        return tradeLogService.getAllBySymbol(accountId, symbol);
     }
 
 

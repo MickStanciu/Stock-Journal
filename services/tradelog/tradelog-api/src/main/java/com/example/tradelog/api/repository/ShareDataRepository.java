@@ -62,7 +62,7 @@ public class ShareDataRepository {
             ps.setDouble(9, model.getEpsFuture());
             ps.setDouble(10, model.getPrice());
             ps.setBigDecimal(11, model.getFinvizTarget());
-            ps.setDouble(12, model.getPeRatioFuture());
+            ps.setBigDecimal(12, model.getCalculatedTarget());
             return ps;
         }) == 1;
     }
