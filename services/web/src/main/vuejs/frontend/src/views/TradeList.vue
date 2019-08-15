@@ -36,7 +36,7 @@
 
         <div class="row pb-1 pt-1 table-footer">
             <div class="col-md-2">&nbsp;</div>
-            <div class="col-md-5">&nbsp;</div>
+            <div class="col-md-5">Realised premium: {{ printCurrencyFormat(getTotalActivePremium) }}</div>
             <div class="col-md-1">&nbsp;</div>
             <div class="col-md-2 text-right">{{ printCurrencyFormat(getTotal) }}</div>
             <div class="col-md-2">&nbsp;</div>
