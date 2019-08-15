@@ -15,6 +15,9 @@ project (":tradelog-api-spec").projectDir = file("./services/tradelog/tradelog-a
 include (":tradelog-api")
 project (":tradelog-api").projectDir = file("./services/tradelog/tradelog-api")
 
+include (":stockdata-api")
+project (":stockdata-api").projectDir = file("./services/stockdata/stockdata-api")
+
 include (":gateway-api-spec")
 project (":gateway-api-spec").projectDir = file("./services/gateway/gateway-api-spec")
 

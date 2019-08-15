@@ -38,14 +38,14 @@ ext {
     junitVersion = '5.4.2'
 }
 
-description = 'TradeLog API'
+description = 'StockData API'
 
-group = 'com.example.tradelog.api'
+group = 'com.example.stockdata.api'
 version = '0.0.1-SNAPSHOT'
 
 dependencies {
     implementation project(':common')
-    implementation project(':tradelog-api-spec')
+//    implementation project(':stockdata-api-spec')
 
     implementation("org.springframework.boot:spring-boot-starter-web") {
         exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"
@@ -71,4 +71,4 @@ test {
     }
 }
 
-mainClassName = 'com.example.tradelog.api.TradeLogApi'
+mainClassName = 'com.example.stockdata.api.StockDataApi'
