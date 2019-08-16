@@ -3,7 +3,7 @@ buildscript {
         jcenter()
         mavenCentral()
         maven {
-            url 'https://plugins.gradle.org/m2/'
+            url "https://plugins.gradle.org/m2/"
         }
     }
 }
@@ -17,7 +17,7 @@ plugins {
 sourceCompatibility = 11
 targetCompatibility = 11
 tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
+    options.encoding = "UTF-8"
 }
 
 sourceSets {
@@ -32,7 +32,7 @@ repositories {
 }
 
 ext {
-    junitVersion = '5.4.2'
+    junitVersion = "5.4.2"
 }
 
 //task copyJarToBin(type: Copy) {
@@ -40,25 +40,25 @@ ext {
 //    into "docker/gateway-api"
 //}
 
-description = 'Gateway API'
+description = "Gateway API"
 
-group = 'com.example.gateway.api'
-version = '0.0.1-SNAPSHOT'
+group = "com.example.gateway.api"
+version = "0.0.1-SNAPSHOT"
 
 
 dependencies {
-    implementation project(':services:common')
-    implementation project(':services:gateway:gateway-api-spec')
-    implementation project(':services:account:account-api-spec')
-    implementation project(':services:tradelog:tradelog-api-spec')
+    implementation project(":services:common")
+    implementation project(":services:gateway:gateway-api-spec")
+    implementation project(":services:account:account-api-spec")
+    implementation project(":services:tradelog:tradelog-api-spec")
 
     implementation("org.springframework.boot:spring-boot-starter-web") {
-        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+        exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"
     }
     implementation ("org.springframework.boot:spring-boot-starter-undertow")
     implementation ("org.springframework.boot:spring-boot-starter-actuator")
 
-    implementation group: 'io.jsonwebtoken', name: 'jjwt', version:'0.9.0'
+    implementation group: "io.jsonwebtoken", name: "jjwt", version:"0.9.0"
 
     runtimeOnly("org.springframework.boot:spring-boot-devtools")
 
@@ -71,8 +71,8 @@ dependencies {
 test {
     useJUnitPlatform()
     testLogging {
-        events 'PASSED', 'FAILED', 'SKIPPED'
+        events "PASSED", "FAILED", "SKIPPED"
     }
 }
 
-mainClassName = 'com.example.gateway.api.GatewayApi'
+mainClassName = "com.example.gateway.api.GatewayApi"

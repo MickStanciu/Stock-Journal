@@ -3,7 +3,7 @@ buildscript {
         jcenter()
         mavenCentral()
         maven {
-            url 'https://plugins.gradle.org/m2/'
+            url "https://plugins.gradle.org/m2/"
         }
     }
 }
@@ -18,7 +18,7 @@ plugins {
 sourceCompatibility = 11
 targetCompatibility = 11
 tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
+    options.encoding = "UTF-8"
 }
 
 sourceSets {
@@ -33,19 +33,19 @@ repositories {
 }
 
 ext {
-    flywayDbVersion = '5.2.4'
-    postgreSqlVersion = '42.2.5'
-    junitVersion = '5.4.2'
+    flywayDbVersion = "5.2.4"
+    postgreSqlVersion = "42.2.5"
+    junitVersion = "5.4.2"
 }
 
-description = 'Account API'
+description = "Account API"
 
-group = 'com.example.account.api'
-version = '0.0.1-SNAPSHOT'
+group = "com.example.account.api"
+version = "0.0.1-SNAPSHOT"
 
 dependencies {
-    implementation project(':services:common')
-    implementation project(':services:account:account-api-spec')
+    implementation project(":services:common")
+    implementation project(":services:account:account-api-spec")
 
     implementation("org.springframework.boot:spring-boot-starter-web") {
         exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"
@@ -68,8 +68,8 @@ dependencies {
 test {
     useJUnitPlatform()
     testLogging {
-        events 'PASSED', 'FAILED', 'SKIPPED'
+        events "PASSED", "FAILED", "SKIPPED"
     }
 }
 
-mainClassName = 'com.example.account.api.AccountApi'
+mainClassName = "com.example.account.api.AccountApi"

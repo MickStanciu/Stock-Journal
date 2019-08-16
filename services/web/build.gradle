@@ -3,7 +3,7 @@ buildscript {
         jcenter()
         mavenCentral()
         maven {
-            url 'https://plugins.gradle.org/m2/'
+            url "https://plugins.gradle.org/m2/"
         }
     }
 }
@@ -19,7 +19,7 @@ plugins {
 sourceCompatibility = 11
 targetCompatibility = 11
 tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
+    options.encoding = "UTF-8"
 }
 
 sourceSets {
@@ -34,23 +34,23 @@ repositories {
 }
 
 ext {
-    junitVersion = '5.4.2'
+    junitVersion = "5.4.2"
 }
 
-description = 'Web'
+description = "Web"
 
-group = 'com.example.web'
-version = '0.0.1-SNAPSHOT'
+group = "com.example.web"
+version = "0.0.1-SNAPSHOT"
 
 node {
-    version = '11.13.0'
-    yarnVersion = '1.15.2'
+    version = "11.13.0"
+    yarnVersion = "1.15.2"
     nodeModulesDir = file("src/main/vuejs/frontend")
     download = true
 }
 
 dependencies {
-    implementation project(':services:gateway:gateway-api-spec')
+    implementation project(":services:gateway:gateway-api-spec")
     implementation("org.springframework.boot:spring-boot-starter-web") {
         exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"
     }
@@ -69,12 +69,12 @@ dependencies {
 test {
     useJUnitPlatform()
     testLogging {
-        events 'passed', 'skipped', 'failed'
+        events "passed", "skipped", "failed"
     }
 }
 
 task buildWeb(type: YarnTask) {
-    args = ['build']
+    args = ["build"]
 }
 
 buildWeb.doLast {
@@ -82,10 +82,10 @@ buildWeb.doLast {
 }
 
 task copyWeb(type: Copy) {
-    description ('Copies the resource directory to the target directory.')
-    from ('src/main/vuejs/frontend/dist')
-    into ('build/classes/java/main/generated')
-    exclude ('index.html', 'favicon.ico')
+    description ("Copies the resource directory to the target directory.")
+    from ("src/main/vuejs/frontend/dist")
+    into ("build/classes/java/main/generated")
+    exclude ("index.html", "favicon.ico")
 }
 
 copyWeb.doLast {
@@ -93,8 +93,8 @@ copyWeb.doLast {
 }
 
 task deleteWeb(type: Delete) {
-    delete ('src/main/vuejs/frontend/dist')
-//    delete fileTree('src/main/vuejs/frontend/dist')
+    delete ("src/main/vuejs/frontend/dist")
+//    delete fileTree("src/main/vuejs/frontend/dist")
 }
 
 deleteWeb.doLast {
@@ -105,4 +105,4 @@ clean.dependsOn deleteWeb
 copyWeb.dependsOn buildWeb
 build.dependsOn copyWeb
 
-mainClassName = 'com.example.web.Application'
+mainClassName = "com.example.web.Application"

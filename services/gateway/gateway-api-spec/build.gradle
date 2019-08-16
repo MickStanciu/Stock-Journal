@@ -3,7 +3,7 @@ buildscript {
         jcenter()
         mavenCentral()
         maven {
-            url 'https://plugins.gradle.org/m2/'
+            url "https://plugins.gradle.org/m2/"
         }
     }
 }
@@ -12,20 +12,20 @@ plugins {
     id "java"
 }
 
-description = 'Gateway API Spec'
+description = "Gateway API Spec"
 
-group = 'com.example.gatewayapi'
-version = '0.0.1-SNAPSHOT'
+group = "com.example.gatewayapi"
+version = "0.0.1-SNAPSHOT"
 
 
 sourceCompatibility = 11
 targetCompatibility = 11
 tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
+    options.encoding = "UTF-8"
 }
 
 dependencies {
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.9.2'
+    compile group: "com.fasterxml.jackson.core", name: "jackson-databind", version: "2.9.9.2"
 }
 
 sourceSets {

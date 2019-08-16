@@ -1,4 +1,4 @@
-rootProject.name = 'product-api'
+rootProject.name = "product-api"
 
 include (":services:common")
 
