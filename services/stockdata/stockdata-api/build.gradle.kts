@@ -1,9 +1,8 @@
 plugins {
-    java
     `java-library`
     application
-    id("io.spring.dependency-management") version "1.0.8.RELEASE"
-    id("org.springframework.boot") version "2.1.6.RELEASE"
+    id("io.spring.dependency-management")
+    id("org.springframework.boot")
 }
 
 object Version {
