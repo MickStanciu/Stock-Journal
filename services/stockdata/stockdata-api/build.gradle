@@ -44,7 +44,7 @@ group = 'com.example.stockdata.api'
 version = '0.0.1-SNAPSHOT'
 
 dependencies {
-    implementation project(':common')
+    implementation project(':services:common')
 //    implementation project(':stockdata-api-spec')
 
     implementation("org.springframework.boot:spring-boot-starter-web") {

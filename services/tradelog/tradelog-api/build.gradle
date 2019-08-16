@@ -44,8 +44,8 @@ group = 'com.example.tradelog.api'
 version = '0.0.1-SNAPSHOT'
 
 dependencies {
-    implementation project(':common')
-    implementation project(':tradelog-api-spec')
+    implementation project(':services:common')
+    implementation project(':services:tradelog:tradelog-api-spec')
 
     implementation("org.springframework.boot:spring-boot-starter-web") {
         exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"

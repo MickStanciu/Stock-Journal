@@ -44,8 +44,8 @@ group = 'com.example.account.api'
 version = '0.0.1-SNAPSHOT'
 
 dependencies {
-    implementation project(':common')
-    implementation project(':account-api-spec')
+    implementation project(':services:common')
+    implementation project(':services:account:account-api-spec')
 
     implementation("org.springframework.boot:spring-boot-starter-web") {
         exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"

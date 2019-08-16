@@ -50,7 +50,7 @@ node {
 }
 
 dependencies {
-    implementation project(':gateway-api-spec')
+    implementation project(':services:gateway:gateway-api-spec')
     implementation("org.springframework.boot:spring-boot-starter-web") {
         exclude group: "org.springframework.boot", module: "spring-boot-starter-tomcat"
     }

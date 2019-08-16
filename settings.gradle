@@ -1,29 +1,17 @@
 rootProject.name = 'product-api'
 
-include (":common")
-project (":common").projectDir = file("./services/common")
+include (":services:common")
 
-include (":account-api-spec")
-project (":account-api-spec").projectDir = file("./services/account/account-api-spec")
+include (":services:account:account-api-spec")
+include (":services:account:account-api")
 
-include (":account-api")
-project (":account-api").projectDir = file("./services/account/account-api")
+include (":services:tradelog:tradelog-api-spec")
+include (":services:tradelog:tradelog-api")
 
-include (":tradelog-api-spec")
-project (":tradelog-api-spec").projectDir = file("./services/tradelog/tradelog-api-spec")
+include (":services:stockdata:stockdata-api")
 
-include (":tradelog-api")
-project (":tradelog-api").projectDir = file("./services/tradelog/tradelog-api")
+include (":services:gateway:gateway-api-spec")
+include (":services:gateway:gateway-api")
 
-include (":stockdata-api")
-project (":stockdata-api").projectDir = file("./services/stockdata/stockdata-api")
-
-include (":gateway-api-spec")
-project (":gateway-api-spec").projectDir = file("./services/gateway/gateway-api-spec")
-
-include (":gateway-api")
-project (":gateway-api").projectDir = file("./services/gateway/gateway-api")
-
-include (":web")
-project (":web").projectDir = file("./services/web")
+include (":services:web")
 
