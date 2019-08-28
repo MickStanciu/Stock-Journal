@@ -1,8 +1,17 @@
+description = "StockData API"
+group = "com.example.stockdata.api"
+version = "0.0.1-SNAPSHOT"
+
 plugins {
-    `java-library`
+    java
     application
     id("io.spring.dependency-management")
     id("org.springframework.boot")
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
 }
 
 object Version {
@@ -11,18 +20,9 @@ object Version {
     var junit = "5.4.2"
 }
 
-repositories {
-    jcenter()
-    mavenCentral()
-}
-
-description = "StockData API"
-group = "com.example.stockdata.api"
-version = "0.0.1-SNAPSHOT"
-
 dependencies {
     implementation(project(":services:common"))
-//    implementation(project(":services:stockdata:stockdata-api-spec"))
+    implementation(project(":services:stockdata:stockdata-api-spec"))
 
     implementation("org.springframework.boot:spring-boot-starter-web") {
         exclude(group = "org.springframework.boot", module = "spring-boot-starter-tomcat")

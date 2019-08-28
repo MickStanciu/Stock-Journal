@@ -1,7 +1,7 @@
 -- clean up
-DROP TABLE IF EXISTS shares_data;
+DROP TABLE IF EXISTS fundamental;
 
-CREATE TABLE shares_data
+CREATE TABLE fundamental
 (
     symbol            VARCHAR(16) PRIMARY KEY NOT NULL,
     last_updated_on   TIMESTAMPTZ             NOT NULL,
@@ -17,6 +17,4 @@ CREATE TABLE shares_data
     p_e_future_target NUMERIC     DEFAULT NULL
 );
 
-GRANT ALL PRIVILEGES ON TABLE shares_data TO admin;
-
---TODO: create list of included symbols
+GRANT ALL PRIVILEGES ON TABLE fundamental TO admin;
