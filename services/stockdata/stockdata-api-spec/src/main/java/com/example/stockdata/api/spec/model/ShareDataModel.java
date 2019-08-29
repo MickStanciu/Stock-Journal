@@ -6,6 +6,9 @@ import javax.annotation.Nullable;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
+@Value.Style(
+        init = "with*"
+)
 @Value.Immutable
 public interface ShareDataModel {
 
