@@ -38,7 +38,7 @@ public class TradeJournalGateway {
     public TradeLogGWModel getAllTradesBySymbol(String accountId, String symbol) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
-                .path("/all/{symbol}");
+                .path("/tradelog/all/{symbol}");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -51,7 +51,7 @@ public class TradeJournalGateway {
     public List<String> getUniqueSymbols(String accountId) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
-                .path("/symbols");
+                .path("/tradelog/symbols");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -64,7 +64,7 @@ public class TradeJournalGateway {
     public ShareJournalGWModel createShareTrade(String accountId, ShareJournalGWModel model) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
-                .path("/shares");
+                .path("/tradelog/shares");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -78,7 +78,7 @@ public class TradeJournalGateway {
     public OptionJournalGWModel createOptionTrade(String accountId, OptionJournalGWModel model) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
-                .path("/options");
+                .path("/tradelog/options");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -92,7 +92,7 @@ public class TradeJournalGateway {
     public DividendGWModel createDividendRecord(String accountId, DividendGWModel model) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
-                .path("/dividends");
+                .path("/tradelog/dividends");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -106,7 +106,7 @@ public class TradeJournalGateway {
     public void deleteShareTrade(String accountId, String symbol, String transactionId) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
-                .path("/shares/{symbol}/{id}");
+                .path("/tradelog/shares/{symbol}/{id}");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -118,7 +118,7 @@ public class TradeJournalGateway {
     public void deleteOptionTrade(String accountId, String symbol, String transactionId) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
-                .path("/options/{symbol}/{id}");
+                .path("/tradelog/options/{symbol}/{id}");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -130,7 +130,7 @@ public class TradeJournalGateway {
     public void deleteDividendRecord(String accountId, String symbol, String transactionId) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
-                .path("/dividends/{symbol}/{id}");
+                .path("/tradelog/dividends/{symbol}/{id}");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -143,7 +143,7 @@ public class TradeJournalGateway {
     public List<TradeSummaryGWModel> getSummary(String accountId) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
-                .path("/summary");
+                .path("/tradelog/summary");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -156,7 +156,7 @@ public class TradeJournalGateway {
     public ShareDataGWModel getShareData(String accountId, String symbol) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
-                .path("/shares/data/{symbol}");
+                .path("/stockdata/{symbol}");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -169,7 +169,7 @@ public class TradeJournalGateway {
     public void updateSettings(String accountId, List<TransactionSettingsGWModel> transactionSettingsGWModelList) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
-                .path("/transaction/settings/bulk");
+                .path("/tradelog/transaction/settings/bulk");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -182,7 +182,7 @@ public class TradeJournalGateway {
     public void updateSetting(String accountId, TransactionSettingsGWModel transactionSettingsGWModel) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
-                .path("/transaction/settings/{id}");
+                .path("/tradelog/transaction/settings/{id}");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

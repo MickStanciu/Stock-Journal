@@ -2,7 +2,6 @@ package com.example.gateway.api.service;
 
 import com.example.gateway.api.converter.DividendJournalConverter;
 import com.example.gateway.api.converter.OptionJournalConverter;
-import com.example.gateway.api.converter.ShareDataConverter;
 import com.example.gateway.api.converter.ShareJournalConverter;
 import com.example.gateway.api.converter.TradeLogModelConverter;
 import com.example.gateway.api.converter.TradeSummaryConverter;
@@ -10,14 +9,12 @@ import com.example.gateway.api.converter.TransactionSettingConverter;
 import com.example.gateway.api.gateway.TradeLogGateway;
 import com.example.gateway.api.model.DividendGWModel;
 import com.example.gateway.api.model.OptionJournalGWModel;
-import com.example.gateway.api.model.ShareDataGWModel;
 import com.example.gateway.api.model.ShareJournalGWModel;
 import com.example.gateway.api.model.TradeLogGWModel;
 import com.example.gateway.api.model.TradeSummaryGWModel;
 import com.example.gateway.api.model.TransactionSettingsGWModel;
 import com.example.tradelog.api.spec.model.DividendJournalModel;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
-import com.example.tradelog.api.spec.model.ShareDataModel;
 import com.example.tradelog.api.spec.model.ShareJournalModel;
 import com.example.tradelog.api.spec.model.TradeLogModel;
 import com.example.tradelog.api.spec.model.TradeSummaryModel;
@@ -91,11 +88,6 @@ public class TradeLogService {
     public List<TradeSummaryGWModel> getSummary(String accountId) {
         List<TradeSummaryModel> returnModels = tradeLogGateway.getSummary(accountId);
         return returnModels.stream().map(m -> TradeSummaryConverter.toTradeSummaryGWModel.apply(m)).collect(Collectors.toList());
-    }
-
-    public ShareDataGWModel getData(String accountId, String symbol) {
-        ShareDataModel returnModel = tradeLogGateway.getShareDataBySymbol(accountId, symbol);
-        return ShareDataConverter.toShareDataGWModel.apply(returnModel);
     }
 
     public void updateGroupOption(String accountId, String transactionId, boolean enabled) {

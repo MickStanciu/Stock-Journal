@@ -4,7 +4,6 @@ import com.example.gateway.api.exception.ExceptionCode;
 import com.example.gateway.api.exception.GatewayApiException;
 import com.example.gateway.api.model.DividendGWModel;
 import com.example.gateway.api.model.OptionJournalGWModel;
-import com.example.gateway.api.model.ShareDataGWModel;
 import com.example.gateway.api.model.ShareJournalGWModel;
 import com.example.gateway.api.model.TradeLogGWModel;
 import com.example.gateway.api.model.TradeSummaryGWModel;
@@ -42,16 +41,6 @@ public class TradeLogController {
         //todo validate input
 
         return tradeLogService.getAllBySymbol(accountId, symbol);
-    }
-
-
-    @RequestMapping(value = "/shares/data/{symbol}", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public ShareDataGWModel getDataBySymbol(
-            @RequestHeader(name = "accountId") String accountId,
-            @PathVariable(name = "symbol") String symbol
-    ) {
-        return tradeLogService.getData(accountId, symbol);
     }
 
 
