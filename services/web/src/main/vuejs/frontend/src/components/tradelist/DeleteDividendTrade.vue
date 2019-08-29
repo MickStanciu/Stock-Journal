@@ -55,7 +55,7 @@
 
                 form_element: {
                     symbol : this.post.model.symbol,
-                    date: dateTimeUtil.convertFromOffsetZuluToDisplay(),
+                    date: dateTimeUtil.convertFromOffsetZuluToDisplay(this.post.model.date),
                     dividend: '0.00',
                     quantity: 0
                 },

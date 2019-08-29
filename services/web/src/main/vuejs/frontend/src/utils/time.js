@@ -34,6 +34,9 @@ const dateTimeUtil = {
     //Converts OffsetZulu example: 2018-12-25T10:00:00Z to 'DD-MM-YYYY'
     convertFromOffsetZuluToDisplay: function(item) {
         const outputFormat = 'DD-MMM-YYYY';
+        if (typeof item === 'undefined') {
+            return moment().tz(timeZone).format(outputFormat);
+        }
         return moment(item).tz(timeZone).format(outputFormat);
     },
 
