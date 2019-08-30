@@ -63,11 +63,12 @@ const dateTimeUtil = {
         const nowUtc = moment.utc();
 
         return moment(text, dateFormat)
+            .tz(timeZone)
+            .utc()
             .hour(nowUtc.get('hour'))
             .minute(nowUtc.get('minute'))
             .second(nowUtc.get('second'))
-            .utc(true)
-            .format(offsetFormat);
+            .format(offsetFormat)
     },
 
     //Converts 'MMM DD to OffsetZulu example: 2018-12-25T10:00:00Z
