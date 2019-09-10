@@ -15,5 +15,5 @@ ENV JAVA_HOME="/usr/lib/jvm/jdk-11/bin"
 
 # copy java app
 VOLUME /tmp
-COPY gateway-api-0.0.1-SNAPSHOT.jar /app/app.jar
+COPY ./services/gateway/gateway-api/build/libs/gateway-api-0.0.1-SNAPSHOT.jar /app/app.jar
 ENTRYPOINT ["/usr/lib/jvm/jdk-11/bin/java","-jar","/app/app.jar"]

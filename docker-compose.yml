@@ -22,21 +22,14 @@ services:
 #      - GATEWAY_API_ADDRESS=http://gatewayapi:8080
 #      - MOCK_SERVICES=true
 
-#  gateway-api:
-#    build: docker/gateway-api/.
-#    image: gateway-api
-#    container_name: gateway-api
-#    ports:
-#      - "8085:8080"
-
-#  tenantapi:
-#    build: tenant.spring/.
-#    image: tenantapi
-#    container_name: tenantapi
-#    ports:
-#      - "8081:8080" #App
-#    depends_on:
-#      - postgresql
+  gateway-api:
+    build:
+      context: ./
+      dockerfile: ./docker/gateway-api/Dockerfile
+    image: gateway-api
+    container_name: gateway-api
+    ports:
+      - "8085:8080"
 
 #  accountapi:
 #    build: account/.
@@ -47,26 +40,7 @@ services:
 #    depends_on:
 #      - postgresql
 
-#  customerapi:
-#    build: customer/docker/.
-#    image: customerapi
-#    container_name: customerapi
-#    ports:
-#      - "8083:8080" #WildFly App
-#      - "8783:8787" #WildFly Debug
-#    volumes:
-#      - ./customer/target/customer.war:/opt/jboss/wildfly/standalone/deployments/customer.war
-#    depends_on:
-#      - postgresql
 
-#  timesheetapi:
-#    build: timesheet/.
-#    image: timesheetapi
-#    container_name: timesheetapi
-#    ports:
-#      - "8084:8080" #App
-#    depends_on:
-#      - postgresql
 
   postgresql:
     build: docker/database-server/.
@@ -100,4 +74,3 @@ services:
 #    ports:
 #      - "11211:11211" #MEMCACHED SERVER
 
-#export COMPOSE_PROJECT_NAME=viatornet
