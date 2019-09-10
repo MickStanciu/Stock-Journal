@@ -30,6 +30,23 @@ services:
     container_name: gateway-api
     ports:
       - "8085:8080"
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+    depends_on:
+      - tradelog-api
+
+  tradelog-api:
+    build:
+      context: ./
+      dockerfile: ./docker/gateway-api/Dockerfile
+    image: gateway-api
+    container_name: gateway-api
+    ports:
+      - "8083:8080"
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+    depends_on:
+      - postgresql
 
 #  accountapi:
 #    build: account/.
