@@ -358,7 +358,7 @@
             },
 
             calculateOptionLineItemPremium: function (item) {
-                let income = item.premium;
+                let income = item.premium * item.contracts;
                     if (item.action === 'BUY') {
                         income = income * -1;
                     }
