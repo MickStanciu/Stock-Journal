@@ -17,7 +17,7 @@ ENV JAVA_HOME="/usr/lib/jvm/jdk-11/bin"
 # copy java app
 VOLUME /tmp
 COPY ./services/stockdata/stockdata-api/build/libs/stockdata-api-0.0.1-SNAPSHOT.jar /app/app.jar
-COPY entrypoint.sh /app/entrypoint.sh
+COPY ./docker/stockdata-api/entrypoint.sh /app/entrypoint.sh
 RUN chmod 755 /app/entrypoint.sh
 
 #ENTRYPOINT ["/usr/lib/jvm/jdk-11/bin/java","-jar","/app/app.jar"]
