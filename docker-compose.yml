@@ -1,5 +1,10 @@
-version: '3.5'
+version: '3.7'
 services:
+#  java-image:
+#    build: docker/java-image/.
+#    image: java-image
+#    container_name: java-image
+
 #  consul:
 #    build: docker/discovery-com.example.accountapi.service/.
 #    container_name: consul
@@ -8,41 +13,63 @@ services:
 #    hostname: consul
 #    ports:
 #      - "8500:8500" #HTTP SERVER
+  postgresql:
+    build: docker/database-server/.
+    image: personal-db
+    container_name: personal-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ${DOCKER_BASE}/database-server/data:/var/lib/postgresql/data:rw
+      - ${DOCKER_BASE}/database-server/backup:/var/lib/postgresql/backup:rw
 
 #  web:
-#    build: web/docker/.
+#    build:
+#      context: ./
+#      dockerfile: ./docker/web/Dockerfile
 #    image: web
 #    container_name: web
 #    ports:
 #      - "8080:8080" #WildFly App
-#      - "8780:8787" #WildFly Debug
-#    volumes:
-#      - ./web/target/web.war:/opt/jboss/wildfly/standalone/deployments/web.war
 #    environment:
-#      - GATEWAY_API_ADDRESS=http://gatewayapi:8080
-#      - MOCK_SERVICES=true
+#      - "SPRING_PROFILES_ACTIVE=docker"
+#    depends_on:
+#      - gateway-api
 
-  gateway-api:
+#  gateway-api:
+#    build:
+#      context: ./
+#      dockerfile: ./docker/gateway-api/Dockerfile
+#    image: gateway-api
+#    container_name: gateway-api
+#    ports:
+#      - "8085:8080"
+#    environment:
+#      - "SPRING_PROFILES_ACTIVE=docker"
+#    depends_on:
+#      - tradelog-api
+
+#  tradelog-api:
+#    build:
+#      context: ./
+#      dockerfile: ./docker/tradelog-api/Dockerfile
+#    image: tradelog-api
+#    container_name: tradelog-api
+#    ports:
+#      - "8083:8080"
+#    environment:
+#      - "SPRING_PROFILES_ACTIVE=docker"
+#    depends_on:
+#      - postgresql
+
+  stockdata-api:
     build:
       context: ./
-      dockerfile: ./docker/gateway-api/Dockerfile
-    image: gateway-api
-    container_name: gateway-api
+      dockerfile: ./docker/stockdata-api/Dockerfile
+    image: stockdata-api
+    container_name: stockdata-api
     ports:
-      - "8085:8080"
-    environment:
-      - "SPRING_PROFILES_ACTIVE=docker"
-    depends_on:
-      - tradelog-api
-
-  tradelog-api:
-    build:
-      context: ./
-      dockerfile: ./docker/gateway-api/Dockerfile
-    image: gateway-api
-    container_name: gateway-api
-    ports:
-      - "8083:8080"
+      - "8086:8080"
     environment:
       - "SPRING_PROFILES_ACTIVE=docker"
     depends_on:
@@ -59,16 +86,6 @@ services:
 
 
 
-  postgresql:
-    build: docker/database-server/.
-    image: personal-db
-    container_name: personal-db
-    ports:
-      - "5432:5432"
-    volumes:
-      - ${DOCKER_BASE}/database-server/data:/var/lib/postgresql/data:rw
-      - ${DOCKER_BASE}/database-server/backup:/var/lib/postgresql/backup:rw
-
 #  redis:
 #    build: docker/redis-server/.
 #    image: local-redis
@@ -76,18 +93,4 @@ services:
 #      - "6379:6379"
 #    volumes:
 #      - `/data:/data:rw
-
-#  lizardfs:
-#    build: docker/storage-server/.
-#    image: toystore-fs
-#    container_name: toystore-fs
-
-#  memcache:
-#    build: docker/memcache-server/.
-#    container_name: memcache
-#    image: memcache
-#    restart: always
-#    hostname: memcache
-#    ports:
-#      - "11211:11211" #MEMCACHED SERVER
 
