@@ -8,15 +8,7 @@ services:
 #    hostname: consul
 #    ports:
 #      - "8500:8500" #HTTP SERVER
-  postgresql:
-    build: docker/database-server/.
-    image: personal-db
-    container_name: personal-db
-    ports:
-      - "5432:5432"
-    volumes:
-      - ${DOCKER_BASE}/database-server/data:/var/lib/postgresql/data:rw
-      - ${DOCKER_BASE}/database-server/backup:/var/lib/postgresql/backup:rw
+
 
 #  web:
 #    build:
@@ -89,3 +81,12 @@ services:
 #    volumes:
 #      - `/data:/data:rw
 
+  postgresql:
+    build: docker/database-server/.
+    image: personal-db
+    container_name: personal-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ${DOCKER_BASE}/database-server/data:/var/lib/postgresql/data:rw
+      - ${DOCKER_BASE}/database-server/backup:/var/lib/postgresql/backup:rw
