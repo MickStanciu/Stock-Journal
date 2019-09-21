@@ -1,5 +1,5 @@
 #!/bin/sh
-while ! nc -zv tradelog-api 8083 ; do
+while ! nc -z tradelog-api 8083 ; do
     echo "Waiting for upcoming TradeLog Server"
     sleep 5
 done

@@ -14,6 +14,8 @@ RUN rm -f /tmp/openjdk-11+28_linux-x64_bin.tar.gz
 # prepare java env
 ENV JAVA_HOME="/usr/lib/jvm/jdk-11/bin"
 
+EXPOSE 8086
+
 # copy java app
 VOLUME /tmp
 COPY ./services/stockdata/stockdata-api/build/libs/stockdata-api-0.0.1-SNAPSHOT.jar /app/app.jar

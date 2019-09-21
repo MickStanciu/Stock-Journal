@@ -1,5 +1,5 @@
 #!/bin/sh
-while ! nc -zv personal-db 5432 ; do
+while ! nc -z personal-db 5432 ; do
     echo "Waiting for upcoming Database Server"
     sleep 5
 done
