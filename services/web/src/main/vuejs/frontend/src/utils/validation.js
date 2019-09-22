@@ -14,6 +14,15 @@ const validation = {
         return value > 0;
     },
 
+    isPositiveOrZeroNumber(test) {
+        if (isNaN(test) || (test + '').trim() === '') {
+            return false;
+        }
+
+        let value = parseFloat(test);
+        return value >= 0;
+    },
+
     isPositiveInteger(test) {
         if (isNaN(test) || (test + '').trim() === '') {
             return false;

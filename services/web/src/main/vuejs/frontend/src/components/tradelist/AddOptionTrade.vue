@@ -183,7 +183,7 @@
                 this.form_validation.strike_price = validation.isPositiveNumber(this.form_element.strike_price) !== false;
                 this.form_validation.exp_date = validation.isExpDate(this.form_element.exp_date) !== false;
                 this.form_validation.contracts = validation.isPositiveInteger(this.form_element.contracts) !== false;
-                this.form_validation.premium = validation.isPositiveNumber(this.form_element.premium) !== false;
+                this.form_validation.premium = validation.isPositiveOrZeroNumber(this.form_element.premium) !== false;
                 this.form_validation.fees = validation.isNumber(this.form_element.fees) !== false;
 
                 return this.form_validation.isValid();
