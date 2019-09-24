@@ -13,6 +13,8 @@ RUN rm -f /tmp/openjdk-11+28_linux-x64_bin.tar.gz
 # prepare java env
 ENV JAVA_HOME="/usr/lib/jvm/jdk-11/bin"
 
+EXPOSE 8080
+
 # copy java app
 VOLUME /tmp
 COPY ./services/web/build/libs/web-0.0.1-SNAPSHOT.jar /app/app.jar

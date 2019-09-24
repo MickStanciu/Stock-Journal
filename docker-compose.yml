@@ -10,18 +10,18 @@ services:
 #      - "8500:8500" #HTTP SERVER
 
 
-#  web:
-#    build:
-#      context: ./
-#      dockerfile: ./docker/web/Dockerfile
-#    image: web
-#    container_name: web
-#    ports:
-#      - "8080:8080" #WildFly App
-#    environment:
-#      - "SPRING_PROFILES_ACTIVE=docker"
-#    depends_on:
-#      - gateway-api
+  web:
+    build:
+      context: ./
+      dockerfile: ./docker/web/Dockerfile
+    image: web
+    container_name: web
+    ports:
+      - "80:8080" #WildFly App
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+    depends_on:
+      - gateway-api
 
   gateway-api:
     build:
