@@ -333,7 +333,7 @@
 
             calculateLineItemTotal: function (item) {
                 if (item.type === 'OPTION') {
-                    let transactionValue = item.contracts * 100 * this.calculateOptionLineItemPremium(item) - item.brokerFees;
+                    let transactionValue = 100 * this.calculateOptionLineItemPremium(item) - item.brokerFees;
                     return parseFloat(transactionValue.toFixed(10));
                 } else if (item.type === 'SHARE') {
                     let price = item.price;
