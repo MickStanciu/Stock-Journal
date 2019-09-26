@@ -73,7 +73,7 @@ public class AjaxController {
             @PathVariable(name = "symbol") String symbol,
             @PathVariable(name = "id") String transactionId
     ) {
-        tradeJournalService.deleteShareTrade(accountId, symbol, transactionId);
+        tradeJournalService.deleteShareTrade(accountId, transactionId);
         return "{}";
     }
 
@@ -90,7 +90,7 @@ public class AjaxController {
             @PathVariable(name = "symbol") String symbol,
             @PathVariable(name = "id") String transactionId
     ) {
-        tradeJournalService.deleteOptionTrade(accountId, symbol, transactionId);
+        tradeJournalService.deleteOptionTrade(accountId, transactionId);
         return "{}";
     }
 
@@ -107,7 +107,7 @@ public class AjaxController {
             @PathVariable(name = "symbol") String symbol,
             @PathVariable(name = "id") String transactionId
     ) {
-        tradeJournalService.deleteDividendRecord(accountId, symbol, transactionId);
+        tradeJournalService.deleteDividendRecord(accountId, transactionId);
         return "{}";
     }
 

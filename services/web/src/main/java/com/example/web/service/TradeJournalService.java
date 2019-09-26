@@ -37,20 +37,20 @@ public class TradeJournalService {
         return tradeJournalGateway.createOptionTrade(accountId, model);
     }
 
-    public void deleteShareTrade(String accountId, String symbol, String transactionId) {
-        tradeJournalGateway.deleteShareTrade(accountId, symbol, transactionId);
+    public void deleteShareTrade(String accountId, String transactionId) {
+        tradeJournalGateway.deleteShareTrade(accountId, transactionId);
     }
 
-    public void deleteOptionTrade(String accountId, String symbol, String transactionId) {
-        tradeJournalGateway.deleteOptionTrade(accountId, symbol, transactionId);
+    public void deleteOptionTrade(String accountId, String transactionId) {
+        tradeJournalGateway.deleteOptionTrade(accountId, transactionId);
     }
 
     public DividendGWModel createDividendRecord(String accountId, DividendGWModel model) {
         return tradeJournalGateway.createDividendRecord(accountId, model);
     }
 
-    public void deleteDividendRecord(String accountId, String symbol, String transactionId) {
-        tradeJournalGateway.deleteDividendRecord(accountId, symbol, transactionId);
+    public void deleteDividendRecord(String accountId, String transactionId) {
+        tradeJournalGateway.deleteDividendRecord(accountId, transactionId);
     }
 
     public List<TradeSummaryGWModel> getSummary(String accountId) {

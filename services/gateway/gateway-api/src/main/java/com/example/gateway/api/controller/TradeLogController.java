@@ -36,8 +36,8 @@ public class TradeLogController {
     @ResponseStatus(HttpStatus.OK)
     public TradeLogGWModel getAllBySymbol(
             @RequestHeader(name = "accountId") String accountId,
-            @PathVariable(name = "symbol") String symbol
-            ) throws ExecutionException, InterruptedException {
+            @PathVariable(name = "symbol") String symbol) throws ExecutionException, InterruptedException {
+
         //todo validate input
 
         return tradeLogService.getAllBySymbol(accountId, symbol);
@@ -53,13 +53,12 @@ public class TradeLogController {
     }
 
 
-    @RequestMapping(value = "/shares/{symbol}/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/shares/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     public void deleteShareTrade(
             @RequestHeader(name = "accountId") String accountId,
-            @PathVariable(name = "symbol") String symbol,
             @PathVariable(name = "id") String transactionId) {
-        tradeLogService.deleteShareTrade(accountId, transactionId, symbol);
+        tradeLogService.deleteShareTrade(accountId, transactionId);
     }
 
 
@@ -72,13 +71,12 @@ public class TradeLogController {
     }
 
 
-    @RequestMapping(value = "/options/{symbol}/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/options/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     public void deleteOptionTrade(
             @RequestHeader(name = "accountId") String accountId,
-            @PathVariable(name = "symbol") String symbol,
             @PathVariable(name = "id") String transactionId) {
-        tradeLogService.deleteOptionTrade(accountId, transactionId, symbol);
+        tradeLogService.deleteOptionTrade(accountId, transactionId);
     }
 
 
@@ -91,13 +89,12 @@ public class TradeLogController {
     }
 
 
-    @RequestMapping(value = "/dividends/{symbol}/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/dividends/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     public void deleteDividendRecord(
             @RequestHeader(name = "accountId") String accountId,
-            @PathVariable(name = "symbol") String symbol,
             @PathVariable(name = "id") String transactionId) {
-        tradeLogService.deleteDividendRecord(accountId, transactionId, symbol);
+        tradeLogService.deleteDividendRecord(accountId, transactionId);
     }
 
 

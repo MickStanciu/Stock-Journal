@@ -1,8 +1,11 @@
 package com.example.gateway.api.gateway;
 
 import com.example.tradelog.api.spec.model.DividendJournalModel;
+import com.example.tradelog.api.spec.model.DividendTransactionsResponse;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
+import com.example.tradelog.api.spec.model.OptionTransactionsResponse;
 import com.example.tradelog.api.spec.model.ShareJournalModel;
+import com.example.tradelog.api.spec.model.ShareTransactionsResponse;
 import com.example.tradelog.api.spec.model.TradeSummaryModel;
 import com.example.tradelog.api.spec.model.TransactionSettingsModel;
 import org.slf4j.Logger;
@@ -52,7 +55,7 @@ public class TradeLogGateway {
 
 
     @Async("asyncExecutor")
-    public CompletableFuture<List<ShareJournalModel>> getShareTransactionsBySymbol(String accountId, String symbol) {
+    public CompletableFuture<ShareTransactionsResponse> getShareTransactionsBySymbol(String accountId, String symbol) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
                 .path("/shares/{symbol}");
@@ -61,14 +64,14 @@ public class TradeLogGateway {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("accountId", accountId);
 
-        ResponseEntity<List<ShareJournalModel>> responseEntity =
-                restTemplate.exchange(builder.build(symbol), HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<List<ShareJournalModel>>() {});
+        ResponseEntity<ShareTransactionsResponse> responseEntity =
+                restTemplate.exchange(builder.build(symbol), HttpMethod.GET, new HttpEntity<>(headers), ShareTransactionsResponse.class);
         return CompletableFuture.completedFuture(responseEntity.getBody());
     }
 
 
     @Async("asyncExecutor")
-    public CompletableFuture<List<OptionJournalModel>> getOptionTransactionsBySymbol(String accountId, String symbol) {
+    public CompletableFuture<OptionTransactionsResponse> getOptionTransactionsBySymbol(String accountId, String symbol) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
                 .path("/options/{symbol}");
@@ -77,14 +80,14 @@ public class TradeLogGateway {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("accountId", accountId);
 
-        ResponseEntity<List<OptionJournalModel>> responseEntity =
-                restTemplate.exchange(builder.build(symbol), HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<List<OptionJournalModel>>() {});
+        ResponseEntity<OptionTransactionsResponse> responseEntity =
+                restTemplate.exchange(builder.build(symbol), HttpMethod.GET, new HttpEntity<>(headers), OptionTransactionsResponse.class);
         return CompletableFuture.completedFuture(responseEntity.getBody());
     }
 
 
     @Async("asyncExecutor")
-    public CompletableFuture<List<DividendJournalModel>> getDividendTransactionsBySymbol(String accountId, String symbol) {
+    public CompletableFuture<DividendTransactionsResponse> getDividendTransactionsBySymbol(String accountId, String symbol) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
                 .path("/dividends/{symbol}");
@@ -93,8 +96,8 @@ public class TradeLogGateway {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("accountId", accountId);
 
-        ResponseEntity<List<DividendJournalModel>> responseEntity =
-                restTemplate.exchange(builder.build(symbol), HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<List<DividendJournalModel>>() {});
+        ResponseEntity<DividendTransactionsResponse> responseEntity =
+                restTemplate.exchange(builder.build(symbol), HttpMethod.GET, new HttpEntity<>(headers), DividendTransactionsResponse.class);
         return CompletableFuture.completedFuture(responseEntity.getBody());
     }
 
@@ -102,7 +105,7 @@ public class TradeLogGateway {
     public ShareJournalModel createShareTrade(String accountId, ShareJournalModel model) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
-                .path("/shares/{symbol}");
+                .path("/shares");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -116,7 +119,7 @@ public class TradeLogGateway {
     public OptionJournalModel createOptionTrade(String accountId, OptionJournalModel model) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
-                .path("/options/{symbol}");
+                .path("/options");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -130,7 +133,7 @@ public class TradeLogGateway {
     public DividendJournalModel createDividendTrade(String accountId, DividendJournalModel model) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
-                .path("/dividends/{symbol}");
+                .path("/dividends");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -141,40 +144,40 @@ public class TradeLogGateway {
         return responseEntity.getBody();
     }
 
-    public void deleteShareTrade(String accountId, String transactionId, String symbol) {
+    public void deleteShareTrade(String accountId, String transactionId) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
-                .path("/shares/{symbol}/{id}");
+                .path("/shares/{id}");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("accountId", accountId);
 
-        restTemplate.exchange(builder.build(symbol, transactionId), HttpMethod.DELETE, new HttpEntity(headers), Object.class);
+        restTemplate.exchange(builder.build(transactionId), HttpMethod.DELETE, new HttpEntity(headers), Object.class);
     }
 
-    public void deleteOptionTrade(String accountId, String transactionId, String symbol) {
+    public void deleteOptionTrade(String accountId, String transactionId) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
-                .path("/options/{symbol}/{id}");
+                .path("/options/{id}");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("accountId", accountId);
 
-        restTemplate.exchange(builder.build(symbol, transactionId), HttpMethod.DELETE, new HttpEntity(headers), Object.class);
+        restTemplate.exchange(builder.build(transactionId), HttpMethod.DELETE, new HttpEntity(headers), Object.class);
     }
 
-    public void deleteDividendTrade(String accountId, String transactionId, String symbol) {
+    public void deleteDividendTrade(String accountId, String transactionId) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
-                .path("/dividends/{symbol}/{id}");
+                .path("/dividends/{id}");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("accountId", accountId);
 
-        restTemplate.exchange(builder.build(symbol, transactionId), HttpMethod.DELETE, new HttpEntity(headers), Object.class);
+        restTemplate.exchange(builder.build(transactionId), HttpMethod.DELETE, new HttpEntity(headers), Object.class);
     }
 
     public List<TradeSummaryModel> getSummary(String accountId) {

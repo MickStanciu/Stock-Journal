@@ -28,16 +28,14 @@ public class RequestValidation extends FieldValidator {
     }
 
 
-    public static boolean validateDeleteShareTrade(String accountId, String transactionId, String symbol) {
+    public static boolean validateDeleteShareTrade(String accountId, String transactionId) {
         return RequestValidation.accountId.test(accountId)
-                && RequestValidation.transactionId.test(transactionId)
-                && RequestValidation.symbol.test(symbol);
+                && RequestValidation.transactionId.test(transactionId);
     }
 
-    public static boolean validateDeleteOptionTrade(String accountId, String transactionId, String symbol) {
+    public static boolean validateDeleteOptionTrade(String accountId, String transactionId) {
         return RequestValidation.accountId.test(accountId)
-                && RequestValidation.transactionId.test(transactionId)
-                && RequestValidation.symbol.test(symbol);
+                && RequestValidation.transactionId.test(transactionId);
     }
 
     public static boolean validateGetDataBySymbol(String accountId, String symbol) {
@@ -65,31 +63,27 @@ public class RequestValidation extends FieldValidator {
         return RequestValidation.accountId.test(accountId) && modelsValid;
     }
 
-    public static boolean validateCreateNewShareTrade(String accountId, String symbol, ShareJournalModel model) {
+    public static boolean validateCreateNewShareTrade(String accountId, ShareJournalModel model) {
         return RequestValidation.accountId.test(accountId)
                 && RequestValidation.validateShareJournalModel.test(model)
-                && model.getTransactionDetails().getSymbol().equals(symbol)
                 && accountId.equals(model.getTransactionDetails().getAccountId());
     }
 
-    public static boolean validateCreateNewOptionTrade(String accountId, String symbol, OptionJournalModel model) {
+    public static boolean validateCreateNewOptionTrade(String accountId, OptionJournalModel model) {
         return RequestValidation.accountId.test(accountId)
                 && RequestValidation.validateOptionJournalModel.test(model)
-                && model.getTransactionDetails().getSymbol().equals(symbol)
                 && accountId.equals(model.getTransactionDetails().getAccountId());
     }
 
-    public static boolean validateCreateNewDividendRecord(String accountId, String symbol, DividendJournalModel model) {
+    public static boolean validateCreateNewDividendRecord(String accountId, DividendJournalModel model) {
         return RequestValidation.accountId.test(accountId)
                 && RequestValidation.validateDividendJournalModel.test(model)
-                && model.getTransactionDetails().getSymbol().equals(symbol)
                 && accountId.equals(model.getTransactionDetails().getAccountId());
     }
 
-    public static boolean validateDeleteDividendRecord(String accountId, String transactionId, String symbol) {
+    public static boolean validateDeleteDividendRecord(String accountId, String transactionId) {
         return RequestValidation.accountId.test(accountId)
-                && RequestValidation.transactionId.test(transactionId)
-                && RequestValidation.symbol.test(symbol);
+                && RequestValidation.transactionId.test(transactionId);
     }
 
     static Predicate<ShareJournalModel> validateShareJournalModel = s -> s != null

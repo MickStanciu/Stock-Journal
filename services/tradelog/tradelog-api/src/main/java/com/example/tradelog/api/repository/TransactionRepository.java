@@ -33,7 +33,7 @@ public class TransactionRepository {
 
     private static final String JOURNAL_DELETE_TRANSACTION_FOR_ACCOUNT =
             "DELETE FROM transaction_log WHERE id = CAST(? AS uuid) and account_fk = CAST(? AS uuid) " +
-                    "and symbol = ? and transaction_type_fk = ?";
+                    "and transaction_type_fk = ?";
 
     private static final String JOURNAL_CREATE_SETTINGS =
             "INSERT INTO transaction_settings_log (transaction_fk, preferred_price, group_selected, leg_closed) VALUES (CAST(? AS uuid), ?, ?, ?)";
@@ -89,21 +89,20 @@ public class TransactionRepository {
      * Deletes a share record
      * @param id -
      * @param accountId -
-     * @param symbol -
      * @return true/false
      */
-    public boolean deleteShareRecord(String id, String accountId, String symbol) {
-        Object[] parameters = new Object[] {id, accountId, symbol, TransactionType.SHARE.name()};
+    public boolean deleteShareRecord(String id, String accountId) {
+        Object[] parameters = new Object[] {id, accountId, TransactionType.SHARE.name()};
         return jdbcTemplate.update(JOURNAL_DELETE_TRANSACTION_FOR_ACCOUNT, parameters) == 1;
     }
 
-    public boolean deleteOptionRecord(String id, String accountId, String symbol) {
-        Object[] parameters = new Object[] {id, accountId, symbol, TransactionType.OPTION.name()};
+    public boolean deleteOptionRecord(String id, String accountId) {
+        Object[] parameters = new Object[] {id, accountId, TransactionType.OPTION.name()};
         return jdbcTemplate.update(JOURNAL_DELETE_TRANSACTION_FOR_ACCOUNT, parameters) == 1;
     }
 
-    public boolean deleteDividendRecord(String id, String accountId, String symbol) {
-        Object[] parameters = new Object[] {id, accountId, symbol, TransactionType.DIVIDEND.name()};
+    public boolean deleteDividendRecord(String id, String accountId) {
+        Object[] parameters = new Object[] {id, accountId, TransactionType.DIVIDEND.name()};
         return jdbcTemplate.update(JOURNAL_DELETE_TRANSACTION_FOR_ACCOUNT, parameters) == 1;
     }
 

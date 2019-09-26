@@ -98,10 +98,11 @@ public class JournalFacade {
         return Optional.empty();
     }
 
-    public boolean deleteDividendRecord(String accountId, String transactionId, String symbol) {
+    //TODO: transactional
+    public boolean deleteDividendRecord(String accountId, String transactionId) {
         return dividendService.deleteRecord(transactionId)
                 && transactionService.deleteSettingsRecord(transactionId)
-                && transactionService.deleteDividendRecord(transactionId, accountId, symbol);
+                && transactionService.deleteDividendRecord(transactionId, accountId);
     }
 
 
@@ -117,10 +118,11 @@ public class JournalFacade {
         return Optional.empty();
     }
 
-    public boolean deleteShareRecord(String accountId, String transactionId, String symbol) {
+    //TODO: should be transactional
+    public boolean deleteShareRecord(String accountId, String transactionId) {
         return shareService.deleteRecord(transactionId)
                 && transactionService.deleteSettingsRecord(transactionId)
-                && transactionService.deleteShareRecord(transactionId, accountId, symbol);
+                && transactionService.deleteShareRecord(transactionId, accountId);
     }
 
     public List<OptionJournalModel> getAllOptionsBySymbol(String accountId, String symbol) {
@@ -135,9 +137,9 @@ public class JournalFacade {
         return Optional.empty();
     }
 
-    public boolean deleteOptionRecord(String accountId, String transactionId, String symbol) {
+    public boolean deleteOptionRecord(String accountId, String transactionId) {
         return optionService.deleteRecord(transactionId)
                 && transactionService.deleteSettingsRecord(transactionId)
-                && transactionService.deleteOptionRecord(transactionId, accountId, symbol);
+                && transactionService.deleteOptionRecord(transactionId, accountId);
     }
 }

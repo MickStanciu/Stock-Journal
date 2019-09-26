@@ -103,40 +103,40 @@ public class TradeJournalGateway {
         return responseEntity.getBody();
     }
 
-    public void deleteShareTrade(String accountId, String symbol, String transactionId) {
+    public void deleteShareTrade(String accountId, String transactionId) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
-                .path("/tradelog/shares/{symbol}/{id}");
+                .path("/tradelog/shares/{id}");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("accountId", accountId);
 
-        restTemplate.exchange(builder.build(symbol, transactionId), HttpMethod.DELETE, new HttpEntity(headers), Object.class);
+        restTemplate.exchange(builder.build(transactionId), HttpMethod.DELETE, new HttpEntity(headers), Object.class);
     }
 
-    public void deleteOptionTrade(String accountId, String symbol, String transactionId) {
+    public void deleteOptionTrade(String accountId, String transactionId) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
-                .path("/tradelog/options/{symbol}/{id}");
+                .path("/tradelog/options/{id}");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("accountId", accountId);
 
-        restTemplate.exchange(builder.build(symbol, transactionId), HttpMethod.DELETE, new HttpEntity(headers), Object.class);
+        restTemplate.exchange(builder.build(transactionId), HttpMethod.DELETE, new HttpEntity(headers), Object.class);
     }
 
-    public void deleteDividendRecord(String accountId, String symbol, String transactionId) {
+    public void deleteDividendRecord(String accountId, String transactionId) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
-                .path("/tradelog/dividends/{symbol}/{id}");
+                .path("/tradelog/dividends/{id}");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("accountId", accountId);
 
-        restTemplate.exchange(builder.build(symbol, transactionId), HttpMethod.DELETE, new HttpEntity(headers), Object.class);
+        restTemplate.exchange(builder.build(transactionId), HttpMethod.DELETE, new HttpEntity(headers), Object.class);
 
     }
 

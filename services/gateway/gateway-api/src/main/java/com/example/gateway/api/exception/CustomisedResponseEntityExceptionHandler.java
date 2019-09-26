@@ -21,7 +21,7 @@ public class CustomisedResponseEntityExceptionHandler extends ResponseEntityExce
 
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<ExceptionModel> handleAllExceptions(Exception ex, WebRequest request) {
-        ExceptionModel exceptionModel = new ExceptionModel(ExceptionCode.UNKNOWN, ex.getMessage(), null);
+        ExceptionModel exceptionModel = new ExceptionModel(ExceptionCode.UNKNOWN, ExceptionCode.UNKNOWN.getMessage(), null);
         log.error(ex.getMessage(), ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionModel);
     }

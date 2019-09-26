@@ -4,6 +4,7 @@ import com.example.tradelog.api.exception.TradeLogException;
 import com.example.tradelog.api.facade.JournalFacade;
 import com.example.tradelog.api.spec.exception.ExceptionCode;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
+import com.example.tradelog.api.spec.model.OptionTransactionsResponse;
 import com.example.tradelog.api.validator.RequestValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,9 +39,9 @@ public class OptionJournalController {
      * @return list of OptionJournalModel
      * @throws TradeLogException -
      */
-    @RequestMapping(value = "/{symbol}", method = RequestMethod.GET)
+    @RequestMapping(value = {"/{symbol}", "/{symbol}/"}, method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public List<OptionJournalModel> getAllBySymbol(
+    public OptionTransactionsResponse getAllBySymbol(
             @RequestHeader("accountId") String accountId,
             @PathVariable("symbol") String symbol) throws TradeLogException {
 
@@ -48,7 +49,9 @@ public class OptionJournalController {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
-        return facade.getAllOptionsBySymbol(accountId, symbol);
+        return new OptionTransactionsResponse.Builder()
+                .withOptionItems(facade.getAllOptionsBySymbol(accountId, symbol))
+                .build();
     }
 
 
@@ -59,14 +62,13 @@ public class OptionJournalController {
      * @return created OptionJournalModel
      * @throws TradeLogException -
      */
-    @RequestMapping(value = "/{symbol}", method = RequestMethod.POST)
+    @RequestMapping(value = {"", "/"}, method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public OptionJournalModel createNewOptionTrade(
             @RequestHeader("accountId") String accountId,
-            @PathVariable("symbol") String symbol,
             @RequestBody OptionJournalModel model) throws TradeLogException {
 
-        if (!RequestValidation.validateCreateNewOptionTrade(accountId, symbol, model)) {
+        if (!RequestValidation.validateCreateNewOptionTrade(accountId, model)) {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
@@ -85,18 +87,17 @@ public class OptionJournalController {
      * @param transactionId -
      * @throws TradeLogException -
      */
-    @RequestMapping(value = "/{symbol}/{transactionId}", method = RequestMethod.DELETE)
+    @RequestMapping(value = {"/{transactionId}", "/{transactionId}/"}, method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     public void deleteOptionTrade(
             @RequestHeader(name = "accountId") String accountId,
-            @PathVariable("symbol") String symbol,
             @PathVariable("transactionId") String transactionId) throws TradeLogException {
 
-        if (!RequestValidation.validateDeleteOptionTrade(accountId, transactionId, symbol)) {
+        if (!RequestValidation.validateDeleteOptionTrade(accountId, transactionId)) {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
-        if (!facade.deleteOptionRecord(accountId, transactionId, symbol)) {
+        if (!facade.deleteOptionRecord(accountId, transactionId)) {
             log.error("COULD NOT DELETE FOR tID: {}", transactionId);
             throw new TradeLogException(ExceptionCode.DELETE_OPTION_FAILED);
         }

@@ -4,6 +4,7 @@ import com.example.tradelog.api.exception.TradeLogException;
 import com.example.tradelog.api.facade.JournalFacade;
 import com.example.tradelog.api.spec.exception.ExceptionCode;
 import com.example.tradelog.api.spec.model.ShareJournalModel;
+import com.example.tradelog.api.spec.model.ShareTransactionsResponse;
 import com.example.tradelog.api.validator.RequestValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -38,9 +38,9 @@ public class ShareJournalController {
      * @return list of ShareJournalModel
      * @throws TradeLogException -
      */
-    @RequestMapping(value = "/{symbol}", method = RequestMethod.GET)
+    @RequestMapping(value = {"/{symbol}", "/{symbol}/"}, method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public List<ShareJournalModel> getAllBySymbol(
+    public ShareTransactionsResponse getAllBySymbol(
             @RequestHeader("accountId") String accountId,
             @PathVariable("symbol") String symbol) throws TradeLogException {
 
@@ -48,7 +48,9 @@ public class ShareJournalController {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
-        return facade.getAllSharesBySymbol(accountId, symbol);
+        return new ShareTransactionsResponse.Builder()
+                .withShareItems(facade.getAllSharesBySymbol(accountId, symbol))
+                .build();
     }
 
 
@@ -59,14 +61,13 @@ public class ShareJournalController {
      * @return created ShareJournalModel
      * @throws TradeLogException -
      */
-    @RequestMapping(value = "/{symbol}", method = RequestMethod.POST)
+    @RequestMapping(value = {"", "/"}, method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public ShareJournalModel createNewShareTrade(
             @RequestHeader(name = "accountId") String accountId,
-            @PathVariable("symbol") String symbol,
             @RequestBody ShareJournalModel model) throws TradeLogException {
 
-        if (!RequestValidation.validateCreateNewShareTrade(accountId, symbol, model)) {
+        if (!RequestValidation.validateCreateNewShareTrade(accountId, model)) {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
@@ -82,22 +83,20 @@ public class ShareJournalController {
     /**
      * Delete SHARE trade record
      * @param accountId - account uuid
-     * @param symbol -
      * @param transactionId -
      * @throws TradeLogException -
      */
-    @RequestMapping(value = "/{symbol}/{transactionId}", method = RequestMethod.DELETE)
+    @RequestMapping(value = {"/{transactionId}", "/{transactionId}/"}, method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     public void deleteShareTrade(
             @RequestHeader(name = "accountId") String accountId,
-            @PathVariable("symbol") String symbol,
             @PathVariable("transactionId") String transactionId) throws TradeLogException {
 
-        if (!RequestValidation.validateDeleteShareTrade(accountId, transactionId, symbol)) {
+        if (!RequestValidation.validateDeleteShareTrade(accountId, transactionId)) {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
-        if (!facade.deleteShareRecord(accountId, transactionId, symbol)) {
+        if (!facade.deleteShareRecord(accountId, transactionId)) {
             log.error("COULD NOT DELETE FOR tID: {}", transactionId);
             throw new TradeLogException(ExceptionCode.DELETE_SHARE_FAILED);
         }

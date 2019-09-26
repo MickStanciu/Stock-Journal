@@ -5,6 +5,7 @@ import com.example.tradelog.api.facade.JournalFacade;
 import com.example.tradelog.api.service.DividendJournalService;
 import com.example.tradelog.api.spec.exception.ExceptionCode;
 import com.example.tradelog.api.spec.model.DividendJournalModel;
+import com.example.tradelog.api.spec.model.DividendTransactionsResponse;
 import com.example.tradelog.api.validator.RequestValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,9 +34,9 @@ public class DividendJournalController {
      * @return list of DividendJournalModel
      * @throws TradeLogException -
      */
-    @RequestMapping(value = "/{symbol}", method = RequestMethod.GET)
+    @RequestMapping(value = {"/{symbol}", "/{symbol}/"}, method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public List<DividendJournalModel> getAllBySymbol(
+    public DividendTransactionsResponse getAllBySymbol(
             @RequestHeader("accountId") String accountId,
             @PathVariable("symbol") String symbol) throws TradeLogException {
 
@@ -43,7 +44,9 @@ public class DividendJournalController {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
-        return journalFacade.getAllDividendsBySymbol(accountId, symbol);
+        return new DividendTransactionsResponse.Builder()
+                .withDividendItems(journalFacade.getAllDividendsBySymbol(accountId, symbol))
+                .build();
     }
 
 
@@ -54,14 +57,13 @@ public class DividendJournalController {
      * @return created DividendJournalModel
      * @throws TradeLogException -
      */
-    @RequestMapping(value = "/{symbol}", method = RequestMethod.POST)
+    @RequestMapping(value = {"", "/"}, method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     public DividendJournalModel createNewDividendRecord(
             @RequestHeader(name = "accountId") String accountId,
-            @PathVariable("symbol") String symbol,
             @RequestBody DividendJournalModel model) throws TradeLogException {
 
-        if (!RequestValidation.validateCreateNewDividendRecord(accountId, symbol, model)) {
+        if (!RequestValidation.validateCreateNewDividendRecord(accountId, model)) {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
@@ -77,22 +79,20 @@ public class DividendJournalController {
     /**
      * Delete DIVIDEND trade record
      * @param accountId - account uuid
-     * @param symbol -
      * @param transactionId -
      * @throws TradeLogException -
      */
-    @RequestMapping(value = "/{symbol}/{transactionId}", method = RequestMethod.DELETE)
+    @RequestMapping(value = {"/{transactionId}", "/{transactionId}/"}, method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     public void deleteDividendRecord(
             @RequestHeader(name = "accountId") String accountId,
-            @PathVariable("symbol") String symbol,
             @PathVariable("transactionId") String transactionId) throws TradeLogException {
 
-        if (!RequestValidation.validateDeleteDividendRecord(accountId, transactionId, symbol)) {
+        if (!RequestValidation.validateDeleteDividendRecord(accountId, transactionId)) {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
-        if (!journalFacade.deleteDividendRecord(accountId, transactionId, symbol)) {
+        if (!journalFacade.deleteDividendRecord(accountId, transactionId)) {
             log.error("COULD NOT DELETE FOR tID: {}", transactionId);
             throw new TradeLogException(ExceptionCode.DELETE_DIVIDEND_FAILED);
         }

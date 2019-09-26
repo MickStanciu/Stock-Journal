@@ -14,8 +14,11 @@ import com.example.gateway.api.model.TradeLogGWModel;
 import com.example.gateway.api.model.TradeSummaryGWModel;
 import com.example.gateway.api.model.TransactionSettingsGWModel;
 import com.example.tradelog.api.spec.model.DividendJournalModel;
+import com.example.tradelog.api.spec.model.DividendTransactionsResponse;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
+import com.example.tradelog.api.spec.model.OptionTransactionsResponse;
 import com.example.tradelog.api.spec.model.ShareJournalModel;
+import com.example.tradelog.api.spec.model.ShareTransactionsResponse;
 import com.example.tradelog.api.spec.model.TradeLogModel;
 import com.example.tradelog.api.spec.model.TradeSummaryModel;
 import com.example.tradelog.api.spec.model.TransactionSettingsModel;
@@ -40,16 +43,16 @@ public class TradeLogService {
     }
 
     public TradeLogGWModel getAllBySymbol(String accountId, String symbol) throws ExecutionException, InterruptedException {
-        CompletableFuture<List<ShareJournalModel>> futureShareList = tradeLogGateway.getShareTransactionsBySymbol(accountId, symbol);
-        CompletableFuture<List<OptionJournalModel>> futureOptionList = tradeLogGateway.getOptionTransactionsBySymbol(accountId, symbol);
-        CompletableFuture<List<DividendJournalModel>> futureDividendList = tradeLogGateway.getDividendTransactionsBySymbol(accountId, symbol);
+        CompletableFuture<ShareTransactionsResponse> futureShareList = tradeLogGateway.getShareTransactionsBySymbol(accountId, symbol);
+        CompletableFuture<OptionTransactionsResponse> futureOptionList = tradeLogGateway.getOptionTransactionsBySymbol(accountId, symbol);
+        CompletableFuture<DividendTransactionsResponse> futureDividendList = tradeLogGateway.getDividendTransactionsBySymbol(accountId, symbol);
 
         CompletableFuture.allOf(futureShareList, futureOptionList, futureDividendList).join();
 
         TradeLogModel tradeLogModel = new TradeLogModel();
-        tradeLogModel.setShareList(futureShareList.get());
-        tradeLogModel.setOptionList(futureOptionList.get());
-        tradeLogModel.setDividendList(futureDividendList.get());
+        tradeLogModel.setShareList(futureShareList.get().getShareItems());
+        tradeLogModel.setOptionList(futureOptionList.get().getOptionItems());
+        tradeLogModel.setDividendList(futureDividendList.get().getDividendItems());
 
         return new TradeLogModelConverter().apply(tradeLogModel);
     }
@@ -73,16 +76,16 @@ public class TradeLogService {
         return DividendJournalConverter.toDividendGWModel.apply(returnModel);
     }
 
-    public void deleteShareTrade(String accountId, String transactionId, String symbol) {
-        tradeLogGateway.deleteShareTrade(accountId, transactionId, symbol);
+    public void deleteShareTrade(String accountId, String transactionId) {
+        tradeLogGateway.deleteShareTrade(accountId, transactionId);
     }
 
-    public void deleteOptionTrade(String accountId, String transactionId, String symbol) {
-        tradeLogGateway.deleteOptionTrade(accountId, transactionId, symbol);
+    public void deleteOptionTrade(String accountId, String transactionId) {
+        tradeLogGateway.deleteOptionTrade(accountId, transactionId);
     }
 
-    public void deleteDividendRecord(String accountId, String transactionId, String symbol) {
-        tradeLogGateway.deleteDividendTrade(accountId, transactionId, symbol);
+    public void deleteDividendRecord(String accountId, String transactionId) {
+        tradeLogGateway.deleteDividendTrade(accountId, transactionId);
     }
 
     public List<TradeSummaryGWModel> getSummary(String accountId) {
