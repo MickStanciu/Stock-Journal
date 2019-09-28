@@ -1,0 +1,105 @@
+openapi: 3.0.2
+info:
+  title: Tradelog API
+  description: ''
+  version: '1.0'
+
+servers:
+  - url: http://localhost:8083/api/v1
+  - url: https://localhost:8383/api/v1
+
+# components:
+#   securitySchemes:
+#     AccountIdAuth:
+#       type: string
+#       in: header
+#       name: accountId
+#https://swagger.io/docs/specification/basic-structure/
+#https://swagger.io/docs/specification/authentication/api-keys/
+#https://swagger.io/docs/specification/media-types/
+#http://spec.openapis.org/oas/v3.0.2
+
+paths:
+  /shares/{symbol}:
+    get:
+      summary: Returns list of shares transactions
+      parameters:
+        - name: accountId
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: symbol
+          in: path
+          required: true
+          description: Share symbol
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Successful response'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharesListResponse'
+        '400':
+          description: 'The specified symbol is invalid'
+        '404':
+          description: 'No transactions for the given symbol'
+        default:
+          description: 'Unexpected error'
+
+components:
+  schemas:
+    SharesListResponse:
+      type: object
+      properties:
+        shareItems:
+          $ref: '#/components/schemas/ShareDetails'
+    ShareDetails:
+      type: object
+      properties:
+        transactionDetails:
+          $ref: '#/components/schemas/TransactionDetails'
+        price:
+          type: number
+          format: double
+        actualPrice:
+          type: number
+          format: double
+        quantity:
+          type: integer
+        action:
+          type: string
+          enum: ["UNKNOWN", "SELL", "BUY"]
+        brokerFees:
+          type: number
+          format: double
+    TransactionDetails:
+      type: object
+      properties:
+        id:
+          type: string
+        accountId:
+          type: string
+        date:
+          type: string
+        symbol:
+          type: string
+        type:
+          type: string
+          enum: ["UNKNOWN", "SHARE", "SYNTHETIC_SHARE", "OPTION", "DIVIDEND"]
+        settings:
+          $ref: '#/components/schemas/TransactionSettings'
+    TransactionSettings:
+      type: object
+      properties:
+        transactionId:
+          type: string
+        preferredPrice:
+          type: number
+          format: double
+        groupSelected:
+          type: boolean
+        legClosed:
+          type: boolean

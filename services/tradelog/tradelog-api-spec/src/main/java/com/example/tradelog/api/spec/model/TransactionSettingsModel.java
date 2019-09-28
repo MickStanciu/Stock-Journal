@@ -6,7 +6,6 @@ public class TransactionSettingsModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    //todo: not sure if necessary
     private String transactionId;
 
     private Double preferredPrice;
