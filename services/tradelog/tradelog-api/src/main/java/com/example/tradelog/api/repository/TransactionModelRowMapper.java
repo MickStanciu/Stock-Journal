@@ -30,7 +30,7 @@ class TransactionModelRowMapper {
 
         return TransactionModel.builder()
                 .withId(rs.getString("id"))
-                .withType(TransactionType.lookup(rs.getString("transaction_type_fk")))
+                .withType(TransactionType.Companion.lookup(rs.getString("transaction_type_fk")))
                 .withSymbol(rs.getString("symbol"))
                 .withDate(TimeConversion.fromTimestamp(rs.getTimestamp("date")))
                 .withAccountId(rs.getString("account_fk"))

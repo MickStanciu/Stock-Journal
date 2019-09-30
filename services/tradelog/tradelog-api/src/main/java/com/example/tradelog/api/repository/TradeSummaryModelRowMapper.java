@@ -13,7 +13,7 @@ public class TradeSummaryModelRowMapper implements RowMapper<TradeSummaryModel> 
 
     @Override
     public TradeSummaryModel mapRow(ResultSet rs, int rowNum) throws SQLException {
-        TransactionType transactionType = TransactionType.lookup(rs.getString("transaction_type_fk"));
+        TransactionType transactionType = TransactionType.Companion.lookup(rs.getString("transaction_type_fk"));
 
         if (TransactionType.SHARE.equals(transactionType)) {
             return fromStock(rs);
