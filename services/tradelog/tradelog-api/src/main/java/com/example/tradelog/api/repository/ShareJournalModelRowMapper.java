@@ -23,7 +23,7 @@ public class ShareJournalModelRowMapper implements RowMapper<ShareJournalModel> 
                 .withPrice(price)
                 .withActualPrice(actualPrice)
                 .withQuantity(rs.getInt("quantity"))
-                .withAction(Action.lookup(rs.getString("action_fk")))
+                .withAction(Action.Companion.lookup(rs.getString("action_fk")))
                 .withBrokerFees(rs.getDouble("broker_fees"))
                 .build();
     }

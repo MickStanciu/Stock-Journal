@@ -1,7 +1,5 @@
 package com.example.tradelog.api.spec.model
 
-import java.lang.IllegalArgumentException
-
 enum class TransactionType {
     SHARE,
     SYNTHETIC_SHARE,
@@ -10,7 +8,7 @@ enum class TransactionType {
     UNKNOWN;
 
     companion object {
-        fun lookup(id : String) : TransactionType {
+        fun lookup(id: String) : TransactionType {
             return try {
                 valueOf(id)
             } catch (e : IllegalArgumentException) {
@@ -18,5 +16,4 @@ enum class TransactionType {
             }
         }
     }
-
 }

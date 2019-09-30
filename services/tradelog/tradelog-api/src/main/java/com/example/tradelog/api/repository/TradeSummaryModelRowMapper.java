@@ -27,7 +27,7 @@ public class TradeSummaryModelRowMapper implements RowMapper<TradeSummaryModel> 
     }
 
     private TradeSummaryModel fromStock(ResultSet rs) throws SQLException {
-        Action action = Action.lookup(rs.getString("action_fk"));
+        Action action = Action.Companion.lookup(rs.getString("action_fk"));
 
         BigDecimal price = BigDecimal.valueOf(rs.getDouble("price"));
 

@@ -23,8 +23,8 @@ public class OptionJournalModelRowMapper implements RowMapper<OptionJournalModel
                 .withExpiryDate(TimeConversion.fromTimestamp(rs.getTimestamp("expiry_date")))
                 .withContracts(rs.getInt("contract_number"))
                 .withPremium(rs.getDouble("premium"))
-                .withAction(Action.lookup(rs.getString("action_fk")))
-                .withActionType(OptionType.lookup(rs.getString("option_type_fk")))
+                .withAction(Action.Companion.lookup(rs.getString("action_fk")))
+                .withActionType(OptionType.Companion.lookup(rs.getString("option_type_fk")))
                 .withBrokerFees(rs.getDouble("broker_fees"))
                 .build();
     }
