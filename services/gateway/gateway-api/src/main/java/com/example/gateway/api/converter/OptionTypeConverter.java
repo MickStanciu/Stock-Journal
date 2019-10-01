@@ -16,5 +16,5 @@ public class OptionTypeConverter {
         return optionTypeGWOptional.get();
     };
 
-    static Function<OptionTypeGW, OptionType> toOptionType = optionType -> OptionType.lookup(optionType.name());
+    static Function<OptionTypeGW, OptionType> toOptionType = optionType -> OptionType.Companion.lookup(optionType.name());
 }

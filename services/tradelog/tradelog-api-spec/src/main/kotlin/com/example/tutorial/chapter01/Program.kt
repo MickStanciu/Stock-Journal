@@ -19,6 +19,24 @@ interface Document {
         get() = "NoName"
 }
 
+class Submarine {
+    fun fire() {
+        println("Firing torpedoes")
+    }
+
+    fun submerge() {
+        println("Submerging")
+    }
+
+}
+
+
+fun foo(str: String, fn: (String) -> String) {
+    var applied = fn(str)
+    println(applied)
+}
+
+//foo("hello", {it.reversed()})
 
 fun main(args: Array<String>) {
     println("Hello World!")
