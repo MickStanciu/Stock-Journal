@@ -1,6 +1,6 @@
-package com.example.tradelog.api.spec.exception;
+package com.example.tradelog.api.spec.exception
 
-public enum ExceptionCode {
+enum class ExceptionCode(val message: String) {
     UNKNOWN("Unknown"),
     BAD_REQUEST("Bad request"),
     TRADELOG_EMPTY("Tradelog is empty"),
@@ -12,15 +12,4 @@ public enum ExceptionCode {
     CREATE_DIVIDEND_FAILED("Could not create dividend record"),
     DELETE_DIVIDEND_FAILED("Could not delete dividend record"),
     UPDATE_TRANSACTION_OPTIONS_FAILED("Could not update transaction options record")
-    ;
-
-    private final String message;
-
-    ExceptionCode(String message) {
-        this.message = message;
-    }
-
-    public String getMessage() {
-        return message;
-    }
 }
