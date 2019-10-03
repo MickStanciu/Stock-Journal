@@ -20,7 +20,7 @@ public class SyntheticSharesGenerator {
 
         shareJournalModels.stream()
                 .filter(f -> f.getTransactionDetails().getType().equals(TransactionType.SHARE))
-                .filter(f -> !f.getTransactionDetails().getSettings().isLegClosed())
+                .filter(f -> !f.getTransactionDetails().getSettings().getLegClosed())
                 .forEach(s -> {
                     int quantity;
                     if (Action.BUY == s.getAction()) {
@@ -35,7 +35,7 @@ public class SyntheticSharesGenerator {
                     } else {
                         aggregator = new ShareAggregator(s.getTransactionDetails().getSymbol());
                         aggregator.setActualPrice(s.getActualPrice());
-                        Double preferredPrice = s.getTransactionDetails().getSettings().getPreferredPrice();
+                        double preferredPrice = s.getTransactionDetails().getSettings().getPreferredPrice();
                         aggregator.setPreferredPrice(preferredPrice);
                     }
 
@@ -47,7 +47,6 @@ public class SyntheticSharesGenerator {
         stocks.forEach( (s, aggregator) -> {
             if (aggregator.getQuantity() != 0) {
 
-                double calculatedPrice = aggregator.getActualPrice();
                 double averageBoughtPrice = aggregator.getAverageBoughtPrice();
 
                 Action syntheticAction = Action.SELL;
@@ -55,12 +54,7 @@ public class SyntheticSharesGenerator {
                     syntheticAction = Action.BUY;
                 }
 
-                TransactionSettingsModel optionsModel = TransactionSettingsModel.builder()
-                        .withPreferredPrice(null)
-                        .withGroupSelected(true)
-                        .withLegClosed(false)
-                        .withPreferredPrice(aggregator.getPreferredPrice())
-                        .build();
+                TransactionSettingsModel optionsModel = new TransactionSettingsModel("", aggregator.getPreferredPrice(), true, false);
 
                 TransactionModel transactionModel = TransactionModel.builder()
                         .withSymbol(s)

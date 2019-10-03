@@ -107,12 +107,12 @@ public class TransactionRepository {
     }
 
     public boolean updateSettings(TransactionSettingsModel model) {
-        Object[] parameters = new Object[] {model.getPreferredPrice(), model.isGroupSelected(), model.isLegClosed(), model.getTransactionId()};
+        Object[] parameters = new Object[] {model.getPreferredPrice(), model.getGroupSelected(), model.getLegClosed(), model.getTransactionId()};
         return jdbcTemplate.update(JOURNAL_UPDATE_SETTINGS, parameters) == 1;
     }
 
     public boolean createSettings(String transactionId, TransactionSettingsModel model) {
-        Object[] parameters = new Object[] {transactionId, model.getPreferredPrice(), model.isGroupSelected(), model.isLegClosed()};
+        Object[] parameters = new Object[] {transactionId, model.getPreferredPrice(), model.getGroupSelected(), model.getLegClosed()};
         return jdbcTemplate.update(JOURNAL_CREATE_SETTINGS, parameters) == 1;
     }
 

@@ -42,10 +42,7 @@ public class TransactionJournalService {
         Optional<String> optionalId = transactionRepository.createTransactionRecord(model);
 
         if (optionalId.isPresent()) {
-            TransactionSettingsModel transactionSettingsModel = TransactionSettingsModel.builder()
-                    .withGroupSelected(true)
-                    .withLegClosed(false)
-                    .build();
+            TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("", 0.0, true, false);
             boolean transactionSettingsSuccess = transactionRepository.createSettings(optionalId.get(), transactionSettingsModel);
             if (transactionSettingsSuccess) {
                 return optionalId;

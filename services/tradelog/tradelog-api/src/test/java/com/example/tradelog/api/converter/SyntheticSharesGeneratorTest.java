@@ -24,12 +24,7 @@ class SyntheticSharesGeneratorTest {
 
     @Test
     void testWhereThereIsNoNeedToGenerate() {
-        TransactionSettingsModel settingsModel = TransactionSettingsModel.builder()
-                .withGroupSelected(false)
-                .withPreferredPrice(44.00)
-                .withLegClosed(false)
-                .withTransactionId("1234")
-                .build();
+        TransactionSettingsModel settingsModel = new TransactionSettingsModel("1234", 44.00, false, false);
 
         shareList.add(ShareJournalModel.builder()
                 .withTransactionModel(TransactionModel.builder()
@@ -52,6 +47,7 @@ class SyntheticSharesGeneratorTest {
                         .build())
                 .withQuantity(500)
                 .withPrice(10.0)
+                .withActualPrice(60.0)
                 .withAction(Action.SELL)
                 .build());
 
@@ -62,12 +58,7 @@ class SyntheticSharesGeneratorTest {
 
     @Test
     void testAveragePrice_1() {
-        TransactionSettingsModel settingsModel = TransactionSettingsModel.builder()
-                .withGroupSelected(false)
-                .withPreferredPrice(null)
-                .withLegClosed(false)
-                .withTransactionId("1234")
-                .build();
+        TransactionSettingsModel settingsModel = new TransactionSettingsModel("1234", 0.0, false, false);
 
         shareList.add(ShareJournalModel.builder()
                 .withTransactionModel(TransactionModel.builder()
@@ -91,6 +82,7 @@ class SyntheticSharesGeneratorTest {
                         .build())
                 .withQuantity(200)
                 .withPrice(66.0)
+                .withActualPrice(60.0)
                 .withAction(Action.BUY)
                 .build());
 
@@ -102,25 +94,14 @@ class SyntheticSharesGeneratorTest {
         Assertions.assertEquals(300, xyz.getQuantity());
         Assertions.assertEquals(62.333333333333336, xyz.getPrice());
         Assertions.assertEquals(60.0, xyz.getActualPrice());
-        Assertions.assertNull(xyz.getTransactionDetails().getSettings().getPreferredPrice());
+        Assertions.assertEquals(Double.valueOf(0.0), Double.valueOf(xyz.getTransactionDetails().getSettings().getPreferredPrice()));
     }
 
 
     @Test
     void testAveragePrice_2() {
-        TransactionSettingsModel settingsModel_1 = TransactionSettingsModel.builder()
-                .withGroupSelected(false)
-                .withPreferredPrice(99.0)
-                .withLegClosed(false)
-                .withTransactionId("1234")
-                .build();
-
-        TransactionSettingsModel settingsModel_2 = TransactionSettingsModel.builder()
-                .withGroupSelected(false)
-                .withPreferredPrice(99.0)
-                .withLegClosed(true)
-                .withTransactionId("1234")
-                .build();
+        TransactionSettingsModel settingsModel_1 = new TransactionSettingsModel("1234", 99.00, false, false);
+        TransactionSettingsModel settingsModel_2 = new TransactionSettingsModel("1234", 99.00, false, true);
 
         shareList.add(ShareJournalModel.builder()
                 .withTransactionModel(TransactionModel.builder()
@@ -144,6 +125,7 @@ class SyntheticSharesGeneratorTest {
                         .build())
                 .withQuantity(50)
                 .withPrice(45.0)
+                .withActualPrice(60.0)
                 .withAction(Action.BUY)
                 .build());
 
@@ -156,6 +138,7 @@ class SyntheticSharesGeneratorTest {
                         .build())
                 .withQuantity(550)
                 .withPrice(80.0)
+                .withActualPrice(60.0)
                 .withAction(Action.BUY)
                 .build());
 
@@ -167,18 +150,13 @@ class SyntheticSharesGeneratorTest {
         Assertions.assertEquals(150, xyz.getQuantity());
         Assertions.assertEquals(51.666666666666664, xyz.getPrice());
         Assertions.assertEquals(60.0, xyz.getActualPrice());
-        Assertions.assertEquals(Double.valueOf(99.0), xyz.getTransactionDetails().getSettings().getPreferredPrice());
+        Assertions.assertEquals(Double.valueOf(99.0), Double.valueOf(xyz.getTransactionDetails().getSettings().getPreferredPrice()));
     }
 
 
     @Test
     void testSynCSCO100AndADBE200() {
-        TransactionSettingsModel settingsModel = TransactionSettingsModel.builder()
-                .withGroupSelected(false)
-                .withPreferredPrice(44.00)
-                .withLegClosed(false)
-                .withTransactionId("1234")
-                .build();
+        TransactionSettingsModel settingsModel = new TransactionSettingsModel("1234", 44.00, false, false);
 
         shareList.add(ShareJournalModel.builder()
                 .withTransactionModel(TransactionModel.builder()
@@ -247,12 +225,7 @@ class SyntheticSharesGeneratorTest {
 
     @Test
     void testSingleBuyTrade() {
-        TransactionSettingsModel settingsModel = TransactionSettingsModel.builder()
-                .withGroupSelected(false)
-                .withPreferredPrice(44.00)
-                .withLegClosed(false)
-                .withTransactionId("1234")
-                .build();
+        TransactionSettingsModel settingsModel = new TransactionSettingsModel("1234", 44.00, false, false);
 
         ShareJournalModel model = ShareJournalModel.builder()
                 .withTransactionModel(TransactionModel.builder()

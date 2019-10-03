@@ -5,7 +5,7 @@ public class ShareAggregator {
     private String symbol;
     private double averageBoughtPrice;
     private double actualPrice;
-    private Double preferredPrice;
+    private double preferredPrice;
     private int quantity;
 
     public ShareAggregator(String symbol) {
@@ -51,7 +51,7 @@ public class ShareAggregator {
         return preferredPrice;
     }
 
-    public void setPreferredPrice(Double preferredPrice) {
+    public void setPreferredPrice(double preferredPrice) {
         this.preferredPrice = preferredPrice;
     }
 
