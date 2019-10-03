@@ -93,13 +93,6 @@ public class TradeLogService {
         return returnModels.stream().map(m -> TradeSummaryConverter.toTradeSummaryGWModel.apply(m)).collect(Collectors.toList());
     }
 
-    public void updateGroupOption(String accountId, String transactionId, boolean enabled) {
-        TransactionSettingsModel settingsModel = TransactionSettingsModel.builder()
-                .withGroupSelected(enabled)
-                .build();
-        tradeLogGateway.updateTransactionSettings(accountId, transactionId, settingsModel);
-    }
-
     public void updateGroupSettings(String accountId, List<TransactionSettingsGWModel> modelList) {
         List<TransactionSettingsModel> models = modelList.stream().map(TransactionSettingConverter.toTransactionSettingsGWModel).collect(Collectors.toList());
         tradeLogGateway.updateTransactionSettingsBulk(accountId, models);

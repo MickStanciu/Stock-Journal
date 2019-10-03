@@ -124,14 +124,6 @@ public class TradeLogController {
         return summaryModels;
     }
 
-    @RequestMapping(value = "/transaction/{transactionId}/{enabled}", method = RequestMethod.PUT)
-    @ResponseStatus(HttpStatus.OK)
-    public void updateGroupOption(@RequestHeader("accountId") String accountId,
-                                  @PathVariable("enabled") Boolean enabled,
-                                  @PathVariable("transactionId") String transactionId) {
-       tradeLogService.updateGroupOption(accountId, transactionId, enabled);
-    }
-
     @RequestMapping(value = "/transaction/settings/bulk", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     public void updateBulkSettings(@RequestHeader("accountId") String accountId,
