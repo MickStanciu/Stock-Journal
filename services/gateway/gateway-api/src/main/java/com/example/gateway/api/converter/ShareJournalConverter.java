@@ -3,6 +3,7 @@ package com.example.gateway.api.converter;
 import com.example.gateway.api.model.ShareJournalGWModel;
 import com.example.tradelog.api.spec.model.ShareJournalModel;
 import com.example.tradelog.api.spec.model.TransactionModel;
+import com.example.tradelog.api.spec.model.TransactionSettingsModel;
 import com.example.tradelog.api.spec.model.TransactionType;
 
 import java.util.function.Function;
@@ -26,14 +27,10 @@ public class ShareJournalConverter {
             .build();
 
     public static Function<ShareJournalGWModel, ShareJournalModel> toShareModel = model -> {
-
-        TransactionModel transactionModel = TransactionModel.builder()
-                .withId(model.getTransactionId())
-                .withAccountId(model.getAccountId())
-                .withSymbol(model.getSymbol())
-                .withDate(model.getDate())
-                .withType(TransactionType.SHARE)
-                .build();
+        TransactionModel transactionModel = new TransactionModel(model.getTransactionId(), model.getAccountId(), model.getDate(),
+                model.getSymbol(), TransactionType.SHARE,
+                new TransactionSettingsModel(model.getTransactionId(), 0.00, false, false)
+        );
 
         return ShareJournalModel.builder()
                 .withTransactionModel(transactionModel)

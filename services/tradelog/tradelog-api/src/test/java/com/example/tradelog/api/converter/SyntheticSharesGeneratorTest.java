@@ -24,27 +24,18 @@ class SyntheticSharesGeneratorTest {
 
     @Test
     void testWhereThereIsNoNeedToGenerate() {
-        TransactionSettingsModel settingsModel = new TransactionSettingsModel("1234", 44.00, false, false);
+        TransactionSettingsModel settingsModel = new TransactionSettingsModel("1234", 0.0, false, false);
+        TransactionModel transactionModel = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.SHARE, settingsModel);
 
         shareList.add(ShareJournalModel.builder()
-                .withTransactionModel(TransactionModel.builder()
-                        .withType(TransactionType.SHARE)
-                        .withDate(OffsetDateTime.now())
-                        .withSymbol("XYZ")
-                        .withSettings(settingsModel)
-                        .build())
+                .withTransactionModel(transactionModel)
                 .withQuantity(500)
                 .withPrice(10.0)
                 .withAction(Action.BUY)
                 .build());
 
         shareList.add(ShareJournalModel.builder()
-                .withTransactionModel(TransactionModel.builder()
-                        .withType(TransactionType.SHARE)
-                        .withDate(OffsetDateTime.now())
-                        .withSymbol("XYZ")
-                        .withSettings(settingsModel)
-                        .build())
+                .withTransactionModel(transactionModel)
                 .withQuantity(500)
                 .withPrice(10.0)
                 .withActualPrice(60.0)
@@ -59,14 +50,10 @@ class SyntheticSharesGeneratorTest {
     @Test
     void testAveragePrice_1() {
         TransactionSettingsModel settingsModel = new TransactionSettingsModel("1234", 0.0, false, false);
+        TransactionModel transactionModel = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.SHARE, settingsModel);
 
         shareList.add(ShareJournalModel.builder()
-                .withTransactionModel(TransactionModel.builder()
-                        .withType(TransactionType.SHARE)
-                        .withDate(OffsetDateTime.now())
-                        .withSymbol("XYZ")
-                        .withSettings(settingsModel)
-                        .build())
+                .withTransactionModel(transactionModel)
                 .withQuantity(100)
                 .withPrice(55.0)
                 .withActualPrice(60.0)
@@ -74,12 +61,7 @@ class SyntheticSharesGeneratorTest {
                 .build());
 
         shareList.add(ShareJournalModel.builder()
-                .withTransactionModel(TransactionModel.builder()
-                        .withType(TransactionType.SHARE)
-                        .withDate(OffsetDateTime.now())
-                        .withSymbol("XYZ")
-                        .withSettings(settingsModel)
-                        .build())
+                .withTransactionModel(transactionModel)
                 .withQuantity(200)
                 .withPrice(66.0)
                 .withActualPrice(60.0)
@@ -101,15 +83,14 @@ class SyntheticSharesGeneratorTest {
     @Test
     void testAveragePrice_2() {
         TransactionSettingsModel settingsModel_1 = new TransactionSettingsModel("1234", 99.00, false, false);
+        TransactionModel transactionModel_1 = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.SHARE, settingsModel_1);
+
         TransactionSettingsModel settingsModel_2 = new TransactionSettingsModel("1234", 99.00, false, true);
+        TransactionModel transactionModel_2 = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.SHARE, settingsModel_2);
+
 
         shareList.add(ShareJournalModel.builder()
-                .withTransactionModel(TransactionModel.builder()
-                        .withType(TransactionType.SHARE)
-                        .withDate(OffsetDateTime.now())
-                        .withSymbol("XYZ")
-                        .withSettings(settingsModel_1)
-                        .build())
+                .withTransactionModel(transactionModel_1)
                 .withQuantity(100)
                 .withPrice(55.0)
                 .withActualPrice(60.0)
@@ -117,12 +98,7 @@ class SyntheticSharesGeneratorTest {
                 .build());
 
         shareList.add(ShareJournalModel.builder()
-                .withTransactionModel(TransactionModel.builder()
-                        .withType(TransactionType.SHARE)
-                        .withDate(OffsetDateTime.now())
-                        .withSymbol("XYZ")
-                        .withSettings(settingsModel_1)
-                        .build())
+                .withTransactionModel(transactionModel_2)
                 .withQuantity(50)
                 .withPrice(45.0)
                 .withActualPrice(60.0)
@@ -130,12 +106,7 @@ class SyntheticSharesGeneratorTest {
                 .build());
 
         shareList.add(ShareJournalModel.builder()
-                .withTransactionModel(TransactionModel.builder()
-                        .withType(TransactionType.SHARE)
-                        .withDate(OffsetDateTime.now())
-                        .withSymbol("XYZ")
-                        .withSettings(settingsModel_2)
-                        .build())
+                .withTransactionModel(transactionModel_2)
                 .withQuantity(550)
                 .withPrice(80.0)
                 .withActualPrice(60.0)
@@ -157,26 +128,18 @@ class SyntheticSharesGeneratorTest {
     @Test
     void testSynCSCO100AndADBE200() {
         TransactionSettingsModel settingsModel = new TransactionSettingsModel("1234", 44.00, false, false);
+        TransactionModel transactionModel_1 = new TransactionModel("1234", "123", OffsetDateTime.now(), "CSCO", TransactionType.SHARE, settingsModel);
+        TransactionModel transactionModel_2 = new TransactionModel("1234", "123", OffsetDateTime.now(), "ADBE", TransactionType.SHARE, settingsModel);
 
         shareList.add(ShareJournalModel.builder()
-                .withTransactionModel(TransactionModel.builder()
-                        .withType(TransactionType.SHARE)
-                        .withDate(OffsetDateTime.now())
-                        .withSymbol("CSCO")
-                        .withSettings(settingsModel)
-                        .build())
+                .withTransactionModel(transactionModel_1)
                 .withQuantity(500)
                 .withPrice(10.0)
                 .withAction(Action.BUY)
                 .build());
 
         shareList.add(ShareJournalModel.builder()
-                .withTransactionModel(TransactionModel.builder()
-                        .withType(TransactionType.SHARE)
-                        .withDate(OffsetDateTime.now())
-                        .withSymbol("ADBE")
-                        .withSettings(settingsModel)
-                        .build())
+                .withTransactionModel(transactionModel_2)
                 .withQuantity(500)
                 .withPrice(10.0)
                 .withAction(Action.BUY)
@@ -184,24 +147,14 @@ class SyntheticSharesGeneratorTest {
 
 
         shareList.add(ShareJournalModel.builder()
-                .withTransactionModel(TransactionModel.builder()
-                        .withType(TransactionType.SHARE)
-                        .withDate(OffsetDateTime.now())
-                        .withSymbol("CSCO")
-                        .withSettings(settingsModel)
-                        .build())
+                .withTransactionModel(transactionModel_1)
                 .withQuantity(400)
                 .withPrice(10.0)
                 .withAction(Action.SELL)
                 .build());
 
         shareList.add(ShareJournalModel.builder()
-                .withTransactionModel(TransactionModel.builder()
-                        .withType(TransactionType.SHARE)
-                        .withDate(OffsetDateTime.now())
-                        .withSymbol("ADBE")
-                        .withSettings(settingsModel)
-                        .build())
+                .withTransactionModel(transactionModel_2)
                 .withQuantity(300)
                 .withPrice(10.0)
                 .withAction(Action.SELL)
@@ -226,13 +179,10 @@ class SyntheticSharesGeneratorTest {
     @Test
     void testSingleBuyTrade() {
         TransactionSettingsModel settingsModel = new TransactionSettingsModel("1234", 44.00, false, false);
+        TransactionModel transactionModel = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.SHARE, settingsModel);
 
         ShareJournalModel model = ShareJournalModel.builder()
-                .withTransactionModel(TransactionModel.builder()
-                        .withType(TransactionType.SHARE)
-                        .withSymbol("XYZ")
-                        .withSettings(settingsModel)
-                        .build())
+                .withTransactionModel(transactionModel)
                 .withPrice(10)
                 .withQuantity(100)
                 .withAction(Action.BUY)

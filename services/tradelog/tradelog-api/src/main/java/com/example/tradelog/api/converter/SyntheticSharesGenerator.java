@@ -56,12 +56,13 @@ public class SyntheticSharesGenerator {
 
                 TransactionSettingsModel optionsModel = new TransactionSettingsModel("", aggregator.getPreferredPrice(), true, false);
 
-                TransactionModel transactionModel = TransactionModel.builder()
-                        .withSymbol(s)
-                        .withDate(OffsetDateTime.now().plusYears(1))
-                        .withType(TransactionType.SYNTHETIC_SHARE)
-                        .withSettings(optionsModel)
-                        .build();
+                TransactionModel transactionModel = new TransactionModel(
+                        "",
+                        "",
+                        OffsetDateTime.now().plusYears(1),
+                        s,
+                        TransactionType.SYNTHETIC_SHARE,
+                        optionsModel);
 
                 synthetics.add(ShareJournalModel.builder()
                         .withTransactionModel(transactionModel)

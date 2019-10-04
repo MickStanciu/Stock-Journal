@@ -3,6 +3,7 @@ package com.example.gateway.api.converter;
 import com.example.gateway.api.model.OptionJournalGWModel;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
 import com.example.tradelog.api.spec.model.TransactionModel;
+import com.example.tradelog.api.spec.model.TransactionSettingsModel;
 import com.example.tradelog.api.spec.model.TransactionType;
 
 import java.util.function.Function;
@@ -28,13 +29,10 @@ public class OptionJournalConverter {
             .build();
 
     public static Function<OptionJournalGWModel, OptionJournalModel> toOptionModel = model -> {
-        TransactionModel transactionModel = TransactionModel.builder()
-                .withId(model.getTransactionId())
-                .withAccountId(model.getAccountId())
-                .withSymbol(model.getStockSymbol())
-                .withDate(model.getDate())
-                .withType(TransactionType.OPTION)
-                .build();
+        TransactionModel transactionModel = new TransactionModel(model.getTransactionId(), model.getAccountId(), model.getDate(),
+                model.getStockSymbol(), TransactionType.OPTION,
+                new TransactionSettingsModel(model.getTransactionId(), 0.00, false, false)
+        );
 
         return OptionJournalModel.builder()
                 .withTransactionModel(transactionModel)

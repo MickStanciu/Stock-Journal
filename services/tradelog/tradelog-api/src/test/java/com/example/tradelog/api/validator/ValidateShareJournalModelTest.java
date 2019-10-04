@@ -1,6 +1,10 @@
 package com.example.tradelog.api.validator;
 
-import com.example.tradelog.api.spec.model.*;
+import com.example.tradelog.api.spec.model.Action;
+import com.example.tradelog.api.spec.model.ShareJournalModel;
+import com.example.tradelog.api.spec.model.TransactionModel;
+import com.example.tradelog.api.spec.model.TransactionSettingsModel;
+import com.example.tradelog.api.spec.model.TransactionType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -9,12 +13,6 @@ import java.time.OffsetDateTime;
 class ValidateShareJournalModelTest {
 
     private ShareJournalModel.Builder shareBuilder;
-
-    private TransactionModel.Builder transactionModelBuilder = TransactionModel.builder()
-            .withAccountId("123456789012345678901234567890123456")
-            .withType(TransactionType.SHARE)
-            .withDate(OffsetDateTime.now())
-            .withSymbol("XYZ");
 
     ValidateShareJournalModelTest() {
         shareBuilder = new ShareJournalModel.Builder();
@@ -32,21 +30,12 @@ class ValidateShareJournalModelTest {
     }
 
     @Test
-    void testValidateShareJournalModelWhenAccountIdIsNull() {
-        ShareJournalModel model = shareBuilder
-                .withTransactionModel(transactionModelBuilder.withAccountId(null).build())
-                .withQuantity(1)
-                .withAction(Action.BUY)
-                .withPrice(1)
-                .build();
-
-        Assertions.assertFalse(RequestValidation.validateShareJournalModel.test(model));
-    }
-
-    @Test
     void testValidateShareJournalModelWhenActionIsNull() {
+        TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
+        TransactionModel transactionModel = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.SHARE, transactionSettingsModel);
+
         ShareJournalModel model = shareBuilder
-                .withTransactionModel(transactionModelBuilder.build())
+                .withTransactionModel(transactionModel)
                 .withQuantity(1)
                 .withAction(null)
                 .withPrice(1)
@@ -57,8 +46,11 @@ class ValidateShareJournalModelTest {
 
     @Test
     void testValidateShareJournalModelWhenActionIsInvalid() {
+        TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
+        TransactionModel transactionModel = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.SHARE, transactionSettingsModel);
+
         ShareJournalModel model = shareBuilder
-                .withTransactionModel(transactionModelBuilder.withAccountId(null).build())
+                .withTransactionModel(transactionModel)
                 .withQuantity(1)
                 .withAction(Action.UNKNOWN)
                 .withPrice(1)
@@ -67,11 +59,13 @@ class ValidateShareJournalModelTest {
         Assertions.assertFalse(RequestValidation.validateShareJournalModel.test(model));
     }
 
-
     @Test
-    void testValidateShareJournalModelWhenActionTypeIsUnknown() {
+    void testValidateShareJournalModelWhenAccountIsEmtpy() {
+        TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
+        TransactionModel transactionModel = new TransactionModel("1234", "", OffsetDateTime.now(), "XYZ", TransactionType.SHARE, transactionSettingsModel);
+
         ShareJournalModel model = shareBuilder
-                .withTransactionModel(transactionModelBuilder.withAccountId(null).build())
+                .withTransactionModel(transactionModel)
                 .withQuantity(1)
                 .withAction(Action.BUY)
                 .withPrice(1)
@@ -81,18 +75,12 @@ class ValidateShareJournalModelTest {
     }
 
     @Test
-    void testValidateShareJournalModelWhenDateIsNull() {
-        ShareJournalModel model = shareBuilder
-                .withTransactionModel(transactionModelBuilder.withDate(null).build())
-                .build();
-
-        Assertions.assertFalse(RequestValidation.validateShareJournalModel.test(model));
-    }
-
-    @Test
     void testValidateShareJournalModelWhenPriceIsNegative() {
+        TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
+        TransactionModel transactionModel = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.SHARE, transactionSettingsModel);
+
         ShareJournalModel model = shareBuilder
-                .withTransactionModel(transactionModelBuilder.build())
+                .withTransactionModel(transactionModel)
                 .withPrice(-1)
                 .build();
 
@@ -101,8 +89,11 @@ class ValidateShareJournalModelTest {
 
     @Test
     void testValidateShareJournalModelWhenQuantityIsZero() {
+        TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
+        TransactionModel transactionModel = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.SHARE, transactionSettingsModel);
+
         ShareJournalModel model = shareBuilder
-                .withTransactionModel(transactionModelBuilder.build())
+                .withTransactionModel(transactionModel)
                 .withQuantity(0)
                 .build();
 
@@ -110,18 +101,12 @@ class ValidateShareJournalModelTest {
     }
 
     @Test
-    void testValidateShareJournalModelWhenSymbolIsNull() {
-        ShareJournalModel model = shareBuilder
-                .withTransactionModel(transactionModelBuilder.withSymbol(null).build())
-                .build();
-
-        Assertions.assertFalse(RequestValidation.validateShareJournalModel.test(model));
-    }
-
-    @Test
     void testValidateShareJournalModelWhenSymbolIsEmpty() {
+        TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
+        TransactionModel transactionModel = new TransactionModel("1234", "123", OffsetDateTime.now(), "", TransactionType.SHARE, transactionSettingsModel);
+
         ShareJournalModel model = shareBuilder
-                .withTransactionModel(transactionModelBuilder.withSymbol("").build())
+                .withTransactionModel(transactionModel)
                 .build();
 
         Assertions.assertFalse(RequestValidation.validateShareJournalModel.test(model));
@@ -129,8 +114,11 @@ class ValidateShareJournalModelTest {
 
     @Test
     void testValidateShareJournalModelWhenSymbolIsSpace() {
+        TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
+        TransactionModel transactionModel = new TransactionModel("1234", "123", OffsetDateTime.now(), " ", TransactionType.SHARE, transactionSettingsModel);
+
         ShareJournalModel model = shareBuilder
-                .withTransactionModel(transactionModelBuilder.withSymbol(" ").build())
+                .withTransactionModel(transactionModel)
                 .build();
 
         Assertions.assertFalse(RequestValidation.validateShareJournalModel.test(model));
@@ -138,8 +126,11 @@ class ValidateShareJournalModelTest {
 
     @Test
     void testValidateShareJournalModelWhenTransactionTypeIsNotStock() {
+        TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
+        TransactionModel transactionModel = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.UNKNOWN, transactionSettingsModel);
+
         ShareJournalModel model = shareBuilder
-                .withTransactionModel(transactionModelBuilder.withType(TransactionType.UNKNOWN).build())
+                .withTransactionModel(transactionModel)
                 .build();
 
         Assertions.assertFalse(RequestValidation.validateShareJournalModel.test(model));
@@ -147,8 +138,11 @@ class ValidateShareJournalModelTest {
 
     @Test
     void testValidateShareJournalModelTruthy() {
+        TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
+        TransactionModel transactionModel = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.UNKNOWN, transactionSettingsModel);
+
         ShareJournalModel model = shareBuilder
-                .withTransactionModel(transactionModelBuilder.build())
+                .withTransactionModel(transactionModel)
                 .withAction(Action.BUY)
                 .withBrokerFees(0)
                 .withPrice(10.00)

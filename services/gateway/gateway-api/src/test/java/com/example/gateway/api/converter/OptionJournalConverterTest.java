@@ -17,15 +17,7 @@ class OptionJournalConverterTest {
     @Test
     void testConverter() {
         TransactionSettingsModel settingsModel = new TransactionSettingsModel("1234", 44.00, false, false);
-
-        TransactionModel transactionModel = TransactionModel.builder()
-                .withId("1234")
-                .withAccountId("123")
-                .withDate(OffsetDateTime.now())
-                .withSymbol("XYZ")
-                .withType(TransactionType.OPTION)
-                .withSettings(settingsModel)
-                .build();
+        TransactionModel transactionModel = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.OPTION, settingsModel);
 
         OptionJournalModel model = OptionJournalModel.builder()
                 .withTransactionModel(transactionModel)

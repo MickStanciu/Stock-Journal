@@ -3,6 +3,7 @@ package com.example.gateway.api.converter;
 import com.example.gateway.api.model.DividendGWModel;
 import com.example.tradelog.api.spec.model.DividendJournalModel;
 import com.example.tradelog.api.spec.model.TransactionModel;
+import com.example.tradelog.api.spec.model.TransactionSettingsModel;
 import com.example.tradelog.api.spec.model.TransactionType;
 
 import java.util.function.Function;
@@ -24,13 +25,10 @@ public class DividendJournalConverter {
 
 
     public static Function<DividendGWModel, DividendJournalModel> toDividendModel = model -> {
-        TransactionModel transactionModel = TransactionModel.builder()
-                .withId(model.getTransactionId())
-                .withAccountId(model.getAccountId())
-                .withSymbol(model.getSymbol())
-                .withDate(model.getDate())
-                .withType(TransactionType.DIVIDEND)
-                .build();
+        TransactionModel transactionModel = new TransactionModel(model.getTransactionId(), model.getAccountId(), model.getDate(),
+                model.getSymbol(), TransactionType.DIVIDEND,
+                new TransactionSettingsModel(model.getTransactionId(), 0.00, false, false)
+        );
 
         return DividendJournalModel.builder()
                 .withTransactionDetails(transactionModel)

@@ -2,6 +2,7 @@ package com.example.tradelog.api.validator;
 
 import com.example.tradelog.api.spec.model.DividendJournalModel;
 import com.example.tradelog.api.spec.model.TransactionModel;
+import com.example.tradelog.api.spec.model.TransactionSettingsModel;
 import com.example.tradelog.api.spec.model.TransactionType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -11,12 +12,6 @@ import java.time.OffsetDateTime;
 class ValidateDividendModelTest {
 
     private DividendJournalModel.Builder dividendBuilder;
-
-    private TransactionModel.Builder transactionModelBuilder = TransactionModel.builder()
-            .withAccountId("123456789012345678901234567890123456")
-            .withType(TransactionType.DIVIDEND)
-            .withDate(OffsetDateTime.now())
-            .withSymbol("XYZ");
 
     ValidateDividendModelTest() {
         dividendBuilder = new DividendJournalModel.Builder();
@@ -34,29 +29,12 @@ class ValidateDividendModelTest {
     }
 
     @Test
-    void testValidateDividendJournalModelWhenAccountIdIsNull() {
-        DividendJournalModel model = dividendBuilder
-                .withTransactionDetails(transactionModelBuilder.withAccountId(null).build())
-                .withQuantity(1)
-                .withDividend(1)
-                .build();
-
-        Assertions.assertFalse(RequestValidation.validateDividendJournalModel.test(model));
-    }
-
-    @Test
-    void testValidateDividendJournalModelWhenDateIsNull() {
-        DividendJournalModel model = dividendBuilder
-                .withTransactionDetails(transactionModelBuilder.withDate(null).build())
-                .build();
-
-        Assertions.assertFalse(RequestValidation.validateDividendJournalModel.test(model));
-    }
-
-    @Test
     void testValidateDividendJournalModelWhenDividendIsNegative() {
+        TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
+        TransactionModel transactionModel = new TransactionModel("1234", "", OffsetDateTime.now(), "XYZ", TransactionType.DIVIDEND, transactionSettingsModel);
+
         DividendJournalModel model = dividendBuilder
-                .withTransactionDetails(transactionModelBuilder.build())
+                .withTransactionDetails(transactionModel)
                 .withDividend(-1)
                 .withQuantity(10)
                 .build();
@@ -66,8 +44,11 @@ class ValidateDividendModelTest {
 
     @Test
     void testValidateDividendJournalModelWhenQuantityIsNegative() {
+        TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
+        TransactionModel transactionModel = new TransactionModel("1234", "", OffsetDateTime.now(), "XYZ", TransactionType.DIVIDEND, transactionSettingsModel);
+
         DividendJournalModel model = dividendBuilder
-                .withTransactionDetails(transactionModelBuilder.build())
+                .withTransactionDetails(transactionModel)
                 .withDividend(1)
                 .withQuantity(-1)
                 .build();
@@ -76,18 +57,12 @@ class ValidateDividendModelTest {
     }
 
     @Test
-    void testValidateDividendJournalModelWhenSymbolIsNull() {
-        DividendJournalModel model = dividendBuilder
-                .withTransactionDetails(transactionModelBuilder.withSymbol(null).build())
-                .build();
-
-        Assertions.assertFalse(RequestValidation.validateDividendJournalModel.test(model));
-    }
-
-    @Test
     void testValidateDividendJournalModelWhenTransactionTypeIsNotDividend() {
+        TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
+        TransactionModel transactionModel = new TransactionModel("1234", "", OffsetDateTime.now(), "XYZ", TransactionType.UNKNOWN, transactionSettingsModel);
+
         DividendJournalModel model = dividendBuilder
-                .withTransactionDetails(transactionModelBuilder.withType(TransactionType.UNKNOWN).build())
+                .withTransactionDetails(transactionModel)
                 .build();
 
         Assertions.assertFalse(RequestValidation.validateDividendJournalModel.test(model));
@@ -95,8 +70,11 @@ class ValidateDividendModelTest {
 
     @Test
     void testValidateDividendJournalModelTruthy() {
+        TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
+        TransactionModel transactionModel = new TransactionModel("1234", "", OffsetDateTime.now(), "XYZ", TransactionType.UNKNOWN, transactionSettingsModel);
+
         DividendJournalModel model = dividendBuilder
-                .withTransactionDetails(transactionModelBuilder.build())
+                .withTransactionDetails(transactionModel)
                 .withDividend(10.00)
                 .withQuantity(100)
                 .build();
