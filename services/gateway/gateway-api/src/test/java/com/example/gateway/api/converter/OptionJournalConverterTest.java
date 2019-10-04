@@ -1,7 +1,12 @@
 package com.example.gateway.api.converter;
 
 import com.example.gateway.api.model.OptionJournalGWModel;
-import com.example.tradelog.api.spec.model.*;
+import com.example.tradelog.api.spec.model.Action;
+import com.example.tradelog.api.spec.model.OptionJournalModel;
+import com.example.tradelog.api.spec.model.OptionType;
+import com.example.tradelog.api.spec.model.TransactionModel;
+import com.example.tradelog.api.spec.model.TransactionSettingsModel;
+import com.example.tradelog.api.spec.model.TransactionType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -11,12 +16,7 @@ class OptionJournalConverterTest {
 
     @Test
     void testConverter() {
-        TransactionSettingsModel settingsModel = TransactionSettingsModel.builder()
-                .withGroupSelected(false)
-                .withPreferredPrice(44.00)
-                .withLegClosed(false)
-                .withTransactionId("1234")
-                .build();
+        TransactionSettingsModel settingsModel = new TransactionSettingsModel("1234", 44.00, false, false);
 
         TransactionModel transactionModel = TransactionModel.builder()
                 .withId("1234")
