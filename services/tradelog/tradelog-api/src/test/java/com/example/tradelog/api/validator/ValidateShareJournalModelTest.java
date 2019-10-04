@@ -139,7 +139,7 @@ class ValidateShareJournalModelTest {
     @Test
     void testValidateShareJournalModelTruthy() {
         TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
-        TransactionModel transactionModel = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.UNKNOWN, transactionSettingsModel);
+        TransactionModel transactionModel = new TransactionModel("1234", "123456789012345678901234567890123456", OffsetDateTime.now(), "XYZ", TransactionType.SHARE, transactionSettingsModel);
 
         ShareJournalModel model = shareBuilder
                 .withTransactionModel(transactionModel)

@@ -92,7 +92,6 @@ public class RequestValidation extends FieldValidator {
             && s.getTransactionDetails().getDate() != null
             && symbol.test(s.getTransactionDetails().getSymbol())
             && RequestValidation.accountId.test(s.getTransactionDetails().getAccountId())
-            && s.getTransactionDetails().getId() == null
             && s.getAction() != null
             && s.getAction() != Action.UNKNOWN
             && s.getPrice() >= 0.00
@@ -104,7 +103,6 @@ public class RequestValidation extends FieldValidator {
             && s.getTransactionDetails().getDate() != null
             && symbol.test(s.getTransactionDetails().getSymbol())
             && RequestValidation.accountId.test(s.getTransactionDetails().getAccountId())
-            && s.getTransactionDetails().getId() == null
             && s.getAction() != null
             && s.getAction() != Action.UNKNOWN
             && (s.getOptionType() == OptionType.CALL || s.getOptionType() == OptionType.PUT)
@@ -120,7 +118,6 @@ public class RequestValidation extends FieldValidator {
             && s.getTransactionDetails().getDate() != null
             && symbol.test(s.getTransactionDetails().getSymbol())
             && RequestValidation.accountId.test(s.getTransactionDetails().getAccountId())
-            && s.getTransactionDetails().getId() == null
             && s.getQuantity() >= 0
             && s.getDividend() >= 0;
 

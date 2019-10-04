@@ -98,7 +98,7 @@ class SyntheticSharesGeneratorTest {
                 .build());
 
         shareList.add(ShareJournalModel.builder()
-                .withTransactionModel(transactionModel_2)
+                .withTransactionModel(transactionModel_1)
                 .withQuantity(50)
                 .withPrice(45.0)
                 .withActualPrice(60.0)
