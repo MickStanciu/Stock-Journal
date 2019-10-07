@@ -30,6 +30,9 @@ java {
     }
 }
 
+openApiGenerate {
+    generatorName.set("spring")
+}
 
 //tasks.openApiGenerate {
 //    generatorName = "spring" as Property<String>
