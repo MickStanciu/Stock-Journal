@@ -27,20 +27,8 @@ class SyntheticSharesGeneratorTest {
         TransactionSettingsModel settingsModel = new TransactionSettingsModel("1234", 0.0, false, false);
         TransactionModel transactionModel = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.SHARE, settingsModel);
 
-        shareList.add(ShareJournalModel.builder()
-                .withTransactionModel(transactionModel)
-                .withQuantity(500)
-                .withPrice(10.0)
-                .withAction(Action.BUY)
-                .build());
-
-        shareList.add(ShareJournalModel.builder()
-                .withTransactionModel(transactionModel)
-                .withQuantity(500)
-                .withPrice(10.0)
-                .withActualPrice(60.0)
-                .withAction(Action.SELL)
-                .build());
+        shareList.add(new ShareJournalModel(transactionModel, 10.00, 10.00, 500, Action.BUY, 0));
+        shareList.add(new ShareJournalModel(transactionModel, 10.00, 60.00, 500, Action.SELL, 0));
 
         List<ShareJournalModel> syn = SyntheticSharesGenerator.createSynthetic.apply(shareList);
         Assertions.assertEquals(0, syn.size());
@@ -52,21 +40,8 @@ class SyntheticSharesGeneratorTest {
         TransactionSettingsModel settingsModel = new TransactionSettingsModel("1234", 0.0, false, false);
         TransactionModel transactionModel = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.SHARE, settingsModel);
 
-        shareList.add(ShareJournalModel.builder()
-                .withTransactionModel(transactionModel)
-                .withQuantity(100)
-                .withPrice(55.0)
-                .withActualPrice(60.0)
-                .withAction(Action.BUY)
-                .build());
-
-        shareList.add(ShareJournalModel.builder()
-                .withTransactionModel(transactionModel)
-                .withQuantity(200)
-                .withPrice(66.0)
-                .withActualPrice(60.0)
-                .withAction(Action.BUY)
-                .build());
+        shareList.add(new ShareJournalModel(transactionModel, 55.00, 60.00, 100, Action.BUY, 0));
+        shareList.add(new ShareJournalModel(transactionModel, 66.00, 60.00, 200, Action.BUY, 0));
 
         List<ShareJournalModel> syn = SyntheticSharesGenerator.createSynthetic.apply(shareList);
         Assertions.assertEquals(1, syn.size());
@@ -89,29 +64,9 @@ class SyntheticSharesGeneratorTest {
         TransactionModel transactionModel_2 = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.SHARE, settingsModel_2);
 
 
-        shareList.add(ShareJournalModel.builder()
-                .withTransactionModel(transactionModel_1)
-                .withQuantity(100)
-                .withPrice(55.0)
-                .withActualPrice(60.0)
-                .withAction(Action.BUY)
-                .build());
-
-        shareList.add(ShareJournalModel.builder()
-                .withTransactionModel(transactionModel_1)
-                .withQuantity(50)
-                .withPrice(45.0)
-                .withActualPrice(60.0)
-                .withAction(Action.BUY)
-                .build());
-
-        shareList.add(ShareJournalModel.builder()
-                .withTransactionModel(transactionModel_2)
-                .withQuantity(550)
-                .withPrice(80.0)
-                .withActualPrice(60.0)
-                .withAction(Action.BUY)
-                .build());
+        shareList.add(new ShareJournalModel(transactionModel_1, 55.00, 60.00, 100, Action.BUY, 0));
+        shareList.add(new ShareJournalModel(transactionModel_1, 45.00, 60.00, 50, Action.BUY, 0));
+        shareList.add(new ShareJournalModel(transactionModel_2, 80.00, 60.00, 550, Action.BUY, 0));
 
         List<ShareJournalModel> syn = SyntheticSharesGenerator.createSynthetic.apply(shareList);
         Assertions.assertEquals(1, syn.size());
@@ -131,35 +86,10 @@ class SyntheticSharesGeneratorTest {
         TransactionModel transactionModel_1 = new TransactionModel("1234", "123", OffsetDateTime.now(), "CSCO", TransactionType.SHARE, settingsModel);
         TransactionModel transactionModel_2 = new TransactionModel("1234", "123", OffsetDateTime.now(), "ADBE", TransactionType.SHARE, settingsModel);
 
-        shareList.add(ShareJournalModel.builder()
-                .withTransactionModel(transactionModel_1)
-                .withQuantity(500)
-                .withPrice(10.0)
-                .withAction(Action.BUY)
-                .build());
-
-        shareList.add(ShareJournalModel.builder()
-                .withTransactionModel(transactionModel_2)
-                .withQuantity(500)
-                .withPrice(10.0)
-                .withAction(Action.BUY)
-                .build());
-
-
-        shareList.add(ShareJournalModel.builder()
-                .withTransactionModel(transactionModel_1)
-                .withQuantity(400)
-                .withPrice(10.0)
-                .withAction(Action.SELL)
-                .build());
-
-        shareList.add(ShareJournalModel.builder()
-                .withTransactionModel(transactionModel_2)
-                .withQuantity(300)
-                .withPrice(10.0)
-                .withAction(Action.SELL)
-                .build());
-
+        shareList.add(new ShareJournalModel(transactionModel_1, 10.00, 60.00, 500, Action.BUY, 0));
+        shareList.add(new ShareJournalModel(transactionModel_2, 10.00, 60.00, 500, Action.BUY, 0));
+        shareList.add(new ShareJournalModel(transactionModel_1, 10.00, 60.00, 400, Action.SELL, 0));
+        shareList.add(new ShareJournalModel(transactionModel_2, 10.00, 60.00, 300, Action.SELL, 0));
 
         List<ShareJournalModel> syn = SyntheticSharesGenerator.createSynthetic.apply(shareList);
         Assertions.assertEquals(2, syn.size());
@@ -181,12 +111,7 @@ class SyntheticSharesGeneratorTest {
         TransactionSettingsModel settingsModel = new TransactionSettingsModel("1234", 44.00, false, false);
         TransactionModel transactionModel = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.SHARE, settingsModel);
 
-        ShareJournalModel model = ShareJournalModel.builder()
-                .withTransactionModel(transactionModel)
-                .withPrice(10)
-                .withQuantity(100)
-                .withAction(Action.BUY)
-                .build();
+        ShareJournalModel model = new ShareJournalModel(transactionModel, 10, 60.00, 100, Action.BUY, 0);
 
         shareList.add(model);
 

@@ -48,9 +48,7 @@ public class ShareJournalController {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
-        return new ShareTransactionsResponse.Builder()
-                .withShareItems(facade.getAllSharesBySymbol(accountId, symbol))
-                .build();
+        return new ShareTransactionsResponse(facade.getAllSharesBySymbol(accountId, symbol));
     }
 
 

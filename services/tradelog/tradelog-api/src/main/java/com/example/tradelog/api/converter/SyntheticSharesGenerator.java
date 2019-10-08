@@ -64,13 +64,10 @@ public class SyntheticSharesGenerator {
                         TransactionType.SYNTHETIC_SHARE,
                         optionsModel);
 
-                synthetics.add(ShareJournalModel.builder()
-                        .withTransactionModel(transactionModel)
-                        .withQuantity(Math.abs(aggregator.getQuantity()))
-                        .withPrice(averageBoughtPrice)
-                        .withActualPrice(aggregator.getActualPrice())
-                        .withAction(syntheticAction)
-                        .build());
+
+                synthetics.add(new ShareJournalModel(transactionModel, averageBoughtPrice, aggregator.getActualPrice(),
+                        Math.abs(aggregator.getQuantity()), syntheticAction,
+                        0));
             }
         });
 

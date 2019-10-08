@@ -32,13 +32,8 @@ public class ShareJournalConverter {
                 new TransactionSettingsModel(model.getTransactionId(), 0.00, false, false)
         );
 
-        return ShareJournalModel.builder()
-                .withTransactionModel(transactionModel)
-                .withAction(ActionConverter.toAction.apply(model.getAction()))
-                .withBrokerFees(model.getBrokerFees())
-                .withQuantity(model.getQuantity())
-                .withPrice(model.getPrice())
-                .withActualPrice(model.getActualPrice())
-                .build();
+        return new ShareJournalModel(transactionModel, model.getPrice(), model.getActualPrice(),
+                model.getQuantity(), ActionConverter.toAction.apply(model.getAction()),
+                model.getBrokerFees());
     };
 }

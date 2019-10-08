@@ -12,49 +12,17 @@ import java.time.OffsetDateTime;
 
 class ValidateShareJournalModelTest {
 
-    private ShareJournalModel.Builder shareBuilder;
-
-    ValidateShareJournalModelTest() {
-        shareBuilder = new ShareJournalModel.Builder();
-    }
-
     @Test
     void testValidateShareJournalModelWhenNull() {
         Assertions.assertFalse(RequestValidation.validateShareJournalModel.test(null));
     }
 
-    @Test
-    void testValidateShareJournalModelWhenDefault() {
-        ShareJournalModel model = shareBuilder.build();
-        Assertions.assertFalse(RequestValidation.validateShareJournalModel.test(model));
-    }
-
-    @Test
-    void testValidateShareJournalModelWhenActionIsNull() {
-        TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
-        TransactionModel transactionModel = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.SHARE, transactionSettingsModel);
-
-        ShareJournalModel model = shareBuilder
-                .withTransactionModel(transactionModel)
-                .withQuantity(1)
-                .withAction(null)
-                .withPrice(1)
-                .build();
-
-        Assertions.assertFalse(RequestValidation.validateShareJournalModel.test(model));
-    }
 
     @Test
     void testValidateShareJournalModelWhenActionIsInvalid() {
         TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
         TransactionModel transactionModel = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.SHARE, transactionSettingsModel);
-
-        ShareJournalModel model = shareBuilder
-                .withTransactionModel(transactionModel)
-                .withQuantity(1)
-                .withAction(Action.UNKNOWN)
-                .withPrice(1)
-                .build();
+        ShareJournalModel model = new ShareJournalModel(transactionModel, 1, 1, 1, Action.UNKNOWN, 0);
 
         Assertions.assertFalse(RequestValidation.validateShareJournalModel.test(model));
     }
@@ -63,13 +31,7 @@ class ValidateShareJournalModelTest {
     void testValidateShareJournalModelWhenAccountIsEmtpy() {
         TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
         TransactionModel transactionModel = new TransactionModel("1234", "", OffsetDateTime.now(), "XYZ", TransactionType.SHARE, transactionSettingsModel);
-
-        ShareJournalModel model = shareBuilder
-                .withTransactionModel(transactionModel)
-                .withQuantity(1)
-                .withAction(Action.BUY)
-                .withPrice(1)
-                .build();
+        ShareJournalModel model = new ShareJournalModel(transactionModel, 1, 1, 1, Action.BUY, 0);
 
         Assertions.assertFalse(RequestValidation.validateShareJournalModel.test(model));
     }
@@ -78,11 +40,7 @@ class ValidateShareJournalModelTest {
     void testValidateShareJournalModelWhenPriceIsNegative() {
         TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
         TransactionModel transactionModel = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.SHARE, transactionSettingsModel);
-
-        ShareJournalModel model = shareBuilder
-                .withTransactionModel(transactionModel)
-                .withPrice(-1)
-                .build();
+        ShareJournalModel model = new ShareJournalModel(transactionModel, -1, 1, 1, Action.BUY, 0);
 
         Assertions.assertFalse(RequestValidation.validateShareJournalModel.test(model));
     }
@@ -91,11 +49,7 @@ class ValidateShareJournalModelTest {
     void testValidateShareJournalModelWhenQuantityIsZero() {
         TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
         TransactionModel transactionModel = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.SHARE, transactionSettingsModel);
-
-        ShareJournalModel model = shareBuilder
-                .withTransactionModel(transactionModel)
-                .withQuantity(0)
-                .build();
+        ShareJournalModel model = new ShareJournalModel(transactionModel, 1, 1, 0, Action.BUY, 0);
 
         Assertions.assertFalse(RequestValidation.validateShareJournalModel.test(model));
     }
@@ -104,10 +58,7 @@ class ValidateShareJournalModelTest {
     void testValidateShareJournalModelWhenSymbolIsEmpty() {
         TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
         TransactionModel transactionModel = new TransactionModel("1234", "123", OffsetDateTime.now(), "", TransactionType.SHARE, transactionSettingsModel);
-
-        ShareJournalModel model = shareBuilder
-                .withTransactionModel(transactionModel)
-                .build();
+        ShareJournalModel model = new ShareJournalModel(transactionModel, 1, 1, 1, Action.BUY, 0);
 
         Assertions.assertFalse(RequestValidation.validateShareJournalModel.test(model));
     }
@@ -116,10 +67,7 @@ class ValidateShareJournalModelTest {
     void testValidateShareJournalModelWhenSymbolIsSpace() {
         TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
         TransactionModel transactionModel = new TransactionModel("1234", "123", OffsetDateTime.now(), " ", TransactionType.SHARE, transactionSettingsModel);
-
-        ShareJournalModel model = shareBuilder
-                .withTransactionModel(transactionModel)
-                .build();
+        ShareJournalModel model = new ShareJournalModel(transactionModel, 1, 1, 1, Action.BUY, 0);
 
         Assertions.assertFalse(RequestValidation.validateShareJournalModel.test(model));
     }
@@ -128,10 +76,7 @@ class ValidateShareJournalModelTest {
     void testValidateShareJournalModelWhenTransactionTypeIsNotStock() {
         TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
         TransactionModel transactionModel = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.UNKNOWN, transactionSettingsModel);
-
-        ShareJournalModel model = shareBuilder
-                .withTransactionModel(transactionModel)
-                .build();
+        ShareJournalModel model = new ShareJournalModel(transactionModel, 1, 1, 1, Action.BUY, 0);
 
         Assertions.assertFalse(RequestValidation.validateShareJournalModel.test(model));
     }
@@ -140,14 +85,7 @@ class ValidateShareJournalModelTest {
     void testValidateShareJournalModelTruthy() {
         TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
         TransactionModel transactionModel = new TransactionModel("1234", "123456789012345678901234567890123456", OffsetDateTime.now(), "XYZ", TransactionType.SHARE, transactionSettingsModel);
-
-        ShareJournalModel model = shareBuilder
-                .withTransactionModel(transactionModel)
-                .withAction(Action.BUY)
-                .withBrokerFees(0)
-                .withPrice(10.00)
-                .withQuantity(100)
-                .build();
+        ShareJournalModel model = new ShareJournalModel(transactionModel, 10.00, 1, 100, Action.BUY, 0);
 
         Assertions.assertTrue(RequestValidation.validateShareJournalModel.test(model));
     }
