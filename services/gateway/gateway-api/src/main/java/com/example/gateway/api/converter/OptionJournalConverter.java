@@ -29,9 +29,14 @@ public class OptionJournalConverter {
             .build();
 
     public static Function<OptionJournalGWModel, OptionJournalModel> toOptionModel = model -> {
-        TransactionModel transactionModel = new TransactionModel(model.getTransactionId(), model.getAccountId(), model.getDate(),
+        String transactionId = model.getTransactionId();
+        if (transactionId == null) {
+            transactionId = "";
+        }
+
+        TransactionModel transactionModel = new TransactionModel(transactionId, model.getAccountId(), model.getDate(),
                 model.getStockSymbol(), TransactionType.OPTION,
-                new TransactionSettingsModel(model.getTransactionId(), 0.00, false, false)
+                new TransactionSettingsModel(transactionId, 0.00, false, false)
         );
 
         return OptionJournalModel.builder()

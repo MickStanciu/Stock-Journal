@@ -36,6 +36,7 @@ ext {
     flywayDbVersion = "5.2.4"
     postgreSqlVersion = "42.2.5"
     junitVersion = "5.4.2"
+    jacksonKotlinVersion = "2.10.0"
 }
 
 description = "TradeLog API"
@@ -55,6 +56,7 @@ dependencies {
     implementation ("org.springframework.boot:spring-boot-starter-actuator")
     implementation ("org.postgresql:postgresql:${postgreSqlVersion}")
     implementation ("org.flywaydb:flyway-core:${flywayDbVersion}")
+    implementation group: 'com.fasterxml.jackson.module', name: 'jackson-module-kotlin', version: jacksonKotlinVersion
 
     runtimeOnly("org.springframework.boot:spring-boot-devtools")
 

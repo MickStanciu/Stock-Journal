@@ -2,7 +2,7 @@ package com.example.tradelog.api.spec.model
 
 import java.time.OffsetDateTime
 
-class TransactionModel(
+class TransactionModel (
         val id: String,
         val accountId: String,
         val date: OffsetDateTime,
