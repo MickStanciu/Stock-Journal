@@ -33,6 +33,7 @@ repositories {
 
 ext {
     junitVersion = "5.4.2"
+    jacksonKotlinVersion = "2.10.0"
 }
 
 //task copyJarToBin(type: Copy) {
@@ -58,6 +59,7 @@ dependencies {
     implementation ("org.springframework.boot:spring-boot-starter-undertow")
     implementation ("org.springframework.boot:spring-boot-starter-actuator")
 
+    implementation group: 'com.fasterxml.jackson.module', name: 'jackson-module-kotlin', version: jacksonKotlinVersion
     implementation group: "io.jsonwebtoken", name: "jjwt", version:"0.9.0"
 
     runtimeOnly("org.springframework.boot:spring-boot-devtools")
