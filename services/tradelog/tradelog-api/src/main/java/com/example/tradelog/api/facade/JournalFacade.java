@@ -48,11 +48,7 @@ public class JournalFacade {
         optionSummaries.forEach( (k, v) -> {
             if (summaryModelMap.containsKey(v.getSymbol())) {
                 TradeSummaryModel storedModel = summaryModelMap.get(v.getSymbol());
-                summaryModelMap.put(v.getSymbol(), TradeSummaryModel.builder()
-                        .withSymbol(storedModel.getSymbol())
-                        .withTrades(storedModel.getTrades() + v.getTrades())
-                        .withTotal(storedModel.getTotal().add(v.getTotal()))
-                        .build());
+                summaryModelMap.put(v.getSymbol(), new TradeSummaryModel(storedModel.getSymbol(), storedModel.getTrades() + v.getTrades(), storedModel.getTotal().add(v.getTotal())));
             } else {
                 summaryModelMap.put(v.getSymbol(), v);
             }
@@ -61,11 +57,7 @@ public class JournalFacade {
         dividendSummaries.forEach( (k, v) -> {
             if (summaryModelMap.containsKey(v.getSymbol())) {
                 TradeSummaryModel storedModel = summaryModelMap.get(v.getSymbol());
-                summaryModelMap.put(v.getSymbol(), TradeSummaryModel.builder()
-                        .withSymbol(storedModel.getSymbol())
-                        .withTrades(storedModel.getTrades() + v.getTrades())
-                        .withTotal(storedModel.getTotal().add(v.getTotal()))
-                        .build());
+                summaryModelMap.put(v.getSymbol(), new TradeSummaryModel(storedModel.getSymbol(), storedModel.getTrades() + v.getTrades(), storedModel.getTotal().add(v.getTotal())));
             } else {
                 summaryModelMap.put(v.getSymbol(), v);
             }

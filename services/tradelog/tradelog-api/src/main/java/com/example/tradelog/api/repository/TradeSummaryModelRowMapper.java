@@ -38,11 +38,7 @@ public class TradeSummaryModelRowMapper implements RowMapper<TradeSummaryModel> 
         BigDecimal fees = BigDecimal.valueOf(rs.getDouble("broker_fees"));
         BigDecimal quantity = BigDecimal.valueOf(rs.getInt("quantity"));
 
-        return TradeSummaryModel.builder()
-                .withSymbol(rs.getString("symbol"))
-                .withTotal(price.multiply(quantity).subtract(fees))
-                .withTrades(1)
-                .build();
+        return new TradeSummaryModel(rs.getString("symbol"), 1, price.multiply(quantity).subtract(fees));
     }
 
     private TradeSummaryModel fromOption(ResultSet rs) throws SQLException {
@@ -55,21 +51,13 @@ public class TradeSummaryModelRowMapper implements RowMapper<TradeSummaryModel> 
             premium = premium.multiply(BigDecimal.valueOf(-1));
         }
 
-        return TradeSummaryModel.builder()
-                .withSymbol(rs.getString("symbol"))
-                .withTotal(premium.multiply(quantity).multiply(new BigDecimal(100)).subtract(fees))
-                .withTrades(1)
-                .build();
+        return new TradeSummaryModel(rs.getString("symbol"), 1, premium.multiply(quantity).multiply(new BigDecimal(100)).subtract(fees));
     }
 
     private TradeSummaryModel fromDividend(ResultSet rs) throws SQLException {
         BigDecimal dividend = BigDecimal.valueOf(rs.getDouble("dividend"));
         BigDecimal quantity = BigDecimal.valueOf(rs.getInt("quantity"));
 
-        return TradeSummaryModel.builder()
-                .withSymbol(rs.getString("symbol"))
-                .withTotal(dividend.multiply(quantity))
-                .withTrades(1)
-                .build();
+        return new TradeSummaryModel(rs.getString("symbol"), 1, dividend.multiply(quantity));
     }
 }

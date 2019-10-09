@@ -12,10 +12,9 @@ public class DividendModelRowMapper implements RowMapper<DividendJournalModel> {
     public DividendJournalModel mapRow(ResultSet rs, int rowNum) throws SQLException {
         TransactionModel transactionModel = new TransactionModelRowMapper(rs).invoke();
 
-        return DividendJournalModel.builder()
-                .withTransactionDetails(transactionModel)
-                .withDividend(rs.getDouble("dividend"))
-                .withQuantity(rs.getInt("quantity"))
-                .build();
+        return new DividendJournalModel(
+                transactionModel,
+                rs.getDouble("dividend"),
+                rs.getInt("quantity"));
     }
 }

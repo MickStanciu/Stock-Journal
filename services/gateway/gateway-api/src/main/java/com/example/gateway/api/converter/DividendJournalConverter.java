@@ -30,10 +30,6 @@ public class DividendJournalConverter {
                 new TransactionSettingsModel(model.getTransactionId(), 0.00, false, false)
         );
 
-        return DividendJournalModel.builder()
-                .withTransactionDetails(transactionModel)
-                .withDividend(model.getDividend())
-                .withQuantity(model.getQuantity())
-                .build();
+        return new DividendJournalModel(transactionModel, model.getDividend(), model.getQuantity());
     };
 }

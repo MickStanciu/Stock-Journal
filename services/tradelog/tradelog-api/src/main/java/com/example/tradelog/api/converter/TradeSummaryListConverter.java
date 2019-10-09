@@ -15,11 +15,8 @@ public class TradeSummaryListConverter {
         modelList.forEach(m -> {
             if (summaryModelMap.containsKey(m.getSymbol())) {
                 TradeSummaryModel storedModel = summaryModelMap.get(m.getSymbol());
-                summaryModelMap.put(m.getSymbol(), TradeSummaryModel.builder()
-                        .withSymbol(storedModel.getSymbol())
-                        .withTrades(storedModel.getTrades() + 1)
-                        .withTotal(storedModel.getTotal().add(m.getTotal()))
-                        .build());
+
+                summaryModelMap.put(m.getSymbol(), new TradeSummaryModel(storedModel.getSymbol(), storedModel.getTrades() + 1, storedModel.getTotal().add(m.getTotal())));
             } else {
                 summaryModelMap.put(m.getSymbol(), m);
             }

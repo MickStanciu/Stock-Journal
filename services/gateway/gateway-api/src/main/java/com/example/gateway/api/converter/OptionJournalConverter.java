@@ -39,16 +39,10 @@ public class OptionJournalConverter {
                 new TransactionSettingsModel(transactionId, 0.00, false, false)
         );
 
-        return OptionJournalModel.builder()
-                .withTransactionModel(transactionModel)
-                .withAction(ActionConverter.toAction.apply(model.getAction()))
-                .withActionType(OptionTypeConverter.toOptionType.apply(model.getOptionType()))
-                .withBrokerFees(model.getBrokerFees())
-                .withContracts(model.getContracts())
-                .withExpiryDate(model.getExpiryDate())
-                .withPremium(model.getPremium())
-                .withStockPrice(model.getStockPrice())
-                .withStrikePrice(model.getStrikePrice())
-                .build();
+        return new OptionJournalModel(transactionModel, model.getStockPrice(), model.getStrikePrice(),
+                model.getExpiryDate(), model.getContracts(), model.getPremium(),
+                ActionConverter.toAction.apply(model.getAction()),
+                OptionTypeConverter.toOptionType.apply(model.getOptionType()),
+                model.getBrokerFees());
     };
 }

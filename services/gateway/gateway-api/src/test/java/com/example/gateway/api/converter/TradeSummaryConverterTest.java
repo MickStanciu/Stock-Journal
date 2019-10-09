@@ -11,12 +11,7 @@ class TradeSummaryConverterTest {
 
     @Test
     void testConverter() {
-        TradeSummaryModel from = TradeSummaryModel.builder()
-                .withSymbol("XYZ")
-                .withTrades(5)
-                .withTotal(BigDecimal.valueOf(33.564))
-                .build();
-
+        TradeSummaryModel from = new TradeSummaryModel("XYZ", 5, BigDecimal.valueOf(33.564));
         TradeSummaryGWModel to = TradeSummaryConverter.toTradeSummaryGWModel.apply(from);
 
         Assertions.assertEquals(from.getSymbol(), to.getSymbol());

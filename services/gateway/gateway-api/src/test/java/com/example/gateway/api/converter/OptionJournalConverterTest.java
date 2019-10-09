@@ -18,19 +18,7 @@ class OptionJournalConverterTest {
     void testConverter() {
         TransactionSettingsModel settingsModel = new TransactionSettingsModel("1234", 44.00, false, false);
         TransactionModel transactionModel = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.OPTION, settingsModel);
-
-        OptionJournalModel model = OptionJournalModel.builder()
-                .withTransactionModel(transactionModel)
-                .withAction(Action.SELL)
-                .withActionType(OptionType.PUT)
-                .withStockPrice(1.1f)
-                .withStrikePrice(2.1f)
-                .withExpiryDate(OffsetDateTime.now())
-                .withContracts(1)
-                .withPremium(5.1f)
-                .withBrokerFees(6.1f)
-                .build();
-
+        OptionJournalModel model = new OptionJournalModel(transactionModel, 1.1f, 2.1f, OffsetDateTime.now(), 1, 5.1f, Action.SELL, OptionType.PUT, 6.1f);
 
         OptionJournalGWModel gwModel = OptionJournalConverter.toOptionGWModel.apply(model);
 

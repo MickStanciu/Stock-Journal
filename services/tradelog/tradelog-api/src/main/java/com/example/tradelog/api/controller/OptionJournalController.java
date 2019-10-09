@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -49,9 +48,7 @@ public class OptionJournalController {
             throw new TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
-        return new OptionTransactionsResponse.Builder()
-                .withOptionItems(facade.getAllOptionsBySymbol(accountId, symbol))
-                .build();
+        return new OptionTransactionsResponse(facade.getAllOptionsBySymbol(accountId, symbol));
     }
 
 
@@ -83,7 +80,6 @@ public class OptionJournalController {
     /**
      * Delete OPTION trade record
      * @param accountId - account uuid
-     * @param symbol -
      * @param transactionId -
      * @throws TradeLogException -
      */
