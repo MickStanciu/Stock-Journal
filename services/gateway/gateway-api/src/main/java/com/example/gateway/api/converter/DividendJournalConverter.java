@@ -26,7 +26,7 @@ public class DividendJournalConverter {
 
     public static Function<DividendGWModel, DividendJournalModel> toDividendModel = model -> {
         TransactionModel transactionModel = new TransactionModel(model.getTransactionId(), model.getAccountId(), model.getDate(),
-                model.getSymbol(), TransactionType.DIVIDEND,
+                model.getSymbol(), TransactionType.DIVIDEND, 0.00,
                 new TransactionSettingsModel(model.getTransactionId(), 0.00, false, false)
         );
 

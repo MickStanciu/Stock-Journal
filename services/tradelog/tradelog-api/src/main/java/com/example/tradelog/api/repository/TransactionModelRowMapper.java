@@ -34,6 +34,7 @@ class TransactionModelRowMapper {
                 TimeConversion.fromTimestamp(rs.getTimestamp("date")),
                 rs.getString("symbol"),
                 TransactionType.Companion.lookup(rs.getString("transaction_type_fk")),
+                rs.getDouble("broker_fees"),
                 optionsModel);
     }
 }

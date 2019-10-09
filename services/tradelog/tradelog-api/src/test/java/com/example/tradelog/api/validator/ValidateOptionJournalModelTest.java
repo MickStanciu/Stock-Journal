@@ -21,8 +21,8 @@ class ValidateOptionJournalModelTest {
     @Test
     void testValidateOptionJournalModelWhenActionIsInvalid() {
         TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
-        TransactionModel transactionModel = new TransactionModel("1234", "", OffsetDateTime.now(), "XYZ", TransactionType.OPTION, transactionSettingsModel);
-        OptionJournalModel model = new OptionJournalModel(transactionModel, 1.1f, 2.1f, OffsetDateTime.now(), 1, 5.1f, Action.UNKNOWN, OptionType.PUT, 6.1f);
+        TransactionModel transactionModel = new TransactionModel("1234", "", OffsetDateTime.now(), "XYZ", TransactionType.OPTION, 6.1f, transactionSettingsModel);
+        OptionJournalModel model = new OptionJournalModel(transactionModel, 1.1f, 2.1f, OffsetDateTime.now(), 1, 5.1f, Action.UNKNOWN, OptionType.PUT);
 
         Assertions.assertFalse(RequestValidation.validateOptionJournalModel.test(model));
     }
@@ -30,16 +30,16 @@ class ValidateOptionJournalModelTest {
     @Test
     void testValidateOptionJournalModelWhenActionTypeIsUnknown() {
         TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
-        TransactionModel transactionModel = new TransactionModel("1234", "", OffsetDateTime.now(), "XYZ", TransactionType.OPTION, transactionSettingsModel);
-        OptionJournalModel model = new OptionJournalModel(transactionModel, 1.1f, 2.1f, OffsetDateTime.now(), 1, 5.1f, Action.BUY, OptionType.UNKNOWN, 6.1f);
+        TransactionModel transactionModel = new TransactionModel("1234", "", OffsetDateTime.now(), "XYZ", TransactionType.OPTION, 6.1f, transactionSettingsModel);
+        OptionJournalModel model = new OptionJournalModel(transactionModel, 1.1f, 2.1f, OffsetDateTime.now(), 1, 5.1f, Action.BUY, OptionType.UNKNOWN);
         Assertions.assertFalse(RequestValidation.validateOptionJournalModel.test(model));
     }
 
     @Test
     void testValidateOptionJournalModelWhenStockPriceIsNegative() {
         TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
-        TransactionModel transactionModel = new TransactionModel("1234", "", OffsetDateTime.now(), "XYZ", TransactionType.OPTION, transactionSettingsModel);
-        OptionJournalModel model = new OptionJournalModel(transactionModel, -1, 2.1f, OffsetDateTime.now(), 1, 5.1f, Action.BUY, OptionType.PUT, 6.1f);
+        TransactionModel transactionModel = new TransactionModel("1234", "", OffsetDateTime.now(), "XYZ", TransactionType.OPTION, 6.1f, transactionSettingsModel);
+        OptionJournalModel model = new OptionJournalModel(transactionModel, -1, 2.1f, OffsetDateTime.now(), 1, 5.1f, Action.BUY, OptionType.PUT);
 
         Assertions.assertFalse(RequestValidation.validateOptionJournalModel.test(model));
     }
@@ -47,8 +47,8 @@ class ValidateOptionJournalModelTest {
     @Test
     void testValidateOptionJournalModelWhenContractsIsZero() {
         TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
-        TransactionModel transactionModel = new TransactionModel("1234", "", OffsetDateTime.now(), "XYZ", TransactionType.OPTION, transactionSettingsModel);
-        OptionJournalModel model = new OptionJournalModel(transactionModel, 44.55, 2.1f, OffsetDateTime.now(), 0, 5.1f, Action.BUY, OptionType.PUT, 6.1f);
+        TransactionModel transactionModel = new TransactionModel("1234", "", OffsetDateTime.now(), "XYZ", TransactionType.OPTION, 6.1f, transactionSettingsModel);
+        OptionJournalModel model = new OptionJournalModel(transactionModel, 44.55, 2.1f, OffsetDateTime.now(), 0, 5.1f, Action.BUY, OptionType.PUT);
 
         Assertions.assertFalse(RequestValidation.validateOptionJournalModel.test(model));
     }
@@ -56,8 +56,8 @@ class ValidateOptionJournalModelTest {
     @Test
     void testValidateOptionJournalModelWhenSymbolIsEmpty() {
         TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
-        TransactionModel transactionModel = new TransactionModel("1234", "", OffsetDateTime.now(), "", TransactionType.OPTION, transactionSettingsModel);
-        OptionJournalModel model = new OptionJournalModel(transactionModel, 44.55, 2.1f, OffsetDateTime.now(), 1, 5.1f, Action.BUY, OptionType.PUT, 6.1f);
+        TransactionModel transactionModel = new TransactionModel("1234", "", OffsetDateTime.now(), "", TransactionType.OPTION, 6.1f, transactionSettingsModel);
+        OptionJournalModel model = new OptionJournalModel(transactionModel, 44.55, 2.1f, OffsetDateTime.now(), 1, 5.1f, Action.BUY, OptionType.PUT);
 
         Assertions.assertFalse(RequestValidation.validateOptionJournalModel.test(model));
     }
@@ -65,8 +65,8 @@ class ValidateOptionJournalModelTest {
     @Test
     void testValidateOptionJournalModelWhenSymbolIsSpace() {
         TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
-        TransactionModel transactionModel = new TransactionModel("1234", "", OffsetDateTime.now(), " ", TransactionType.OPTION, transactionSettingsModel);
-        OptionJournalModel model = new OptionJournalModel(transactionModel, 44.55, 2.1f, OffsetDateTime.now(), 1, 5.1f, Action.BUY, OptionType.PUT, 6.1f);
+        TransactionModel transactionModel = new TransactionModel("1234", "", OffsetDateTime.now(), " ", TransactionType.OPTION, 6.1f, transactionSettingsModel);
+        OptionJournalModel model = new OptionJournalModel(transactionModel, 44.55, 2.1f, OffsetDateTime.now(), 1, 5.1f, Action.BUY, OptionType.PUT);
 
         Assertions.assertFalse(RequestValidation.validateOptionJournalModel.test(model));
     }
@@ -74,8 +74,8 @@ class ValidateOptionJournalModelTest {
     @Test
     void testValidateOptionJournalModelTruthy() {
         TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
-        TransactionModel transactionModel = new TransactionModel("1234", "123456789012345678901234567890123456", OffsetDateTime.now(), "XYZ", TransactionType.OPTION, transactionSettingsModel);
-        OptionJournalModel model = new OptionJournalModel(transactionModel, 44.55, 55, OffsetDateTime.now(), 1, 1.5, Action.BUY, OptionType.CALL, 0);
+        TransactionModel transactionModel = new TransactionModel("1234", "123456789012345678901234567890123456", OffsetDateTime.now(), "XYZ", TransactionType.OPTION, 0, transactionSettingsModel);
+        OptionJournalModel model = new OptionJournalModel(transactionModel, 44.55, 55, OffsetDateTime.now(), 1, 1.5, Action.BUY, OptionType.CALL);
 
         Assertions.assertTrue(RequestValidation.validateOptionJournalModel.test(model));
     }

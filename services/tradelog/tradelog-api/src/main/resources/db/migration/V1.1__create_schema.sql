@@ -30,14 +30,16 @@ GRANT ALL PRIVILEGES ON TABLE option_type TO admin;
 
 CREATE TABLE transaction_log
 (
-    id                  UUID    DEFAULT uuid_generate_v4() NOT NULL
+    id                  UUID  DEFAULT uuid_generate_v4() NOT NULL
         CONSTRAINT transaction_log_pkey PRIMARY KEY,
-    account_fk          UUID                               NOT NULL,
-    date                TIMESTAMPTZ                        NOT NULL,
-    symbol              VARCHAR(16)                        NOT NULL,
-    transaction_type_fk VARCHAR(32)                        NOT NULL
-        CONSTRAINT transaction_log_action_type_fk_fkey REFERENCES transaction_type (name)
+    account_fk          UUID                             NOT NULL,
+    date                TIMESTAMPTZ                      NOT NULL,
+    symbol              VARCHAR(16)                      NOT NULL,
+    transaction_type_fk VARCHAR(32)                      NOT NULL
+        CONSTRAINT transaction_log_action_type_fk_fkey REFERENCES transaction_type (name),
+    broker_fees         FLOAT DEFAULT 0.0
 );
+
 
 GRANT ALL PRIVILEGES ON TABLE transaction_log TO admin;
 
@@ -49,8 +51,7 @@ CREATE TABLE shares_log
         CONSTRAINT transaction_log_pkey REFERENCES transaction_log (id) UNIQUE,
     price          FLOAT NOT NULL,
     quantity       INTEGER,
-    action_fk      VARCHAR(32) REFERENCES action (name),
-    broker_fees    FLOAT DEFAULT 0.0
+    action_fk      VARCHAR(32) REFERENCES action (name)
 );
 
 GRANT ALL PRIVILEGES ON TABLE shares_log TO admin;
@@ -68,7 +69,6 @@ CREATE TABLE option_log
     premium         FLOAT,
     action_fk       VARCHAR(32) REFERENCES action (name),
     option_type_fk  VARCHAR(32) REFERENCES option_type (name),
-    broker_fees    FLOAT DEFAULT 0.0
 );
 
 

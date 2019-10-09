@@ -17,7 +17,7 @@ public class ShareJournalConverter {
             .withDate(model.getTransactionDetails().getDate())
             .withSymbol(model.getTransactionDetails().getSymbol())
             .withAction(ActionConverter.toActionGW.apply(model.getAction()))
-            .withBrokerFees(model.getBrokerFees())
+            .withBrokerFees(model.getTransactionDetails().getBrokerFees())
             .withQuantity(model.getQuantity())
             .withPrice(model.getPrice())
             .withActualPrice(model.getActualPrice())
@@ -28,12 +28,11 @@ public class ShareJournalConverter {
 
     public static Function<ShareJournalGWModel, ShareJournalModel> toShareModel = model -> {
         TransactionModel transactionModel = new TransactionModel(model.getTransactionId(), model.getAccountId(), model.getDate(),
-                model.getSymbol(), TransactionType.SHARE,
+                model.getSymbol(), TransactionType.SHARE, model.getBrokerFees(),
                 new TransactionSettingsModel(model.getTransactionId(), 0.00, false, false)
         );
 
         return new ShareJournalModel(transactionModel, model.getPrice(), model.getActualPrice(),
-                model.getQuantity(), ActionConverter.toAction.apply(model.getAction()),
-                model.getBrokerFees());
+                model.getQuantity(), ActionConverter.toAction.apply(model.getAction()));
     };
 }

@@ -18,7 +18,7 @@ public class OptionJournalConverter {
             .withDate(model.getTransactionDetails().getDate())
             .withAction(ActionConverter.toActionGW.apply(model.getAction()))
             .withOptionType(OptionTypeConverter.toOptionTypeGW.apply(model.getOptionType()))
-            .withBrokerFees(model.getBrokerFees())
+            .withBrokerFees(model.getTransactionDetails().getBrokerFees())
             .withContracts(model.getContracts())
             .withExpiryDate(model.getExpiryDate())
             .withPremium(model.getPremium())
@@ -35,14 +35,13 @@ public class OptionJournalConverter {
         }
 
         TransactionModel transactionModel = new TransactionModel(transactionId, model.getAccountId(), model.getDate(),
-                model.getStockSymbol(), TransactionType.OPTION,
+                model.getStockSymbol(), TransactionType.OPTION, model.getBrokerFees(),
                 new TransactionSettingsModel(transactionId, 0.00, false, false)
         );
 
         return new OptionJournalModel(transactionModel, model.getStockPrice(), model.getStrikePrice(),
                 model.getExpiryDate(), model.getContracts(), model.getPremium(),
                 ActionConverter.toAction.apply(model.getAction()),
-                OptionTypeConverter.toOptionType.apply(model.getOptionType()),
-                model.getBrokerFees());
+                OptionTypeConverter.toOptionType.apply(model.getOptionType()));
     };
 }

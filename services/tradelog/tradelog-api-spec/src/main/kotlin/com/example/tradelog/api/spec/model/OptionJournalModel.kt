@@ -10,6 +10,5 @@ class OptionJournalModel(
         val contracts: Int,
         val premium: Double,
         val action: Action,
-        val optionType: OptionType,
-        val brokerFees: Double
+        val optionType: OptionType
 )

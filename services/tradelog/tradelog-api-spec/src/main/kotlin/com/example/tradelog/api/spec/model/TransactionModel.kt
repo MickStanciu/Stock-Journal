@@ -8,4 +8,5 @@ class TransactionModel (
         val date: OffsetDateTime,
         val symbol: String,
         val type: TransactionType,
+        val brokerFees: Double,
         val settings: TransactionSettingsModel)

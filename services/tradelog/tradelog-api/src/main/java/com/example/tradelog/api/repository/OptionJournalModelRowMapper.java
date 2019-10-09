@@ -23,7 +23,6 @@ public class OptionJournalModelRowMapper implements RowMapper<OptionJournalModel
                 rs.getInt("contract_number"),
                 rs.getDouble("premium"),
                 Action.Companion.lookup(rs.getString("action_fk")),
-                OptionType.Companion.lookup(rs.getString("option_type_fk")),
-                rs.getDouble("broker_fees"));
+                OptionType.Companion.lookup(rs.getString("option_type_fk")));
     }
 }

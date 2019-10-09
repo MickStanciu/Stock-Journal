@@ -62,12 +62,12 @@ public class SyntheticSharesGenerator {
                         OffsetDateTime.now().plusYears(1),
                         s,
                         TransactionType.SYNTHETIC_SHARE,
+                        0.00,
                         optionsModel);
 
 
                 synthetics.add(new ShareJournalModel(transactionModel, averageBoughtPrice, aggregator.getActualPrice(),
-                        Math.abs(aggregator.getQuantity()), syntheticAction,
-                        0));
+                        Math.abs(aggregator.getQuantity()), syntheticAction));
             }
         });
 

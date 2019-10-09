@@ -22,7 +22,7 @@ public class SharesJournalRepository {
                     "       sd.price as current_price, " +
                     "       sl.quantity, " +
                     "       sl.action_fk, " +
-                    "       sl.broker_fees, " +
+                    "       tl.broker_fees, " +
                     "       tsl.preferred_price, " +
                     "       tsl.group_selected, " +
                     "       tsl.leg_closed " +
@@ -45,7 +45,7 @@ public class SharesJournalRepository {
                     "       sd.price as current_price, " +
                     "       sl.quantity, " +
                     "       sl.action_fk, " +
-                    "       sl.broker_fees, " +
+                    "       tl.broker_fees, " +
                     "       tsl.preferred_price, " +
                     "       tsl.group_selected, " +
                     "       tsl.leg_closed " +
@@ -56,13 +56,13 @@ public class SharesJournalRepository {
                     "WHERE tl.id = CAST(? AS uuid);";
 
     private static final String JOURNAL_CREATE_SHARE_FOR_ACCOUNT =
-            "INSERT INTO shares_log (transaction_fk, price, quantity, action_fk, broker_fees) " +
-                    "VALUES (CAST(? AS uuid), ?, ?, ?, ?);";
+            "INSERT INTO shares_log (transaction_fk, price, quantity, action_fk) " +
+                    "VALUES (CAST(? AS uuid), ?, ?, ?);";
 
     private static final String JOURNAL_DELETE_SHARE = "DELETE FROM shares_log WHERE transaction_fk = CAST(? AS uuid)";
 
     private static final String JOURNAL_GET_SUMMARIES =
-            "SELECT tl.symbol, sl.price, sl.broker_fees, sl.quantity, sl.action_fk, tl.transaction_type_fk, sd.price AS current_price " +
+            "SELECT tl.symbol, sl.price, tl.broker_fees, sl.quantity, sl.action_fk, tl.transaction_type_fk, sd.price AS current_price " +
                     "FROM transaction_log tl" +
                     "         INNER JOIN shares_log sl ON tl.id = sl.transaction_fk " +
                     "         LEFT JOIN shares_data sd ON sd.symbol = tl.symbol " +
@@ -104,7 +104,6 @@ public class SharesJournalRepository {
             ps.setDouble(2, model.getPrice());
             ps.setInt(3, model.getQuantity());
             ps.setString(4, model.getAction().name());
-            ps.setDouble(5, model.getBrokerFees());
             return ps;
         });
     }

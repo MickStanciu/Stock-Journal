@@ -27,7 +27,7 @@ public class OptionsJournalRepository {
                     "       ol.premium, " +
                     "       ol.action_fk, " +
                     "       ol.option_type_fk, " +
-                    "       ol.broker_fees, " +
+                    "       tl.broker_fees, " +
                     "       tsl.preferred_price, " +
                     "       tsl.group_selected, " +
                     "       tsl.leg_closed " +
@@ -49,7 +49,7 @@ public class OptionsJournalRepository {
                     "       ol.premium, " +
                     "       ol.action_fk, " +
                     "       ol.option_type_fk, " +
-                    "       ol.broker_fees, " +
+                    "       tl.broker_fees, " +
                     "       tsl.preferred_price, " +
                     "       tsl.group_selected, " +
                     "       tsl.leg_closed " +
@@ -72,7 +72,7 @@ public class OptionsJournalRepository {
                     "       ol.premium, " +
                     "       ol.action_fk, " +
                     "       ol.option_type_fk, " +
-                    "       ol.broker_fees, " +
+                    "       tl.broker_fees, " +
                     "       tsl.preferred_price, " +
                     "       tsl.group_selected, " +
                     "       tsl.leg_closed " +
@@ -89,7 +89,7 @@ public class OptionsJournalRepository {
     private static final String JOURNAL_DELETE_OPTION = "DELETE FROM option_log WHERE transaction_fk = CAST(? AS uuid) and option_type_fk in ('CALL', 'PUT')";
 
     private static final String JOURNAL_GET_SUMMARIES =
-            "SELECT tl.symbol, ol.action_fk, ol.premium, ol.broker_fees, ol.contract_number, tl.transaction_type_fk " +
+            "SELECT tl.symbol, ol.action_fk, ol.premium, tl.broker_fees, ol.contract_number, tl.transaction_type_fk " +
                     "FROM transaction_log tl" +
                     "         INNER JOIN option_log ol ON tl.id = ol.transaction_fk " +
                     "WHERE tl.account_fk = CAST(? AS uuid)" +
@@ -138,7 +138,7 @@ public class OptionsJournalRepository {
             ps.setDouble(6, model.getPremium());
             ps.setString(7, model.getAction().name());
             ps.setString(8, model.getOptionType().name());
-            ps.setDouble(9, model.getBrokerFees());
+            ps.setDouble(9, model.getTransactionDetails().getBrokerFees());
             return ps;
         });
     }

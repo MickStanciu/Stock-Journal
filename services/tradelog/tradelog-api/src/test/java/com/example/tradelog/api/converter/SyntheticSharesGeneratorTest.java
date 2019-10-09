@@ -25,10 +25,10 @@ class SyntheticSharesGeneratorTest {
     @Test
     void testWhereThereIsNoNeedToGenerate() {
         TransactionSettingsModel settingsModel = new TransactionSettingsModel("1234", 0.0, false, false);
-        TransactionModel transactionModel = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.SHARE, settingsModel);
+        TransactionModel transactionModel = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.SHARE, 0, settingsModel);
 
-        shareList.add(new ShareJournalModel(transactionModel, 10.00, 10.00, 500, Action.BUY, 0));
-        shareList.add(new ShareJournalModel(transactionModel, 10.00, 60.00, 500, Action.SELL, 0));
+        shareList.add(new ShareJournalModel(transactionModel, 10.00, 10.00, 500, Action.BUY));
+        shareList.add(new ShareJournalModel(transactionModel, 10.00, 60.00, 500, Action.SELL));
 
         List<ShareJournalModel> syn = SyntheticSharesGenerator.createSynthetic.apply(shareList);
         Assertions.assertEquals(0, syn.size());
@@ -38,10 +38,10 @@ class SyntheticSharesGeneratorTest {
     @Test
     void testAveragePrice_1() {
         TransactionSettingsModel settingsModel = new TransactionSettingsModel("1234", 0.0, false, false);
-        TransactionModel transactionModel = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.SHARE, settingsModel);
+        TransactionModel transactionModel = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.SHARE, 0, settingsModel);
 
-        shareList.add(new ShareJournalModel(transactionModel, 55.00, 60.00, 100, Action.BUY, 0));
-        shareList.add(new ShareJournalModel(transactionModel, 66.00, 60.00, 200, Action.BUY, 0));
+        shareList.add(new ShareJournalModel(transactionModel, 55.00, 60.00, 100, Action.BUY));
+        shareList.add(new ShareJournalModel(transactionModel, 66.00, 60.00, 200, Action.BUY));
 
         List<ShareJournalModel> syn = SyntheticSharesGenerator.createSynthetic.apply(shareList);
         Assertions.assertEquals(1, syn.size());
@@ -58,15 +58,15 @@ class SyntheticSharesGeneratorTest {
     @Test
     void testAveragePrice_2() {
         TransactionSettingsModel settingsModel_1 = new TransactionSettingsModel("1234", 99.00, false, false);
-        TransactionModel transactionModel_1 = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.SHARE, settingsModel_1);
+        TransactionModel transactionModel_1 = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.SHARE, 0, settingsModel_1);
 
         TransactionSettingsModel settingsModel_2 = new TransactionSettingsModel("1234", 99.00, false, true);
-        TransactionModel transactionModel_2 = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.SHARE, settingsModel_2);
+        TransactionModel transactionModel_2 = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.SHARE, 0, settingsModel_2);
 
 
-        shareList.add(new ShareJournalModel(transactionModel_1, 55.00, 60.00, 100, Action.BUY, 0));
-        shareList.add(new ShareJournalModel(transactionModel_1, 45.00, 60.00, 50, Action.BUY, 0));
-        shareList.add(new ShareJournalModel(transactionModel_2, 80.00, 60.00, 550, Action.BUY, 0));
+        shareList.add(new ShareJournalModel(transactionModel_1, 55.00, 60.00, 100, Action.BUY));
+        shareList.add(new ShareJournalModel(transactionModel_1, 45.00, 60.00, 50, Action.BUY));
+        shareList.add(new ShareJournalModel(transactionModel_2, 80.00, 60.00, 550, Action.BUY));
 
         List<ShareJournalModel> syn = SyntheticSharesGenerator.createSynthetic.apply(shareList);
         Assertions.assertEquals(1, syn.size());
@@ -83,13 +83,13 @@ class SyntheticSharesGeneratorTest {
     @Test
     void testSynCSCO100AndADBE200() {
         TransactionSettingsModel settingsModel = new TransactionSettingsModel("1234", 44.00, false, false);
-        TransactionModel transactionModel_1 = new TransactionModel("1234", "123", OffsetDateTime.now(), "CSCO", TransactionType.SHARE, settingsModel);
-        TransactionModel transactionModel_2 = new TransactionModel("1234", "123", OffsetDateTime.now(), "ADBE", TransactionType.SHARE, settingsModel);
+        TransactionModel transactionModel_1 = new TransactionModel("1234", "123", OffsetDateTime.now(), "CSCO", TransactionType.SHARE, 0, settingsModel);
+        TransactionModel transactionModel_2 = new TransactionModel("1234", "123", OffsetDateTime.now(), "ADBE", TransactionType.SHARE, 0, settingsModel);
 
-        shareList.add(new ShareJournalModel(transactionModel_1, 10.00, 60.00, 500, Action.BUY, 0));
-        shareList.add(new ShareJournalModel(transactionModel_2, 10.00, 60.00, 500, Action.BUY, 0));
-        shareList.add(new ShareJournalModel(transactionModel_1, 10.00, 60.00, 400, Action.SELL, 0));
-        shareList.add(new ShareJournalModel(transactionModel_2, 10.00, 60.00, 300, Action.SELL, 0));
+        shareList.add(new ShareJournalModel(transactionModel_1, 10.00, 60.00, 500, Action.BUY));
+        shareList.add(new ShareJournalModel(transactionModel_2, 10.00, 60.00, 500, Action.BUY));
+        shareList.add(new ShareJournalModel(transactionModel_1, 10.00, 60.00, 400, Action.SELL));
+        shareList.add(new ShareJournalModel(transactionModel_2, 10.00, 60.00, 300, Action.SELL));
 
         List<ShareJournalModel> syn = SyntheticSharesGenerator.createSynthetic.apply(shareList);
         Assertions.assertEquals(2, syn.size());
@@ -109,9 +109,9 @@ class SyntheticSharesGeneratorTest {
     @Test
     void testSingleBuyTrade() {
         TransactionSettingsModel settingsModel = new TransactionSettingsModel("1234", 44.00, false, false);
-        TransactionModel transactionModel = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.SHARE, settingsModel);
+        TransactionModel transactionModel = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.SHARE, 0, settingsModel);
 
-        ShareJournalModel model = new ShareJournalModel(transactionModel, 10, 60.00, 100, Action.BUY, 0);
+        ShareJournalModel model = new ShareJournalModel(transactionModel, 10, 60.00, 100, Action.BUY);
 
         shareList.add(model);
 
