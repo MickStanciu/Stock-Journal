@@ -28,8 +28,8 @@ public class TransactionRepository {
                     "ORDER BY symbol ASC";
 
     private static final String JOURNAL_CREATE_TRANSACTION_FOR_ACCOUNT =
-            "INSERT INTO transaction_log (account_fk, date, symbol, transaction_type_fk) " +
-                    "VALUES (CAST(? AS uuid), ?, ?, ?)";
+            "INSERT INTO transaction_log (account_fk, date, symbol, transaction_type_fk, broker_fees) " +
+                    "VALUES (CAST(? AS uuid), ?, ?, ?, ?)";
 
     private static final String JOURNAL_DELETE_TRANSACTION_FOR_ACCOUNT =
             "DELETE FROM transaction_log WHERE id = CAST(? AS uuid) and account_fk = CAST(? AS uuid) " +
@@ -68,6 +68,7 @@ public class TransactionRepository {
             ps.setTimestamp(2, TimeConversion.fromOffsetDateTime(model.getDate()));
             ps.setString(3, model.getSymbol());
             ps.setString(4, model.getType().name());
+            ps.setDouble(5, model.getBrokerFees());
             return ps;
         }, keyHolder);
 

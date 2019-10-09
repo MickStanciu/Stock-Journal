@@ -83,8 +83,8 @@ public class OptionsJournalRepository {
 
 
     private static final String JOURNAL_CREATE_OPTION_FOR_ACCOUNT =
-            "INSERT INTO option_log (transaction_fk, stock_price, strike_price, expiry_date, contract_number, premium, action_fk, option_type_fk, broker_fees) " +
-                    "VALUES (CAST(? AS uuid), ?, ?, ?, ?, ?, ?, ?, ?)";
+            "INSERT INTO option_log (transaction_fk, stock_price, strike_price, expiry_date, contract_number, premium, action_fk, option_type_fk) " +
+                    "VALUES (CAST(? AS uuid), ?, ?, ?, ?, ?, ?, ?)";
 
     private static final String JOURNAL_DELETE_OPTION = "DELETE FROM option_log WHERE transaction_fk = CAST(? AS uuid) and option_type_fk in ('CALL', 'PUT')";
 
@@ -138,7 +138,6 @@ public class OptionsJournalRepository {
             ps.setDouble(6, model.getPremium());
             ps.setString(7, model.getAction().name());
             ps.setString(8, model.getOptionType().name());
-            ps.setDouble(9, model.getTransactionDetails().getBrokerFees());
             return ps;
         });
     }

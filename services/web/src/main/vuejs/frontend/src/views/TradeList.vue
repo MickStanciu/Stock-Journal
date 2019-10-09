@@ -232,8 +232,9 @@
                     settingModel.transactionId = item.transactionId;
                     settingModel.groupSelected = item.groupSelected;
                     settingModel.legClosed = item.legClosed;
+                    settingModel.preferredPrice = 0;
 
-                    if (settingModel.transactionId != null) {
+                    if (settingModel.transactionId != null && settingModel.transactionId !== 'undefined' && settingModel.transactionId !== '') {
                         settings.push(settingModel);
                     }
                 });
