@@ -13,20 +13,14 @@ class ShareDataConverterTest {
 
     @Test
     void testConverter() {
-        ShareDataModel from = ShareDataModel.builder()
-                .withSymbol("EXEL")
-                .withLastUpdatedOn(OffsetDateTime.of(2019, 7, 7, 0, 0, 0, 0, ZoneOffset.UTC))
-                .withSector("Healthcare")
-                .withMarketCapitalization(6.4)
-                .withPeRatio(10.14)
-                .withPeRatioFuture(17.63)
-                .withBookValue(4.61)
-                .withEps(2.08)
-                .withEpsFuture(1.2)
-                .withPrice(21.12)
-                .withFinvizTarget(BigDecimal.valueOf(30.08))
-                .withCalculatedTarget(BigDecimal.valueOf(22.36))
-                .build();
+        ShareDataModel from = new ShareDataModel(
+                "EXEL",
+                OffsetDateTime.of(2019, 7, 7, 0, 0, 0, 0, ZoneOffset.UTC),
+                "Healthcare", 21.12, 6.4, 10.14, 17.63,
+                4.61, 2.08, 1.2,
+                BigDecimal.valueOf(30.08),
+                BigDecimal.valueOf(22.36)
+        );
 
         ShareDataGWModel to = ShareDataConverter.toShareDataGWModel.apply(from);
 

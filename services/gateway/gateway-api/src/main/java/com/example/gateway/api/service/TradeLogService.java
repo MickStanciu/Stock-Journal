@@ -49,11 +49,11 @@ public class TradeLogService {
 
         CompletableFuture.allOf(futureShareList, futureOptionList, futureDividendList).join();
 
-        TradeLogModel tradeLogModel = new TradeLogModel();
-        tradeLogModel.setShareList(futureShareList.get().getShareItems());
-        tradeLogModel.setOptionList(futureOptionList.get().getOptionItems());
-        tradeLogModel.setDividendList(futureDividendList.get().getDividendItems());
-
+        TradeLogModel tradeLogModel = new TradeLogModel(
+                futureShareList.get().getShareItems(),
+                futureOptionList.get().getOptionItems(),
+                futureDividendList.get().getDividendItems()
+        );
         return new TradeLogModelConverter().apply(tradeLogModel);
     }
 

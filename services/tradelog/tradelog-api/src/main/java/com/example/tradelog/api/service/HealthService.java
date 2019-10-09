@@ -17,8 +17,7 @@ public class HealthService {
 
     public HealthService(OptionsJournalRepository optionsJournalRepository) {
         this.optionsJournalRepository = optionsJournalRepository;
-        healthModel = new HealthModel();
-        healthModel.setFirstRecordOk(false);
+        healthModel = new HealthModel(false);
     }
 
     private void isOk() {
