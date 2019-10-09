@@ -17,6 +17,7 @@ public class DividendRepository {
                     "       CAST(tl.account_fk AS VARCHAR(36)), " +
                     "       tl.date, " +
                     "       tl.symbol, " +
+                    "       tl.broker_fees, " +
                     "       tl.transaction_type_fk, " +
                     "       dl.dividend, " +
                     "       dl.quantity, " +
@@ -48,6 +49,7 @@ public class DividendRepository {
                     "       tl.date, " +
                     "       tl.symbol, " +
                     "       tl.transaction_type_fk, " +
+                    "       tl.broker_fees, " +
                     "       dl.dividend, " +
                     "       dl.quantity, " +
                     "       tsl.preferred_price, " +
