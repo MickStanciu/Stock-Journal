@@ -1,6 +1,6 @@
 package com.example.gateway.api.converter;
 
-import com.example.gateway.api.model.OptionTypeGW;
+import com.example.gateway.api.spec.model.OptionTypeGW;
 import com.example.tradelog.api.spec.model.OptionType;
 
 import java.util.Optional;

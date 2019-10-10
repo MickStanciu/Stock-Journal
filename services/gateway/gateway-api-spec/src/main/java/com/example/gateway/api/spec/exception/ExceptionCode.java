@@ -1,4 +1,4 @@
-package com.example.gateway.api.exception;
+package com.example.gateway.api.spec.exception;
 
 public enum ExceptionCode {
     UNKNOWN("Unknown"),

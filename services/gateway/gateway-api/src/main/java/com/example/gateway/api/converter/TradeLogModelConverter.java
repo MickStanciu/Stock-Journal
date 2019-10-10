@@ -1,10 +1,10 @@
 package com.example.gateway.api.converter;
 
-import com.example.gateway.api.model.DividendGWModel;
-import com.example.gateway.api.model.OptionJournalGWModel;
-import com.example.gateway.api.model.ShareJournalGWModel;
-import com.example.gateway.api.model.StatisticsGWModel;
-import com.example.gateway.api.model.TradeLogGWModel;
+import com.example.gateway.api.spec.StatisticsGWModel;
+import com.example.gateway.api.spec.model.DividendGWModel;
+import com.example.gateway.api.spec.model.OptionJournalGWModel;
+import com.example.gateway.api.spec.model.ShareJournalGWModel;
+import com.example.gateway.api.spec.model.TradeLogGWModel;
 import com.example.tradelog.api.spec.model.TradeLogModel;
 
 import java.util.List;
@@ -36,7 +36,7 @@ public class TradeLogModelConverter implements Function<TradeLogModel, TradeLogG
         tradeLogGWModel.setShareList(shareList);
         tradeLogGWModel.setDividendList(dividendList);
 
-        tradeLogGWModel.setStatistics(StatisticsGWModel.builder().build());
+        tradeLogGWModel.setStatistics(null);
         return tradeLogGWModel;
     }
 }

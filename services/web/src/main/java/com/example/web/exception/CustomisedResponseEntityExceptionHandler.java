@@ -1,7 +1,7 @@
 package com.example.web.exception;
 
-import com.example.gateway.api.exception.ExceptionCode;
-import com.example.gateway.api.model.ExceptionModel;
+import com.example.gateway.api.spec.exception.ExceptionCode;
+import com.example.gateway.api.spec.model.ExceptionModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

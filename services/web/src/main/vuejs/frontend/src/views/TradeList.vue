@@ -76,6 +76,9 @@
             <div class="col-md-2">&nbsp;</div>
         </div>
 
+        <h5 class="pt-3">Statistics</h5>
+        <statistics v-bind:datamodel="statisticsModel" />
+
         <transition name="fade">
             <add-stock-trade v-if="isAddStockModalEnabled" v-bind:post="{symbol: symbol.toUpperCase()}"/>
             <delete-stock-trade v-if="isDeleteStockModalEnabled" v-bind:post="{model: selectedModel}"/>
@@ -109,10 +112,13 @@
     import AddDividendTrade from "../components/tradelist/AddDividendTrade";
     import DeleteDividendTrade from "../components/tradelist/DeleteDividendTrade";
     import SyntheticPrice from "../components/tradelist/SyntheticPrice";
+    import Statistics from "../components/tradelist/Statistics";
+    import statisticsModel from "../models/StatisticsModel";
 
     export default {
         name: "TradeList",
         components: {
+            Statistics,
             SyntheticPrice,
             DeleteDividendTrade, AddDividendTrade,
             ShareData, AddOptionTrade, AddError, AddStockTrade, DeleteStockTrade, DeleteOptionTrade
@@ -121,13 +127,15 @@
         data: function () {
             return {
                 items: [],
+                itemsLoaded: false,
                 shareData: undefined,
                 shareDataLoaded: false,
                 timeZone: 'Australia/Sydney',
                 currency: 'USD',
                 symbol: this.$route.params.symbol,
                 selectedModel : undefined,
-                selectedModels : []
+                selectedModels : [],
+                statisticsModel : statisticsModel
             }
         },
 
@@ -179,6 +187,18 @@
                     }
                 });
                 return totalPremium;
+            }
+        },
+
+        watch: {
+            itemsLoaded: {
+                handler: function (newVal, oldVal) {
+                    console.log("ITEMS LOADED: ", newVal, ' | was ', oldVal);
+                    if (newVal === true) {
+                        this.loadStats(this);
+                    }
+                },
+                deep: true
             }
         },
 
@@ -382,14 +402,48 @@
                 return new Intl.NumberFormat('en-US', params).format(value);
             },
 
+            loadStats: function(context) {
+                let totalRealisedPremium = 0;
+                let selectedRealisedPremium = 0;
+                let sharesNumber = 0;
+                let shareAveragePrice = 0;
+
+                this.items.forEach(function (item) {
+                    totalRealisedPremium += context.calculateLineItemTotal(item);
+
+                    if (item.groupSelected === true) {
+                        selectedRealisedPremium += context.calculateLineItemTotal(item);
+                    }
+
+                    if (item.type === 'SHARE') {
+
+                        if (item.action === 'BUY') {
+                            sharesNumber += item.quantity;
+                        } else {
+                            sharesNumber -= item.quantity;
+                        }
+                    }
+
+                    if (item.type === 'SYNTHETIC_SHARE') {
+                        shareAveragePrice = item.price;
+                    }
+                });
+
+                this.statisticsModel.totals.realisedPremium = totalRealisedPremium;
+                this.statisticsModel.selected.realisedPremium = selectedRealisedPremium;
+                this.statisticsModel.sharesNumber = sharesNumber;
+                this.statisticsModel.shareAveragePrice = shareAveragePrice;
+                this.statisticsModel.breakEvenPrice = (sharesNumber * shareAveragePrice - selectedRealisedPremium) / sharesNumber;
+            },
+
             loadData: function () {
                 console.log("RELOADING");
                 service
                     .getTradesPerSymbol(this.$route.params.symbol)
                     .then(data => {
                         // console.log("DATA RELOADED");
-                        // console.log(data);
                         let self = this;
+                        self.itemsLoaded = false;
                         let localItems = [];
                         data.optionList.forEach(function (item) {
                             let model = new OptionApiModel(item.stockSymbol);
@@ -441,11 +495,13 @@
                             localItems.push(model);
                         });
 
-                        self.items = localItems.sort(function (a, b) {
+                        localItems = localItems.sort(function (a, b) {
                             return dateTimeUtil.sortDates(a, b);
                         }).reverse();
-                    });
 
+                        self.items = localItems;
+                        self.itemsLoaded = true;
+                    });
             }
         },
 

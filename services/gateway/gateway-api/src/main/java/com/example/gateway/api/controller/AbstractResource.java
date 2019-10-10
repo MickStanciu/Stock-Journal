@@ -1,7 +1,7 @@
 package com.example.gateway.api.controller;
 
-import com.example.gateway.api.exception.ExceptionCode;
-import com.example.gateway.api.exception.GatewayApiException;
+import com.example.gateway.api.spec.exception.ExceptionCode;
+import com.example.gateway.api.spec.exception.GatewayApiException;
 import com.example.gateway.api.security.TokenClaims;
 import com.example.gateway.api.security.TokenUtil;
 

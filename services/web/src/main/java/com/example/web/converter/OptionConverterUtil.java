@@ -1,7 +1,7 @@
 package com.example.web.converter;
 
-import com.example.gateway.api.model.ActionGW;
-import com.example.gateway.api.model.OptionJournalGWModel;
+import com.example.gateway.api.spec.model.ActionGW;
+import com.example.gateway.api.spec.model.OptionJournalGWModel;
 
 import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;

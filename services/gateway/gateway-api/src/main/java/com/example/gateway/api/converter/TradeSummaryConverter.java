@@ -1,6 +1,6 @@
 package com.example.gateway.api.converter;
 
-import com.example.gateway.api.model.TradeSummaryGWModel;
+import com.example.gateway.api.spec.model.TradeSummaryGWModel;
 import com.example.tradelog.api.spec.model.TradeSummaryModel;
 
 import java.util.function.Function;

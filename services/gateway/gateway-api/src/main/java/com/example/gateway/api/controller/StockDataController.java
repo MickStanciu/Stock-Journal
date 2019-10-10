@@ -1,6 +1,6 @@
 package com.example.gateway.api.controller;
 
-import com.example.gateway.api.model.ShareDataGWModel;
+import com.example.gateway.api.spec.model.ShareDataGWModel;
 import com.example.gateway.api.service.StockDataService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;

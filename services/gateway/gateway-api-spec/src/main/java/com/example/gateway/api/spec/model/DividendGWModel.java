@@ -1,4 +1,4 @@
-package com.example.gateway.api.model;
+package com.example.gateway.api.spec.model;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;

@@ -1,4 +1,4 @@
-package com.example.gateway.api.model;
+package com.example.gateway.api.spec.model;
 
 import java.util.Arrays;
 import java.util.HashSet;

@@ -1,4 +1,4 @@
-package com.example.gateway.api.exception;
+package com.example.gateway.api.spec.exception;
 
 public class GatewayApiException extends Exception {
     private final ExceptionCode code;

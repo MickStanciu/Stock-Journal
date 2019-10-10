@@ -1,6 +1,6 @@
 package com.example.gateway.api.converter;
 
-import com.example.gateway.api.model.ShareJournalGWModel;
+import com.example.gateway.api.spec.model.ShareJournalGWModel;
 import com.example.tradelog.api.spec.model.ShareJournalModel;
 import com.example.tradelog.api.spec.model.TransactionModel;
 import com.example.tradelog.api.spec.model.TransactionSettingsModel;
@@ -27,9 +27,14 @@ public class ShareJournalConverter {
             .build();
 
     public static Function<ShareJournalGWModel, ShareJournalModel> toShareModel = model -> {
-        TransactionModel transactionModel = new TransactionModel(model.getTransactionId(), model.getAccountId(), model.getDate(),
+        String transactionId = model.getTransactionId();
+        if (transactionId == null) {
+            transactionId = "";
+        }
+
+        TransactionModel transactionModel = new TransactionModel(transactionId, model.getAccountId(), model.getDate(),
                 model.getSymbol(), TransactionType.SHARE, model.getBrokerFees(),
-                new TransactionSettingsModel(model.getTransactionId(), 0.00, false, false)
+                new TransactionSettingsModel(transactionId, 0.00, false, false)
         );
 
         return new ShareJournalModel(transactionModel, model.getPrice(), model.getActualPrice(),

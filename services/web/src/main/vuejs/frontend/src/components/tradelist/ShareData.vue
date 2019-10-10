@@ -25,13 +25,13 @@
     import dateTimeUtil from "../../utils/time";
 
     export default {
-        name: "datamodel",
+        name: "ShareData",
         props: {
             datamodel: Object
         },
         data: function () {
             return {
-                share_model : this.datamodel
+                share_model: this.datamodel
             }
         },
         methods: {

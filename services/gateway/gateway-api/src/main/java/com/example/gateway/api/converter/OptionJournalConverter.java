@@ -1,6 +1,6 @@
 package com.example.gateway.api.converter;
 
-import com.example.gateway.api.model.OptionJournalGWModel;
+import com.example.gateway.api.spec.model.OptionJournalGWModel;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
 import com.example.tradelog.api.spec.model.TransactionModel;
 import com.example.tradelog.api.spec.model.TransactionSettingsModel;

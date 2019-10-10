@@ -1,8 +1,8 @@
 package com.example.web.converter;
 
-import com.example.gateway.api.model.ActionGW;
-import com.example.gateway.api.model.OptionTypeGW;
-import com.example.gateway.api.model.OptionJournalGWModel;
+import com.example.gateway.api.spec.model.ActionGW;
+import com.example.gateway.api.spec.model.OptionTypeGW;
+import com.example.gateway.api.spec.model.OptionJournalGWModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;

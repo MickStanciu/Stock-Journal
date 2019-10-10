@@ -1,12 +1,12 @@
 package com.example.web.controller;
 
-import com.example.gateway.api.model.DividendGWModel;
-import com.example.gateway.api.model.OptionJournalGWModel;
-import com.example.gateway.api.model.ShareDataGWModel;
-import com.example.gateway.api.model.ShareJournalGWModel;
-import com.example.gateway.api.model.TradeLogGWModel;
-import com.example.gateway.api.model.TradeSummaryGWModel;
-import com.example.gateway.api.model.TransactionSettingsGWModel;
+import com.example.gateway.api.spec.model.DividendGWModel;
+import com.example.gateway.api.spec.model.OptionJournalGWModel;
+import com.example.gateway.api.spec.model.ShareDataGWModel;
+import com.example.gateway.api.spec.model.ShareJournalGWModel;
+import com.example.gateway.api.spec.model.TradeLogGWModel;
+import com.example.gateway.api.spec.model.TradeSummaryGWModel;
+import com.example.gateway.api.spec.model.TransactionSettingsGWModel;
 import com.example.web.service.TradeJournalService;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;

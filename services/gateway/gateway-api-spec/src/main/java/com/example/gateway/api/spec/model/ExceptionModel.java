@@ -1,6 +1,6 @@
-package com.example.gateway.api.model;
+package com.example.gateway.api.spec.model;
 
-import com.example.gateway.api.exception.ExceptionCode;
+import com.example.gateway.api.spec.exception.ExceptionCode;
 
 import java.time.LocalDateTime;
 

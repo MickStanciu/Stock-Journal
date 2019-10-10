@@ -1,8 +1,8 @@
 package com.example.gateway.api.controller;
 
 import com.example.account.api.spec.model.AccountModel;
-import com.example.gateway.api.exception.ExceptionCode;
-import com.example.gateway.api.exception.GatewayApiException;
+import com.example.gateway.api.spec.exception.ExceptionCode;
+import com.example.gateway.api.spec.exception.GatewayApiException;
 import com.example.gateway.api.service.AccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

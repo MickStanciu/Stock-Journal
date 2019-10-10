@@ -2,7 +2,7 @@ package com.example.gateway.api.service;
 
 import com.example.account.api.spec.model.AccountModel;
 import com.example.gateway.api.gateway.AccountGateway;
-import com.example.gateway.api.model.AuthTokenModel;
+import com.example.gateway.api.spec.model.AuthTokenModel;
 import com.example.gateway.api.security.TokenUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,13 +1,13 @@
 package com.example.gateway.api.controller;
 
-import com.example.gateway.api.exception.ExceptionCode;
-import com.example.gateway.api.exception.GatewayApiException;
-import com.example.gateway.api.model.DividendGWModel;
-import com.example.gateway.api.model.OptionJournalGWModel;
-import com.example.gateway.api.model.ShareJournalGWModel;
-import com.example.gateway.api.model.TradeLogGWModel;
-import com.example.gateway.api.model.TradeSummaryGWModel;
-import com.example.gateway.api.model.TransactionSettingsGWModel;
+import com.example.gateway.api.spec.exception.ExceptionCode;
+import com.example.gateway.api.spec.exception.GatewayApiException;
+import com.example.gateway.api.spec.model.DividendGWModel;
+import com.example.gateway.api.spec.model.OptionJournalGWModel;
+import com.example.gateway.api.spec.model.ShareJournalGWModel;
+import com.example.gateway.api.spec.model.TradeLogGWModel;
+import com.example.gateway.api.spec.model.TradeSummaryGWModel;
+import com.example.gateway.api.spec.model.TransactionSettingsGWModel;
 import com.example.gateway.api.service.TradeLogService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -13,7 +13,7 @@ repositories {
 
 dependencies {
     implementation ("com.google.code.findbugs:jsr305:3.0.2")
-    implementation ("com.fasterxml.jackson.core:jackson-databind:2.9.9.2")
+    implementation ("com.fasterxml.jackson.core:jackson-databind:2.10.0")
     compile("org.immutables:value-annotations:2.7.5")
     compile("org.immutables:builder:2.7.5")
     annotationProcessor("org.immutables:value:2.7.5")

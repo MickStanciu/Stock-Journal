@@ -1,12 +1,12 @@
 package com.example.web.gateway;
 
-import com.example.gateway.api.model.DividendGWModel;
-import com.example.gateway.api.model.OptionJournalGWModel;
-import com.example.gateway.api.model.ShareDataGWModel;
-import com.example.gateway.api.model.ShareJournalGWModel;
-import com.example.gateway.api.model.TradeLogGWModel;
-import com.example.gateway.api.model.TradeSummaryGWModel;
-import com.example.gateway.api.model.TransactionSettingsGWModel;
+import com.example.gateway.api.spec.model.DividendGWModel;
+import com.example.gateway.api.spec.model.OptionJournalGWModel;
+import com.example.gateway.api.spec.model.ShareDataGWModel;
+import com.example.gateway.api.spec.model.ShareJournalGWModel;
+import com.example.gateway.api.spec.model.TradeLogGWModel;
+import com.example.gateway.api.spec.model.TradeSummaryGWModel;
+import com.example.gateway.api.spec.model.TransactionSettingsGWModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
