@@ -99,6 +99,7 @@
 <script>
     import service from '../service';
     import dateTimeUtil from '../utils/time'
+    import moneyUtil from "../utils/money";
     import AddStockTrade from "../components/tradelist/AddStockTrade";
     import DeleteStockTrade from "../components/tradelist/DeleteStockTrade";
     import DeleteOptionTrade from "../components/tradelist/DeleteOptionTrade";
@@ -390,17 +391,7 @@
                 return item.dividend;
             },
 
-            printCurrencyFormat: function (value) {
-                if (typeof value === 'undefined') {
-                    value = 0;
-                }
-                let params = {
-                    style: 'currency',
-                    currency: 'USD',
-                    minimumFractionDigits: 2
-                };
-                return new Intl.NumberFormat('en-US', params).format(value);
-            },
+            printCurrencyFormat: moneyUtil.printCurrencyFormat,
 
             loadStats: function(context) {
                 let totalRealisedPremium = 0;
@@ -433,7 +424,9 @@
                 this.statisticsModel.selected.realisedPremium = selectedRealisedPremium;
                 this.statisticsModel.sharesNumber = sharesNumber;
                 this.statisticsModel.shareAveragePrice = shareAveragePrice;
-                this.statisticsModel.breakEvenPrice = (sharesNumber * shareAveragePrice - selectedRealisedPremium) / sharesNumber;
+                if (sharesNumber !== 0) {
+                    this.statisticsModel.breakEvenPrice = (sharesNumber * shareAveragePrice - selectedRealisedPremium) / sharesNumber;
+                }
             },
 
             loadData: function () {
