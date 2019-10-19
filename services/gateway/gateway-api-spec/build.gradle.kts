@@ -3,7 +3,7 @@ group = "com.example.gateway.api.spec"
 version = "0.0.1-SNAPSHOT"
 
 plugins {
-    kotlin("jvm") version "1.3.50"
+    kotlin("jvm")
 }
 
 repositories {

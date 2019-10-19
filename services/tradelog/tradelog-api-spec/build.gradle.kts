@@ -1,27 +1,39 @@
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
+
 description = "TradeLog API Spec"
 group = "com.example.tradelog.api.spec"
 version = "0.0.1-SNAPSHOT"
 
 plugins {
-    kotlin("jvm") version "1.3.50"
+    kotlin("jvm")
     id ("org.openapi.generator") version "4.1.2"
     checkstyle
 }
 
 repositories {
+    jcenter()
     mavenCentral()
 }
 
 dependencies {
-    implementation(kotlin("stdlib"))
+    implementation (kotlin("stdlib"))
 }
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
-    sourceSets["main"].java {
-        srcDirs("src/main/kotlin")
+}
+
+sourceSets {
+    main {
+        java.srcDir("src/main/java")
+        java.srcDir("src/main/kotlin")
     }
+}
+
+configure<CheckstyleExtension> {
+    configFile = file("${project.rootDir}/config/checkstyle/google_checks.xml")
+    isIgnoreFailures = true
 }
 
 openApiGenerate {
@@ -40,7 +52,3 @@ openApiGenerate {
 //    this.generatorName = "spring" as Property<String>
 //}
 
-configure<CheckstyleExtension> {
-    configFile = file("${project.rootDir}/config/checkstyle/google_checks.xml")
-    isIgnoreFailures = true
-}
