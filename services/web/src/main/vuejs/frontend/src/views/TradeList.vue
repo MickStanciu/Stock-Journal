@@ -36,7 +36,7 @@
 
         <div class="row pb-1 pt-1 table-footer">
             <div class="col-md-2">&nbsp;</div>
-            <div class="col-md-5">Realised premium: {{ printCurrencyFormat(getTotalActivePremium) }}</div>
+            <div class="col-md-5">&nbsp;</div>
             <div class="col-md-1">&nbsp;</div>
             <div class="col-md-2 text-right">{{ printCurrencyFormat(getTotal) }}</div>
             <div class="col-md-2">&nbsp;</div>
@@ -70,7 +70,7 @@
 
         <div class="row pb-1 pt-1 table-footer">
             <div class="col-md-2">&nbsp;</div>
-            <div class="col-md-5">Realised premium: {{ printCurrencyFormat(getTotalActivePremium) }}</div>
+            <div class="col-md-5">&nbsp;</div>
             <div class="col-md-1">&nbsp;</div>
             <div class="col-md-2 text-right">{{ printCurrencyFormat(getTotal) }}</div>
             <div class="col-md-2">&nbsp;</div>
@@ -166,28 +166,8 @@
                 return this.$store.state.isAddErrorEnabled;
             },
             getTotal: function () {
-                let _this = this;
-                let total = 0.00;
-                this.items.forEach(function (item) {
-                    if (item.groupSelected === true) {
-                        total += _this.calculateLineItemTotal(item);
-                    }
-                });
-                return total;
-            },
-            getTotalActivePremium: function () {
-                let _this = this;
-                let totalPremium = 0.00;
-                this.items.forEach(function (item) {
-                    if (item.groupSelected === true) {
-                        if (item.type === 'OPTION') {
-                            totalPremium += _this.calculateOptionLineItemPremium(item);
-                        } else if (item.type === 'DIVIDEND') {
-                            totalPremium += _this.calculateDividendLineItemIncome(item);
-                        }
-                    }
-                });
-                return totalPremium;
+                let context = this;
+                return context.statisticsModel.selected.realisedPremium;
             }
         },
 
@@ -230,6 +210,7 @@
 
             groupSelectClicked : function (item) {
                 item.groupSelected = !item.groupSelected;
+                this.loadStats(this);
             },
 
             syntheticPriceClicked: function () {
@@ -355,40 +336,62 @@
 
             calculateLineItemTotal: function (item) {
                 if (item.type === 'OPTION') {
-                    let transactionValue = 100 * this.calculateOptionLineItemPremium(item) - item.brokerFees;
-                    return parseFloat(transactionValue.toFixed(10));
+                    return this.calculateOptionLineItemPL(item);
                 } else if (item.type === 'SHARE') {
-                    let price = item.price;
-                    if (item.action === 'BUY') {
-                        price = price * -1;
-                    }
-                    return parseFloat((item.quantity * price - item.brokerFees).toFixed(10));
+                   return this.calculateShareLineItemPL(item);
                 } else if (item.type === 'SYNTHETIC_SHARE') {
-                    let price = item.price;
-                    if (item.preferredPrice !== null && item.preferredPrice !== 0.00) {
-                        price = item.preferredPrice;
-                    }
-                    if (item.action === 'BUY') {
-                        price = price * -1;
-                    }
-                    return parseFloat((item.quantity * price - item.brokerFees).toFixed(10));
+                    return this.calculateSyntheticShareLineItemPL(item, true);
                 } else if (item.type === 'DIVIDEND') {
-                    let transactionValue = item.quantity * this.calculateDividendLineItemIncome(item);
-                    return parseFloat(transactionValue.toFixed(10));
+                    return this.calculateDividendLineItemPL(item);
                 }
+                console.error("UNKNOWN TYPE: " + item.type);
                 return 0;
             },
 
-            calculateOptionLineItemPremium: function (item) {
-                let income = item.premium * item.contracts;
+            calculateShareLineItemPL: function (item) {
+                if (item.type !== 'SHARE') {
+                    console.error("Item type is not SHARE");
+                    return 0;
+                }
+
+                let price = item.price;
+                if (item.action === 'BUY') {
+                    price = price * -1;
+                }
+                return parseFloat((item.quantity * price - item.brokerFees).toFixed(10));
+            },
+
+            calculateSyntheticShareLineItemPL: function (item, useAverage) {
+                if (item.type !== 'SYNTHETIC_SHARE') {
+                    console.error("Item type is not SYNTHETIC_SHARE");
+                    return 0;
+                }
+
+                let price = item.price;
+                if (useAverage === true && item.preferredPrice !== null && item.preferredPrice !== 0.00) {
+                    price = item.preferredPrice;
+                }
+                if (item.action === 'BUY') {
+                    price = price * -1;
+                }
+                return parseFloat((item.quantity * price - item.brokerFees).toFixed(10));
+            },
+
+            calculateOptionLineItemPL: function (item) {
+                if (item.type !== 'OPTION') {
+                    console.error("Item type is not OPTION");
+                    return 0;
+                }
+
+                let income = item.premium * item.contracts * 100;
                     if (item.action === 'BUY') {
                         income = income * -1;
                     }
-                return income;
+                return parseFloat((income - item.brokerFees).toFixed(10));
             },
 
-            calculateDividendLineItemIncome: function (item) {
-                return item.dividend;
+            calculateDividendLineItemPL: function (item) {
+                return parseFloat((item.quantity * item.dividend).toFixed(10));
             },
 
             printCurrencyFormat: moneyUtil.printCurrencyFormat,
@@ -400,14 +403,21 @@
                 let shareAveragePrice = 0;
 
                 this.items.forEach(function (item) {
-                    totalRealisedPremium += context.calculateLineItemTotal(item);
+                    if (item.type === 'SYNTHETIC_SHARE') {
+                        totalRealisedPremium += parseFloat(context.calculateSyntheticShareLineItemPL(item, false));
+                    } else {
+                        totalRealisedPremium += parseFloat(context.calculateLineItemTotal(item));
+                    }
 
                     if (item.groupSelected === true) {
-                        selectedRealisedPremium += context.calculateLineItemTotal(item);
+                        if (item.type === 'SYNTHETIC_SHARE') {
+                            selectedRealisedPremium += parseFloat(context.calculateSyntheticShareLineItemPL(item, false));
+                        } else {
+                            selectedRealisedPremium += parseFloat(context.calculateLineItemTotal(item));
+                        }
                     }
 
                     if (item.type === 'SHARE') {
-
                         if (item.action === 'BUY') {
                             sharesNumber += item.quantity;
                         } else {
