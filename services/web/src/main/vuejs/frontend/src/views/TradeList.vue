@@ -166,15 +166,14 @@
                 return this.$store.state.isAddErrorEnabled;
             },
             getTotal: function () {
-                let context = this;
-                return context.statisticsModel.selected.realisedPremium;
+                return this.statisticsModel.selected.realisedPremium;
             }
         },
 
         watch: {
             itemsLoaded: {
                 handler: function (newVal, oldVal) {
-                    console.log("ITEMS LOADED: ", newVal, ' | was ', oldVal);
+                    console.log("ITEMS LOADED");
                     if (newVal === true) {
                         this.loadStats(this);
                     }

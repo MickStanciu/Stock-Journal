@@ -56,6 +56,7 @@ const appService = {
     },
 
     recordShareTrade(dto) {
+        //TODO: bug -> delete takes longer and refresh occurs before that ... need to wait
         return new Promise(resolve => {
             axios
                 .post('/share', dto)
@@ -70,6 +71,7 @@ const appService = {
     },
 
     deleteShareTrade(dto) {
+        //TODO: bug -> delete takes longer and refresh occurs before that ... need to wait
         return new Promise(resolve => {
             axios
                 .delete('/share/' + dto.symbol + '/' + dto.transactionId)
@@ -81,6 +83,7 @@ const appService = {
     },
 
     recordOptionTrade(dto) {
+        //TODO: bug -> delete takes longer and refresh occurs before that ... need to wait
         return new Promise(resolve => {
             axios
                 .post('/option', dto)
@@ -95,6 +98,7 @@ const appService = {
     },
 
     deleteOptionTrade(dto) {
+        //TODO: bug -> delete takes longer and refresh occurs before that ... need to wait
         return new Promise(resolve => {
             axios
                 .delete('/option/' + dto.stockSymbol + '/' + dto.transactionId)
@@ -106,6 +110,7 @@ const appService = {
     },
 
     recordDividendTrade(dto) {
+        //TODO: bug -> delete takes longer and refresh occurs before that ... need to wait
         return new Promise(resolve => {
             axios
                 .post('/dividend', dto)
@@ -120,6 +125,7 @@ const appService = {
     },
 
     deleteDividendRecord(dto) {
+        //TODO: bug -> delete takes longer and refresh occurs before that ... need to wait
         return new Promise(resolve => {
             axios
                 .delete('/dividend/' + dto.symbol + '/' + dto.transactionId)
