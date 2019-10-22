@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
-
 description = "TradeLog API Spec"
 group = "com.example.tradelog.api.spec"
 version = "0.0.1-SNAPSHOT"
