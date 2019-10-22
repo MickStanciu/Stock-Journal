@@ -75,6 +75,11 @@ const appService = {
         return new Promise(resolve => {
             axios
                 .delete('/share/' + dto.symbol + '/' + dto.transactionId)
+                .then(() => {
+                        // console.debug("AXIOS FINISHED");
+                        resolve(null);
+                    }
+                )
                 .catch(error => {
                     console.error(error);
                     resolve(null);
@@ -102,10 +107,15 @@ const appService = {
         return new Promise(resolve => {
             axios
                 .delete('/option/' + dto.stockSymbol + '/' + dto.transactionId)
+                .then(() => {
+                        // console.debug("AXIOS FINISHED");
+                        resolve(null);
+                    }
+                )
                 .catch(error => {
                     console.error(error);
                     resolve(null);
-                })
+                });
         })
     },
 
@@ -125,14 +135,19 @@ const appService = {
     },
 
     deleteDividendRecord(dto) {
-        //TODO: bug -> delete takes longer and refresh occurs before that ... need to wait
         return new Promise(resolve => {
+            // console.debug("DELETING DIVIDEND started");
             axios
                 .delete('/dividend/' + dto.symbol + '/' + dto.transactionId)
+                .then(() => {
+                        // console.debug("AXIOS FINISHED");
+                        resolve(null);
+                    }
+                )
                 .catch(error => {
                     console.error(error);
                     resolve(null);
-                })
+                });
         })
     },
 

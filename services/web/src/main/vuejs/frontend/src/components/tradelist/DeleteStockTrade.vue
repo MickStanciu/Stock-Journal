@@ -39,8 +39,11 @@
             },
 
             submitAndClose: function () {
-                service.deleteShareTrade(this.post.model);
-                this.$store.dispatch('hideModalWithRefresh');
+                service.deleteShareTrade(this.post.model)
+                    .then(() => {
+                        // console.debug("submitAndClose");
+                        this.$store.dispatch('hideModalWithRefresh');
+                    });
             }
         }
     }

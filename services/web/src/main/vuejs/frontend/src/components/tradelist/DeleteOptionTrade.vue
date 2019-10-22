@@ -141,8 +141,11 @@
             },
 
             submitAndClose: function () {
-                service.deleteOptionTrade(this.post.model);
-                this.$store.dispatch('hideModalWithRefresh');
+                service.deleteOptionTrade(this.post.model)
+                    .then(() => {
+                        // console.debug("submitAndClose");
+                        this.$store.dispatch('hideModalWithRefresh');
+                    });
             }
         }
     }
