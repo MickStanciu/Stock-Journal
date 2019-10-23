@@ -155,7 +155,7 @@ const appService = {
         return new Promise(resolve => {
            axios.put('/settings/bulk', settings)
                .then(response => {
-                   console.debug("Bulk Settings saved");
+                   // console.debug("Bulk Settings saved");
                })
                .catch(error => {
                    console.error(error);
@@ -168,7 +168,7 @@ const appService = {
         return new Promise(resolve => {
             axios.put('/settings/' + setting.transactionId, setting)
                 .then(response => {
-                    console.debug("Settings saved");
+                    // console.debug("Settings saved");
                 })
                 .catch(error => {
                     console.error(error);

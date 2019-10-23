@@ -20,10 +20,6 @@
                     <font-awesome-icon icon="plus-circle"/>&nbsp;Dividend
                 </button>
             </div>
-
-            <div class="col">
-                <button type="button" class="btn btn-primary" v-on:click="saveSettingsClicked">Save options</button>
-            </div>
         </div>
 
         <div class="row mt-3 pb-2 pt-2 table-header">
@@ -209,6 +205,14 @@
 
             groupSelectClicked : function (item) {
                 item.groupSelected = !item.groupSelected;
+
+                let settingModel = new SettingsApiModel();
+                settingModel.transactionId = item.transactionId;
+                settingModel.groupSelected = item.groupSelected;
+                settingModel.legClosed = item.legClosed;
+                settingModel.preferredPrice = 0;
+
+                service.saveSetting(settingModel);
                 this.loadStats(this);
             },
 
@@ -224,22 +228,6 @@
 
             addNewDividendTradeClicked: function() {
                 this.$store.dispatch('showAddDividendModal');
-            },
-
-            saveSettingsClicked: function() {
-                let settings = [];
-                this.items.forEach(function (item) {
-                    let settingModel = new SettingsApiModel();
-                    settingModel.transactionId = item.transactionId;
-                    settingModel.groupSelected = item.groupSelected;
-                    settingModel.legClosed = item.legClosed;
-                    settingModel.preferredPrice = 0;
-
-                    if (settingModel.transactionId != null && settingModel.transactionId !== 'undefined' && settingModel.transactionId !== '') {
-                        settings.push(settingModel);
-                    }
-                });
-                service.saveSettings(settings);
             },
 
             rowClass: function (item, idx) {
