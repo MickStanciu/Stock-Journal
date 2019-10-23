@@ -68,7 +68,7 @@ CREATE TABLE option_log
     contract_number INTEGER,
     premium         FLOAT,
     action_fk       VARCHAR(32) REFERENCES action (name),
-    option_type_fk  VARCHAR(32) REFERENCES option_type (name),
+    option_type_fk  VARCHAR(32) REFERENCES option_type (name)
 );
 
 
