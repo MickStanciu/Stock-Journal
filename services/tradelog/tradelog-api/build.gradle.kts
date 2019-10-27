@@ -1,5 +1,6 @@
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import com.google.protobuf.gradle.*
 
 description = "TradeLog API"
 group = "com.example.tradelog.api"
@@ -8,6 +9,7 @@ version = "0.0.1-SNAPSHOT"
 plugins {
     kotlin ("jvm")
 //    kotlin ("plugin.spring") version "1.3.50"
+    id ("com.google.protobuf")
     id ("io.spring.dependency-management")
     id ("org.springframework.boot")
     id ("application")
@@ -22,11 +24,13 @@ val flywayDbVersion = "5.2.4"
 val postgreSqlVersion = "42.2.5"
 val junitVersion = "5.4.2"
 val jacksonKotlinVersion = "2.10.0"
+val protobufVersion = "3.10.0"
 
 dependencies {
     implementation (kotlin("stdlib"))
     implementation (project(":services:common"))
     implementation (project(":services:tradelog:tradelog-api-spec"))
+    implementation ("com.google.protobuf:protobuf-java:$protobufVersion")
 
     implementation("org.springframework.boot:spring-boot-starter-web") {
         exclude("org.springframework.boot:spring-boot-starter-tomcat")
@@ -58,6 +62,7 @@ sourceSets {
     main {
         java.srcDir("src/main/java")
         java.srcDir("src/main/kotlin")
+        java.srcDir("build/generated/source/proto/main")
     }
 }
 
@@ -76,5 +81,12 @@ tasks.test {
     useJUnitPlatform()
     testLogging {
         events = setOf(TestLogEvent.PASSED, TestLogEvent.FAILED, TestLogEvent.SKIPPED)
+    }
+}
+
+protobuf {
+    protoc {
+        // The artifact spec for the Protobuf Compiler
+        artifact = "com.google.protobuf:protoc:3.10.0"
     }
 }

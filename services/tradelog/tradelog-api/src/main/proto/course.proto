@@ -1,0 +1,17 @@
+syntax = "proto3";
+package baboon;
+
+option java_multiple_files = true;
+option java_package = "com.example.tradelog.api.gen";
+option java_outer_classname = "BaboonTraining";
+
+message Course {
+    int32 id = 1;
+    string name = 2;
+}
+
+message Man {
+    string name = 1;
+}
+
+
