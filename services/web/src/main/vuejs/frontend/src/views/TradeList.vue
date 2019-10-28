@@ -201,6 +201,15 @@
 
             legClosedClicked: function(item) {
                 item.legClosed = !item.legClosed;
+
+                let settingModel = new SettingsApiModel();
+                settingModel.transactionId = item.transactionId;
+                settingModel.groupSelected = item.groupSelected;
+                settingModel.legClosed = item.legClosed;
+                settingModel.preferredPrice = 0;
+
+                service.saveSetting(settingModel);
+                this.loadStats(this);
             },
 
             groupSelectClicked : function (item) {
