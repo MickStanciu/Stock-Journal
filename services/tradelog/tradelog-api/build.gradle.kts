@@ -25,12 +25,14 @@ val postgreSqlVersion = "42.2.5"
 val junitVersion = "5.4.2"
 val jacksonKotlinVersion = "2.10.0"
 val protobufVersion = "3.10.0"
+val protobufJavaFormatVersion = "1.4"
 
 dependencies {
     implementation (kotlin("stdlib"))
     implementation (project(":services:common"))
     implementation (project(":services:tradelog:tradelog-api-spec"))
     implementation ("com.google.protobuf:protobuf-java:$protobufVersion")
+    implementation ("com.google.protobuf:protobuf-java-util:$protobufVersion")
 
     implementation("org.springframework.boot:spring-boot-starter-web") {
         exclude("org.springframework.boot:spring-boot-starter-tomcat")
