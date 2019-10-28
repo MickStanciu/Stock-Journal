@@ -25,7 +25,6 @@ val postgreSqlVersion = "42.2.5"
 val junitVersion = "5.4.2"
 val jacksonKotlinVersion = "2.10.0"
 val protobufVersion = "3.10.0"
-val protobufJavaFormatVersion = "1.4"
 
 dependencies {
     implementation (kotlin("stdlib"))
