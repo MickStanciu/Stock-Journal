@@ -1,0 +1,89 @@
+syntax = "proto3";
+package tradelog_api;
+
+option java_multiple_files = true;
+option java_package = "com.example.tradelog.api.proto3.model";
+
+enum ActionType {
+    SELL = 0;
+    BUY = 1;
+}
+
+enum OptionType {
+    PUT = 0;
+    CALL = 1;
+}
+
+enum TransactionType {
+    SHARE = 0;
+    SYNTHETIC_SHARE = 1;
+    OPTION = 2;
+    DIVIDEND = 3;
+}
+
+message TransactionSettingsModel {
+    string transactionId = 1;
+    double preferredPrice = 2;
+    bool groupSelected = 3;
+    bool legClosed = 4;
+}
+
+message TransactionModel {
+    string id = 1;
+    string accountId = 2;
+    string date = 3;
+    string symbol = 4;
+    double brokerFees = 5;
+    TransactionType type = 6;
+    TransactionSettingsModel settings = 7;
+}
+
+message OptionJournalModel {
+    TransactionModel transactionDetails = 1;
+    double stockPrice = 2;
+    double strikePrice = 3;
+    string expiryDate = 4;
+    int32 contracts = 5;
+    double premium = 6;
+    ActionType actionType = 7;
+    OptionType optionType = 8;
+}
+
+message OptionTransactionsResponse {
+    repeated OptionJournalModel optionItems = 1;
+}
+
+message ShareJournalModel {
+    TransactionModel transactionDetails = 1;
+    double price = 2;
+    double actualPrice = 3;
+    int32 quantity = 4;
+    ActionType actionType = 5;
+}
+
+message ShareTransactionsResponse {
+    repeated ShareJournalModel shareItems = 1;
+}
+
+message DividendJournalModel {
+    TransactionModel transactionDetails = 1;
+    double dividend = 2;
+    int32 quantity = 3;
+}
+
+message DividendTransactionsResponse {
+    repeated DividendJournalModel dividendItems = 1;
+}
+
+message TradeLogModel {
+    repeated ShareJournalModel shareList = 1;
+    repeated OptionJournalModel optionList = 2;
+    repeated DividendJournalModel dividendList = 3;
+}
+
+message TradeSummaryModel {
+    string symbol = 1;
+    int32 trades = 2;
+    int32 total = 3;
+}
+
