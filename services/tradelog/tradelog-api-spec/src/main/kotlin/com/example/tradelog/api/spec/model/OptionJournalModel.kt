@@ -9,6 +9,6 @@ class OptionJournalModel(
         val expiryDate: OffsetDateTime,
         val contracts: Int,
         val premium: Double,
-        val action: Action,
+        val action: ActionType,
         val optionType: OptionType
 )

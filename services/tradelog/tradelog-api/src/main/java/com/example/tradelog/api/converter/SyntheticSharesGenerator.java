@@ -1,6 +1,6 @@
 package com.example.tradelog.api.converter;
 
-import com.example.tradelog.api.spec.model.Action;
+import com.example.tradelog.api.spec.model.ActionType;
 import com.example.tradelog.api.spec.model.ShareJournalModel;
 import com.example.tradelog.api.spec.model.TransactionModel;
 import com.example.tradelog.api.spec.model.TransactionSettingsModel;
@@ -23,7 +23,7 @@ public class SyntheticSharesGenerator {
                 .filter(f -> !f.getTransactionDetails().getSettings().getLegClosed())
                 .forEach(s -> {
                     int quantity;
-                    if (Action.BUY == s.getAction()) {
+                    if (ActionType.BUY == s.getAction()) {
                         quantity = s.getQuantity();
                     } else {
                         quantity = s.getQuantity() * -1;
@@ -49,9 +49,9 @@ public class SyntheticSharesGenerator {
 
                 double averageBoughtPrice = aggregator.getAverageBoughtPrice();
 
-                Action syntheticAction = Action.SELL;
+                ActionType syntheticActionType = ActionType.SELL;
                 if (aggregator.getQuantity() < 0) {
-                    syntheticAction = Action.BUY;
+                    syntheticActionType = ActionType.BUY;
                 }
 
                 TransactionSettingsModel optionsModel = new TransactionSettingsModel("", aggregator.getPreferredPrice(), true, false);
@@ -67,7 +67,7 @@ public class SyntheticSharesGenerator {
 
 
                 synthetics.add(new ShareJournalModel(transactionModel, averageBoughtPrice, aggregator.getActualPrice(),
-                        Math.abs(aggregator.getQuantity()), syntheticAction));
+                        Math.abs(aggregator.getQuantity()), syntheticActionType));
             }
         });
 

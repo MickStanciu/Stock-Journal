@@ -1,7 +1,7 @@
 package com.example.tradelog.api.repository;
 
 import com.example.common.converter.TimeConversion;
-import com.example.tradelog.api.spec.model.Action;
+import com.example.tradelog.api.spec.model.ActionType;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
 import com.example.tradelog.api.spec.model.OptionType;
 import com.example.tradelog.api.spec.model.TransactionModel;
@@ -22,7 +22,7 @@ public class OptionJournalModelRowMapper implements RowMapper<OptionJournalModel
                 TimeConversion.fromTimestamp(rs.getTimestamp("expiry_date")),
                 rs.getInt("contract_number"),
                 rs.getDouble("premium"),
-                Action.Companion.lookup(rs.getString("action_fk")),
+                ActionType.Companion.lookup(rs.getString("action_fk")),
                 OptionType.Companion.lookup(rs.getString("option_type_fk")));
     }
 }

@@ -1,7 +1,7 @@
 package com.example.gateway.api.converter;
 
 import com.example.gateway.api.spec.model.OptionJournalGWModel;
-import com.example.tradelog.api.spec.model.Action;
+import com.example.tradelog.api.spec.model.ActionType;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
 import com.example.tradelog.api.spec.model.OptionType;
 import com.example.tradelog.api.spec.model.TransactionModel;
@@ -18,7 +18,7 @@ class OptionJournalConverterTest {
     void testConverter() {
         TransactionSettingsModel settingsModel = new TransactionSettingsModel("1234", 44.00, false, false);
         TransactionModel transactionModel = new TransactionModel("1234", "123", OffsetDateTime.now(), "XYZ", TransactionType.OPTION, 6.1f, settingsModel);
-        OptionJournalModel model = new OptionJournalModel(transactionModel, 1.1f, 2.1f, OffsetDateTime.now(), 1, 5.1f, Action.SELL, OptionType.PUT);
+        OptionJournalModel model = new OptionJournalModel(transactionModel, 1.1f, 2.1f, OffsetDateTime.now(), 1, 5.1f, ActionType.SELL, OptionType.PUT);
 
         OptionJournalGWModel gwModel = OptionJournalConverter.toOptionGWModel.apply(model);
 

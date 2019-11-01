@@ -1,6 +1,6 @@
 package com.example.tradelog.api.validator;
 
-import com.example.tradelog.api.spec.model.Action;
+import com.example.tradelog.api.spec.model.ActionType;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
 import com.example.tradelog.api.spec.model.OptionType;
 import com.example.tradelog.api.spec.model.TransactionModel;
@@ -22,7 +22,7 @@ class ValidateOptionJournalModelTest {
     void testValidateOptionJournalModelWhenActionIsInvalid() {
         TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
         TransactionModel transactionModel = new TransactionModel("1234", "", OffsetDateTime.now(), "XYZ", TransactionType.OPTION, 6.1f, transactionSettingsModel);
-        OptionJournalModel model = new OptionJournalModel(transactionModel, 1.1f, 2.1f, OffsetDateTime.now(), 1, 5.1f, Action.UNKNOWN, OptionType.PUT);
+        OptionJournalModel model = new OptionJournalModel(transactionModel, 1.1f, 2.1f, OffsetDateTime.now(), 1, 5.1f, ActionType.UNKNOWN, OptionType.PUT);
 
         Assertions.assertFalse(RequestValidation.validateOptionJournalModel.test(model));
     }
@@ -31,7 +31,7 @@ class ValidateOptionJournalModelTest {
     void testValidateOptionJournalModelWhenActionTypeIsUnknown() {
         TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
         TransactionModel transactionModel = new TransactionModel("1234", "", OffsetDateTime.now(), "XYZ", TransactionType.OPTION, 6.1f, transactionSettingsModel);
-        OptionJournalModel model = new OptionJournalModel(transactionModel, 1.1f, 2.1f, OffsetDateTime.now(), 1, 5.1f, Action.BUY, OptionType.UNKNOWN);
+        OptionJournalModel model = new OptionJournalModel(transactionModel, 1.1f, 2.1f, OffsetDateTime.now(), 1, 5.1f, ActionType.BUY, OptionType.UNKNOWN);
         Assertions.assertFalse(RequestValidation.validateOptionJournalModel.test(model));
     }
 
@@ -39,7 +39,7 @@ class ValidateOptionJournalModelTest {
     void testValidateOptionJournalModelWhenStockPriceIsNegative() {
         TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
         TransactionModel transactionModel = new TransactionModel("1234", "", OffsetDateTime.now(), "XYZ", TransactionType.OPTION, 6.1f, transactionSettingsModel);
-        OptionJournalModel model = new OptionJournalModel(transactionModel, -1, 2.1f, OffsetDateTime.now(), 1, 5.1f, Action.BUY, OptionType.PUT);
+        OptionJournalModel model = new OptionJournalModel(transactionModel, -1, 2.1f, OffsetDateTime.now(), 1, 5.1f, ActionType.BUY, OptionType.PUT);
 
         Assertions.assertFalse(RequestValidation.validateOptionJournalModel.test(model));
     }
@@ -48,7 +48,7 @@ class ValidateOptionJournalModelTest {
     void testValidateOptionJournalModelWhenContractsIsZero() {
         TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
         TransactionModel transactionModel = new TransactionModel("1234", "", OffsetDateTime.now(), "XYZ", TransactionType.OPTION, 6.1f, transactionSettingsModel);
-        OptionJournalModel model = new OptionJournalModel(transactionModel, 44.55, 2.1f, OffsetDateTime.now(), 0, 5.1f, Action.BUY, OptionType.PUT);
+        OptionJournalModel model = new OptionJournalModel(transactionModel, 44.55, 2.1f, OffsetDateTime.now(), 0, 5.1f, ActionType.BUY, OptionType.PUT);
 
         Assertions.assertFalse(RequestValidation.validateOptionJournalModel.test(model));
     }
@@ -57,7 +57,7 @@ class ValidateOptionJournalModelTest {
     void testValidateOptionJournalModelWhenSymbolIsEmpty() {
         TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
         TransactionModel transactionModel = new TransactionModel("1234", "", OffsetDateTime.now(), "", TransactionType.OPTION, 6.1f, transactionSettingsModel);
-        OptionJournalModel model = new OptionJournalModel(transactionModel, 44.55, 2.1f, OffsetDateTime.now(), 1, 5.1f, Action.BUY, OptionType.PUT);
+        OptionJournalModel model = new OptionJournalModel(transactionModel, 44.55, 2.1f, OffsetDateTime.now(), 1, 5.1f, ActionType.BUY, OptionType.PUT);
 
         Assertions.assertFalse(RequestValidation.validateOptionJournalModel.test(model));
     }
@@ -66,7 +66,7 @@ class ValidateOptionJournalModelTest {
     void testValidateOptionJournalModelWhenSymbolIsSpace() {
         TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
         TransactionModel transactionModel = new TransactionModel("1234", "", OffsetDateTime.now(), " ", TransactionType.OPTION, 6.1f, transactionSettingsModel);
-        OptionJournalModel model = new OptionJournalModel(transactionModel, 44.55, 2.1f, OffsetDateTime.now(), 1, 5.1f, Action.BUY, OptionType.PUT);
+        OptionJournalModel model = new OptionJournalModel(transactionModel, 44.55, 2.1f, OffsetDateTime.now(), 1, 5.1f, ActionType.BUY, OptionType.PUT);
 
         Assertions.assertFalse(RequestValidation.validateOptionJournalModel.test(model));
     }
@@ -75,7 +75,7 @@ class ValidateOptionJournalModelTest {
     void testValidateOptionJournalModelTruthy() {
         TransactionSettingsModel transactionSettingsModel = new TransactionSettingsModel("1234", 0.00, false, false);
         TransactionModel transactionModel = new TransactionModel("1234", "123456789012345678901234567890123456", OffsetDateTime.now(), "XYZ", TransactionType.OPTION, 0, transactionSettingsModel);
-        OptionJournalModel model = new OptionJournalModel(transactionModel, 44.55, 55, OffsetDateTime.now(), 1, 1.5, Action.BUY, OptionType.CALL);
+        OptionJournalModel model = new OptionJournalModel(transactionModel, 44.55, 55, OffsetDateTime.now(), 1, 1.5, ActionType.BUY, OptionType.CALL);
 
         Assertions.assertTrue(RequestValidation.validateOptionJournalModel.test(model));
     }
