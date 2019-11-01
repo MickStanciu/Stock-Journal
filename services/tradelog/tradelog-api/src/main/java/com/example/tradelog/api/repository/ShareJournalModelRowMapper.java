@@ -1,6 +1,8 @@
 package com.example.tradelog.api.repository;
 
-import com.example.tradelog.api.spec.model.*;
+import com.example.tradelog.api.spec.model.ActionType;
+import com.example.tradelog.api.spec.model.ShareJournalModel;
+import com.example.tradelog.api.spec.model.TransactionModel;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -19,7 +21,7 @@ public class ShareJournalModelRowMapper implements RowMapper<ShareJournalModel> 
         }
 
         return new ShareJournalModel(transactionModel, price, actualPrice,
-                rs.getInt("quantity"), Action.Companion.lookup(rs.getString("action_fk")));
+                rs.getInt("quantity"), ActionType.Companion.lookup(rs.getString("action_fk")));
     }
 
 }

@@ -1,6 +1,6 @@
 package com.example.tradelog.api.repository;
 
-import com.example.tradelog.api.spec.model.Action;
+import com.example.tradelog.api.spec.model.ActionType;
 import com.example.tradelog.api.spec.model.TradeSummaryModel;
 import com.example.tradelog.api.spec.model.TransactionType;
 import org.springframework.jdbc.core.RowMapper;
@@ -27,11 +27,11 @@ public class TradeSummaryModelRowMapper implements RowMapper<TradeSummaryModel> 
     }
 
     private TradeSummaryModel fromStock(ResultSet rs) throws SQLException {
-        Action action = Action.Companion.lookup(rs.getString("action_fk"));
+        ActionType actionType = ActionType.Companion.lookup(rs.getString("action_fk"));
 
         BigDecimal price = BigDecimal.valueOf(rs.getDouble("price"));
 
-        if (Action.BUY.equals(action)) {
+        if (ActionType.BUY.equals(actionType)) {
             price = price.negate();
         }
 
@@ -45,9 +45,9 @@ public class TradeSummaryModelRowMapper implements RowMapper<TradeSummaryModel> 
         BigDecimal premium = BigDecimal.valueOf(rs.getDouble("premium"));
         BigDecimal fees = BigDecimal.valueOf(rs.getDouble("broker_fees"));
         BigDecimal quantity = BigDecimal.valueOf(rs.getInt("contract_number"));
-        Action action = Action.valueOf(rs.getString("action_fk"));
+        ActionType actionType = ActionType.valueOf(rs.getString("action_fk"));
 
-        if (action.equals(Action.BUY)) {
+        if (actionType.equals(ActionType.BUY)) {
             premium = premium.multiply(BigDecimal.valueOf(-1));
         }
 

@@ -1,7 +1,7 @@
 package com.example.tradelog.api.validator;
 
 import com.example.common.validator.FieldValidator;
-import com.example.tradelog.api.spec.model.Action;
+import com.example.tradelog.api.spec.model.ActionType;
 import com.example.tradelog.api.spec.model.DividendJournalModel;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
 import com.example.tradelog.api.spec.model.OptionType;
@@ -93,7 +93,7 @@ public class RequestValidation extends FieldValidator {
             && symbol.test(s.getTransactionDetails().getSymbol())
             && RequestValidation.accountId.test(s.getTransactionDetails().getAccountId())
             && s.getAction() != null
-            && s.getAction() != Action.UNKNOWN
+            && s.getAction() != ActionType.UNKNOWN
             && s.getPrice() >= 0.00
             && s.getQuantity() >= 1;
 
@@ -104,7 +104,7 @@ public class RequestValidation extends FieldValidator {
             && symbol.test(s.getTransactionDetails().getSymbol())
             && RequestValidation.accountId.test(s.getTransactionDetails().getAccountId())
             && s.getAction() != null
-            && s.getAction() != Action.UNKNOWN
+            && s.getAction() != ActionType.UNKNOWN
             && (s.getOptionType() == OptionType.CALL || s.getOptionType() == OptionType.PUT)
             && s.getContracts() > 0
             && s.getPremium() >= 0

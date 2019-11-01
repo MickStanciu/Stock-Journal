@@ -5,5 +5,5 @@ class ShareJournalModel(
         val price: Double,
         val actualPrice: Double,
         val quantity: Int,
-        val action: Action
+        val action: ActionType
 )
