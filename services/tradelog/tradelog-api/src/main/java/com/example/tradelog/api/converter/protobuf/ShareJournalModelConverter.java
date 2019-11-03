@@ -10,7 +10,7 @@ public class ShareJournalModelConverter {
                 protoModel.getPrice(),
                 protoModel.getActualPrice(),
                 protoModel.getQuantity(),
-                ActionTypeConverter.toModel.apply(protoModel.getActionType())
+                ActionTypeConverter.toModel.apply(protoModel.getAction())
         );
     };
 
@@ -20,7 +20,7 @@ public class ShareJournalModelConverter {
                 .setPrice(apiModel.getPrice())
                 .setActualPrice(apiModel.getActualPrice())
                 .setQuantity(apiModel.getQuantity())
-                .setActionType(ActionTypeConverter.toProto.apply(apiModel.getAction()))
+                .setAction(ActionTypeConverter.toProto.apply(apiModel.getAction()))
                 .build();
     };
 }

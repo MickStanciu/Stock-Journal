@@ -19,6 +19,13 @@ public class TransactionModelConverter {
 
     public static Function<com.example.tradelog.api.spec.model.TransactionModel, com.example.tradelog.api.proto3.model.TransactionModel> toProto = apiModel -> {
         return com.example.tradelog.api.proto3.model.TransactionModel.newBuilder()
+                .setId(apiModel.getId())
+                .setAccountId(apiModel.getAccountId())
+                .setDate(apiModel.getDate().toString())
+                .setSymbol(apiModel.getSymbol())
+                .setType(TransactionTypeConverter.toProto.apply(apiModel.getType()))
+                .setBrokerFees(apiModel.getBrokerFees())
+                .setSettings(TransactionSettinsModelConverter.toProto.apply(apiModel.getSettings()))
                 .build();
     };
 }

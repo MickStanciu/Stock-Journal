@@ -11,4 +11,13 @@ public class TransactionSettinsModelConverter {
                 protoModel.getLegClosed()
         );
     };
+
+    public static Function<com.example.tradelog.api.spec.model.TransactionSettingsModel, com.example.tradelog.api.proto3.model.TransactionSettingsModel> toProto = apiModel -> {
+        return com.example.tradelog.api.proto3.model.TransactionSettingsModel.newBuilder()
+                .setTransactionId(apiModel.getTransactionId())
+                .setPreferredPrice(apiModel.getPreferredPrice())
+                .setGroupSelected(apiModel.getGroupSelected())
+                .setLegClosed(apiModel.getLegClosed())
+                .build();
+    };
 }

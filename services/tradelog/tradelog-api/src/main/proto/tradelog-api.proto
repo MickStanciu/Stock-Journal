@@ -9,16 +9,16 @@ enum ActionType {
     BUY = 1;
 }
 
-enum OptionType {
-    PUT = 0;
-    CALL = 1;
-}
-
 enum TransactionType {
     SHARE = 0;
     SYNTHETIC_SHARE = 1;
     OPTION = 2;
     DIVIDEND = 3;
+}
+
+enum OptionType {
+    PUT = 0;
+    CALL = 1;
 }
 
 message TransactionSettingsModel {
@@ -45,7 +45,7 @@ message OptionJournalModel {
     string expiryDate = 4;
     int32 contracts = 5;
     double premium = 6;
-    ActionType actionType = 7;
+    ActionType action = 7;
     OptionType optionType = 8;
 }
 
@@ -58,7 +58,7 @@ message ShareJournalModel {
     double price = 2;
     double actualPrice = 3;
     int32 quantity = 4;
-    ActionType actionType = 5;
+    ActionType action = 5;
 }
 
 message ShareTransactionsResponse {

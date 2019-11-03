@@ -30,7 +30,7 @@ class TransactionModelRowMapper {
 
         return new TransactionModel(
                 rs.getString("id"),
-                "",
+                rs.getString("account_fk"),
                 TimeConverter.fromTimestamp(rs.getTimestamp("date")),
                 rs.getString("symbol"),
                 TransactionType.Companion.lookup(rs.getString("transaction_type_fk")),
