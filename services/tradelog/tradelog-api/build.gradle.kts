@@ -1,6 +1,7 @@
+import com.google.protobuf.gradle.protobuf
+import com.google.protobuf.gradle.protoc
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import com.google.protobuf.gradle.*
 
 description = "TradeLog API"
 group = "com.example.tradelog.api"
@@ -63,7 +64,7 @@ sourceSets {
     main {
         java.srcDir("src/main/java")
         java.srcDir("src/main/kotlin")
-        java.srcDir("build/generated/source/proto/main")
+        java.srcDir("build/generated/source/proto/main/java")
     }
 }
 

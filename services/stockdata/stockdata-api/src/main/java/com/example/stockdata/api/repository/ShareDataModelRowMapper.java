@@ -1,6 +1,6 @@
 package com.example.stockdata.api.repository;
 
-import com.example.common.converter.TimeConversion;
+import com.example.common.converter.TimeConverter;
 import com.example.stockdata.api.spec.model.ShareDataModel;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -13,7 +13,7 @@ public class ShareDataModelRowMapper implements RowMapper<ShareDataModel> {
     public ShareDataModel mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new ShareDataModel.Builder()
                 .withSymbol(rs.getString("symbol"))
-                .withLastUpdatedOn(TimeConversion.fromTimestamp(rs.getTimestamp("last_updated_on")))
+                .withLastUpdatedOn(TimeConverter.fromTimestamp(rs.getTimestamp("last_updated_on")))
                 .withSector(rs.getString("sector"))
                 .withPrice(rs.getDouble("price"))
                 .withMarketCapitalization(rs.getDouble("market_cap_b"))

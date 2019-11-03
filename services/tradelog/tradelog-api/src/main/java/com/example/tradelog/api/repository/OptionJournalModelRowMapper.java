@@ -1,6 +1,6 @@
 package com.example.tradelog.api.repository;
 
-import com.example.common.converter.TimeConversion;
+import com.example.common.converter.TimeConverter;
 import com.example.tradelog.api.spec.model.ActionType;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
 import com.example.tradelog.api.spec.model.OptionType;
@@ -19,7 +19,7 @@ public class OptionJournalModelRowMapper implements RowMapper<OptionJournalModel
         return new OptionJournalModel(transactionModel,
                 rs.getDouble("stock_price"),
                 rs.getDouble("strike_price"),
-                TimeConversion.fromTimestamp(rs.getTimestamp("expiry_date")),
+                TimeConverter.fromTimestamp(rs.getTimestamp("expiry_date")),
                 rs.getInt("contract_number"),
                 rs.getDouble("premium"),
                 ActionType.Companion.lookup(rs.getString("action_fk")),

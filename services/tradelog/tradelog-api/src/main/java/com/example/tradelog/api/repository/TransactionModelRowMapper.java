@@ -1,6 +1,6 @@
 package com.example.tradelog.api.repository;
 
-import com.example.common.converter.TimeConversion;
+import com.example.common.converter.TimeConverter;
 import com.example.tradelog.api.spec.model.TransactionModel;
 import com.example.tradelog.api.spec.model.TransactionSettingsModel;
 import com.example.tradelog.api.spec.model.TransactionType;
@@ -31,7 +31,7 @@ class TransactionModelRowMapper {
         return new TransactionModel(
                 rs.getString("id"),
                 "",
-                TimeConversion.fromTimestamp(rs.getTimestamp("date")),
+                TimeConverter.fromTimestamp(rs.getTimestamp("date")),
                 rs.getString("symbol"),
                 TransactionType.Companion.lookup(rs.getString("transaction_type_fk")),
                 rs.getDouble("broker_fees"),

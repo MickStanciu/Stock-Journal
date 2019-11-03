@@ -1,6 +1,6 @@
 package com.example.stockdata.api.repository;
 
-import com.example.common.converter.TimeConversion;
+import com.example.common.converter.TimeConverter;
 import com.example.stockdata.api.spec.model.ShareDataModel;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -52,7 +52,7 @@ public class ShareDataRepository {
         return jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(SET_FOR_SYMBOL);
             ps.setString(1, symbol);
-            ps.setTimestamp(2, TimeConversion.fromOffsetDateTime(model.getLastUpdatedOn()));
+            ps.setTimestamp(2, TimeConverter.fromOffsetDateTime(model.getLastUpdatedOn()));
             ps.setString(3, model.getSector());
             ps.setDouble(4, model.getMarketCapitalization());
             ps.setDouble(5, model.getPeRatio());

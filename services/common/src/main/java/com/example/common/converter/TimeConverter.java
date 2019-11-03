@@ -1,11 +1,16 @@
 package com.example.common.converter;
 
 import java.sql.Timestamp;
-import java.time.*;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.function.Function;
 
-public class TimeConversion {
+public class TimeConverter {
 
     public static LocalDateTime fromString(String inputDate) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneOffset.UTC);
@@ -40,4 +45,10 @@ public class TimeConversion {
         return OffsetDateTime.ofInstant(
                 Instant.ofEpochMilli(timestamp.getTime()), ZoneId.systemDefault());
     }
+
+    public static Function<String, OffsetDateTime> toOffsetDateTime = string -> {
+        //TODO: NOT IMPLEMENTED
+        System.out.println("> " + string);
+        return OffsetDateTime.now();
+    };
 }

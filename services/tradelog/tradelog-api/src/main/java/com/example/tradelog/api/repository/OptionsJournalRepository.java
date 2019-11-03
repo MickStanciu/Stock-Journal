@@ -1,6 +1,6 @@
 package com.example.tradelog.api.repository;
 
-import com.example.common.converter.TimeConversion;
+import com.example.common.converter.TimeConverter;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
 import com.example.tradelog.api.spec.model.TradeSummaryModel;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -133,7 +133,7 @@ public class OptionsJournalRepository {
             ps.setString(1, id);
             ps.setDouble(2, model.getStockPrice());
             ps.setDouble(3, model.getStrikePrice());
-            ps.setTimestamp(4, TimeConversion.fromOffsetDateTime(model.getExpiryDate()));
+            ps.setTimestamp(4, TimeConverter.fromOffsetDateTime(model.getExpiryDate()));
             ps.setInt(5, model.getContracts());
             ps.setDouble(6, model.getPremium());
             ps.setString(7, model.getAction().name());

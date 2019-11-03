@@ -1,4 +1,4 @@
-package com.example.tradelog.api.controller;
+package com.example.tradelog.api.controller.v1;
 
 import com.example.tradelog.api.exception.TradeLogException;
 import com.example.tradelog.api.facade.JournalFacade;

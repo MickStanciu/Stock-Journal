@@ -1,0 +1,11 @@
+package com.example.tradelog.api.converter.protobuf;
+
+
+import java.util.function.Function;
+
+public class TransactionTypeConverter {
+
+    public static Function<com.example.tradelog.api.proto3.model.TransactionType, com.example.tradelog.api.spec.model.TransactionType> toModel = protoModel -> {
+      return com.example.tradelog.api.spec.model.TransactionType.Companion.lookup(protoModel.name());
+    };
+}

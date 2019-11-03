@@ -1,6 +1,6 @@
 package com.example.tradelog.api.repository;
 
-import com.example.common.converter.TimeConversion;
+import com.example.common.converter.TimeConverter;
 import com.example.tradelog.api.spec.model.TransactionModel;
 import com.example.tradelog.api.spec.model.TransactionSettingsModel;
 import com.example.tradelog.api.spec.model.TransactionType;
@@ -65,7 +65,7 @@ public class TransactionRepository {
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(JOURNAL_CREATE_TRANSACTION_FOR_ACCOUNT, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, model.getAccountId());
-            ps.setTimestamp(2, TimeConversion.fromOffsetDateTime(model.getDate()));
+            ps.setTimestamp(2, TimeConverter.fromOffsetDateTime(model.getDate()));
             ps.setString(3, model.getSymbol());
             ps.setString(4, model.getType().name());
             ps.setDouble(5, model.getBrokerFees());
