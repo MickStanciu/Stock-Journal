@@ -46,9 +46,5 @@ public class TimeConverter {
                 Instant.ofEpochMilli(timestamp.getTime()), ZoneId.systemDefault());
     }
 
-    public static Function<String, OffsetDateTime> toOffsetDateTime = string -> {
-        //TODO: NOT IMPLEMENTED
-        System.out.println("> " + string);
-        return OffsetDateTime.now();
-    };
+    public static Function<String, OffsetDateTime> toOffsetDateTime = OffsetDateTime::parse;
 }
