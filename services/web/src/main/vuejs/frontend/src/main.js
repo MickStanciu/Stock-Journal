@@ -3,20 +3,23 @@ import store from './vuex/index'
 import Vuex from 'vuex'
 import App from './App.vue'
 import router from './router'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
-import { faLockOpen } from '@fortawesome/free-solid-svg-icons'
-import { faUnlock } from '@fortawesome/free-solid-svg-icons'
-import { faCalculator } from '@fortawesome/free-solid-svg-icons'
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons'
-import { faDollarSign } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import {library} from '@fortawesome/fontawesome-svg-core'
+import {
+    faCalculator,
+    faDollarSign,
+    faEdit,
+    faLockOpen,
+    faPlusCircle,
+    faTrashAlt,
+    faUnlock
+} from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
-library.add(faTrashAlt, faLockOpen, faUnlock, faCalculator, faPlusCircle, faDollarSign);
+library.add(faTrashAlt, faLockOpen, faUnlock, faCalculator, faPlusCircle, faDollarSign, faEdit);
 Vue.config.productionTip = false;
 Vue.use(Vuex);
 

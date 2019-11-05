@@ -54,6 +54,7 @@
                         </template>
                         <font-awesome-icon icon="calculator" class="action-icon" v-on:click="groupSelectClicked(item)" v-bind:class="[item.groupSelected ? 'item-active' : 'item-not-active']"></font-awesome-icon>
                         <font-awesome-icon icon="trash-alt" class="action-icon" v-on:click="deleteRecordClicked(item)"></font-awesome-icon>
+                        <font-awesome-icon icon="edit" class="action-icon" v-on:click="editRecordClicked(item)"></font-awesome-icon>
                     </template>
 
                     <template v-else>
@@ -196,6 +197,14 @@
                     } else {
                         console.error("Clicked on unknown type: " + this.selectedModel.type);
                     }
+                }
+            },
+
+            editRecordClicked: function(item) {
+                this.selectedModel = item;
+
+                if ("SHARE" === this.selectedModel.type) {
+                    this.$store.dispatch('showEditStockModal');
                 }
             },
 

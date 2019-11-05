@@ -7,11 +7,16 @@ const store = new Vuex.Store({
     state: {
         isAddStockModalEnabled: false,
         isDeleteStockModalEnabled: false,
+        isEditStockModelEnabled: false,
+
         isAddOptionModalEnabled: false,
         isDeleteOptionModalEnabled: false,
+
         isAddDividendModalEnabled: false,
         isDeleteDividendModalEnabled: false,
+
         isSyntheticModalEnabled: false,
+
         isAddErrorEnabled: false
     },
     actions: {
@@ -21,6 +26,10 @@ const store = new Vuex.Store({
         showDeleteStockModal(context) {
             context.commit('showDeleteStockModal')
         },
+        showEditStockModal(context) {
+            context.commit('showEditStockModal')
+        },
+
         showAddOptionModal(context) {
             context.commit('showAddOptionModal')
         },
@@ -57,6 +66,10 @@ const store = new Vuex.Store({
         showDeleteStockModal(state) {
             state.isDeleteStockModalEnabled = true;
         },
+        showEditStockModal(state) {
+            state.isEditStockModelEnabled = true;
+        },
+
         showAddOptionModal(state) {
             state.isAddOptionModalEnabled = true;
         },
@@ -80,6 +93,7 @@ const store = new Vuex.Store({
             state.isDeleteStockModalEnabled = false;
             state.isDeleteOptionModalEnabled = false;
             state.isDeleteDividendModalEnabled = false;
+            state.isEditStockModelEnabled = false;
             state.isSyntheticModalEnabled = false;
             state.isAddErrorEnabled = false;
         },
@@ -91,6 +105,7 @@ const store = new Vuex.Store({
             state.isDeleteStockModalEnabled = false;
             state.isDeleteOptionModalEnabled = false;
             state.isDeleteDividendModalEnabled = false;
+            state.isEditStockModelEnabled = false;
             state.isSyntheticModalEnabled = false;
             state.isAddErrorEnabled = false;
         },
@@ -103,6 +118,7 @@ const store = new Vuex.Store({
             state.isDeleteOptionModalEnabled = false;
             state.isDeleteOptionModalEnabled = false;
             state.isDeleteDividendModalEnabled = false;
+            state.isEditStockModelEnabled = false;
             state.isSyntheticModalEnabled = false;
             state.isAddErrorEnabled = true;
         },
