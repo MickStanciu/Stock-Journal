@@ -1,9 +1,9 @@
 <template>
-    <div class="modal" id="addStockModal">
+    <div class="modal" id="editStockModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title">Add Stock Position for {{form_element.symbol}}</h3>
+                    <h3 class="modal-title">Edit Stock Position</h3>
                 </div>
 
                 <div class="modal-body">
@@ -55,7 +55,7 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-info" v-on:click="closeModal()"> Close </button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" v-on:click="submitAndClose()">Submit</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" v-on:click="submitAndClose()">Submit</button>
                 </div>
             </div>
         </div>
@@ -63,25 +63,25 @@
 </template>
 
 <script>
-    import service from '../../service';
-    import dateTimeUtil from '../../utils/time'
+
+    import dateTimeUtil from "../../utils/time";
     import validation from "../../utils/validation";
-    import ShareApiModel from '../../models/ShareApiModel'
+    import ShareApiModel from "../../models/ShareApiModel";
 
     export default {
-        name: "AddStockTrade",
+        name: "EditStockTrade",
         props: {
-            post: Object
+            stock_model: Object
         },
         data: function () {
             return {
                 form_element: {
-                    symbol : this.post.symbol,
-                    date: dateTimeUtil.convertFromOffsetZuluToDisplay(),
-                    action : 'BUY',
-                    price: '0.00',
-                    quantity: 0,
-                    fees: '0.00',
+                    symbol : this.stock_model.symbol,
+                    date: dateTimeUtil.convertFromOffsetZuluToDisplay(this.stock_model.date),
+                    action: this.stock_model.action,
+                    price: this.stock_model.price,
+                    quantity: this.stock_model.quantity,
+                    fees: this.stock_model.brokerFees,
                 },
 
                 form_validation: {
@@ -114,15 +114,16 @@
                 shareDto.price = this.form_element.price;
                 shareDto.quantity = this.form_element.quantity;
                 shareDto.brokerFees = this.form_element.fees;
+                console.debug(shareDto);
 
-                service.recordShareTrade(shareDto).then(data => {
-                  if (data === null) {
-                      this.$store.dispatch('hideModalWithError');
-                  } else {
-                      this.$store.dispatch('hideModalWithRefresh');
-                  }
-                });
-
+                this.$store.dispatch('hideModalWithoutRefresh');
+                // service.recordShareTrade(shareDto).then(data => {
+                //     if (data === null) {
+                //         this.$store.dispatch('hideModalWithError');
+                //     } else {
+                //         this.$store.dispatch('hideModalWithRefresh');
+                //     }
+                // });
             },
 
             checkForm: function() {

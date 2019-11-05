@@ -53,8 +53,8 @@
                             <font-awesome-icon icon="lock-open" class="action-icon" v-on:click="legClosedClicked(item)" v-bind:class="[item.legClosed ? 'item-not-active' : 'item-active']"></font-awesome-icon>
                         </template>
                         <font-awesome-icon icon="calculator" class="action-icon" v-on:click="groupSelectClicked(item)" v-bind:class="[item.groupSelected ? 'item-active' : 'item-not-active']"></font-awesome-icon>
-                        <font-awesome-icon icon="trash-alt" class="action-icon" v-on:click="deleteRecordClicked(item)"></font-awesome-icon>
                         <font-awesome-icon icon="edit" class="action-icon" v-on:click="editRecordClicked(item)"></font-awesome-icon>
+                        <font-awesome-icon icon="trash-alt" class="action-icon" v-on:click="deleteRecordClicked(item)"></font-awesome-icon>
                     </template>
 
                     <template v-else>
@@ -79,6 +79,7 @@
         <transition name="fade">
             <add-stock-trade v-if="isAddStockModalEnabled" v-bind:post="{symbol: symbol.toUpperCase()}"/>
             <delete-stock-trade v-if="isDeleteStockModalEnabled" v-bind:post="{model: selectedModel}"/>
+            <edit-stock-trade v-if="isEditStockModelEnabled" v-bind:stock_model="selectedModel"/>
 
             <add-option-trade v-if="isAddOptionModalEnabled" v-bind:post="{symbol: symbol.toUpperCase()}"/>
             <delete-option-trade v-if="isDeleteOptionModalEnabled" v-bind:post="{model: selectedModel}"/>
@@ -99,6 +100,7 @@
     import moneyUtil from "../utils/money";
     import AddStockTrade from "../components/tradelist/AddStockTrade";
     import DeleteStockTrade from "../components/tradelist/DeleteStockTrade";
+    import EditStockTrade from "../components/tradelist/EditStockTrade";
     import DeleteOptionTrade from "../components/tradelist/DeleteOptionTrade";
     import AddOptionTrade from "../components/tradelist/AddOptionTrade";
     import AddError from "../components/tradelist/AddError";
@@ -116,6 +118,7 @@
     export default {
         name: "TradeList",
         components: {
+            EditStockTrade,
             Statistics,
             SyntheticPrice,
             DeleteDividendTrade, AddDividendTrade,
@@ -143,6 +146,9 @@
             },
             isDeleteStockModalEnabled() {
                 return this.$store.state.isDeleteStockModalEnabled;
+            },
+            isEditStockModelEnabled() {
+                return this.$store.state.isEditStockModelEnabled;
             },
             isAddOptionModalEnabled() {
                 return this.$store.state.isAddOptionModalEnabled;
@@ -189,6 +195,7 @@
 
                 if (typeof this.selectedModel !== 'undefined') {
                     if ("SHARE" === this.selectedModel.type) {
+                        this.$store.dispatch('stock/updateModel', item);
                         this.$store.dispatch('showDeleteStockModal');
                     } else if ("OPTION" === this.selectedModel.type) {
                         this.$store.dispatch('showDeleteOptionModal');
@@ -204,6 +211,7 @@
                 this.selectedModel = item;
 
                 if ("SHARE" === this.selectedModel.type) {
+                    this.$store.dispatch('stock/updateModel', item);
                     this.$store.dispatch('showEditStockModal');
                 }
             },

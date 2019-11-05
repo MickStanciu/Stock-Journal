@@ -1,9 +1,15 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import stockModule from "./stock";
 
 Vue.use(Vuex);
 
+
 const store = new Vuex.Store({
+    modules: {
+        stock: stockModule
+    },
+
     state: {
         isAddStockModalEnabled: false,
         isDeleteStockModalEnabled: false,
@@ -19,6 +25,7 @@ const store = new Vuex.Store({
 
         isAddErrorEnabled: false
     },
+
     actions: {
         showAddStockModal(context) {
             context.commit('showAddStockModal')
@@ -59,6 +66,7 @@ const store = new Vuex.Store({
             context.commit('hideErrorModal')
         }
     },
+
     mutations: {
         showAddStockModal(state) {
             state.isAddStockModalEnabled = true;
