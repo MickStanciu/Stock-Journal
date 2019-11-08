@@ -15,7 +15,7 @@
                             </div>
                         </div>
 
-                        <fieldset class="form-group row">
+                        <fieldset class="form-group row" disabled>
                             <div class="col-form-label col-sm-3 pt-0">Action</div>
                             <div class="col-sm-9">
                                 <div class="form-check form-check-inline">
@@ -30,26 +30,26 @@
                             </div>
                         </fieldset>
 
-                        <div class="form-group row">
+                        <fieldset class="form-group row" disabled>
                             <label for="price" class="col-sm-3 col-form-label" v-bind:class="{'text-danger': form_validation.price === false}">Price:</label>
                             <div class="col-sm-9">
                                 <input class="form-control" v-bind:class="{'is-invalid': form_validation.price === false}" v-model="form_element.price" type="text" id="price"/>
                             </div>
-                        </div>
+                        </fieldset>
 
-                        <div class="form-group row">
+                        <fieldset class="form-group row" disabled>
                             <label for="quantity" class="col-sm-3 col-form-label" v-bind:class="{'text-danger': form_validation.quantity === false}">Quantity:</label>
                             <div class="col-sm-9">
                                 <input class="form-control" v-bind:class="{'is-invalid': form_validation.quantity === false}" v-model="form_element.quantity" type="text" id="quantity"/>
                             </div>
-                        </div>
+                        </fieldset>
 
-                        <div class="form-group row">
+                        <fieldset class="form-group row">
                             <label for="fee" class="col-sm-3 col-form-label" v-bind:class="{'text-danger': form_validation.fees === false}">Fees:</label>
                             <div class="col-sm-9">
                                 <input class="form-control" v-bind:class="{'is-invalid': form_validation.fees === false}" v-model="form_element.fees" type="text" id="fee"/>
                             </div>
-                        </div>
+                        </fieldset>
                     </form>
                 </div>
 

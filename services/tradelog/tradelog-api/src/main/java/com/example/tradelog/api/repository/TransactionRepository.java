@@ -36,7 +36,7 @@ public class TransactionRepository {
                     "and transaction_type_fk = ?";
 
     private static final String JOURNAL_EDIT_TRANSACTION_FOR_ACCOUNT =
-            "UPDATE transaction_log SET broker_fees = ?, date = ?, transaction_type_fk = ? where id = CAST(? AS uuid) and account_fk = CAST(? AS uuid)";
+            "UPDATE transaction_log SET broker_fees = ?, date = ? where id = CAST(? AS uuid) and account_fk = CAST(? AS uuid)";
 
     private static final String JOURNAL_CREATE_SETTINGS =
             "INSERT INTO transaction_settings_log (transaction_fk, preferred_price, group_selected, leg_closed) VALUES (CAST(? AS uuid), ?, ?, ?)";
@@ -91,7 +91,7 @@ public class TransactionRepository {
 
     public boolean updateTransactionRecord(TransactionModel model) {
         Object[] parameters = new Object[] {
-                model.getBrokerFees(), model.getDate(), model.getType().name(), model.getId(), model.getAccountId()
+                model.getBrokerFees(), model.getDate(), model.getId(), model.getAccountId()
         };
         return jdbcTemplate.update(JOURNAL_EDIT_TRANSACTION_FOR_ACCOUNT, parameters) == 1;
     }
