@@ -119,8 +119,12 @@ public class JournalFacade {
 
     //TODO: should be transactional
     public boolean editShareRecord(String transactionId, ShareJournalModel model) {
+        if (!transactionId.equals(model.getTransactionDetails().getId())) {
+            return false;
+        }
+
         return transactionService.updateTransactionRecord(model.getTransactionDetails())
-                && shareService.updateShareRecord(transactionId, model);
+                && shareService.updateShareRecord(model);
     }
 
     public List<OptionJournalModel> getAllOptionsBySymbol(String accountId, String symbol) {

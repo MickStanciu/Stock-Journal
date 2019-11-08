@@ -59,6 +59,9 @@ public class SharesJournalRepository {
             "INSERT INTO shares_log (transaction_fk, price, quantity, action_fk) " +
                     "VALUES (CAST(? AS uuid), ?, ?, ?);";
 
+    private static final String JOURNAL_EDIT_SHARE =
+            "UPDATE shares_log SET price = ?, quantity = ?, action_fk = ? where transaction_fk = CAST(? AS uuid)";
+
     private static final String JOURNAL_DELETE_SHARE = "DELETE FROM shares_log WHERE transaction_fk = CAST(? AS uuid)";
 
     private static final String JOURNAL_GET_SUMMARIES =
@@ -128,5 +131,10 @@ public class SharesJournalRepository {
     public List<TradeSummaryModel> getSummaries(String accountId) {
         Object[] parameters = new Object[] {accountId};
         return jdbcTemplate.query(JOURNAL_GET_SUMMARIES, parameters, new TradeSummaryModelRowMapper());
+    }
+
+    public boolean updateShareRecord(ShareJournalModel model) {
+        Object[] parameters = new Object[] { model.getPrice(), model.getQuantity(), model.getAction().toString(), model.getTransactionDetails().getId() };
+        return jdbcTemplate.update(JOURNAL_EDIT_SHARE, parameters) == 1;
     }
 }

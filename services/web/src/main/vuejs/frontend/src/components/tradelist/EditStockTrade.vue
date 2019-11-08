@@ -15,7 +15,7 @@
                             </div>
                         </div>
 
-                        <fieldset class="form-group row" disabled>
+                        <fieldset class="form-group row">
                             <div class="col-form-label col-sm-3 pt-0">Action</div>
                             <div class="col-sm-9">
                                 <div class="form-check form-check-inline">
@@ -30,14 +30,14 @@
                             </div>
                         </fieldset>
 
-                        <fieldset class="form-group row" disabled>
+                        <fieldset class="form-group row">
                             <label for="price" class="col-sm-3 col-form-label" v-bind:class="{'text-danger': form_validation.price === false}">Price:</label>
                             <div class="col-sm-9">
                                 <input class="form-control" v-bind:class="{'is-invalid': form_validation.price === false}" v-model="form_element.price" type="text" id="price"/>
                             </div>
                         </fieldset>
 
-                        <fieldset class="form-group row" disabled>
+                        <fieldset class="form-group row">
                             <label for="quantity" class="col-sm-3 col-form-label" v-bind:class="{'text-danger': form_validation.quantity === false}">Quantity:</label>
                             <div class="col-sm-9">
                                 <input class="form-control" v-bind:class="{'is-invalid': form_validation.quantity === false}" v-model="form_element.quantity" type="text" id="quantity"/>

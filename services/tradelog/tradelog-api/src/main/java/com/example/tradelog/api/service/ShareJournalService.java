@@ -40,6 +40,10 @@ public class ShareJournalService {
         return sharesJournalRepository.getByTransactionId(transactionId);
     }
 
+    public boolean updateShareRecord(ShareJournalModel model) {
+        return sharesJournalRepository.updateShareRecord(model);
+    }
+
     public boolean deleteRecord(String transactionId) {
         return sharesJournalRepository.deleteRecord(transactionId);
     }
@@ -47,9 +51,5 @@ public class ShareJournalService {
     public Map<String, TradeSummaryModel> getSummaries(String accountId) {
         List<TradeSummaryModel> modelList = sharesJournalRepository.getSummaries(accountId);
         return TradeSummaryListConverter.toMap.apply(modelList);
-    }
-
-    public boolean updateShareRecord(String transactionId, ShareJournalModel model) {
-        return true;
     }
 }
