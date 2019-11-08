@@ -52,6 +52,14 @@ public class TradeLogController {
         return tradeLogService.createShareTrade(accountId, model);
     }
 
+    @RequestMapping(value = "/shares/{id}", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public void updateShareTrade(
+            @RequestHeader(name = "accountId") String accountId,
+            @PathVariable(name = "id") String transactionId,
+            @RequestBody ShareJournalGWModel model) {
+        tradeLogService.updateShareTrade(accountId, transactionId, model);
+    }
 
     @RequestMapping(value = "/shares/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)

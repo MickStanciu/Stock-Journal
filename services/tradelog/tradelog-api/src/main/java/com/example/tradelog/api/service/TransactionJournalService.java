@@ -52,6 +52,10 @@ public class TransactionJournalService {
         return Optional.empty();
     }
 
+    public boolean updateTransactionRecord(TransactionModel model) {
+        return transactionRepository.updateTransactionRecord(model);
+    }
+
     public boolean deleteSettingsRecord(String transactionId) {
         return transactionRepository.deleteSettingsRecord(transactionId);
     }

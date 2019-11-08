@@ -7,6 +7,7 @@ enum class ExceptionCode(val message: String) {
     SHARE_DATA_EMPTY("No data for given request"),
     CREATE_SHARE_FAILED("Could not create share record"),
     DELETE_SHARE_FAILED("Could not delete share record"),
+    EDIT_SHARE_FAILED("Could not edit share record"),
     CREATE_OPTION_FAILED("Could not create option record"),
     DELETE_OPTION_FAILED("Could not delete option record"),
     CREATE_DIVIDEND_FAILED("Could not create dividend record"),

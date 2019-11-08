@@ -117,6 +117,12 @@ public class JournalFacade {
                 && transactionService.deleteShareRecord(transactionId, accountId);
     }
 
+    //TODO: should be transactional
+    public boolean editShareRecord(String transactionId, ShareJournalModel model) {
+        return transactionService.updateTransactionRecord(model.getTransactionDetails())
+                && shareService.updateShareRecord(transactionId, model);
+    }
+
     public List<OptionJournalModel> getAllOptionsBySymbol(String accountId, String symbol) {
         return optionService.getAllBySymbol(accountId, symbol);
     }

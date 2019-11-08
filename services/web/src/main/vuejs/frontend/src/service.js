@@ -56,7 +56,6 @@ const appService = {
     },
 
     recordShareTrade(dto) {
-        //TODO: bug -> delete takes longer and refresh occurs before that ... need to wait
         return new Promise(resolve => {
             axios
                 .post('/share', dto)
@@ -70,8 +69,23 @@ const appService = {
         });
     },
 
+    editShareTrade(dto) {
+        return new Promise(resolve => {
+            axios
+                .put('/share/' + dto.symbol + '/' + dto.transactionId, dto)
+                .then(() => {
+                        // console.debug("AXIOS FINISHED");
+                        resolve(null);
+                    }
+                )
+                .catch(error => {
+                    console.error(error);
+                    resolve(null);
+                })
+        })
+    },
+
     deleteShareTrade(dto) {
-        //TODO: bug -> delete takes longer and refresh occurs before that ... need to wait
         return new Promise(resolve => {
             axios
                 .delete('/share/' + dto.symbol + '/' + dto.transactionId)

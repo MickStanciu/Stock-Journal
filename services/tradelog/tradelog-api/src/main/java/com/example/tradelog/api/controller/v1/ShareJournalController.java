@@ -79,6 +79,30 @@ public class ShareJournalController {
 
 
     /**
+     * Modify SHARE trade record
+     * @param accountId - account uuid
+     * @param transactionId -
+     * @throws TradeLogException -
+     */
+    @RequestMapping(value = {"/{transactionId}", "/{transactionId}/"}, method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
+    public void updateShareTrade(
+            @RequestHeader(name = "accountId") String accountId,
+            @PathVariable("transactionId") String transactionId,
+            @RequestBody ShareJournalModel model) throws TradeLogException {
+
+        if (!RequestValidation.validateEditShareTrade(accountId, transactionId, model)) {
+            throw new TradeLogException(ExceptionCode.BAD_REQUEST);
+        }
+
+        if (!facade.editShareRecord(transactionId, model)) {
+            log.error("COULD NOT EDIT FOR tID: {}", transactionId);
+            throw new TradeLogException(ExceptionCode.EDIT_SHARE_FAILED);
+        }
+    }
+
+
+    /**
      * Delete SHARE trade record
      * @param accountId - account uuid
      * @param transactionId -
@@ -101,5 +125,4 @@ public class ShareJournalController {
     }
 
 
-    //TODO: missing update share
 }

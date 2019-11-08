@@ -77,6 +77,17 @@ public class AjaxController {
         return "{}";
     }
 
+    @RequestMapping(value = "/tradelog/{accountId}/share/{symbol}/{id}", method = RequestMethod.PUT)
+    public String editShareTrade(
+            @PathVariable(name = "accountId") String accountId,
+            @PathVariable(name = "symbol") String symbol,
+            @PathVariable(name = "id") String transactionId,
+            @RequestBody ShareJournalGWModel model
+    ) {
+        tradeJournalService.editShareTrade(accountId, transactionId, model);
+        return "{}";
+    }
+
     @RequestMapping(value = "/tradelog/{accountId}/option", method = RequestMethod.POST)
     public OptionJournalGWModel createNewOptionTrade(
             @PathVariable(name = "accountId") String accountId,

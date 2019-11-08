@@ -33,6 +33,13 @@ public class RequestValidation extends FieldValidator {
                 && RequestValidation.transactionId.test(transactionId);
     }
 
+    public static boolean validateEditShareTrade(String accountId, String transactionId, ShareJournalModel model) {
+        return RequestValidation.accountId.test(accountId)
+                && RequestValidation.transactionId.test(transactionId)
+                && RequestValidation.validateShareJournalModel.test(model)
+                && accountId.equals(model.getTransactionDetails().getAccountId());
+    }
+
     public static boolean validateDeleteOptionTrade(String accountId, String transactionId) {
         return RequestValidation.accountId.test(accountId)
                 && RequestValidation.transactionId.test(transactionId);
@@ -123,4 +130,5 @@ public class RequestValidation extends FieldValidator {
 
     static Predicate<ShareDataModel> validateShareDataModel = s -> s != null
             && s.getSymbol() != null;
+
 }

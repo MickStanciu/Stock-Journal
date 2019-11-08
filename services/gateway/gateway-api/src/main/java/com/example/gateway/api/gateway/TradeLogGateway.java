@@ -1,5 +1,6 @@
 package com.example.gateway.api.gateway;
 
+import com.example.gateway.api.spec.model.ShareJournalGWModel;
 import com.example.tradelog.api.spec.model.DividendJournalModel;
 import com.example.tradelog.api.spec.model.DividendTransactionsResponse;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
@@ -142,6 +143,19 @@ public class TradeLogGateway {
         HttpEntity<DividendJournalModel> request = new HttpEntity<>(model, headers);
         ResponseEntity<DividendJournalModel> responseEntity = restTemplate.exchange(builder.build(model.getTransactionDetails().getSymbol()), HttpMethod.POST, request, DividendJournalModel.class);
         return responseEntity.getBody();
+    }
+
+    public void updateShareTrade(String accountId, String transactionId, ShareJournalModel model) {
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromHttpUrl(API_URL)
+                .path("/shares/{id}");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("accountId", accountId);
+
+        HttpEntity<ShareJournalModel> request = new HttpEntity<>(model, headers);
+        restTemplate.exchange(builder.build(transactionId), HttpMethod.PUT, request, Object.class);
     }
 
     public void deleteShareTrade(String accountId, String transactionId) {

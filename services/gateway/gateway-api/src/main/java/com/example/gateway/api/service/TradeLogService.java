@@ -76,6 +76,10 @@ public class TradeLogService {
         return DividendJournalConverter.toDividendGWModel.apply(returnModel);
     }
 
+    public void updateShareTrade(String accountId, String transactionId, ShareJournalGWModel model) {
+        tradeLogGateway.updateShareTrade(accountId, transactionId, ShareJournalConverter.toShareModel.apply(model));
+    }
+
     public void deleteShareTrade(String accountId, String transactionId) {
         tradeLogGateway.deleteShareTrade(accountId, transactionId);
     }
@@ -102,4 +106,5 @@ public class TradeLogService {
         TransactionSettingsModel model = TransactionSettingConverter.toTransactionSettingsGWModel.apply(gwModel);
         tradeLogGateway.updateTransactionSettings(accountId, transactionId, model);
     }
+
 }

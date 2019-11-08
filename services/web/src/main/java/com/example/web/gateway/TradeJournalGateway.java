@@ -103,6 +103,19 @@ public class TradeJournalGateway {
         return responseEntity.getBody();
     }
 
+    public void updateShareRecord(String accountId, String transactionId, ShareJournalGWModel model) {
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromHttpUrl(API_URL)
+                .path("/tradelog/shares/{id}");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("accountId", accountId);
+
+        HttpEntity<ShareJournalGWModel> request = new HttpEntity<>(model, headers);
+        restTemplate.exchange(builder.build(transactionId), HttpMethod.PUT, request, Object.class);
+    }
+
     public void deleteShareTrade(String accountId, String transactionId) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)

@@ -66,6 +66,7 @@
 
     import dateTimeUtil from "../../utils/time";
     import validation from "../../utils/validation";
+    import service from '../../service';
     import ShareApiModel from "../../models/ShareApiModel";
 
     export default {
@@ -77,6 +78,7 @@
             return {
                 form_element: {
                     symbol : this.stock_model.symbol,
+                    id: this.stock_model.transactionId,
                     date: dateTimeUtil.convertFromOffsetZuluToDisplay(this.stock_model.date),
                     action: this.stock_model.action,
                     price: this.stock_model.price,
@@ -114,16 +116,11 @@
                 shareDto.price = this.form_element.price;
                 shareDto.quantity = this.form_element.quantity;
                 shareDto.brokerFees = this.form_element.fees;
-                console.debug(shareDto);
+                shareDto.transactionId = this.form_element.id;
 
-                this.$store.dispatch('hideModalWithoutRefresh');
-                // service.recordShareTrade(shareDto).then(data => {
-                //     if (data === null) {
-                //         this.$store.dispatch('hideModalWithError');
-                //     } else {
-                //         this.$store.dispatch('hideModalWithRefresh');
-                //     }
-                // });
+                service.editShareTrade(shareDto).then(data => {
+                    this.$store.dispatch('hideModalWithRefresh');
+                });
             },
 
             checkForm: function() {

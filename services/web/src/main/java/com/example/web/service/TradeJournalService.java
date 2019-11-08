@@ -37,6 +37,10 @@ public class TradeJournalService {
         return tradeJournalGateway.createOptionTrade(accountId, model);
     }
 
+    public void editShareTrade(String accountId, String transactionId, ShareJournalGWModel model) {
+        tradeJournalGateway.updateShareRecord(accountId, transactionId, model);
+    }
+
     public void deleteShareTrade(String accountId, String transactionId) {
         tradeJournalGateway.deleteShareTrade(accountId, transactionId);
     }

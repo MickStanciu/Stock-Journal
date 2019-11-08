@@ -48,4 +48,8 @@ public class ShareJournalService {
         List<TradeSummaryModel> modelList = sharesJournalRepository.getSummaries(accountId);
         return TradeSummaryListConverter.toMap.apply(modelList);
     }
+
+    public boolean updateShareRecord(String transactionId, ShareJournalModel model) {
+        return true;
+    }
 }
