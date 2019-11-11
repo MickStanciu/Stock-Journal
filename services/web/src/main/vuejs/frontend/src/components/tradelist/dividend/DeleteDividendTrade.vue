@@ -69,14 +69,14 @@
         },
         methods: {
             closeModal: function () {
-                this.$store.dispatch('hideModalWithoutRefresh');
+                this.$store.dispatch('dividend/hideModal');
             },
 
             submitAndClose: function () {
                 service.deleteDividendRecord(this.post.model)
                     .then(() => {
-                        // console.debug("submitAndClose");
-                        this.$store.dispatch('hideModalWithRefresh');
+                        this.$store.dispatch('dividend/hideModal');
+                        this.$store.dispatch('refreshData');
                     });
             }
         }

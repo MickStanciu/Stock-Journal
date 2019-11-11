@@ -148,7 +148,7 @@
         },
         methods: {
             closeModal: function () {
-                this.$store.dispatch('hideModalWithoutRefresh');
+                this.$store.dispatch('option/hideModal');
             },
 
             submitAndClose: function () {
@@ -170,9 +170,11 @@
 
                 service.recordOptionTrade(optionDto).then(data => {
                     if (data === null) {
-                        this.$store.dispatch('hideModalWithError');
+                        this.$store.dispatch('option/hideModal');
+                        this.$store.dispatch('showErrorModal');
                     } else {
-                        this.$store.dispatch('hideModalWithRefresh');
+                        this.$store.dispatch('option/hideModal');
+                        this.$store.dispatch('refreshData');
                     }
                 });
             },

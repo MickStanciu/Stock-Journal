@@ -70,7 +70,7 @@
         },
         methods: {
             closeModal: function () {
-                this.$store.dispatch('hideModalWithoutRefresh');
+                this.$store.dispatch('dividend/hideModal');
             },
 
             submitAndClose: function () {
@@ -85,9 +85,11 @@
 
                 service.recordDividendTrade(dividendDto).then(data => {
                     if (data === null) {
-                        this.$store.dispatch('hideModalWithError');
+                        this.$store.dispatch('dividend/hideModal');
+                        this.$store.dispatch('showErrorModal');
                     } else {
-                        this.$store.dispatch('hideModalWithRefresh');
+                        this.$store.dispatch('dividend/hideModal');
+                        this.$store.dispatch('refreshData');
                     }
                 });
             },

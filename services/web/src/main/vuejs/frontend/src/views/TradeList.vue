@@ -77,17 +77,16 @@
         <statistics v-bind:datamodel="statisticsModel" />
 
         <transition name="fade">
-            <add-stock-trade v-if="isAddStockModalEnabled" v-bind:post="{symbol: symbol.toUpperCase()}"/>
-            <delete-stock-trade v-if="isDeleteStockModalEnabled" v-bind:post="{model: selectedModel}"/>
-            <edit-stock-trade v-if="isEditStockModelEnabled" v-bind:stock_model="selectedModel"/>
+            <add-stock-trade v-if="this.$store.state.stock.isAddStockModalEnabled" v-bind:post="{symbol: symbol.toUpperCase()}"/>
+            <edit-stock-trade v-if="this.$store.state.stock.isEditStockModelEnabled" v-bind:stock_model="selectedModel"/>
+            <delete-stock-trade v-if="this.$store.state.stock.isDeleteStockModalEnabled" v-bind:post="{model: selectedModel}"/>
+            <synthetic-price v-if="this.$store.state.isSyntheticModalEnabled" v-bind:post="{model: selectedModels}"/>
 
-            <add-option-trade v-if="isAddOptionModalEnabled" v-bind:post="{symbol: symbol.toUpperCase()}"/>
-            <delete-option-trade v-if="isDeleteOptionModalEnabled" v-bind:post="{model: selectedModel}"/>
+            <add-option-trade v-if="this.$store.state.option.isAddOptionModalEnabled" v-bind:post="{symbol: symbol.toUpperCase()}"/>
+            <delete-option-trade v-if="this.$store.state.option.isDeleteOptionModalEnabled" v-bind:post="{model: selectedModel}"/>
 
-            <add-dividend-trade v-if="isAddDividendModalEnabled" v-bind:post="{symbol: symbol.toUpperCase()}"/>
-            <delete-dividend-trade v-if="isDeleteDividendModalEnabled" v-bind:post="{model: selectedModel}"/>
-
-            <synthetic-price v-if="isSyntheticModalEnabled" v-bind:post="{model: selectedModels}"/>
+            <add-dividend-trade v-if="this.$store.state.dividend.isAddDividendModalEnabled" v-bind:post="{symbol: symbol.toUpperCase()}"/>
+            <delete-dividend-trade v-if="this.$store.state.dividend.isDeleteDividendModalEnabled" v-bind:post="{model: selectedModel}"/>
 
             <add-error v-if="isAddErrorEnabled"/>
         </transition>
@@ -141,31 +140,6 @@
         },
 
         computed: {
-            isAddStockModalEnabled() {
-                return this.$store.state.stock.isAddStockModalEnabled;
-            },
-            isDeleteStockModalEnabled() {
-                return this.$store.state.stock.isDeleteStockModalEnabled;
-            },
-            isEditStockModelEnabled() {
-                return this.$store.state.stock.isEditStockModelEnabled;
-            },
-
-            isAddOptionModalEnabled() {
-                return this.$store.state.isAddOptionModalEnabled;
-            },
-            isDeleteOptionModalEnabled() {
-                return this.$store.state.isDeleteOptionModalEnabled;
-            },
-            isAddDividendModalEnabled() {
-                return this.$store.state.isAddDividendModalEnabled;
-            },
-            isDeleteDividendModalEnabled() {
-                return this.$store.state.isDeleteDividendModalEnabled;
-            },
-            isSyntheticModalEnabled() {
-                return this.$store.state.isSyntheticModalEnabled;
-            },
             isAddErrorEnabled() {
                 return this.$store.state.isAddErrorEnabled;
             },
@@ -190,6 +164,12 @@
             addNewStockTradeClicked: function() {
                 this.$store.dispatch('stock/showAddStockModal');
             },
+            addNewOptionTradeClicked: function() {
+                this.$store.dispatch('option/showAddOptionModal');
+            },
+            addNewDividendTradeClicked: function() {
+                this.$store.dispatch('dividend/showAddDividendModal');
+            },
 
             deleteRecordClicked: function(item) {
                 this.selectedModel = item;
@@ -198,9 +178,9 @@
                     if ("SHARE" === this.selectedModel.type) {
                         this.$store.dispatch('stock/showDeleteStockModal');
                     } else if ("OPTION" === this.selectedModel.type) {
-                        this.$store.dispatch('showDeleteOptionModal');
+                        this.$store.dispatch('option/showDeleteOptionModal');
                     } else if ("DIVIDEND" === this.selectedModel.type) {
-                        this.$store.dispatch('showDeleteDividendModal');
+                        this.$store.dispatch('dividend/showDeleteDividendModal');
                     } else {
                         console.error("Clicked on unknown type: " + this.selectedModel.type);
                     }
@@ -212,6 +192,12 @@
 
                 if ("SHARE" === this.selectedModel.type) {
                     this.$store.dispatch('stock/showEditStockModal');
+                } else if ("OPTION" === this.selectedModel.type) {
+                    this.$store.dispatch('option/showEditOptionModal');
+                } else if ("DIVIDEND" === this.selectedModel.type) {
+                    this.$store.dispatch('dividend/showEditDividendModal');
+                } else {
+                    console.error("Clicked on unknown type: " + this.selectedModel.type);
                 }
             },
 
@@ -245,14 +231,6 @@
                 //will scan all items and update the price into them!
                 this.selectedModels = this.getAllActiveShares();
                 this.$store.dispatch('showSyntheticShareModal');
-            },
-
-            addNewOptionTradeClicked: function() {
-                this.$store.dispatch('showAddOptionModal');
-            },
-
-            addNewDividendTradeClicked: function() {
-                this.$store.dispatch('showAddDividendModal');
             },
 
             rowClass: function (item, idx) {

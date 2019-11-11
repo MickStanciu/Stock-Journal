@@ -137,14 +137,14 @@
         },
         methods: {
             closeModal: function () {
-                this.$store.dispatch('hideModalWithoutRefresh');
+                this.$store.dispatch('option/hideModal');
             },
 
             submitAndClose: function () {
                 service.deleteOptionTrade(this.post.model)
                     .then(() => {
-                        // console.debug("submitAndClose");
-                        this.$store.dispatch('hideModalWithRefresh');
+                        this.$store.dispatch('option/hideModal');
+                        this.$store.dispatch('refreshData');
                     });
             }
         }
