@@ -1,5 +1,6 @@
 package com.example.tradelog.api.converter;
 
+import com.example.common.converter.TimeConverter;
 import com.example.tradelog.api.spec.model.ActionType;
 import com.example.tradelog.api.spec.model.ShareJournalModel;
 import com.example.tradelog.api.spec.model.TransactionModel;
@@ -59,7 +60,7 @@ public class SyntheticSharesGenerator {
                 TransactionModel transactionModel = new TransactionModel(
                         "",
                         "",
-                        OffsetDateTime.now().plusYears(1),
+                        TimeConverter.nextYear(),
                         s,
                         TransactionType.SYNTHETIC_SHARE,
                         0.00,

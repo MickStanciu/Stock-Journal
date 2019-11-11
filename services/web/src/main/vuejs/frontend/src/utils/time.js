@@ -2,10 +2,11 @@ import * as moment from 'moment/moment';
 import * as moment_tz from 'moment-timezone';
 
 //TODO: cannot stay like this!
-const timeZone = 'Australia/Sydney';
-
-
 const dateTimeUtil = {
+
+    getTimeZone: function () {
+        return 'Australia/Sydney';
+    },
 
     /*
         GENERATE DATES
@@ -13,18 +14,18 @@ const dateTimeUtil = {
     //Returns date 'DD-MMM-YYYY'
     dateNowFormatted : function() {
         const dateFormat = 'DD-MMM-YYYY';
-        return moment().tz(timeZone).format(dateFormat);
+        return moment().tz(this.getTimeZone()).format(dateFormat);
     },
 
     //Returns expiry date 'MMM DD'
     expDateNowFormatted : function() {
         const dateFormat = 'MMM DD';
-        return moment().tz(timeZone).format(dateFormat);
+        return moment().tz(this.getTimeZone()).format(dateFormat);
     },
 
     //Returns NOW
     dateNowUnformatted : function() {
-        return moment().tz(timeZone);
+        return moment().tz(this.getTimeZone());
     },
 
     /*
@@ -35,20 +36,25 @@ const dateTimeUtil = {
     convertFromOffsetZuluToDisplay: function(item) {
         const outputFormat = 'DD-MMM-YYYY';
         if (typeof item === 'undefined') {
-            return moment().tz(timeZone).format(outputFormat);
+            return moment().add(moment().utcOffset(), 'm').format(outputFormat);
         }
-        return moment(item).tz(timeZone).format(outputFormat);
+        console.warn("convertFromOffsetZuluToDisplay USING TZ");
+        return moment(item).tz(this.getTimeZone()).format(outputFormat);
     },
 
     //Converts Date to DD MMM YYYY
     convertForDisplay: function(item) {
         const dateFormat = 'DD MMM YYYY';
-        return moment(item).tz(timeZone).format(dateFormat);
+        //return moment(item).tz(this.getTimeZone()).format(dateFormat);
+
+        return moment(item)
+            .add(moment().utcOffset(), 'm')
+            .format(dateFormat);
     },
 
     //converts 2018-10-17 21:00:00.000000 +11:00 => 2018-10-17T10:00:00Z into ...Nov17'18
     convertExpiryDateForDisplay: function(item) {
-        return moment(item).tz(timeZone).format('MMMDD\'YY');
+        return moment(item).tz(this.getTimeZone()).format('MMMDD\'YY');
     },
 
     /*
@@ -63,12 +69,11 @@ const dateTimeUtil = {
         const nowUtc = moment.utc();
 
         return moment(text, dateFormat)
-            .tz(timeZone)
-            .utc()
             .hour(nowUtc.get('hour'))
             .minute(nowUtc.get('minute'))
             .second(nowUtc.get('second'))
-            .format(offsetFormat)
+            .add(moment().utcOffset(), 'm')
+            .format(offsetFormat);
     },
 
     //Converts 'MMM DD to OffsetZulu example: 2018-12-25T10:00:00Z
@@ -95,8 +100,8 @@ const dateTimeUtil = {
 
     //sort dates
     sortDates: function (a, b) {
-        const dateA = moment(a.date).tz(timeZone);
-        const dateB = moment(b.date).tz(timeZone);
+        const dateA = moment(a.date).tz(this.getTimeZone());
+        const dateB = moment(b.date).tz(this.getTimeZone());
         return dateA - dateB;
     }
 };

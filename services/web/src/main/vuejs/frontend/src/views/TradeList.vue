@@ -130,7 +130,6 @@
                 itemsLoaded: false,
                 shareData: undefined,
                 shareDataLoaded: false,
-                timeZone: 'Australia/Sydney',
                 currency: 'USD',
                 symbol: this.$route.params.symbol,
                 selectedModel : undefined,

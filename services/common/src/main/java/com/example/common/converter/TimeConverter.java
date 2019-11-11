@@ -41,9 +41,12 @@ public class TimeConverter {
     }
 
     public static OffsetDateTime fromTimestamp(Timestamp timestamp) {
-        //TODO: not sure about ZoneId
         return OffsetDateTime.ofInstant(
-                Instant.ofEpochMilli(timestamp.getTime()), ZoneId.systemDefault());
+                Instant.ofEpochMilli(timestamp.getTime()), ZoneId.of("UTC"));
+    }
+
+    public static OffsetDateTime nextYear() {
+        return OffsetDateTime.now(ZoneId.of("UTC")).plusYears(1);
     }
 
     public static Function<String, OffsetDateTime> toOffsetDateTime = OffsetDateTime::parse;
