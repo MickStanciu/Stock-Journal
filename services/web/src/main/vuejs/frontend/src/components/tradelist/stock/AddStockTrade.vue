@@ -1,9 +1,9 @@
 <template>
-    <div class="modal" id="editStockModal">
+    <div class="modal" id="addStockModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title">Edit Stock Position</h3>
+                    <h3 class="modal-title">Add Stock Position for {{form_element.symbol}}</h3>
                 </div>
 
                 <div class="modal-body">
@@ -30,32 +30,32 @@
                             </div>
                         </fieldset>
 
-                        <fieldset class="form-group row">
+                        <div class="form-group row">
                             <label for="price" class="col-sm-3 col-form-label" v-bind:class="{'text-danger': form_validation.price === false}">Price:</label>
                             <div class="col-sm-9">
                                 <input class="form-control" v-bind:class="{'is-invalid': form_validation.price === false}" v-model="form_element.price" type="text" id="price"/>
                             </div>
-                        </fieldset>
+                        </div>
 
-                        <fieldset class="form-group row">
+                        <div class="form-group row">
                             <label for="quantity" class="col-sm-3 col-form-label" v-bind:class="{'text-danger': form_validation.quantity === false}">Quantity:</label>
                             <div class="col-sm-9">
                                 <input class="form-control" v-bind:class="{'is-invalid': form_validation.quantity === false}" v-model="form_element.quantity" type="text" id="quantity"/>
                             </div>
-                        </fieldset>
+                        </div>
 
-                        <fieldset class="form-group row">
+                        <div class="form-group row">
                             <label for="fee" class="col-sm-3 col-form-label" v-bind:class="{'text-danger': form_validation.fees === false}">Fees:</label>
                             <div class="col-sm-9">
                                 <input class="form-control" v-bind:class="{'is-invalid': form_validation.fees === false}" v-model="form_element.fees" type="text" id="fee"/>
                             </div>
-                        </fieldset>
+                        </div>
                     </form>
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-info" v-on:click="closeModal()"> Close </button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" v-on:click="submitAndClose()">Submit</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" v-on:click="submitAndClose()">Submit</button>
                 </div>
             </div>
         </div>
@@ -63,27 +63,25 @@
 </template>
 
 <script>
-
-    import dateTimeUtil from "../../utils/time";
-    import validation from "../../utils/validation";
-    import service from '../../service';
-    import ShareApiModel from "../../models/ShareApiModel";
+    import service from '../../../service';
+    import dateTimeUtil from '../../../utils/time'
+    import validation from "../../../utils/validation";
+    import ShareApiModel from '../../../models/ShareApiModel'
 
     export default {
-        name: "EditStockTrade",
+        name: "AddStockTrade",
         props: {
-            stock_model: Object
+            post: Object
         },
         data: function () {
             return {
                 form_element: {
-                    symbol : this.stock_model.symbol,
-                    id: this.stock_model.transactionId,
-                    date: dateTimeUtil.convertFromOffsetZuluToDisplay(this.stock_model.date),
-                    action: this.stock_model.action,
-                    price: this.stock_model.price,
-                    quantity: this.stock_model.quantity,
-                    fees: this.stock_model.brokerFees,
+                    symbol : this.post.symbol,
+                    date: dateTimeUtil.convertFromOffsetZuluToDisplay(),
+                    action : 'BUY',
+                    price: '0.00',
+                    quantity: 0,
+                    fees: '0.00',
                 },
 
                 form_validation: {
@@ -102,7 +100,7 @@
         },
         methods: {
             closeModal: function () {
-                this.$store.dispatch('hideModalWithoutRefresh');
+                this.$store.dispatch('stock/hideModal');
             },
 
             submitAndClose: function () {
@@ -116,11 +114,17 @@
                 shareDto.price = this.form_element.price;
                 shareDto.quantity = this.form_element.quantity;
                 shareDto.brokerFees = this.form_element.fees;
-                shareDto.transactionId = this.form_element.id;
 
-                service.editShareTrade(shareDto).then(data => {
-                    this.$store.dispatch('hideModalWithRefresh');
+                service.recordShareTrade(shareDto).then(data => {
+                  if (data === null) {
+                      this.$store.dispatch('stock/hideModal');
+                      this.$store.dispatch('showErrorModal');
+                  } else {
+                      this.$store.dispatch('stock/hideModal');
+                      this.$store.dispatch('refreshData');
+                  }
                 });
+
             },
 
             checkForm: function() {

@@ -46,7 +46,7 @@
 </template>
 
 <script>
-    import dateTimeUtil from "../../utils/time";
+    import dateTimeUtil from "../../../utils/time";
 
     export default {
         name: "StockFragment",

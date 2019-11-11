@@ -1,44 +1,40 @@
-const stockModule = {
+export const StockModule = {
     namespaced: true,
     state: {
-        transactionId: undefined,
-        accountId: undefined,
-        date: undefined,
-        symbol: undefined,
-        price: undefined,
-        preferredPrice: undefined,
-        quantity: undefined,
-        action: undefined,
-        brokerFees: undefined,
-        isSynthetic: false,
-        groupSelected: undefined,
-        legClosed: undefined
+        isAddStockModalEnabled: false,
+        isEditStockModelEnabled: false,
+        isDeleteStockModalEnabled: false,
     },
 
     actions: {
-        updateModel(context, model) {
-            console.log("ACTIONS>");
-            context.commit('updateModel', model)
+        showAddStockModal(context) {
+            context.commit('showAddStockModal')
+        },
+        showEditStockModal(context) {
+            context.commit('showEditStockModal')
+        },
+        showDeleteStockModal(context) {
+            context.commit('showDeleteStockModal')
+        },
+        hideModal(context) {
+            context.commit('hideModal')
         }
     },
 
     mutations: {
-        updateModel(state, model) {
-            console.log("MUTATION>");
-            state.transactionId = model.transactionId;
-            state.accountId = model.accountId;
-            state.date = model.date;
-            state.symbol = model.symbol;
-            state.price = model.price;
-            state.preferredPrice = model.preferredPrice;
-            state.quantity = model.quantity;
-            state.action = model.action;
-            state.brokerFees = model.brokerFees;
-            state.isSynthetic = model.isSynthetic;
-            state.groupSelected = model.groupSelected;
-            state.legClosed = model.legClosed;
+        showAddStockModal(state) {
+            state.isAddStockModalEnabled = true;
+        },
+        showEditStockModal(state) {
+            state.isEditStockModelEnabled = true;
+        },
+        showDeleteStockModal(state) {
+            state.isDeleteStockModalEnabled = true;
+        },
+        hideModal(state) {
+            state.isAddStockModalEnabled = false;
+            state.isEditStockModelEnabled = false;
+            state.isDeleteStockModalEnabled = false;
         }
     }
 };
-
-export default stockModule;

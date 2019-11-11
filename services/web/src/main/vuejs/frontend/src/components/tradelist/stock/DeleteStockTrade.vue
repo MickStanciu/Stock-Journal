@@ -21,7 +21,7 @@
 
 <script>
 
-    import service from '../../service';
+    import service from '../../../service';
     import StockFragment from "./StockFragment";
 
     export default {
@@ -35,14 +35,14 @@
         },
         methods: {
             closeModal: function () {
-                this.$store.dispatch('hideModalWithoutRefresh');
+                this.$store.dispatch('stock/hideModal');
             },
 
             submitAndClose: function () {
                 service.deleteShareTrade(this.post.model)
                     .then(() => {
-                        // console.debug("submitAndClose");
-                        this.$store.dispatch('hideModalWithRefresh');
+                        this.$store.dispatch('stock/hideModal');
+                        this.$store.dispatch('refreshData');
                     });
             }
         }

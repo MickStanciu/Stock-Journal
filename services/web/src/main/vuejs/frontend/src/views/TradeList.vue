@@ -98,19 +98,19 @@
     import service from '../service';
     import dateTimeUtil from '../utils/time'
     import moneyUtil from "../utils/money";
-    import AddStockTrade from "../components/tradelist/AddStockTrade";
-    import DeleteStockTrade from "../components/tradelist/DeleteStockTrade";
-    import EditStockTrade from "../components/tradelist/EditStockTrade";
-    import DeleteOptionTrade from "../components/tradelist/DeleteOptionTrade";
-    import AddOptionTrade from "../components/tradelist/AddOptionTrade";
+    import AddStockTrade from "../components/tradelist/stock/AddStockTrade";
+    import DeleteStockTrade from "../components/tradelist/stock/DeleteStockTrade";
+    import EditStockTrade from "../components/tradelist/stock/EditStockTrade";
+    import DeleteOptionTrade from "../components/tradelist/option/DeleteOptionTrade";
+    import AddOptionTrade from "../components/tradelist/option/AddOptionTrade";
+    import AddDividendTrade from "../components/tradelist/dividend/AddDividendTrade";
+    import DeleteDividendTrade from "../components/tradelist/dividend/DeleteDividendTrade";
     import AddError from "../components/tradelist/AddError";
     import OptionApiModel from "../models/OptionApiModel";
     import ShareApiModel from "../models/ShareApiModel";
     import DividendApiModel from "../models/DividendApiModel";
     import ShareData from "../components/tradelist/ShareData";
     import SettingsApiModel from "../models/SettingsApiModel";
-    import AddDividendTrade from "../components/tradelist/AddDividendTrade";
-    import DeleteDividendTrade from "../components/tradelist/DeleteDividendTrade";
     import SyntheticPrice from "../components/tradelist/SyntheticPrice";
     import Statistics from "../components/tradelist/Statistics";
     import statisticsModel from "../models/StatisticsModel";
@@ -142,14 +142,15 @@
 
         computed: {
             isAddStockModalEnabled() {
-                return this.$store.state.isAddStockModalEnabled;
+                return this.$store.state.stock.isAddStockModalEnabled;
             },
             isDeleteStockModalEnabled() {
-                return this.$store.state.isDeleteStockModalEnabled;
+                return this.$store.state.stock.isDeleteStockModalEnabled;
             },
             isEditStockModelEnabled() {
-                return this.$store.state.isEditStockModelEnabled;
+                return this.$store.state.stock.isEditStockModelEnabled;
             },
+
             isAddOptionModalEnabled() {
                 return this.$store.state.isAddOptionModalEnabled;
             },
@@ -187,7 +188,7 @@
 
         methods: {
             addNewStockTradeClicked: function() {
-                this.$store.dispatch('showAddStockModal');
+                this.$store.dispatch('stock/showAddStockModal');
             },
 
             deleteRecordClicked: function(item) {
@@ -195,8 +196,7 @@
 
                 if (typeof this.selectedModel !== 'undefined') {
                     if ("SHARE" === this.selectedModel.type) {
-                        this.$store.dispatch('stock/updateModel', item);
-                        this.$store.dispatch('showDeleteStockModal');
+                        this.$store.dispatch('stock/showDeleteStockModal');
                     } else if ("OPTION" === this.selectedModel.type) {
                         this.$store.dispatch('showDeleteOptionModal');
                     } else if ("DIVIDEND" === this.selectedModel.type) {
@@ -211,8 +211,7 @@
                 this.selectedModel = item;
 
                 if ("SHARE" === this.selectedModel.type) {
-                    this.$store.dispatch('stock/updateModel', item);
-                    this.$store.dispatch('showEditStockModal');
+                    this.$store.dispatch('stock/showEditStockModal');
                 }
             },
 
@@ -535,7 +534,7 @@
 
         mounted() {
             this.$store.subscribe( (mutation, state) => {
-                if (mutation.type === 'hideModalWithRefresh') {
+                if (mutation.type === 'refreshData') {
                     this.loadData();
                 }
             })

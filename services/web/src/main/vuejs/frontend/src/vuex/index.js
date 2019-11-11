@@ -1,24 +1,22 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import stockModule from "./stock";
+import { StockModule } from "./stock";
 
 Vue.use(Vuex);
 
 
 const store = new Vuex.Store({
     modules: {
-        stock: stockModule
+        stock: StockModule
     },
 
     state: {
-        isAddStockModalEnabled: false,
-        isDeleteStockModalEnabled: false,
-        isEditStockModelEnabled: false,
-
         isAddOptionModalEnabled: false,
+        isEditOptionModelEnabled: false,
         isDeleteOptionModalEnabled: false,
 
         isAddDividendModalEnabled: false,
+        isEditDividendModalEnabled: false,
         isDeleteDividendModalEnabled: false,
 
         isSyntheticModalEnabled: false,
@@ -27,63 +25,56 @@ const store = new Vuex.Store({
     },
 
     actions: {
-        showAddStockModal(context) {
-            context.commit('showAddStockModal')
-        },
-        showDeleteStockModal(context) {
-            context.commit('showDeleteStockModal')
-        },
-        showEditStockModal(context) {
-            context.commit('showEditStockModal')
-        },
-
         showAddOptionModal(context) {
             context.commit('showAddOptionModal')
+        },
+        showEditOptionModal(context) {
+            context.commit("showEditOptionModal");
         },
         showDeleteOptionModal(context) {
             context.commit('showDeleteOptionModal')
         },
+
         showAddDividendModal(context) {
             context.commit('showAddDividendModal');
+        },
+        showEditDividendModal(context) {
+            context.commit('showEditDividendModal');
         },
         showDeleteDividendModal(context) {
             context.commit('showDeleteDividendModal');
         },
+
         showSyntheticShareModal(context) {
             context.commit('showSyntheticShareModal');
         },
 
-        hideModalWithError(context) {
-            context.commit('hideModalWithError')
+        showErrorModal(context) {
+            context.commit('showErrorModal')
         },
-        hideModalWithRefresh(context) {
-            context.commit('hideModalWithRefresh')
+        hideErrorModal(context) {
+            context.commit('hideErrorModal')
+        },
+        refreshData(context) {
+            context.commit('refreshData')
         },
         hideModalWithoutRefresh(context) {
             context.commit('hideModalWithoutRefresh')
         },
-        hideErrorModal(context) {
-            context.commit('hideErrorModal')
-        }
+
     },
 
     mutations: {
-        showAddStockModal(state) {
-            state.isAddStockModalEnabled = true;
-        },
-        showDeleteStockModal(state) {
-            state.isDeleteStockModalEnabled = true;
-        },
-        showEditStockModal(state) {
-            state.isEditStockModelEnabled = true;
-        },
-
         showAddOptionModal(state) {
             state.isAddOptionModalEnabled = true;
         },
         showDeleteOptionModal(state) {
             state.isDeleteOptionModalEnabled = true;
         },
+        showEditOptionModal(state) {
+            state.isEditOptionModelEnabled = true;
+        },
+
         showAddDividendModal(state) {
             state.isAddDividendModalEnabled = true;
         },
@@ -96,38 +87,42 @@ const store = new Vuex.Store({
 
         hideModalWithoutRefresh(state) {
             state.isAddStockModalEnabled = false;
-            state.isAddOptionModalEnabled = false;
-            state.isAddDividendModalEnabled = false;
-            state.isDeleteStockModalEnabled = false;
-            state.isDeleteOptionModalEnabled = false;
-            state.isDeleteDividendModalEnabled = false;
             state.isEditStockModelEnabled = false;
+            state.isDeleteStockModalEnabled = false;
+
+            state.isAddOptionModalEnabled = false;
+            state.isEditOptionModelEnabled = false;
+            state.isDeleteOptionModalEnabled = false;
+
+            state.isAddDividendModalEnabled = false;
+            state.isDeleteDividendModalEnabled = false;
+
             state.isSyntheticModalEnabled = false;
             state.isAddErrorEnabled = false;
         },
 
         hideModalWithRefresh(state) {
             state.isAddStockModalEnabled = false;
-            state.isAddOptionModalEnabled = false;
-            state.isAddDividendModalEnabled = false;
-            state.isDeleteStockModalEnabled = false;
-            state.isDeleteOptionModalEnabled = false;
-            state.isDeleteDividendModalEnabled = false;
             state.isEditStockModelEnabled = false;
+            state.isDeleteStockModalEnabled = false;
+
+            state.isAddOptionModalEnabled = false;
+            state.isEditOptionModelEnabled = false;
+            state.isDeleteOptionModalEnabled = false;
+
+            state.isAddDividendModalEnabled = false;
+            state.isDeleteDividendModalEnabled = false;
+
             state.isSyntheticModalEnabled = false;
             state.isAddErrorEnabled = false;
         },
 
-        hideModalWithError(state) {
-            state.isAddStockModalEnabled = false;
-            state.isAddOptionModalEnabled = false;
-            state.isAddDividendModalEnabled = false;
-            state.isDeleteStockModalEnabled = false;
-            state.isDeleteOptionModalEnabled = false;
-            state.isDeleteOptionModalEnabled = false;
-            state.isDeleteDividendModalEnabled = false;
-            state.isEditStockModelEnabled = false;
-            state.isSyntheticModalEnabled = false;
+        refreshData() {
+            console.log("mutation refresh data")
+            //do nothing
+        },
+
+        showErrorModal(state) {
             state.isAddErrorEnabled = true;
         },
 
