@@ -1,5 +1,5 @@
 <template>
-    <div class="modal" id="addOptionModal">
+    <div class="modal" id="editOptionModal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -100,29 +100,32 @@
 </template>
 
 <script>
-    import service from '../../service';
-    import dateTimeUtil from '../../utils/time'
-    import validation from "../../utils/validation";
-    import OptionApiModel from "../../models/OptionApiModel";
+    import service from '../../../service';
+    import dateTimeUtil from '../../../utils/time'
+    import validation from "../../../utils/validation";
+    import OptionApiModel from "../../../models/OptionApiModel";
 
     export default {
-        name: "AddOptionTrade",
-        props: ['post'],
+        name: "EditOptionTrade",
+        props: {
+            stock_model: Object
+        },
         data: function () {
+            console.log(this.stock_model);
             return {
                 is_form_readonly: false,
 
                 form_element: {
-                    symbol : this.post.symbol,
-                    date: dateTimeUtil.dateNowFormatted(),
-                    action : 'BUY',
-                    stock_price : '0.00',
-                    strike_price: '0.00',
-                    type: 'CALL',
-                    exp_date: dateTimeUtil.expDateNowFormatted(),
-                    contracts: '1',
-                    premium : '0.00',
-                    fees: '0.00'
+                    symbol : this.stock_model.symbol,
+                    date: dateTimeUtil.convertFromOffsetZuluToDisplay(this.stock_model.date),
+                    action : this.stock_model.action,
+                    stock_price : this.stock_model.stockPrice,
+                    strike_price: this.stock_model.strikePrice,
+                    type: this.stock_model.optionType,
+                    exp_date: dateTimeUtil.convertExpiryDateForDisplay(this.post.model.expiryDate),
+                    contracts: this.stock_model.contracts,
+                    premium : this.stock_model.premium,
+                    fees: this.stock_model.brokerFees
                 },
 
                 form_validation: {
@@ -148,7 +151,7 @@
         },
         methods: {
             closeModal: function () {
-                this.$store.dispatch('hideModalWithoutRefresh');
+                this.$store.dispatch('option/hideModal');
             },
 
             submitAndClose: function () {
@@ -168,12 +171,9 @@
                 optionDto.optionType = this.form_element.type;
                 optionDto.brokerFees = this.form_element.fees;
 
-                service.recordOptionTrade(optionDto).then(data => {
-                    if (data === null) {
-                        this.$store.dispatch('hideModalWithError');
-                    } else {
-                        this.$store.dispatch('hideModalWithRefresh');
-                    }
+                service.editOptionTrade(optionDto).then(data => {
+                    this.$store.dispatch('option/hideModal');
+                    this.$store.dispatch('refreshData');
                 });
             },
             

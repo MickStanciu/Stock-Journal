@@ -116,6 +116,22 @@ const appService = {
         });
     },
 
+    editOptionTrade(dto) {
+        return new Promise(resolve => {
+            axios
+                .put('/option/' + dto.symbol + '/' + dto.transactionId, dto)
+                .then(() => {
+                        // console.debug("AXIOS FINISHED");
+                        resolve(null);
+                    }
+                )
+                .catch(error => {
+                    console.error(error);
+                    resolve(null);
+                })
+        })
+    },
+
     deleteOptionTrade(dto) {
         //TODO: bug -> delete takes longer and refresh occurs before that ... need to wait
         return new Promise(resolve => {

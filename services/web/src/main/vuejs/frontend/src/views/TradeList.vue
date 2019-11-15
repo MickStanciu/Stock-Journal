@@ -83,6 +83,7 @@
             <synthetic-price v-if="this.$store.state.isSyntheticModalEnabled" v-bind:post="{model: selectedModels}"/>
 
             <add-option-trade v-if="this.$store.state.option.isAddOptionModalEnabled" v-bind:post="{symbol: symbol.toUpperCase()}"/>
+            <edit-option-trade v-if="this.$store.state.option.isEditOptionModelEnabled" v-bind:stock_model="selectedModel"/>
             <delete-option-trade v-if="this.$store.state.option.isDeleteOptionModalEnabled" v-bind:post="{model: selectedModel}"/>
 
             <add-dividend-trade v-if="this.$store.state.dividend.isAddDividendModalEnabled" v-bind:post="{symbol: symbol.toUpperCase()}"/>
@@ -100,8 +101,9 @@
     import AddStockTrade from "../components/tradelist/stock/AddStockTrade";
     import DeleteStockTrade from "../components/tradelist/stock/DeleteStockTrade";
     import EditStockTrade from "../components/tradelist/stock/EditStockTrade";
-    import DeleteOptionTrade from "../components/tradelist/option/DeleteOptionTrade";
     import AddOptionTrade from "../components/tradelist/option/AddOptionTrade";
+    import EditOptionTrade from "../components/tradelist/option/EditOptionTrade";
+    import DeleteOptionTrade from "../components/tradelist/option/DeleteOptionTrade";
     import AddDividendTrade from "../components/tradelist/dividend/AddDividendTrade";
     import DeleteDividendTrade from "../components/tradelist/dividend/DeleteDividendTrade";
     import AddError from "../components/tradelist/AddError";
@@ -117,6 +119,7 @@
     export default {
         name: "TradeList",
         components: {
+            EditOptionTrade,
             EditStockTrade,
             Statistics,
             SyntheticPrice,
