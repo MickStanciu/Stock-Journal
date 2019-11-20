@@ -50,6 +50,8 @@
         name: "AddDividendTrade",
         props: ['post'],
         data: function () {
+            console.debug(dateTimeUtil.convertToOffsetDateTime("16-Nov-2019"));
+
             return {
                 form_element: {
                     symbol : this.post.symbol,

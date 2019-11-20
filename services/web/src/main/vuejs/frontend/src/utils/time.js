@@ -62,7 +62,7 @@ const dateTimeUtil = {
     */
 
     //Converts 'DD-MM-YYYY to OffsetZulu example: 2018-12-25T10:00:00Z
-    //Assuming the input is in Australian time!!!
+    //Assuming the input is in Local time!!!
     convertToOffsetDateTime: function(text) {
         const dateFormat = 'DD-MMM-YYYY';
         const offsetFormat = 'YYYY-MM-DDTHH:mm:ssZ';
@@ -72,7 +72,7 @@ const dateTimeUtil = {
             .hour(nowUtc.get('hour'))
             .minute(nowUtc.get('minute'))
             .second(nowUtc.get('second'))
-            .add(moment().utcOffset(), 'm')
+            .subtract(moment().utcOffset(), 'm')
             .format(offsetFormat);
     },
 
