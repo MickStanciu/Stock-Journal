@@ -21,6 +21,12 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+    all {
+        exclude(group = "org.springframework.boot", module = "spring-boot-starter-tomcat")
+    }
+}
+
 val flywayDbVersion = "5.2.4"
 val postgreSqlVersion = "42.2.5"
 val junitVersion = "5.4.2"
@@ -34,9 +40,7 @@ dependencies {
     implementation ("com.google.protobuf:protobuf-java:$protobufVersion")
     implementation ("com.google.protobuf:protobuf-java-util:$protobufVersion")
 
-    implementation("org.springframework.boot:spring-boot-starter-web") {
-        exclude("org.springframework.boot:spring-boot-starter-tomcat")
-    }
+    implementation("org.springframework.boot:spring-boot-starter-web");
     implementation ("org.springframework.boot:spring-boot-starter-undertow")
     implementation ("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation ("org.springframework.boot:spring-boot-starter-actuator")

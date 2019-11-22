@@ -15,4 +15,4 @@ include (":services:gateway:gateway-api-spec")
 include (":services:gateway:gateway-api")
 
 include (":services:web")
-include (":services:experiment")
+include (":experiment")

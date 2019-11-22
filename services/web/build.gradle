@@ -12,7 +12,7 @@ plugins {
     id "java"
     id "io.spring.dependency-management"
     id "org.springframework.boot"
-    id "com.moowork.node" version "1.3.1"
+    id "com.github.node-gradle.node" version "2.0.0"
     id "application"
 }
 
@@ -47,6 +47,7 @@ node {
     yarnVersion = "1.15.2"
     nodeModulesDir = file("src/main/vuejs/frontend")
     download = true
+    distBaseUrl = 'https://nodejs.org/dist'
 }
 
 dependencies {

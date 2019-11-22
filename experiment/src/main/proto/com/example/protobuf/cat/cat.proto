@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package com.example.protobuf.cat;
+
+option java_multiple_files = true;
+option java_package = "com.example.protobuf.model";
+
+import "com/example/protobuf/date/date.proto";
+
+message CatModel {
+    enum CatBreed {
+        UNKNOWN_BREED = 0;
+        MAINE_COON = 1;
+        TABBY = 2;
+    }
+
+    string name = 1;
+    int32 age = 2;
+    bool isVaccinated = 3;
+    float weight = 4;
+    repeated string favoriteFoods = 5;
+    CatBreed breed = 6;
+    com.example.protobuf.date.Date nextVaccination = 7;
+}
+
+

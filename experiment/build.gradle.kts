@@ -1,3 +1,5 @@
+import com.google.protobuf.gradle.protobuf
+import com.google.protobuf.gradle.protoc
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -7,6 +9,7 @@ version = "0.0.1-SNAPSHOT"
 
 plugins {
     kotlin ("jvm")
+    id ("com.google.protobuf")
     id ("io.spring.dependency-management")
     id ("org.springframework.boot")
     id ("application")
@@ -26,9 +29,12 @@ configurations {
 val mySqlVersion = "8.0.18"
 val junitVersion = "5.4.2"
 val jacksonKotlinVersion = "2.10.0"
+val protobufVersion = "3.10.0"
 
 dependencies {
     implementation (kotlin("stdlib"))
+    implementation ("com.google.protobuf:protobuf-java:$protobufVersion")
+    implementation ("com.google.protobuf:protobuf-java-util:$protobufVersion")
 
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation ("org.springframework.boot:spring-boot-starter-undertow")
@@ -78,3 +84,9 @@ tasks.test {
     }
 }
 
+protobuf {
+    protoc {
+        // The artifact spec for the Protobuf Compiler
+        artifact = "com.google.protobuf:protoc:3.10.0"
+    }
+}
