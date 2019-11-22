@@ -16,11 +16,11 @@ message CatModel {
 
     string name = 1;
     int32 age = 2;
-    bool isVaccinated = 3;
+    bool is_vaccinated = 3;
     float weight = 4;
-    repeated string favoriteFoods = 5;
+    repeated string favorite_foods = 5;
     CatBreed breed = 6;
-    com.example.protobuf.date.Date nextVaccination = 7;
+    com.example.protobuf.date.Date next_vaccination = 7;
 }
 
 

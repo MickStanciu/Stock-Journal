@@ -12,7 +12,7 @@ plugins {
     id ("com.google.protobuf")
     id ("io.spring.dependency-management")
     id ("org.springframework.boot")
-    id ("application")
+//    id ("application")
 }
 
 repositories {
@@ -62,13 +62,14 @@ kotlin {
 sourceSets {
     main {
         java.srcDir("src/main/java")
+        java.srcDir("build/generated/source/proto/main/java")
         java.srcDir("src/main/kotlin")
     }
 }
 
-application {
-    mainClassName = "com.example.experiment.Application"
-}
+//application {
+//    mainClassName = "com.example.experiment.Application"
+//}
 
 tasks.withType<KotlinCompile> {
     kotlinOptions {
