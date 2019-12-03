@@ -276,7 +276,7 @@
             },
 
             dateTz: function(item) {
-                return dateTimeUtil.convertForDisplay(item.date);
+                return dateTimeUtil.convertFromOffsetZuluToDisplay(item.date);
             },
 
             encodeAction: function (item) {

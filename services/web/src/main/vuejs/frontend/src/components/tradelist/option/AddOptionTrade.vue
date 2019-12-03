@@ -114,7 +114,7 @@
 
                 form_element: {
                     symbol : this.post.symbol,
-                    date: dateTimeUtil.convertFromOffsetZuluToDisplay(),
+                    date: dateTimeUtil.createFromOffsetZuluToDisplay(),
                     action : 'BUY',
                     stock_price : '0.00',
                     strike_price: '0.00',

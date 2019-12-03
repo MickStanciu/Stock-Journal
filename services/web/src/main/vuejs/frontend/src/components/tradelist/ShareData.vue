@@ -36,7 +36,7 @@
         },
         methods: {
             dateTz: function(item) {
-                return dateTimeUtil.convertForDisplay(item);
+                return dateTimeUtil.convertFromOffsetZuluToDisplay(item);
             }
         }
 

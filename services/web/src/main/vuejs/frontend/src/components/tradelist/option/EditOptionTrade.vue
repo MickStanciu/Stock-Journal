@@ -117,7 +117,7 @@
 
                 form_element: {
                     symbol : this.stock_model.symbol,
-                    date: dateTimeUtil.convertFromOffsetZuluToDisplay(this.stock_model.date),
+                    date: dateTimeUtil.createFromOffsetZuluToDisplay(this.stock_model.date),
                     action : this.stock_model.action,
                     stock_price : this.stock_model.stockPrice,
                     strike_price: this.stock_model.strikePrice,

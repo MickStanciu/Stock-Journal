@@ -77,7 +77,7 @@
             return {
                 form_element: {
                     symbol : this.post.symbol,
-                    date: dateTimeUtil.convertFromOffsetZuluToDisplay(),
+                    date: dateTimeUtil.createFromOffsetZuluToDisplay(),
                     action : 'BUY',
                     price: '0.00',
                     quantity: 0,

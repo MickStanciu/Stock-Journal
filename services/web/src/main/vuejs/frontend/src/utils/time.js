@@ -33,30 +33,23 @@ const dateTimeUtil = {
      */
 
     //Converts OffsetZulu example: 2018-12-25T10:00:00Z to 'DD-MM-YYYY'
-    convertFromOffsetZuluToDisplay: function(item) {
+    createFromOffsetZuluToDisplay: function() {
         console.debug("BUG IN SYSTEM");
         const outputFormat = 'DD-MMM-YYYY';
-        if (typeof item === 'undefined') {
-            /*
-            At Syd 6:59pm 3-Dec/ Zulu 7.59am 3-Dec this works
-            */
-            console.debug(moment().utcOffset());
-            // return moment().add(moment().utcOffset(), 'm').format(outputFormat);
-            return moment().format(outputFormat);
-        }
-        return moment(item)
-            .subtract(moment().utcOffset(), 'm')
-            .format(outputFormat);
-
         /*
         At Syd 6:59pm 3-Dec/ Zulu 7.59am 3-Dec this works
-         */
+        */
+        console.debug(moment().utcOffset());
+        // return moment().add(moment().utcOffset(), 'm').format(outputFormat);
+        return moment().format(outputFormat);
     },
 
     //Converts Date to DD MMM YYYY
-    convertForDisplay: function(item) {
-        const outputFormat = 'DD MMM YYYY';
-
+    convertFromOffsetZuluToDisplay: function(item) {
+        const outputFormat = 'DD-MMM-YYYY';
+        /*
+        At Syd 6:59pm 3-Dec/ Zulu 7.59am 3-Dec this works
+         */
         return moment(item)
             .subtract(moment().utcOffset(), 'm')
             .format(outputFormat);
