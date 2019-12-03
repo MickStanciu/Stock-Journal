@@ -50,8 +50,6 @@
         name: "AddDividendTrade",
         props: ['post'],
         data: function () {
-            console.debug(dateTimeUtil.convertToOffsetDateTime("16-Nov-2019"));
-
             return {
                 form_element: {
                     symbol : this.post.symbol,
@@ -84,6 +82,7 @@
                 dividendDto.date = dateTimeUtil.convertToOffsetDateTime(this.form_element.date);
                 dividendDto.dividend = this.form_element.dividend;
                 dividendDto.quantity = this.form_element.quantity;
+                console.debug(dividendDto.date);
 
                 service.recordDividendTrade(dividendDto).then(data => {
                     if (data === null) {

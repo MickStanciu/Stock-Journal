@@ -34,22 +34,32 @@ const dateTimeUtil = {
 
     //Converts OffsetZulu example: 2018-12-25T10:00:00Z to 'DD-MM-YYYY'
     convertFromOffsetZuluToDisplay: function(item) {
+        console.debug("BUG IN SYSTEM");
         const outputFormat = 'DD-MMM-YYYY';
         if (typeof item === 'undefined') {
-            return moment().add(moment().utcOffset(), 'm').format(outputFormat);
+            /*
+            At Syd 6:59pm 3-Dec/ Zulu 7.59am 3-Dec this works
+            */
+            console.debug(moment().utcOffset());
+            // return moment().add(moment().utcOffset(), 'm').format(outputFormat);
+            return moment().format(outputFormat);
         }
-        console.warn("convertFromOffsetZuluToDisplay USING TZ");
-        return moment(item).tz(this.getTimeZone()).format(outputFormat);
+        return moment(item)
+            .subtract(moment().utcOffset(), 'm')
+            .format(outputFormat);
+
+        /*
+        At Syd 6:59pm 3-Dec/ Zulu 7.59am 3-Dec this works
+         */
     },
 
     //Converts Date to DD MMM YYYY
     convertForDisplay: function(item) {
-        const dateFormat = 'DD MMM YYYY';
-        //return moment(item).tz(this.getTimeZone()).format(dateFormat);
+        const outputFormat = 'DD MMM YYYY';
 
         return moment(item)
-            .add(moment().utcOffset(), 'm')
-            .format(dateFormat);
+            .subtract(moment().utcOffset(), 'm')
+            .format(outputFormat);
     },
 
     //converts 2018-10-17 21:00:00.000000 +11:00 => 2018-10-17T10:00:00Z into ...Nov17'18
@@ -72,7 +82,7 @@ const dateTimeUtil = {
             .hour(nowUtc.get('hour'))
             .minute(nowUtc.get('minute'))
             .second(nowUtc.get('second'))
-            .subtract(moment().utcOffset(), 'm')
+            .add(moment().utcOffset(), 'm')
             .format(offsetFormat);
     },
 

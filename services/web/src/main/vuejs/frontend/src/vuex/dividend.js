@@ -25,7 +25,7 @@ export const DividendModule = {
         showAddDividendModal(state) {
             state.isAddDividendModalEnabled = true;
         },
-        showEditOptionModal(state) {
+        showEditDividendModal(state) {
             state.isEditDividendModalEnabled = true;
         },
         showDeleteDividendModal(state) {

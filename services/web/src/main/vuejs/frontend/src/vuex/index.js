@@ -40,12 +40,6 @@ const store = new Vuex.Store({
     },
 
     mutations: {
-        showAddDividendModal(state) {
-            state.isAddDividendModalEnabled = true;
-        },
-        showDeleteDividendModal(state) {
-            state.isDeleteDividendModalEnabled = true;
-        },
         showSyntheticShareModal(state) {
             state.isSyntheticModalEnabled = true;
         },
