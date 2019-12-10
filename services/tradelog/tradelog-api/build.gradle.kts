@@ -24,6 +24,7 @@ repositories {
 configurations {
     all {
         exclude(group = "org.springframework.boot", module = "spring-boot-starter-tomcat")
+        exclude(group = "junit", module = "junit")
     }
 }
 
@@ -51,9 +52,7 @@ dependencies {
     runtimeOnly("org.springframework.boot:spring-boot-devtools")
 
     testImplementation ("org.junit.jupiter:junit-jupiter:$junitVersion")
-    testImplementation ("org.springframework.boot:spring-boot-starter-test") {
-        exclude("junit:junit")
-    }
+    testImplementation ("org.springframework.boot:spring-boot-starter-test")
 }
 
 java {
@@ -87,6 +86,12 @@ tasks.test {
     useJUnitPlatform()
     testLogging {
         events = setOf(TestLogEvent.PASSED, TestLogEvent.FAILED, TestLogEvent.SKIPPED)
+    }
+    testLogging {
+        events = setOf(
+                org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED,
+                org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED,
+                org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED)
     }
 }
 

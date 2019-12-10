@@ -1,5 +1,6 @@
 package com.example.gateway.api.gateway;
 
+import com.example.stockdata.api.spec.model.ShareDataResponse;
 import com.example.tradelog.api.spec.model.ShareDataModel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -22,7 +23,7 @@ public class StockDataGateway {
         this.API_URL = API_URL;
     }
 
-    public ShareDataModel getShareDataBySymbol(String accountId, String symbol) {
+    public ShareDataResponse getShareDataBySymbol(String accountId, String symbol) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
                 .path("/data/share/{symbol}");
@@ -31,8 +32,8 @@ public class StockDataGateway {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("accountId", accountId);
 
-        ResponseEntity<ShareDataModel> responseEntity =
-                restTemplate.exchange(builder.build(symbol), HttpMethod.GET, new HttpEntity<>(headers), ShareDataModel.class);
+        ResponseEntity<ShareDataResponse> responseEntity =
+                restTemplate.exchange(builder.build(symbol), HttpMethod.GET, new HttpEntity<>(headers), ShareDataResponse.class);
         return responseEntity.getBody();
     }
 }
