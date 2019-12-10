@@ -18,7 +18,6 @@ object Version {
     var flywayDb = "5.2.4"
     var postgreSql = "42.2.5"
     var junit = "5.4.2"
-    var immutables = "2.7.5"
     val protobuf = "3.10.0"
 }
 
@@ -43,9 +42,6 @@ dependencies {
     implementation ("com.google.protobuf:protobuf-java-util:${Version.protobuf}")
     implementation ("com.google.code.findbugs:jsr305:3.0.2")
     implementation ("com.fasterxml.jackson.core:jackson-databind:2.10.0")
-    compile("org.immutables:value-annotations:${Version.immutables}")
-    compile("org.immutables:builder:${Version.immutables}")
-    annotationProcessor("org.immutables:value:${Version.immutables}")
 
     runtimeOnly("org.springframework.boot:spring-boot-devtools")
 

@@ -38,7 +38,8 @@ public class ShareDataService {
 
         MathContext mc = new MathContext(10, RoundingMode.HALF_UP);
         BigDecimal calculatedTarget = peRatioFuture.multiply(epsFuture).multiply(peRatioFuture.add(BigDecimal.ONE)).divide(peRatioFuture, mc);
-        return Optional.of(new ShareDataModel.Builder().from(model).build().withCalculatedTarget(calculatedTarget));
+        model.setCalculatedTarget(calculatedTarget);
+        return Optional.of(model);
     }
 
     public Optional<ShareDataModel> setShareData(String symbol, ShareDataModel model) {
