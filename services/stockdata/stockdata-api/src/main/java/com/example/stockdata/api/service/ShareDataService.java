@@ -1,7 +1,7 @@
 package com.example.stockdata.api.service;
 
 import com.example.stockdata.api.repository.ShareDataRepository;
-import com.example.stockdata.api.spec.model.ShareDataModel;
+import com.example.stockdata.api.model.ShareDataModel;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;

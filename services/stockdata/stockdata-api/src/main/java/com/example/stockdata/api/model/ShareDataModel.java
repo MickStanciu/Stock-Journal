@@ -1,4 +1,4 @@
-package com.example.stockdata.api.spec.model;
+package com.example.stockdata.api.model;
 
 import org.immutables.value.Value;
 
@@ -11,7 +11,6 @@ import java.time.OffsetDateTime;
 )
 @Value.Immutable
 public interface ShareDataModel {
-
     String getSymbol();
     OffsetDateTime getLastUpdatedOn();
     String getSector();

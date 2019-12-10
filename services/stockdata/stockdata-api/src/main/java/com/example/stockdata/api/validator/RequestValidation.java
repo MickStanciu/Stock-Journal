@@ -1,7 +1,7 @@
 package com.example.stockdata.api.validator;
 
 import com.example.common.validator.FieldValidator;
-import com.example.stockdata.api.spec.model.ShareDataModel;
+import com.example.stockdata.api.model.ShareDataModel;
 
 import java.util.function.Predicate;
 

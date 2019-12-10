@@ -1,7 +1,6 @@
 package com.example.gateway.api.gateway;
 
 import com.example.stockdata.api.spec.model.ShareDataResponse;
-import com.example.tradelog.api.spec.model.ShareDataModel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

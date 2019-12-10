@@ -4,7 +4,7 @@ import com.example.stockdata.api.converter.ShareDataConverter;
 import com.example.stockdata.api.exception.ExceptionCode;
 import com.example.stockdata.api.exception.ShareDataException;
 import com.example.stockdata.api.service.ShareDataService;
-import com.example.stockdata.api.spec.model.ShareDataModel;
+import com.example.stockdata.api.model.ShareDataModel;
 import com.example.stockdata.api.spec.model.ShareDataResponse;
 import com.example.stockdata.api.validator.RequestValidation;
 import org.slf4j.Logger;

@@ -40,6 +40,9 @@ dependencies {
     implementation ("org.springframework.boot:spring-boot-starter-undertow")
     implementation ("org.springframework.boot:spring-boot-starter-actuator")
 
+    implementation("org.immutables:value-annotations:${Version.immutables}")
+    implementation("org.immutables:builder:${Version.immutables}")
+
     implementation ("com.google.protobuf:protobuf-java-util:${Version.protobuf}")
     implementation ("com.google.code.findbugs:jsr305:3.0.2")
     implementation ("com.fasterxml.jackson.core:jackson-databind:2.10.0")
@@ -47,6 +50,8 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt:${Version.jwt}")
 
     runtimeOnly("org.springframework.boot:spring-boot-devtools")
+
+    annotationProcessor("org.immutables:value:${Version.immutables}")
 
     testImplementation ("org.junit.jupiter:junit-jupiter:${Version.junit}")
     testImplementation ("org.springframework.boot:spring-boot-starter-test")

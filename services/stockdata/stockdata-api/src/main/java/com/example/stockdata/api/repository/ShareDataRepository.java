@@ -1,7 +1,7 @@
 package com.example.stockdata.api.repository;
 
 import com.example.common.converter.TimeConverter;
-import com.example.stockdata.api.spec.model.ShareDataModel;
+import com.example.stockdata.api.model.ShareDataModel;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 

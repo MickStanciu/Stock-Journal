@@ -1,6 +1,6 @@
 package com.example.stockdata.api.converter;
 
-import com.example.stockdata.api.spec.model.ShareDataModel;
+import com.example.stockdata.api.model.ShareDataModel;
 import com.example.stockdata.api.spec.model.ShareDataResponse;
 
 import java.util.function.Function;
