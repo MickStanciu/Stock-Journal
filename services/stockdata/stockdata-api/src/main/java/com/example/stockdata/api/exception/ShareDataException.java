@@ -1,7 +1,5 @@
 package com.example.stockdata.api.exception;
 
-import com.example.stockdata.api.spec.exception.ExceptionCode;
-
 public class ShareDataException extends Exception {
 
     private final ExceptionCode code;

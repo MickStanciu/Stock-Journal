@@ -1,4 +1,4 @@
-package com.example.stockdata.api.spec.exception;
+package com.example.stockdata.api.exception;
 
 public enum ExceptionCode {
     UNKNOWN("Unknown"),

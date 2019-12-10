@@ -1,9 +1,11 @@
 package com.example.stockdata.api.controller;
 
+import com.example.stockdata.api.converter.ShareDataConverter;
+import com.example.stockdata.api.exception.ExceptionCode;
 import com.example.stockdata.api.exception.ShareDataException;
 import com.example.stockdata.api.service.ShareDataService;
-import com.example.stockdata.api.spec.exception.ExceptionCode;
 import com.example.stockdata.api.spec.model.ShareDataModel;
+import com.example.stockdata.api.spec.model.ShareDataResponse;
 import com.example.stockdata.api.validator.RequestValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +40,7 @@ public class ShareDataController {
      */
     @RequestMapping(value = "/share/{symbol}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
-    public ShareDataModel getDataBySymbol(
+    public ShareDataResponse getDataBySymbol(
             @RequestHeader("accountId") String accountId,
             @PathVariable("symbol") String symbol) throws ShareDataException {
 
@@ -49,7 +51,7 @@ public class ShareDataController {
         Optional<ShareDataModel> optionalShareDataModel = shareDataService.getShareData(symbol);
 
         if (optionalShareDataModel.isPresent()) {
-            return optionalShareDataModel.get();
+            return ShareDataConverter.toResponse.apply(optionalShareDataModel.get());
         } else {
             log.error("COULD NOT OBTAIN DATA FOR: {}", symbol);
             throw new ShareDataException(ExceptionCode.SHARE_DATA_EMPTY);

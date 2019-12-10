@@ -1,9 +1,13 @@
+import com.google.protobuf.gradle.protobuf
+import com.google.protobuf.gradle.protoc
+
 description = "StockData API Spec"
 group = "com.example.stockdata.api.spec"
 version = "0.0.1-SNAPSHOT"
 
 plugins {
     java
+    id ("com.google.protobuf")
 }
 
 repositories {
@@ -11,15 +15,28 @@ repositories {
     mavenCentral()
 }
 
+val protobufVersion = "3.10.0"
+
 dependencies {
-    implementation ("com.google.code.findbugs:jsr305:3.0.2")
-    implementation ("com.fasterxml.jackson.core:jackson-databind:2.10.0")
-    compile("org.immutables:value-annotations:2.7.5")
-    compile("org.immutables:builder:2.7.5")
-    annotationProcessor("org.immutables:value:2.7.5")
+    implementation ("com.google.protobuf:protobuf-java:$protobufVersion")
 }
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
+}
+
+sourceSets {
+    main {
+        java.srcDir("src/main/java")
+        java.srcDir("build/generated/source/proto/main/java")
+        java.srcDir("src/main/kotlin")
+    }
+}
+
+protobuf {
+    protoc {
+        // The artifact spec for the Protobuf Compiler
+        artifact = "com.google.protobuf:protoc:$protobufVersion"
+    }
 }
