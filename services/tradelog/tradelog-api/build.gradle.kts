@@ -28,30 +28,32 @@ configurations {
     }
 }
 
-val flywayDbVersion = "5.2.4"
-val postgreSqlVersion = "42.2.5"
-val junitVersion = "5.4.2"
-val jacksonKotlinVersion = "2.10.0"
-val protobufVersion = "3.10.0"
+object Version {
+    val flywayDb = "5.2.4"
+    val postgreSql = "42.2.5"
+    val junit = "5.4.2"
+    val jackson = "2.10.0"
+    val protobuf = "3.10.0"
+}
 
 dependencies {
     implementation (kotlin("stdlib"))
     implementation (project(":services:common"))
     implementation (project(":services:tradelog:tradelog-api-spec"))
-    implementation ("com.google.protobuf:protobuf-java:$protobufVersion")
-    implementation ("com.google.protobuf:protobuf-java-util:$protobufVersion")
+    implementation ("com.google.protobuf:protobuf-java:${Version.protobuf}")
+    implementation ("com.google.protobuf:protobuf-java-util:${Version.protobuf}")
 
     implementation("org.springframework.boot:spring-boot-starter-web");
     implementation ("org.springframework.boot:spring-boot-starter-undertow")
     implementation ("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation ("org.springframework.boot:spring-boot-starter-actuator")
-    implementation ("org.postgresql:postgresql:$postgreSqlVersion")
-    implementation ("org.flywaydb:flyway-core:$flywayDbVersion")
-    implementation ("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonKotlinVersion")
+    implementation ("org.postgresql:postgresql:${Version.postgreSql}")
+    implementation ("org.flywaydb:flyway-core:${Version.flywayDb}")
+    implementation ("com.fasterxml.jackson.module:jackson-module-kotlin:${Version.jackson}")
 
     runtimeOnly("org.springframework.boot:spring-boot-devtools")
 
-    testImplementation ("org.junit.jupiter:junit-jupiter:$junitVersion")
+    testImplementation ("org.junit.jupiter:junit-jupiter:${Version.junit}")
     testImplementation ("org.springframework.boot:spring-boot-starter-test")
 }
 

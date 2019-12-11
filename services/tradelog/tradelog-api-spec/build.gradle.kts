@@ -4,6 +4,7 @@ version = "0.0.1-SNAPSHOT"
 
 plugins {
     kotlin("jvm")
+    java
     id ("org.openapi.generator") version "4.2.1"
     checkstyle
 }
