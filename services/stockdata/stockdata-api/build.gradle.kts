@@ -5,7 +5,7 @@ version = "0.0.1-SNAPSHOT"
 plugins {
     java
     kotlin("jvm")
-    //    kotlin ("plugin.spring") version "1.3.50"
+    kotlin ("plugin.spring")
     application
     id("io.spring.dependency-management")
     id("org.springframework.boot")
