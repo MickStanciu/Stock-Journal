@@ -1,4 +1,4 @@
-package com.example.stockdata.api.converter
+package com.example.stockdata.api.rest.converter
 
 import com.example.stockdata.api.model.PriceModel
 import com.example.stockdata.api.spec.model.PriceItemResponse

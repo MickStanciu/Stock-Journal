@@ -11,7 +11,7 @@ message ExceptionResponse {
     enum ExceptionCode {
         UNKNOWN = 0;
         BAD_REQUEST = 1;
-        SHARE_DATA_EMPTY = 2;
+        NO_DATA = 2;
     }
 
     ExceptionCode code = 4;

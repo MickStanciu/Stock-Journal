@@ -1,4 +1,4 @@
-package com.example.stockdata.api.configuration
+package com.example.stockdata.api.rest.configuration
 
 import com.google.protobuf.ExtensionRegistry
 import com.google.protobuf.util.JsonFormat

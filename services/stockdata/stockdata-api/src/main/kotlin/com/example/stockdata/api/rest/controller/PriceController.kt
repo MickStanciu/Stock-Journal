@@ -1,8 +1,8 @@
-package com.example.stockdata.api.controller
+package com.example.stockdata.api.rest.controller
 
-import com.example.stockdata.api.converter.PriceConverter
-import com.example.stockdata.api.exception.ExceptionCode
-import com.example.stockdata.api.exception.PriceException
+import com.example.stockdata.api.rest.converter.PriceConverter
+import com.example.stockdata.api.rest.exception.ExceptionCode
+import com.example.stockdata.api.rest.exception.PriceException
 import com.example.stockdata.api.service.PriceService
 import com.example.stockdata.api.spec.model.PriceResponse
 import org.springframework.http.HttpStatus
@@ -24,7 +24,7 @@ class PriceController(val priceService: PriceService) {
             throw PriceException(ExceptionCode.BAD_REQUEST)
         }
 
-        val sharedPriceModel = priceService.getPrice(symbol) ?: throw PriceException(ExceptionCode.SHARE_DATA_EMPTY)
+        val sharedPriceModel = priceService.getPrice(symbol) ?: throw PriceException(ExceptionCode.NO_DATA)
         val priceItemResponse = PriceConverter.toPriceItemResponse(sharedPriceModel)
 
         return PriceResponse.newBuilder()

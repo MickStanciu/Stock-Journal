@@ -1,4 +1,4 @@
-package com.example.stockdata.api.controller;
+package com.example.stockdata.api.rest.controller;
 
 import com.example.stockdata.api.converter.ShareDataConverter;
 import com.example.stockdata.api.exception.XExceptionCode;
