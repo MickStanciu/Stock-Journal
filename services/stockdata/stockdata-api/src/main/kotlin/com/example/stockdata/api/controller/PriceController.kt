@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping(value = ["/api/v1/price"])
 class PriceController(val priceService: PriceService) {
 
-    @RequestMapping(value = ["/last-close/{symbol}"], method = [RequestMethod.GET], produces = [MediaType.APPLICATION_JSON_VALUE])
+    @RequestMapping(value = ["/last-close/{symbol}"], method = [RequestMethod.GET], produces = [PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE])
     @ResponseStatus(HttpStatus.OK)
     fun getPriceForSymbol(
             @RequestHeader("accountId") accountId: String,
