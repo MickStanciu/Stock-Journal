@@ -24,7 +24,7 @@ class PriceController(val priceService: PriceService) {
             throw PriceException(ExceptionCode.BAD_REQUEST)
         }
 
-        val sharedPriceModel =  priceService.getPrice(symbol)
+        val sharedPriceModel = priceService.getPrice(symbol) ?: throw PriceException(ExceptionCode.SHARE_DATA_EMPTY)
         val priceItemResponse = PriceConverter.toPriceItemResponse(sharedPriceModel)
 
         return PriceResponse.newBuilder()

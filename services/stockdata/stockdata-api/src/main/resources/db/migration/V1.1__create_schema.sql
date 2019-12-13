@@ -1,5 +1,6 @@
 -- clean up
 DROP TABLE IF EXISTS fundamental;
+DROP TABLE IF EXISTS price;
 
 CREATE TABLE fundamental
 (
@@ -18,3 +19,12 @@ CREATE TABLE fundamental
 );
 
 GRANT ALL PRIVILEGES ON TABLE fundamental TO admin;
+
+CREATE TABLE price
+(
+    symbol            VARCHAR(16) PRIMARY KEY NOT NULL,
+    last_updated_on   TIMESTAMPTZ             NOT NULL,
+    last_close        FLOAT                   NOT NULL
+);
+
+GRANT ALL PRIVILEGES ON TABLE price TO admin;
