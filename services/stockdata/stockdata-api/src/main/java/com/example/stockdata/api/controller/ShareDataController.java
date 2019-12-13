@@ -1,7 +1,7 @@
 package com.example.stockdata.api.controller;
 
 import com.example.stockdata.api.converter.ShareDataConverter;
-import com.example.stockdata.api.exception.ExceptionCode;
+import com.example.stockdata.api.exception.XExceptionCode;
 import com.example.stockdata.api.exception.ShareDataException;
 import com.example.stockdata.api.service.ShareDataService;
 import com.example.stockdata.api.model.ShareDataModel;
@@ -45,7 +45,7 @@ public class ShareDataController {
             @PathVariable("symbol") String symbol) throws ShareDataException {
 
         if (!RequestValidation.validateGetDataBySymbol(accountId, symbol)) {
-            throw new ShareDataException(ExceptionCode.BAD_REQUEST);
+            throw new ShareDataException(XExceptionCode.BAD_REQUEST);
         }
 
         Optional<ShareDataModel> optionalShareDataModel = shareDataService.getShareData(symbol);
@@ -54,7 +54,7 @@ public class ShareDataController {
             return ShareDataConverter.toResponse.apply(optionalShareDataModel.get());
         } else {
             log.error("COULD NOT OBTAIN DATA FOR: {}", symbol);
-            throw new ShareDataException(ExceptionCode.SHARE_DATA_EMPTY);
+            throw new ShareDataException(XExceptionCode.SHARE_DATA_EMPTY);
         }
     }
 
@@ -76,7 +76,7 @@ public class ShareDataController {
             ) throws ShareDataException {
 
         if (!RequestValidation.validateSetDataBySymbol(accountId, symbol, model)) {
-            throw new ShareDataException(ExceptionCode.BAD_REQUEST);
+            throw new ShareDataException(XExceptionCode.BAD_REQUEST);
         }
 
         Optional<ShareDataModel> optionalShareDataModel = shareDataService.setShareData(symbol, model);
@@ -85,7 +85,7 @@ public class ShareDataController {
             return optionalShareDataModel.get();
         } else {
             log.error("COULD NOT SET DATA FOR: {}", symbol);
-            throw new ShareDataException(ExceptionCode.SHARE_DATA_EMPTY);
+            throw new ShareDataException(XExceptionCode.SHARE_DATA_EMPTY);
         }
     }
 }

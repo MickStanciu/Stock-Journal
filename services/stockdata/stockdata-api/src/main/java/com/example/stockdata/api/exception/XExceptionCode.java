@@ -1,6 +1,6 @@
 package com.example.stockdata.api.exception;
 
-public enum ExceptionCode {
+public enum XExceptionCode {
     UNKNOWN("Unknown"),
     BAD_REQUEST("Bad request"),
     SHARE_DATA_EMPTY("No data for given request"),
@@ -8,7 +8,7 @@ public enum ExceptionCode {
 
     private final String message;
 
-    ExceptionCode(String message) {
+    XExceptionCode(String message) {
         this.message = message;
     }
 

@@ -1,6 +1,8 @@
 package com.example.stockdata.api.controller
 
 import com.example.stockdata.api.converter.PriceConverter
+import com.example.stockdata.api.exception.ExceptionCode
+import com.example.stockdata.api.exception.PriceException
 import com.example.stockdata.api.service.PriceService
 import com.example.stockdata.api.spec.model.PriceResponse
 import org.springframework.http.HttpStatus
@@ -18,6 +20,9 @@ class PriceController(val priceService: PriceService) {
             @PathVariable symbol: String) : PriceResponse {
 
         //TODO: missing Request Validation
+        if (symbol == "ABC") {
+            throw PriceException(ExceptionCode.BAD_REQUEST)
+        }
 
         val sharedPriceModel =  priceService.getPrice(symbol)
         val priceItemResponse = PriceConverter.toPriceItemResponse(sharedPriceModel)

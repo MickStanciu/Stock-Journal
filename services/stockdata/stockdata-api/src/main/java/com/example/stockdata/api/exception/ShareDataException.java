@@ -2,19 +2,19 @@ package com.example.stockdata.api.exception;
 
 public class ShareDataException extends Exception {
 
-    private final ExceptionCode code;
+    private final XExceptionCode code;
 
-    public ShareDataException(ExceptionCode code) {
+    public ShareDataException(XExceptionCode code) {
         super(code.getMessage());
         this.code = code;
     }
 
-    public ShareDataException(ExceptionCode code, String message) {
+    public ShareDataException(XExceptionCode code, String message) {
         super(message);
         this.code = code;
     }
 
-    public ExceptionCode getCode() {
+    public XExceptionCode getCode() {
         return code;
     }
 }
