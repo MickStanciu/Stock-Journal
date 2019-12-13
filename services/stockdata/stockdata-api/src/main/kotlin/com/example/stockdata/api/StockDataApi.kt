@@ -7,8 +7,7 @@ import org.springframework.http.converter.protobuf.ProtobufHttpMessageConverter
 
 @SpringBootApplication
 class StockDataApi {
-    @Bean
-    fun protobufHttpMessageConverter(): ProtobufHttpMessageConverter = ProtobufHttpMessageConverter()
+
 }
 
 fun main(args: Array<String>) {
