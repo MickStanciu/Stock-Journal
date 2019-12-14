@@ -1,7 +1,5 @@
 package com.example.stockdata.api.rest.exception
 
-import com.example.stockdata.api.exception.ShareDataException
-import com.example.stockdata.api.exception.XExceptionCode
 import com.example.stockdata.api.rest.converter.PriceExceptionConverter
 import com.example.stockdata.api.spec.model.ExceptionResponse
 import org.slf4j.LoggerFactory
@@ -24,21 +22,6 @@ class CustomisedResponseEntityExceptionHandler : ResponseEntityExceptionHandler(
                 .build()
         log.error(ex.message, ex)
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionResponse)
-    }
-
-    @ExceptionHandler(ShareDataException::class)
-    fun handleShareDataExceptions(ex: ShareDataException, request: WebRequest): ResponseEntity<ExceptionResponse> {
-        val exceptionResponse = ExceptionResponse.newBuilder()
-                .setCode(ExceptionResponse.ExceptionCode.valueOf(ex.code.toString()))
-                .setMessage(ex.message)
-                .setDetails(request.getDescription(false))
-                .build()
-        log.error(ex.message, ex)
-        return when (ex.code) {
-            XExceptionCode.BAD_REQUEST -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse)
-            XExceptionCode.SHARE_DATA_EMPTY -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponse)
-            else -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionResponse)
-        }
     }
 
     @ExceptionHandler(PriceException::class)

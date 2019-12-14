@@ -3,6 +3,8 @@ package com.example.gateway.api.service;
 import com.example.gateway.api.converter.ShareDataConverter;
 import com.example.gateway.api.gateway.StockDataGateway;
 import com.example.gateway.api.spec.model.ShareDataGWModel;
+import com.example.stockdata.api.spec.model.PriceItemResponse;
+import com.example.stockdata.api.spec.model.PriceResponse;
 import com.example.stockdata.api.spec.model.ShareDataResponse;
 import com.example.tradelog.api.spec.model.ShareDataModel;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,7 @@ public class StockDataService {
     }
 
     public ShareDataGWModel getData(String accountId, String symbol) {
-        ShareDataResponse returnModel = stockDataGateway.getShareDataBySymbol(accountId, symbol);
+        PriceItemResponse returnModel = stockDataGateway.getPriceDataBySymbol(accountId, symbol);
         return ShareDataConverter.toShareDataGWModel.apply(returnModel);
     }
 }

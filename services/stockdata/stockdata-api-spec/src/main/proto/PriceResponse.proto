@@ -9,5 +9,6 @@ message PriceResponse {
 
 message PriceItemResponse {
     string symbol = 1;
-    double last_close = 2;
+    string last_updated_on = 2;
+    double last_close = 3;
 }

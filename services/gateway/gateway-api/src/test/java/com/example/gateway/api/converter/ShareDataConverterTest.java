@@ -1,12 +1,10 @@
 package com.example.gateway.api.converter;
 
 import com.example.gateway.api.spec.model.ShareDataGWModel;
-import com.example.stockdata.api.spec.model.ShareDataResponse;
-import com.example.tradelog.api.spec.model.ShareDataModel;
+import com.example.stockdata.api.spec.model.PriceItemResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
@@ -16,10 +14,10 @@ class ShareDataConverterTest {
     void testConverter() {
         OffsetDateTime time = OffsetDateTime.of(2019, 7, 7, 0, 0, 0, 0, ZoneOffset.UTC);
 
-        ShareDataResponse from = ShareDataResponse.newBuilder()
+        PriceItemResponse from = PriceItemResponse.newBuilder()
                 .setSymbol("EXEL")
                 .setLastUpdatedOn(time.toString())
-                .setPrice(30.08)
+                .setLastClose(30.08)
                 .build();
 
         ShareDataGWModel to = ShareDataConverter.toShareDataGWModel.apply(from);
@@ -34,7 +32,7 @@ class ShareDataConverterTest {
 //        Assertions.assertEquals(from.getMarketCapitalization(), to.getMarketCapitalization());
 //        Assertions.assertEquals(from.getPeRatio(), to.getPeRatio());
 //        Assertions.assertEquals(from.getPeRatioFuture(), to.getPeRatioFuture());
-        Assertions.assertEquals(from.getPrice(), to.getPrice());
+        Assertions.assertEquals(from.getLastClose(), to.getPrice());
 //        Assertions.assertEquals(from.getSector(), to.getSector());
     }
 }

@@ -3,6 +3,7 @@ package com.example.stockdata.api.rest.controller
 import com.example.stockdata.api.rest.converter.PriceConverter
 import com.example.stockdata.api.rest.exception.ExceptionCode
 import com.example.stockdata.api.rest.exception.PriceException
+import com.example.stockdata.api.rest.validator.RequestValidator
 import com.example.stockdata.api.service.PriceService
 import com.example.stockdata.api.spec.model.PriceResponse
 import org.springframework.http.HttpStatus
@@ -19,8 +20,7 @@ class PriceController(val priceService: PriceService) {
             @RequestHeader("accountId") accountId: String,
             @PathVariable symbol: String) : PriceResponse {
 
-        //TODO: missing Request Validation
-        if (symbol == "ABC") {
+        if (!RequestValidator.validateGetPriceForSymbol(accountId, symbol)) {
             throw PriceException(ExceptionCode.BAD_REQUEST)
         }
 

@@ -1,5 +1,7 @@
 package com.example.gateway.api.gateway;
 
+import com.example.stockdata.api.spec.model.PriceItemResponse;
+import com.example.stockdata.api.spec.model.PriceResponse;
 import com.example.stockdata.api.spec.model.ShareDataResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -22,17 +24,18 @@ public class StockDataGateway {
         this.API_URL = API_URL;
     }
 
-    public ShareDataResponse getShareDataBySymbol(String accountId, String symbol) {
+    public PriceItemResponse getPriceDataBySymbol(String accountId, String symbol) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
-                .path("/data/share/{symbol}");
+                .path("/price/last-close/{symbol}");
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
+//        headers.setAccept(MediaType.APPLICATION_JSON);
         headers.set("accountId", accountId);
 
-        ResponseEntity<ShareDataResponse> responseEntity =
-                restTemplate.exchange(builder.build(symbol), HttpMethod.GET, new HttpEntity<>(headers), ShareDataResponse.class);
-        return responseEntity.getBody();
+        ResponseEntity<PriceResponse> responseEntity =
+                restTemplate.exchange(builder.build(symbol), HttpMethod.GET, new HttpEntity<>(headers), PriceResponse.class);
+        return responseEntity.getBody().getPrice(0);
     }
 }
