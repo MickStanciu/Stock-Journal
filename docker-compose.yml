@@ -10,58 +10,58 @@ services:
 #      - "8500:8500" #HTTP SERVER
 
 
-  web:
-    build:
-      context: ./
-      dockerfile: ./docker/web/Dockerfile
-    image: web
-    container_name: web
-    ports:
-      - "80:8080" #WildFly App
-    environment:
-      - "SPRING_PROFILES_ACTIVE=docker"
-    depends_on:
-      - gateway-api
+#  web:
+#    build:
+#      context: ./
+#      dockerfile: ./docker/web/Dockerfile
+#    image: web
+#    container_name: web
+#    ports:
+#      - "80:8080" #WildFly App
+#    environment:
+#      - "SPRING_PROFILES_ACTIVE=docker"
+#    depends_on:
+#      - gateway-api
 
-  gateway-api:
-    build:
-      context: ./
-      dockerfile: ./docker/gateway-api/Dockerfile
-    image: gateway-api
-    container_name: gateway-api
-    ports:
-      - "8085:8080"
-    environment:
-      - "SPRING_PROFILES_ACTIVE=docker"
-    depends_on:
-      - tradelog-api
-      - stockdata-api
+#  gateway-api:
+#    build:
+#      context: ./
+#      dockerfile: ./docker/gateway-api/Dockerfile
+#    image: gateway-api
+#    container_name: gateway-api
+#    ports:
+#      - "8085:8080"
+#    environment:
+#      - "SPRING_PROFILES_ACTIVE=docker"
+#    depends_on:
+#      - tradelog-api
+#      - stockdata-api
 
-  tradelog-api:
-    build:
-      context: ./
-      dockerfile: ./docker/tradelog-api/Dockerfile
-    image: tradelog-api
-    container_name: tradelog-api
-    ports:
-      - "8083:8080"
-    environment:
-      - "SPRING_PROFILES_ACTIVE=docker"
-    depends_on:
-      - postgresql
+#  tradelog-api:
+#    build:
+#      context: ./
+#      dockerfile: ./docker/tradelog-api/Dockerfile
+#    image: tradelog-api
+#    container_name: tradelog-api
+#    ports:
+#      - "8083:8080"
+#    environment:
+#      - "SPRING_PROFILES_ACTIVE=docker"
+#    depends_on:
+#      - postgresql
 
-  stockdata-api:
-    build:
-      context: ./
-      dockerfile: ./docker/stockdata-api/Dockerfile
-    image: stockdata-api
-    container_name: stockdata-api
-    ports:
-      - "8086:8080"
-    environment:
-      - "SPRING_PROFILES_ACTIVE=docker"
-    depends_on:
-      - postgresql
+#  stockdata-api:
+#    build:
+#      context: ./
+#      dockerfile: ./docker/stockdata-api/Dockerfile
+#    image: stockdata-api
+#    container_name: stockdata-api
+#    ports:
+#      - "8086:8080"
+#    environment:
+#      - "SPRING_PROFILES_ACTIVE=docker"
+#    depends_on:
+#      - postgresql
 
 #  accountapi:
 #    build: account/.
@@ -91,3 +91,9 @@ services:
     volumes:
       - ${DOCKER_BASE}/database-server/data:/var/lib/postgresql/data:rw
       - ${DOCKER_BASE}/database-server/backup:/var/lib/postgresql/backup:rw
+
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+    - "5672:5672"
+    - "15672:15672"
