@@ -4,7 +4,7 @@ import com.example.stockdata.api.rest.converter.PriceConverter
 import com.example.stockdata.api.rest.exception.ExceptionCode
 import com.example.stockdata.api.rest.exception.PriceException
 import com.example.stockdata.api.rest.validator.RequestValidator
-import com.example.stockdata.api.service.PriceService
+import com.example.stockdata.api.core.service.PriceService
 import com.example.stockdata.api.spec.model.PriceResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType

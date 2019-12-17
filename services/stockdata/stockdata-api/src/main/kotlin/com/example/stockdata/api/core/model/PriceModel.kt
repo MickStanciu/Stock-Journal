@@ -1,4 +1,4 @@
-package com.example.stockdata.api.model
+package com.example.stockdata.api.core.model
 
 import java.time.OffsetDateTime
 

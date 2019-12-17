@@ -1,7 +1,7 @@
-package com.example.stockdata.api.dao
+package com.example.stockdata.api.db
 
 import com.example.common.converter.TimeConverter
-import com.example.stockdata.api.model.PriceModel
+import com.example.stockdata.api.core.model.PriceModel
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
 import org.springframework.stereotype.Repository

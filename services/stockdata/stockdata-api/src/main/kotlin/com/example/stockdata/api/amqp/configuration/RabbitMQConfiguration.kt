@@ -1,4 +1,4 @@
-package com.example.stockdata.api.mq.configuration
+package com.example.stockdata.api.amqp.configuration
 
 import org.springframework.amqp.core.Binding
 import org.springframework.amqp.core.BindingBuilder

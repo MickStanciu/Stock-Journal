@@ -12,3 +12,12 @@ message PriceItemResponse {
     string last_updated_on = 2;
     double last_close = 3;
 }
+
+message PriceUpdateRequest {
+    repeated PriceItemUpdateRequest price = 1;
+}
+
+message PriceItemUpdateRequest {
+    string symbol = 1;
+    double last_close = 2;
+}
