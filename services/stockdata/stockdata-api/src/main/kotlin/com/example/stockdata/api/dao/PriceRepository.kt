@@ -1,4 +1,4 @@
-package com.example.stockdata.api.repository
+package com.example.stockdata.api.dao
 
 import com.example.common.converter.TimeConverter
 import com.example.stockdata.api.model.PriceModel

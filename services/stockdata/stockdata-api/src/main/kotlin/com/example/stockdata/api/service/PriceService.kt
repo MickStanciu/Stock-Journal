@@ -1,7 +1,7 @@
 package com.example.stockdata.api.service
 
 import com.example.stockdata.api.model.PriceModel
-import com.example.stockdata.api.repository.PriceRepository
+import com.example.stockdata.api.dao.PriceRepository
 import org.springframework.stereotype.Service
 
 @Service
