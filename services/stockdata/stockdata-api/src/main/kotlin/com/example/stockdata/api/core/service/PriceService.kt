@@ -15,4 +15,7 @@ class PriceService(val priceRepository: PriceRepository) {
         priceRepository.updateForSymbol(priceModel)
     }
 
+    fun getOldestPrices(adjustedLimit: Int): List<String> {
+        return priceRepository.getOldestPrices(adjustedLimit)
+    }
 }

@@ -9,5 +9,10 @@ class RequestValidator: FieldValidator() {
             return FieldValidator.accountId.test(accountId)
                     && FieldValidator.symbol.test(symbol)
         }
+
+        fun validateGetOldestSymbols(accountId: String, limit: Int): Boolean {
+            return FieldValidator.accountId.test(accountId)
+                    && FieldValidator.limit.test(limit)
+        }
     }
 }

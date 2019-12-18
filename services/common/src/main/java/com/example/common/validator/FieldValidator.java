@@ -19,4 +19,9 @@ public class FieldValidator {
             .sizeGreaterOrEqualTo(1)
             .sizeLessOrEqualTo(6)
             .isValid();
+
+    protected static Predicate<Integer> limit = n -> new IntegerValidator(n)
+            .notNull()
+            .greaterThanZero()
+            .isValid();
 }
