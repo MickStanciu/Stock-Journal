@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.example.tradelog.api.spec.model";
+
+
+// Used to get all symbols traded
+message ActiveSymbolsResponse {
+    repeated string symbols = 1;
+}
