@@ -1,6 +1,7 @@
 package com.example.gateway.api.service;
 
 
+import com.example.stockdata.api.spec.model.PriceUpdateRequest;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ public class RabbitMQService {
         this.routingKey = routingKey;
     }
 
-    public void send(String message) {
+    public void send(PriceUpdateRequest message) {
         rabbitTemplate.convertAndSend(exchange, routingKey, message);
     }
 }

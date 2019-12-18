@@ -1,5 +1,6 @@
 package com.example.stockdata.api.amqp
 
+import com.example.stockdata.api.amqp.converter.PriceConverter
 import com.example.stockdata.api.core.service.PriceService
 import com.example.stockdata.api.spec.model.PriceUpdateRequest
 import org.springframework.amqp.rabbit.annotation.RabbitListener
@@ -12,7 +13,8 @@ class AmqpReceiver(val priceService: PriceService) {
     fun receiveMessage(request: PriceUpdateRequest) {
         println("Processing message ... ")
         request.priceList.forEach {
-            priceService.updatePrice(it.symbol, it.lastClose)
+            val priceModel = PriceConverter.toPriceModel(it)
+            priceService.updatePrice(priceModel)
         }
     }
 }

@@ -1,13 +1,10 @@
 package com.example.common.converter;
 
 import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.function.Function;
 
 public class TimeConverter {
@@ -40,6 +37,10 @@ public class TimeConverter {
         return Timestamp.from(offsetDateTime.toInstant());
     }
 
+    public static Timestamp getTimestampNow() {
+        return new Timestamp(new Date().getTime());
+    }
+
     public static OffsetDateTime fromTimestamp(Timestamp timestamp) {
         return OffsetDateTime.ofInstant(
                 Instant.ofEpochMilli(timestamp.getTime()), ZoneId.of("UTC"));
@@ -47,6 +48,10 @@ public class TimeConverter {
 
     public static OffsetDateTime nextYear() {
         return OffsetDateTime.now(ZoneId.of("UTC")).plusYears(1);
+    }
+
+    public static OffsetDateTime getOffsetDateTimeNow() {
+        return OffsetDateTime.now();
     }
 
     public static Function<String, OffsetDateTime> toOffsetDateTime = OffsetDateTime::parse;

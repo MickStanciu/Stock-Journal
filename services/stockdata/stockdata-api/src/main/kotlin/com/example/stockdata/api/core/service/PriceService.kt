@@ -11,8 +11,8 @@ class PriceService(val priceRepository: PriceRepository) {
         return priceRepository.getBySymbol(symbol)
     }
 
-    fun updatePrice(symbol: String, lastClose: Double) {
-        println("... updating $symbol with $lastClose")
+    fun updatePrice(priceModel: PriceModel) {
+        priceRepository.updateForSymbol(priceModel)
     }
 
 }
