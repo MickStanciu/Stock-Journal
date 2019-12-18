@@ -1,7 +1,7 @@
 package com.example.tradelog.api.exception;
 
 
-import com.example.tradelog.api.spec.exception.ExceptionCode;
+import com.example.tradelog.api.rest.exception.ExceptionCode;
 
 public class ResourceErrorException extends RuntimeException {
     private final ExceptionCode code;

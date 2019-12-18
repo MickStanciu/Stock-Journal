@@ -1,6 +1,6 @@
 package com.example.tradelog.api.service;
 
-import com.example.tradelog.api.repository.TransactionRepository;
+import com.example.tradelog.api.repository.TransactionRepositoryJ;
 import com.example.tradelog.api.spec.model.TransactionModel;
 import com.example.tradelog.api.spec.model.TransactionSettingsModel;
 import org.slf4j.Logger;
@@ -15,14 +15,10 @@ public class TransactionJournalService {
 
     private static final Logger log = LoggerFactory.getLogger(TransactionJournalService.class);
 
-    private TransactionRepository transactionRepository;
+    private TransactionRepositoryJ transactionRepository;
 
-    public TransactionJournalService(TransactionRepository transactionRepository) {
+    public TransactionJournalService(TransactionRepositoryJ transactionRepository) {
         this.transactionRepository = transactionRepository;
-    }
-
-    public List<String> getAllTradedSymbols(String accountId) {
-        return transactionRepository.getUniqueSymbols(accountId);
     }
 
     public boolean updateOptions(TransactionSettingsModel model) {

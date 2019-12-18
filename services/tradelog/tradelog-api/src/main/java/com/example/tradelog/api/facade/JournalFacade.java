@@ -4,11 +4,7 @@ import com.example.tradelog.api.service.DividendJournalService;
 import com.example.tradelog.api.service.OptionJournalService;
 import com.example.tradelog.api.service.ShareJournalService;
 import com.example.tradelog.api.service.TransactionJournalService;
-import com.example.tradelog.api.spec.model.DividendJournalModel;
-import com.example.tradelog.api.spec.model.OptionJournalModel;
-import com.example.tradelog.api.spec.model.ShareJournalModel;
-import com.example.tradelog.api.spec.model.TradeSummaryModel;
-import com.example.tradelog.api.spec.model.TransactionSettingsModel;
+import com.example.tradelog.api.spec.model.*;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -30,11 +26,6 @@ public class JournalFacade {
         this.shareService = shareService;
         this.optionService = optionService;
         this.dividendService = dividendService;
-    }
-
-
-    public List<String> getAllTradedSymbols(String accountId) {
-        return transactionService.getAllTradedSymbols(accountId);
     }
 
     public List<TradeSummaryModel> getSummary(String accountId) {

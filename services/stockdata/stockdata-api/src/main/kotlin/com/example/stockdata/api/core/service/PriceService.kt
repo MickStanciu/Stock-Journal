@@ -5,7 +5,7 @@ import com.example.stockdata.api.db.PriceRepository
 import org.springframework.stereotype.Service
 
 @Service
-class PriceService(val priceRepository: PriceRepository) {
+class PriceService(private val priceRepository: PriceRepository) {
 
     fun getPrice(symbol: String): PriceModel? {
         return priceRepository.getBySymbol(symbol)

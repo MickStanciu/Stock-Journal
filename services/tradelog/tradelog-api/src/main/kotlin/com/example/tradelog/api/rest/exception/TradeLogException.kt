@@ -1,4 +1,6 @@
-package com.example.tradelog.api.spec.exception
+package com.example.tradelog.api.rest.exception
+
+class TradeLogException(var code: ExceptionCode): Exception(code.message)
 
 enum class ExceptionCode(val message: String) {
     UNKNOWN("Unknown"),

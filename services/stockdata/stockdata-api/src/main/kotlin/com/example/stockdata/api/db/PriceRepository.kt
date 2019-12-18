@@ -33,22 +33,22 @@ class PriceRepository(private val jdbcTemplate: JdbcTemplate) {
 
     fun getOldestPrices(adjustedLimit: Int): List<String> {
         val parameters = arrayOf(adjustedLimit)
-        return jdbcTemplate.query(GET_OLDEST_PRICES, parameters, StringRowMapper())
+        return jdbcTemplate.query(GET_OLDEST_PRICES, parameters, SymbolRowMapper())
     }
 
     companion object {
-        const val STOCK_DATA_READ_BY_SYMBOL: String =
+        private const val STOCK_DATA_READ_BY_SYMBOL: String =
                 "SELECT symbol, last_updated_on, last_close " +
                         "FROM price " +
                         "WHERE symbol = ?"
 
-        const val STOCK_PRICE_UPSERT: String =
+        private const val STOCK_PRICE_UPSERT: String =
                 "INSERT INTO price(symbol, last_close, last_updated_on) " +
                         "VALUES(?, ?, ?) " +
                         "ON CONFLICT ON CONSTRAINT price_pkey " +
                         "DO UPDATE SET last_close = excluded.last_close, last_updated_on = excluded.last_updated_on"
 
-        const val GET_OLDEST_PRICES: String = "SELECT symbol FROM price ORDER BY last_updated_on ASC LIMIT ?"
+        private const val GET_OLDEST_PRICES: String = "SELECT symbol FROM price ORDER BY last_updated_on ASC LIMIT ?"
     }
 
 }
@@ -64,7 +64,7 @@ private class PriceModelRowMapper : RowMapper<PriceModel> {
     }
 }
 
-private class StringRowMapper : RowMapper<String> {
+private class SymbolRowMapper : RowMapper<String> {
     override fun mapRow(rs: ResultSet, rowNum: Int): String {
         return rs.getString("symbol")
     }

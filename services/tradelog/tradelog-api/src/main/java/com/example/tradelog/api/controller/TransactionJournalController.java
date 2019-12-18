@@ -1,8 +1,8 @@
 package com.example.tradelog.api.controller;
 
-import com.example.tradelog.api.exception.TradeLogException;
 import com.example.tradelog.api.facade.JournalFacade;
-import com.example.tradelog.api.spec.exception.ExceptionCode;
+import com.example.tradelog.api.rest.exception.ExceptionCode;
+import com.example.tradelog.api.rest.exception.TradeLogException;
 import com.example.tradelog.api.spec.model.TradeSummaryModel;
 import com.example.tradelog.api.spec.model.TransactionSettingsModel;
 import com.example.tradelog.api.validator.RequestValidation;
@@ -24,24 +24,6 @@ public class TransactionJournalController {
 
     public TransactionJournalController(JournalFacade journalFacade) {
         this.facade = journalFacade;
-    }
-
-
-    @RequestMapping(value = "/symbols", method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public List<String> getAllTradedSymbols(@RequestHeader("accountId") String accountId) throws TradeLogException {
-
-        if (!RequestValidation.validateGetAllTradedSymbols(accountId)) {
-            throw new TradeLogException(ExceptionCode.BAD_REQUEST);
-        }
-
-        List<String> tradedSymbols = facade.getAllTradedSymbols(accountId);
-
-        if (tradedSymbols.isEmpty()) {
-            throw new TradeLogException(ExceptionCode.TRADELOG_EMPTY);
-        }
-
-        return tradedSymbols;
     }
 
 

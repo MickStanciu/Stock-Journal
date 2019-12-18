@@ -1,8 +1,6 @@
 package com.example.stockdata.api.rest.exception
 
-class PriceException(var code: ExceptionCode) : Exception(code.message) {
-
-}
+class PriceException(var code: ExceptionCode): Exception(code.message)
 
 enum class ExceptionCode(val message: String) {
     UNKNOWN("Unknown"),

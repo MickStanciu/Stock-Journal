@@ -13,19 +13,12 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class TransactionRepository {
+public class TransactionRepositoryJ {
 
-    private static final Logger log = LoggerFactory.getLogger(TransactionRepository.class);
-
-    private static final String JOURNAL_READ_SYMBOLS =
-            "SELECT DISTINCT symbol " +
-                    "FROM transaction_log " +
-                    "WHERE account_fk = CAST(? AS uuid)" +
-                    "ORDER BY symbol ASC";
+    private static final Logger log = LoggerFactory.getLogger(TransactionRepositoryJ.class);
 
     private static final String JOURNAL_CREATE_TRANSACTION_FOR_ACCOUNT =
             "INSERT INTO transaction_log (account_fk, date, symbol, transaction_type_fk, broker_fees) " +
@@ -49,13 +42,8 @@ public class TransactionRepository {
 
     private JdbcTemplate jdbcTemplate;
 
-    public TransactionRepository(JdbcTemplate jdbcTemplate) {
+    public TransactionRepositoryJ(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-    }
-
-    public List<String> getUniqueSymbols(String accountId) {
-        Object[] parameters = new Object[] {accountId};
-        return jdbcTemplate.query(JOURNAL_READ_SYMBOLS, parameters, new SymbolRowMapper());
     }
 
     /**

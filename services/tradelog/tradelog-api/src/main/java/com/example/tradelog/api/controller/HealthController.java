@@ -1,8 +1,6 @@
 package com.example.tradelog.api.controller;
 
-import com.example.tradelog.api.exception.ResourceErrorException;
 import com.example.tradelog.api.service.HealthService;
-import com.example.tradelog.api.spec.exception.ExceptionCode;
 import com.example.tradelog.api.spec.model.HealthModel;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -28,9 +26,9 @@ public class HealthController {
 
     }
 
-    @RequestMapping(value = "/test500", method = RequestMethod.GET)
-    public void test500() {
-        throw new ResourceErrorException(ExceptionCode.UNKNOWN);
-    }
+//    @RequestMapping(value = "/test500", method = RequestMethod.GET)
+//    public void test500() {
+//        throw new ResourceErrorException(ExceptionCode.UNKNOWN);
+//    }
 
 }
