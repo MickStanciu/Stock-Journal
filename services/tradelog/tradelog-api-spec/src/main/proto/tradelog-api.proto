@@ -2,7 +2,7 @@ syntax = "proto3";
 package tradelog_api;
 
 option java_multiple_files = true;
-option java_package = "com.example.tradelog.api.proto3.model";
+option java_package = "com.example.tradelog.api.spec.model";
 
 enum ActionType {
     SELL = 0;
@@ -85,5 +85,10 @@ message TradeSummaryModel {
     string symbol = 1;
     int32 trades = 2;
     int32 total = 3;
+}
+
+// Used to get all symbols traded
+message ActiveSymbolsResponse {
+    repeated string symbols = 1;
 }
 
