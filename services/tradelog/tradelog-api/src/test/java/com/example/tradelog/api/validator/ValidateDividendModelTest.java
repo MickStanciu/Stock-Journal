@@ -1,9 +1,9 @@
 package com.example.tradelog.api.validator;
 
-import com.example.tradelog.api.spec.model.DividendJournalModel;
-import com.example.tradelog.api.spec.model.TransactionModel;
-import com.example.tradelog.api.spec.model.TransactionSettingsModel;
-import com.example.tradelog.api.spec.model.TransactionType;
+import com.example.tradelog.api.core.model.DividendJournalModel;
+import com.example.tradelog.api.core.model.TransactionModel;
+import com.example.tradelog.api.core.model.TransactionSettingsModel;
+import com.example.tradelog.api.core.model.TransactionType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

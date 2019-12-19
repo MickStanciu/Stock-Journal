@@ -1,9 +1,9 @@
 package com.example.tradelog.api.repository;
 
 import com.example.common.converter.TimeConverter;
-import com.example.tradelog.api.spec.model.TransactionModel;
-import com.example.tradelog.api.spec.model.TransactionSettingsModel;
-import com.example.tradelog.api.spec.model.TransactionType;
+import com.example.tradelog.api.core.model.TransactionModel;
+import com.example.tradelog.api.core.model.TransactionSettingsModel;
+import com.example.tradelog.api.core.model.TransactionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;

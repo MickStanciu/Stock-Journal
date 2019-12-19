@@ -1,11 +1,9 @@
 package com.example.gateway.api.converter;
 
-import com.example.gateway.api.spec.StatisticsGWModel;
 import com.example.gateway.api.spec.model.DividendGWModel;
 import com.example.gateway.api.spec.model.OptionJournalGWModel;
 import com.example.gateway.api.spec.model.ShareJournalGWModel;
 import com.example.gateway.api.spec.model.TradeLogGWModel;
-import com.example.tradelog.api.spec.model.TradeLogModel;
 
 import java.util.List;
 import java.util.Objects;

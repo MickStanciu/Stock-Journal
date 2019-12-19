@@ -1,8 +1,8 @@
 package com.example.tradelog.api.repository;
 
-import com.example.tradelog.api.spec.model.ActionType;
-import com.example.tradelog.api.spec.model.ShareJournalModel;
-import com.example.tradelog.api.spec.model.TransactionModel;
+import com.example.tradelog.api.core.model.ActionType;
+import com.example.tradelog.api.core.model.ShareJournalModel;
+import com.example.tradelog.api.core.model.TransactionModel;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

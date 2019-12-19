@@ -1,11 +1,11 @@
 package com.example.tradelog.api.validator;
 
-import com.example.tradelog.api.spec.model.ActionType;
-import com.example.tradelog.api.spec.model.OptionJournalModel;
-import com.example.tradelog.api.spec.model.OptionType;
-import com.example.tradelog.api.spec.model.TransactionModel;
-import com.example.tradelog.api.spec.model.TransactionSettingsModel;
-import com.example.tradelog.api.spec.model.TransactionType;
+import com.example.tradelog.api.core.model.ActionType;
+import com.example.tradelog.api.core.model.OptionJournalModel;
+import com.example.tradelog.api.core.model.OptionType;
+import com.example.tradelog.api.core.model.TransactionModel;
+import com.example.tradelog.api.core.model.TransactionSettingsModel;
+import com.example.tradelog.api.core.model.TransactionType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

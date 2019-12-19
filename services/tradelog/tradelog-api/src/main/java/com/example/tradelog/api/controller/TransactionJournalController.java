@@ -1,15 +1,21 @@
 package com.example.tradelog.api.controller;
 
+import com.example.tradelog.api.core.model.TradeSummaryModel;
+import com.example.tradelog.api.core.model.TransactionSettingsModel;
 import com.example.tradelog.api.facade.JournalFacade;
 import com.example.tradelog.api.rest.exception.ExceptionCode;
 import com.example.tradelog.api.rest.exception.TradeLogException;
-import com.example.tradelog.api.spec.model.TradeSummaryModel;
-import com.example.tradelog.api.spec.model.TransactionSettingsModel;
 import com.example.tradelog.api.validator.RequestValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 

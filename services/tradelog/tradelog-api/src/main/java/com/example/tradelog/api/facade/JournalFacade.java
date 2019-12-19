@@ -1,10 +1,14 @@
 package com.example.tradelog.api.facade;
 
+import com.example.tradelog.api.core.model.DividendJournalModel;
+import com.example.tradelog.api.core.model.OptionJournalModel;
+import com.example.tradelog.api.core.model.ShareJournalModel;
+import com.example.tradelog.api.core.model.TradeSummaryModel;
+import com.example.tradelog.api.core.model.TransactionSettingsModel;
 import com.example.tradelog.api.service.DividendJournalService;
 import com.example.tradelog.api.service.OptionJournalService;
 import com.example.tradelog.api.service.ShareJournalService;
 import com.example.tradelog.api.service.TransactionJournalService;
-import com.example.tradelog.api.spec.model.*;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;

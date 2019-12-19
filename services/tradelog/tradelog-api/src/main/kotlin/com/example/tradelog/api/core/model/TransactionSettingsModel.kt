@@ -1,4 +1,4 @@
-package com.example.tradelog.api.spec.model
+package com.example.tradelog.api.core.model
 
 class TransactionSettingsModel(
         val transactionId: String,

@@ -1,4 +1,4 @@
-package com.example.tradelog.api.spec.model
+package com.example.tradelog.api.core.model
 
 class TradeLogModel(
         val shareList: List<ShareJournalModel>,

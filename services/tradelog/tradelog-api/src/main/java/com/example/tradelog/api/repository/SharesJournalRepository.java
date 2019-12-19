@@ -1,7 +1,7 @@
 package com.example.tradelog.api.repository;
 
-import com.example.tradelog.api.spec.model.ShareJournalModel;
-import com.example.tradelog.api.spec.model.TradeSummaryModel;
+import com.example.tradelog.api.core.model.ShareJournalModel;
+import com.example.tradelog.api.core.model.TradeSummaryModel;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 

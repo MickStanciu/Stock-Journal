@@ -1,9 +1,9 @@
 package com.example.tradelog.api.service;
 
 import com.example.tradelog.api.converter.TradeSummaryListConverter;
+import com.example.tradelog.api.core.model.OptionJournalModel;
+import com.example.tradelog.api.core.model.TradeSummaryModel;
 import com.example.tradelog.api.repository.OptionsJournalRepository;
-import com.example.tradelog.api.spec.model.OptionJournalModel;
-import com.example.tradelog.api.spec.model.TradeSummaryModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

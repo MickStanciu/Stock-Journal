@@ -1,10 +1,10 @@
 package com.example.tradelog.api.repository;
 
 import com.example.common.converter.TimeConverter;
-import com.example.tradelog.api.spec.model.ActionType;
-import com.example.tradelog.api.spec.model.OptionJournalModel;
-import com.example.tradelog.api.spec.model.OptionType;
-import com.example.tradelog.api.spec.model.TransactionModel;
+import com.example.tradelog.api.core.model.ActionType;
+import com.example.tradelog.api.core.model.OptionJournalModel;
+import com.example.tradelog.api.core.model.OptionType;
+import com.example.tradelog.api.core.model.TransactionModel;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

@@ -1,7 +1,7 @@
 package com.example.tradelog.api.service;
 
+import com.example.tradelog.api.core.model.HealthModel;
 import com.example.tradelog.api.repository.OptionsJournalRepository;
-import com.example.tradelog.api.spec.model.HealthModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

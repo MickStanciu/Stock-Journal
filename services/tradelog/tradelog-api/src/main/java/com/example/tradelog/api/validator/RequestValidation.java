@@ -1,14 +1,14 @@
 package com.example.tradelog.api.validator;
 
 import com.example.common.validator.FieldValidator;
-import com.example.tradelog.api.spec.model.ActionType;
-import com.example.tradelog.api.spec.model.DividendJournalModel;
-import com.example.tradelog.api.spec.model.OptionJournalModel;
-import com.example.tradelog.api.spec.model.OptionType;
-import com.example.tradelog.api.spec.model.ShareDataModel;
-import com.example.tradelog.api.spec.model.ShareJournalModel;
-import com.example.tradelog.api.spec.model.TransactionSettingsModel;
-import com.example.tradelog.api.spec.model.TransactionType;
+import com.example.tradelog.api.core.model.ActionType;
+import com.example.tradelog.api.core.model.DividendJournalModel;
+import com.example.tradelog.api.core.model.OptionJournalModel;
+import com.example.tradelog.api.core.model.OptionType;
+import com.example.tradelog.api.core.model.ShareDataModel;
+import com.example.tradelog.api.core.model.ShareJournalModel;
+import com.example.tradelog.api.core.model.TransactionSettingsModel;
+import com.example.tradelog.api.core.model.TransactionType;
 
 import java.util.List;
 import java.util.function.Predicate;

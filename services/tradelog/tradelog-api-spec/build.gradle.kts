@@ -7,7 +7,6 @@ version = "0.0.1-SNAPSHOT"
 
 plugins {
     java
-    kotlin("jvm")
     id ("com.google.protobuf")
 }
 
@@ -19,7 +18,6 @@ repositories {
 val protobufVersion = "3.10.0"
 
 dependencies {
-    implementation (kotlin("stdlib"))
     implementation ("com.google.protobuf:protobuf-java:$protobufVersion")
 }
 

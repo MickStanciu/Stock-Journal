@@ -1,6 +1,6 @@
 package com.example.tradelog.api.converter;
 
-import com.example.tradelog.api.spec.model.TradeSummaryModel;
+import com.example.tradelog.api.core.model.TradeSummaryModel;
 
 import java.util.HashMap;
 import java.util.List;

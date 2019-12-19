@@ -2,9 +2,9 @@ package com.example.tradelog.api.service;
 
 import com.example.tradelog.api.converter.SyntheticSharesGenerator;
 import com.example.tradelog.api.converter.TradeSummaryListConverter;
+import com.example.tradelog.api.core.model.ShareJournalModel;
+import com.example.tradelog.api.core.model.TradeSummaryModel;
 import com.example.tradelog.api.repository.SharesJournalRepository;
-import com.example.tradelog.api.spec.model.ShareJournalModel;
-import com.example.tradelog.api.spec.model.TradeSummaryModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

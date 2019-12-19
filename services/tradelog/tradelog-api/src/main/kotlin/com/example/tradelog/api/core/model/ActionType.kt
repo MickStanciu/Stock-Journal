@@ -1,4 +1,4 @@
-package com.example.tradelog.api.spec.model
+package com.example.tradelog.api.core.model
 
 enum class ActionType {
     UNKNOWN,

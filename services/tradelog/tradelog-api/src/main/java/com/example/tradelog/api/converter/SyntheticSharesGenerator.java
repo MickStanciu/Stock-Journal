@@ -1,13 +1,12 @@
 package com.example.tradelog.api.converter;
 
 import com.example.common.converter.TimeConverter;
-import com.example.tradelog.api.spec.model.ActionType;
-import com.example.tradelog.api.spec.model.ShareJournalModel;
-import com.example.tradelog.api.spec.model.TransactionModel;
-import com.example.tradelog.api.spec.model.TransactionSettingsModel;
-import com.example.tradelog.api.spec.model.TransactionType;
+import com.example.tradelog.api.core.model.ActionType;
+import com.example.tradelog.api.core.model.ShareJournalModel;
+import com.example.tradelog.api.core.model.TransactionModel;
+import com.example.tradelog.api.core.model.TransactionSettingsModel;
+import com.example.tradelog.api.core.model.TransactionType;
 
-import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

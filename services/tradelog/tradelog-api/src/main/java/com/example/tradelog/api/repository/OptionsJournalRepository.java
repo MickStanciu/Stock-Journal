@@ -1,8 +1,8 @@
 package com.example.tradelog.api.repository;
 
 import com.example.common.converter.TimeConverter;
-import com.example.tradelog.api.spec.model.OptionJournalModel;
-import com.example.tradelog.api.spec.model.TradeSummaryModel;
+import com.example.tradelog.api.core.model.OptionJournalModel;
+import com.example.tradelog.api.core.model.TradeSummaryModel;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
