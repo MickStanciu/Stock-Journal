@@ -2,7 +2,7 @@ package com.example.tradelog.api.controller;
 
 import com.example.tradelog.api.core.model.ShareJournalModel;
 import com.example.tradelog.api.core.xmodel.ShareTransactionsResponse;
-import com.example.tradelog.api.facade.JournalFacade;
+import com.example.tradelog.api.facade.JJournalFacade;
 import com.example.tradelog.api.rest.exception.ExceptionCode;
 import com.example.tradelog.api.rest.exception.TradeLogException;
 import com.example.tradelog.api.validator.RequestValidation;
@@ -19,9 +19,9 @@ public class ShareJournalController {
 
     private static final Logger log = LoggerFactory.getLogger(ShareJournalController.class);
 
-    private JournalFacade facade;
+    private JJournalFacade facade;
 
-    public ShareJournalController(JournalFacade facade) {
+    public ShareJournalController(JJournalFacade facade) {
         this.facade = facade;
     }
 

@@ -2,7 +2,7 @@ package com.example.tradelog.api.service;
 
 import com.example.tradelog.api.core.model.TransactionModel;
 import com.example.tradelog.api.core.model.TransactionSettingsModel;
-import com.example.tradelog.api.repository.TransactionRepositoryJ;
+import com.example.tradelog.api.repository.JTransactionRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -15,9 +15,9 @@ public class TransactionJournalService {
 
     private static final Logger log = LoggerFactory.getLogger(TransactionJournalService.class);
 
-    private TransactionRepositoryJ transactionRepository;
+    private JTransactionRepository transactionRepository;
 
-    public TransactionJournalService(TransactionRepositoryJ transactionRepository) {
+    public TransactionJournalService(JTransactionRepository transactionRepository) {
         this.transactionRepository = transactionRepository;
     }
 

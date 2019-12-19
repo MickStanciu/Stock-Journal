@@ -11,11 +11,11 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class OptionJournalService {
+public class JOptionJournalService {
 
     private OptionsJournalRepository optionsJournalRepository;
 
-    public OptionJournalService(OptionsJournalRepository optionsJournalRepository) {
+    public JOptionJournalService(OptionsJournalRepository optionsJournalRepository) {
         this.optionsJournalRepository = optionsJournalRepository;
     }
 

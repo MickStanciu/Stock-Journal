@@ -1,6 +1,6 @@
 package com.example.tradelog.api.rest.controller
 
-import com.example.tradelog.api.core.service.TransactionService
+import com.example.tradelog.api.core.facade.JournalFacade
 import com.example.tradelog.api.rest.converter.TradeSummaryConverter
 import com.example.tradelog.api.rest.exception.ExceptionCode
 import com.example.tradelog.api.rest.exception.TradeLogException
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping(value = ["/api/v1/transactions"])
-class TransactionController(private val transactionService: TransactionService) {
+class TransactionController(private val journalFacade: JournalFacade) {
 
     @RequestMapping(value = ["/symbols"], method = [RequestMethod.GET], produces = [PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE])
     @ResponseStatus(HttpStatus.OK)
@@ -23,7 +23,7 @@ class TransactionController(private val transactionService: TransactionService) 
             throw TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
-        val symbols = transactionService.getAllTradedSymbols(accountId)
+        val symbols = journalFacade.getAllTradedSymbols(accountId)
 
         return ActiveSymbolsResponse.newBuilder()
                 .addAllSymbols(symbols)
@@ -38,7 +38,7 @@ class TransactionController(private val transactionService: TransactionService) 
             throw TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
-        val summaryList = transactionService.getSummary(accountId)
+        val summaryList = journalFacade.getSummary(accountId)
         return TradeSummaryConverter.toTradeSummaryResponse(summaryList)
     }
 

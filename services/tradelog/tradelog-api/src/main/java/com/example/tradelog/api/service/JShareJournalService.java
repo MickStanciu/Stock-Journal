@@ -4,7 +4,7 @@ import com.example.tradelog.api.converter.SyntheticSharesGenerator;
 import com.example.tradelog.api.converter.TradeSummaryListConverter;
 import com.example.tradelog.api.core.model.ShareJournalModel;
 import com.example.tradelog.api.core.model.TradeSummaryModel;
-import com.example.tradelog.api.repository.SharesJournalRepository;
+import com.example.tradelog.api.repository.JSharesJournalRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,11 +13,11 @@ import java.util.Optional;
 
 
 @Service
-public class ShareJournalService {
+public class JShareJournalService {
 
-    private SharesJournalRepository sharesJournalRepository;
+    private JSharesJournalRepository sharesJournalRepository;
 
-    public ShareJournalService(SharesJournalRepository sharesJournalRepository) {
+    public JShareJournalService(JSharesJournalRepository sharesJournalRepository) {
         this.sharesJournalRepository = sharesJournalRepository;
     }
 

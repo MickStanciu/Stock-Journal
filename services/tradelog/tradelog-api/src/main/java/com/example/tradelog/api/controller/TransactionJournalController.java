@@ -1,7 +1,7 @@
 package com.example.tradelog.api.controller;
 
 import com.example.tradelog.api.core.model.TransactionSettingsModel;
-import com.example.tradelog.api.facade.JournalFacade;
+import com.example.tradelog.api.facade.JJournalFacade;
 import com.example.tradelog.api.rest.exception.ExceptionCode;
 import com.example.tradelog.api.rest.exception.TradeLogException;
 import com.example.tradelog.api.validator.RequestValidation;
@@ -18,10 +18,10 @@ public class TransactionJournalController {
 
     private static final Logger log = LoggerFactory.getLogger(TransactionJournalController.class);
 
-    private JournalFacade facade;
+    private JJournalFacade facade;
 
 
-    public TransactionJournalController(JournalFacade journalFacade) {
+    public TransactionJournalController(JJournalFacade journalFacade) {
         this.facade = journalFacade;
     }
 

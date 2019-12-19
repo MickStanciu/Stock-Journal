@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class SharesJournalRepository {
+public class JSharesJournalRepository {
 
     private static final String JOURNAL_READ_BY_SYMBOL_FOR_ACCOUNT =
             "SELECT CAST(tl.id AS VARCHAR(36)), " +
@@ -75,7 +75,7 @@ public class SharesJournalRepository {
 
     private JdbcTemplate jdbcTemplate;
 
-    public SharesJournalRepository(JdbcTemplate jdbcTemplate) {
+    public JSharesJournalRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

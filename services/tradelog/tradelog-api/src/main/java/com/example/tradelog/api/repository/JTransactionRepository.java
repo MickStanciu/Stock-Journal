@@ -16,9 +16,9 @@ import java.sql.Statement;
 import java.util.Optional;
 
 @Repository
-public class TransactionRepositoryJ {
+public class JTransactionRepository {
 
-    private static final Logger log = LoggerFactory.getLogger(TransactionRepositoryJ.class);
+    private static final Logger log = LoggerFactory.getLogger(JTransactionRepository.class);
 
     private static final String JOURNAL_CREATE_TRANSACTION_FOR_ACCOUNT =
             "INSERT INTO transaction_log (account_fk, date, symbol, transaction_type_fk, broker_fees) " +
@@ -42,7 +42,7 @@ public class TransactionRepositoryJ {
 
     private JdbcTemplate jdbcTemplate;
 
-    public TransactionRepositoryJ(JdbcTemplate jdbcTemplate) {
+    public JTransactionRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

@@ -1,13 +1,9 @@
 package com.example.tradelog.api.facade;
 
-import com.example.tradelog.api.core.model.DividendJournalModel;
-import com.example.tradelog.api.core.model.OptionJournalModel;
-import com.example.tradelog.api.core.model.ShareJournalModel;
-import com.example.tradelog.api.core.model.TradeSummaryModel;
-import com.example.tradelog.api.core.model.TransactionSettingsModel;
-import com.example.tradelog.api.service.DividendJournalService;
-import com.example.tradelog.api.service.OptionJournalService;
-import com.example.tradelog.api.service.ShareJournalService;
+import com.example.tradelog.api.core.model.*;
+import com.example.tradelog.api.service.JDividendJournalService;
+import com.example.tradelog.api.service.JOptionJournalService;
+import com.example.tradelog.api.service.JShareJournalService;
 import com.example.tradelog.api.service.TransactionJournalService;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +14,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class JournalFacade {
+public class JJournalFacade {
 
     private TransactionJournalService transactionService;
-    private ShareJournalService shareService;
-    private OptionJournalService optionService;
-    private DividendJournalService dividendService;
+    private JShareJournalService shareService;
+    private JOptionJournalService optionService;
+    private JDividendJournalService dividendService;
 
-    public JournalFacade(TransactionJournalService transactionService, ShareJournalService shareService, OptionJournalService optionService, DividendJournalService dividendService) {
+    public JJournalFacade(TransactionJournalService transactionService, JShareJournalService shareService, JOptionJournalService optionService, JDividendJournalService dividendService) {
         this.transactionService = transactionService;
         this.shareService = shareService;
         this.optionService = optionService;

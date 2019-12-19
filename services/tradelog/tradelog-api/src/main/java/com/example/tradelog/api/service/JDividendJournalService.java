@@ -11,11 +11,11 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class DividendJournalService {
+public class JDividendJournalService {
 
     private DividendRepository dividendRepository;
 
-    public DividendJournalService(DividendRepository dividendRepository) {
+    public JDividendJournalService(DividendRepository dividendRepository) {
         this.dividendRepository = dividendRepository;
     }
 
