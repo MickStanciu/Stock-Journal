@@ -16,7 +16,7 @@ public class ActionConverter {
         return actionGWOptional.get();
     };
 
-    static Function<ActionGW, ActionType> toAction = action -> ActionType.Companion.lookup(action.name());
+    static Function<ActionGW, ActionType> toAction = action -> ActionType.valueOf(action.name());
 
 
 

@@ -1,10 +1,8 @@
 package com.example.gateway.api.converter;
 
+import com.example.common.converter.TimeConverter;
 import com.example.gateway.api.spec.model.ShareJournalGWModel;
 import com.example.tradelog.api.spec.model.ShareJournalModel;
-import com.example.tradelog.api.spec.model.TransactionModel;
-import com.example.tradelog.api.spec.model.TransactionSettingsModel;
-import com.example.tradelog.api.spec.model.TransactionType;
 
 import java.util.function.Function;
 
@@ -14,7 +12,7 @@ public class ShareJournalConverter {
             .withType(TransactionTypeConverter.toTransactionTypeGW.apply(model.getTransactionDetails().getType()))
             .withTransactionId(model.getTransactionDetails().getId())
             .withAccountId(model.getTransactionDetails().getAccountId())
-            .withDate(model.getTransactionDetails().getDate())
+            .withDate(TimeConverter.toOffsetDateTime.apply(model.getTransactionDetails().getDate()))
             .withSymbol(model.getTransactionDetails().getSymbol())
             .withAction(ActionConverter.toActionGW.apply(model.getAction()))
             .withBrokerFees(model.getTransactionDetails().getBrokerFees())
@@ -32,12 +30,13 @@ public class ShareJournalConverter {
             transactionId = "";
         }
 
-        TransactionModel transactionModel = new TransactionModel(transactionId, model.getAccountId(), model.getDate(),
-                model.getSymbol(), TransactionType.SHARE, model.getBrokerFees(),
-                new TransactionSettingsModel(transactionId, 0.00, false, false)
-        );
-
-        return new ShareJournalModel(transactionModel, model.getPrice(), model.getActualPrice(),
-                model.getQuantity(), ActionConverter.toAction.apply(model.getAction()));
+//        TransactionModel transactionModel = new TransactionModel(transactionId, model.getAccountId(), model.getDate(),
+//                model.getSymbol(), TransactionType.SHARE, model.getBrokerFees(),
+//                new TransactionSettingsModel(transactionId, 0.00, false, false)
+//        );
+//
+//        return new ShareJournalModel(transactionModel, model.getPrice(), model.getActualPrice(),
+//                model.getQuantity(), ActionConverter.toAction.apply(model.getAction()));
+        return ShareJournalModel.newBuilder().build();
     };
 }

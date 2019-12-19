@@ -1,10 +1,8 @@
 package com.example.gateway.api.converter;
 
+import com.example.common.converter.TimeConverter;
 import com.example.gateway.api.spec.model.DividendGWModel;
 import com.example.tradelog.api.spec.model.DividendJournalModel;
-import com.example.tradelog.api.spec.model.TransactionModel;
-import com.example.tradelog.api.spec.model.TransactionSettingsModel;
-import com.example.tradelog.api.spec.model.TransactionType;
 
 import java.util.function.Function;
 
@@ -17,7 +15,7 @@ public class DividendJournalConverter {
                 .withDividend(model.getDividend())
                 .withQuantity(model.getQuantity())
                 .withAccountId(model.getTransactionDetails().getAccountId())
-                .withDate(model.getTransactionDetails().getDate())
+                .withDate(TimeConverter.toOffsetDateTime.apply(model.getTransactionDetails().getDate()))
                 .withSymbol(model.getTransactionDetails().getSymbol())
                 .withGroupSelected(model.getTransactionDetails().getSettings().getGroupSelected())
                 .withLegClosed(model.getTransactionDetails().getSettings().getLegClosed())
@@ -30,11 +28,12 @@ public class DividendJournalConverter {
             transactionId = "";
         }
 
-        TransactionModel transactionModel = new TransactionModel(transactionId, model.getAccountId(), model.getDate(),
-                model.getSymbol(), TransactionType.DIVIDEND, 0.00,
-                new TransactionSettingsModel(transactionId, 0.00, false, false)
-        );
+//        TransactionModel transactionModel = new TransactionModel(transactionId, model.getAccountId(), model.getDate(),
+//                model.getSymbol(), TransactionType.DIVIDEND, 0.00,
+//                new TransactionSettingsModel(transactionId, 0.00, false, false)
+//        );
 
-        return new DividendJournalModel(transactionModel, model.getDividend(), model.getQuantity());
+        //(transactionModel, model.getDividend(), model.getQuantity()
+        return DividendJournalModel.newBuilder().build();
     };
 }

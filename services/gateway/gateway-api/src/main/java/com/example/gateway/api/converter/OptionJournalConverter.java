@@ -1,10 +1,8 @@
 package com.example.gateway.api.converter;
 
+import com.example.common.converter.TimeConverter;
 import com.example.gateway.api.spec.model.OptionJournalGWModel;
 import com.example.tradelog.api.spec.model.OptionJournalModel;
-import com.example.tradelog.api.spec.model.TransactionModel;
-import com.example.tradelog.api.spec.model.TransactionSettingsModel;
-import com.example.tradelog.api.spec.model.TransactionType;
 
 import java.util.function.Function;
 
@@ -15,12 +13,12 @@ public class OptionJournalConverter {
             .withTransactionId(model.getTransactionDetails().getId())
             .withAccountId(model.getTransactionDetails().getAccountId())
             .withStockSymbol(model.getTransactionDetails().getSymbol())
-            .withDate(model.getTransactionDetails().getDate())
+            .withDate(TimeConverter.toOffsetDateTime.apply(model.getTransactionDetails().getDate()))
             .withAction(ActionConverter.toActionGW.apply(model.getAction()))
             .withOptionType(OptionTypeConverter.toOptionTypeGW.apply(model.getOptionType()))
             .withBrokerFees(model.getTransactionDetails().getBrokerFees())
             .withContracts(model.getContracts())
-            .withExpiryDate(model.getExpiryDate())
+            .withExpiryDate(TimeConverter.toOffsetDateTime.apply(model.getExpiryDate()))
             .withPremium(model.getPremium())
             .withStockPrice(model.getStockPrice())
             .withStrikePrice(model.getStrikePrice())
@@ -33,15 +31,16 @@ public class OptionJournalConverter {
         if (transactionId == null) {
             transactionId = "";
         }
-
-        TransactionModel transactionModel = new TransactionModel(transactionId, model.getAccountId(), model.getDate(),
-                model.getStockSymbol(), TransactionType.OPTION, model.getBrokerFees(),
-                new TransactionSettingsModel(transactionId, 0.00, false, false)
-        );
-
-        return new OptionJournalModel(transactionModel, model.getStockPrice(), model.getStrikePrice(),
-                model.getExpiryDate(), model.getContracts(), model.getPremium(),
-                ActionConverter.toAction.apply(model.getAction()),
-                OptionTypeConverter.toOptionType.apply(model.getOptionType()));
+//
+//        TransactionModel transactionModel = new TransactionModel(transactionId, model.getAccountId(), model.getDate(),
+//                model.getStockSymbol(), TransactionType.OPTION, model.getBrokerFees(),
+//                new TransactionSettingsModel(transactionId, 0.00, false, false)
+//        );
+//
+//        return new OptionJournalModel(transactionModel, model.getStockPrice(), model.getStrikePrice(),
+//                model.getExpiryDate(), model.getContracts(), model.getPremium(),
+//                ActionConverter.toAction.apply(model.getAction()),
+//                OptionTypeConverter.toOptionType.apply(model.getOptionType()));
+        return OptionJournalModel.newBuilder().build();
     };
 }

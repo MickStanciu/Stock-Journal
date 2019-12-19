@@ -1,27 +1,9 @@
 package com.example.gateway.api.service;
 
-import com.example.gateway.api.converter.DividendJournalConverter;
-import com.example.gateway.api.converter.OptionJournalConverter;
-import com.example.gateway.api.converter.ShareJournalConverter;
-import com.example.gateway.api.converter.TradeLogModelConverter;
-import com.example.gateway.api.converter.TradeSummaryConverter;
-import com.example.gateway.api.converter.TransactionSettingConverter;
+import com.example.gateway.api.converter.*;
 import com.example.gateway.api.gateway.TradeLogGateway;
-import com.example.gateway.api.spec.model.DividendGWModel;
-import com.example.gateway.api.spec.model.OptionJournalGWModel;
-import com.example.gateway.api.spec.model.ShareJournalGWModel;
-import com.example.gateway.api.spec.model.TradeLogGWModel;
-import com.example.gateway.api.spec.model.TradeSummaryGWModel;
-import com.example.gateway.api.spec.model.TransactionSettingsGWModel;
-import com.example.tradelog.api.spec.model.DividendJournalModel;
-import com.example.tradelog.api.spec.model.DividendTransactionsResponse;
-import com.example.tradelog.api.spec.model.OptionJournalModel;
-import com.example.tradelog.api.spec.model.OptionTransactionsResponse;
-import com.example.tradelog.api.spec.model.ShareJournalModel;
-import com.example.tradelog.api.spec.model.ShareTransactionsResponse;
-import com.example.tradelog.api.spec.model.TradeLogModel;
-import com.example.tradelog.api.spec.model.TradeSummaryModel;
-import com.example.tradelog.api.spec.model.TransactionSettingsModel;
+import com.example.gateway.api.spec.model.*;
+import com.example.tradelog.api.spec.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -49,11 +31,15 @@ public class TradeLogService {
 
         CompletableFuture.allOf(futureShareList, futureOptionList, futureDividendList).join();
 
-        TradeLogModel tradeLogModel = new TradeLogModel(
-                futureShareList.get().getShareItems(),
-                futureOptionList.get().getOptionItems(),
-                futureDividendList.get().getDividendItems()
-        );
+        TradeLogModel tradeLogModel = TradeLogModel.newBuilder().build();
+
+//                .setShareList()
+//                .setDividendList()
+//                .setOptionList()
+//                .build();
+//                futureShareList.get().getShareItems(),
+//                futureOptionList.get().getOptionItems(),
+//                futureDividendList.get().getDividendItems()
         return new TradeLogModelConverter().apply(tradeLogModel);
     }
 
