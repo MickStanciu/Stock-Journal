@@ -1,29 +1,18 @@
 package com.example.gateway.api.gateway;
 
-import com.example.gateway.api.spec.model.ShareJournalGWModel;
-import com.example.tradelog.api.spec.model.DividendJournalModel;
-import com.example.tradelog.api.spec.model.DividendTransactionsResponse;
-import com.example.tradelog.api.spec.model.OptionJournalModel;
-import com.example.tradelog.api.spec.model.OptionTransactionsResponse;
-import com.example.tradelog.api.spec.model.ShareJournalModel;
-import com.example.tradelog.api.spec.model.ShareTransactionsResponse;
-import com.example.tradelog.api.spec.model.TradeSummaryModel;
-import com.example.tradelog.api.spec.model.TransactionSettingsModel;
+import com.example.tradelog.api.spec.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 @Service
@@ -194,7 +183,7 @@ public class TradeLogGateway {
         restTemplate.exchange(builder.build(transactionId), HttpMethod.DELETE, new HttpEntity(headers), Object.class);
     }
 
-    public List<TradeSummaryModel> getSummary(String accountId) {
+    public List<TradeSummaryItem> getSummary(String accountId) {
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
                 .path("/transactions/summary");
@@ -203,9 +192,9 @@ public class TradeLogGateway {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set("accountId", accountId);
 
-        ResponseEntity<List<TradeSummaryModel>> responseEntity = restTemplate
-                .exchange(builder.build(""), HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<List<TradeSummaryModel>>() {});
-        return responseEntity.getBody();
+        ResponseEntity<TradeSummaryResponse> responseEntity = restTemplate
+                .exchange(builder.build(""), HttpMethod.GET, new HttpEntity<>(headers), TradeSummaryResponse.class);
+        return Objects.requireNonNull(responseEntity.getBody()).getItemsList();
     }
 
     public void updateTransactionSettings(String accountId, String transactionId, TransactionSettingsModel optionsModel) {

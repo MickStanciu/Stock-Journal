@@ -8,5 +8,9 @@ class RequestValidator: FieldValidator() {
         fun validateGetAllTradedSymbols(accountId: String): Boolean {
             return FieldValidator.accountId.test(accountId)
         }
+
+        fun validateGetSummary(accountId: String): Boolean {
+            return FieldValidator.accountId.test(accountId)
+        }
     }
 }

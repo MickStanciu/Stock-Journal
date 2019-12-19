@@ -79,7 +79,7 @@ public class TradeLogService {
     }
 
     public List<TradeSummaryGWModel> getSummary(String accountId) {
-        List<TradeSummaryModel> returnModels = tradeLogGateway.getSummary(accountId);
+        List<TradeSummaryItem> returnModels = tradeLogGateway.getSummary(accountId);
         return returnModels.stream().map(m -> TradeSummaryConverter.toTradeSummaryGWModel.apply(m)).collect(Collectors.toList());
     }
 
