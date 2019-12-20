@@ -1,9 +1,8 @@
-package com.example.tradelog.api.db
+package com.example.tradelog.api.db.repository
 
+import com.example.tradelog.api.db.converter.SymbolRowMapper
 import org.springframework.jdbc.core.JdbcTemplate
-import org.springframework.jdbc.core.RowMapper
 import org.springframework.stereotype.Service
-import java.sql.ResultSet
 
 @Service
 class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
@@ -21,8 +20,3 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
     }
 }
 
-private class SymbolRowMapper : RowMapper<String> {
-    override fun mapRow(rs: ResultSet, rowNum: Int): String {
-        return rs.getString("symbol")
-    }
-}

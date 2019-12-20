@@ -1,12 +1,12 @@
-package com.example.stockdata.api.db
+package com.example.stockdata.api.db.repository
 
 import com.example.common.converter.TimeConverter
 import com.example.stockdata.api.core.model.PriceModel
+import com.example.stockdata.api.db.converter.PriceModelRowMapper
+import com.example.stockdata.api.db.converter.SymbolRowMapper
 import org.springframework.jdbc.core.JdbcTemplate
-import org.springframework.jdbc.core.RowMapper
 import org.springframework.stereotype.Repository
 import java.sql.Connection
-import java.sql.ResultSet
 
 @Repository
 class PriceRepository(private val jdbcTemplate: JdbcTemplate) {
@@ -49,24 +49,6 @@ class PriceRepository(private val jdbcTemplate: JdbcTemplate) {
                         "DO UPDATE SET last_close = excluded.last_close, last_updated_on = excluded.last_updated_on"
 
         private const val GET_OLDEST_PRICES: String = "SELECT symbol FROM price ORDER BY last_updated_on ASC LIMIT ?"
-    }
-
-}
-
-
-private class PriceModelRowMapper : RowMapper<PriceModel> {
-    override fun mapRow(rs: ResultSet, rowNum: Int): PriceModel {
-        return PriceModel(
-                symbol = rs.getString("symbol"),
-                lastClose = rs.getDouble("last_close"),
-                lastUpdatedOn = TimeConverter.fromTimestamp(rs.getTimestamp("last_updated_on"))
-        )
-    }
-}
-
-private class SymbolRowMapper : RowMapper<String> {
-    override fun mapRow(rs: ResultSet, rowNum: Int): String {
-        return rs.getString("symbol")
     }
 }
 

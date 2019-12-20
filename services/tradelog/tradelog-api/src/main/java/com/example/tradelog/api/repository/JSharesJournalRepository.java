@@ -1,7 +1,7 @@
 package com.example.tradelog.api.repository;
 
 import com.example.tradelog.api.core.model.ShareJournalModel;
-import com.example.tradelog.api.core.model.TradeSummaryModel;
+import com.example.tradelog.api.db.converter.ShareJournalModelRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -120,17 +120,6 @@ public class JSharesJournalRepository {
     public boolean deleteRecord(String id) {
         Object[] parameters = new Object[] {id};
         return jdbcTemplate.update(JOURNAL_DELETE_SHARE, parameters) == 1;
-    }
-
-
-    /**
-     * Get list of share trade summaries
-     * @param accountId -
-     * @return -
-     */
-    public List<TradeSummaryModel> getSummaries(String accountId) {
-        Object[] parameters = new Object[] {accountId};
-        return jdbcTemplate.query(JOURNAL_GET_SUMMARIES, parameters, new TradeSummaryModelRowMapper());
     }
 
     public boolean updateShareRecord(ShareJournalModel model) {

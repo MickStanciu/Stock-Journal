@@ -1,6 +1,6 @@
 package com.example.tradelog.api.core.service
 
-import com.example.tradelog.api.db.TransactionRepository
+import com.example.tradelog.api.db.repository.TransactionRepository
 import org.springframework.stereotype.Service
 
 @Service
