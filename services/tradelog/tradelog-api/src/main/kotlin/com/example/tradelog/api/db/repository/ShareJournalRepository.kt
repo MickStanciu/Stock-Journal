@@ -1,7 +1,7 @@
 package com.example.tradelog.api.db.repository
 
-import com.example.tradelog.api.core.model.ShareJournalModel
-import com.example.tradelog.api.db.converter.ShareJournalModelRowMapper
+import com.example.tradelog.api.core.model.TradeSummaryModel
+import com.example.tradelog.api.db.converter.TradeSummaryModelRowMapper
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Service
 
@@ -13,16 +13,10 @@ class ShareJournalRepository(private val jdbcTemplate: JdbcTemplate) {
      * @param accountId -
      * @return -
      */
-    fun getSummaries(accountId: String): List<ShareJournalModel> {
+    fun getSummaries(accountId: String): List<TradeSummaryModel> {
         val parameters = arrayOf(accountId)
-        return jdbcTemplate.query(JOURNAL_GET_SUMMARIES, parameters, ShareJournalModelRowMapper())
+        return jdbcTemplate.query(JOURNAL_GET_SUMMARIES, parameters, TradeSummaryModelRowMapper())
     }
-    /*
-        public Map<String, TradeSummaryModel> getSummaries(String accountId) {
-        List<TradeSummaryModel> modelList = sharesJournalRepository.getSummaries(accountId);
-        return TradeSummaryListConverter.toMap.apply(modelList);
-    }
-     */
 
     companion object {
         private const val JOURNAL_GET_SUMMARIES =

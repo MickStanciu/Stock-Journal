@@ -2,7 +2,6 @@ package com.example.tradelog.api.repository;
 
 import com.example.common.converter.TimeConverter;
 import com.example.tradelog.api.core.model.OptionJournalModel;
-import com.example.tradelog.api.core.model.TradeSummaryModel;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -151,17 +150,6 @@ public class OptionsJournalRepository {
     public boolean deleteRecord(String id) {
         Object[] parameters = new Object[] {id};
         return jdbcTemplate.update(JOURNAL_DELETE_OPTION, parameters) == 1;
-    }
-
-
-    /**
-     * Get list of option trade summaries
-     * @param accountId -
-     * @return -
-     */
-    public List<TradeSummaryModel> getSummaries(String accountId) {
-        Object[] parameters = new Object[] {accountId};
-        return jdbcTemplate.query(JOURNAL_GET_SUMMARIES, parameters, new TradeSummaryModelRowMapper());
     }
 }
 

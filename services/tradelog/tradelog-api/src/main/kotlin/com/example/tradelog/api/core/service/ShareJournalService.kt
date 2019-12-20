@@ -1,5 +1,6 @@
 package com.example.tradelog.api.core.service
 
+import com.example.tradelog.api.core.converter.TradeSummaryConverter
 import com.example.tradelog.api.core.model.TradeSummaryModel
 import com.example.tradelog.api.db.repository.ShareJournalRepository
 import org.springframework.stereotype.Service
@@ -8,6 +9,14 @@ import org.springframework.stereotype.Service
 class ShareJournalService(private val shareJournalRepository: ShareJournalRepository) {
 
     fun getSummaries(accountId: String): Map<String, TradeSummaryModel> {
-        return shareJournalRepository.getSummaries(accountId)
+        val modelList = shareJournalRepository.getSummaries(accountId)
+        return TradeSummaryConverter.toMap(models = modelList)
     }
 }
+
+/*
+    public Map<String, TradeSummaryModel> getSummaries(String accountId) {
+    List<TradeSummaryModel> modelList = sharesJournalRepository.getSummaries(accountId);
+    return TradeSummaryListConverter.toMap.apply(modelList);
+}
+ */

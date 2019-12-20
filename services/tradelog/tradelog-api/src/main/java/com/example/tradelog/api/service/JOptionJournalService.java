@@ -1,13 +1,10 @@
 package com.example.tradelog.api.service;
 
-import com.example.tradelog.api.converter.TradeSummaryListConverter;
 import com.example.tradelog.api.core.model.OptionJournalModel;
-import com.example.tradelog.api.core.model.TradeSummaryModel;
 import com.example.tradelog.api.repository.OptionsJournalRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -31,10 +28,5 @@ public class JOptionJournalService {
 
     public boolean deleteRecord(String transactionId) {
         return optionsJournalRepository.deleteRecord(transactionId);
-    }
-
-    public Map<String, TradeSummaryModel> getSummaries(String accountId) {
-        List<TradeSummaryModel> modelList = optionsJournalRepository.getSummaries(accountId);
-        return TradeSummaryListConverter.toMap.apply(modelList);
     }
 }
