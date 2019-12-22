@@ -1,7 +1,7 @@
 package com.example.tradelog.api.service;
 
 import com.example.tradelog.api.core.model.DividendJournalModel;
-import com.example.tradelog.api.repository.DividendRepository;
+import com.example.tradelog.api.repository.JDividendRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,9 +10,9 @@ import java.util.Optional;
 @Service
 public class JDividendJournalService {
 
-    private DividendRepository dividendRepository;
+    private JDividendRepository dividendRepository;
 
-    public JDividendJournalService(DividendRepository dividendRepository) {
+    public JDividendJournalService(JDividendRepository dividendRepository) {
         this.dividendRepository = dividendRepository;
     }
 

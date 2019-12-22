@@ -1,8 +1,6 @@
 package com.example.tradelog.api.repository;
 
 import com.example.tradelog.api.core.model.DividendJournalModel;
-import com.example.tradelog.api.core.model.TradeSummaryModel;
-import com.example.tradelog.api.db.converter.TradeSummaryModelRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class DividendRepository {
+public class JDividendRepository {
 
     private static final String DIVIDEND_READ_BY_SYMBOL_FOR_ACCOUNT =
             "SELECT CAST(tl.id AS VARCHAR(36)), " +
@@ -32,14 +30,6 @@ public class DividendRepository {
                     "  and tl.transaction_type_fk = 'DIVIDEND' " +
                     "  and symbol = ? " +
                     "ORDER BY date;";
-
-    private static final String JOURNAL_GET_SUMMARIES =
-            "SELECT tl.symbol, dl.dividend, dl.quantity, tl.transaction_type_fk " +
-                    "FROM transaction_log tl" +
-                    "         INNER JOIN dividend_log dl ON tl.id = dl.transaction_fk " +
-                    "WHERE tl.account_fk = CAST(? AS uuid)" +
-                    "  AND transaction_type_fk = 'DIVIDEND' " +
-                    "ORDER BY symbol;";
 
     private static final String CREATE_RECORD =
             "INSERT INTO dividend_log (transaction_fk, dividend, quantity) VALUES (CAST(? AS uuid), ?, ?)";
@@ -65,24 +55,13 @@ public class DividendRepository {
 
     private JdbcTemplate jdbcTemplate;
 
-    public DividendRepository(JdbcTemplate jdbcTemplate) {
+    public JDividendRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     public List<DividendJournalModel> getAllBySymbol(String accountId, String symbol) {
         Object[] parameters = new Object[] {accountId, symbol};
         return jdbcTemplate.query(DIVIDEND_READ_BY_SYMBOL_FOR_ACCOUNT, parameters, new DividendModelRowMapper());
-    }
-
-
-    /**
-     * Get list of dividend summaries
-     * @param accountId -
-     * @return -
-     */
-    public List<TradeSummaryModel> getSummaries(String accountId) {
-        Object[] parameters = new Object[] {accountId};
-        return jdbcTemplate.query(JOURNAL_GET_SUMMARIES, parameters, new TradeSummaryModelRowMapper());
     }
 
     public void createRecord(String transactionId, DividendJournalModel model) {

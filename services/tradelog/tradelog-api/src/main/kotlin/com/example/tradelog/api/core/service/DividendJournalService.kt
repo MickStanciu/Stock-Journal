@@ -1,15 +1,20 @@
 package com.example.tradelog.api.core.service
 
 import com.example.tradelog.api.core.converter.TradeSummaryUtil
+import com.example.tradelog.api.core.model.DividendJournalModel
 import com.example.tradelog.api.core.model.TradeSummaryModel
 import com.example.tradelog.api.db.repository.DividendJournalRepository
 import org.springframework.stereotype.Service
 
 @Service
-class DividendJournalService(private val repository: DividendJournalRepository) {
+class DividendJournalService(private val repository: DividendJournalRepository) : JournalService<DividendJournalModel> {
 
-    fun getSummaries(accountId: String): Map<String, TradeSummaryModel> {
+    override fun getSummaries(accountId: String): Map<String, TradeSummaryModel> {
         val modelList = repository.getSummaries(accountId)
         return TradeSummaryUtil.toMap(models = modelList)
+    }
+
+    override fun getAllBySymbol(accountId: String, symbol: String): DividendJournalModel {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

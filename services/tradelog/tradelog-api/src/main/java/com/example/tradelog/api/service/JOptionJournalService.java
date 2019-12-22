@@ -1,7 +1,7 @@
 package com.example.tradelog.api.service;
 
 import com.example.tradelog.api.core.model.OptionJournalModel;
-import com.example.tradelog.api.repository.OptionsJournalRepository;
+import com.example.tradelog.api.repository.JOptionsJournalRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,9 +10,9 @@ import java.util.Optional;
 @Service
 public class JOptionJournalService {
 
-    private OptionsJournalRepository optionsJournalRepository;
+    private JOptionsJournalRepository optionsJournalRepository;
 
-    public JOptionJournalService(OptionsJournalRepository optionsJournalRepository) {
+    public JOptionJournalService(JOptionsJournalRepository optionsJournalRepository) {
         this.optionsJournalRepository = optionsJournalRepository;
     }
 

@@ -1,7 +1,7 @@
 package com.example.tradelog.api.service;
 
 import com.example.tradelog.api.core.model.HealthModel;
-import com.example.tradelog.api.repository.OptionsJournalRepository;
+import com.example.tradelog.api.repository.JOptionsJournalRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -13,9 +13,9 @@ public class HealthService {
 
     private final HealthModel healthModel;
 
-    private OptionsJournalRepository optionsJournalRepository;
+    private JOptionsJournalRepository optionsJournalRepository;
 
-    public HealthService(OptionsJournalRepository optionsJournalRepository) {
+    public HealthService(JOptionsJournalRepository optionsJournalRepository) {
         this.optionsJournalRepository = optionsJournalRepository;
         healthModel = new HealthModel(false);
     }
