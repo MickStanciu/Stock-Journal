@@ -5,6 +5,7 @@ import com.example.tradelog.api.core.model.ActionType;
 import com.example.tradelog.api.core.model.OptionJournalModel;
 import com.example.tradelog.api.core.model.OptionType;
 import com.example.tradelog.api.core.model.TransactionModel;
+import com.example.tradelog.api.db.converter.TransactionModelRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

@@ -1,9 +1,9 @@
 package com.example.tradelog.api.facade;
 
 import com.example.tradelog.api.core.model.*;
-import com.example.tradelog.api.service.JDividendJournalService;
-import com.example.tradelog.api.service.JOptionJournalService;
-import com.example.tradelog.api.service.JShareJournalService;
+import com.example.tradelog.api.core.service.DividendJournalService;
+import com.example.tradelog.api.core.service.OptionJournalService;
+import com.example.tradelog.api.core.service.ShareJournalService;
 import com.example.tradelog.api.service.TransactionJournalService;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +17,11 @@ import java.util.stream.Collectors;
 public class JJournalFacade {
 
     private TransactionJournalService transactionService;
-    private JShareJournalService shareService;
-    private JOptionJournalService optionService;
-    private JDividendJournalService dividendService;
+    private ShareJournalService shareService;
+    private OptionJournalService optionService;
+    private DividendJournalService dividendService;
 
-    public JJournalFacade(TransactionJournalService transactionService, JShareJournalService shareService, JOptionJournalService optionService, JDividendJournalService dividendService) {
+    public JJournalFacade(TransactionJournalService transactionService, ShareJournalService shareService, OptionJournalService optionService, DividendJournalService dividendService) {
         this.transactionService = transactionService;
         this.shareService = shareService;
         this.optionService = optionService;

@@ -24,8 +24,6 @@ class JournalFacade(private val transactionService: TransactionService,
 
         val summaryModelMap: HashMap<String, TradeSummaryModel>
 
-
-
 //        return summaryModelMap.entries.stream()
 //                .sorted(java.util.Map.Entry.comparingByKey())
 //                .map(Function<Map.Entry<String, TradeSummaryModel>, TradeSummaryModel> { java.util.Map.Entry.value })

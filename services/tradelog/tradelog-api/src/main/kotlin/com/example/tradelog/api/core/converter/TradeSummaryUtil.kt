@@ -2,28 +2,9 @@ package com.example.tradelog.api.core.converter
 
 import com.example.tradelog.api.core.model.TradeSummaryModel
 
-class TradeSummaryConverter {
+class TradeSummaryUtil {
 
     companion object {
-//        fun toTradeSummaryResponse(models: List<TradeSummaryModel>): TradeSummaryResponse {
-//
-//            val items = models.stream()
-//                    .map { i -> toTradeSummaryItem(i) }
-//                    .collect(Collectors.toList())
-//
-//            return TradeSummaryResponse.newBuilder()
-//                    .addAllItems(items)
-//                    .build()
-//        }
-//
-//        private fun toTradeSummaryItem(model: TradeSummaryModel): TradeSummaryItem {
-//            return TradeSummaryItem.newBuilder()
-//                    .setSymbol(model.symbol)
-//                    .setTotal(model.total.toInt())
-//                    .setTrades(model.trades)
-//                    .build()
-//        }
-
         fun toMap(models: List<TradeSummaryModel>): Map<String, TradeSummaryModel> {
             var summaryModelMap = HashMap<String, TradeSummaryModel>()
 

@@ -2,6 +2,7 @@ package com.example.tradelog.api.repository;
 
 import com.example.tradelog.api.core.model.DividendJournalModel;
 import com.example.tradelog.api.core.model.TransactionModel;
+import com.example.tradelog.api.db.converter.TransactionModelRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
