@@ -4,7 +4,6 @@ import com.example.tradelog.api.core.model.*;
 import com.example.tradelog.api.core.service.DividendJournalService;
 import com.example.tradelog.api.core.service.OptionJournalService;
 import com.example.tradelog.api.core.service.ShareJournalService;
-import com.example.tradelog.api.service.TransactionJournalService;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;

@@ -3,7 +3,6 @@ package com.example.tradelog.api.core.service
 import com.example.tradelog.api.core.converter.TradeSummaryUtil
 import com.example.tradelog.api.core.model.ShareJournalModel
 import com.example.tradelog.api.core.model.TradeSummaryModel
-import com.example.tradelog.api.core.model.TransactionSettingsModel
 import com.example.tradelog.api.db.repository.ShareJournalRepository
 import org.springframework.stereotype.Service
 
@@ -15,28 +14,29 @@ class ShareJournalService(private val repository: ShareJournalRepository) : Jour
         return TradeSummaryUtil.toMap(models = modelList)
     }
 
-    override fun getAllBySymbol(accountId: String, symbol: String): ShareJournalModel {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun updateSettings(model: TransactionSettingsModel): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun updateSettingsBulk(models: List<TransactionSettingsModel>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    /**
+     * Returns all shares per symbol including a calculated synthetic one
+     * @param accountId -
+     * @param symbol -
+     * @return list
+     */
+    override fun getAllBySymbol(accountId: String, symbol: String): List<ShareJournalModel> {
+        val modelList = repository.getAllBySymbol(accountId, symbol)
+        TODO("not implemented")//shareJournalModelList.addAll(SyntheticSharesGenerator.createSynthetic.apply(shareJournalModelList));
+        return modelList
     }
 
     override fun createRecord(transactionId: String, model: ShareJournalModel): ShareJournalModel {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        repository.createRecord(transactionId, model)
+        return repository.getById(transactionId)
     }
 
     override fun editRecord(transactionId: String, model: ShareJournalModel): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return repository.editRecord(model)
     }
 
-    override fun deleteRecord(transactionId: String, accountId: String): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun deleteRecord(transactionId: String): Boolean {
+        return repository.deleteRecord(transactionId)
     }
 }
 
