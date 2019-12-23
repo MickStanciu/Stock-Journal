@@ -1,5 +1,6 @@
 package com.example.tradelog.api.core.facade
 
+import com.example.tradelog.api.core.model.ShareJournalModel
 import com.example.tradelog.api.core.model.TradeSummaryModel
 import com.example.tradelog.api.core.model.TransactionSettingsModel
 import com.example.tradelog.api.core.service.DividendJournalService
@@ -34,6 +35,10 @@ class JournalFacade(private val transactionService: TransactionService,
 
     fun updateSettings(toModel: TransactionSettingsModel): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    fun getAllShareTradesBySymbol(accountId: String, symbol: String): List<ShareJournalModel> {
+        TODO("not implemented") //To change body of created functions use File | Sett
     }
 
 

@@ -1,0 +1,14 @@
+package com.example.tradelog.api.rest.converter
+
+import com.example.tradelog.api.core.model.ShareJournalModel
+import com.example.tradelog.api.spec.model.ShareTransactionsResponse
+
+class ShareJournalModelConverter {
+
+    companion object {
+        fun toShareTransactionsResponse(models: List<ShareJournalModel>): ShareTransactionsResponse {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+    }
+}

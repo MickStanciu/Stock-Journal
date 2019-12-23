@@ -20,5 +20,10 @@ class RequestValidator: FieldValidator() {
                     && model != null
 
         }
+
+        fun validateGetAllBySymbol(accountId: String, symbol: String): Boolean {
+            return FieldValidator.accountId.test(accountId)
+                    && FieldValidator.symbol.test(symbol)
+        }
     }
 }
