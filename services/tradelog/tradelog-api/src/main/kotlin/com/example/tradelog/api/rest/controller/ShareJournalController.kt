@@ -69,7 +69,7 @@ class ShareJournalController(private val journalFacade: JournalFacade) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        if (!journalFacade.editShareRecord(transactionId, dto)) {
+        if (!journalFacade.editShareRecord(transactionId, ShareJournalModelConverter.toModel(dto))) {
             LOG.error("Could not edit for: $transactionId")
             throw TradeLogException(ExceptionCode.EDIT_SHARE_FAILED)
         }

@@ -1,7 +1,6 @@
 package com.example.tradelog.api.controller;
 
 import com.example.tradelog.api.core.model.OptionJournalModel;
-import com.example.tradelog.api.core.xmodel.OptionTransactionsResponse;
 import com.example.tradelog.api.facade.JJournalFacade;
 import com.example.tradelog.api.rest.exception.ExceptionCode;
 import com.example.tradelog.api.rest.exception.TradeLogException;
@@ -23,26 +22,6 @@ public class JOptionJournalController {
 
     public JOptionJournalController(JJournalFacade facade) {
         this.facade = facade;
-    }
-
-
-    /**
-     * Queries the list of options for given symbol
-     * @param symbol - ex 'CVS'
-     * @return list of OptionJournalModel
-     * @throws TradeLogException -
-     */
-    @RequestMapping(value = {"/{symbol}", "/{symbol}/"}, method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.OK)
-    public OptionTransactionsResponse getAllBySymbol(
-            @RequestHeader("accountId") String accountId,
-            @PathVariable("symbol") String symbol) throws TradeLogException {
-
-        if (!RequestValidation.validateGetAccountAndSymbol(accountId, symbol)) {
-            throw new TradeLogException(ExceptionCode.BAD_REQUEST);
-        }
-
-        return new OptionTransactionsResponse(facade.getAllOptionsBySymbol(accountId, symbol));
     }
 
 

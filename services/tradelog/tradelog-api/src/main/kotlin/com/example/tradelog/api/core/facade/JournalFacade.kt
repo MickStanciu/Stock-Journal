@@ -1,5 +1,6 @@
 package com.example.tradelog.api.core.facade
 
+import com.example.tradelog.api.core.model.OptionJournalModel
 import com.example.tradelog.api.core.model.ShareJournalModel
 import com.example.tradelog.api.core.model.TradeSummaryModel
 import com.example.tradelog.api.core.model.TransactionSettingsModel
@@ -45,11 +46,15 @@ class JournalFacade(private val transactionService: TransactionService,
         TODO("not implemented") //To change body of created functions use File | Sett
     }
 
-    fun editShareRecord(transactionId: String, dto: com.example.tradelog.api.spec.model.ShareJournalModel): Boolean {
+    fun editShareRecord(transactionId: String, dto: ShareJournalModel): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     fun deleteShareRecord(accountId: String, transactionId: String): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    fun getAllOptionTradesBySymbol(accountId: String, symbol: String): List<OptionJournalModel> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

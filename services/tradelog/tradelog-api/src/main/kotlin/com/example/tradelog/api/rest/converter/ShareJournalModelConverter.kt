@@ -6,11 +6,11 @@ import com.example.tradelog.api.spec.model.ShareTransactionsResponse
 class ShareJournalModelConverter {
 
     companion object {
-        fun toShareTransactionsResponse(models: List<com.example.tradelog.api.core.model.ShareJournalModel>): ShareTransactionsResponse {
+        fun toShareTransactionsResponse(models: List<ShareJournalModel>): ShareTransactionsResponse {
             TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
 
-        fun toModel(dto: com.example.tradelog.api.spec.model.ShareJournalModel): com.example.tradelog.api.core.model.ShareJournalModel {
+        fun toModel(dto: com.example.tradelog.api.spec.model.ShareJournalModel): ShareJournalModel {
             TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
 
