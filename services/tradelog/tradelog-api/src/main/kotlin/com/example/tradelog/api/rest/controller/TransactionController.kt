@@ -2,11 +2,14 @@ package com.example.tradelog.api.rest.controller
 
 import com.example.tradelog.api.core.facade.JournalFacade
 import com.example.tradelog.api.rest.converter.TradeSummaryConverter
+import com.example.tradelog.api.rest.converter.TransactionSettingsModelConverter
 import com.example.tradelog.api.rest.exception.ExceptionCode
 import com.example.tradelog.api.rest.exception.TradeLogException
 import com.example.tradelog.api.rest.validator.RequestValidator
 import com.example.tradelog.api.spec.model.ActiveSymbolsResponse
 import com.example.tradelog.api.spec.model.TradeSummaryResponse
+import com.example.tradelog.api.spec.model.TransactionSettingsModel
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
@@ -14,6 +17,11 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping(value = ["/api/v1/transactions"])
 class TransactionController(private val journalFacade: JournalFacade) {
+
+    companion object {
+        const val PROTOBUF_MEDIA_TYPE_VALUE = "application/x-protobuf"
+        private val LOG = LoggerFactory.getLogger(TransactionController::class.java)
+    }
 
     @RequestMapping(value = ["/symbols"], method = [RequestMethod.GET], produces = [PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE])
     @ResponseStatus(HttpStatus.OK)
@@ -30,6 +38,7 @@ class TransactionController(private val journalFacade: JournalFacade) {
                 .build()
     }
 
+
     @RequestMapping(value = ["/summary"], method = [RequestMethod.GET], produces = [PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE])
     @ResponseStatus(HttpStatus.OK)
     fun getSummary(@RequestHeader("accountId") accountId: String): TradeSummaryResponse {
@@ -42,7 +51,22 @@ class TransactionController(private val journalFacade: JournalFacade) {
         return TradeSummaryConverter.toTradeSummaryResponse(summaryList)
     }
 
-    companion object {
-        const val PROTOBUF_MEDIA_TYPE_VALUE = "application/x-protobuf"
+
+
+
+    @RequestMapping(value = ["/settings/{transactionId"], method = [RequestMethod.PUT], produces = [PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE])
+    @ResponseStatus(HttpStatus.OK)
+    fun updateSettings(@RequestHeader("accountId") accountId: String,
+                       @PathVariable("transactionId") transactionId: String,
+                       @RequestBody model: TransactionSettingsModel?) {
+
+        if (!RequestValidator.validateUpdateSettings(accountId, transactionId, model)) {
+            throw TradeLogException(ExceptionCode.BAD_REQUEST);
+        }
+
+        if (!journalFacade.updateSettings(TransactionSettingsModelConverter.toModel(model!!))) {
+            LOG.error("Could not update settings for transaction: $transactionId")
+            throw TradeLogException(ExceptionCode.UPDATE_TRANSACTION_OPTIONS_FAILED)
+        }
     }
 }

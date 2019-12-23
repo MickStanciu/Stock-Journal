@@ -1,6 +1,7 @@
 package com.example.tradelog.api.core.facade
 
 import com.example.tradelog.api.core.model.TradeSummaryModel
+import com.example.tradelog.api.core.model.TransactionSettingsModel
 import com.example.tradelog.api.core.service.DividendJournalService
 import com.example.tradelog.api.core.service.OptionJournalService
 import com.example.tradelog.api.core.service.ShareJournalService
@@ -29,6 +30,10 @@ class JournalFacade(private val transactionService: TransactionService,
 //                .map(Function<Map.Entry<String, TradeSummaryModel>, TradeSummaryModel> { java.util.Map.Entry.value })
 //                .collect(Collectors.toList())
         return emptyList()
+    }
+
+    fun updateSettings(toModel: TransactionSettingsModel): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 
