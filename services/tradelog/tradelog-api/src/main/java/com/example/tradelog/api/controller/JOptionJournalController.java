@@ -15,13 +15,13 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api/v1/options", produces = "application/json")
-public class OptionJournalController {
+public class JOptionJournalController {
 
-    private static final Logger log = LoggerFactory.getLogger(OptionJournalController.class);
+    private static final Logger log = LoggerFactory.getLogger(JOptionJournalController.class);
 
     private JJournalFacade facade;
 
-    public OptionJournalController(JJournalFacade facade) {
+    public JOptionJournalController(JJournalFacade facade) {
         this.facade = facade;
     }
 

@@ -5,20 +5,9 @@ option java_multiple_files = true;
 option java_package = "com.example.tradelog.api.spec.model";
 
 enum ActionType {
-    SELL = 0;
-    BUY = 1;
-}
-
-enum TransactionType {
-    SHARE = 0;
-    SYNTHETIC_SHARE = 1;
-    OPTION = 2;
-    DIVIDEND = 3;
-}
-
-enum OptionType {
-    PUT = 0;
-    CALL = 1;
+    UNKNOWN = 0;
+    SELL = 1;
+    BUY = 2;
 }
 
 message TransactionSettingsModel {
@@ -36,6 +25,14 @@ message TransactionModel {
     double brokerFees = 5;
     TransactionType type = 6;
     TransactionSettingsModel settings = 7;
+
+    enum TransactionType {
+        UNKNOWN = 0;
+        SHARE = 1;
+        SYNTHETIC_SHARE = 2;
+        OPTION = 3;
+        DIVIDEND = 4;
+    }
 }
 
 message OptionJournalModel {
@@ -47,6 +44,12 @@ message OptionJournalModel {
     double premium = 6;
     ActionType action = 7;
     OptionType optionType = 8;
+
+    enum OptionType {
+        UNKNOWN = 0;
+        PUT = 1;
+        CALL = 2;
+    }
 }
 
 message OptionTransactionsResponse {

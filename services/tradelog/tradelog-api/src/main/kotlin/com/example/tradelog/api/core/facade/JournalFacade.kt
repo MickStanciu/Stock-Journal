@@ -41,5 +41,17 @@ class JournalFacade(private val transactionService: TransactionService,
         TODO("not implemented") //To change body of created functions use File | Sett
     }
 
+    fun createShareRecord(toModel: ShareJournalModel): ShareJournalModel? {
+        TODO("not implemented") //To change body of created functions use File | Sett
+    }
+
+    fun editShareRecord(transactionId: String, dto: com.example.tradelog.api.spec.model.ShareJournalModel): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    fun deleteShareRecord(accountId: String, transactionId: String): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 
 }
