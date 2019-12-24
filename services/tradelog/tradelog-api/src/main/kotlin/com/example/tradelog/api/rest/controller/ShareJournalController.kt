@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
+import java.util.stream.Collectors
 
 @RestController
 @RequestMapping(value = ["/api/v1/shares"], produces = [ShareJournalController.PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE])
@@ -33,7 +34,15 @@ class ShareJournalController(private val journalFacade: JournalFacade) {
         }
 
         val models = journalFacade.getAllShareTradesBySymbol(accountId, symbol)
-        return ShareJournalModelConverter.toShareTransactionsResponse(models)
+        val dtos = models.stream()
+                .map {
+                    m -> ShareJournalModelConverter.toDto(m)
+                }
+                .collect(Collectors.toList())
+
+        return ShareTransactionsResponse.newBuilder()
+                .addAllShareItems(dtos)
+                .build()
     }
 
 
