@@ -1,9 +1,6 @@
 package com.example.tradelog.api.core.facade
 
-import com.example.tradelog.api.core.model.OptionJournalModel
-import com.example.tradelog.api.core.model.ShareJournalModel
-import com.example.tradelog.api.core.model.TradeSummaryModel
-import com.example.tradelog.api.core.model.TransactionSettingsModel
+import com.example.tradelog.api.core.model.*
 import com.example.tradelog.api.core.service.DividendJournalService
 import com.example.tradelog.api.core.service.OptionJournalService
 import com.example.tradelog.api.core.service.ShareJournalService
@@ -55,6 +52,26 @@ class JournalFacade(private val transactionService: TransactionService,
     }
 
     fun getAllOptionTradesBySymbol(accountId: String, symbol: String): List<OptionJournalModel> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    fun createOptionRecord(toModel: OptionJournalModel): OptionJournalModel? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    fun deleteOptionRecord(accountId: String, transactionId: String): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    fun getAllDividendTradesBySymbol(accountId: String, symbol: String): List<DividendJournalModel> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    fun createDividendRecord(toModel: DividendJournalModel): OptionJournalModel? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    fun deleteDividendRecord(accountId: String, transactionId: String): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

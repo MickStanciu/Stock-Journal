@@ -10,5 +10,13 @@ class OptionJournalModelConverter {
             TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
 
+        fun toModel(dto: com.example.tradelog.api.spec.model.OptionJournalModel): OptionJournalModel {
+            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
+
+        fun toDto(model: OptionJournalModel): com.example.tradelog.api.spec.model.OptionJournalModel {
+            TODO("not implemented")
+        }
+
     }
 }
