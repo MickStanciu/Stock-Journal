@@ -5,7 +5,7 @@ import com.example.tradelog.api.rest.converter.OptionJournalModelConverter
 import com.example.tradelog.api.rest.exception.ExceptionCode
 import com.example.tradelog.api.rest.exception.TradeLogException
 import com.example.tradelog.api.rest.validator.RequestValidator
-import com.example.tradelog.api.spec.model.OptionJournalModel
+import com.example.tradelog.api.spec.model.OptionJournalDto
 import com.example.tradelog.api.spec.model.OptionTransactionsResponse
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -41,7 +41,7 @@ class OptionJournalController(private val journalFacade: JournalFacade) {
     @ResponseStatus(HttpStatus.OK)
     fun createRecord(
             @RequestHeader("accountId") accountId: String,
-            @RequestBody dto: OptionJournalModel): OptionJournalModel {
+            @RequestBody dto: OptionJournalDto): OptionJournalDto {
 
         if (!RequestValidator.validateCreateOptionRecord(accountId, dto)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)

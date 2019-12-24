@@ -10,21 +10,21 @@ enum ActionType {
     BUY = 2;
 }
 
-message TransactionSettingsModel {
+message TransactionSettingsDto {
     string transactionId = 1;
     double preferredPrice = 2;
     bool groupSelected = 3;
     bool legClosed = 4;
 }
 
-message TransactionModel {
+message TransactionDto {
     string id = 1;
     string accountId = 2;
     string date = 3;
     string symbol = 4;
     double brokerFees = 5;
     TransactionType type = 6;
-    TransactionSettingsModel settings = 7;
+    TransactionSettingsDto settings = 7;
 
     enum TransactionType {
         UNKNOWN = 0;
@@ -35,8 +35,8 @@ message TransactionModel {
     }
 }
 
-message OptionJournalModel {
-    TransactionModel transactionDetails = 1;
+message OptionJournalDto {
+    TransactionDto transactionDetails = 1;
     double stockPrice = 2;
     double strikePrice = 3;
     string expiryDate = 4;
@@ -53,11 +53,11 @@ message OptionJournalModel {
 }
 
 message OptionTransactionsResponse {
-    repeated OptionJournalModel optionItems = 1;
+    repeated OptionJournalDto optionItems = 1;
 }
 
-message ShareJournalModel {
-    TransactionModel transactionDetails = 1;
+message ShareJournalDto {
+    TransactionDto transactionDetails = 1;
     double price = 2;
     double actualPrice = 3;
     int32 quantity = 4;
@@ -65,23 +65,23 @@ message ShareJournalModel {
 }
 
 message ShareTransactionsResponse {
-    repeated ShareJournalModel shareItems = 1;
+    repeated ShareJournalDto shareItems = 1;
 }
 
-message DividendJournalModel {
-    TransactionModel transactionDetails = 1;
+message DividendJournalDto {
+    TransactionDto transactionDetails = 1;
     double dividend = 2;
     int32 quantity = 3;
 }
 
 message DividendTransactionsResponse {
-    repeated DividendJournalModel dividendItems = 1;
+    repeated DividendJournalDto dividendItems = 1;
 }
 
-message TradeLogModel {
-    repeated ShareJournalModel shareList = 1;
-    repeated OptionJournalModel optionList = 2;
-    repeated DividendJournalModel dividendList = 3;
+message TradeLogDto {
+    repeated ShareJournalDto shareList = 1;
+    repeated OptionJournalDto optionList = 2;
+    repeated DividendJournalDto dividendList = 3;
 }
 
 // Used to get trade summary per symbol

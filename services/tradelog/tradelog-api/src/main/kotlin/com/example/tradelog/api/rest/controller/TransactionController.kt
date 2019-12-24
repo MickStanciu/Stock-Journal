@@ -8,7 +8,7 @@ import com.example.tradelog.api.rest.exception.TradeLogException
 import com.example.tradelog.api.rest.validator.RequestValidator
 import com.example.tradelog.api.spec.model.ActiveSymbolsResponse
 import com.example.tradelog.api.spec.model.TradeSummaryResponse
-import com.example.tradelog.api.spec.model.TransactionSettingsModel
+import com.example.tradelog.api.spec.model.TransactionSettingsDto
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -58,7 +58,7 @@ class TransactionController(private val journalFacade: JournalFacade) {
     @ResponseStatus(HttpStatus.OK)
     fun updateSettings(@RequestHeader("accountId") accountId: String,
                        @PathVariable("transactionId") transactionId: String,
-                       @RequestBody model: TransactionSettingsModel?) {
+                       @RequestBody model: TransactionSettingsDto?) {
 
         if (!RequestValidator.validateUpdateSettings(accountId, transactionId, model)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST);

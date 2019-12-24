@@ -1,6 +1,7 @@
 package com.example.tradelog.api.rest.converter
 
 import com.example.tradelog.api.core.model.OptionJournalModel
+import com.example.tradelog.api.spec.model.OptionJournalDto
 import com.example.tradelog.api.spec.model.OptionTransactionsResponse
 
 class OptionJournalModelConverter {
@@ -10,11 +11,11 @@ class OptionJournalModelConverter {
             TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
 
-        fun toModel(dto: com.example.tradelog.api.spec.model.OptionJournalModel): OptionJournalModel {
+        fun toModel(dto: OptionJournalDto): OptionJournalModel {
             TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
 
-        fun toDto(model: OptionJournalModel): com.example.tradelog.api.spec.model.OptionJournalModel {
+        fun toDto(model: OptionJournalModel): OptionJournalDto {
             TODO("not implemented")
         }
 

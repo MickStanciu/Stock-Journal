@@ -5,7 +5,7 @@ import com.example.tradelog.api.rest.converter.ShareJournalModelConverter
 import com.example.tradelog.api.rest.exception.ExceptionCode
 import com.example.tradelog.api.rest.exception.TradeLogException
 import com.example.tradelog.api.rest.validator.RequestValidator
-import com.example.tradelog.api.spec.model.ShareJournalModel
+import com.example.tradelog.api.spec.model.ShareJournalDto
 import com.example.tradelog.api.spec.model.ShareTransactionsResponse
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -41,7 +41,7 @@ class ShareJournalController(private val journalFacade: JournalFacade) {
     @ResponseStatus(HttpStatus.OK)
     fun createRecord(
             @RequestHeader("accountId") accountId: String,
-            @RequestBody dto: ShareJournalModel): ShareJournalModel {
+            @RequestBody dto: ShareJournalDto): ShareJournalDto {
 
         if (!RequestValidator.validateCreateShareRecord(accountId, dto)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
@@ -63,7 +63,7 @@ class ShareJournalController(private val journalFacade: JournalFacade) {
     fun editRecord(
             @RequestHeader("accountId") accountId: String,
             @PathVariable("transactionId") transactionId: String,
-            @RequestBody dto: ShareJournalModel) {
+            @RequestBody dto: ShareJournalDto) {
 
         if (!RequestValidator.validateEditShareRecord(accountId, transactionId, dto)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)

@@ -5,7 +5,7 @@ import com.example.tradelog.api.rest.converter.DividendJournalModelConverter
 import com.example.tradelog.api.rest.exception.ExceptionCode
 import com.example.tradelog.api.rest.exception.TradeLogException
 import com.example.tradelog.api.rest.validator.RequestValidator
-import com.example.tradelog.api.spec.model.DividendJournalModel
+import com.example.tradelog.api.spec.model.DividendJournalDto
 import com.example.tradelog.api.spec.model.DividendTransactionsResponse
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -41,7 +41,7 @@ class DividendJournalController(private val journalFacade: JournalFacade) {
     @ResponseStatus(HttpStatus.OK)
     fun createRecord(
             @RequestHeader("accountId") accountId: String,
-            @RequestBody dto: DividendJournalModel): DividendJournalModel {
+            @RequestBody dto: DividendJournalDto): DividendJournalDto {
 
         if (!RequestValidator.validateCreateDividendRecord(accountId, dto)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
