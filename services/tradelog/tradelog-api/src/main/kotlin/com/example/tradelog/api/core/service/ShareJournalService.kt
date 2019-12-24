@@ -31,12 +31,16 @@ class ShareJournalService(private val repository: ShareJournalRepository) : Jour
         return repository.getById(transactionId)
     }
 
-    override fun editRecord(transactionId: String, model: ShareJournalModel): Boolean {
+    override fun editRecord(model: ShareJournalModel): Boolean {
         return repository.editRecord(model)
     }
 
     override fun deleteRecord(transactionId: String): Boolean {
         return repository.deleteRecord(transactionId)
+    }
+
+    override fun getById(accountId: String, transactionId: String): ShareJournalModel? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
 

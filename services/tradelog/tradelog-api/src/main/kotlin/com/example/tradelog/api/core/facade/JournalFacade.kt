@@ -24,56 +24,108 @@ class JournalFacade(private val transactionService: TransactionService,
 
         val summaryModelMap: HashMap<String, TradeSummaryModel>
 
-//        return summaryModelMap.entries.stream()
-//                .sorted(java.util.Map.Entry.comparingByKey())
-//                .map(Function<Map.Entry<String, TradeSummaryModel>, TradeSummaryModel> { java.util.Map.Entry.value })
-//                .collect(Collectors.toList())
+/*
+        Map<String, TradeSummaryModel> summaryModelMap = new HashMap<>();
+        shareSummaries.forEach(summaryModelMap::put);
+
+        optionSummaries.forEach( (k, v) -> {
+            if (summaryModelMap.containsKey(v.getSymbol())) {
+                TradeSummaryModel storedModel = summaryModelMap.get(v.getSymbol());
+                summaryModelMap.put(v.getSymbol(), new TradeSummaryModel(storedModel.getSymbol(), storedModel.getTrades() + v.getTrades(), storedModel.getTotal().add(v.getTotal())));
+            } else {
+                summaryModelMap.put(v.getSymbol(), v);
+            }
+        });
+
+        dividendSummaries.forEach( (k, v) -> {
+            if (summaryModelMap.containsKey(v.getSymbol())) {
+                TradeSummaryModel storedModel = summaryModelMap.get(v.getSymbol());
+                summaryModelMap.put(v.getSymbol(), new TradeSummaryModel(storedModel.getSymbol(), storedModel.getTrades() + v.getTrades(), storedModel.getTotal().add(v.getTotal())));
+            } else {
+                summaryModelMap.put(v.getSymbol(), v);
+            }
+        });
+
+
+        return summaryModelMap.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .map(Map.Entry::getValue)
+                .collect(Collectors.toList());
+ */
         return emptyList()
     }
 
-    fun updateSettings(toModel: TransactionSettingsModel): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    fun updateSettings(model: TransactionSettingsModel): Boolean {
+        return transactionService.updateSettings(model)
     }
 
     fun getAllShareTradesBySymbol(accountId: String, symbol: String): List<ShareJournalModel> {
-        TODO("not implemented") //To change body of created functions use File | Sett
+        return shareService.getAllBySymbol(accountId, symbol)
     }
 
-    fun createShareRecord(toModel: ShareJournalModel): ShareJournalModel? {
-        TODO("not implemented") //To change body of created functions use File | Sett
+    fun createShareRecord(model: ShareJournalModel): ShareJournalModel? {
+        val id = transactionService.createRecord(model.transactionDetails)
+        if (id != null) {
+            return shareService.createRecord(id, model)
+        }
+        return null
     }
 
-    fun editShareRecord(transactionId: String, dto: ShareJournalModel): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    fun editShareRecord(transactionId: String, model: ShareJournalModel): Boolean {
+        if (transactionId !== model.transactionDetails.id) {
+            return false
+        }
+
+        return transactionService.editRecord(model.transactionDetails)
+                && shareService.editRecord(model)
     }
 
     fun deleteShareRecord(accountId: String, transactionId: String): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        shareService.getById(accountId, transactionId) ?: return false
+
+        return shareService.deleteRecord(transactionId)
+                && transactionService.deleteSettings(transactionId)
+                && transactionService.deleteRecord(accountId, transactionId)
     }
 
     fun getAllOptionTradesBySymbol(accountId: String, symbol: String): List<OptionJournalModel> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return optionService.getAllBySymbol(accountId, symbol)
     }
 
-    fun createOptionRecord(toModel: OptionJournalModel): OptionJournalModel? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    fun createOptionRecord(model: OptionJournalModel): OptionJournalModel? {
+        val id = transactionService.createRecord(model.transactionDetails)
+        if (id != null) {
+            return optionService.createRecord(id, model)
+        }
+        return null
     }
 
     fun deleteOptionRecord(accountId: String, transactionId: String): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        optionService.getById(accountId, transactionId) ?: return false
+
+        return optionService.deleteRecord(transactionId)
+                && transactionService.deleteSettings(transactionId)
+                && transactionService.deleteRecord(accountId, transactionId)
     }
 
     fun getAllDividendTradesBySymbol(accountId: String, symbol: String): List<DividendJournalModel> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return dividendService.getAllBySymbol(accountId, symbol)
     }
 
-    fun createDividendRecord(toModel: DividendJournalModel): OptionJournalModel? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    fun createDividendRecord(model: DividendJournalModel): DividendJournalModel? {
+        val id = transactionService.createRecord(model.transactionDetails)
+        if (id != null) {
+            return dividendService.createRecord(id, model)
+        }
+        return null
     }
 
     fun deleteDividendRecord(accountId: String, transactionId: String): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+        dividendService.getById(accountId, transactionId) ?: return false
 
+        return dividendService.deleteRecord(transactionId)
+                && transactionService.deleteSettings(transactionId)
+                && transactionService.deleteRecord(accountId, transactionId)
+    }
 
 }

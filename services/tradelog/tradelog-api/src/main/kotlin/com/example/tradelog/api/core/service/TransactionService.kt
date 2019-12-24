@@ -28,11 +28,11 @@ class TransactionService(private val repository: TransactionRepository) {
         }
     }
 
-    fun deleteRecord(accountId: String, transactionId: String) {
+    fun deleteRecord(accountId: String, transactionId: String): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    fun updateRecord(model: TransactionModel): Boolean {
+    fun editRecord(model: TransactionModel): Boolean {
         return repository.updateRecord(model)
     }
 
@@ -44,6 +44,10 @@ class TransactionService(private val repository: TransactionRepository) {
             return id
         }
         return null
+    }
+
+    fun deleteSettings(transactionId: String): Boolean {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
 }

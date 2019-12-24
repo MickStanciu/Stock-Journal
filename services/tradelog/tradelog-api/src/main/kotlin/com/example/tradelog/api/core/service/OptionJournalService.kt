@@ -23,11 +23,15 @@ class OptionJournalService(private val repository: OptionJournalRepository) : Jo
         return repository.getById(transactionId)
     }
 
-    override fun editRecord(transactionId: String, model: OptionJournalModel): Boolean {
+    override fun editRecord(model: OptionJournalModel): Boolean {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun deleteRecord(transactionId: String): Boolean {
         return repository.deleteRecord(transactionId)
+    }
+
+    override fun getById(accountId: String, transactionId: String): OptionJournalModel? {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
