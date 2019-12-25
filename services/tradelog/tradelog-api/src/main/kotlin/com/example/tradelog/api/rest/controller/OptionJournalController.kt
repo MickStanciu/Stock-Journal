@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
+import java.util.stream.Collectors
 
 @RestController
 @RequestMapping(value = ["/api/v1/options"], produces = [OptionJournalController.PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE])
@@ -33,7 +34,13 @@ class OptionJournalController(private val journalFacade: JournalFacade) {
         }
 
         val models = journalFacade.getAllOptionTradesBySymbol(accountId, symbol)
-        return OptionJournalModelConverter.toOptionTransactionsResponse(models)
+        val dtos = models.stream()
+                .map { m -> OptionJournalModelConverter.toDto(m) }
+                .collect(Collectors.toList())
+
+        return OptionTransactionsResponse.newBuilder()
+                .addAllOptionItems(dtos)
+                .build()
     }
 
 

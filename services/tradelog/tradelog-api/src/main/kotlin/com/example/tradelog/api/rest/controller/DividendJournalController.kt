@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
+import java.util.stream.Collectors
 
 @RestController
 @RequestMapping(value = ["/api/v1/dividends"], produces = [DividendJournalController.PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE])
@@ -33,7 +34,13 @@ class DividendJournalController(private val journalFacade: JournalFacade) {
         }
 
         val models = journalFacade.getAllDividendTradesBySymbol(accountId, symbol)
-        return DividendJournalModelConverter.toDividendTransactionsResponse(models)
+        val dtos = models.stream()
+                .map { m -> DividendJournalModelConverter.toDto(m) }
+                .collect(Collectors.toList())
+
+        return DividendTransactionsResponse.newBuilder()
+                .addAllDividendItems(dtos)
+                .build()
     }
 
 
