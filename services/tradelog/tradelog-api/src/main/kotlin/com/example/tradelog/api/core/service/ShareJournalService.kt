@@ -22,13 +22,13 @@ class ShareJournalService(private val repository: ShareJournalRepository) : Jour
      */
     override fun getAllBySymbol(accountId: String, symbol: String): List<ShareJournalModel> {
         val modelList = repository.getAllBySymbol(accountId, symbol)
-        TODO("not implemented")//shareJournalModelList.addAll(SyntheticSharesGenerator.createSynthetic.apply(shareJournalModelList));
         return modelList
+//        TODO("not implemented")//shareJournalModelList.addAll(SyntheticSharesGenerator.createSynthetic.apply(shareJournalModelList));
     }
 
-    override fun createRecord(transactionId: String, model: ShareJournalModel): ShareJournalModel {
+    override fun createRecord(transactionId: String, model: ShareJournalModel): ShareJournalModel? {
         repository.createRecord(transactionId, model)
-        return repository.getById(transactionId)
+        return repository.getById(model.transactionDetails.accountId, transactionId)
     }
 
     override fun editRecord(model: ShareJournalModel): Boolean {
@@ -40,7 +40,7 @@ class ShareJournalService(private val repository: ShareJournalRepository) : Jour
     }
 
     override fun getById(accountId: String, transactionId: String): ShareJournalModel? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return repository.getById(accountId, transactionId)
     }
 }
 

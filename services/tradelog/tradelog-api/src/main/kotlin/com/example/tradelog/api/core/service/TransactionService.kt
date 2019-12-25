@@ -29,7 +29,7 @@ class TransactionService(private val repository: TransactionRepository) {
     }
 
     fun deleteRecord(accountId: String, transactionId: String): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return repository.deleteRecord(accountId, transactionId)
     }
 
     fun editRecord(model: TransactionModel): Boolean {
@@ -47,7 +47,7 @@ class TransactionService(private val repository: TransactionRepository) {
     }
 
     fun deleteSettings(transactionId: String): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return repository.deleteSettings(transactionId)
     }
 
 }

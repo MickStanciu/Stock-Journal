@@ -20,7 +20,7 @@ class OptionJournalService(private val repository: OptionJournalRepository) : Jo
 
     override fun createRecord(transactionId: String, model: OptionJournalModel): OptionJournalModel {
         repository.createRecord(transactionId, model)
-        return repository.getById(transactionId)
+        return repository.getById(model.transactionDetails.accountId, transactionId)
     }
 
     override fun editRecord(model: OptionJournalModel): Boolean {

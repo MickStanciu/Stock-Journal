@@ -32,7 +32,7 @@ class DividendJournalRepository(private val jdbcTemplate: JdbcTemplate) : Journa
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getById(transactionId: String): DividendJournalModel {
+    override fun getById(accountId: String, transactionId: String): DividendJournalModel {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

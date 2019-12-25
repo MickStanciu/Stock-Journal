@@ -20,7 +20,7 @@ class DividendJournalService(private val repository: DividendJournalRepository) 
 
     override fun createRecord(transactionId: String, model: DividendJournalModel): DividendJournalModel {
         repository.createRecord(transactionId, model)
-        return repository.getById(transactionId)
+        return repository.getById(model.transactionDetails.accountId, transactionId)
     }
 
     override fun editRecord(model: DividendJournalModel): Boolean {

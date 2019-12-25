@@ -32,7 +32,7 @@ class OptionJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalR
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun getById(transactionId: String): OptionJournalModel {
+    override fun getById(accountId: String, transactionId: String): OptionJournalModel {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
