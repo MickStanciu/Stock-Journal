@@ -2,7 +2,6 @@ package com.example.tradelog.api.rest.validator
 
 import com.example.common.validator.FieldValidator
 import com.example.tradelog.api.spec.model.*
-import com.example.tradelog.api.validator.RequestValidation
 
 class RequestValidator: FieldValidator() {
 
@@ -70,7 +69,7 @@ class RequestValidator: FieldValidator() {
                     && dto.transactionDetails.type === TransactionDto.TransactionType.DIVIDEND
                     && dto.transactionDetails.date != null
                     && symbol.test(dto.transactionDetails.symbol)
-                    && RequestValidation.accountId.test(dto.transactionDetails.accountId)
+                    && FieldValidator.accountId.test(dto.transactionDetails.accountId)
                     && dto.quantity >= 0
                     && dto.dividend >= 0)
         }
@@ -91,7 +90,7 @@ class RequestValidator: FieldValidator() {
                     && dto.transactionDetails.type === TransactionDto.TransactionType.OPTION
                     && dto.transactionDetails.date != null
                     && symbol.test(dto.transactionDetails.symbol)
-                    && RequestValidation.accountId.test(dto.transactionDetails.accountId)
+                    && FieldValidator.accountId.test(dto.transactionDetails.accountId)
                     && dto.action != null
                     && dto.action !== ActionType.UNKNOWN
                     && (dto.optionType === OptionJournalDto.OptionType.CALL || dto.optionType === OptionJournalDto.OptionType.PUT)
