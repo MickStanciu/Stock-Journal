@@ -18,7 +18,7 @@ class DividendJournalService(private val repository: DividendJournalRepository) 
         return repository.getAllBySymbol(accountId, symbol)
     }
 
-    override fun createRecord(transactionId: String, model: DividendJournalModel): DividendJournalModel {
+    override fun createRecord(transactionId: String, model: DividendJournalModel): DividendJournalModel? {
         repository.createRecord(transactionId, model)
         return repository.getById(model.transactionDetails.accountId, transactionId)
     }

@@ -18,7 +18,7 @@ class OptionJournalService(private val repository: OptionJournalRepository) : Jo
         return repository.getAllBySymbol(accountId, symbol)
     }
 
-    override fun createRecord(transactionId: String, model: OptionJournalModel): OptionJournalModel {
+    override fun createRecord(transactionId: String, model: OptionJournalModel): OptionJournalModel? {
         repository.createRecord(transactionId, model)
         return repository.getById(model.transactionDetails.accountId, transactionId)
     }

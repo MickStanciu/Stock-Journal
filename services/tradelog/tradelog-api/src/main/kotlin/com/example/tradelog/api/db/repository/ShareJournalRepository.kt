@@ -11,11 +11,6 @@ import java.sql.Connection
 @Service
 class ShareJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalRepository<ShareJournalModel> {
 
-    /**
-     * Get list of share trade summaries
-     * @param accountId -
-     * @return -
-     */
     override fun getSummaries(accountId: String): List<TradeSummaryModel> {
         val parameters = arrayOf(accountId)
         return jdbcTemplate.query(GET_SUMMARIES, parameters, TradeSummaryModelRowMapper())
