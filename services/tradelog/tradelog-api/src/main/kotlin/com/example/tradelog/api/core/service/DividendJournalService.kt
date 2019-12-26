@@ -32,6 +32,6 @@ class DividendJournalService(private val repository: DividendJournalRepository) 
     }
 
     override fun getById(accountId: String, transactionId: String): DividendJournalModel? {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return repository.getById(accountId, transactionId)
     }
 }
