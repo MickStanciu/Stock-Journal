@@ -3,6 +3,7 @@ package com.example.tradelog.api.core.service
 import com.example.tradelog.api.core.converter.TradeSummaryUtil
 import com.example.tradelog.api.core.model.ShareJournalModel
 import com.example.tradelog.api.core.model.TradeSummaryModel
+import com.example.tradelog.api.core.util.createSynthetic
 import com.example.tradelog.api.db.repository.ShareJournalRepository
 import org.springframework.stereotype.Service
 
@@ -14,16 +15,10 @@ class ShareJournalService(private val repository: ShareJournalRepository) : Jour
         return TradeSummaryUtil.toMap(models = modelList)
     }
 
-    /**
-     * Returns all shares per symbol including a calculated synthetic one
-     * @param accountId -
-     * @param symbol -
-     * @return list
-     */
     override fun getAllBySymbol(accountId: String, symbol: String): List<ShareJournalModel> {
-        val modelList = repository.getAllBySymbol(accountId, symbol)
+        val modelList: ArrayList<ShareJournalModel> = ArrayList(repository.getAllBySymbol(accountId, symbol))
+        modelList.addAll(createSynthetic(modelList))
         return modelList
-//        TODO("not implemented")//shareJournalModelList.addAll(SyntheticSharesGenerator.createSynthetic.apply(shareJournalModelList));
     }
 
     override fun createRecord(transactionId: String, model: ShareJournalModel): ShareJournalModel? {
