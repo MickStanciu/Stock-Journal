@@ -1,5 +1,6 @@
 package com.example.stockdata.api.rest.exception
 
+import com.example.common.converter.TimeConverter
 import com.example.stockdata.api.rest.converter.PriceExceptionConverter
 import com.example.stockdata.api.spec.model.ExceptionResponse
 import org.slf4j.LoggerFactory
@@ -11,7 +12,7 @@ import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
 
 @ControllerAdvice
-class CustomisedResponseEntityExceptionHandler : ResponseEntityExceptionHandler() {
+class CustomisedExceptionHandler : ResponseEntityExceptionHandler() {
 
     @ExceptionHandler(Exception::class)
     fun handleAllExceptions(ex: Exception, request: WebRequest): ResponseEntity<ExceptionResponse> {
@@ -19,8 +20,9 @@ class CustomisedResponseEntityExceptionHandler : ResponseEntityExceptionHandler(
                 .setCode(ExceptionResponse.ExceptionCode.UNKNOWN)
                 .setMessage(ex.message)
                 .setDetails(request.getDescription(false))
+                .setTimestamp(TimeConverter.getOffsetDateTimeNow().toString())
                 .build()
-        log.error(ex.message, ex)
+        LOG.error(ex.message, ex)
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionResponse)
     }
 
@@ -30,8 +32,9 @@ class CustomisedResponseEntityExceptionHandler : ResponseEntityExceptionHandler(
                 .setCode(PriceExceptionConverter.toExceptionCode(ex.code))
                 .setMessage(ex.message)
                 .setDetails(request.getDescription(false))
+                .setTimestamp(TimeConverter.getOffsetDateTimeNow().toString())
                 .build()
-        log.error(ex.message, ex)
+        LOG.error(ex.message, ex)
         return when (ex.code) {
             ExceptionCode.BAD_REQUEST -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse)
             ExceptionCode.NO_DATA -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponse)
@@ -40,6 +43,6 @@ class CustomisedResponseEntityExceptionHandler : ResponseEntityExceptionHandler(
     }
 
     companion object {
-        private val log = LoggerFactory.getLogger(CustomisedResponseEntityExceptionHandler::class.java)
+        private val LOG = LoggerFactory.getLogger(CustomisedExceptionHandler::class.java)
     }
 }

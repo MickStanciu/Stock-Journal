@@ -5,17 +5,16 @@ option java_multiple_files = true;
 option java_package = "com.example.stockdata.api.spec.model";
 
 message ExceptionResponse {
-    string timestamp = 1;
+    ExceptionCode code = 1;
     string message = 2;
     string details = 3;
+    string timestamp = 4;
 
     enum ExceptionCode {
         UNKNOWN = 0;
         BAD_REQUEST = 1;
         NO_DATA = 2;
     }
-
-    ExceptionCode code = 4;
 }
 
 // Used to get price for a symbol or a collection of symbols
