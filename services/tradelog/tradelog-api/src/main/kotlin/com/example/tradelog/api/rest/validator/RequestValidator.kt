@@ -64,7 +64,7 @@ class RequestValidator: FieldValidator() {
                     && FieldValidator.transactionId.test(transactionId)
         }
 
-        private fun validateDividendJournalModel(dto: DividendJournalDto): Boolean {
+        fun validateDividendJournalModel(dto: DividendJournalDto): Boolean {
             return (dto.transactionDetails != null
                     && dto.transactionDetails.type === TransactionDto.TransactionType.DIVIDEND
                     && dto.transactionDetails.date != null
@@ -74,7 +74,7 @@ class RequestValidator: FieldValidator() {
                     && dto.dividend >= 0)
         }
 
-        private fun validateShareJournalModel(dto: ShareJournalDto): Boolean {
+        fun validateShareJournalModel(dto: ShareJournalDto): Boolean {
             return (dto.transactionDetails != null
                     && dto.transactionDetails.type === TransactionDto.TransactionType.SHARE
                     && dto.transactionDetails.date != null
@@ -85,7 +85,7 @@ class RequestValidator: FieldValidator() {
                     && dto.price >= 0.00 && dto.quantity >= 1)
         }
 
-        private fun validateOptionJournalModel(dto: OptionJournalDto): Boolean {
+        fun validateOptionJournalModel(dto: OptionJournalDto): Boolean {
             return (dto.transactionDetails != null
                     && dto.transactionDetails.type === TransactionDto.TransactionType.OPTION
                     && dto.transactionDetails.date != null
@@ -100,9 +100,5 @@ class RequestValidator: FieldValidator() {
                     && dto.stockPrice >= 0.00
                     && dto.strikePrice > 0)
         }
-
-
-
-
     }
 }

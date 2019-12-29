@@ -15,6 +15,11 @@ public class StringValidator implements Validator {
         return this;
     }
 
+    public StringValidator notEmpty() {
+        this.result &= this.string.trim().length() != 0;
+        return this;
+    }
+
     public StringValidator sizeEqualTo(int size) {
         this.result &= this.string != null && this.string.length() == size;
         return this;
