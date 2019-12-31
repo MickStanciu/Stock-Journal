@@ -1,6 +1,7 @@
 package com.example.stockdata.api.rest.controller
 
 import com.example.stockdata.api.core.service.PriceService
+import com.example.stockdata.api.rest.controller.PriceController.Companion.PROTOBUF_MEDIA_TYPE_VALUE
 import com.example.stockdata.api.rest.converter.PriceConverter
 import com.example.stockdata.api.rest.exception.ExceptionCode
 import com.example.stockdata.api.rest.exception.PriceException
@@ -12,10 +13,10 @@ import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping(value = ["/api/v1/price"])
+@RequestMapping(value = ["/api/v1/price"], produces = [PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE])
 class PriceController(private val priceService: PriceService) {
 
-    @RequestMapping(value = ["/last-close/{symbol}"], method = [RequestMethod.GET], produces = [PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE])
+    @RequestMapping(value = ["/last-close/{symbol}"], method = [RequestMethod.GET])
     @ResponseStatus(HttpStatus.OK)
     fun getPriceForSymbol(
             @RequestHeader("accountId") accountId: String,
@@ -36,7 +37,7 @@ class PriceController(private val priceService: PriceService) {
     /*
         Return symbols where prices where not updated for a while
      */
-    @RequestMapping(value = ["/old"], method = [RequestMethod.GET], produces = [PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE])
+    @RequestMapping(value = ["/old"], method = [RequestMethod.GET])
     @ResponseStatus(HttpStatus.OK)
     fun getOldestSymbols(
             @RequestHeader("accountId") accountId: String,

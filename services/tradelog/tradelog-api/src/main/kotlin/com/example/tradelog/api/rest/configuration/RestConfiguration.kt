@@ -8,12 +8,12 @@ import org.springframework.http.converter.protobuf.ProtobufHttpMessageConverter
 import org.springframework.http.converter.protobuf.ProtobufJsonFormatHttpMessageConverter
 
 @Configuration
-open class RestConfiguration {
+class RestConfiguration {
     @Bean
-    open fun protobufHttpMessageConverter(): ProtobufHttpMessageConverter = ProtobufHttpMessageConverter()
+    fun protobufHttpMessageConverter(): ProtobufHttpMessageConverter = ProtobufHttpMessageConverter()
 
     @Bean
-    open fun protobufJsonFormatHttpMessageConverter(): ProtobufJsonFormatHttpMessageConverter? {
+    fun protobufJsonFormatHttpMessageConverter(): ProtobufJsonFormatHttpMessageConverter? {
         val printer = JsonFormat.printer().omittingInsignificantWhitespace()
         val parser = JsonFormat.parser().ignoringUnknownFields()
         return ProtobufJsonFormatHttpMessageConverter(parser, printer, null as ExtensionRegistry?)

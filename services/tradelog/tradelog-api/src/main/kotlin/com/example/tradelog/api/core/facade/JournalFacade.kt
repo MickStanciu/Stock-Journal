@@ -6,6 +6,7 @@ import com.example.tradelog.api.core.service.OptionJournalService
 import com.example.tradelog.api.core.service.ShareJournalService
 import com.example.tradelog.api.core.service.TransactionService
 import org.springframework.stereotype.Service
+import java.util.stream.Collectors
 
 @Service
 class JournalFacade(private val transactionService: TransactionService,
@@ -22,37 +23,35 @@ class JournalFacade(private val transactionService: TransactionService,
         val optionSummaries = optionService.getSummaries(accountId)
         val dividendSummaries = dividendService.getSummaries(accountId)
 
-        val summaryModelMap: HashMap<String, TradeSummaryModel>
+        val summaryModelMap: HashMap<String, TradeSummaryModel> = HashMap()
 
-/*
-        Map<String, TradeSummaryModel> summaryModelMap = new HashMap<>();
-        shareSummaries.forEach(summaryModelMap::put);
+        shareSummaries.forEach { summaryModelMap[it.key] = it.value }
 
-        optionSummaries.forEach( (k, v) -> {
-            if (summaryModelMap.containsKey(v.getSymbol())) {
-                TradeSummaryModel storedModel = summaryModelMap.get(v.getSymbol());
-                summaryModelMap.put(v.getSymbol(), new TradeSummaryModel(storedModel.getSymbol(), storedModel.getTrades() + v.getTrades(), storedModel.getTotal().add(v.getTotal())));
+        optionSummaries.forEach {
+            if (summaryModelMap.containsKey(it.key)) {
+                val storedModel: TradeSummaryModel = summaryModelMap[it.key]!!
+                summaryModelMap[it.key] = TradeSummaryModel(symbol = it.key, trades = storedModel.trades + it.value.trades,
+                        total = storedModel.total.add(it.value.total))
             } else {
-                summaryModelMap.put(v.getSymbol(), v);
+                summaryModelMap[it.key] = it.value
             }
-        });
+        }
 
-        dividendSummaries.forEach( (k, v) -> {
-            if (summaryModelMap.containsKey(v.getSymbol())) {
-                TradeSummaryModel storedModel = summaryModelMap.get(v.getSymbol());
-                summaryModelMap.put(v.getSymbol(), new TradeSummaryModel(storedModel.getSymbol(), storedModel.getTrades() + v.getTrades(), storedModel.getTotal().add(v.getTotal())));
+        dividendSummaries.forEach {
+            if (summaryModelMap.containsKey(it.key)) {
+                val storedModel: TradeSummaryModel = summaryModelMap[it.key]!!
+                summaryModelMap[it.key] = TradeSummaryModel(symbol = it.key, trades = storedModel.trades + it.value.trades,
+                        total = storedModel.total.add(it.value.total))
             } else {
-                summaryModelMap.put(v.getSymbol(), v);
+                summaryModelMap[it.key] = it.value
             }
-        });
+        }
 
-
-        return summaryModelMap.entrySet().stream()
-                .sorted(Map.Entry.comparingByKey())
-                .map(Map.Entry::getValue)
+        return summaryModelMap.entries.stream()
+                .sorted()
+                .map { it.value }
                 .collect(Collectors.toList());
- */
-        return emptyList()
+
     }
 
     fun updateSettings(model: TransactionSettingsModel): Boolean {

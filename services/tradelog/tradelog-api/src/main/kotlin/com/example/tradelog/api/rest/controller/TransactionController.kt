@@ -1,6 +1,7 @@
 package com.example.tradelog.api.rest.controller
 
 import com.example.tradelog.api.core.facade.JournalFacade
+import com.example.tradelog.api.rest.controller.TransactionController.Companion.PROTOBUF_MEDIA_TYPE_VALUE
 import com.example.tradelog.api.rest.converter.TradeSummaryConverter
 import com.example.tradelog.api.rest.converter.TransactionSettingsModelConverter
 import com.example.tradelog.api.rest.exception.ExceptionCode
@@ -15,7 +16,7 @@ import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping(value = ["/api/v1/transactions"], produces = [TransactionController.PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE])
+@RequestMapping(value = ["/api/v1/transactions"], produces = [PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE])
 class TransactionController(private val journalFacade: JournalFacade) {
 
     companion object {

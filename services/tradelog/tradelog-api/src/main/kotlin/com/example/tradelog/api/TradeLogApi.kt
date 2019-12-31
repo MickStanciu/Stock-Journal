@@ -8,10 +8,10 @@ import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver
 import java.util.*
 
 @SpringBootApplication
-open class TradeLogApi {
+class TradeLogApi {
 
     @Bean
-    open fun localeResolver(): LocaleResolver? {
+    fun localeResolver(): LocaleResolver? {
         val localeResolver = AcceptHeaderLocaleResolver()
         localeResolver.defaultLocale = Locale.US
         return localeResolver
