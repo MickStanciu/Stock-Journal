@@ -47,11 +47,11 @@ class JournalFacade(private val transactionService: TransactionService,
             }
         }
 
-        return summaryModelMap.entries.stream()
-                .sorted()
-                .map { it.value }
-                .collect(Collectors.toList());
 
+        return summaryModelMap.entries.stream()
+                .sorted(compareBy { it.key })
+                .map { it.value }
+                .collect(Collectors.toList())
     }
 
     fun updateSettings(model: TransactionSettingsModel): Boolean {
