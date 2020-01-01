@@ -57,8 +57,14 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
     }
 
     fun updateSettings(model: TransactionSettingsModel): Boolean {
-        val parameters = arrayOf(model.preferredPrice, model.groupSelected, model.legClosed, model.transactionId)
-        return jdbcTemplate.update(EDIT_SETTINGS, parameters) == 1
+        return jdbcTemplate.update { connection: Connection ->
+            val ps = connection.prepareStatement(EDIT_SETTINGS)
+            ps.setDouble(1, model.preferredPrice)
+            ps.setBoolean(2, model.groupSelected)
+            ps.setBoolean(3, model.legClosed)
+            ps.setString(4, model.transactionId)
+            ps
+        } == 1
     }
 
     fun deleteSettings(transactionId: String): Boolean {

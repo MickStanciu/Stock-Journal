@@ -14,10 +14,11 @@ class RequestValidator: FieldValidator() {
             return FieldValidator.accountId.test(accountId)
         }
 
-        fun validateUpdateSettings(accountId: String, transactionId: String, dto: TransactionSettingsDto?): Boolean {
+        fun validateUpdateSettings(accountId: String, transactionId: String, dto: TransactionSettingsDto): Boolean {
             return FieldValidator.accountId.test(accountId)
+                    && transactionId == dto.transactionId
                     && FieldValidator.transactionId.test(transactionId)
-                    && dto != null
+                    && validateTransactionSettingsModel(dto)
 
         }
 
@@ -33,6 +34,7 @@ class RequestValidator: FieldValidator() {
 
         fun validateEditShareRecord(accountId: String, transactionId: String, dto: ShareJournalDto): Boolean {
             return FieldValidator.accountId.test(accountId)
+                    && transactionId == dto.transactionDetails.id
                     && FieldValidator.transactionId.test(transactionId)
                     && validateShareJournalModel(dto)
         }
@@ -45,6 +47,13 @@ class RequestValidator: FieldValidator() {
 
         fun validateCreateOptionRecord(accountId: String, dto: OptionJournalDto): Boolean {
             return FieldValidator.accountId.test(accountId)
+                    && validateOptionJournalModel(dto)
+        }
+
+        fun validateEditOptionRecord(accountId: String, transactionId: String, dto: OptionJournalDto): Boolean {
+            return FieldValidator.accountId.test(accountId)
+                    && transactionId == dto.transactionDetails.id
+                    && FieldValidator.transactionId.test(transactionId)
                     && validateOptionJournalModel(dto)
         }
 
@@ -100,5 +109,10 @@ class RequestValidator: FieldValidator() {
                     && dto.stockPrice >= 0.00
                     && dto.strikePrice > 0)
         }
+
+        fun validateTransactionSettingsModel(dto: TransactionSettingsDto): Boolean {
+            return FieldValidator.transactionId.test(dto.transactionId)
+        }
+
     }
 }

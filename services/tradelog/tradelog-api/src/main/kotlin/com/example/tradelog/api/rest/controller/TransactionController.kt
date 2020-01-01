@@ -53,19 +53,17 @@ class TransactionController(private val journalFacade: JournalFacade) {
     }
 
 
-
-
-    @RequestMapping(value = ["/settings/{transactionId"], method = [RequestMethod.PUT])
+    @RequestMapping(value = ["/settings/{transactionId}"], method = [RequestMethod.PUT])
     @ResponseStatus(HttpStatus.OK)
     fun updateSettings(@RequestHeader("accountId") accountId: String,
                        @PathVariable("transactionId") transactionId: String,
-                       @RequestBody model: TransactionSettingsDto?) {
+                       @RequestBody dto: TransactionSettingsDto) {
 
-        if (!RequestValidator.validateUpdateSettings(accountId, transactionId, model)) {
+        if (!RequestValidator.validateUpdateSettings(accountId, transactionId, dto)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST);
         }
 
-        if (!journalFacade.updateSettings(TransactionSettingsModelConverter.toModel(model!!))) {
+        if (!journalFacade.updateSettings(TransactionSettingsModelConverter.toModel(dto))) {
             LOG.error("Could not update settings for transaction: $transactionId")
             throw TradeLogException(ExceptionCode.UPDATE_TRANSACTION_OPTIONS_FAILED)
         }

@@ -11,11 +11,6 @@ import java.sql.Connection
 @Service
 class ShareJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalRepository<ShareJournalModel> {
 
-    override fun getSummaries(accountId: String): List<TradeSummaryModel> {
-        val parameters = arrayOf(accountId)
-        return jdbcTemplate.query(GET_SUMMARIES, parameters, TradeSummaryModelRowMapper())
-    }
-
     companion object {
         private const val GET_SUMMARIES = """
             SELECT tl.symbol, sl.price, tl.broker_fees, sl.quantity, sl.action_fk, tl.transaction_type_fk, sd.price AS current_price
@@ -74,10 +69,15 @@ class ShareJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalRe
 
         private const val CREATE_RECORD = "INSERT INTO shares_log (transaction_fk, price, quantity, action_fk) VALUES (CAST(? AS uuid), ?, ?, ?);"
 
+        private const val EDIT_RECORD = "UPDATE shares_log SET price = ?, quantity = ?, action_fk = ? WHERE transaction_fk = CAST(? AS uuid)"
+
         private const val DELETE_RECORD = "DELETE FROM shares_log WHERE transaction_fk = CAST(? AS uuid)"
 
-        private const val EDIT_RECORD = "UPDATE shares_log SET price = ?, quantity = ?, action_fk = ? where transaction_fk = CAST(? AS uuid)"
+    }
 
+    override fun getSummaries(accountId: String): List<TradeSummaryModel> {
+        val parameters = arrayOf(accountId)
+        return jdbcTemplate.query(GET_SUMMARIES, parameters, TradeSummaryModelRowMapper())
     }
 
     override fun createRecord(transactionId: String, model: ShareJournalModel) {

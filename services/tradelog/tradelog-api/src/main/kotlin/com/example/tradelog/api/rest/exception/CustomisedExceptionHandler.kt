@@ -42,8 +42,13 @@ class CustomisedExceptionHandler: ResponseEntityExceptionHandler() {
         LOG.error(ex.message, ex)
         return when (ex.code) {
             ExceptionCode.BAD_REQUEST -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse)
+            ExceptionCode.CREATE_SHARE_FAILED -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse)
             ExceptionCode.DELETE_SHARE_FAILED -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse)
             ExceptionCode.EDIT_SHARE_FAILED -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse)
+            ExceptionCode.CREATE_OPTION_FAILED -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse)
+            ExceptionCode.DELETE_OPTION_FAILED -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse)
+            ExceptionCode.UPDATE_TRANSACTION_OPTIONS_FAILED -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse)
+
             else -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionResponse)
             //TODO: consider TRADELOG_EMPTY, DELETE_X_FAILED
         }

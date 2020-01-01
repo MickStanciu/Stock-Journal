@@ -99,6 +99,15 @@ class JournalFacade(private val transactionService: TransactionService,
         return null
     }
 
+    fun editOptionRecord(transactionId: String, model: OptionJournalModel): Boolean {
+        if (transactionId != model.transactionDetails.id) {
+            return false
+        }
+
+        return transactionService.editRecord(model.transactionDetails)
+                && optionService.editRecord(model)
+    }
+
     fun deleteOptionRecord(accountId: String, transactionId: String): Boolean {
         optionService.getById(accountId, transactionId) ?: return false
 
@@ -126,5 +135,6 @@ class JournalFacade(private val transactionService: TransactionService,
                 && transactionService.deleteSettings(transactionId)
                 && transactionService.deleteRecord(accountId, transactionId)
     }
+
 
 }

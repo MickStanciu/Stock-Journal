@@ -67,8 +67,19 @@ class OptionJournalController(private val journalFacade: JournalFacade) {
 
     @RequestMapping(value = ["/{transactionId}", "/{transactionId}/"], method = [RequestMethod.PUT])
     @ResponseStatus(HttpStatus.OK)
-    fun editRecord() {
-        TODO("not implemented")
+    fun editRecord(
+            @RequestHeader("accountId") accountId: String,
+            @PathVariable("transactionId") transactionId: String,
+            @RequestBody dto: OptionJournalDto) {
+
+        if (!RequestValidator.validateEditOptionRecord(accountId, transactionId, dto)) {
+            throw TradeLogException(ExceptionCode.BAD_REQUEST)
+        }
+
+        if (!journalFacade.editOptionRecord(transactionId, OptionJournalModelConverter.toModel(dto))) {
+            LOG.error("Could not edit for: $transactionId")
+            throw TradeLogException(ExceptionCode.EDIT_SHARE_FAILED)
+        }
     }
 
 

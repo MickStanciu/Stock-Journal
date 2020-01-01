@@ -22,13 +22,8 @@ class OptionJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalR
                 ORDER BY tl.symbol; 
         """
 
-        private const val CREATE_RECORD = """
-            INSERT INTO option_log (transaction_fk, stock_price, strike_price, expiry_date, contract_number, premium, action_fk, option_type_fk)
-                    VALUES (CAST(? AS uuid), ?, ?, ?, ?, ?, ?, ?);
-        """
-
         private const val GET_BY_ID = """
-            SELECT CAST(tl.id AS VARCHAR(36))
+            SELECT CAST(tl.id AS VARCHAR(36)),
                     CAST(tl.account_fk AS VARCHAR(36)),
                     tl.date,
                     tl.symbol,
@@ -51,7 +46,7 @@ class OptionJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalR
         """
 
         private const val GET_BY_SYMBOL = """
-            SELECT CAST(tl.id AS VARCHAR(36))
+                SELECT CAST(tl.id AS VARCHAR(36)),
                     CAST(tl.account_fk AS VARCHAR(36)),
                     tl.date,
                     tl.symbol,
@@ -72,6 +67,16 @@ class OptionJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalR
                       INNER JOIN transaction_settings_log tsl on tl.id = tsl.transaction_fk
                     WHERE account_fk = CAST(? AS uuid) and symbol = ?
                     ORDER BY date;
+        """
+
+        private const val CREATE_RECORD = """
+            INSERT INTO option_log (transaction_fk, stock_price, strike_price, expiry_date, contract_number, premium, action_fk, option_type_fk)
+                    VALUES (CAST(? AS uuid), ?, ?, ?, ?, ?, ?, ?);
+        """
+
+        private const val EDIT_RECORD = """
+            UPDATE option_log SET stock_price = ?, strike_price = ?, expiry_date = ?, contract_number = ?, premium = ?, action_fk = ?, option_type_fk = ? 
+            WHERE transaction_fk = CAST(? AS uuid);
         """
 
         private const val DELETE_RECORD = "DELETE FROM option_log WHERE transaction_fk = CAST(? AS uuid) and option_type_fk in ('CALL', 'PUT')";
@@ -113,11 +118,25 @@ class OptionJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalR
     }
 
     override fun editRecord(model: OptionJournalModel): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return jdbcTemplate.update { connection: Connection ->
+            val ps = connection.prepareStatement(EDIT_RECORD)
+            ps.setDouble(1, model.stockPrice)
+            ps.setDouble(2, model.strikePrice)
+            ps.setTimestamp(3, TimeConverter.fromOffsetDateTime(model.expiryDate))
+            ps.setInt(4, model.contracts)
+            ps.setDouble(5, model.premium)
+            ps.setString(6, model.action.name)
+            ps.setString(7, model.optionType.name)
+            ps.setString(8, model.transactionDetails.id)
+            ps
+        } == 1
     }
 
     override fun deleteRecord(transactionId: String): Boolean {
-        val parameters = arrayOf(transactionId)
-        return jdbcTemplate.update(DELETE_RECORD, parameters) == 1
+        return jdbcTemplate.update { connection: Connection ->
+            val ps = connection.prepareStatement(DELETE_RECORD)
+            ps.setString(1, transactionId)
+            ps
+        } == 1
     }
 }
