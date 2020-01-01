@@ -4,6 +4,8 @@ version = "0.0.1-SNAPSHOT"
 
 plugins {
     java
+    kotlin("jvm")
+    kotlin ("plugin.spring")
     application
     id("io.spring.dependency-management")
     id("org.springframework.boot")
@@ -16,9 +18,8 @@ repositories {
 
 object Version {
     var junit = "5.4.2"
-    var immutables = "2.7.5"
     val protobuf = "3.10.0"
-    val jacksonKotlin = "2.10.0"
+    val jackson = "2.10.0"
     val jwt = "0.9.0"
 }
 
@@ -30,6 +31,7 @@ configurations {
 }
 
 dependencies {
+    implementation (kotlin("stdlib"))
     implementation(project(":services:common"))
     implementation(project(":services:gateway:gateway-api-spec"))
     implementation(project(":services:account:account-api-spec"))
@@ -41,18 +43,13 @@ dependencies {
     implementation ("org.springframework.boot:spring-boot-starter-amqp")
     implementation ("org.springframework.boot:spring-boot-starter-actuator")
 
-    implementation("org.immutables:value-annotations:${Version.immutables}")
-    implementation("org.immutables:builder:${Version.immutables}")
-
     implementation ("com.google.protobuf:protobuf-java-util:${Version.protobuf}")
     implementation ("com.google.code.findbugs:jsr305:3.0.2")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${Version.jackson}")
     implementation ("com.fasterxml.jackson.core:jackson-databind:2.10.0")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${Version.jacksonKotlin}")
     implementation("io.jsonwebtoken:jjwt:${Version.jwt}")
 
     runtimeOnly("org.springframework.boot:spring-boot-devtools")
-
-    annotationProcessor("org.immutables:value:${Version.immutables}")
 
     testImplementation ("org.junit.jupiter:junit-jupiter:${Version.junit}")
     testImplementation ("org.springframework.boot:spring-boot-starter-test")
@@ -61,6 +58,19 @@ dependencies {
 sourceSets {
     main {
         java.srcDir("src/main/java")
+        java.srcDir("src/main/kotlin")
+    }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        freeCompilerArgs = listOf("-Xjsr305=strict")
+        jvmTarget = "1.8"
     }
 }
 
@@ -77,10 +87,7 @@ tasks {
     }
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-}
+
 
 application {
     mainClassName = "com.example.gateway.api.GatewayApi"
