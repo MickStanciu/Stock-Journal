@@ -42,8 +42,6 @@ class DividendJournalRepository(private val jdbcTemplate: JdbcTemplate) : Journa
                 ORDER BY date;
         """
 
-        private const val CREATE_RECORD = "INSERT INTO dividend_log (transaction_fk, dividend, quantity) VALUES (CAST(? AS uuid), ?, ?)";
-
         private const val GET_BY_ID = """
                     SELECT CAST(tl.id AS uuid),
                         CAST(tl.account_fk AS uuid),
@@ -59,8 +57,12 @@ class DividendJournalRepository(private val jdbcTemplate: JdbcTemplate) : Journa
                     FROM transaction_log tl
                       INNER JOIN dividend_log dl ON tl.id = dl.transaction_fk
                       INNER JOIN transaction_settings_log tsl ON tl.id = tsl.transaction_fk
-                    WHERE dl.transaction_fk = CAST(? AS uuid)"
+                    WHERE dl.transaction_fk = CAST(? AS uuid)
         """
+
+        private const val CREATE_RECORD = "INSERT INTO dividend_log (transaction_fk, dividend, quantity) VALUES (CAST(? AS uuid), ?, ?)"
+
+        private const val EDIT_RECORD = "UPDATE dividend_log SET dividend = ?, quantity = ? WHERE transaction_fk = CAST(? AS uuid)"
 
         private const val DELETE_RECORD = "DELETE FROM dividend_log WHERE transaction_fk = CAST(? AS uuid);"
     }
@@ -97,11 +99,20 @@ class DividendJournalRepository(private val jdbcTemplate: JdbcTemplate) : Journa
     }
 
     override fun editRecord(model: DividendJournalModel): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return jdbcTemplate.update { connection: Connection ->
+            val ps = connection.prepareStatement(EDIT_RECORD)
+            ps.setDouble(1, model.dividend)
+            ps.setInt(2, model.quantity)
+            ps.setString(3, model.transactionDetails.id)
+            ps
+        } == 1
     }
 
     override fun deleteRecord(transactionId: String): Boolean {
-        val parameters = arrayOf(transactionId)
-        return jdbcTemplate.update(DELETE_RECORD, parameters) == 1
+        return jdbcTemplate.update { connection: Connection ->
+            val ps = connection.prepareStatement(DELETE_RECORD)
+            ps.setString(1, transactionId)
+            ps
+        } == 1
     }
 }

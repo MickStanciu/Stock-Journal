@@ -14,6 +14,7 @@ enum class ExceptionCode(val message: String) {
     EDIT_OPTION_FAILED("Could not edit option record"),
     DELETE_OPTION_FAILED("Could not delete option record"),
     CREATE_DIVIDEND_FAILED("Could not create dividend record"),
+    EDIT_DIVIDEND_FAILED("Could not edit dividend record"),
     DELETE_DIVIDEND_FAILED("Could not delete dividend record"),
     UPDATE_TRANSACTION_OPTIONS_FAILED("Could not update transaction options record")
 }

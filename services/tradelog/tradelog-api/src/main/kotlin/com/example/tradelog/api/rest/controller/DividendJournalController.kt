@@ -67,8 +67,19 @@ class DividendJournalController(private val journalFacade: JournalFacade) {
 
     @RequestMapping(value = ["/{transactionId}", "/{transactionId}/"], method = [RequestMethod.PUT])
     @ResponseStatus(HttpStatus.OK)
-    fun editRecord() {
-        TODO("not implemented")
+    fun editRecord(
+            @RequestHeader("accountId") accountId: String,
+            @PathVariable("transactionId") transactionId: String,
+            @RequestBody dto: DividendJournalDto) {
+
+        if (!RequestValidator.validateEditDividendRecord(accountId, transactionId, dto)) {
+            throw TradeLogException(ExceptionCode.BAD_REQUEST)
+        }
+
+        if (!journalFacade.editDividendRecord(transactionId, DividendJournalModelConverter.toModel(dto))) {
+            LOG.error("Could not edit for: $transactionId")
+            throw TradeLogException(ExceptionCode.EDIT_DIVIDEND_FAILED)
+        }
     }
 
 

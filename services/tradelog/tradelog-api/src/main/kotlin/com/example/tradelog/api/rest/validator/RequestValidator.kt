@@ -68,6 +68,12 @@ class RequestValidator: FieldValidator() {
                     && validateDividendJournalModel(dto)
         }
 
+        fun validateEditDividendRecord(accountId: String, transactionId: String, dto: DividendJournalDto): Boolean {
+            return FieldValidator.accountId.test(accountId)
+                    && transactionId == dto.transactionDetails.id
+                    && validateDividendJournalModel(dto)
+        }
+
         fun validateDeleteDividendRecord(accountId: String, transactionId: String): Boolean {
             return FieldValidator.accountId.test(accountId)
                     && FieldValidator.transactionId.test(transactionId)

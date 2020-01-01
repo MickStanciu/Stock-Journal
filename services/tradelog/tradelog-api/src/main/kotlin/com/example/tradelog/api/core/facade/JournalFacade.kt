@@ -128,6 +128,15 @@ class JournalFacade(private val transactionService: TransactionService,
         return null
     }
 
+    fun editDividendRecord(transactionId: String, model: DividendJournalModel): Boolean {
+        if (transactionId != model.transactionDetails.id) {
+            return false
+        }
+
+        return transactionService.editRecord(model.transactionDetails)
+                && dividendService.editRecord(model)
+    }
+
     fun deleteDividendRecord(accountId: String, transactionId: String): Boolean {
         dividendService.getById(accountId, transactionId) ?: return false
 
@@ -135,6 +144,5 @@ class JournalFacade(private val transactionService: TransactionService,
                 && transactionService.deleteSettings(transactionId)
                 && transactionService.deleteRecord(accountId, transactionId)
     }
-
 
 }

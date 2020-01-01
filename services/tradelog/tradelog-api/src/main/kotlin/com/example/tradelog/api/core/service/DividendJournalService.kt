@@ -24,7 +24,7 @@ class DividendJournalService(private val repository: DividendJournalRepository) 
     }
 
     override fun editRecord(model: DividendJournalModel): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return repository.editRecord(model)
     }
 
     override fun deleteRecord(transactionId: String): Boolean {
