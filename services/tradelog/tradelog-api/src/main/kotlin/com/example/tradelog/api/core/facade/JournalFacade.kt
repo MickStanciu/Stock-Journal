@@ -71,7 +71,7 @@ class JournalFacade(private val transactionService: TransactionService,
     }
 
     fun editShareRecord(transactionId: String, model: ShareJournalModel): Boolean {
-        if (transactionId !== model.transactionDetails.id) {
+        if (transactionId != model.transactionDetails.id) {
             return false
         }
 

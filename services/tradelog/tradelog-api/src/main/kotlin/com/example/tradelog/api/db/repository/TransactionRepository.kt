@@ -62,13 +62,22 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
     }
 
     fun deleteSettings(transactionId: String): Boolean {
-        val parameters = arrayOf(transactionId)
-        return jdbcTemplate.update(DELETE_SETTINGS, parameters) == 1
+        return jdbcTemplate.update { connection: Connection ->
+            val ps = connection.prepareStatement(DELETE_SETTINGS)
+            ps.setString(1, transactionId)
+            ps
+        } == 1
     }
 
     fun updateRecord(model: TransactionModel): Boolean {
-        val parameters = arrayOf(model.brokerFees, model.date, model.id, model.accountId)
-        return jdbcTemplate.update(UPDATE_RECORD, parameters) == 1
+        return jdbcTemplate.update { connection: Connection ->
+            val ps = connection.prepareStatement(UPDATE_RECORD)
+            ps.setDouble(1, model.brokerFees)
+            ps.setTimestamp(2, TimeConverter.fromOffsetDateTime(model.date))
+            ps.setString(3, model.id)
+            ps.setString(4, model.accountId)
+            ps
+        } == 1
     }
 
     fun createRecord(model: TransactionModel): String? {
@@ -98,8 +107,12 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
     }
 
     fun deleteRecord(accountId: String, transactionId: String): Boolean {
-        val parameters = arrayOf<Any>(transactionId, accountId)
-        return jdbcTemplate.update(DELETE_RECORD, parameters) == 1
+        return jdbcTemplate.update { connection: Connection ->
+            val ps = connection.prepareStatement(DELETE_RECORD)
+            ps.setString(1, transactionId)
+            ps.setString(2, accountId)
+            ps
+        } == 1
     }
 
 }

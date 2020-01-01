@@ -106,12 +106,21 @@ class ShareJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalRe
     }
 
     override fun editRecord(model: ShareJournalModel): Boolean {
-        val parameters = arrayOf(model.price, model.quantity, model.action.name, model.transactionDetails.id)
-        return jdbcTemplate.update(EDIT_RECORD, parameters) == 1
+        return jdbcTemplate.update { connection: Connection ->
+            val ps = connection.prepareStatement(EDIT_RECORD)
+            ps.setDouble(1, model.price)
+            ps.setInt(2, model.quantity)
+            ps.setString(3, model.action.name)
+            ps.setString(4, model.transactionDetails.id)
+            ps
+        } == 1
     }
 
     override fun deleteRecord(transactionId: String): Boolean {
-        val parameters = arrayOf<Any>(transactionId)
-        return jdbcTemplate.update(DELETE_RECORD, parameters) == 1
+        return jdbcTemplate.update { connection: Connection ->
+            val ps = connection.prepareStatement(DELETE_RECORD)
+            ps.setString(1, transactionId)
+            ps
+        } == 1
     }
 }
