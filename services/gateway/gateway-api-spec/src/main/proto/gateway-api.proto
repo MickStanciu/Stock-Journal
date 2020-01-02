@@ -1,0 +1,121 @@
+syntax = "proto3";
+package gateway_api;
+
+option java_multiple_files = true;
+option java_package = "com.example.gateway.api.spec.model";
+
+enum ActionType {
+    UNKNOWN_ACTION_TYPE = 0;
+    SELL = 1;
+    BUY = 2;
+}
+
+enum TransactionType {
+    UNKNOWN_TRANSACTION_TYPE = 0;
+    SHARE = 1;
+    SYNTHETIC_SHARE = 2;
+    OPTION = 3;
+    DIVIDEND = 4;
+}
+
+message StatisticsDto {
+    int64 total_calls = 1;
+    int64 selected_calls = 2;
+    int64 total_puts = 3;
+    int64 selected_puts = 4;
+    int64 total_stocks = 5;
+    int64 selected_stocks = 6;
+    double total_realised_premium = 7;
+    double selected_realised_premium = 8;
+}
+
+message ShareJournalDto {
+    string transaction_id = 1;
+    string account_id = 2;
+    string date = 3;
+    string symbol = 4;
+    double price = 5;
+    double actual_price = 6;
+    double preferred_price = 7;
+    int64 quantity = 8;
+    double broker_fees = 9;
+    bool group_selected = 10;
+    bool leg_closed = 11;
+    ActionType action = 12;
+    TransactionType type = 13;
+}
+
+message OptionJournalDto {
+    string transaction_id = 1;
+    string account_id = 2;
+    string date = 3;
+    string stock_symbol = 4;
+    double stock_price = 5;
+    double strike_price = 6;
+    string expiry_date = 7;
+    int64 contracts = 8;
+    double premium = 9;
+    double broker_fees = 10;
+    bool group_selected = 11;
+    bool leg_closed = 12;
+    ActionType action = 13;
+    OptionType option_type = 14;
+    TransactionType type = 15;
+
+    enum OptionType {
+        UNKNOWN = 0;
+        PUT = 1;
+        CALL = 2;
+    }
+}
+
+message DividendJournalDto {
+    string transaction_id = 1;
+    string account_id = 2;
+    string date = 3;
+    string symbol = 4;
+    int64 quantity = 5;
+    double dividend = 6;
+    bool group_selected = 7;
+    bool leg_closed = 8;
+    TransactionType type = 9;
+}
+
+message TradeLogDto {
+    repeated ShareJournalDto share_list = 1;
+    repeated OptionJournalDto option_list = 2;
+    repeated DividendJournalDto dividend_list = 3;
+    StatisticsDto statistics = 4;
+}
+
+message TradeSummaryDto {
+    string symbol = 1;
+    int64 trades = 2;
+    double total = 3;
+}
+
+message TransactionSettingsDto {
+    string transaction_id = 1;
+    double preferred_price = 2;
+    bool group_selected = 3;
+    bool leg_closed = 4;
+}
+
+message ShareDataDto {
+    string symbol = 1;
+    string last_updated_on = 2;
+    string sector = 3;
+    double price = 4;
+    double market_capitalization = 5;
+    double pe_ratio = 6;
+    double pe_ratio_future = 7;
+    double book_value = 8;
+    double eps = 9;
+    double eps_future = 10;
+    double finviz_target = 11;
+    double calculated_target = 12;
+}
+
+message AuthTokenDto {
+    string token = 1;
+}

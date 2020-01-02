@@ -1,15 +1,6 @@
 package com.example.web.converter;
 
-import com.example.gateway.api.spec.model.ActionGW;
-import com.example.gateway.api.spec.model.OptionTypeGW;
-import com.example.gateway.api.spec.model.OptionJournalGWModel;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 
 public class SyntheticOptionsGenerator implements Function<List<OptionJournalGWModel>, List<OptionJournalGWModel>> {

@@ -1,6 +1,5 @@
 package com.example.gateway.api.converter;
 
-import com.example.gateway.api.spec.model.ShareDataGWModel;
 import com.example.stockdata.api.spec.model.PriceItemResponse;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

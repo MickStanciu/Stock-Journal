@@ -68,13 +68,6 @@ java {
     targetCompatibility = JavaVersion.VERSION_11
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "1.8"
-    }
-}
-
 tasks.test {
     useJUnitPlatform()
     testLogging {
@@ -86,6 +79,16 @@ tasks.test {
                 org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED,
                 org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED)
     }
+}
+
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    jvmTarget = "1.8"
+}
+
+val compileTestKotlin: KotlinCompile by tasks
+compileTestKotlin.kotlinOptions {
+    jvmTarget = "1.8"
 }
 
 application {

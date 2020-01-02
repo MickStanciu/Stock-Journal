@@ -1,8 +1,7 @@
 package com.example.gateway.api.controller;
 
-import com.example.gateway.api.spec.exception.ExceptionCode;
-import com.example.gateway.api.spec.exception.GatewayApiException;
-import com.example.gateway.api.spec.model.AuthTokenModel;
+import com.example.gateway.api.exception.ExceptionCode;
+import com.example.gateway.api.exception.GatewayApiException;
 import com.example.gateway.api.service.AuthenticationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

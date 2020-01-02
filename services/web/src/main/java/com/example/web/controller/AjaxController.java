@@ -1,18 +1,7 @@
 package com.example.web.controller;
 
-import com.example.gateway.api.spec.model.DividendGWModel;
-import com.example.gateway.api.spec.model.OptionJournalGWModel;
-import com.example.gateway.api.spec.model.ShareDataGWModel;
-import com.example.gateway.api.spec.model.ShareJournalGWModel;
-import com.example.gateway.api.spec.model.TradeLogGWModel;
-import com.example.gateway.api.spec.model.TradeSummaryGWModel;
-import com.example.gateway.api.spec.model.TransactionSettingsGWModel;
 import com.example.web.service.TradeJournalService;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 

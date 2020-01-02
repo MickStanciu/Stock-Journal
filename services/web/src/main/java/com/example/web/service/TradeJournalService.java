@@ -1,12 +1,5 @@
 package com.example.web.service;
 
-import com.example.gateway.api.spec.model.DividendGWModel;
-import com.example.gateway.api.spec.model.OptionJournalGWModel;
-import com.example.gateway.api.spec.model.ShareDataGWModel;
-import com.example.gateway.api.spec.model.ShareJournalGWModel;
-import com.example.gateway.api.spec.model.TradeLogGWModel;
-import com.example.gateway.api.spec.model.TradeSummaryGWModel;
-import com.example.gateway.api.spec.model.TransactionSettingsGWModel;
 import com.example.web.gateway.TradeJournalGateway;
 import org.springframework.stereotype.Service;
 

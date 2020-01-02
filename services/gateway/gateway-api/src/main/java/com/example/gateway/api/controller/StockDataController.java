@@ -2,7 +2,6 @@ package com.example.gateway.api.controller;
 
 import com.example.gateway.api.service.RabbitMQService;
 import com.example.gateway.api.service.StockDataService;
-import com.example.gateway.api.spec.model.ShareDataGWModel;
 import com.example.stockdata.api.spec.model.PriceItemUpdateRequest;
 import com.example.stockdata.api.spec.model.PriceUpdateRequest;
 import org.springframework.http.HttpStatus;

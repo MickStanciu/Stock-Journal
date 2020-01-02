@@ -2,7 +2,6 @@ package com.example.gateway.api.service;
 
 import com.example.gateway.api.converter.ShareDataConverter;
 import com.example.gateway.api.gateway.StockDataGateway;
-import com.example.gateway.api.spec.model.ShareDataGWModel;
 import com.example.stockdata.api.spec.model.PriceItemResponse;
 import org.springframework.stereotype.Service;
 

@@ -1,7 +1,6 @@
 package com.example.gateway.api.converter;
 
 import com.example.common.converter.TimeConverter;
-import com.example.gateway.api.spec.model.ShareJournalGWModel;
 import com.example.tradelog.api.spec.model.ShareJournalModel;
 
 import java.util.function.Function;

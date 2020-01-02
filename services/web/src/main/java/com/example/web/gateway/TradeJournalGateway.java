@@ -1,21 +1,10 @@
 package com.example.web.gateway;
 
-import com.example.gateway.api.spec.model.DividendGWModel;
-import com.example.gateway.api.spec.model.OptionJournalGWModel;
-import com.example.gateway.api.spec.model.ShareDataGWModel;
-import com.example.gateway.api.spec.model.ShareJournalGWModel;
-import com.example.gateway.api.spec.model.TradeLogGWModel;
-import com.example.gateway.api.spec.model.TradeSummaryGWModel;
-import com.example.gateway.api.spec.model.TransactionSettingsGWModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;

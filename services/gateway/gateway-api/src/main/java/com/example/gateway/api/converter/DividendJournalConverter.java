@@ -1,7 +1,6 @@
 package com.example.gateway.api.converter;
 
 import com.example.common.converter.TimeConverter;
-import com.example.gateway.api.spec.model.DividendGWModel;
 import com.example.tradelog.api.spec.model.DividendJournalModel;
 
 import java.util.function.Function;

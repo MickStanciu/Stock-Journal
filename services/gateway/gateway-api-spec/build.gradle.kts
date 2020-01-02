@@ -21,16 +21,9 @@ dependencies {
     implementation ("com.google.protobuf:protobuf-java:$protobufVersion")
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-}
-
 sourceSets {
     main {
-        java.srcDir("src/main/java")
         java.srcDir("build/generated/source/proto/main/java")
-        java.srcDir("src/main/kotlin")
     }
 }
 

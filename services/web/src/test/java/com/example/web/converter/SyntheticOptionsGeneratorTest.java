@@ -1,8 +1,5 @@
 package com.example.web.converter;
 
-import com.example.gateway.api.spec.model.ActionGW;
-import com.example.gateway.api.spec.model.OptionTypeGW;
-import com.example.gateway.api.spec.model.OptionJournalGWModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
