@@ -119,3 +119,8 @@ message ShareDataDto {
 message AuthTokenDto {
     string token = 1;
 }
+
+// Used to get all symbols traded
+message ActiveSymbolsResponse {
+    repeated string symbols = 1;
+}
