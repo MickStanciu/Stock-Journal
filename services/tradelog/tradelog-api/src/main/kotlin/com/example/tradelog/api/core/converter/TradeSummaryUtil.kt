@@ -6,7 +6,7 @@ class TradeSummaryUtil {
 
     companion object {
         fun toMap(models: List<TradeSummaryModel>): Map<String, TradeSummaryModel> {
-            var summaryModelMap = HashMap<String, TradeSummaryModel>()
+            val summaryModelMap = HashMap<String, TradeSummaryModel>()
 
             models.forEach {
                 if (summaryModelMap.containsKey(it.symbol)) {
