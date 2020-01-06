@@ -31,7 +31,6 @@
 //        CompletableFuture.allOf(futureShareList, futureOptionList, futureDividendList).join();
 //
 //        TradeLogModel tradeLogModel = TradeLogModel.newBuilder().build();
-//
 ////                .setShareList()
 ////                .setDividendList()
 ////                .setOptionList()

@@ -29,37 +29,6 @@
 //    }
 //
 //
-//    public List<String> getAllTradedSymbols(String accountId) {
-//        UriComponentsBuilder builder = UriComponentsBuilder
-//                .fromHttpUrl(API_URL)
-//                .path("/transactions/symbols");
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        headers.set("accountId", accountId);
-//
-//        ResponseEntity<List<String>> responseEntity = restTemplate
-//                .exchange(builder.build(""), HttpMethod.GET, new HttpEntity<>(headers), new ParameterizedTypeReference<List<String>>() {});
-//        return responseEntity.getBody();
-//    }
-//
-//
-//    @Async("asyncExecutor")
-//    public CompletableFuture<ShareTransactionsResponse> getShareTransactionsBySymbol(String accountId, String symbol) {
-//        UriComponentsBuilder builder = UriComponentsBuilder
-//                .fromHttpUrl(API_URL)
-//                .path("/shares/{symbol}");
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        headers.set("accountId", accountId);
-//
-//        ResponseEntity<ShareTransactionsResponse> responseEntity =
-//                restTemplate.exchange(builder.build(symbol), HttpMethod.GET, new HttpEntity<>(headers), ShareTransactionsResponse.class);
-//        return CompletableFuture.completedFuture(responseEntity.getBody());
-//    }
-//
-//
 //    @Async("asyncExecutor")
 //    public CompletableFuture<OptionTransactionsResponse> getOptionTransactionsBySymbol(String accountId, String symbol) {
 //        UriComponentsBuilder builder = UriComponentsBuilder

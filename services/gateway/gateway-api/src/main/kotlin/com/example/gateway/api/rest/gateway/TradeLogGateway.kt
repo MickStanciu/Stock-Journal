@@ -1,16 +1,22 @@
 package com.example.gateway.api.rest.gateway
 
-import com.example.gateway.api.rest.converter.toModel
+import com.example.gateway.api.core.model.ShareJournalModel
+import com.example.gateway.api.rest.converter.ActiveSymbolsResponseConverter
+import com.example.gateway.api.rest.converter.ShareTransactionsResponseConverter
 import com.example.tradelog.api.spec.model.ActiveSymbolsResponse
+import com.example.tradelog.api.spec.model.ShareTransactionsResponse
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
+import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.util.UriComponentsBuilder
 import java.util.*
+import java.util.concurrent.CompletableFuture
+import java.util.stream.Collectors
 
 @Service
 class TradeLogGateway(private val restTemplate: RestTemplate,
@@ -35,9 +41,33 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         val dto: ActiveSymbolsResponse? = responseEntity.body
 
         return if (dto != null) {
-            toModel(responseEntity.body!!)
+            ActiveSymbolsResponseConverter.toModel(responseEntity.body!!)
         } else {
             Collections.emptyList()
+        }
+    }
+
+    @Async("asyncExecutor")
+    fun getAllShareTransactions(accountId: String, symbol: String): CompletableFuture<List<ShareJournalModel>> {
+        val builder = UriComponentsBuilder
+                .fromHttpUrl(url)
+                .path("/shares/{symbol}")
+
+        val headers = HttpHeaders()
+        headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
+        headers.set("accountId", accountId)
+
+        val responseEntity = restTemplate
+                .exchange(builder.build("").toString(), HttpMethod.GET, HttpEntity<Any>(headers), ShareTransactionsResponse::class.java)
+
+        val dto: ShareTransactionsResponse? = responseEntity.body
+
+        return if (dto != null) {
+            CompletableFuture.completedFuture(
+                    dto.shareItemsList.stream().map { ShareTransactionsResponseConverter.toModel(it) }.collect(Collectors.toList())
+            )
+        } else {
+            CompletableFuture.completedFuture(Collections.emptyList())
         }
     }
 
