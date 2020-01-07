@@ -28,39 +28,6 @@
 //        this.API_URL = url;
 //    }
 //
-//
-//    @Async("asyncExecutor")
-//    public CompletableFuture<OptionTransactionsResponse> getOptionTransactionsBySymbol(String accountId, String symbol) {
-//        UriComponentsBuilder builder = UriComponentsBuilder
-//                .fromHttpUrl(API_URL)
-//                .path("/options/{symbol}");
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        headers.set("accountId", accountId);
-//
-//        ResponseEntity<OptionTransactionsResponse> responseEntity =
-//                restTemplate.exchange(builder.build(symbol), HttpMethod.GET, new HttpEntity<>(headers), OptionTransactionsResponse.class);
-//        return CompletableFuture.completedFuture(responseEntity.getBody());
-//    }
-//
-//
-//    @Async("asyncExecutor")
-//    public CompletableFuture<DividendTransactionsResponse> getDividendTransactionsBySymbol(String accountId, String symbol) {
-//        UriComponentsBuilder builder = UriComponentsBuilder
-//                .fromHttpUrl(API_URL)
-//                .path("/dividends/{symbol}");
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        headers.set("accountId", accountId);
-//
-//        ResponseEntity<DividendTransactionsResponse> responseEntity =
-//                restTemplate.exchange(builder.build(symbol), HttpMethod.GET, new HttpEntity<>(headers), DividendTransactionsResponse.class);
-//        return CompletableFuture.completedFuture(responseEntity.getBody());
-//    }
-//
-//
 //    public ShareJournalModel createShareTrade(String accountId, ShareJournalModel model) {
 //        UriComponentsBuilder builder = UriComponentsBuilder
 //                .fromHttpUrl(API_URL)

@@ -23,24 +23,6 @@
 //        this.tradeLogGateway = tradeLogGateway;
 //    }
 //
-//    public TradeLogGWModel getAllBySymbol(String accountId, String symbol) throws ExecutionException, InterruptedException {
-//        CompletableFuture<ShareTransactionsResponse> futureShareList = tradeLogGateway.getShareTransactionsBySymbol(accountId, symbol);
-//        CompletableFuture<OptionTransactionsResponse> futureOptionList = tradeLogGateway.getOptionTransactionsBySymbol(accountId, symbol);
-//        CompletableFuture<DividendTransactionsResponse> futureDividendList = tradeLogGateway.getDividendTransactionsBySymbol(accountId, symbol);
-//
-//        CompletableFuture.allOf(futureShareList, futureOptionList, futureDividendList).join();
-//
-//        TradeLogModel tradeLogModel = TradeLogModel.newBuilder().build();
-////                .setShareList()
-////                .setDividendList()
-////                .setOptionList()
-////                .build();
-////                futureShareList.get().getShareItems(),
-////                futureOptionList.get().getOptionItems(),
-////                futureDividendList.get().getDividendItems()
-//        return new TradeLogModelConverter().apply(tradeLogModel);
-//    }
-//
 //    public ShareJournalGWModel createShareTrade(String accountId, ShareJournalGWModel model) {
 //        ShareJournalModel returnModel = tradeLogGateway.createShareTrade(accountId, ShareJournalConverter.toShareModel.apply(model));
 //        return ShareJournalConverter.toShareGWModel.apply(returnModel);

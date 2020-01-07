@@ -35,9 +35,7 @@ class ShareJournalController(private val journalFacade: JournalFacade) {
 
         val models = journalFacade.getAllShareTradesBySymbol(accountId, symbol)
         val dtos = models.stream()
-                .map {
-                    m -> ShareJournalModelConverter.toDto(m)
-                }
+                .map { ShareJournalModelConverter.toDto(it) }
                 .collect(Collectors.toList())
 
         return ShareTransactionsResponse.newBuilder()

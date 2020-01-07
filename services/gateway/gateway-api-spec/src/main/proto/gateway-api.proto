@@ -29,7 +29,7 @@ message StatisticsDto {
     double selected_realised_premium = 8;
 }
 
-message ShareJournalDto {
+message GWShareJournalDto {
     string transaction_id = 1;
     string account_id = 2;
     string date = 3;
@@ -82,7 +82,7 @@ message DividendJournalDto {
 }
 
 message TradeLogDto {
-    repeated ShareJournalDto share_list = 1;
+    repeated GWShareJournalDto share_list = 1;
     repeated OptionJournalDto option_list = 2;
     repeated DividendJournalDto dividend_list = 3;
     StatisticsDto statistics = 4;

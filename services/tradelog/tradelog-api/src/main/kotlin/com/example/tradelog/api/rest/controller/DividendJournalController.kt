@@ -35,7 +35,7 @@ class DividendJournalController(private val journalFacade: JournalFacade) {
 
         val models = journalFacade.getAllDividendTradesBySymbol(accountId, symbol)
         val dtos = models.stream()
-                .map { m -> DividendJournalModelConverter.toDto(m) }
+                .map { DividendJournalModelConverter.toDto(it) }
                 .collect(Collectors.toList())
 
         return DividendTransactionsResponse.newBuilder()

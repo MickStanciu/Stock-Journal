@@ -20,18 +20,6 @@
 //    }
 //
 //
-//    @RequestMapping(value = "/all/{symbol}", method = RequestMethod.GET)
-//    @ResponseStatus(HttpStatus.OK)
-//    public TradeLogGWModel getAllBySymbol(
-//            @RequestHeader(name = "accountId") String accountId,
-//            @PathVariable(name = "symbol") String symbol) throws ExecutionException, InterruptedException {
-//
-//        //todo validate input
-//
-//        return tradeLogService.getAllBySymbol(accountId, symbol);
-//    }
-//
-//
 //    @RequestMapping(value = "/shares", method = RequestMethod.POST)
 //    @ResponseStatus(HttpStatus.OK)
 //    public ShareJournalGWModel createNewShareTrade(
