@@ -21,7 +21,7 @@ class CustomisedExceptionHandler: ResponseEntityExceptionHandler() {
     @ExceptionHandler(Exception::class)
     fun handleAllExceptions(ex: Exception, request: WebRequest): ResponseEntity<ExceptionResponse> {
         val exceptionResponse = ExceptionResponse.newBuilder()
-                .setCode(ExceptionResponse.ExceptionCode.UNKNOWN)
+                .setCode(ExceptionResponse.ExceptionCode.UNKNOWN_CODE)
                 .setMessage(ex.message)
                 .setDetails(request.getDescription(false))
                 .setTimestamp(TimeConverter.getOffsetDateTimeNow().toString())

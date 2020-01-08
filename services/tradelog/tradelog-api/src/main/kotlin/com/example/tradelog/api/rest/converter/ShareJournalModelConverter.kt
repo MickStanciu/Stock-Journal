@@ -23,7 +23,7 @@ class ShareJournalModelConverter {
                     .setPrice(model.price)
                     .setActualPrice(model.actualPrice)
                     .setQuantity(model.quantity)
-                    .setAction(com.example.tradelog.api.spec.model.ActionType.valueOf(model.action.name))
+                    .setAction(ShareJournalDto.ActionType.valueOf(model.action.name))
                     .build()
         }
     }

@@ -30,7 +30,7 @@ class ValidateShareJournalModelTest {
                 .build()
 
         val shareJournalDto = ShareJournalDto.newBuilder()
-                .setAction(com.example.tradelog.api.spec.model.ActionType.UNKNOWN)
+                .setAction(ShareJournalDto.ActionType.UNKNOWN_ACTION_TYPE)
                 .setActualPrice(1.0)
                 .setPrice(1.0)
                 .setQuantity(1)
@@ -60,7 +60,7 @@ class ValidateShareJournalModelTest {
                 .build()
 
         val shareJournalDto = ShareJournalDto.newBuilder()
-                .setAction(com.example.tradelog.api.spec.model.ActionType.BUY)
+                .setAction(ShareJournalDto.ActionType.BUY)
                 .setActualPrice(1.0)
                 .setPrice(1.0)
                 .setQuantity(1)
@@ -91,7 +91,7 @@ class ValidateShareJournalModelTest {
                 .build()
 
         val shareJournalDto = ShareJournalDto.newBuilder()
-                .setAction(com.example.tradelog.api.spec.model.ActionType.BUY)
+                .setAction(ShareJournalDto.ActionType.BUY)
                 .setActualPrice(1.0)
                 .setPrice(-11.0)
                 .setQuantity(1)
@@ -122,7 +122,7 @@ class ValidateShareJournalModelTest {
                 .build()
 
         val shareJournalDto = ShareJournalDto.newBuilder()
-                .setAction(com.example.tradelog.api.spec.model.ActionType.BUY)
+                .setAction(ShareJournalDto.ActionType.BUY)
                 .setActualPrice(1.0)
                 .setPrice(1.0)
                 .setQuantity(-1)
@@ -153,7 +153,7 @@ class ValidateShareJournalModelTest {
                 .build()
 
         val shareJournalDto = ShareJournalDto.newBuilder()
-                .setAction(com.example.tradelog.api.spec.model.ActionType.BUY)
+                .setAction(ShareJournalDto.ActionType.BUY)
                 .setActualPrice(1.0)
                 .setPrice(1.0)
                 .setQuantity(1)
@@ -184,7 +184,7 @@ class ValidateShareJournalModelTest {
                 .build()
 
         val shareJournalDto = ShareJournalDto.newBuilder()
-                .setAction(com.example.tradelog.api.spec.model.ActionType.BUY)
+                .setAction(ShareJournalDto.ActionType.BUY)
                 .setActualPrice(1.0)
                 .setPrice(1.0)
                 .setQuantity(1)
@@ -215,7 +215,7 @@ class ValidateShareJournalModelTest {
                 .build()
 
         val shareJournalDto = ShareJournalDto.newBuilder()
-                .setAction(com.example.tradelog.api.spec.model.ActionType.BUY)
+                .setAction(ShareJournalDto.ActionType.BUY)
                 .setActualPrice(1.0)
                 .setPrice(1.0)
                 .setQuantity(1)
@@ -246,7 +246,7 @@ class ValidateShareJournalModelTest {
                 .build()
 
         val shareJournalDto = ShareJournalDto.newBuilder()
-                .setAction(com.example.tradelog.api.spec.model.ActionType.BUY)
+                .setAction(ShareJournalDto.ActionType.BUY)
                 .setActualPrice(1.0)
                 .setPrice(1.0)
                 .setQuantity(1)

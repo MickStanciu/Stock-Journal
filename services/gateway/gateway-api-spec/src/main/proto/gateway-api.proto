@@ -4,45 +4,44 @@ package gateway_api;
 option java_multiple_files = true;
 option java_package = "com.example.gateway.api.spec.model";
 
-enum ActionType {
-    UNKNOWN_ACTION_TYPE = 0;
-    SELL = 1;
-    BUY = 2;
-}
-
-enum TransactionType {
-    UNKNOWN_TRANSACTION_TYPE = 0;
-    SHARE = 1;
-    SYNTHETIC_SHARE = 2;
-    OPTION = 3;
-    DIVIDEND = 4;
-}
-
 message StatisticsDto {
-    int64 total_calls = 1;
-    int64 selected_calls = 2;
-    int64 total_puts = 3;
-    int64 selected_puts = 4;
-    int64 total_stocks = 5;
-    int64 selected_stocks = 6;
+    int32 total_calls = 1;
+    int32 selected_calls = 2;
+    int32 total_puts = 3;
+    int32 selected_puts = 4;
+    int32 total_stocks = 5;
+    int32 selected_stocks = 6;
     double total_realised_premium = 7;
     double selected_realised_premium = 8;
 }
 
 message GWShareJournalDto {
     string transaction_id = 1;
-    string account_id = 2;
     string date = 3;
     string symbol = 4;
     double price = 5;
     double actual_price = 6;
     double preferred_price = 7;
-    int64 quantity = 8;
+    int32 quantity = 8;
     double broker_fees = 9;
     bool group_selected = 10;
     bool leg_closed = 11;
     ActionType action = 12;
     TransactionType type = 13;
+
+    enum ActionType {
+        UNKNOWN_ACTION_TYPE = 0;
+        SELL = 1;
+        BUY = 2;
+    }
+
+    enum TransactionType {
+        UNKNOWN_TRANSACTION_TYPE = 0;
+        SHARE = 1;
+        SYNTHETIC_SHARE = 2;
+        OPTION = 3;
+        DIVIDEND = 4;
+    }
 }
 
 message GWOptionJournalDto {
@@ -53,7 +52,7 @@ message GWOptionJournalDto {
     double stock_price = 5;
     double strike_price = 6;
     string expiry_date = 7;
-    int64 contracts = 8;
+    int32 contracts = 8;
     double premium = 9;
     double broker_fees = 10;
     bool group_selected = 11;
@@ -63,9 +62,23 @@ message GWOptionJournalDto {
     TransactionType type = 15;
 
     enum OptionType {
-        UNKNOWN = 0;
+        UNKNOWN_OPTION_TYPE = 0;
         PUT = 1;
         CALL = 2;
+    }
+
+    enum ActionType {
+        UNKNOWN_ACTION_TYPE = 0;
+        SELL = 1;
+        BUY = 2;
+    }
+
+    enum TransactionType {
+        UNKNOWN_TRANSACTION_TYPE = 0;
+        SHARE = 1;
+        SYNTHETIC_SHARE = 2;
+        OPTION = 3;
+        DIVIDEND = 4;
     }
 }
 
@@ -74,11 +87,19 @@ message GWDividendJournalDto {
     string account_id = 2;
     string date = 3;
     string symbol = 4;
-    int64 quantity = 5;
+    int32 quantity = 5;
     double dividend = 6;
     bool group_selected = 7;
     bool leg_closed = 8;
     TransactionType type = 9;
+
+    enum TransactionType {
+        UNKNOWN_TRANSACTION_TYPE = 0;
+        SHARE = 1;
+        SYNTHETIC_SHARE = 2;
+        OPTION = 3;
+        DIVIDEND = 4;
+    }
 }
 
 message TradeLogDto {

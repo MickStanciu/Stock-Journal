@@ -4,12 +4,6 @@ package tradelog_api;
 option java_multiple_files = true;
 option java_package = "com.example.tradelog.api.spec.model";
 
-enum ActionType {
-    UNKNOWN = 0;
-    SELL = 1;
-    BUY = 2;
-}
-
 message TransactionSettingsDto {
     string transactionId = 1;
     double preferredPrice = 2;
@@ -27,7 +21,7 @@ message TransactionDto {
     TransactionSettingsDto settings = 7;
 
     enum TransactionType {
-        UNKNOWN = 0;
+        UNKNOWN_TRANSACTION_TYPE = 0;
         SHARE = 1;
         SYNTHETIC_SHARE = 2;
         OPTION = 3;
@@ -46,9 +40,15 @@ message OptionJournalDto {
     OptionType optionType = 8;
 
     enum OptionType {
-        UNKNOWN = 0;
+        UNKNOWN_OPTION_TYPE = 0;
         PUT = 1;
         CALL = 2;
+    }
+
+    enum ActionType {
+        UNKNOWN_ACTION_TYPE = 0;
+        SELL = 1;
+        BUY = 2;
     }
 }
 
@@ -62,6 +62,12 @@ message ShareJournalDto {
     double actualPrice = 3;
     int32 quantity = 4;
     ActionType action = 5;
+
+    enum ActionType {
+        UNKNOWN_ACTION_TYPE = 0;
+        SELL = 1;
+        BUY = 2;
+    }
 }
 
 message ShareTransactionsResponse {
@@ -108,7 +114,7 @@ message ExceptionResponse {
     string timestamp = 4;
 
     enum ExceptionCode {
-        UNKNOWN = 0;
+        UNKNOWN_CODE = 0;
         BAD_REQUEST = 1;
         NO_DATA = 2;
     }

@@ -26,7 +26,7 @@ class OptionJournalModelConverter {
             return OptionJournalDto.newBuilder()
                     .setTransactionDetails(TransactionModelConverter.toDto(model.transactionDetails))
                     .setStockPrice(model.stockPrice)
-                    .setAction(com.example.tradelog.api.spec.model.ActionType.valueOf(model.action.name))
+                    .setAction(OptionJournalDto.ActionType.valueOf(model.action.name))
                     .setContracts(model.contracts)
                     .setExpiryDate(model.expiryDate.toString())
                     .setOptionType(OptionJournalDto.OptionType.valueOf(model.optionType.name))

@@ -1,6 +1,5 @@
 package com.example.tradelog.api.rest.validator
 
-import com.example.tradelog.api.spec.model.ActionType
 import com.example.tradelog.api.spec.model.OptionJournalDto
 import com.example.tradelog.api.spec.model.TransactionDto
 import com.example.tradelog.api.spec.model.TransactionSettingsDto
@@ -32,7 +31,7 @@ class ValidateOptionJournalModelTest {
         val optionJournalDto = OptionJournalDto.newBuilder()
                 .setTransactionDetails(transactionDto)
                 .setOptionType(OptionJournalDto.OptionType.CALL)
-                .setAction(ActionType.UNKNOWN)
+                .setAction(OptionJournalDto.ActionType.UNKNOWN_ACTION_TYPE)
                 .setContracts(1)
                 .setExpiryDate(OffsetDateTime.now().toString())
                 .setPremium(1.0)
@@ -65,8 +64,8 @@ class ValidateOptionJournalModelTest {
 
         val optionJournalDto = OptionJournalDto.newBuilder()
                 .setTransactionDetails(transactionDto)
-                .setOptionType(OptionJournalDto.OptionType.UNKNOWN)
-                .setAction(ActionType.SELL)
+                .setOptionType(OptionJournalDto.OptionType.UNKNOWN_OPTION_TYPE)
+                .setAction(OptionJournalDto.ActionType.SELL)
                 .setContracts(1)
                 .setExpiryDate(OffsetDateTime.now().toString())
                 .setPremium(1.0)
@@ -100,7 +99,7 @@ class ValidateOptionJournalModelTest {
         val optionJournalDto = OptionJournalDto.newBuilder()
                 .setTransactionDetails(transactionDto)
                 .setOptionType(OptionJournalDto.OptionType.CALL)
-                .setAction(ActionType.SELL)
+                .setAction(OptionJournalDto.ActionType.SELL)
                 .setContracts(1)
                 .setExpiryDate(OffsetDateTime.now().toString())
                 .setPremium(1.0)
@@ -134,7 +133,7 @@ class ValidateOptionJournalModelTest {
         val optionJournalDto = OptionJournalDto.newBuilder()
                 .setTransactionDetails(transactionDto)
                 .setOptionType(OptionJournalDto.OptionType.CALL)
-                .setAction(ActionType.SELL)
+                .setAction(OptionJournalDto.ActionType.SELL)
                 .setContracts(0)
                 .setExpiryDate(OffsetDateTime.now().toString())
                 .setPremium(1.0)
@@ -168,7 +167,7 @@ class ValidateOptionJournalModelTest {
         val optionJournalDto = OptionJournalDto.newBuilder()
                 .setTransactionDetails(transactionDto)
                 .setOptionType(OptionJournalDto.OptionType.CALL)
-                .setAction(ActionType.SELL)
+                .setAction(OptionJournalDto.ActionType.SELL)
                 .setContracts(1)
                 .setExpiryDate(OffsetDateTime.now().toString())
                 .setPremium(1.0)
@@ -202,7 +201,7 @@ class ValidateOptionJournalModelTest {
         val optionJournalDto = OptionJournalDto.newBuilder()
                 .setTransactionDetails(transactionDto)
                 .setOptionType(OptionJournalDto.OptionType.CALL)
-                .setAction(ActionType.SELL)
+                .setAction(OptionJournalDto.ActionType.SELL)
                 .setContracts(1)
                 .setExpiryDate(OffsetDateTime.now().toString())
                 .setPremium(1.0)
@@ -236,7 +235,7 @@ class ValidateOptionJournalModelTest {
         val optionJournalDto = OptionJournalDto.newBuilder()
                 .setTransactionDetails(transactionDto)
                 .setOptionType(OptionJournalDto.OptionType.CALL)
-                .setAction(ActionType.SELL)
+                .setAction(OptionJournalDto.ActionType.SELL)
                 .setContracts(1)
                 .setExpiryDate(OffsetDateTime.now().toString())
                 .setPremium(1.0)
@@ -270,7 +269,7 @@ class ValidateOptionJournalModelTest {
         val optionJournalDto = OptionJournalDto.newBuilder()
                 .setTransactionDetails(transactionDto)
                 .setOptionType(OptionJournalDto.OptionType.CALL)
-                .setAction(ActionType.SELL)
+                .setAction(OptionJournalDto.ActionType.SELL)
                 .setContracts(1)
                 .setExpiryDate(OffsetDateTime.now().toString())
                 .setPremium(1.0)

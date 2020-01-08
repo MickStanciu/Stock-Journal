@@ -6,11 +6,7 @@ import com.example.gateway.api.core.model.ShareJournalModel
 import com.example.gateway.api.rest.converter.ActiveSymbolsResponseConverter
 import com.example.gateway.api.rest.converter.DividendTransactionsResponseConverter
 import com.example.gateway.api.rest.converter.OptionTransactionsResponseConverter
-import com.example.gateway.api.rest.converter.ShareTransactionsResponseConverter
-import com.example.tradelog.api.spec.model.ActiveSymbolsResponse
-import com.example.tradelog.api.spec.model.DividendTransactionsResponse
-import com.example.tradelog.api.spec.model.OptionTransactionsResponse
-import com.example.tradelog.api.spec.model.ShareTransactionsResponse
+import com.example.gateway.api.rest.converter.ShareJournalConverter
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
@@ -23,6 +19,10 @@ import org.springframework.web.util.UriComponentsBuilder
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import java.util.stream.Collectors
+import com.example.tradelog.api.spec.model.ActiveSymbolsResponse as TLActiveSymbolsResponse
+import com.example.tradelog.api.spec.model.DividendTransactionsResponse as TLDividendTransactionsResponse
+import com.example.tradelog.api.spec.model.OptionTransactionsResponse as TLOptionTransactionsResponse
+import com.example.tradelog.api.spec.model.ShareTransactionsResponse as TLShareTransactionsResponse
 
 @Service
 class TradeLogGateway(private val restTemplate: RestTemplate,
@@ -42,9 +42,9 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         headers.set("accountId", accountId)
 
         val responseEntity = restTemplate
-                .exchange(builder.build("").toString(), HttpMethod.GET, HttpEntity<Any>(headers), ActiveSymbolsResponse::class.java)
+                .exchange(builder.build("").toString(), HttpMethod.GET, HttpEntity<Any>(headers), TLActiveSymbolsResponse::class.java)
 
-        val dto: ActiveSymbolsResponse? = responseEntity.body
+        val dto: TLActiveSymbolsResponse? = responseEntity.body
 
         return if (dto != null) {
             ActiveSymbolsResponseConverter.toModel(responseEntity.body!!)
@@ -64,13 +64,13 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         headers.set("accountId", accountId)
 
         val responseEntity = restTemplate
-                .exchange(builder.build(symbol).toString(), HttpMethod.GET, HttpEntity<Any>(headers), ShareTransactionsResponse::class.java)
+                .exchange(builder.build(symbol).toString(), HttpMethod.GET, HttpEntity<Any>(headers), TLShareTransactionsResponse::class.java)
 
-        val dto: ShareTransactionsResponse? = responseEntity.body
+        val dto: TLShareTransactionsResponse? = responseEntity.body
 
         return if (dto != null) {
             CompletableFuture.completedFuture(
-                    dto.shareItemsList.stream().map { ShareTransactionsResponseConverter.toModel(it) }.collect(Collectors.toList())
+                    dto.shareItemsList.stream().map { ShareJournalConverter.toModel(it) }.collect(Collectors.toList())
             )
         } else {
             CompletableFuture.completedFuture(Collections.emptyList())
@@ -88,9 +88,9 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         headers.set("accountId", accountId)
 
         val responseEntity = restTemplate
-                .exchange(builder.build(symbol).toString(), HttpMethod.GET, HttpEntity<Any>(headers), OptionTransactionsResponse::class.java)
+                .exchange(builder.build(symbol).toString(), HttpMethod.GET, HttpEntity<Any>(headers), TLOptionTransactionsResponse::class.java)
 
-        val dto: OptionTransactionsResponse? = responseEntity.body
+        val dto: TLOptionTransactionsResponse? = responseEntity.body
 
         return if (dto != null) {
             CompletableFuture.completedFuture(
@@ -112,9 +112,9 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         headers.set("accountId", accountId)
 
         val responseEntity = restTemplate
-                .exchange(builder.build(symbol).toString(), HttpMethod.GET, HttpEntity<Any>(headers), DividendTransactionsResponse::class.java)
+                .exchange(builder.build(symbol).toString(), HttpMethod.GET, HttpEntity<Any>(headers), TLDividendTransactionsResponse::class.java)
 
-        val dto: DividendTransactionsResponse? = responseEntity.body
+        val dto: TLDividendTransactionsResponse? = responseEntity.body
 
         return if (dto != null) {
             CompletableFuture.completedFuture(

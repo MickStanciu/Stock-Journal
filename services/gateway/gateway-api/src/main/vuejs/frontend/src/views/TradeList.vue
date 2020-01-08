@@ -107,9 +107,7 @@
     import AddDividendTrade from "../components/tradelist/dividend/AddDividendTrade";
     import DeleteDividendTrade from "../components/tradelist/dividend/DeleteDividendTrade";
     import AddError from "../components/tradelist/AddError";
-    import OptionApiModel from "../models/OptionApiModel";
     import ShareApiModel from "../models/ShareApiModel";
-    import DividendApiModel from "../models/DividendApiModel";
     import ShareData from "../components/tradelist/ShareData";
     import SettingsApiModel from "../models/SettingsApiModel";
     import SyntheticPrice from "../components/tradelist/SyntheticPrice";
@@ -460,20 +458,20 @@
 
                         data.shareList.forEach(function (item) {
                             let model = new ShareApiModel(item.symbol);
-                            // model.price = item.price;
-                            // model.preferredPrice = item.preferredPrice;
-                            // model.quantity = item.quantity;
-                            // model.action = item.action;
-                            // model.brokerFees = item.brokerFees;
-                            // model.date = item.date;
+                            model.price = item.price;
+                            model.preferredPrice = item.preferredPrice;
+                            model.quantity = item.quantity;
+                            model.action = item.action;
+                            model.brokerFees = item.brokerFees;
+                            model.date = item.date;
                             model.transactionId = item.transactionId;
-                            // model.type = item.type;
-                            // model.groupSelected = item.groupSelected;
-                            // model.legClosed = item.legClosed;
-                            //
-                            // if (model.type === 'SYNTHETIC_SHARE') {
-                            //     model.isSynthetic = true;
-                            // }
+                            model.type = item.type;
+                            model.groupSelected = item.groupSelected;
+                            model.legClosed = item.legClosed;
+
+                            if (model.type === 'SYNTHETIC_SHARE') {
+                                model.isSynthetic = true;
+                            }
 
                             localItems.push(model);
                         });

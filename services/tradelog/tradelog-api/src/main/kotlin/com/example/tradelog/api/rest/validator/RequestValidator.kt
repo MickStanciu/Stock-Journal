@@ -96,7 +96,7 @@ class RequestValidator: FieldValidator() {
                     && symbol.test(dto.transactionDetails.symbol)
                     && FieldValidator.accountId.test(dto.transactionDetails.accountId)
                     && dto.action != null
-                    && dto.action !== ActionType.UNKNOWN
+                    && dto.action !== ShareJournalDto.ActionType.UNKNOWN_ACTION_TYPE
                     && dto.price >= 0.00 && dto.quantity >= 1)
         }
 
@@ -107,7 +107,7 @@ class RequestValidator: FieldValidator() {
                     && symbol.test(dto.transactionDetails.symbol)
                     && FieldValidator.accountId.test(dto.transactionDetails.accountId)
                     && dto.action != null
-                    && dto.action !== ActionType.UNKNOWN
+                    && dto.action !== OptionJournalDto.ActionType.UNKNOWN_ACTION_TYPE
                     && (dto.optionType === OptionJournalDto.OptionType.CALL || dto.optionType === OptionJournalDto.OptionType.PUT)
                     && dto.contracts > 0
                     && dto.premium >= 0
