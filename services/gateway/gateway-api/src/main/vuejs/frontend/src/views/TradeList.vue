@@ -458,16 +458,43 @@
 
                         data.shareList.forEach(function (item) {
                             let model = new ShareApiModel(item.symbol);
-                            model.price = item.price;
-                            model.preferredPrice = item.preferredPrice;
+
+                            if (typeof item.price !== 'undefined') {
+                                model.price = item.price;
+                            } else {
+                                model.price = 0;
+                            }
+
+                            if (typeof item.preferredPrice !== 'undefined') {
+                                model.preferredPrice = item.preferredPrice;
+                            } else {
+                                model.preferredPrice = 0;
+                            }
+
                             model.quantity = item.quantity;
                             model.action = item.action;
-                            model.brokerFees = item.brokerFees;
+
+                            if (typeof item.brokerFees !== 'undefined') {
+                                model.brokerFees = item.brokerFees;
+                            } else {
+                                model.brokerFees = 0;
+                            }
+
                             model.date = item.date;
                             model.transactionId = item.transactionId;
                             model.type = item.type;
-                            model.groupSelected = item.groupSelected;
-                            model.legClosed = item.legClosed;
+
+                            if (typeof item.groupSelected !== 'undefined') {
+                                model.groupSelected = item.groupSelected;
+                            } else {
+                                model.groupSelected = false;
+                            }
+
+                            if (typeof item.legClosed !== 'undefined') {
+                                model.legClosed = item.legClosed;
+                            } else {
+                                model.legClosed = false;
+                            }
 
                             if (model.type === 'SYNTHETIC_SHARE') {
                                 model.isSynthetic = true;

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:8085/api/v1/tradelog';
+axios.defaults.baseURL = 'http://localhost:8085/api/v1';
 const account_id = 'd79ec11a-2011-4423-ba01-3af8de0a3e14';
 axios.defaults.headers.common['accountId'] = account_id;
 
@@ -47,7 +47,7 @@ const appService = {
     getTradesPerSymbol(symbol) {
         return new Promise(resolve => {
             axios
-                .get('/trades/' + symbol.toUpperCase())
+                .get('/tradelog/all/' + symbol.toUpperCase())
                 .then(response => {
                     resolve(response.data);
                 })
