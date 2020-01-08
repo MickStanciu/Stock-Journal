@@ -1,4 +1,6 @@
 package com.example.gateway.api.core.model
 
-class DividendJournalModel {
+class DividendJournalModel(val transactionId: String,
+                           val symbol: String) {
+
 }
