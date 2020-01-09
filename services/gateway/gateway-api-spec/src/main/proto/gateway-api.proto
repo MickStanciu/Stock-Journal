@@ -15,7 +15,7 @@ message StatisticsDto {
     double selected_realised_premium = 8;
 }
 
-message GWShareJournalDto {
+message ShareJournalDto {
     string transaction_id = 1;
     string date = 3;
     string symbol = 4;
@@ -44,7 +44,7 @@ message GWShareJournalDto {
     }
 }
 
-message GWOptionJournalDto {
+message OptionJournalDto {
     string transaction_id = 1;
     string account_id = 2;
     string date = 3;
@@ -82,7 +82,7 @@ message GWOptionJournalDto {
     }
 }
 
-message GWDividendJournalDto {
+message DividendJournalDto {
     string transaction_id = 1;
     string account_id = 2;
     string date = 3;
@@ -103,9 +103,9 @@ message GWDividendJournalDto {
 }
 
 message TradeLogDto {
-    repeated GWShareJournalDto share_list = 1;
-    repeated GWOptionJournalDto option_list = 2;
-    repeated GWDividendJournalDto dividend_list = 3;
+    repeated ShareJournalDto share_list = 1;
+    repeated OptionJournalDto option_list = 2;
+    repeated DividendJournalDto dividend_list = 3;
     StatisticsDto statistics = 4;
 }
 

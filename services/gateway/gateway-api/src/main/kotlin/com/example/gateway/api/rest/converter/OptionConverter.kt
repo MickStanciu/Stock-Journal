@@ -1,10 +1,10 @@
 package com.example.gateway.api.rest.converter
 
 import com.example.gateway.api.core.model.OptionJournalModel
-import com.example.gateway.api.spec.model.GWOptionJournalDto
+import com.example.gateway.api.spec.model.OptionJournalDto as GWOptionJournalDto
 import com.example.tradelog.api.spec.model.OptionJournalDto as TLOptionJournalDto
 
-class OptionTransactionsResponseConverter {
+class OptionConverter {
 
     companion object {
         fun toModel(dto: TLOptionJournalDto): OptionJournalModel {

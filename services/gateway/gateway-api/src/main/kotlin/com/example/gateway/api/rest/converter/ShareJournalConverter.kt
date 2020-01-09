@@ -2,7 +2,7 @@ package com.example.gateway.api.rest.converter
 
 import com.example.common.converter.TimeConverter
 import com.example.gateway.api.core.model.ShareJournalModel
-import com.example.gateway.api.spec.model.GWShareJournalDto
+import com.example.gateway.api.spec.model.ShareJournalDto as GWShareJournalDto
 import com.example.tradelog.api.spec.model.ShareJournalDto as TLShareJournalDto
 
 class ShareJournalConverter {

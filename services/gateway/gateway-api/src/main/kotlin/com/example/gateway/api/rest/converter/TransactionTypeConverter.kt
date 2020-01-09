@@ -1,7 +1,7 @@
 package com.example.gateway.api.rest.converter
 
 import com.example.gateway.api.core.model.TransactionType
-import com.example.gateway.api.spec.model.GWShareJournalDto
+import com.example.gateway.api.spec.model.ShareJournalDto as GWShareJournalDto
 import com.example.tradelog.api.spec.model.TransactionDto as TLTransactionDto
 
 class TransactionTypeConverter {
