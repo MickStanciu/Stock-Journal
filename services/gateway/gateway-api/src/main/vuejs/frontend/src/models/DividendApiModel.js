@@ -5,11 +5,11 @@ class DividendApiModel {
     accountId = undefined;
     date = undefined;
     symbol = undefined;
-    dividend = undefined;
-    quantity = undefined;
+    dividend = 0;
+    quantity = 0;
 
-    groupSelected = undefined;
-    legClosed = undefined;
+    groupSelected = false;
+    legClosed = false;
 
     constructor(symbol) {
         this.symbol = symbol;

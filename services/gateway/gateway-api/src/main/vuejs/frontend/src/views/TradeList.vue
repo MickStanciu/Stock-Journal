@@ -108,6 +108,7 @@
     import DeleteDividendTrade from "../components/tradelist/dividend/DeleteDividendTrade";
     import AddError from "../components/tradelist/AddError";
     import ShareApiModel from "../models/ShareApiModel";
+    import DividendApiModel from "../models/DividendApiModel";
     import ShareData from "../components/tradelist/ShareData";
     import SettingsApiModel from "../models/SettingsApiModel";
     import SyntheticPrice from "../components/tradelist/SyntheticPrice";
@@ -459,42 +460,16 @@
                         data.shareList.forEach(function (item) {
                             let model = new ShareApiModel(item.symbol);
 
-                            if (typeof item.price !== 'undefined') {
-                                model.price = item.price;
-                            } else {
-                                model.price = 0;
-                            }
-
-                            if (typeof item.preferredPrice !== 'undefined') {
-                                model.preferredPrice = item.preferredPrice;
-                            } else {
-                                model.preferredPrice = 0;
-                            }
-
+                            model.price = (typeof item.price === 'undefined') ? model.price : item.price;
+                            model.preferredPrice = (typeof item.preferredPrice === 'undefined') ? model.preferredPrice : item.preferredPrice;
                             model.quantity = item.quantity;
                             model.action = item.action;
-
-                            if (typeof item.brokerFees !== 'undefined') {
-                                model.brokerFees = item.brokerFees;
-                            } else {
-                                model.brokerFees = 0;
-                            }
-
+                            model.brokerFees = (typeof item.brokerFees === 'undefined') ? model.brokerFees : item.brokerFees;
                             model.date = item.date;
                             model.transactionId = item.transactionId;
                             model.type = item.type;
-
-                            if (typeof item.groupSelected !== 'undefined') {
-                                model.groupSelected = item.groupSelected;
-                            } else {
-                                model.groupSelected = false;
-                            }
-
-                            if (typeof item.legClosed !== 'undefined') {
-                                model.legClosed = item.legClosed;
-                            } else {
-                                model.legClosed = false;
-                            }
+                            model.groupSelected = (typeof item.groupSelected === 'undefined') ? model.groupSelected : item.groupSelected;
+                            model.legClosed = (typeof item.legClosed === 'undefined') ? model.legClosed : item.legClosed;
 
                             if (model.type === 'SYNTHETIC_SHARE') {
                                 model.isSynthetic = true;
@@ -504,15 +479,15 @@
                         });
 
                         data.dividendList.forEach(function (item) {
-                            // let model = new DividendApiModel(item.symbol);
-                            // model.date = item.date;
-                            // model.transactionId = item.transactionId;
-                            // model.dividend = item.dividend;
-                            // model.quantity = item.quantity;
-                            // model.groupSelected = item.groupSelected;
-                            // model.legClosed = item.legClosed;
-                            //
-                            // localItems.push(model);
+                            let model = new DividendApiModel(item.symbol);
+                            model.date = item.date;
+                            model.transactionId = item.transactionId;
+                            model.dividend = (typeof item.dividend === 'undefined') ? model.dividend : item.dividend;
+                            model.quantity = (typeof item.quantity === 'undefined') ? model.quantity : item.quantity;
+                            model.groupSelected = (typeof item.groupSelected === 'undefined') ? model.groupSelected : item.groupSelected;
+                            model.legClosed = (typeof item.legClosed === 'undefined') ? model.legClosed : item.legClosed;
+
+                            localItems.push(model);
                         });
 
                         localItems = localItems.sort(function (a, b) {

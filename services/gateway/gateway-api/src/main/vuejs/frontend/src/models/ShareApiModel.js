@@ -5,14 +5,14 @@ class ShareApiModel {
     accountId = undefined;
     date = undefined;
     symbol = undefined;
-    price = undefined;
-    preferredPrice = undefined;
-    quantity = undefined;
+    price = 0;
+    preferredPrice = 0;
+    quantity = 0;
     action = undefined;
-    brokerFees = undefined;
+    brokerFees = 0;
     isSynthetic = false;
-    groupSelected = undefined;
-    legClosed = undefined;
+    groupSelected = false;
+    legClosed = false;
 
     constructor(symbol) {
         this.symbol = symbol;

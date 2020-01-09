@@ -5,20 +5,20 @@ class OptionApiModel {
     accountId = undefined;
     date = undefined;
     stockSymbol = undefined;
-    stockPrice = undefined;
-    strikePrice = undefined;
+    stockPrice = 0;
+    strikePrice = 0;
     expiryDate = undefined;
-    impliedVolatility = null;
-    contracts = undefined;
-    premium = undefined;
+    impliedVolatility = 0;
+    contracts = 0;
+    premium = 0;
     action = undefined;
     optionType = undefined;
-    brokerFees = undefined;
+    brokerFees = 0;
     mark = null;
     isSynthetic = false;
 
-    groupSelected = undefined;
-    legClosed = undefined;
+    groupSelected = false;
+    legClosed = false;
 
     constructor(symbol) {
         this.stockSymbol = symbol;
