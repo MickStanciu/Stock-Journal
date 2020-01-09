@@ -5,7 +5,7 @@ import com.example.gateway.api.core.model.OptionJournalModel
 import com.example.gateway.api.core.model.ShareJournalModel
 import com.example.gateway.api.rest.converter.ActiveSymbolsResponseConverter
 import com.example.gateway.api.rest.converter.DividendJournalConverter
-import com.example.gateway.api.rest.converter.OptionConverter
+import com.example.gateway.api.rest.converter.OptionJournalConverter
 import com.example.gateway.api.rest.converter.ShareJournalConverter
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -94,7 +94,7 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
 
         return if (dto != null) {
             CompletableFuture.completedFuture(
-                    dto.optionItemsList.stream().map { OptionConverter.toModel(it) }.collect(Collectors.toList())
+                    dto.optionItemsList.stream().map { OptionJournalConverter.toModel(it) }.collect(Collectors.toList())
             )
         } else {
             CompletableFuture.completedFuture(Collections.emptyList())
