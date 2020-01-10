@@ -80,7 +80,7 @@
             service
                 .getSummary()
                 .then(data => {
-                    this.items = data;
+                    this.items = data.items;
                 });
         }
     }

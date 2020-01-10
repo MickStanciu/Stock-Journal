@@ -5,23 +5,23 @@ const account_id = 'd79ec11a-2011-4423-ba01-3af8de0a3e14';
 axios.defaults.headers.common['accountId'] = account_id;
 
 const appService = {
-    getTradedSymbols() {
-        return new Promise(resolve => {
-            axios
-                .get('/symbols')
-                .then(response => {
-                    resolve(response.data)
-                })
-                .catch(error => {
-                    console.error(error);
-                })
-        });
-    },
+    // getTradedSymbols() {
+    //     return new Promise(resolve => {
+    //         axios
+    //             .get('/tradelog/symbols')
+    //             .then(response => {
+    //                 resolve(response.data)
+    //             })
+    //             .catch(error => {
+    //                 console.error(error);
+    //             })
+    //     });
+    // },
 
     getSummary() {
         return new Promise(resolve => {
             axios
-                .get('/summary')
+                .get('/tradelog/summary')
                 .then(response => {
                     resolve(response.data)
                 })
