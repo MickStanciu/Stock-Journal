@@ -5,5 +5,6 @@ import java.math.BigDecimal
 class TradeSummaryModel(
         val symbol: String,
         val trades: Int,
-        val total: BigDecimal
+        val total: BigDecimal,
+        val legClosed: Boolean
 )

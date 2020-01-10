@@ -19,34 +19,49 @@ class JournalFacade(private val transactionService: TransactionService,
     }
 
     fun getSummary(accountId: String): List<TradeSummaryModel> {
+        //TODO: parallel
         val shareSummaries = shareService.getSummaries(accountId)
         val optionSummaries = optionService.getSummaries(accountId)
         val dividendSummaries = dividendService.getSummaries(accountId)
 
         val summaryModelMap: HashMap<String, TradeSummaryModel> = HashMap()
 
-        shareSummaries.forEach { summaryModelMap[it.key] = it.value }
+        shareSummaries
+                .forEach {
+                    if (it.value.legClosed) {
+                        summaryModelMap[it.key] = it.value
+                    }
+                }
 
         optionSummaries.forEach {
-            if (summaryModelMap.containsKey(it.key)) {
+            if (summaryModelMap.containsKey(it.key) && it.value.legClosed) {
                 val storedModel: TradeSummaryModel = summaryModelMap[it.key]!!
-                summaryModelMap[it.key] = TradeSummaryModel(symbol = it.key, trades = storedModel.trades + it.value.trades,
-                        total = storedModel.total.add(it.value.total))
+
+                summaryModelMap[it.key] = TradeSummaryModel(symbol = it.key,
+                        trades = storedModel.trades + it.value.trades,
+                        total = storedModel.total.add(it.value.total),
+                        legClosed = storedModel.legClosed)
             } else {
-                summaryModelMap[it.key] = it.value
+                if (it.value.legClosed) {
+                    summaryModelMap[it.key] = it.value
+                }
             }
         }
 
         dividendSummaries.forEach {
-            if (summaryModelMap.containsKey(it.key)) {
+            if (summaryModelMap.containsKey(it.key) && it.value.legClosed) {
                 val storedModel: TradeSummaryModel = summaryModelMap[it.key]!!
-                summaryModelMap[it.key] = TradeSummaryModel(symbol = it.key, trades = storedModel.trades + it.value.trades,
-                        total = storedModel.total.add(it.value.total))
+
+                summaryModelMap[it.key] = TradeSummaryModel(symbol = it.key,
+                        trades = storedModel.trades + it.value.trades,
+                        total = storedModel.total.add(it.value.total),
+                        legClosed = storedModel.legClosed)
             } else {
-                summaryModelMap[it.key] = it.value
+                if (it.value.legClosed) {
+                    summaryModelMap[it.key] = it.value
+                }
             }
         }
-
 
         return summaryModelMap.entries.stream()
                 .sorted(compareBy { it.key })

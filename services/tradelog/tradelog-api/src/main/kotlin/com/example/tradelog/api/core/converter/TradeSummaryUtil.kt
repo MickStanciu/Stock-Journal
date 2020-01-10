@@ -12,8 +12,11 @@ class TradeSummaryUtil {
                 if (summaryModelMap.containsKey(it.symbol)) {
                     val storedModel = summaryModelMap[it.symbol]
                     if (storedModel != null) {
-                        summaryModelMap.put(it.symbol, TradeSummaryModel(symbol = it.symbol, trades = storedModel.trades +1,
-                                total = storedModel.total.add(it.total) ))
+                        summaryModelMap.put(it.symbol, TradeSummaryModel(symbol = it.symbol,
+                                trades = storedModel.trades + 1,
+                                total = storedModel.total.add(it.total),
+                                legClosed = storedModel.legClosed)
+                        )
                     }
                 } else {
                     summaryModelMap[it.symbol] = it

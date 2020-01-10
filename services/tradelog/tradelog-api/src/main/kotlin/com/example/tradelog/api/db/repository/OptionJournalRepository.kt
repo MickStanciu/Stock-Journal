@@ -14,12 +14,19 @@ class OptionJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalR
 
     companion object {
         private const val GET_SUMMARIES = """
-           SELECT tl.symbol, ol.action_fk, ol.premium, tl.broker_fees, ol.contract_number, tl.transaction_type_fk
-                FROM transaction_log tl
-                        INNER JOIN option_log ol ON tl.id = ol.transaction_fk
-                WHERE tl.account_fk = CAST(? AS uuid)
-                  AND transaction_type_fk = 'OPTION'
-                ORDER BY tl.symbol; 
+            SELECT tl.symbol,
+                   ol.action_fk,
+                   ol.premium,
+                   tl.broker_fees,
+                   ol.contract_number,
+                   tl.transaction_type_fk,
+                   tsl.leg_closed
+            FROM transaction_log tl
+                     INNER JOIN option_log ol ON tl.id = ol.transaction_fk
+                     INNER JOIN transaction_settings_log tsl on tl.id = tsl.transaction_fk
+            WHERE tl.account_fk = CAST(? AS uuid)
+              AND transaction_type_fk = 'OPTION'
+            ORDER BY tl.symbol;
         """
 
         private const val GET_BY_ID = """

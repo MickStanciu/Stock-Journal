@@ -99,6 +99,7 @@ message TradeSummaryItem {
     string symbol = 1;
     int32 trades = 2;
     double total = 3;
+    bool leg_closed = 4;
 }
 
 // Used to get all symbols traded

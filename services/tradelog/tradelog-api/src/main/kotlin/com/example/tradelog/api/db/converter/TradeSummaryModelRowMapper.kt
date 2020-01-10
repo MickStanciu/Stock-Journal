@@ -31,7 +31,8 @@ class TradeSummaryModelRowMapper : RowMapper<TradeSummaryModel> {
         return TradeSummaryModel(
                 symbol = rs.getString("symbol"),
                 trades = 1,
-                total = price.multiply(quantity).subtract(fees)
+                total = price.multiply(quantity).subtract(fees),
+                legClosed = rs.getBoolean("leg_closed")
         )
     }
 
@@ -48,7 +49,8 @@ class TradeSummaryModelRowMapper : RowMapper<TradeSummaryModel> {
         return TradeSummaryModel(
                 symbol = rs.getString("symbol"),
                 trades = 1,
-                total = premium.multiply(quantity).multiply(BigDecimal(100)).subtract(fees)
+                total = premium.multiply(quantity).multiply(BigDecimal(100)).subtract(fees),
+                legClosed = rs.getBoolean("leg_closed")
         )
     }
 
@@ -59,7 +61,8 @@ class TradeSummaryModelRowMapper : RowMapper<TradeSummaryModel> {
         return TradeSummaryModel(
                 symbol = rs.getString("symbol"),
                 trades = 1,
-                total = dividend.multiply(quantity)
+                total = dividend.multiply(quantity),
+                legClosed = true
         )
     }
 }
