@@ -109,9 +109,13 @@ message TradeLogDto {
     StatisticsDto statistics = 4;
 }
 
+message TradeSummaryResponse {
+    repeated TradeSummaryDto items = 1;
+}
+
 message TradeSummaryDto {
     string symbol = 1;
-    int64 trades = 2;
+    int32 trades = 2;
     double total = 3;
 }
 

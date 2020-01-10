@@ -3,10 +3,8 @@ package com.example.gateway.api.rest.gateway
 import com.example.gateway.api.core.model.DividendJournalModel
 import com.example.gateway.api.core.model.OptionJournalModel
 import com.example.gateway.api.core.model.ShareJournalModel
-import com.example.gateway.api.rest.converter.ActiveSymbolsResponseConverter
-import com.example.gateway.api.rest.converter.DividendJournalConverter
-import com.example.gateway.api.rest.converter.OptionJournalConverter
-import com.example.gateway.api.rest.converter.ShareJournalConverter
+import com.example.gateway.api.core.model.TradeSummaryModel
+import com.example.gateway.api.rest.converter.*
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
@@ -23,6 +21,7 @@ import com.example.tradelog.api.spec.model.ActiveSymbolsResponse as TLActiveSymb
 import com.example.tradelog.api.spec.model.DividendTransactionsResponse as TLDividendTransactionsResponse
 import com.example.tradelog.api.spec.model.OptionTransactionsResponse as TLOptionTransactionsResponse
 import com.example.tradelog.api.spec.model.ShareTransactionsResponse as TLShareTransactionsResponse
+import com.example.tradelog.api.spec.model.TradeSummaryResponse as TLTradeSummaryResponse
 
 @Service
 class TradeLogGateway(private val restTemplate: RestTemplate,
@@ -122,6 +121,27 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
             )
         } else {
             CompletableFuture.completedFuture(Collections.emptyList())
+        }
+    }
+
+    fun getSummary(accountId: String): List<TradeSummaryModel> {
+        val builder = UriComponentsBuilder
+                .fromHttpUrl(url)
+                .path("/transactions/summary")
+
+        val headers = HttpHeaders()
+        headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
+        headers.set("accountId", accountId)
+
+        val responseEntity = restTemplate
+                .exchange(builder.build("").toString(), HttpMethod.GET, HttpEntity<Any>(headers), TLTradeSummaryResponse::class.java)
+
+        val dto: TLTradeSummaryResponse? = responseEntity.body
+
+        return if (dto != null) {
+                dto.itemsList.stream().map { TradeSummaryItemConverter.toModel(it) }.collect(Collectors.toList())
+        } else {
+            Collections.emptyList()
         }
     }
 }

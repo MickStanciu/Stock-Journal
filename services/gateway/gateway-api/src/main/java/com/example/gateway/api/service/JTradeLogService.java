@@ -54,11 +54,6 @@
 //        tradeLogGateway.deleteDividendTrade(accountId, transactionId);
 //    }
 //
-//    public List<TradeSummaryGWModel> getSummary(String accountId) {
-//        List<TradeSummaryItem> returnModels = tradeLogGateway.getSummary(accountId);
-//        return returnModels.stream().map(m -> TradeSummaryConverter.toTradeSummaryGWModel.apply(m)).collect(Collectors.toList());
-//    }
-//
 //    public void updateGroupSettings(String accountId, List<TransactionSettingsGWModel> modelList) {
 //        List<TransactionSettingsModel> models = modelList.stream().map(TransactionSettingConverter.toTransactionSettingsGWModel).collect(Collectors.toList());
 //        tradeLogGateway.updateTransactionSettingsBulk(accountId, models);

@@ -119,20 +119,6 @@
 //        restTemplate.exchange(builder.build(transactionId), HttpMethod.DELETE, new HttpEntity(headers), Object.class);
 //    }
 //
-//    public List<TradeSummaryItem> getSummary(String accountId) {
-//        UriComponentsBuilder builder = UriComponentsBuilder
-//                .fromHttpUrl(API_URL)
-//                .path("/transactions/summary");
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        headers.set("accountId", accountId);
-//
-//        ResponseEntity<TradeSummaryResponse> responseEntity = restTemplate
-//                .exchange(builder.build(""), HttpMethod.GET, new HttpEntity<>(headers), TradeSummaryResponse.class);
-//        return Objects.requireNonNull(responseEntity.getBody()).getItemsList();
-//    }
-//
 //    public void updateTransactionSettings(String accountId, String transactionId, TransactionSettingsModel optionsModel) {
 //        UriComponentsBuilder builder = UriComponentsBuilder
 //                .fromHttpUrl(API_URL)

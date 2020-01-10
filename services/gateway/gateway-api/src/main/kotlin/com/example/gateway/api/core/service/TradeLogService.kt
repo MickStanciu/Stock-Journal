@@ -1,6 +1,7 @@
 package com.example.gateway.api.core.service
 
 import com.example.gateway.api.core.model.TradeLogModel
+import com.example.gateway.api.core.model.TradeSummaryModel
 import com.example.gateway.api.rest.gateway.TradeLogGateway
 import org.springframework.stereotype.Service
 import java.util.concurrent.CompletableFuture
@@ -8,9 +9,9 @@ import java.util.concurrent.CompletableFuture
 @Service
 class TradeLogService(private val tradeLogGateway: TradeLogGateway) {
 
-    fun getAllTradedSymbols(accountId: String): List<String> {
-        return tradeLogGateway.getAllTradedSymbols(accountId)
-    }
+//    fun getAllTradedSymbols(accountId: String): List<String> {
+//        return tradeLogGateway.getAllTradedSymbols(accountId)
+//    }
 
     fun getAll(accountId: String, symbol: String): TradeLogModel {
         val futureShareList = tradeLogGateway.getAllShareTransactions(accountId, symbol)
@@ -24,5 +25,9 @@ class TradeLogService(private val tradeLogGateway: TradeLogGateway) {
                 optionList = futureOptionList.get(),
                 dividendList = futureDividendList.get()
         )
+    }
+
+    fun getSummary(accountId: String): List<TradeSummaryModel> {
+        return tradeLogGateway.getSummary(accountId)
     }
 }

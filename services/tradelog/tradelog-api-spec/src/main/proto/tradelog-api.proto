@@ -98,7 +98,7 @@ message TradeSummaryResponse {
 message TradeSummaryItem {
     string symbol = 1;
     int32 trades = 2;
-    int32 total = 3;
+    double total = 3;
 }
 
 // Used to get all symbols traded

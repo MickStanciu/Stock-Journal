@@ -82,18 +82,6 @@
 //    }
 //
 //
-//    @RequestMapping(value = "/summary", method = RequestMethod.GET)
-//    @ResponseStatus(HttpStatus.OK)
-//    public List<TradeSummaryGWModel> getSummary(@RequestHeader("accountId") String accountId) throws GatewayApiException {
-//        List<TradeSummaryGWModel> summaryModels = tradeLogService.getSummary(accountId);
-//
-//        if (summaryModels == null || summaryModels.isEmpty()) {
-//            throw new GatewayApiException(ExceptionCode.TRADEJOURNAL_NO_SYMBOLS);
-//        }
-//
-//        return summaryModels;
-//    }
-//
 //    @RequestMapping(value = "/transaction/settings/bulk", method = RequestMethod.PUT)
 //    @ResponseStatus(HttpStatus.OK)
 //    public void updateBulkSettings(@RequestHeader("accountId") String accountId,
