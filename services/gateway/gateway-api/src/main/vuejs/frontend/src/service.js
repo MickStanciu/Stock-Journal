@@ -60,7 +60,7 @@ const appService = {
     recordShareTrade(dto) {
         return new Promise(resolve => {
             axios
-                .post('/share', dto)
+                .post('/tradelog/share', dto)
                 .then(response => {
                     resolve(response.data);
                 })
