@@ -15,19 +15,34 @@ message StatisticsDto {
     double selected_realised_premium = 8;
 }
 
+message CreateShareJournalDto {
+    string symbol = 1;
+    string date = 2;
+    double price = 3;
+    int32 quantity = 4;
+    double broker_fees = 5;
+    ActionType action = 6;
+
+    enum ActionType {
+        UNKNOWN_ACTION_TYPE = 0;
+        SELL = 1;
+        BUY = 2;
+    }
+}
+
 message ShareJournalDto {
     string transaction_id = 1;
-    string date = 3;
-    string symbol = 4;
-    double price = 5;
-    double actual_price = 6;
-    double preferred_price = 7;
-    int32 quantity = 8;
-    double broker_fees = 9;
-    bool group_selected = 10;
-    bool leg_closed = 11;
-    ActionType action = 12;
-    TransactionType type = 13;
+    string date = 2;
+    string symbol = 3;
+    double price = 4;
+    double actual_price = 5;
+    double preferred_price = 6;
+    int32 quantity = 7;
+    double broker_fees = 8;
+    bool group_selected = 9;
+    bool leg_closed = 10;
+    ActionType action = 11;
+    TransactionType type = 12;
 
     enum ActionType {
         UNKNOWN_ACTION_TYPE = 0;

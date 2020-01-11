@@ -23,11 +23,6 @@
 //        this.tradeLogGateway = tradeLogGateway;
 //    }
 //
-//    public ShareJournalGWModel createShareTrade(String accountId, ShareJournalGWModel model) {
-//        ShareJournalModel returnModel = tradeLogGateway.createShareTrade(accountId, ShareJournalConverter.toShareModel.apply(model));
-//        return ShareJournalConverter.toShareGWModel.apply(returnModel);
-//    }
-//
 //    public OptionJournalGWModel createOptionTrade(String accountId, OptionJournalGWModel model) {
 //        OptionJournalModel returnModel = tradeLogGateway.createOptionTrade(accountId, OptionJournalConverter.toOptionModel.apply(model));
 //        return OptionJournalConverter.toOptionGWModel.apply(returnModel);

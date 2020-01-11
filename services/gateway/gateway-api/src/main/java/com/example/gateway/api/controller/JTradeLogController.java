@@ -19,15 +19,6 @@
 //        this.tradeLogService = tradeLogService;
 //    }
 //
-//
-//    @RequestMapping(value = "/shares", method = RequestMethod.POST)
-//    @ResponseStatus(HttpStatus.OK)
-//    public ShareJournalGWModel createNewShareTrade(
-//            @RequestHeader(name = "accountId") String accountId,
-//            @RequestBody ShareJournalGWModel model) {
-//        return tradeLogService.createShareTrade(accountId, model);
-//    }
-//
 //    @RequestMapping(value = "/shares/{id}", method = RequestMethod.PUT)
 //    @ResponseStatus(HttpStatus.OK)
 //    public void updateShareTrade(

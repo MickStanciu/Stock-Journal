@@ -20,6 +20,7 @@ import java.util.stream.Collectors
 import com.example.tradelog.api.spec.model.ActiveSymbolsResponse as TLActiveSymbolsResponse
 import com.example.tradelog.api.spec.model.DividendTransactionsResponse as TLDividendTransactionsResponse
 import com.example.tradelog.api.spec.model.OptionTransactionsResponse as TLOptionTransactionsResponse
+import com.example.tradelog.api.spec.model.ShareJournalDto as TLShareJournalDto
 import com.example.tradelog.api.spec.model.ShareTransactionsResponse as TLShareTransactionsResponse
 import com.example.tradelog.api.spec.model.TradeSummaryResponse as TLTradeSummaryResponse
 
@@ -142,6 +143,27 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
                 dto.itemsList.stream().map { TradeSummaryItemConverter.toModel(it) }.collect(Collectors.toList())
         } else {
             Collections.emptyList()
+        }
+    }
+
+    fun createShareTransaction(accountId: String, model: ShareJournalModel): ShareJournalModel? {
+        val builder = UriComponentsBuilder
+                .fromHttpUrl(url)
+                .path("/shares")
+
+        val headers = HttpHeaders()
+        headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
+        headers.set("accountId", accountId)
+
+        val responseEntity = restTemplate
+                .exchange(builder.build("").toString(), HttpMethod.POST, HttpEntity<Any>(model, headers), TLShareJournalDto::class.java)
+
+        val dto: TLShareJournalDto? = responseEntity.body
+
+        return if (dto != null) {
+            ShareJournalConverter.toModel(dto)
+        } else {
+            null
         }
     }
 }

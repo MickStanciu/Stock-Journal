@@ -1,13 +1,19 @@
 package com.example.gateway.api.rest.controller
 
 import com.example.gateway.api.core.service.TradeLogService
+import com.example.gateway.api.exception.ExceptionCode
+import com.example.gateway.api.exception.GatewayApiException
 import com.example.gateway.api.rest.controller.TradeLogController.Companion.PROTOBUF_MEDIA_TYPE_VALUE
+import com.example.gateway.api.rest.converter.CreateShareJournalConverter
+import com.example.gateway.api.rest.converter.ShareJournalConverter
 import com.example.gateway.api.rest.converter.TradeLogConverter
 import com.example.gateway.api.rest.converter.TradeSummaryConverter
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 import java.util.stream.Collectors
+import com.example.gateway.api.spec.model.CreateShareJournalDto as GWCreateShareJournalDto
+import com.example.gateway.api.spec.model.ShareJournalDto as GWShareJournalDto
 import com.example.gateway.api.spec.model.TradeLogDto as GWTradeLogDto
 import com.example.gateway.api.spec.model.TradeSummaryResponse as GWTradeSummaryResponse
 
@@ -59,6 +65,24 @@ class TradeLogController(private val tradeLogService: TradeLogService) {
         return GWTradeSummaryResponse.newBuilder()
                 .addAllItems(dtos)
                 .build();
+    }
+
+    @RequestMapping(value = ["/shares", "/shares/"], method = [RequestMethod.POST])
+    @ResponseStatus(HttpStatus.OK)
+    fun createShareTransaction(
+            @RequestHeader("accountId") accountId: String,
+            @RequestBody dto: GWCreateShareJournalDto): GWShareJournalDto {
+
+        //todo: validate input
+
+        val createModel = CreateShareJournalConverter.toModel(accountId, dto)
+        val createdModel = tradeLogService.createShareTransaction(accountId, createModel)
+
+        if (createdModel != null) {
+            return ShareJournalConverter.toDto(createdModel)
+        } else {
+            throw GatewayApiException(ExceptionCode.CREATE_RESOURCE_FAILED)
+        }
     }
 
 }

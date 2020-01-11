@@ -10,7 +10,8 @@ public enum ExceptionCode {
     TRADEJOURNAL_EMPTY("No trades found"),
     TRADEJOURNAL_CANNOT_DELETE("Cannot delete"),
     TRADEJOURNAL_NO_SYMBOLS("No symbols found"),
-    RESOURCE_NOT_FOUND("Resource not found")
+    RESOURCE_NOT_FOUND("Resource not found"),
+    CREATE_RESOURCE_FAILED("Cannot create this resource type")
     ;
 
     private final String message;

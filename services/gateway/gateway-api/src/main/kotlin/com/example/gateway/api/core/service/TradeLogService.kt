@@ -1,5 +1,6 @@
 package com.example.gateway.api.core.service
 
+import com.example.gateway.api.core.model.ShareJournalModel
 import com.example.gateway.api.core.model.TradeLogModel
 import com.example.gateway.api.core.model.TradeSummaryModel
 import com.example.gateway.api.rest.gateway.TradeLogGateway
@@ -29,5 +30,9 @@ class TradeLogService(private val tradeLogGateway: TradeLogGateway) {
 
     fun getSummary(accountId: String): List<TradeSummaryModel> {
         return tradeLogGateway.getSummary(accountId)
+    }
+
+    fun createShareTransaction(accountId: String, model: ShareJournalModel): ShareJournalModel? {
+        return tradeLogGateway.createShareTransaction(accountId, model)
     }
 }

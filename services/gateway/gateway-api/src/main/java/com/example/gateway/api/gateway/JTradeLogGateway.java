@@ -28,19 +28,6 @@
 //        this.API_URL = url;
 //    }
 //
-//    public ShareJournalModel createShareTrade(String accountId, ShareJournalModel model) {
-//        UriComponentsBuilder builder = UriComponentsBuilder
-//                .fromHttpUrl(API_URL)
-//                .path("/shares");
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        headers.set("accountId", accountId);
-//
-//        HttpEntity<ShareJournalModel> request = new HttpEntity<>(model, headers);
-//        ResponseEntity<ShareJournalModel> responseEntity = restTemplate.exchange(builder.build(model.getTransactionDetails().getSymbol()), HttpMethod.POST, request, ShareJournalModel.class);
-//        return responseEntity.getBody();
-//    }
 //
 //    public OptionJournalModel createOptionTrade(String accountId, OptionJournalModel model) {
 //        UriComponentsBuilder builder = UriComponentsBuilder
