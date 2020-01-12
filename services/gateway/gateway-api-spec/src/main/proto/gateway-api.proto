@@ -59,6 +59,31 @@ message ShareJournalDto {
     }
 }
 
+message CreateOptionJournalDto {
+    string stock_symbol = 1;
+    string date = 2;
+    double stock_price = 3;
+    double strike_price = 4;
+    string expiry_date = 5;
+    int32 contracts = 6;
+    double premium = 7;
+    double broker_fees = 8;
+    ActionType action = 9;
+    OptionType option_type = 10;
+
+    enum ActionType {
+        UNKNOWN_ACTION_TYPE = 0;
+        SELL = 1;
+        BUY = 2;
+    }
+
+    enum OptionType {
+        UNKNOWN_OPTION_TYPE = 0;
+        PUT = 1;
+        CALL = 2;
+    }
+}
+
 message OptionJournalDto {
     string transaction_id = 1;
     string account_id = 2;

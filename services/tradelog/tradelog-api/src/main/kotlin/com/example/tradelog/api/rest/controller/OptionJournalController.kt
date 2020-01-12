@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.*
 import java.util.stream.Collectors
 
 @RestController
-@RequestMapping(value = ["/api/v1/options"], produces = [OptionJournalController.PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE])
+@RequestMapping(value = ["/api/v1/options"],
+        produces = [OptionJournalController.PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE],
+        consumes = [ShareJournalController.PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE])
 class OptionJournalController(private val journalFacade: JournalFacade) {
 
     companion object {

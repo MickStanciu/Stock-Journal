@@ -26,8 +26,8 @@ class ShareJournalConverter {
                     brokerFees = dto.transactionDetails.brokerFees,
                     groupSelected = dto.transactionDetails.settings.groupSelected,
                     legClosed = dto.transactionDetails.settings.legClosed,
-                    transactionType = toTransactionTypeModel(dto.transactionDetails.type),
-                    action = toActionTypeModel(dto.action)
+                    transactionType = TransactionType.valueOf(dto.transactionDetails.type.name),
+                    action = ActionType.lookup(dto.action.name)
             )
         }
 
@@ -42,8 +42,8 @@ class ShareJournalConverter {
                     .setBrokerFees(model.brokerFees)
                     .setGroupSelected(model.groupSelected)
                     .setLegClosed(model.legClosed)
-                    .setType(toTransactionTypeDto(model.transactionType))
-                    .setAction(toActionTypeDto(model.action))
+                    .setType(GWShareJournalDto.TransactionType.valueOf(model.transactionType.name))
+                    .setAction(GWShareJournalDto.ActionType.valueOf(model.action.name))
                     .build()
         }
 
@@ -70,22 +70,6 @@ class ShareJournalConverter {
                     .setQuantity(model.quantity)
                     .setAction(TLShareJournalDto.ActionType.valueOf(model.action.name))
                     .build()
-        }
-
-        private fun toTransactionTypeModel(dto: TLTransactionDto.TransactionType): TransactionType {
-            return TransactionType.valueOf(dto.name)
-        }
-
-        private fun toTransactionTypeDto(model: TransactionType): GWShareJournalDto.TransactionType {
-            return GWShareJournalDto.TransactionType.valueOf(model.name)
-        }
-
-        private fun toActionTypeModel(dto: TLShareJournalDto.ActionType): ActionType {
-            return ActionType.lookup(dto.name)
-        }
-
-        private fun toActionTypeDto(model: ActionType): GWShareJournalDto.ActionType {
-            return GWShareJournalDto.ActionType.valueOf(model.name)
         }
 
     }

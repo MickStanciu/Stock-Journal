@@ -22,12 +22,8 @@ class CreateShareJournalConverter {
                     groupSelected = false,
                     legClosed = false,
                     transactionType = TransactionType.SHARE,
-                    action = toActionTypeModel(dto.action)
+                    action = ActionType.lookup(dto.action.name)
             )
-        }
-
-        private fun toActionTypeModel(dto: GWCreateShareJournalDto.ActionType): ActionType {
-            return ActionType.lookup(dto.name)
         }
     }
 }

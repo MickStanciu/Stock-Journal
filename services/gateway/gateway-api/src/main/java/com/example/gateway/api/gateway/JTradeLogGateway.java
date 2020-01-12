@@ -28,21 +28,6 @@
 //        this.API_URL = url;
 //    }
 //
-//
-//    public OptionJournalModel createOptionTrade(String accountId, OptionJournalModel model) {
-//        UriComponentsBuilder builder = UriComponentsBuilder
-//                .fromHttpUrl(API_URL)
-//                .path("/options");
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        headers.set("accountId", accountId);
-//
-//        HttpEntity<OptionJournalModel> request = new HttpEntity<>(model, headers);
-//        ResponseEntity<OptionJournalModel> responseEntity = restTemplate.exchange(builder.build(model.getTransactionDetails().getSymbol()), HttpMethod.POST, request, OptionJournalModel.class);
-//        return responseEntity.getBody();
-//    }
-//
 //    public DividendJournalModel createDividendTrade(String accountId, DividendJournalModel model) {
 //        UriComponentsBuilder builder = UriComponentsBuilder
 //                .fromHttpUrl(API_URL)

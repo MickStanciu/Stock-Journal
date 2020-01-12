@@ -1,5 +1,6 @@
 package com.example.gateway.api.core.service
 
+import com.example.gateway.api.core.model.OptionJournalModel
 import com.example.gateway.api.core.model.ShareJournalModel
 import com.example.gateway.api.core.model.TradeLogModel
 import com.example.gateway.api.core.model.TradeSummaryModel
@@ -38,5 +39,13 @@ class TradeLogService(private val tradeLogGateway: TradeLogGateway) {
 
     fun deleteShareTransaction(accountId: String, transactionId: String) {
         tradeLogGateway.deleteShareTransaction(accountId, transactionId)
+    }
+
+    fun createOptionTransaction(accountId: String, model: OptionJournalModel): OptionJournalModel? {
+        return tradeLogGateway.createOptionTransaction(accountId, model)
+    }
+
+    fun deleteOptionTransaction(accountId: String, transactionId: String) {
+        tradeLogGateway.deleteOptionTransaction(accountId, transactionId)
     }
 }

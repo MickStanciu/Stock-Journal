@@ -3,6 +3,7 @@ package com.example.gateway.api.core.model
 import java.time.OffsetDateTime
 
 class OptionJournalModel(val transactionId: String,
+                         val accountId: String,
                          val stockSymbol: String,
                          val stockPrice: Double,
                          val strikePrice: Double,

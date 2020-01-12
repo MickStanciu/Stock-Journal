@@ -5,8 +5,10 @@ import com.example.gateway.api.core.model.ActionType
 import com.example.gateway.api.core.model.OptionJournalModel
 import com.example.gateway.api.core.model.OptionType
 import com.example.gateway.api.core.model.TransactionType
+import com.example.tradelog.api.spec.model.TransactionSettingsDto
 import com.example.gateway.api.spec.model.OptionJournalDto as GWOptionJournalDto
 import com.example.tradelog.api.spec.model.OptionJournalDto as TLOptionJournalDto
+import com.example.tradelog.api.spec.model.TransactionDto as TLTransactionDto
 
 class OptionJournalConverter {
 
@@ -14,6 +16,7 @@ class OptionJournalConverter {
         fun toModel(dto: TLOptionJournalDto): OptionJournalModel {
             return OptionJournalModel(
                     transactionId = dto.transactionDetails.id,
+                    accountId = dto.transactionDetails.accountId,
                     stockSymbol = dto.transactionDetails.symbol,
                     stockPrice = dto.stockPrice,
                     strikePrice = dto.strikePrice,
@@ -30,7 +33,7 @@ class OptionJournalConverter {
             )
         }
 
-        fun toDto(model: OptionJournalModel): GWOptionJournalDto {
+        fun toGWDto(model: OptionJournalModel): GWOptionJournalDto {
             return GWOptionJournalDto.newBuilder()
                     .setTransactionId(model.transactionId)
                     .setStockSymbol(model.stockSymbol)
@@ -46,6 +49,34 @@ class OptionJournalConverter {
                     .setOptionType(GWOptionJournalDto.OptionType.valueOf(model.optionType.name))
                     .setType(GWOptionJournalDto.TransactionType.valueOf(model.transactionType.name))
                     .setAction(GWOptionJournalDto.ActionType.valueOf(model.action.name))
+                    .build()
+        }
+
+        fun toTLDto(model: OptionJournalModel): TLOptionJournalDto {
+            return TLOptionJournalDto.newBuilder()
+                    .setTransactionDetails(
+                            TLTransactionDto.newBuilder()
+                                    .setId(model.transactionId)
+                                    .setAccountId(model.accountId)
+                                    .setDate(model.date.toString())
+                                    .setSymbol(model.stockSymbol)
+                                    .setBrokerFees(model.brokerFees)
+                                    .setType(TLTransactionDto.TransactionType.valueOf(model.transactionType.name))
+                                    .setSettings(
+                                            TransactionSettingsDto.newBuilder()
+                                                    .setPreferredPrice(0.00)
+                                                    .setGroupSelected(model.groupSelected)
+                                                    .setLegClosed(model.legClosed)
+                                                    .build()
+                                    )
+                                    .build()
+                    )
+                    .setStrikePrice(model.strikePrice)
+                    .setContracts(model.contracts)
+                    .setPremium(model.premium)
+                    .setExpiryDate(model.expiryDate.toString())
+                    .setOptionType(TLOptionJournalDto.OptionType.valueOf(model.optionType.name))
+                    .setAction(TLOptionJournalDto.ActionType.valueOf(model.action.name))
                     .build()
         }
 

@@ -19,6 +19,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.stream.Collectors
 import com.example.tradelog.api.spec.model.ActiveSymbolsResponse as TLActiveSymbolsResponse
 import com.example.tradelog.api.spec.model.DividendTransactionsResponse as TLDividendTransactionsResponse
+import com.example.tradelog.api.spec.model.OptionJournalDto as TLOptionJournalDto
 import com.example.tradelog.api.spec.model.OptionTransactionsResponse as TLOptionTransactionsResponse
 import com.example.tradelog.api.spec.model.ShareJournalDto as TLShareJournalDto
 import com.example.tradelog.api.spec.model.ShareTransactionsResponse as TLShareTransactionsResponse
@@ -156,7 +157,6 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         headers.set("accountId", accountId)
 
         val requestDto = ShareJournalConverter.toTLDto(model)
-
         val responseEntity = restTemplate
                 .exchange(builder.build("").toString(), HttpMethod.POST, HttpEntity<Any>(requestDto, headers), TLShareJournalDto::class.java)
 
@@ -179,6 +179,39 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         headers.set("accountId", accountId)
 
         restTemplate.exchange(builder.build(transactionId).toString(), HttpMethod.DELETE, HttpEntity<Any>(headers), Any::class.java)
+    }
 
+    fun createOptionTransaction(accountId: String, model: OptionJournalModel): OptionJournalModel? {
+        val builder = UriComponentsBuilder
+                .fromHttpUrl(url)
+                .path("/options")
+
+        val headers = HttpHeaders()
+        headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
+        headers.set("accountId", accountId)
+
+        val requestDto = OptionJournalConverter.toTLDto(model)
+        val responseEntity = restTemplate
+                .exchange(builder.build("").toString(), HttpMethod.POST, HttpEntity<Any>(requestDto, headers), TLOptionJournalDto::class.java)
+
+        val responseDto: TLOptionJournalDto? = responseEntity.body
+
+        return if (responseDto != null) {
+            OptionJournalConverter.toModel(responseDto)
+        } else {
+            null
+        }
+    }
+
+    fun deleteOptionTransaction(accountId: String, transactionId: String) {
+        val builder = UriComponentsBuilder
+                .fromHttpUrl(url)
+                .path("/options/{id}")
+
+        val headers = HttpHeaders()
+        headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
+        headers.set("accountId", accountId)
+
+        restTemplate.exchange(builder.build(transactionId).toString(), HttpMethod.DELETE, HttpEntity<Any>(headers), Any::class.java)
     }
 }

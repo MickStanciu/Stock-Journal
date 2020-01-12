@@ -14,7 +14,7 @@ class TradeLogConverter {
                     .collect(Collectors.toList())
 
             val optionList = model.optionList.stream()
-                    .map { OptionJournalConverter.toDto(it) }
+                    .map { OptionJournalConverter.toGWDto(it) }
                     .collect(Collectors.toList())
 
             val dividendList = model.dividendList.stream()
