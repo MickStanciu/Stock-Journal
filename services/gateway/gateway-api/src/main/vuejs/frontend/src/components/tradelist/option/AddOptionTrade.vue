@@ -104,6 +104,7 @@
     import dateTimeUtil from '../../../utils/time'
     import validation from "../../../utils/validation";
     import OptionApiModel from "../../../models/OptionApiModel";
+    import CreateOptionApiModel from "../../../models/CreateOptionApiModel";
 
     export default {
         name: "AddOptionTrade",
@@ -156,7 +157,7 @@
                     return false;
                 }
 
-                let optionDto = new OptionApiModel(this.form_element.symbol);
+                let optionDto = new CreateOptionApiModel(this.form_element.symbol);
                 optionDto.date = dateTimeUtil.convertToOffsetDateTime(this.form_element.date);
                 optionDto.stockPrice = this.form_element.stock_price;
                 optionDto.strikePrice = this.form_element.strike_price;

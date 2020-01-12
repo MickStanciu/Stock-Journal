@@ -104,10 +104,9 @@ const appService = {
     },
 
     recordOptionTrade(dto) {
-        //TODO: bug -> delete takes longer and refresh occurs before that ... need to wait
         return new Promise(resolve => {
             axios
-                .post('/option', dto)
+                .post('/tradelog/options', dto)
                 .then(response => {
                     resolve(response.data);
                 })
@@ -135,10 +134,9 @@ const appService = {
     },
 
     deleteOptionTrade(dto) {
-        //TODO: bug -> delete takes longer and refresh occurs before that ... need to wait
         return new Promise(resolve => {
             axios
-                .delete('/option/' + dto.stockSymbol + '/' + dto.transactionId)
+                .delete('/tradelog/options/' + dto.transactionId)
                 .then(() => {
                         // console.debug("AXIOS FINISHED");
                         resolve(null);
