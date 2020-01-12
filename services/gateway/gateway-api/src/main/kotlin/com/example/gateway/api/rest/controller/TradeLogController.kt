@@ -79,10 +79,20 @@ class TradeLogController(private val tradeLogService: TradeLogService) {
         val createdModel = tradeLogService.createShareTransaction(accountId, createModel)
 
         if (createdModel != null) {
-            return ShareJournalConverter.toDto(createdModel)
+            return ShareJournalConverter.toGWDto(createdModel)
         } else {
             throw GatewayApiException(ExceptionCode.CREATE_RESOURCE_FAILED)
         }
+    }
+
+    @RequestMapping(value = ["/shares/{transactionId}", "/shares/{transactionId}/"], method = [RequestMethod.DELETE])
+    @ResponseStatus(HttpStatus.OK)
+    fun deleteShareTransaction(
+            @RequestHeader("accountId") accountId: String,
+            @PathVariable(name = "transactionId") transactionId: String) {
+
+        //todo: validate input
+        tradeLogService.deleteShareTransaction(accountId, transactionId)
     }
 
 }

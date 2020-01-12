@@ -7,6 +7,7 @@ import com.example.gateway.api.core.model.TransactionType
 import com.example.gateway.api.spec.model.ShareJournalDto as GWShareJournalDto
 import com.example.tradelog.api.spec.model.ShareJournalDto as TLShareJournalDto
 import com.example.tradelog.api.spec.model.TransactionDto as TLTransactionDto
+import com.example.tradelog.api.spec.model.TransactionSettingsDto as TLTransactionSettingsDto
 
 class ShareJournalConverter {
 
@@ -30,7 +31,7 @@ class ShareJournalConverter {
             )
         }
 
-        fun toDto(model: ShareJournalModel): GWShareJournalDto {
+        fun toGWDto(model: ShareJournalModel): GWShareJournalDto {
             return GWShareJournalDto.newBuilder()
                     .setTransactionId(model.transactionId)
                     .setDate(model.date.toString())
@@ -43,6 +44,31 @@ class ShareJournalConverter {
                     .setLegClosed(model.legClosed)
                     .setType(toTransactionTypeDto(model.transactionType))
                     .setAction(toActionTypeDto(model.action))
+                    .build()
+        }
+
+        fun toTLDto(model: ShareJournalModel): TLShareJournalDto {
+            return TLShareJournalDto.newBuilder()
+                    .setTransactionDetails(
+                            TLTransactionDto.newBuilder()
+                                    .setId(model.transactionId)
+                                    .setAccountId(model.accountId)
+                                    .setDate(model.date.toString())
+                                    .setSymbol(model.symbol)
+                                    .setBrokerFees(model.brokerFees)
+                                    .setType(TLTransactionDto.TransactionType.valueOf(model.transactionType.name))
+                                    .setSettings(
+                                            TLTransactionSettingsDto.newBuilder()
+                                                    .setPreferredPrice(model.preferredPrice)
+                                                    .setGroupSelected(model.groupSelected)
+                                                    .setLegClosed(model.legClosed)
+                                                    .build()
+                                    )
+                                    .build()
+                    )
+                    .setPrice(model.price)
+                    .setQuantity(model.quantity)
+                    .setAction(TLShareJournalDto.ActionType.valueOf(model.action.name))
                     .build()
         }
 

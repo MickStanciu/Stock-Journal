@@ -28,15 +28,6 @@
 //        tradeLogService.updateShareTrade(accountId, transactionId, model);
 //    }
 //
-//    @RequestMapping(value = "/shares/{id}", method = RequestMethod.DELETE)
-//    @ResponseStatus(HttpStatus.OK)
-//    public void deleteShareTrade(
-//            @RequestHeader(name = "accountId") String accountId,
-//            @PathVariable(name = "id") String transactionId) {
-//        tradeLogService.deleteShareTrade(accountId, transactionId);
-//    }
-//
-//
 //    @RequestMapping(value = "/options", method = RequestMethod.POST)
 //    @ResponseStatus(HttpStatus.OK)
 //    public OptionJournalGWModel createNewOptionTrade(

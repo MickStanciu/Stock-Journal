@@ -70,18 +70,6 @@
 //        restTemplate.exchange(builder.build(transactionId), HttpMethod.PUT, request, Object.class);
 //    }
 //
-//    public void deleteShareTrade(String accountId, String transactionId) {
-//        UriComponentsBuilder builder = UriComponentsBuilder
-//                .fromHttpUrl(API_URL)
-//                .path("/shares/{id}");
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        headers.set("accountId", accountId);
-//
-//        restTemplate.exchange(builder.build(transactionId), HttpMethod.DELETE, new HttpEntity(headers), Object.class);
-//    }
-//
 //    public void deleteOptionTrade(String accountId, String transactionId) {
 //        UriComponentsBuilder builder = UriComponentsBuilder
 //                .fromHttpUrl(API_URL)

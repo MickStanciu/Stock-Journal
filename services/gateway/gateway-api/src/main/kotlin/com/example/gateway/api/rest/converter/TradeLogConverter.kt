@@ -10,7 +10,7 @@ class TradeLogConverter {
         fun toDto(model: TradeLogModel): TradeLogDto {
 
             val shareList = model.shareList.stream()
-                    .map { ShareJournalConverter.toDto(it) }
+                    .map { ShareJournalConverter.toGWDto(it) }
                     .collect(Collectors.toList())
 
             val optionList = model.optionList.stream()

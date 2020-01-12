@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.*
 import java.util.stream.Collectors
 
 @RestController
-@RequestMapping(value = ["/api/v1/shares"], produces = [ShareJournalController.PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE])
+@RequestMapping(value = ["/api/v1/shares"],
+        produces = [ShareJournalController.PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE],
+        consumes = [ShareJournalController.PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE])
 class ShareJournalController(private val journalFacade: JournalFacade) {
 
     companion object {
@@ -61,7 +63,7 @@ class ShareJournalController(private val journalFacade: JournalFacade) {
             throw TradeLogException(ExceptionCode.CREATE_SHARE_FAILED)
         }
 
-        return ShareJournalModelConverter.toDto(model)
+        return ShareJournalModelConverter.toDto(model = model)
     }
 
 

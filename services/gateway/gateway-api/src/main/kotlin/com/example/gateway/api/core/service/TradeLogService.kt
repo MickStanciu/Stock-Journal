@@ -35,4 +35,8 @@ class TradeLogService(private val tradeLogGateway: TradeLogGateway) {
     fun createShareTransaction(accountId: String, model: ShareJournalModel): ShareJournalModel? {
         return tradeLogGateway.createShareTransaction(accountId, model)
     }
+
+    fun deleteShareTransaction(accountId: String, transactionId: String) {
+        tradeLogGateway.deleteShareTransaction(accountId, transactionId)
+    }
 }

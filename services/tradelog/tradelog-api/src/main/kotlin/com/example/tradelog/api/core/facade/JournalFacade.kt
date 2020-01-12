@@ -80,7 +80,7 @@ class JournalFacade(private val transactionService: TransactionService,
     fun createShareRecord(model: ShareJournalModel): ShareJournalModel? {
         val id = transactionService.createRecord(model.transactionDetails)
         if (id != null) {
-            return shareService.createRecord(id, model)
+            return shareService.createRecord(transactionId = id, model = model)
         }
         return null
     }

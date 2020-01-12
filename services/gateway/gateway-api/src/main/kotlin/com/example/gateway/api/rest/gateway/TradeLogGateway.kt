@@ -155,15 +155,30 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
         headers.set("accountId", accountId)
 
+        val requestDto = ShareJournalConverter.toTLDto(model)
+
         val responseEntity = restTemplate
-                .exchange(builder.build("").toString(), HttpMethod.POST, HttpEntity<Any>(model, headers), TLShareJournalDto::class.java)
+                .exchange(builder.build("").toString(), HttpMethod.POST, HttpEntity<Any>(requestDto, headers), TLShareJournalDto::class.java)
 
-        val dto: TLShareJournalDto? = responseEntity.body
+        val responseDto: TLShareJournalDto? = responseEntity.body
 
-        return if (dto != null) {
-            ShareJournalConverter.toModel(dto)
+        return if (responseDto != null) {
+            ShareJournalConverter.toModel(responseDto)
         } else {
             null
         }
+    }
+
+    fun deleteShareTransaction(accountId: String, transactionId: String) {
+        val builder = UriComponentsBuilder
+                .fromHttpUrl(url)
+                .path("/shares/{id}")
+
+        val headers = HttpHeaders()
+        headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
+        headers.set("accountId", accountId)
+
+        restTemplate.exchange(builder.build(transactionId).toString(), HttpMethod.DELETE, HttpEntity<Any>(headers), Any::class.java)
+
     }
 }
