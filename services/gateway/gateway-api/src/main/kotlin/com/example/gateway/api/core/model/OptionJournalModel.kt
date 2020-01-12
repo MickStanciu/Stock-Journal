@@ -13,6 +13,7 @@ class OptionJournalModel(val transactionId: String,
                          val brokerFees: Double,
                          val groupSelected: Boolean,
                          val legClosed: Boolean,
+                         val optionType: OptionType,
                          val transactionType: TransactionType,
                          val action: ActionType)
 
