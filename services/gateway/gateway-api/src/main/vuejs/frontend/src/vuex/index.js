@@ -32,11 +32,7 @@ const store = new Vuex.Store({
         },
         refreshData(context) {
             context.commit('refreshData')
-        },
-        hideModalWithoutRefresh(context) {
-            context.commit('hideModalWithoutRefresh')
-        },
-
+        }
     },
 
     mutations: {

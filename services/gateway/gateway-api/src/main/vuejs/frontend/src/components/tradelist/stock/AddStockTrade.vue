@@ -67,6 +67,7 @@
     import dateTimeUtil from '../../../utils/time'
     import validation from "../../../utils/validation";
     import ShareApiModel from '../../../models/ShareApiModel'
+    import CreateShareApiModel from "../../../models/CreateShareApiModel";
 
     export default {
         name: "AddStockTrade",
@@ -108,13 +109,14 @@
                     return false;
                 }
 
-                let shareDto = new ShareApiModel(this.form_element.symbol);
+                let shareDto = new CreateShareApiModel(this.form_element.symbol);
                 shareDto.date = dateTimeUtil.convertToOffsetDateTime(this.form_element.date);
                 shareDto.action = this.form_element.action;
                 shareDto.price = this.form_element.price;
                 shareDto.quantity = this.form_element.quantity;
                 shareDto.brokerFees = this.form_element.fees;
 
+                console.log(shareDto)
                 service.recordShareTrade(shareDto).then(data => {
                   if (data === null) {
                       this.$store.dispatch('stock/hideModal');

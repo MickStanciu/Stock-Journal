@@ -60,7 +60,7 @@ const appService = {
     recordShareTrade(dto) {
         return new Promise(resolve => {
             axios
-                .post('/tradelog/share', dto)
+                .post('/tradelog/shares', dto)
                 .then(response => {
                     resolve(response.data);
                 })
@@ -74,7 +74,7 @@ const appService = {
     editShareTrade(dto) {
         return new Promise(resolve => {
             axios
-                .put('/share/' + dto.symbol + '/' + dto.transactionId, dto)
+                .put('/tradelog/shares/' + dto.transactionId, dto)
                 .then(() => {
                         // console.debug("AXIOS FINISHED");
                         resolve(null);
@@ -90,7 +90,7 @@ const appService = {
     deleteShareTrade(dto) {
         return new Promise(resolve => {
             axios
-                .delete('/share/' + dto.symbol + '/' + dto.transactionId)
+                .delete('/tradelog/shares/' + dto.transactionId)
                 .then(() => {
                         // console.debug("AXIOS FINISHED");
                         resolve(null);
