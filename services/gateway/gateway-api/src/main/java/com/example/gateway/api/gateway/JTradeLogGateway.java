@@ -78,30 +78,6 @@
 //
 //        restTemplate.exchange(builder.build(transactionId), HttpMethod.DELETE, new HttpEntity(headers), Object.class);
 //    }
-//
-//    public void updateTransactionSettings(String accountId, String transactionId, TransactionSettingsModel optionsModel) {
-//        UriComponentsBuilder builder = UriComponentsBuilder
-//                .fromHttpUrl(API_URL)
-//                .path("/transactions/options/{id}");
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        headers.set("accountId", accountId);
-//
-//        HttpEntity<TransactionSettingsModel> request = new HttpEntity<>(optionsModel, headers);
-//        restTemplate.exchange(builder.build(transactionId), HttpMethod.PUT, request, Object.class);
-//    }
-//
-//    public void updateTransactionSettingsBulk(String accountId, List<TransactionSettingsModel> models) {
-//        UriComponentsBuilder builder = UriComponentsBuilder
-//                .fromHttpUrl(API_URL)
-//                .path("/transactions/settings/bulk");
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        headers.set("accountId", accountId);
-//
-//        HttpEntity<List<TransactionSettingsModel>> request = new HttpEntity<>(models, headers);
-//        restTemplate.exchange(builder.build(""), HttpMethod.PUT, request, Object.class);
-//    }
+
+
 //}

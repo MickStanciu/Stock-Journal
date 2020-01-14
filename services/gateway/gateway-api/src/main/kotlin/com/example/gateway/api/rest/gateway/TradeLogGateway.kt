@@ -1,9 +1,6 @@
 package com.example.gateway.api.rest.gateway
 
-import com.example.gateway.api.core.model.DividendJournalModel
-import com.example.gateway.api.core.model.OptionJournalModel
-import com.example.gateway.api.core.model.ShareJournalModel
-import com.example.gateway.api.core.model.TradeSummaryModel
+import com.example.gateway.api.core.model.*
 import com.example.gateway.api.rest.converter.*
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -213,5 +210,18 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         headers.set("accountId", accountId)
 
         restTemplate.exchange(builder.build(transactionId).toString(), HttpMethod.DELETE, HttpEntity<Any>(headers), Any::class.java)
+    }
+
+    fun updateTransactionSettings(accountId: String, model: TransactionSettingsModel) {
+        val builder = UriComponentsBuilder
+                .fromHttpUrl(url)
+                .path("transactions/settings/{id}")
+
+        val headers = HttpHeaders()
+        headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
+        headers.set("accountId", accountId)
+
+        val requestDto = TransactionSettingsConverter.toDto(model)
+        restTemplate.exchange(builder.build(model.transactionId).toString(), HttpMethod.POST, HttpEntity<Any>(requestDto, headers), Any::class.java)
     }
 }

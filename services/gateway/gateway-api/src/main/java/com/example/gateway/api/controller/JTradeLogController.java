@@ -53,20 +53,4 @@
 //            @PathVariable(name = "id") String transactionId) {
 //        tradeLogService.deleteDividendRecord(accountId, transactionId);
 //    }
-//
-//
-//    @RequestMapping(value = "/transaction/settings/bulk", method = RequestMethod.PUT)
-//    @ResponseStatus(HttpStatus.OK)
-//    public void updateBulkSettings(@RequestHeader("accountId") String accountId,
-//                                   @RequestBody List<TransactionSettingsGWModel> modelList) {
-//        tradeLogService.updateGroupSettings(accountId, modelList);
-//    }
-//
-//    @RequestMapping(value = "/transaction/settings/{id}", method = RequestMethod.PUT)
-//    @ResponseStatus(HttpStatus.OK)
-//    public void updateSettings(@RequestHeader("accountId") String accountId,
-//                               @PathVariable(name = "id") String transactionId,
-//                               @RequestBody TransactionSettingsGWModel model) {
-//        tradeLogService.updateGroupSetting(accountId, transactionId, model);
-//    }
 //}

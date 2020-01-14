@@ -1,6 +1,7 @@
 package com.example.gateway.api.rest.controller
 
 import com.example.gateway.api.core.service.TradeLogService
+import com.example.gateway.api.core.service.TransactionService
 import com.example.gateway.api.exception.ExceptionCode
 import com.example.gateway.api.exception.GatewayApiException
 import com.example.gateway.api.rest.controller.TradeLogController.Companion.PROTOBUF_MEDIA_TYPE_VALUE
@@ -15,10 +16,12 @@ import com.example.gateway.api.spec.model.OptionJournalDto as GWOptionJournalDto
 import com.example.gateway.api.spec.model.ShareJournalDto as GWShareJournalDto
 import com.example.gateway.api.spec.model.TradeLogDto as GWTradeLogDto
 import com.example.gateway.api.spec.model.TradeSummaryResponse as GWTradeSummaryResponse
+import com.example.gateway.api.spec.model.TransactionSettingsDto as GWTransactionSettingsDto
 
 @RestController
 @RequestMapping(value = ["/api/v1/tradelog"], produces = [PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE])
-class TradeLogController(private val tradeLogService: TradeLogService) {
+class TradeLogController(private val tradeLogService: TradeLogService,
+                         private val transactionService: TransactionService) {
 
     companion object {
         const val PROTOBUF_MEDIA_TYPE_VALUE = "application/x-protobuf"
@@ -122,6 +125,18 @@ class TradeLogController(private val tradeLogService: TradeLogService) {
         //todo: validate input
 
         tradeLogService.deleteOptionTransaction(accountId, transactionId)
+    }
+
+    @RequestMapping(value = ["/settings/{transactionId}", "/settings/{transactionId}/"], method = [RequestMethod.PUT])
+    @ResponseStatus(HttpStatus.OK)
+    fun updateSettings(
+            @RequestHeader("accountId") accountId: String,
+            @PathVariable(name = "transactionId") transactionId: String,
+            @RequestBody dto: GWTransactionSettingsDto) {
+
+        //todo: validate input
+        val model = TransactionSettingsConverter.toModel(dto)
+        transactionService.updateTransactionSettings(accountId, model)
     }
 
 }
