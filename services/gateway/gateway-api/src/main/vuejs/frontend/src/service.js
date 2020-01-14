@@ -181,22 +181,9 @@ const appService = {
         })
     },
 
-    saveSettings(settings) {
-        return new Promise(resolve => {
-           axios.put('/settings/bulk', settings)
-               .then(response => {
-                   // console.debug("Bulk Settings saved");
-               })
-               .catch(error => {
-                   console.error(error);
-                   resolve(null);
-               })
-        });
-    },
-
     saveSetting(setting) {
         return new Promise(resolve => {
-            axios.put('/settings/' + setting.transactionId, setting)
+            axios.put('/tradelog/settings/' + setting.transactionId, setting)
                 .then(response => {
                     // console.debug("Settings saved");
                 })
