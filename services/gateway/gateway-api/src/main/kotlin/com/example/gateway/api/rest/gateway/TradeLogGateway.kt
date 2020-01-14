@@ -222,6 +222,6 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         headers.set("accountId", accountId)
 
         val requestDto = TransactionSettingsConverter.toDto(model)
-        restTemplate.exchange(builder.build(model.transactionId).toString(), HttpMethod.POST, HttpEntity<Any>(requestDto, headers), Any::class.java)
+        restTemplate.exchange(builder.build(model.transactionId).toString(), HttpMethod.PUT, HttpEntity<Any>(requestDto, headers), Any::class.java)
     }
 }

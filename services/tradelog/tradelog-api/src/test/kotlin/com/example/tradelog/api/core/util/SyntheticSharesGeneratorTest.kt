@@ -112,6 +112,18 @@ class SyntheticSharesGeneratorTest {
                 }
     }
 
+    @Test
+    fun testBuySellKO() {
+        val settingsModel = TransactionSettingsModel(transactionId = "4cd7a362-427a-477f-b995-de525281c957", preferredPrice = 0.0, groupSelected = false, legClosed = true)
+        val transactionModel = TransactionModel(id = "4cd7a362-427a-477f-b995-de525281c957", accountId = "123", date = OffsetDateTime.now(), symbol = "KO",
+                type = TransactionType.SHARE, brokerFees = 0.0, settings = settingsModel)
+        shareList.add(ShareJournalModel(transactionDetails = transactionModel, price = 55.77, actualPrice = 0.0, quantity = 100, action = ActionType.BUY))
+        shareList.add(ShareJournalModel(transactionDetails = transactionModel, price = 56.00, actualPrice = 0.0, quantity = 100, action = ActionType.SELL))
+
+        val syn = createSynthetic(shareList)
+        Assertions.assertEquals(0, syn.size)
+    }
+
 
     @Test
     fun testSingleBuyTrade() {
