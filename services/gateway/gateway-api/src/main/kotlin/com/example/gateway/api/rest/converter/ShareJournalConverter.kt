@@ -31,6 +31,23 @@ class ShareJournalConverter {
             )
         }
 
+        fun toModel(dto: GWShareJournalDto): ShareJournalModel {
+            return ShareJournalModel(
+                    transactionId = dto.transactionId,
+                    accountId = dto.accountId,
+                    date = TimeConverter.toOffsetDateTime.apply(dto.date),
+                    symbol = dto.symbol,
+                    price = dto.price,
+                    preferredPrice = dto.preferredPrice,
+                    quantity = dto.quantity,
+                    brokerFees = dto.brokerFees,
+                    groupSelected = dto.groupSelected,
+                    legClosed = dto.legClosed,
+                    transactionType = TransactionType.valueOf(dto.type.name),
+                    action = ActionType.lookup(dto.action.name)
+            )
+        }
+
         fun toGWDto(model: ShareJournalModel): GWShareJournalDto {
             return GWShareJournalDto.newBuilder()
                     .setTransactionId(model.transactionId)

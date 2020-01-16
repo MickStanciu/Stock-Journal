@@ -89,6 +89,18 @@ class TradeLogController(private val tradeLogService: TradeLogService,
         }
     }
 
+    @RequestMapping(value = ["/shares/{transactionId}", "/shares/{transactionId}/"], method = [RequestMethod.PUT])
+    @ResponseStatus(HttpStatus.OK)
+    fun editShareTransaction(
+            @RequestHeader("accountId") accountId: String,
+            @PathVariable(name = "transactionId") transactionId: String,
+            @RequestBody dto: GWShareJournalDto) {
+
+        //todo: validate input
+        val updateModel = ShareJournalConverter.toModel(dto)
+        tradeLogService.editShareTransaction(accountId, updateModel)
+    }
+
     @RequestMapping(value = ["/shares/{transactionId}", "/shares/{transactionId}/"], method = [RequestMethod.DELETE])
     @ResponseStatus(HttpStatus.OK)
     fun deleteShareTransaction(

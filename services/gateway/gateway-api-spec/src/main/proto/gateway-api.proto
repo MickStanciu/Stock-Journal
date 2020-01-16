@@ -32,17 +32,18 @@ message CreateShareJournalDto {
 
 message ShareJournalDto {
     string transaction_id = 1;
-    string date = 2;
-    string symbol = 3;
-    double price = 4;
-    double actual_price = 5;
-    double preferred_price = 6;
-    int32 quantity = 7;
-    double broker_fees = 8;
-    bool group_selected = 9;
-    bool leg_closed = 10;
-    ActionType action = 11;
-    TransactionType type = 12;
+    string account_id = 2;
+    string date = 3;
+    string symbol = 4;
+    double price = 5;
+    double actual_price = 6;
+    double preferred_price = 7;
+    int32 quantity = 8;
+    double broker_fees = 9;
+    bool group_selected = 10;
+    bool leg_closed = 11;
+    ActionType action = 12;
+    TransactionType type = 13;
 
     enum ActionType {
         UNKNOWN_ACTION_TYPE = 0;
