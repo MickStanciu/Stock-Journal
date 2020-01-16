@@ -45,6 +45,7 @@
     import dateTimeUtil from '../../../utils/time'
     import validation from "../../../utils/validation";
     import DividendApiModel from "../../../models/DividendApiModel";
+    import CreateDividendApiModel from "../../../models/CreateDividendApiModel";
 
     export default {
         name: "AddDividendTrade",
@@ -78,11 +79,11 @@
                     return false;
                 }
 
-                let dividendDto = new DividendApiModel(this.form_element.symbol);
+                let dividendDto = new CreateDividendApiModel(this.form_element.symbol);
                 dividendDto.date = dateTimeUtil.convertToOffsetDateTime(this.form_element.date);
                 dividendDto.dividend = this.form_element.dividend;
                 dividendDto.quantity = this.form_element.quantity;
-                console.debug(dividendDto.date);
+                // console.debug(dividendDto.date);
 
                 service.recordDividendTrade(dividendDto).then(data => {
                     if (data === null) {

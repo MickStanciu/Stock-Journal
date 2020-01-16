@@ -150,10 +150,9 @@ const appService = {
     },
 
     recordDividendTrade(dto) {
-        //TODO: bug -> delete takes longer and refresh occurs before that ... need to wait
         return new Promise(resolve => {
             axios
-                .post('/dividend', dto)
+                .post('/tradelog/dividends', dto)
                 .then(response => {
                     resolve(response.data);
                 })
@@ -168,7 +167,7 @@ const appService = {
         return new Promise(resolve => {
             // console.debug("DELETING DIVIDEND started");
             axios
-                .delete('/dividend/' + dto.symbol + '/' + dto.transactionId)
+                .delete('/tradelog/dividends/' + dto.transactionId)
                 .then(() => {
                         // console.debug("AXIOS FINISHED");
                         resolve(null);
