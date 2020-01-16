@@ -3,7 +3,7 @@
         <div class="row mt-3 pb-2 pt-2 table-header">
             <div class="col-md-5">Symbol</div>
             <div class="col-md-5"># Trades</div>
-            <div class="col text-right">P&L</div>
+            <div class="col text-right">Realised P&L</div>
         </div>
 
         <template v-for="(item, idx) in items">
