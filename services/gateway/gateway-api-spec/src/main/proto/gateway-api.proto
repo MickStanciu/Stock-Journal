@@ -55,8 +55,6 @@ message ShareJournalDto {
         UNKNOWN_TRANSACTION_TYPE = 0;
         SHARE = 1;
         SYNTHETIC_SHARE = 2;
-        OPTION = 3;
-        DIVIDEND = 4;
     }
 }
 

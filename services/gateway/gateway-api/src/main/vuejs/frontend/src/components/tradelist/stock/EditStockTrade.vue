@@ -68,6 +68,7 @@
     import validation from "../../../utils/validation";
     import service from '../../../service';
     import ShareApiModel from "../../../models/ShareApiModel";
+    import UpdateShareApiModel from "../../../models/UpdateShareApiModel";
 
     export default {
         name: "EditStockTrade",
@@ -110,14 +111,13 @@
                     return false;
                 }
 
-                let shareDto = new ShareApiModel(this.form_element.symbol);
+                let shareDto = new UpdateShareApiModel(this.form_element.symbol);
                 shareDto.date = dateTimeUtil.convertToOffsetDateTime(this.form_element.date);
                 shareDto.action = this.form_element.action;
                 shareDto.price = this.form_element.price;
                 shareDto.quantity = this.form_element.quantity;
                 shareDto.brokerFees = this.form_element.fees;
                 shareDto.transactionId = this.form_element.id;
-                shareDto.isSynthetic = undefined;
 
                 service.editShareTrade(shareDto).then(data => {
                     this.$store.dispatch('stock/hideModal');
