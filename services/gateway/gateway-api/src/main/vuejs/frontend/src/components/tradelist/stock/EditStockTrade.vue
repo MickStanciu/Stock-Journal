@@ -79,7 +79,7 @@
                 form_element: {
                     symbol : this.stock_model.symbol,
                     id: this.stock_model.transactionId,
-                    date: dateTimeUtil.createFromOffsetZuluToDisplay(this.stock_model.date),
+                    date: dateTimeUtil.convertFromOffsetZuluToDisplay(this.stock_model.date),
                     action: this.stock_model.action,
                     price: this.stock_model.price,
                     quantity: this.stock_model.quantity,
@@ -117,6 +117,7 @@
                 shareDto.quantity = this.form_element.quantity;
                 shareDto.brokerFees = this.form_element.fees;
                 shareDto.transactionId = this.form_element.id;
+                shareDto.isSynthetic = undefined;
 
                 service.editShareTrade(shareDto).then(data => {
                     this.$store.dispatch('stock/hideModal');

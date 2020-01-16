@@ -44,7 +44,7 @@ const dateTimeUtil = {
         return moment().format(outputFormat);
     },
 
-    //Converts Date to DD MMM YYYY
+    //Converts Date to DD-MMM-YYYY
     convertFromOffsetZuluToDisplay: function(item) {
         const outputFormat = 'DD-MMM-YYYY';
         /*
