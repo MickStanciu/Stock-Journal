@@ -28,20 +28,7 @@
 //        this.API_URL = url;
 //    }
 //
-//    public DividendJournalModel createDividendTrade(String accountId, DividendJournalModel model) {
-//        UriComponentsBuilder builder = UriComponentsBuilder
-//                .fromHttpUrl(API_URL)
-//                .path("/dividends");
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        headers.set("accountId", accountId);
-//
-//        HttpEntity<DividendJournalModel> request = new HttpEntity<>(model, headers);
-//        ResponseEntity<DividendJournalModel> responseEntity = restTemplate.exchange(builder.build(model.getTransactionDetails().getSymbol()), HttpMethod.POST, request, DividendJournalModel.class);
-//        return responseEntity.getBody();
-//    }
-//
+
 //    public void updateShareTrade(String accountId, String transactionId, ShareJournalModel model) {
 //        UriComponentsBuilder builder = UriComponentsBuilder
 //                .fromHttpUrl(API_URL)
@@ -55,29 +42,8 @@
 //        restTemplate.exchange(builder.build(transactionId), HttpMethod.PUT, request, Object.class);
 //    }
 //
-//    public void deleteOptionTrade(String accountId, String transactionId) {
-//        UriComponentsBuilder builder = UriComponentsBuilder
-//                .fromHttpUrl(API_URL)
-//                .path("/options/{id}");
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        headers.set("accountId", accountId);
-//
-//        restTemplate.exchange(builder.build(transactionId), HttpMethod.DELETE, new HttpEntity(headers), Object.class);
-//    }
-//
-//    public void deleteDividendTrade(String accountId, String transactionId) {
-//        UriComponentsBuilder builder = UriComponentsBuilder
-//                .fromHttpUrl(API_URL)
-//                .path("/dividends/{id}");
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_JSON);
-//        headers.set("accountId", accountId);
-//
-//        restTemplate.exchange(builder.build(transactionId), HttpMethod.DELETE, new HttpEntity(headers), Object.class);
-//    }
+
+
 
 
 //}

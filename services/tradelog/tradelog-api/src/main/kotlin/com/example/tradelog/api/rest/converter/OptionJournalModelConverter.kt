@@ -4,12 +4,12 @@ import com.example.common.converter.TimeConverter
 import com.example.tradelog.api.core.model.ActionType
 import com.example.tradelog.api.core.model.OptionJournalModel
 import com.example.tradelog.api.core.model.OptionType
-import com.example.tradelog.api.spec.model.OptionJournalDto
+import com.example.tradelog.api.spec.model.TLOptionJournalDto
 
 class OptionJournalModelConverter {
 
     companion object {
-        fun toModel(dto: OptionJournalDto): OptionJournalModel {
+        fun toModel(dto: TLOptionJournalDto): OptionJournalModel {
             return OptionJournalModel(
                     transactionDetails = TransactionModelConverter.toModel(dto.transactionDetails),
                     stockPrice = dto.stockPrice,
@@ -22,14 +22,14 @@ class OptionJournalModelConverter {
             )
         }
 
-        fun toDto(model: OptionJournalModel): OptionJournalDto {
-            return OptionJournalDto.newBuilder()
+        fun toDto(model: OptionJournalModel): TLOptionJournalDto {
+            return TLOptionJournalDto.newBuilder()
                     .setTransactionDetails(TransactionModelConverter.toDto(model.transactionDetails))
                     .setStockPrice(model.stockPrice)
-                    .setAction(OptionJournalDto.ActionType.valueOf(model.action.name))
+                    .setAction(TLOptionJournalDto.ActionType.valueOf(model.action.name))
                     .setContracts(model.contracts)
                     .setExpiryDate(model.expiryDate.toString())
-                    .setOptionType(OptionJournalDto.OptionType.valueOf(model.optionType.name))
+                    .setOptionType(TLOptionJournalDto.OptionType.valueOf(model.optionType.name))
                     .setPremium(model.premium)
                     .setStrikePrice(model.strikePrice)
                     .build()

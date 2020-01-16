@@ -2,6 +2,7 @@ package com.example.gateway.api.rest.gateway
 
 import com.example.gateway.api.core.model.*
 import com.example.gateway.api.rest.converter.*
+import com.example.tradelog.api.spec.model.*
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
@@ -14,13 +15,6 @@ import org.springframework.web.util.UriComponentsBuilder
 import java.util.*
 import java.util.concurrent.CompletableFuture
 import java.util.stream.Collectors
-import com.example.tradelog.api.spec.model.ActiveSymbolsResponse as TLActiveSymbolsResponse
-import com.example.tradelog.api.spec.model.DividendTransactionsResponse as TLDividendTransactionsResponse
-import com.example.tradelog.api.spec.model.OptionJournalDto as TLOptionJournalDto
-import com.example.tradelog.api.spec.model.OptionTransactionsResponse as TLOptionTransactionsResponse
-import com.example.tradelog.api.spec.model.ShareJournalDto as TLShareJournalDto
-import com.example.tradelog.api.spec.model.ShareTransactionsResponse as TLShareTransactionsResponse
-import com.example.tradelog.api.spec.model.TradeSummaryResponse as TLTradeSummaryResponse
 
 @Service
 class TradeLogGateway(private val restTemplate: RestTemplate,
@@ -223,5 +217,39 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
 
         val requestDto = TransactionSettingsConverter.toDto(model)
         restTemplate.exchange(builder.build(model.transactionId).toString(), HttpMethod.PUT, HttpEntity<Any>(requestDto, headers), Any::class.java)
+    }
+
+    fun createDividendTransaction(accountId: String, model: DividendJournalModel): DividendJournalModel? {
+        val builder = UriComponentsBuilder
+                .fromHttpUrl(url)
+                .path("/dividends")
+
+        val headers = HttpHeaders()
+        headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
+        headers.set("accountId", accountId)
+
+        val requestDto = DividendJournalConverter.toTLDto(model)
+        val responseEntity = restTemplate
+                .exchange(builder.build("").toString(), HttpMethod.POST, HttpEntity<Any>(requestDto, headers), TLDividendJournalDto::class.java)
+
+        val responseDto: TLDividendJournalDto? = responseEntity.body
+
+        return if (responseDto != null) {
+            DividendJournalConverter.toModel(responseDto)
+        } else {
+            null
+        }
+    }
+
+    fun deleteDividendTransaction(accountId: String, transactionId: String) {
+        val builder = UriComponentsBuilder
+                .fromHttpUrl(url)
+                .path("/dividends/{id}")
+
+        val headers = HttpHeaders()
+        headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
+        headers.set("accountId", accountId)
+
+        restTemplate.exchange(builder.build(transactionId).toString(), HttpMethod.DELETE, HttpEntity<Any>(headers), Any::class.java)
     }
 }

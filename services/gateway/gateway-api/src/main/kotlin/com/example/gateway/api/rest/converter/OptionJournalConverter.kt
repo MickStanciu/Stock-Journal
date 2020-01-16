@@ -5,10 +5,10 @@ import com.example.gateway.api.core.model.ActionType
 import com.example.gateway.api.core.model.OptionJournalModel
 import com.example.gateway.api.core.model.OptionType
 import com.example.gateway.api.core.model.TransactionType
-import com.example.tradelog.api.spec.model.TransactionSettingsDto
+import com.example.tradelog.api.spec.model.TLOptionJournalDto
+import com.example.tradelog.api.spec.model.TLTransactionDto
+import com.example.tradelog.api.spec.model.TLTransactionSettingsDto
 import com.example.gateway.api.spec.model.OptionJournalDto as GWOptionJournalDto
-import com.example.tradelog.api.spec.model.OptionJournalDto as TLOptionJournalDto
-import com.example.tradelog.api.spec.model.TransactionDto as TLTransactionDto
 
 class OptionJournalConverter {
 
@@ -63,7 +63,7 @@ class OptionJournalConverter {
                                     .setBrokerFees(model.brokerFees)
                                     .setType(TLTransactionDto.TransactionType.valueOf(model.transactionType.name))
                                     .setSettings(
-                                            TransactionSettingsDto.newBuilder()
+                                            TLTransactionSettingsDto.newBuilder()
                                                     .setPreferredPrice(0.00)
                                                     .setGroupSelected(model.groupSelected)
                                                     .setLegClosed(model.legClosed)

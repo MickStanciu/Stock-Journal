@@ -1,14 +1,15 @@
 package com.example.tradelog.api.rest.converter
 
+import com.example.tradelog.api.core.model.TradeSummaryModel
+import com.example.tradelog.api.spec.model.TLTradeSummaryItem
+import com.example.tradelog.api.spec.model.TLTradeSummaryResponse
 import java.util.stream.Collectors
-import com.example.tradelog.api.core.model.TradeSummaryModel as TLTradeSummaryModel
-import com.example.tradelog.api.spec.model.TradeSummaryItem as TLTradeSummaryItem
-import com.example.tradelog.api.spec.model.TradeSummaryResponse as TLTradeSummaryResponse
+
 
 class TradeSummaryConverter {
 
     companion object {
-        fun toTradeSummaryResponse(models: List<TLTradeSummaryModel>): TLTradeSummaryResponse {
+        fun toTradeSummaryResponse(models: List<TradeSummaryModel>): TLTradeSummaryResponse {
 
             val items = models.stream()
                     .map { i -> toTradeSummaryItem(i) }
@@ -19,7 +20,7 @@ class TradeSummaryConverter {
                     .build()
         }
 
-        private fun toTradeSummaryItem(model: TLTradeSummaryModel): TLTradeSummaryItem {
+        private fun toTradeSummaryItem(model: TradeSummaryModel): TLTradeSummaryItem {
             return TLTradeSummaryItem.newBuilder()
                     .setSymbol(model.symbol)
                     .setTotal(model.total.toDouble())

@@ -1,8 +1,8 @@
 package com.example.tradelog.api.rest.validator
 
-import com.example.tradelog.api.spec.model.ShareJournalDto
-import com.example.tradelog.api.spec.model.TransactionDto
-import com.example.tradelog.api.spec.model.TransactionSettingsDto
+import com.example.tradelog.api.spec.model.TLShareJournalDto
+import com.example.tradelog.api.spec.model.TLTransactionDto
+import com.example.tradelog.api.spec.model.TLTransactionSettingsDto
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.time.OffsetDateTime
@@ -11,26 +11,26 @@ class ValidateShareJournalModelTest {
 
     @Test
     fun testValidateShareJournalModelWhenActionIsInvalid() {
-        val transactionSettingsDto = TransactionSettingsDto.newBuilder()
+        val transactionSettingsDto = TLTransactionSettingsDto.newBuilder()
                 .setTransactionId("1234")
                 .setPreferredPrice(0.00)
                 .setGroupSelected(false)
                 .setLegClosed(false)
                 .build()
 
-        val transactionDto = TransactionDto.newBuilder()
+        val transactionDto = TLTransactionDto.newBuilder()
                 .setId("1234")
                 .setAccountId("123")
                 .setDate(OffsetDateTime.now().toString())
                 .setAccountId("123456789012345678901234567890123456")
                 .setSymbol("XYZ")
-                .setType(TransactionDto.TransactionType.SHARE)
+                .setType(TLTransactionDto.TransactionType.SHARE)
                 .setBrokerFees(0.00)
                 .setSettings(transactionSettingsDto)
                 .build()
 
-        val shareJournalDto = ShareJournalDto.newBuilder()
-                .setAction(ShareJournalDto.ActionType.UNKNOWN_ACTION_TYPE)
+        val shareJournalDto = TLShareJournalDto.newBuilder()
+                .setAction(TLShareJournalDto.ActionType.UNKNOWN_ACTION_TYPE)
                 .setActualPrice(1.0)
                 .setPrice(1.0)
                 .setQuantity(1)
@@ -43,24 +43,24 @@ class ValidateShareJournalModelTest {
 
     @Test
     fun testValidateShareJournalModelWhenAccountIsEmpty() {
-        val transactionSettingsDto = TransactionSettingsDto.newBuilder()
+        val transactionSettingsDto = TLTransactionSettingsDto.newBuilder()
                 .setTransactionId("1234")
                 .setPreferredPrice(0.00)
                 .setGroupSelected(false)
                 .setLegClosed(false)
                 .build()
 
-        val transactionDto = TransactionDto.newBuilder()
+        val transactionDto = TLTransactionDto.newBuilder()
                 .setId("1234")
                 .setDate(OffsetDateTime.now().toString())
                 .setSymbol("XYZ")
-                .setType(TransactionDto.TransactionType.SHARE)
+                .setType(TLTransactionDto.TransactionType.SHARE)
                 .setBrokerFees(0.00)
                 .setSettings(transactionSettingsDto)
                 .build()
 
-        val shareJournalDto = ShareJournalDto.newBuilder()
-                .setAction(ShareJournalDto.ActionType.BUY)
+        val shareJournalDto = TLShareJournalDto.newBuilder()
+                .setAction(TLShareJournalDto.ActionType.BUY)
                 .setActualPrice(1.0)
                 .setPrice(1.0)
                 .setQuantity(1)
@@ -73,25 +73,25 @@ class ValidateShareJournalModelTest {
 
     @Test
     fun testValidateShareJournalModelWhenPriceIsNegative() {
-        val transactionSettingsDto = TransactionSettingsDto.newBuilder()
+        val transactionSettingsDto = TLTransactionSettingsDto.newBuilder()
                 .setTransactionId("1234")
                 .setPreferredPrice(0.00)
                 .setGroupSelected(false)
                 .setLegClosed(false)
                 .build()
 
-        val transactionDto = TransactionDto.newBuilder()
+        val transactionDto = TLTransactionDto.newBuilder()
                 .setId("1234")
                 .setDate(OffsetDateTime.now().toString())
                 .setAccountId("123456789012345678901234567890123456")
                 .setSymbol("XYZ")
-                .setType(TransactionDto.TransactionType.SHARE)
+                .setType(TLTransactionDto.TransactionType.SHARE)
                 .setBrokerFees(0.00)
                 .setSettings(transactionSettingsDto)
                 .build()
 
-        val shareJournalDto = ShareJournalDto.newBuilder()
-                .setAction(ShareJournalDto.ActionType.BUY)
+        val shareJournalDto = TLShareJournalDto.newBuilder()
+                .setAction(TLShareJournalDto.ActionType.BUY)
                 .setActualPrice(1.0)
                 .setPrice(-11.0)
                 .setQuantity(1)
@@ -104,25 +104,25 @@ class ValidateShareJournalModelTest {
 
     @Test
     fun testValidateShareJournalModelWhenQuantityIsZero() {
-        val transactionSettingsDto = TransactionSettingsDto.newBuilder()
+        val transactionSettingsDto = TLTransactionSettingsDto.newBuilder()
                 .setTransactionId("1234")
                 .setPreferredPrice(0.00)
                 .setGroupSelected(false)
                 .setLegClosed(false)
                 .build()
 
-        val transactionDto = TransactionDto.newBuilder()
+        val transactionDto = TLTransactionDto.newBuilder()
                 .setId("1234")
                 .setDate(OffsetDateTime.now().toString())
                 .setAccountId("123456789012345678901234567890123456")
                 .setSymbol("XYZ")
-                .setType(TransactionDto.TransactionType.SHARE)
+                .setType(TLTransactionDto.TransactionType.SHARE)
                 .setBrokerFees(0.00)
                 .setSettings(transactionSettingsDto)
                 .build()
 
-        val shareJournalDto = ShareJournalDto.newBuilder()
-                .setAction(ShareJournalDto.ActionType.BUY)
+        val shareJournalDto = TLShareJournalDto.newBuilder()
+                .setAction(TLShareJournalDto.ActionType.BUY)
                 .setActualPrice(1.0)
                 .setPrice(1.0)
                 .setQuantity(-1)
@@ -135,25 +135,25 @@ class ValidateShareJournalModelTest {
 
     @Test
     fun testValidateShareJournalModelWhenSymbolIsEmpty() {
-        val transactionSettingsDto = TransactionSettingsDto.newBuilder()
+        val transactionSettingsDto = TLTransactionSettingsDto.newBuilder()
                 .setTransactionId("1234")
                 .setPreferredPrice(0.00)
                 .setGroupSelected(false)
                 .setLegClosed(false)
                 .build()
 
-        val transactionDto = TransactionDto.newBuilder()
+        val transactionDto = TLTransactionDto.newBuilder()
                 .setId("1234")
                 .setDate(OffsetDateTime.now().toString())
                 .setAccountId("123456789012345678901234567890123456")
                 .setSymbol("")
-                .setType(TransactionDto.TransactionType.SHARE)
+                .setType(TLTransactionDto.TransactionType.SHARE)
                 .setBrokerFees(0.00)
                 .setSettings(transactionSettingsDto)
                 .build()
 
-        val shareJournalDto = ShareJournalDto.newBuilder()
-                .setAction(ShareJournalDto.ActionType.BUY)
+        val shareJournalDto = TLShareJournalDto.newBuilder()
+                .setAction(TLShareJournalDto.ActionType.BUY)
                 .setActualPrice(1.0)
                 .setPrice(1.0)
                 .setQuantity(1)
@@ -166,25 +166,25 @@ class ValidateShareJournalModelTest {
 
     @Test
     fun testValidateShareJournalModelWhenSymbolIsSpace() {
-        val transactionSettingsDto = TransactionSettingsDto.newBuilder()
+        val transactionSettingsDto = TLTransactionSettingsDto.newBuilder()
                 .setTransactionId("1234")
                 .setPreferredPrice(0.00)
                 .setGroupSelected(false)
                 .setLegClosed(false)
                 .build()
 
-        val transactionDto = TransactionDto.newBuilder()
+        val transactionDto = TLTransactionDto.newBuilder()
                 .setId("1234")
                 .setDate(OffsetDateTime.now().toString())
                 .setAccountId("123456789012345678901234567890123456")
                 .setSymbol(" ")
-                .setType(TransactionDto.TransactionType.SHARE)
+                .setType(TLTransactionDto.TransactionType.SHARE)
                 .setBrokerFees(0.00)
                 .setSettings(transactionSettingsDto)
                 .build()
 
-        val shareJournalDto = ShareJournalDto.newBuilder()
-                .setAction(ShareJournalDto.ActionType.BUY)
+        val shareJournalDto = TLShareJournalDto.newBuilder()
+                .setAction(TLShareJournalDto.ActionType.BUY)
                 .setActualPrice(1.0)
                 .setPrice(1.0)
                 .setQuantity(1)
@@ -197,25 +197,25 @@ class ValidateShareJournalModelTest {
 
     @Test
     fun testValidateShareJournalModelWhenTransactionTypeIsNotStock() {
-        val transactionSettingsDto = TransactionSettingsDto.newBuilder()
+        val transactionSettingsDto = TLTransactionSettingsDto.newBuilder()
                 .setTransactionId("1234")
                 .setPreferredPrice(0.00)
                 .setGroupSelected(false)
                 .setLegClosed(false)
                 .build()
 
-        val transactionDto = TransactionDto.newBuilder()
+        val transactionDto = TLTransactionDto.newBuilder()
                 .setId("1234")
                 .setDate(OffsetDateTime.now().toString())
                 .setAccountId("123456789012345678901234567890123456")
                 .setSymbol("XYZ")
-                .setType(TransactionDto.TransactionType.OPTION)
+                .setType(TLTransactionDto.TransactionType.OPTION)
                 .setBrokerFees(0.00)
                 .setSettings(transactionSettingsDto)
                 .build()
 
-        val shareJournalDto = ShareJournalDto.newBuilder()
-                .setAction(ShareJournalDto.ActionType.BUY)
+        val shareJournalDto = TLShareJournalDto.newBuilder()
+                .setAction(TLShareJournalDto.ActionType.BUY)
                 .setActualPrice(1.0)
                 .setPrice(1.0)
                 .setQuantity(1)
@@ -228,25 +228,25 @@ class ValidateShareJournalModelTest {
 
     @Test
     fun testValidateShareJournalModelTruthy() {
-        val transactionSettingsDto = TransactionSettingsDto.newBuilder()
+        val transactionSettingsDto = TLTransactionSettingsDto.newBuilder()
                 .setTransactionId("1234")
                 .setPreferredPrice(0.00)
                 .setGroupSelected(false)
                 .setLegClosed(false)
                 .build()
 
-        val transactionDto = TransactionDto.newBuilder()
+        val transactionDto = TLTransactionDto.newBuilder()
                 .setId("1234")
                 .setAccountId("123456789012345678901234567890123456")
                 .setDate(OffsetDateTime.now().toString())
                 .setSymbol("XYZ")
-                .setType(TransactionDto.TransactionType.SHARE)
+                .setType(TLTransactionDto.TransactionType.SHARE)
                 .setBrokerFees(0.00)
                 .setSettings(transactionSettingsDto)
                 .build()
 
-        val shareJournalDto = ShareJournalDto.newBuilder()
-                .setAction(ShareJournalDto.ActionType.BUY)
+        val shareJournalDto = TLShareJournalDto.newBuilder()
+                .setAction(TLShareJournalDto.ActionType.BUY)
                 .setActualPrice(1.0)
                 .setPrice(1.0)
                 .setQuantity(1)

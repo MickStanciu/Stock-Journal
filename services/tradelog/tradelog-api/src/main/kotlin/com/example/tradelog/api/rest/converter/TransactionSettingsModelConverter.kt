@@ -1,14 +1,14 @@
 package com.example.tradelog.api.rest.converter
 
 import com.example.tradelog.api.core.model.TransactionSettingsModel
-import com.example.tradelog.api.spec.model.TransactionSettingsDto
+import com.example.tradelog.api.spec.model.TLTransactionSettingsDto
 
 
 class TransactionSettingsModelConverter {
 
     companion object {
 
-        fun toModel(dto: TransactionSettingsDto): TransactionSettingsModel {
+        fun toModel(dto: TLTransactionSettingsDto): TransactionSettingsModel {
             return TransactionSettingsModel(
                     transactionId = dto.transactionId,
                     preferredPrice = dto.preferredPrice,
@@ -17,8 +17,8 @@ class TransactionSettingsModelConverter {
                     )
         }
 
-        fun toDto(model: TransactionSettingsModel): TransactionSettingsDto {
-            return TransactionSettingsDto.newBuilder()
+        fun toDto(model: TransactionSettingsModel): TLTransactionSettingsDto {
+            return TLTransactionSettingsDto.newBuilder()
                     .setTransactionId(model.transactionId)
                     .setPreferredPrice(model.preferredPrice)
                     .setGroupSelected(model.groupSelected)

@@ -3,13 +3,13 @@ package com.example.tradelog.api.rest.converter
 import com.example.common.converter.TimeConverter
 import com.example.tradelog.api.core.model.TransactionModel
 import com.example.tradelog.api.core.model.TransactionType
-import com.example.tradelog.api.spec.model.TransactionDto
+import com.example.tradelog.api.spec.model.TLTransactionDto
 
 class TransactionModelConverter {
 
     companion object {
 
-        fun toModel(dto: TransactionDto): TransactionModel {
+        fun toModel(dto: TLTransactionDto): TransactionModel {
             return TransactionModel(
                     id = dto.id,
                     accountId = dto.accountId,
@@ -21,13 +21,13 @@ class TransactionModelConverter {
             )
         }
 
-        fun toDto(model: TransactionModel): TransactionDto {
-            return TransactionDto.newBuilder()
+        fun toDto(model: TransactionModel): TLTransactionDto {
+            return TLTransactionDto.newBuilder()
                     .setId(model.id)
                     .setAccountId(model.accountId)
                     .setDate(model.date.toString())
                     .setSymbol(model.symbol)
-                    .setType(TransactionDto.TransactionType.valueOf(model.type.name))
+                    .setType(TLTransactionDto.TransactionType.valueOf(model.type.name))
                     .setBrokerFees(model.brokerFees)
                     .setSettings(TransactionSettingsModelConverter.toDto(model.settings))
                     .build()

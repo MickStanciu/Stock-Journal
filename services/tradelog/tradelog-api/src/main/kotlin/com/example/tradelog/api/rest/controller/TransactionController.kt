@@ -7,9 +7,9 @@ import com.example.tradelog.api.rest.converter.TransactionSettingsModelConverter
 import com.example.tradelog.api.rest.exception.ExceptionCode
 import com.example.tradelog.api.rest.exception.TradeLogException
 import com.example.tradelog.api.rest.validator.RequestValidator
-import com.example.tradelog.api.spec.model.ActiveSymbolsResponse
-import com.example.tradelog.api.spec.model.TradeSummaryResponse
-import com.example.tradelog.api.spec.model.TransactionSettingsDto
+import com.example.tradelog.api.spec.model.TLActiveSymbolsResponse
+import com.example.tradelog.api.spec.model.TLTradeSummaryResponse
+import com.example.tradelog.api.spec.model.TLTransactionSettingsDto
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -26,7 +26,7 @@ class TransactionController(private val journalFacade: JournalFacade) {
 
     @RequestMapping(value = ["/symbols"], method = [RequestMethod.GET])
     @ResponseStatus(HttpStatus.OK)
-    fun getAllTradedSymbols(@RequestHeader("accountId") accountId: String): ActiveSymbolsResponse {
+    fun getAllTradedSymbols(@RequestHeader("accountId") accountId: String): TLActiveSymbolsResponse {
 
         if (!RequestValidator.validateGetAllTradedSymbols(accountId)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST);
@@ -34,7 +34,7 @@ class TransactionController(private val journalFacade: JournalFacade) {
 
         val symbols = journalFacade.getAllTradedSymbols(accountId)
 
-        return ActiveSymbolsResponse.newBuilder()
+        return TLActiveSymbolsResponse.newBuilder()
                 .addAllSymbols(symbols)
                 .build()
     }
@@ -42,7 +42,7 @@ class TransactionController(private val journalFacade: JournalFacade) {
 
     @RequestMapping(value = ["/summary"], method = [RequestMethod.GET])
     @ResponseStatus(HttpStatus.OK)
-    fun getSummary(@RequestHeader("accountId") accountId: String): TradeSummaryResponse {
+    fun getSummary(@RequestHeader("accountId") accountId: String): TLTradeSummaryResponse {
 
         if (!RequestValidator.validateGetSummary(accountId)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST);
@@ -57,7 +57,7 @@ class TransactionController(private val journalFacade: JournalFacade) {
     @ResponseStatus(HttpStatus.OK)
     fun updateSettings(@RequestHeader("accountId") accountId: String,
                        @PathVariable("transactionId") transactionId: String,
-                       @RequestBody dto: TransactionSettingsDto) {
+                       @RequestBody dto: TLTransactionSettingsDto) {
 
         if (!RequestValidator.validateUpdateSettings(accountId, transactionId, dto)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST);

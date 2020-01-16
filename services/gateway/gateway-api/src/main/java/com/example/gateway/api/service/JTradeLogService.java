@@ -32,13 +32,4 @@
 //        tradeLogGateway.updateShareTrade(accountId, transactionId, ShareJournalConverter.toShareModel.apply(model));
 //    }
 //
-//    public void deleteDividendRecord(String accountId, String transactionId) {
-//        tradeLogGateway.deleteDividendTrade(accountId, transactionId);
-//    }
-//
-//    public void updateGroupSettings(String accountId, List<TransactionSettingsGWModel> modelList) {
-//        List<TransactionSettingsModel> models = modelList.stream().map(TransactionSettingConverter.toTransactionSettingsGWModel).collect(Collectors.toList());
-//        tradeLogGateway.updateTransactionSettingsBulk(accountId, models);
-//    }
-//
 //}

@@ -5,8 +5,8 @@ import com.example.tradelog.api.rest.converter.DividendJournalModelConverter
 import com.example.tradelog.api.rest.exception.ExceptionCode
 import com.example.tradelog.api.rest.exception.TradeLogException
 import com.example.tradelog.api.rest.validator.RequestValidator
-import com.example.tradelog.api.spec.model.DividendJournalDto
-import com.example.tradelog.api.spec.model.DividendTransactionsResponse
+import com.example.tradelog.api.spec.model.TLDividendJournalDto
+import com.example.tradelog.api.spec.model.TLDividendTransactionsResponse
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -27,7 +27,7 @@ class DividendJournalController(private val journalFacade: JournalFacade) {
     @ResponseStatus(HttpStatus.OK)
     fun getAllBySymbol(
             @RequestHeader("accountId") accountId: String,
-            @PathVariable("symbol") symbol: String) : DividendTransactionsResponse {
+            @PathVariable("symbol") symbol: String) : TLDividendTransactionsResponse {
 
         if (!RequestValidator.validateGetAllBySymbol(accountId, symbol)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
@@ -38,7 +38,7 @@ class DividendJournalController(private val journalFacade: JournalFacade) {
                 .map { DividendJournalModelConverter.toDto(it) }
                 .collect(Collectors.toList())
 
-        return DividendTransactionsResponse.newBuilder()
+        return TLDividendTransactionsResponse.newBuilder()
                 .addAllDividendItems(dtos)
                 .build()
     }
@@ -48,7 +48,7 @@ class DividendJournalController(private val journalFacade: JournalFacade) {
     @ResponseStatus(HttpStatus.OK)
     fun createRecord(
             @RequestHeader("accountId") accountId: String,
-            @RequestBody dto: DividendJournalDto): DividendJournalDto {
+            @RequestBody dto: TLDividendJournalDto): TLDividendJournalDto {
 
         if (!RequestValidator.validateCreateDividendRecord(accountId, dto)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
@@ -70,7 +70,7 @@ class DividendJournalController(private val journalFacade: JournalFacade) {
     fun editRecord(
             @RequestHeader("accountId") accountId: String,
             @PathVariable("transactionId") transactionId: String,
-            @RequestBody dto: DividendJournalDto) {
+            @RequestBody dto: TLDividendJournalDto) {
 
         if (!RequestValidator.validateEditDividendRecord(accountId, transactionId, dto)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)

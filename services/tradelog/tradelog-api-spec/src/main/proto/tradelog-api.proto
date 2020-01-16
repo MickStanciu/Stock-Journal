@@ -4,21 +4,21 @@ package tradelog_api;
 option java_multiple_files = true;
 option java_package = "com.example.tradelog.api.spec.model";
 
-message TransactionSettingsDto {
+message TLTransactionSettingsDto {
     string transactionId = 1;
     double preferredPrice = 2;
     bool groupSelected = 3;
     bool legClosed = 4;
 }
 
-message TransactionDto {
+message TLTransactionDto {
     string id = 1;
     string accountId = 2;
     string date = 3;
     string symbol = 4;
     double brokerFees = 5;
     TransactionType type = 6;
-    TransactionSettingsDto settings = 7;
+    TLTransactionSettingsDto settings = 7;
 
     enum TransactionType {
         UNKNOWN_TRANSACTION_TYPE = 0;
@@ -29,8 +29,8 @@ message TransactionDto {
     }
 }
 
-message OptionJournalDto {
-    TransactionDto transactionDetails = 1;
+message TLOptionJournalDto {
+    TLTransactionDto transactionDetails = 1;
     double stockPrice = 2;
     double strikePrice = 3;
     string expiryDate = 4;
@@ -52,12 +52,12 @@ message OptionJournalDto {
     }
 }
 
-message OptionTransactionsResponse {
-    repeated OptionJournalDto optionItems = 1;
+message TLOptionTransactionsResponse {
+    repeated TLOptionJournalDto optionItems = 1;
 }
 
-message ShareJournalDto {
-    TransactionDto transactionDetails = 1;
+message TLShareJournalDto {
+    TLTransactionDto transactionDetails = 1;
     double price = 2;
     double actualPrice = 3;
     int32 quantity = 4;
@@ -70,32 +70,32 @@ message ShareJournalDto {
     }
 }
 
-message ShareTransactionsResponse {
-    repeated ShareJournalDto shareItems = 1;
+message TLShareTransactionsResponse {
+    repeated TLShareJournalDto shareItems = 1;
 }
 
-message DividendJournalDto {
-    TransactionDto transactionDetails = 1;
+message TLDividendJournalDto {
+    TLTransactionDto transactionDetails = 1;
     double dividend = 2;
     int32 quantity = 3;
 }
 
-message DividendTransactionsResponse {
-    repeated DividendJournalDto dividendItems = 1;
+message TLDividendTransactionsResponse {
+    repeated TLDividendJournalDto dividendItems = 1;
 }
 
-message TradeLogDto {
-    repeated ShareJournalDto shareList = 1;
-    repeated OptionJournalDto optionList = 2;
-    repeated DividendJournalDto dividendList = 3;
+message TLTradeLogDto {
+    repeated TLShareJournalDto shareList = 1;
+    repeated TLOptionJournalDto optionList = 2;
+    repeated TLDividendJournalDto dividendList = 3;
 }
 
 // Used to get trade summary per symbol
-message TradeSummaryResponse {
-    repeated TradeSummaryItem items = 1;
+message TLTradeSummaryResponse {
+    repeated TLTradeSummaryItem items = 1;
 }
 
-message TradeSummaryItem {
+message TLTradeSummaryItem {
     string symbol = 1;
     int32 trades = 2;
     double total = 3;
@@ -103,7 +103,7 @@ message TradeSummaryItem {
 }
 
 // Used to get all symbols traded
-message ActiveSymbolsResponse {
+message TLActiveSymbolsResponse {
     repeated string symbols = 1;
 }
 

@@ -1,7 +1,7 @@
 package com.example.gateway.api.rest.converter
 
+import com.example.tradelog.api.spec.model.TLActiveSymbolsResponse
 import java.util.stream.Collectors
-import com.example.tradelog.api.spec.model.ActiveSymbolsResponse as TLActiveSymbolsResponse
 
 class ActiveSymbolsResponseConverter {
     companion object {

@@ -1,9 +1,6 @@
 package com.example.gateway.api.core.service
 
-import com.example.gateway.api.core.model.OptionJournalModel
-import com.example.gateway.api.core.model.ShareJournalModel
-import com.example.gateway.api.core.model.TradeLogModel
-import com.example.gateway.api.core.model.TradeSummaryModel
+import com.example.gateway.api.core.model.*
 import com.example.gateway.api.rest.gateway.TradeLogGateway
 import org.springframework.stereotype.Service
 import java.util.concurrent.CompletableFuture
@@ -47,5 +44,13 @@ class TradeLogService(private val tradeLogGateway: TradeLogGateway) {
 
     fun deleteOptionTransaction(accountId: String, transactionId: String) {
         tradeLogGateway.deleteOptionTransaction(accountId, transactionId)
+    }
+
+    fun createDividendTransaction(accountId: String, model: DividendJournalModel): DividendJournalModel? {
+        return tradeLogGateway.createDividendTransaction(accountId, model)
+    }
+
+    fun deleteDividendTransaction(accountId: String, transactionId: String) {
+        tradeLogGateway.deleteDividendTransaction(accountId, transactionId)
     }
 }

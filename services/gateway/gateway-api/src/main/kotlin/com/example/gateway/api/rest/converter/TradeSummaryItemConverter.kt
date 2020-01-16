@@ -1,7 +1,7 @@
 package com.example.gateway.api.rest.converter
 
 import com.example.gateway.api.core.model.TradeSummaryModel
-import com.example.tradelog.api.spec.model.TradeSummaryItem as TLTradeSummaryItem
+import com.example.tradelog.api.spec.model.TLTradeSummaryItem
 
 class TradeSummaryItemConverter {
 

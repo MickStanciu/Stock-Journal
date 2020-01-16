@@ -10,8 +10,10 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 import java.util.stream.Collectors
+import com.example.gateway.api.spec.model.CreateDividendJournalDto as GWCreateDividendJournalDto
 import com.example.gateway.api.spec.model.CreateOptionJournalDto as GWCreateOptionJournalDto
 import com.example.gateway.api.spec.model.CreateShareJournalDto as GWCreateShareJournalDto
+import com.example.gateway.api.spec.model.DividendJournalDto as GWDividendJournalDto
 import com.example.gateway.api.spec.model.OptionJournalDto as GWOptionJournalDto
 import com.example.gateway.api.spec.model.ShareJournalDto as GWShareJournalDto
 import com.example.gateway.api.spec.model.TradeLogDto as GWTradeLogDto
@@ -125,6 +127,35 @@ class TradeLogController(private val tradeLogService: TradeLogService,
         //todo: validate input
 
         tradeLogService.deleteOptionTransaction(accountId, transactionId)
+    }
+
+    @RequestMapping(value = ["/dividends", "/dividends/"], method = [RequestMethod.POST])
+    @ResponseStatus(HttpStatus.OK)
+    fun createDividendTransaction(
+            @RequestHeader("accountId") accountId: String,
+            @RequestBody dto: GWCreateDividendJournalDto): GWDividendJournalDto {
+
+        //todo: validate input
+
+        val createModel = CreateDividendJournalConverter.toModel(accountId, dto)
+        val createdModel = tradeLogService.createDividendTransaction(accountId, createModel)
+
+        if (createdModel != null) {
+            return DividendJournalConverter.toGWDto(createdModel)
+        } else {
+            throw GatewayApiException(ExceptionCode.CREATE_RESOURCE_FAILED)
+        }
+    }
+
+    @RequestMapping(value = ["/dividends/{transactionId}", "/dividends/{transactionId}/"], method = [RequestMethod.DELETE])
+    @ResponseStatus(HttpStatus.OK)
+    fun deleteDividendTransaction(
+            @RequestHeader("accountId") accountId: String,
+            @PathVariable(name = "transactionId") transactionId: String) {
+
+        //todo: validate input
+
+        tradeLogService.deleteDividendTransaction(accountId, transactionId)
     }
 
     @RequestMapping(value = ["/settings/{transactionId}", "/settings/{transactionId}/"], method = [RequestMethod.PUT])

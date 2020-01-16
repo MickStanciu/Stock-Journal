@@ -2,8 +2,10 @@ package com.example.gateway.api.rest.converter
 
 import com.example.common.converter.TimeConverter
 import com.example.gateway.api.core.model.DividendJournalModel
+import com.example.tradelog.api.spec.model.TLDividendJournalDto
+import com.example.tradelog.api.spec.model.TLTransactionDto
+import com.example.tradelog.api.spec.model.TLTransactionSettingsDto
 import com.example.gateway.api.spec.model.DividendJournalDto as GWDividendJournalDto
-import com.example.tradelog.api.spec.model.DividendJournalDto as TLDividendJournalDto
 
 class DividendJournalConverter {
 
@@ -11,6 +13,7 @@ class DividendJournalConverter {
         fun toModel(dto: TLDividendJournalDto): DividendJournalModel {
             return DividendJournalModel(
                     transactionId = dto.transactionDetails.id,
+                    accountId = dto.transactionDetails.accountId,
                     symbol = dto.transactionDetails.symbol,
                     date = TimeConverter.toOffsetDateTime.apply(dto.transactionDetails.date),
                     dividend = dto.dividend,
@@ -20,15 +23,39 @@ class DividendJournalConverter {
             )
         }
 
-        fun toDto(model: DividendJournalModel): GWDividendJournalDto {
+        fun toGWDto(model: DividendJournalModel): GWDividendJournalDto {
             return GWDividendJournalDto.newBuilder()
                     .setTransactionId(model.transactionId)
-                    .setSymbol(model.symbol)
                     .setDate(model.date.toString())
+                    .setSymbol(model.symbol)
                     .setDividend(model.dividend)
                     .setQuantity(model.quantity)
                     .setGroupSelected(model.groupSelected)
                     .setLegClosed(model.legClosed)
+                    .build()
+        }
+
+        fun toTLDto(model: DividendJournalModel): TLDividendJournalDto {
+            return TLDividendJournalDto.newBuilder()
+                    .setTransactionDetails(
+                            TLTransactionDto.newBuilder()
+                                    .setId(model.transactionId)
+                                    .setAccountId(model.accountId)
+                                    .setDate(model.date.toString())
+                                    .setSymbol(model.symbol)
+                                    .setBrokerFees(0.00)
+                                    .setType(TLTransactionDto.TransactionType.DIVIDEND)
+                                    .setSettings(
+                                            TLTransactionSettingsDto.newBuilder()
+                                                    .setPreferredPrice(0.00)
+                                                    .setGroupSelected(model.groupSelected)
+                                                    .setLegClosed(model.legClosed)
+                                                    .build()
+                                    )
+                                    .build()
+                    )
+                    .setDividend(model.dividend)
+                    .setQuantity(model.quantity)
                     .build()
         }
     }

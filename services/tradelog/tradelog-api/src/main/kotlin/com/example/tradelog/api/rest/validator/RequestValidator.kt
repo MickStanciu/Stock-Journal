@@ -14,7 +14,7 @@ class RequestValidator: FieldValidator() {
             return FieldValidator.accountId.test(accountId)
         }
 
-        fun validateUpdateSettings(accountId: String, transactionId: String, dto: TransactionSettingsDto): Boolean {
+        fun validateUpdateSettings(accountId: String, transactionId: String, dto: TLTransactionSettingsDto): Boolean {
             return FieldValidator.accountId.test(accountId)
                     && transactionId == dto.transactionId
                     && FieldValidator.transactionId.test(transactionId)
@@ -27,12 +27,12 @@ class RequestValidator: FieldValidator() {
                     && FieldValidator.symbol.test(symbol)
         }
 
-        fun validateCreateShareRecord(accountId: String, dto: ShareJournalDto): Boolean {
+        fun validateCreateShareRecord(accountId: String, dto: TLShareJournalDto): Boolean {
             return FieldValidator.accountId.test(accountId)
                     && validateShareJournalModel(dto)
         }
 
-        fun validateEditShareRecord(accountId: String, transactionId: String, dto: ShareJournalDto): Boolean {
+        fun validateEditShareRecord(accountId: String, transactionId: String, dto: TLShareJournalDto): Boolean {
             return FieldValidator.accountId.test(accountId)
                     && transactionId == dto.transactionDetails.id
                     && FieldValidator.transactionId.test(transactionId)
@@ -45,12 +45,12 @@ class RequestValidator: FieldValidator() {
                     && FieldValidator.transactionId.test(transactionId)
         }
 
-        fun validateCreateOptionRecord(accountId: String, dto: OptionJournalDto): Boolean {
+        fun validateCreateOptionRecord(accountId: String, dto: TLOptionJournalDto): Boolean {
             return FieldValidator.accountId.test(accountId)
                     && validateOptionJournalModel(dto)
         }
 
-        fun validateEditOptionRecord(accountId: String, transactionId: String, dto: OptionJournalDto): Boolean {
+        fun validateEditOptionRecord(accountId: String, transactionId: String, dto: TLOptionJournalDto): Boolean {
             return FieldValidator.accountId.test(accountId)
                     && transactionId == dto.transactionDetails.id
                     && FieldValidator.transactionId.test(transactionId)
@@ -63,12 +63,12 @@ class RequestValidator: FieldValidator() {
         }
 
 
-        fun validateCreateDividendRecord(accountId: String, dto: DividendJournalDto): Boolean {
+        fun validateCreateDividendRecord(accountId: String, dto: TLDividendJournalDto): Boolean {
             return FieldValidator.accountId.test(accountId)
                     && validateDividendJournalModel(dto)
         }
 
-        fun validateEditDividendRecord(accountId: String, transactionId: String, dto: DividendJournalDto): Boolean {
+        fun validateEditDividendRecord(accountId: String, transactionId: String, dto: TLDividendJournalDto): Boolean {
             return FieldValidator.accountId.test(accountId)
                     && transactionId == dto.transactionDetails.id
                     && validateDividendJournalModel(dto)
@@ -79,9 +79,9 @@ class RequestValidator: FieldValidator() {
                     && FieldValidator.transactionId.test(transactionId)
         }
 
-        fun validateDividendJournalModel(dto: DividendJournalDto): Boolean {
+        fun validateDividendJournalModel(dto: TLDividendJournalDto): Boolean {
             return (dto.transactionDetails != null
-                    && dto.transactionDetails.type === TransactionDto.TransactionType.DIVIDEND
+                    && dto.transactionDetails.type === TLTransactionDto.TransactionType.DIVIDEND
                     && dto.transactionDetails.date != null
                     && symbol.test(dto.transactionDetails.symbol)
                     && FieldValidator.accountId.test(dto.transactionDetails.accountId)
@@ -89,26 +89,26 @@ class RequestValidator: FieldValidator() {
                     && dto.dividend >= 0)
         }
 
-        fun validateShareJournalModel(dto: ShareJournalDto): Boolean {
+        fun validateShareJournalModel(dto: TLShareJournalDto): Boolean {
             return (dto.transactionDetails != null
-                    && dto.transactionDetails.type === TransactionDto.TransactionType.SHARE
+                    && dto.transactionDetails.type === TLTransactionDto.TransactionType.SHARE
                     && dto.transactionDetails.date != null
                     && symbol.test(dto.transactionDetails.symbol)
                     && FieldValidator.accountId.test(dto.transactionDetails.accountId)
                     && dto.action != null
-                    && dto.action !== ShareJournalDto.ActionType.UNKNOWN_ACTION_TYPE
+                    && dto.action !== TLShareJournalDto.ActionType.UNKNOWN_ACTION_TYPE
                     && dto.price >= 0.00 && dto.quantity >= 1)
         }
 
-        fun validateOptionJournalModel(dto: OptionJournalDto): Boolean {
+        fun validateOptionJournalModel(dto: TLOptionJournalDto): Boolean {
             return (dto.transactionDetails != null
-                    && dto.transactionDetails.type === TransactionDto.TransactionType.OPTION
+                    && dto.transactionDetails.type === TLTransactionDto.TransactionType.OPTION
                     && dto.transactionDetails.date != null
                     && symbol.test(dto.transactionDetails.symbol)
                     && FieldValidator.accountId.test(dto.transactionDetails.accountId)
                     && dto.action != null
-                    && dto.action !== OptionJournalDto.ActionType.UNKNOWN_ACTION_TYPE
-                    && (dto.optionType === OptionJournalDto.OptionType.CALL || dto.optionType === OptionJournalDto.OptionType.PUT)
+                    && dto.action !== TLOptionJournalDto.ActionType.UNKNOWN_ACTION_TYPE
+                    && (dto.optionType === TLOptionJournalDto.OptionType.CALL || dto.optionType === TLOptionJournalDto.OptionType.PUT)
                     && dto.contracts > 0
                     && dto.premium >= 0
                     && dto.expiryDate != null
@@ -116,7 +116,7 @@ class RequestValidator: FieldValidator() {
                     && dto.strikePrice > 0)
         }
 
-        fun validateTransactionSettingsModel(dto: TransactionSettingsDto): Boolean {
+        fun validateTransactionSettingsModel(dto: TLTransactionSettingsDto): Boolean {
             return FieldValidator.transactionId.test(dto.transactionId)
         }
 

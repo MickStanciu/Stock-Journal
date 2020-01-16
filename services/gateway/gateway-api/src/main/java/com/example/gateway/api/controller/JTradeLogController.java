@@ -28,29 +28,5 @@
 //        tradeLogService.updateShareTrade(accountId, transactionId, model);
 //    }
 //
-//    @RequestMapping(value = "/options/{id}", method = RequestMethod.DELETE)
-//    @ResponseStatus(HttpStatus.OK)
-//    public void deleteOptionTrade(
-//            @RequestHeader(name = "accountId") String accountId,
-//            @PathVariable(name = "id") String transactionId) {
-//        tradeLogService.deleteOptionTrade(accountId, transactionId);
-//    }
-//
-//
-//    @RequestMapping(value = "/dividends", method = RequestMethod.POST)
-//    @ResponseStatus(HttpStatus.OK)
-//    public DividendGWModel createDividendRecord(
-//            @RequestHeader(name = "accountId") String accountId,
-//            @RequestBody DividendGWModel model) {
-//        return tradeLogService.createDividendRecord(accountId, model);
-//    }
-//
-//
-//    @RequestMapping(value = "/dividends/{id}", method = RequestMethod.DELETE)
-//    @ResponseStatus(HttpStatus.OK)
-//    public void deleteDividendRecord(
-//            @RequestHeader(name = "accountId") String accountId,
-//            @PathVariable(name = "id") String transactionId) {
-//        tradeLogService.deleteDividendRecord(accountId, transactionId);
-//    }
+
 //}

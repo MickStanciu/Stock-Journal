@@ -1,8 +1,8 @@
 package com.example.tradelog.api.rest.validator
 
-import com.example.tradelog.api.spec.model.DividendJournalDto
-import com.example.tradelog.api.spec.model.TransactionDto
-import com.example.tradelog.api.spec.model.TransactionSettingsDto
+import com.example.tradelog.api.spec.model.TLDividendJournalDto
+import com.example.tradelog.api.spec.model.TLTransactionDto
+import com.example.tradelog.api.spec.model.TLTransactionSettingsDto
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import java.time.OffsetDateTime
@@ -11,24 +11,24 @@ class ValidateDividendJournalModelTest {
 
     @Test
     fun testValidateDividendJournalModelWhenDividendIsNegative() {
-        val transactionSettingsDto = TransactionSettingsDto.newBuilder()
+        val transactionSettingsDto = TLTransactionSettingsDto.newBuilder()
                 .setTransactionId("1234")
                 .setPreferredPrice(0.00)
                 .setGroupSelected(false)
                 .setLegClosed(false)
                 .build()
 
-        val transactionDto = TransactionDto.newBuilder()
+        val transactionDto = TLTransactionDto.newBuilder()
                 .setId("1234")
                 .setDate(OffsetDateTime.now().toString())
                 .setAccountId("123456789012345678901234567890123456")
                 .setSymbol("XYZ")
-                .setType(TransactionDto.TransactionType.DIVIDEND)
+                .setType(TLTransactionDto.TransactionType.DIVIDEND)
                 .setBrokerFees(0.00)
                 .setSettings(transactionSettingsDto)
                 .build()
 
-        val dividendJournalDto = DividendJournalDto.newBuilder()
+        val dividendJournalDto = TLDividendJournalDto.newBuilder()
                 .setTransactionDetails(transactionDto)
                 .setQuantity(10)
                 .setDividend(-1.0)
@@ -40,24 +40,24 @@ class ValidateDividendJournalModelTest {
 
     @Test
     fun testValidateDividendJournalModelWhenQuantityIsNegative() {
-        val transactionSettingsDto = TransactionSettingsDto.newBuilder()
+        val transactionSettingsDto = TLTransactionSettingsDto.newBuilder()
                 .setTransactionId("1234")
                 .setPreferredPrice(0.00)
                 .setGroupSelected(false)
                 .setLegClosed(false)
                 .build()
 
-        val transactionDto = TransactionDto.newBuilder()
+        val transactionDto = TLTransactionDto.newBuilder()
                 .setId("1234")
                 .setDate(OffsetDateTime.now().toString())
                 .setAccountId("123456789012345678901234567890123456")
                 .setSymbol("XYZ")
-                .setType(TransactionDto.TransactionType.DIVIDEND)
+                .setType(TLTransactionDto.TransactionType.DIVIDEND)
                 .setBrokerFees(0.00)
                 .setSettings(transactionSettingsDto)
                 .build()
 
-        val dividendJournalDto = DividendJournalDto.newBuilder()
+        val dividendJournalDto = TLDividendJournalDto.newBuilder()
                 .setTransactionDetails(transactionDto)
                 .setQuantity(-10)
                 .setDividend(1.0)
@@ -69,24 +69,24 @@ class ValidateDividendJournalModelTest {
 
     @Test
     fun testValidateDividendJournalModelWhenTransactionTypeIsNotDividend() {
-        val transactionSettingsDto = TransactionSettingsDto.newBuilder()
+        val transactionSettingsDto = TLTransactionSettingsDto.newBuilder()
                 .setTransactionId("1234")
                 .setPreferredPrice(0.00)
                 .setGroupSelected(false)
                 .setLegClosed(false)
                 .build()
 
-        val transactionDto = TransactionDto.newBuilder()
+        val transactionDto = TLTransactionDto.newBuilder()
                 .setId("1234")
                 .setDate(OffsetDateTime.now().toString())
                 .setAccountId("123456789012345678901234567890123456")
                 .setSymbol("XYZ")
-                .setType(TransactionDto.TransactionType.SHARE)
+                .setType(TLTransactionDto.TransactionType.SHARE)
                 .setBrokerFees(0.00)
                 .setSettings(transactionSettingsDto)
                 .build()
 
-        val dividendJournalDto = DividendJournalDto.newBuilder()
+        val dividendJournalDto = TLDividendJournalDto.newBuilder()
                 .setTransactionDetails(transactionDto)
                 .setQuantity(10)
                 .setDividend(1.0)
@@ -98,24 +98,24 @@ class ValidateDividendJournalModelTest {
 
     @Test
     fun testValidateDividendJournalModelTruthy() {
-        val transactionSettingsDto = TransactionSettingsDto.newBuilder()
+        val transactionSettingsDto = TLTransactionSettingsDto.newBuilder()
                 .setTransactionId("1234")
                 .setPreferredPrice(0.00)
                 .setGroupSelected(false)
                 .setLegClosed(false)
                 .build()
 
-        val transactionDto = TransactionDto.newBuilder()
+        val transactionDto = TLTransactionDto.newBuilder()
                 .setId("1234")
                 .setDate(OffsetDateTime.now().toString())
                 .setAccountId("123456789012345678901234567890123456")
                 .setSymbol("XYZ")
-                .setType(TransactionDto.TransactionType.DIVIDEND)
+                .setType(TLTransactionDto.TransactionType.DIVIDEND)
                 .setBrokerFees(0.00)
                 .setSettings(transactionSettingsDto)
                 .build()
 
-        val dividendJournalDto = DividendJournalDto.newBuilder()
+        val dividendJournalDto = TLDividendJournalDto.newBuilder()
                 .setTransactionDetails(transactionDto)
                 .setQuantity(10)
                 .setDividend(1.0)

@@ -5,8 +5,8 @@ import com.example.tradelog.api.rest.converter.OptionJournalModelConverter
 import com.example.tradelog.api.rest.exception.ExceptionCode
 import com.example.tradelog.api.rest.exception.TradeLogException
 import com.example.tradelog.api.rest.validator.RequestValidator
-import com.example.tradelog.api.spec.model.OptionJournalDto
-import com.example.tradelog.api.spec.model.OptionTransactionsResponse
+import com.example.tradelog.api.spec.model.TLOptionJournalDto
+import com.example.tradelog.api.spec.model.TLOptionTransactionsResponse
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -29,7 +29,7 @@ class OptionJournalController(private val journalFacade: JournalFacade) {
     @ResponseStatus(HttpStatus.OK)
     fun getAllBySymbol(
             @RequestHeader("accountId") accountId: String,
-            @PathVariable("symbol") symbol: String) : OptionTransactionsResponse {
+            @PathVariable("symbol") symbol: String) : TLOptionTransactionsResponse {
 
         if (!RequestValidator.validateGetAllBySymbol(accountId, symbol)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
@@ -40,7 +40,7 @@ class OptionJournalController(private val journalFacade: JournalFacade) {
                 .map { m -> OptionJournalModelConverter.toDto(m) }
                 .collect(Collectors.toList())
 
-        return OptionTransactionsResponse.newBuilder()
+        return TLOptionTransactionsResponse.newBuilder()
                 .addAllOptionItems(dtos)
                 .build()
     }
@@ -50,7 +50,7 @@ class OptionJournalController(private val journalFacade: JournalFacade) {
     @ResponseStatus(HttpStatus.OK)
     fun createRecord(
             @RequestHeader("accountId") accountId: String,
-            @RequestBody dto: OptionJournalDto): OptionJournalDto {
+            @RequestBody dto: TLOptionJournalDto): TLOptionJournalDto {
 
         if (!RequestValidator.validateCreateOptionRecord(accountId, dto)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
@@ -72,7 +72,7 @@ class OptionJournalController(private val journalFacade: JournalFacade) {
     fun editRecord(
             @RequestHeader("accountId") accountId: String,
             @PathVariable("transactionId") transactionId: String,
-            @RequestBody dto: OptionJournalDto) {
+            @RequestBody dto: TLOptionJournalDto) {
 
         if (!RequestValidator.validateEditOptionRecord(accountId, transactionId, dto)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)

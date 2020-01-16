@@ -5,8 +5,8 @@ import com.example.tradelog.api.rest.converter.ShareJournalModelConverter
 import com.example.tradelog.api.rest.exception.ExceptionCode
 import com.example.tradelog.api.rest.exception.TradeLogException
 import com.example.tradelog.api.rest.validator.RequestValidator
-import com.example.tradelog.api.spec.model.ShareJournalDto
-import com.example.tradelog.api.spec.model.ShareTransactionsResponse
+import com.example.tradelog.api.spec.model.TLShareJournalDto
+import com.example.tradelog.api.spec.model.TLShareTransactionsResponse
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -29,7 +29,7 @@ class ShareJournalController(private val journalFacade: JournalFacade) {
     @ResponseStatus(HttpStatus.OK)
     fun getAllBySymbol(
             @RequestHeader("accountId") accountId: String,
-            @PathVariable("symbol") symbol: String) : ShareTransactionsResponse {
+            @PathVariable("symbol") symbol: String) : TLShareTransactionsResponse {
 
         if (!RequestValidator.validateGetAllBySymbol(accountId, symbol)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
@@ -40,7 +40,7 @@ class ShareJournalController(private val journalFacade: JournalFacade) {
                 .map { ShareJournalModelConverter.toDto(it) }
                 .collect(Collectors.toList())
 
-        return ShareTransactionsResponse.newBuilder()
+        return TLShareTransactionsResponse.newBuilder()
                 .addAllShareItems(dtos)
                 .build()
     }
@@ -50,7 +50,7 @@ class ShareJournalController(private val journalFacade: JournalFacade) {
     @ResponseStatus(HttpStatus.OK)
     fun createRecord(
             @RequestHeader("accountId") accountId: String,
-            @RequestBody dto: ShareJournalDto): ShareJournalDto {
+            @RequestBody dto: TLShareJournalDto): TLShareJournalDto {
 
         if (!RequestValidator.validateCreateShareRecord(accountId, dto)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
@@ -72,7 +72,7 @@ class ShareJournalController(private val journalFacade: JournalFacade) {
     fun editRecord(
             @RequestHeader("accountId") accountId: String,
             @PathVariable("transactionId") transactionId: String,
-            @RequestBody dto: ShareJournalDto) {
+            @RequestBody dto: TLShareJournalDto) {
 
         if (!RequestValidator.validateEditShareRecord(accountId, transactionId, dto)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
