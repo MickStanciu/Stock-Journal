@@ -27,6 +27,7 @@ class ShareJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalRe
                      LEFT JOIN shares_data sd ON sd.symbol = tl.symbol
             WHERE tl.account_fk = CAST(? AS uuid)
                   AND tl.transaction_type_fk = 'SHARE'
+                  AND tsl.leg_closed = true
             ORDER BY symbol;
         """
 

@@ -26,15 +26,10 @@ class JournalFacade(private val transactionService: TransactionService,
 
         val summaryModelMap: HashMap<String, TradeSummaryModel> = HashMap()
 
-        shareSummaries
-                .forEach {
-                    if (it.value.legClosed) {
-                        summaryModelMap[it.key] = it.value
-                    }
-                }
+        shareSummaries.forEach { summaryModelMap[it.key] = it.value }
 
         optionSummaries.forEach {
-            if (summaryModelMap.containsKey(it.key) && it.value.legClosed) {
+            if (summaryModelMap.containsKey(it.key)) {
                 val storedModel: TradeSummaryModel = summaryModelMap[it.key]!!
 
                 summaryModelMap[it.key] = TradeSummaryModel(symbol = it.key,
@@ -49,7 +44,7 @@ class JournalFacade(private val transactionService: TransactionService,
         }
 
         dividendSummaries.forEach {
-            if (summaryModelMap.containsKey(it.key) && it.value.legClosed) {
+            if (summaryModelMap.containsKey(it.key)) {
                 val storedModel: TradeSummaryModel = summaryModelMap[it.key]!!
 
                 summaryModelMap[it.key] = TradeSummaryModel(symbol = it.key,
