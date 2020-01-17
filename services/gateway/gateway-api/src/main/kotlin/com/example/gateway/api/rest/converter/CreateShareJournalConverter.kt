@@ -4,7 +4,7 @@ import com.example.common.converter.TimeConverter
 import com.example.gateway.api.core.model.ActionType
 import com.example.gateway.api.core.model.ShareJournalModel
 import com.example.gateway.api.core.model.TransactionType
-import com.example.gateway.api.spec.model.CreateShareJournalDto as GWCreateShareJournalDto
+import com.example.gateway.api.spec.model.GWCreateShareJournalDto
 
 class CreateShareJournalConverter {
 

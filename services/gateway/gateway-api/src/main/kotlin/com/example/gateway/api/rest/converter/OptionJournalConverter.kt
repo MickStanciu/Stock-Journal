@@ -5,10 +5,10 @@ import com.example.gateway.api.core.model.ActionType
 import com.example.gateway.api.core.model.OptionJournalModel
 import com.example.gateway.api.core.model.OptionType
 import com.example.gateway.api.core.model.TransactionType
+import com.example.gateway.api.spec.model.GWOptionJournalDto
 import com.example.tradelog.api.spec.model.TLOptionJournalDto
 import com.example.tradelog.api.spec.model.TLTransactionDto
 import com.example.tradelog.api.spec.model.TLTransactionSettingsDto
-import com.example.gateway.api.spec.model.OptionJournalDto as GWOptionJournalDto
 
 class OptionJournalConverter {
 
@@ -29,6 +29,26 @@ class OptionJournalConverter {
                     legClosed = dto.transactionDetails.settings.legClosed,
                     optionType = OptionType.lookup(dto.optionType.name),
                     transactionType = TransactionType.valueOf(dto.transactionDetails.type.name),
+                    action = ActionType.lookup(dto.action.name)
+            )
+        }
+
+        fun toModel(dto: GWOptionJournalDto): OptionJournalModel {
+            return OptionJournalModel(
+                    transactionId = dto.transactionId,
+                    accountId = dto.accountId,
+                    stockSymbol = dto.stockSymbol,
+                    stockPrice = dto.stockPrice,
+                    strikePrice = dto.strikePrice,
+                    contracts = dto.contracts,
+                    premium = dto.premium,
+                    expiryDate = TimeConverter.toOffsetDateTime.apply(dto.expiryDate),
+                    date = TimeConverter.toOffsetDateTime.apply(dto.date),
+                    brokerFees = dto.brokerFees,
+                    groupSelected = dto.groupSelected,
+                    legClosed = dto.legClosed,
+                    optionType = OptionType.lookup(dto.optionType.name),
+                    transactionType = TransactionType.valueOf(dto.type.name),
                     action = ActionType.lookup(dto.action.name)
             )
         }

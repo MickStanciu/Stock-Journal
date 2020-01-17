@@ -1,7 +1,7 @@
 package com.example.gateway.api.rest.converter
 
 import com.example.gateway.api.core.model.TransactionSettingsModel
-import com.example.gateway.api.spec.model.TransactionSettingsDto as GWTransactionSettingsDto
+import com.example.gateway.api.spec.model.GWTransactionSettingsDto
 
 class TransactionSettingsConverter {
 

@@ -6,19 +6,11 @@ import com.example.gateway.api.exception.ExceptionCode
 import com.example.gateway.api.exception.GatewayApiException
 import com.example.gateway.api.rest.controller.TradeLogController.Companion.PROTOBUF_MEDIA_TYPE_VALUE
 import com.example.gateway.api.rest.converter.*
+import com.example.gateway.api.spec.model.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 import java.util.stream.Collectors
-import com.example.gateway.api.spec.model.CreateDividendJournalDto as GWCreateDividendJournalDto
-import com.example.gateway.api.spec.model.CreateOptionJournalDto as GWCreateOptionJournalDto
-import com.example.gateway.api.spec.model.CreateShareJournalDto as GWCreateShareJournalDto
-import com.example.gateway.api.spec.model.DividendJournalDto as GWDividendJournalDto
-import com.example.gateway.api.spec.model.OptionJournalDto as GWOptionJournalDto
-import com.example.gateway.api.spec.model.ShareJournalDto as GWShareJournalDto
-import com.example.gateway.api.spec.model.TradeLogDto as GWTradeLogDto
-import com.example.gateway.api.spec.model.TradeSummaryResponse as GWTradeSummaryResponse
-import com.example.gateway.api.spec.model.TransactionSettingsDto as GWTransactionSettingsDto
 
 @RestController
 @RequestMapping(value = ["/api/v1/tradelog"], produces = [PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE])
@@ -128,6 +120,18 @@ class TradeLogController(private val tradeLogService: TradeLogService,
         } else {
             throw GatewayApiException(ExceptionCode.CREATE_RESOURCE_FAILED)
         }
+    }
+
+    @RequestMapping(value = ["/options/{transactionId}", "/options/{transactionId}/"], method = [RequestMethod.PUT])
+    @ResponseStatus(HttpStatus.OK)
+    fun editOptionTransaction(
+            @RequestHeader("accountId") accountId: String,
+            @PathVariable(name = "transactionId") transactionId: String,
+            @RequestBody dto: GWOptionJournalDto) {
+
+        //todo: validate input
+        val updateModel = OptionJournalConverter.toModel(dto)
+        tradeLogService.editOptionTransaction(accountId, updateModel)
     }
 
     @RequestMapping(value = ["/options/{transactionId}", "/options/{transactionId}/"], method = [RequestMethod.DELETE])

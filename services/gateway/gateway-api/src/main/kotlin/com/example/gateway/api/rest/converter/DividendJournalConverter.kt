@@ -2,10 +2,10 @@ package com.example.gateway.api.rest.converter
 
 import com.example.common.converter.TimeConverter
 import com.example.gateway.api.core.model.DividendJournalModel
+import com.example.gateway.api.spec.model.GWDividendJournalDto
 import com.example.tradelog.api.spec.model.TLDividendJournalDto
 import com.example.tradelog.api.spec.model.TLTransactionDto
 import com.example.tradelog.api.spec.model.TLTransactionSettingsDto
-import com.example.gateway.api.spec.model.DividendJournalDto as GWDividendJournalDto
 
 class DividendJournalConverter {
 

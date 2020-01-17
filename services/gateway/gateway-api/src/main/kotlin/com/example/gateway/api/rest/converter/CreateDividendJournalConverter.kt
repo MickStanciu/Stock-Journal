@@ -2,7 +2,7 @@ package com.example.gateway.api.rest.converter
 
 import com.example.common.converter.TimeConverter
 import com.example.gateway.api.core.model.DividendJournalModel
-import com.example.gateway.api.spec.model.CreateDividendJournalDto as GWCreateDividendJournalDto
+import com.example.gateway.api.spec.model.GWCreateDividendJournalDto
 
 class CreateDividendJournalConverter {
 

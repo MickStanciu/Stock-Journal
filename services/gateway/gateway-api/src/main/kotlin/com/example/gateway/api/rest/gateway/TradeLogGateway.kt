@@ -173,7 +173,6 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         val requestDto = ShareJournalConverter.toTLDto(model)
         restTemplate
                 .exchange(builder.build(model.transactionId).toString(), HttpMethod.PUT, HttpEntity<Any>(requestDto, headers), Any::class.java)
-
     }
 
     fun deleteShareTransaction(accountId: String, transactionId: String) {
@@ -208,6 +207,20 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         } else {
             null
         }
+    }
+
+    fun editOptionTransaction(accountId: String, model: OptionJournalModel) {
+        val builder = UriComponentsBuilder
+                .fromHttpUrl(url)
+                .path("/options/{id}")
+        val headers = HttpHeaders()
+
+        headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
+        headers.set("accountId", accountId)
+
+        val requestDto = OptionJournalConverter.toTLDto(model)
+        restTemplate
+                .exchange(builder.build(model.transactionId).toString(), HttpMethod.PUT, HttpEntity<Any>(requestDto, headers), Any::class.java)
     }
 
     fun deleteOptionTransaction(accountId: String, transactionId: String) {
@@ -268,5 +281,7 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
 
         restTemplate.exchange(builder.build(transactionId).toString(), HttpMethod.DELETE, HttpEntity<Any>(headers), Any::class.java)
     }
+
+
 
 }

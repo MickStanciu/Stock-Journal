@@ -1,13 +1,13 @@
 package com.example.gateway.api.rest.converter
 
 import com.example.gateway.api.core.model.TradeLogModel
-import com.example.gateway.api.spec.model.TradeLogDto
+import com.example.gateway.api.spec.model.GWTradeLogDto
 import java.util.stream.Collectors
 
 class TradeLogConverter {
 
     companion object {
-        fun toDto(model: TradeLogModel): TradeLogDto {
+        fun toDto(model: TradeLogModel): GWTradeLogDto {
 
             val shareList = model.shareList.stream()
                     .map { ShareJournalConverter.toGWDto(it) }
@@ -21,7 +21,7 @@ class TradeLogConverter {
                     .map { DividendJournalConverter.toGWDto(it) }
                     .collect(Collectors.toList())
 
-            return TradeLogDto.newBuilder()
+            return GWTradeLogDto.newBuilder()
                     .addAllShareList(shareList)
                     .addAllOptionList(optionList)
                     .addAllDividendList(dividendList)

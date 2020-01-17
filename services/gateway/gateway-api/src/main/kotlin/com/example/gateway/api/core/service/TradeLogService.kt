@@ -46,6 +46,10 @@ class TradeLogService(private val tradeLogGateway: TradeLogGateway) {
         return tradeLogGateway.createOptionTransaction(accountId, model)
     }
 
+    fun editOptionTransaction(accountId: String, updateModel: OptionJournalModel) {
+        tradeLogGateway.editOptionTransaction(accountId, updateModel)
+    }
+
     fun deleteOptionTransaction(accountId: String, transactionId: String) {
         tradeLogGateway.deleteOptionTransaction(accountId, transactionId)
     }
@@ -57,5 +61,4 @@ class TradeLogService(private val tradeLogGateway: TradeLogGateway) {
     fun deleteDividendTransaction(accountId: String, transactionId: String) {
         tradeLogGateway.deleteDividendTransaction(accountId, transactionId)
     }
-
 }

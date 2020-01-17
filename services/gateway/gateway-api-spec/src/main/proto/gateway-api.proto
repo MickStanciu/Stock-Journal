@@ -4,7 +4,7 @@ package gateway_api;
 option java_multiple_files = true;
 option java_package = "com.example.gateway.api.spec.model";
 
-message StatisticsDto {
+message GWStatisticsDto {
     int32 total_calls = 1;
     int32 selected_calls = 2;
     int32 total_puts = 3;
@@ -15,7 +15,7 @@ message StatisticsDto {
     double selected_realised_premium = 8;
 }
 
-message CreateShareJournalDto {
+message GWCreateShareJournalDto {
     string symbol = 1;
     string date = 2;
     double price = 3;
@@ -30,7 +30,7 @@ message CreateShareJournalDto {
     }
 }
 
-message ShareJournalDto {
+message GWShareJournalDto {
     string transaction_id = 1;
     string account_id = 2;
     string date = 3;
@@ -58,7 +58,7 @@ message ShareJournalDto {
     }
 }
 
-message CreateOptionJournalDto {
+message GWCreateOptionJournalDto {
     string stock_symbol = 1;
     string date = 2;
     double stock_price = 3;
@@ -83,7 +83,7 @@ message CreateOptionJournalDto {
     }
 }
 
-message OptionJournalDto {
+message GWOptionJournalDto {
     string transaction_id = 1;
     string account_id = 2;
     string date = 3;
@@ -121,14 +121,14 @@ message OptionJournalDto {
     }
 }
 
-message CreateDividendJournalDto {
+message GWCreateDividendJournalDto {
     string date = 1;
     string symbol = 2;
     int32 quantity = 3;
     double dividend = 4;
 }
 
-message DividendJournalDto {
+message GWDividendJournalDto {
     string transaction_id = 1;
     string account_id = 2;
     string date = 3;
@@ -148,31 +148,31 @@ message DividendJournalDto {
     }
 }
 
-message TradeLogDto {
-    repeated ShareJournalDto share_list = 1;
-    repeated OptionJournalDto option_list = 2;
-    repeated DividendJournalDto dividend_list = 3;
-    StatisticsDto statistics = 4;
+message GWTradeLogDto {
+    repeated GWShareJournalDto share_list = 1;
+    repeated GWOptionJournalDto option_list = 2;
+    repeated GWDividendJournalDto dividend_list = 3;
+    GWStatisticsDto statistics = 4;
 }
 
-message TradeSummaryResponse {
-    repeated TradeSummaryDto items = 1;
+message GWTradeSummaryResponse {
+    repeated GWTradeSummaryDto items = 1;
 }
 
-message TradeSummaryDto {
+message GWTradeSummaryDto {
     string symbol = 1;
     int32 trades = 2;
     double total = 3;
 }
 
-message TransactionSettingsDto {
+message GWTransactionSettingsDto {
     string transaction_id = 1;
     double preferred_price = 2;
     bool group_selected = 3;
     bool leg_closed = 4;
 }
 
-message ShareDataDto {
+message GWShareDataDto {
     string symbol = 1;
     string last_updated_on = 2;
     string sector = 3;
@@ -187,11 +187,11 @@ message ShareDataDto {
     double calculated_target = 12;
 }
 
-message AuthTokenDto {
+message GWAuthTokenDto {
     string token = 1;
 }
 
 // Used to get all symbols traded
-message ActiveSymbolsResponse {
+message GWActiveSymbolsResponse {
     repeated string symbols = 1;
 }

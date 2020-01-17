@@ -5,7 +5,7 @@ import com.example.gateway.api.core.model.ActionType
 import com.example.gateway.api.core.model.OptionJournalModel
 import com.example.gateway.api.core.model.OptionType
 import com.example.gateway.api.core.model.TransactionType
-import com.example.gateway.api.spec.model.CreateOptionJournalDto as GWCreateOptionJournalDto
+import com.example.gateway.api.spec.model.GWCreateOptionJournalDto
 
 class CreateOptionJournalConverter {
 

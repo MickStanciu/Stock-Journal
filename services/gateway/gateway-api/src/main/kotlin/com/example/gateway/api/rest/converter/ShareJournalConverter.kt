@@ -4,10 +4,10 @@ import com.example.common.converter.TimeConverter
 import com.example.gateway.api.core.model.ActionType
 import com.example.gateway.api.core.model.ShareJournalModel
 import com.example.gateway.api.core.model.TransactionType
+import com.example.gateway.api.spec.model.GWShareJournalDto
 import com.example.tradelog.api.spec.model.TLShareJournalDto
 import com.example.tradelog.api.spec.model.TLTransactionDto
 import com.example.tradelog.api.spec.model.TLTransactionSettingsDto
-import com.example.gateway.api.spec.model.ShareJournalDto as GWShareJournalDto
 
 class ShareJournalConverter {
 
