@@ -112,7 +112,7 @@
                 }
 
                 let shareDto = new UpdateShareApiModel(this.form_element.symbol);
-                shareDto.date = dateTimeUtil.convertToOffsetDateTime(this.form_element.date);
+                shareDto.date = dateTimeUtil.convertDateToOffsetDateTime(this.form_element.date);
                 shareDto.action = this.form_element.action;
                 shareDto.price = this.form_element.price;
                 shareDto.quantity = this.form_element.quantity;

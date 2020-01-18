@@ -54,7 +54,7 @@
             return {
                 form_element: {
                     symbol : this.post.symbol,
-                    date: dateTimeUtil.createFromOffsetZuluToDisplay(),
+                    date: dateTimeUtil.createTodayDateFormatted(),
                     dividend: '0.00',
                     quantity: 0
                 },
@@ -80,7 +80,7 @@
                 }
 
                 let dividendDto = new CreateDividendApiModel(this.form_element.symbol);
-                dividendDto.date = dateTimeUtil.convertToOffsetDateTime(this.form_element.date);
+                dividendDto.date = dateTimeUtil.convertDateToOffsetDateTime(this.form_element.date);
                 dividendDto.dividend = this.form_element.dividend;
                 dividendDto.quantity = this.form_element.quantity;
                 // console.debug(dividendDto.date);

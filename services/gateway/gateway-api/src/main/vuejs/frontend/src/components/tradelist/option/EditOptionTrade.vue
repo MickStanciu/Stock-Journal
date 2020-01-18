@@ -104,6 +104,7 @@
     import dateTimeUtil from '../../../utils/time'
     import validation from "../../../utils/validation";
     import OptionApiModel from "../../../models/OptionApiModel";
+    import UpdateOptionApiModel from "../../../models/UpdateOptionApiModel";
 
     export default {
         name: "EditOptionTrade",
@@ -117,12 +118,12 @@
 
                 form_element: {
                     symbol : this.stock_model.symbol,
-                    date: dateTimeUtil.createFromOffsetZuluToDisplay(this.stock_model.date),
+                    date: dateTimeUtil.convertFromOffsetZuluToDisplay(this.stock_model.date),
                     action : this.stock_model.action,
                     stock_price : this.stock_model.stockPrice,
                     strike_price: this.stock_model.strikePrice,
                     type: this.stock_model.optionType,
-                    exp_date: dateTimeUtil.convertExpiryDateForDisplay(this.post.model.expiryDate),
+                    exp_date: dateTimeUtil.convertFromOffsetZuluToExpDateDisplay(this.stock_model.expiryDate),
                     contracts: this.stock_model.contracts,
                     premium : this.stock_model.premium,
                     fees: this.stock_model.brokerFees
@@ -159,8 +160,8 @@
                     return false;
                 }
 
-                let optionDto = new OptionApiModel(this.form_element.symbol);
-                optionDto.date = dateTimeUtil.convertToOffsetDateTime(this.form_element.date);
+                let optionDto = new UpdateOptionApiModel(this.form_element.symbol);
+                optionDto.date = dateTimeUtil.convertDateToOffsetDateTime(this.form_element.date);
                 optionDto.stockPrice = this.form_element.stock_price;
                 optionDto.strikePrice = this.form_element.strike_price;
                 optionDto.expiryDate = dateTimeUtil.convertExpToOffsetDateTime(this.form_element.exp_date);

@@ -1,6 +1,5 @@
 class CreateShareApiModel {
 
-    transactionId = undefined;
     date = undefined;
     symbol = undefined;
     price = 0;

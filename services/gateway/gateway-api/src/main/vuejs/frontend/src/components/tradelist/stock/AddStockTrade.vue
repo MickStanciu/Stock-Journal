@@ -78,7 +78,7 @@
             return {
                 form_element: {
                     symbol : this.post.symbol,
-                    date: dateTimeUtil.createFromOffsetZuluToDisplay(),
+                    date: dateTimeUtil.createTodayDateFormatted(),
                     action : 'BUY',
                     price: '0.00',
                     quantity: 0,
@@ -110,13 +110,14 @@
                 }
 
                 let shareDto = new CreateShareApiModel(this.form_element.symbol);
-                shareDto.date = dateTimeUtil.convertToOffsetDateTime(this.form_element.date);
+                shareDto.date = dateTimeUtil.convertDateToOffsetDateTime(this.form_element.date);
                 shareDto.action = this.form_element.action;
                 shareDto.price = this.form_element.price;
                 shareDto.quantity = this.form_element.quantity;
                 shareDto.brokerFees = this.form_element.fees;
 
-                console.log(shareDto)
+                console.debug("saving shareDto");
+                console.debug(shareDto);
                 service.recordShareTrade(shareDto).then(data => {
                   if (data === null) {
                       this.$store.dispatch('stock/hideModal');

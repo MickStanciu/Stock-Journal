@@ -120,7 +120,7 @@ const appService = {
     editOptionTrade(dto) {
         return new Promise(resolve => {
             axios
-                .put('/option/' + dto.symbol + '/' + dto.transactionId, dto)
+                .put('/tradelog/options/' + dto.transactionId, dto)
                 .then(() => {
                         // console.debug("AXIOS FINISHED");
                         resolve(null);
