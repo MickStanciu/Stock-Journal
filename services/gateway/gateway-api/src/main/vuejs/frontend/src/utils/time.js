@@ -17,9 +17,9 @@ const dateTimeUtil = {
 
     //Returns expiry date 'MMM DD'
     createExpDateFormatted : function() {
-        console.debug("OBSOLETE createExpDateFormatted");
-        const outputFormat = 'MMM DD';
-        return moment().format(outputFormat);
+        let dt = DateTime.local();
+        console.debug("BEFORE >> " + dt.toFormat('LLL dd') + " >> " + dt.zoneName);
+        return dt.toFormat('LLL dd');
     },
 
     convertFromOffsetZuluToExpDateDisplay: function(item) {
@@ -41,15 +41,15 @@ const dateTimeUtil = {
     //Converts Java Date from 2020-01-18T02:33Z to DD-MMM-YYYY
     convertFromOffsetZuluToDisplay: function(text) {
         // console.debug(parsedVal);
-        let dt = this.createDateTimeFromString(text);
+        let dt = this.createDateTimeFromString(text).toLocal();
         // console.debug(dt.toLocal().toString());
         return dt.toFormat('dd-LLL-yyyy');
     },
 
     //converts 2018-10-17 21:00:00.000000 +11:00 => 2018-10-17T10:00:00Z into ...Nov17'18
-    convertExpiryDateForDisplay: function(item) {
-        console.debug("OBSOLETE convertExpiryDateForDisplay");
-        return moment(item).tz(this.getTimeZone()).format('MMMDD\'YY');
+    convertExpiryDateForDisplay: function(text) {
+        let dt = this.createDateTimeFromString(text).toLocal();
+        return dt.toFormat('LLL dd');
     },
 
     //Converts Local Time to java format OffsetDateTime
@@ -71,9 +71,10 @@ const dateTimeUtil = {
 
     //Converts 'MMM DD to OffsetZulu example: 2018-12-25T10:00:00Z
     convertExpToOffsetDateTime: function(text) {
-        console.debug("OBSOLETE convertExpToOffsetDateTime");
-        const dateFormat = 'MMM DD';
-        return moment(text, dateFormat).utc().format('YYYY-MM-DDTHH:mm:ssZ');
+        let now = DateTime.local();
+        let dt = DateTime.fromFormat(text, 'LLL dd').toUTC();
+        console.debug("AFTER  >> " + dt.toFormat('dd-LLL-yyyy HH:mm a Z') + " >> " + dt.zoneName);
+        return dt.toFormat('yyyy-LL-dd') + 'T' + dt.toFormat('HH:mm:ss') + 'Z';
     },
 
     /*
@@ -81,17 +82,13 @@ const dateTimeUtil = {
      */
 
     checkIfDateIsCorrect: function(text) {
-        console.debug("OBSOLETE checkIfDateIsCorrect");
-        const dateFormat = 'DD-MMM-YYYY';
-        const obj = moment(text, dateFormat, true);
-        return obj !== null && obj !== 'undefined' && obj.isValid() === true;
+        let obj = DateTime.fromFormat(text, 'dd-LLL-yyyy');
+        return obj !== null && obj.isValid === true;
     },
 
     checkIfExpDateIsCorrect: function(text) {
-        console.debug("OBSOLETE checkIfExpDateIsCorrect");
-        const dateFormat = 'MMM DD';
-        const obj = moment(text, dateFormat, true);
-        return obj !== null && obj !== 'undefined' && obj.isValid() === true;
+        let obj = DateTime.fromFormat(text, 'LLL dd');
+        return obj !== null && obj.isValid === true;
     },
 
     //sort dates. Compares 2 DateTime Objects
