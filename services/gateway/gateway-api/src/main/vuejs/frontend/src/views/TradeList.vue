@@ -497,7 +497,7 @@
                         }
 
                         localItems = localItems.sort(function (a, b) {
-                            return dateTimeUtil.sortDates(a, b);
+                            return dateTimeUtil.sortDates(a.date, b.date);
                         }).reverse();
 
                         self.items = localItems;
