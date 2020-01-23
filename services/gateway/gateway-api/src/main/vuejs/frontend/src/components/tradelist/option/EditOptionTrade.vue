@@ -103,7 +103,6 @@
     import service from '../../../service';
     import dateTimeUtil from '../../../utils/time'
     import validation from "../../../utils/validation";
-    import OptionApiModel from "../../../models/OptionApiModel";
     import UpdateOptionApiModel from "../../../models/UpdateOptionApiModel";
 
     export default {
@@ -112,12 +111,13 @@
             stock_model: Object
         },
         data: function () {
-            console.log(this.stock_model);
+            // console.debug(this.stock_model);
             return {
                 is_form_readonly: false,
 
                 form_element: {
-                    symbol : this.stock_model.symbol,
+                    symbol : this.stock_model.stockSymbol,
+                    id: this.stock_model.transactionId,
                     date: dateTimeUtil.convertFromOffsetZuluToDisplay(this.stock_model.date),
                     action : this.stock_model.action,
                     stock_price : this.stock_model.stockPrice,
@@ -171,6 +171,8 @@
                 optionDto.action = this.form_element.action;
                 optionDto.optionType = this.form_element.type;
                 optionDto.brokerFees = this.form_element.fees;
+
+                optionDto.transactionId = this.form_element.id;
 
                 service.editOptionTrade(optionDto).then(data => {
                     this.$store.dispatch('option/hideModal');
