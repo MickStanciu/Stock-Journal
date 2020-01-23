@@ -89,7 +89,7 @@ class TradeLogController(private val tradeLogService: TradeLogService,
             @RequestBody dto: GWShareJournalDto) {
 
         //todo: validate input
-        val updateModel = ShareJournalConverter.toModel(dto)
+        val updateModel = ShareJournalConverter.toModel(accountId, dto)
         tradeLogService.editShareTransaction(accountId, updateModel)
     }
 
@@ -130,7 +130,7 @@ class TradeLogController(private val tradeLogService: TradeLogService,
             @RequestBody dto: GWOptionJournalDto) {
 
         //todo: validate input
-        val updateModel = OptionJournalConverter.toModel(dto)
+        val updateModel = OptionJournalConverter.toModel(accountId, dto)
         tradeLogService.editOptionTransaction(accountId, updateModel)
     }
 

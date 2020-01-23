@@ -33,10 +33,10 @@ class OptionJournalConverter {
             )
         }
 
-        fun toModel(dto: GWOptionJournalDto): OptionJournalModel {
+        fun toModel(accountId: String, dto: GWOptionJournalDto): OptionJournalModel {
             return OptionJournalModel(
                     transactionId = dto.transactionId,
-                    accountId = dto.accountId,
+                    accountId = accountId,
                     stockSymbol = dto.stockSymbol,
                     stockPrice = dto.stockPrice,
                     strikePrice = dto.strikePrice,

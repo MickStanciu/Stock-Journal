@@ -31,10 +31,10 @@ class ShareJournalConverter {
             )
         }
 
-        fun toModel(dto: GWShareJournalDto): ShareJournalModel {
+        fun toModel(accountId: String, dto: GWShareJournalDto): ShareJournalModel {
             return ShareJournalModel(
                     transactionId = dto.transactionId,
-                    accountId = dto.accountId,
+                    accountId = accountId,
                     date = TimeConverter.toOffsetDateTime.apply(dto.date),
                     symbol = dto.symbol,
                     price = dto.price,
