@@ -7,6 +7,7 @@ enum class ExceptionCode(val message: String) {
     BAD_REQUEST("Bad request"),
     CREATE_RESOURCE_FAILED("Could not create resouce"),
     API_NOT_RESPONDING("Api not responding"),
+    SHARE_DATA_NOT_FOUND("Share data not found"),
     TENANT_NOT_FOUND("Tenant not found"),
     ACCOUNT_NOT_FOUND("Account not found"),
     TIMESHEET_EMPTY("No timesheet entries found"),

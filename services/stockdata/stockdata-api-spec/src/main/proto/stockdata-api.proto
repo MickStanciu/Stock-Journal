@@ -4,6 +4,38 @@ package stockdata_api;
 option java_multiple_files = true;
 option java_package = "com.example.stockdata.api.spec.model";
 
+// Used to get price for a symbol or a collection of symbols
+message SDPriceResponse {
+    repeated SDPriceItemResponse price = 1;
+}
+
+message SDPriceItemResponse {
+    string symbol = 1;
+    string last_updated_on = 2;
+    double last_close = 3;
+}
+
+// Used to update price for a symbol or a collection of symbols
+message SDPriceUpdateRequest {
+    repeated SDPriceItemUpdateRequest price = 1;
+}
+
+message SDPriceItemUpdateRequest {
+    string symbol = 1;
+    double last_close = 2;
+}
+
+// Used to get last "n" symbols that need to be updated
+message SDLastUpdatePriceResponse {
+    repeated string symbols = 1;
+}
+
+message SDShareDataResponse {
+    string symbol = 1;
+    string last_updated_on = 2;
+    double price = 3;
+}
+
 message ExceptionResponse {
     ExceptionCode code = 1;
     string message = 2;
@@ -15,36 +47,4 @@ message ExceptionResponse {
         BAD_REQUEST = 1;
         NO_DATA = 2;
     }
-}
-
-// Used to get price for a symbol or a collection of symbols
-message PriceResponse {
-    repeated PriceItemResponse price = 1;
-}
-
-message PriceItemResponse {
-    string symbol = 1;
-    string last_updated_on = 2;
-    double last_close = 3;
-}
-
-// Used to update price for a symbol or a collection of symbols
-message PriceUpdateRequest {
-    repeated PriceItemUpdateRequest price = 1;
-}
-
-message PriceItemUpdateRequest {
-    string symbol = 1;
-    double last_close = 2;
-}
-
-// Used to get last "n" symbols that need to be updated
-message LastUpdatePriceResponse {
-    repeated string symbols = 1;
-}
-
-message ShareDataResponse {
-    string symbol = 1;
-    string last_updated_on = 2;
-    double price = 3;
 }

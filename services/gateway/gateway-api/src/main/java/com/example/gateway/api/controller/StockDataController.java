@@ -11,23 +11,7 @@
 //@RequestMapping(value = "/api/v1/stockdata", produces = "application/json")
 //public class StockDataController {
 //
-//    private StockDataService stockDataService;
-//    private RabbitMQService rabbitMQService;
-//
-//    public StockDataController(StockDataService stockDataService, RabbitMQService rabbitMQService) {
-//        this.stockDataService = stockDataService;
-//        this.rabbitMQService = rabbitMQService;
-//    }
-//
-//    @RequestMapping(value = "/{symbol}", method = RequestMethod.GET)
-//    @ResponseStatus(HttpStatus.OK)
-//    public ShareDataGWModel getDataBySymbol(
-//            @RequestHeader(name = "accountId") String accountId,
-//            @PathVariable(name = "symbol") String symbol
-//    ) {
-//        return stockDataService.getData(accountId, symbol);
-//    }
-//
+
 //    @RequestMapping(value = "/test", method = RequestMethod.GET)
 //    @ResponseStatus(HttpStatus.OK)
 //    public void testRabbitMq() {

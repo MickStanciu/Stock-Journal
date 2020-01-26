@@ -175,16 +175,16 @@ message GWTransactionSettingsDto {
 message GWShareDataDto {
     string symbol = 1;
     string last_updated_on = 2;
-    string sector = 3;
-    double price = 4;
-    double market_capitalization = 5;
-    double pe_ratio = 6;
-    double pe_ratio_future = 7;
-    double book_value = 8;
-    double eps = 9;
-    double eps_future = 10;
-    double finviz_target = 11;
-    double calculated_target = 12;
+//    string sector = 3;
+    double last_close = 4;
+//    double market_capitalization = 5;
+//    double pe_ratio = 6;
+//    double pe_ratio_future = 7;
+//    double book_value = 8;
+//    double eps = 9;
+//    double eps_future = 10;
+//    double finviz_target = 11;
+//    double calculated_target = 12;
 }
 
 message GWAuthTokenDto {
