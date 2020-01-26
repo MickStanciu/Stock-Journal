@@ -4,6 +4,8 @@ class GatewayApiException(var code: ExceptionCode): Exception(code.message)
 
 enum class ExceptionCode(val message: String) {
     UNKNOWN("Unknown"),
+    BAD_REQUEST("Bad request"),
+    CREATE_RESOURCE_FAILED("Could not create resouce"),
     API_NOT_RESPONDING("Api not responding"),
     TENANT_NOT_FOUND("Tenant not found"),
     ACCOUNT_NOT_FOUND("Account not found"),
