@@ -1,4 +1,4 @@
-package com.example.tradelog.api.core.model
+package com.example.gateway.api.core.model
 
 class ShareAggregator(val symbol: String,
                       var averageBoughtPrice: Double = 0.00,

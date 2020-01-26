@@ -35,9 +35,9 @@ message GWShareJournalDto {
     string account_id = 2;
     string date = 3;
     string symbol = 4;
-    double price = 5;
-    double actual_price = 6;
-    double preferred_price = 7;
+    double price = 5; // the price we actually traded this share
+    double actual_price = 6; // comes from PRICE API
+    double preferred_price = 7; // comes from SETTINGS, represents a preferred price to close the trade. If not set, will default to actual_price
     int32 quantity = 8;
     double broker_fees = 9;
     bool group_selected = 10;

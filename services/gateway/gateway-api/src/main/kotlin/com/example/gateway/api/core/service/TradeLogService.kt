@@ -1,6 +1,7 @@
 package com.example.gateway.api.core.service
 
 import com.example.gateway.api.core.model.*
+import com.example.gateway.api.core.util.createSynthetic
 import com.example.gateway.api.rest.gateway.TradeLogGateway
 import org.springframework.stereotype.Service
 import java.util.concurrent.CompletableFuture
@@ -19,8 +20,12 @@ class TradeLogService(private val tradeLogGateway: TradeLogGateway) {
 
         CompletableFuture.allOf(futureShareList, futureOptionList, futureDividendList).join()
 
+        //TODO: if requires more hydration, come with different solution
+        val shareList: ArrayList<ShareJournalModel> = futureShareList.get() as ArrayList<ShareJournalModel>
+        shareList.addAll(createSynthetic(shareList))
+
         return TradeLogModel(
-                shareList = futureShareList.get(),
+                shareList = shareList,
                 optionList = futureOptionList.get(),
                 dividendList = futureDividendList.get()
         )

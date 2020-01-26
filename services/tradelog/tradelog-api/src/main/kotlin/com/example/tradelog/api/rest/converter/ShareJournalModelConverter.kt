@@ -11,7 +11,6 @@ class ShareJournalModelConverter {
             return ShareJournalModel(
                     transactionDetails = TransactionModelConverter.toModel(dto.transactionDetails),
                     price = dto.price,
-                    actualPrice = dto.actualPrice,
                     quantity = dto.quantity,
                     action = ActionType.lookup(dto.action.name)
             )
@@ -21,7 +20,6 @@ class ShareJournalModelConverter {
             return TLShareJournalDto.newBuilder()
                     .setTransactionDetails(TransactionModelConverter.toDto(model.transactionDetails))
                     .setPrice(model.price)
-                    .setActualPrice(model.actualPrice)
                     .setQuantity(model.quantity)
                     .setAction(TLShareJournalDto.ActionType.valueOf(model.action.name))
                     .build()

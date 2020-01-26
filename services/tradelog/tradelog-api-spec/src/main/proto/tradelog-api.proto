@@ -59,9 +59,8 @@ message TLOptionTransactionsResponse {
 message TLShareJournalDto {
     TLTransactionDto transactionDetails = 1;
     double price = 2;
-    double actualPrice = 3;
-    int32 quantity = 4;
-    ActionType action = 5;
+    int32 quantity = 3;
+    ActionType action = 4;
 
     enum ActionType {
         UNKNOWN_ACTION_TYPE = 0;

@@ -1,15 +1,18 @@
-package com.example.tradelog.api.core.util
+package com.example.gateway.api.core.util
 
 import com.example.common.converter.TimeConverter
-import com.example.tradelog.api.core.model.*
+import com.example.gateway.api.core.model.ActionType
+import com.example.gateway.api.core.model.ShareAggregator
+import com.example.gateway.api.core.model.ShareJournalModel
+import com.example.gateway.api.core.model.TransactionType
 import kotlin.math.abs
 
 fun createSynthetic(models: List<ShareJournalModel>): List<ShareJournalModel> {
     val stockMap = HashMap<String, ShareAggregator>()
 
     models.stream()
-            .filter {it.transactionDetails.type == TransactionType.SHARE}
-            .filter {!it.transactionDetails.settings.legClosed}
+            .filter {it.transactionType == TransactionType.SHARE}
+            .filter {!it.legClosed}
             .forEach {
                 val quantity = if (ActionType.BUY === it.action) {
                     it.quantity
@@ -17,16 +20,16 @@ fun createSynthetic(models: List<ShareJournalModel>): List<ShareJournalModel> {
                     it.quantity * -1
                 }
 
-                val aggregator = if (stockMap.containsKey(it.transactionDetails.symbol)) {
-                    stockMap[it.transactionDetails.symbol]!!
+                val aggregator = if (stockMap.containsKey(it.symbol)) {
+                    stockMap[it.symbol]!!
                 } else {
-                    ShareAggregator(symbol = it.transactionDetails.symbol,
+                    ShareAggregator(symbol = it.symbol,
                             actualPrice = it.actualPrice,
-                            preferredPrice = it.transactionDetails.settings.preferredPrice)
+                            preferredPrice = it.preferredPrice)
                 }
 
                 aggregator.addQuantityAndPrice(quantity, it.price)
-                stockMap[it.transactionDetails.symbol] = aggregator
+                stockMap[it.symbol] = aggregator
             }
 
     val synthetics = ArrayList<ShareJournalModel>()
@@ -38,22 +41,19 @@ fun createSynthetic(models: List<ShareJournalModel>): List<ShareJournalModel> {
                 syntheticActionType = ActionType.BUY
             }
 
-            val settingsModel = TransactionSettingsModel(transactionId = "",
-                    preferredPrice = aggregator.preferredPrice,
-                    groupSelected = true, legClosed = false)
-
-            val transactionModel = TransactionModel(id = "",
+            synthetics.add(ShareJournalModel(
+                    transactionId = "",
                     accountId = "",
-                    date = TimeConverter.nextYear(),
                     symbol = symbol,
-                    type = TransactionType.SYNTHETIC_SHARE,
-                    brokerFees = 0.0,
-                    settings = settingsModel)
-
-            synthetics.add(ShareJournalModel(transactionDetails = transactionModel,
+                    date = TimeConverter.nextYear(),
                     price = averageBoughPrice,
+                    preferredPrice = aggregator.preferredPrice,
                     actualPrice = aggregator.actualPrice,
                     quantity = abs(aggregator.quantity),
+                    brokerFees = 0.0,
+                    groupSelected = true,
+                    legClosed = true,
+                    transactionType = TransactionType.SYNTHETIC_SHARE,
                     action = syntheticActionType
             ))
 

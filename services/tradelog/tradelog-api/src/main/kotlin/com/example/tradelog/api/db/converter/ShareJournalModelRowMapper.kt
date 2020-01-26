@@ -9,14 +9,9 @@ class ShareJournalModelRowMapper: RowMapper<ShareJournalModel> {
 
     override fun mapRow(rs: ResultSet, rowNum: Int): ShareJournalModel {
         val transactionModel = TransactionModelRowMapper(rs).invoke()
-        val price = rs.getDouble("price")
-        var actualPrice = rs.getDouble("current_price")
-        if (actualPrice == 0.00) {
-            actualPrice = price
-        }
 
         return ShareJournalModel(transactionDetails = transactionModel,
-                price = price, actualPrice = actualPrice,
+                price = rs.getDouble("price"),
                 quantity = rs.getInt("quantity"),
                 action = ActionType.lookup(rs.getString("action_fk")))
     }

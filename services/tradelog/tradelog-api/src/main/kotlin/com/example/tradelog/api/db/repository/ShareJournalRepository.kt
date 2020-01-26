@@ -38,7 +38,6 @@ class ShareJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalRe
                                tl.symbol,
                                tl.transaction_type_fk,
                                sl.price,
-                               sd.price as current_price,
                                sl.quantity,
                                sl.action_fk,
                                tl.broker_fees,
@@ -48,7 +47,6 @@ class ShareJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalRe
                         FROM transaction_log tl
                                  INNER JOIN shares_log sl ON tl.id = sl.transaction_fk
                                  INNER JOIN transaction_settings_log tsl ON tl.id = tsl.transaction_fk
-                                 LEFT JOIN shares_data sd ON sd.symbol = tl.symbol
                         WHERE account_fk = CAST(? AS uuid)
                           and tl.transaction_type_fk = 'SHARE'
                           and tl.symbol = ?
@@ -62,7 +60,6 @@ class ShareJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalRe
                            tl.symbol,
                            tl.transaction_type_fk,
                            sl.price,
-                           sd.price as current_price,
                            sl.quantity,
                            sl.action_fk,
                            tl.broker_fees,
@@ -72,7 +69,6 @@ class ShareJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalRe
                     FROM transaction_log tl
                              INNER JOIN shares_log sl ON tl.id = sl.transaction_fk
                              INNER JOIN transaction_settings_log tsl ON tl.id = tsl.transaction_fk
-                             LEFT JOIN shares_data sd ON sd.symbol = tl.symbol
                     WHERE tl.account_fk = CAST(? as uuid) AND tl.id = CAST(? AS uuid);
         """
 

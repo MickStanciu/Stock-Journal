@@ -17,6 +17,7 @@ class CreateShareJournalConverter {
                     symbol = dto.symbol,
                     price = dto.price,
                     preferredPrice = 0.00,
+                    actualPrice = 0.00,
                     quantity = dto.quantity,
                     brokerFees = dto.brokerFees,
                     groupSelected = false,

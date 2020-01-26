@@ -31,7 +31,6 @@ class ValidateShareJournalModelTest {
 
         val shareJournalDto = TLShareJournalDto.newBuilder()
                 .setAction(TLShareJournalDto.ActionType.UNKNOWN_ACTION_TYPE)
-                .setActualPrice(1.0)
                 .setPrice(1.0)
                 .setQuantity(1)
                 .setTransactionDetails(transactionDto)
@@ -61,7 +60,6 @@ class ValidateShareJournalModelTest {
 
         val shareJournalDto = TLShareJournalDto.newBuilder()
                 .setAction(TLShareJournalDto.ActionType.BUY)
-                .setActualPrice(1.0)
                 .setPrice(1.0)
                 .setQuantity(1)
                 .setTransactionDetails(transactionDto)
@@ -92,7 +90,6 @@ class ValidateShareJournalModelTest {
 
         val shareJournalDto = TLShareJournalDto.newBuilder()
                 .setAction(TLShareJournalDto.ActionType.BUY)
-                .setActualPrice(1.0)
                 .setPrice(-11.0)
                 .setQuantity(1)
                 .setTransactionDetails(transactionDto)
@@ -123,7 +120,6 @@ class ValidateShareJournalModelTest {
 
         val shareJournalDto = TLShareJournalDto.newBuilder()
                 .setAction(TLShareJournalDto.ActionType.BUY)
-                .setActualPrice(1.0)
                 .setPrice(1.0)
                 .setQuantity(-1)
                 .setTransactionDetails(transactionDto)
@@ -154,7 +150,6 @@ class ValidateShareJournalModelTest {
 
         val shareJournalDto = TLShareJournalDto.newBuilder()
                 .setAction(TLShareJournalDto.ActionType.BUY)
-                .setActualPrice(1.0)
                 .setPrice(1.0)
                 .setQuantity(1)
                 .setTransactionDetails(transactionDto)
@@ -185,7 +180,6 @@ class ValidateShareJournalModelTest {
 
         val shareJournalDto = TLShareJournalDto.newBuilder()
                 .setAction(TLShareJournalDto.ActionType.BUY)
-                .setActualPrice(1.0)
                 .setPrice(1.0)
                 .setQuantity(1)
                 .setTransactionDetails(transactionDto)
@@ -216,7 +210,6 @@ class ValidateShareJournalModelTest {
 
         val shareJournalDto = TLShareJournalDto.newBuilder()
                 .setAction(TLShareJournalDto.ActionType.BUY)
-                .setActualPrice(1.0)
                 .setPrice(1.0)
                 .setQuantity(1)
                 .setTransactionDetails(transactionDto)
@@ -247,7 +240,6 @@ class ValidateShareJournalModelTest {
 
         val shareJournalDto = TLShareJournalDto.newBuilder()
                 .setAction(TLShareJournalDto.ActionType.BUY)
-                .setActualPrice(1.0)
                 .setPrice(1.0)
                 .setQuantity(1)
                 .setTransactionDetails(transactionDto)
