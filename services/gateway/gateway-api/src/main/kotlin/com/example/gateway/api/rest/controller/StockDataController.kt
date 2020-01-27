@@ -1,6 +1,5 @@
 package com.example.gateway.api.rest.controller
 
-import com.example.gateway.api.amqp.AmqpSender
 import com.example.gateway.api.core.service.StockDataService
 import com.example.gateway.api.rest.controller.StockDataController.Companion.PROTOBUF_MEDIA_TYPE_VALUE
 import com.example.gateway.api.rest.converter.ShareDataConverter
@@ -13,9 +12,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping(value = ["/api/v1/stockdata"], produces = [PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE])
-class StockDataController(
-        private val amqpSender: AmqpSender,
-        private val stockDataService: StockDataService) {
+class StockDataController(private val stockDataService: StockDataService) {
 
     companion object {
         const val PROTOBUF_MEDIA_TYPE_VALUE = "application/x-protobuf"

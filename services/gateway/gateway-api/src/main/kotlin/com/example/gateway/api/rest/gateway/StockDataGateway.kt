@@ -1,6 +1,6 @@
 package com.example.gateway.api.rest.gateway
 
-import com.example.gateway.api.core.model.ShareDataModel
+import com.example.gateway.api.core.model.SharePriceModel
 import com.example.gateway.api.rest.converter.ShareDataConverter
 import com.example.stockdata.api.spec.model.SDPriceItemResponse
 import org.slf4j.LoggerFactory
@@ -22,7 +22,7 @@ class StockDataGateway(
         private const val PROTOBUF_MEDIA_TYPE_VALUE = "application/x-protobuf"
     }
 
-    fun getPrice(accountId: String, symbol: String): ShareDataModel? {
+    fun getPrice(accountId: String, symbol: String): SharePriceModel? {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("/price/last-close/{symbol}")
