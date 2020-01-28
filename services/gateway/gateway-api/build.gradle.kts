@@ -16,12 +16,11 @@ repositories {
     mavenCentral()
 }
 
-object Version {
-    var junit = "5.4.2"
-    val protobuf = "3.10.0"
-    val jackson = "2.10.0"
-    val jwt = "0.9.0"
-}
+val protobufVersion: String = rootProject.extra.get("protobufVersion") as String
+val jacksonVersion: String = rootProject.extra.get("jacksonVersion") as String
+val jwtVersion: String = rootProject.extra.get("jwtVersion") as String
+val junitVersion: String = rootProject.extra.get("junitVersion") as String
+
 
 configurations {
     all {
@@ -44,15 +43,15 @@ dependencies {
     implementation ("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation ("org.springframework.boot:spring-boot-starter-actuator")
 
-    implementation ("com.google.protobuf:protobuf-java-util:${Version.protobuf}")
+    implementation ("com.google.protobuf:protobuf-java-util:$protobufVersion")
     implementation ("com.google.code.findbugs:jsr305:3.0.2")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:${Version.jackson}")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation ("com.fasterxml.jackson.core:jackson-databind:2.10.0")
-    implementation("io.jsonwebtoken:jjwt:${Version.jwt}")
+    implementation("io.jsonwebtoken:jjwt:$jwtVersion")
 
     runtimeOnly("org.springframework.boot:spring-boot-devtools")
 
-    testImplementation ("org.junit.jupiter:junit-jupiter:${Version.junit}")
+    testImplementation ("org.junit.jupiter:junit-jupiter:$junitVersion")
     testImplementation ("org.springframework.boot:spring-boot-starter-test")
 }
 

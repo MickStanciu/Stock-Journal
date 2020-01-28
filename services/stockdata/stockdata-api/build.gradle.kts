@@ -16,13 +16,12 @@ repositories {
     mavenCentral()
 }
 
-object Version {
-    var flywayDb = "5.2.4"
-    var postgreSql = "42.2.5"
-    var junit = "5.4.2"
-    val protobuf = "3.10.0"
-    val jackson = "2.10.0"
-}
+
+val protobufVersion: String = rootProject.extra.get("protobufVersion") as String
+val postgreSqlVersion: String = rootProject.extra.get("postgreSqlVersion") as String
+val flywayDbVersion: String = rootProject.extra.get("flywayDbVersion") as String
+val jacksonVersion: String = rootProject.extra.get("jacksonVersion") as String
+val junitVersion: String = rootProject.extra.get("junitVersion") as String
 
 configurations {
     all {
@@ -41,17 +40,17 @@ dependencies {
     implementation ("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation ("org.springframework.boot:spring-boot-starter-amqp")
     implementation ("org.springframework.boot:spring-boot-starter-actuator")
-    implementation ("org.postgresql:postgresql:${Version.postgreSql}")
-    implementation ("org.flywaydb:flyway-core:${Version.flywayDb}")
+    implementation ("org.postgresql:postgresql:$postgreSqlVersion")
+    implementation ("org.flywaydb:flyway-core:$flywayDbVersion")
 
-    implementation ("com.google.protobuf:protobuf-java-util:${Version.protobuf}")
+    implementation ("com.google.protobuf:protobuf-java-util:$protobufVersion")
     implementation ("com.google.code.findbugs:jsr305:3.0.2")
-    implementation ("com.fasterxml.jackson.module:jackson-module-kotlin:${Version.jackson}")
+    implementation ("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation ("com.fasterxml.jackson.core:jackson-databind:2.10.0")
 
     runtimeOnly("org.springframework.boot:spring-boot-devtools")
 
-    testImplementation ("org.junit.jupiter:junit-jupiter:${Version.junit}")
+    testImplementation ("org.junit.jupiter:junit-jupiter:$junitVersion")
     testImplementation ("org.springframework.boot:spring-boot-starter-test")
     testImplementation ("org.springframework.amqp:spring-rabbit-test")
 }

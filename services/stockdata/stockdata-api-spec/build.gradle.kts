@@ -15,7 +15,7 @@ repositories {
     mavenCentral()
 }
 
-val protobufVersion = "3.10.0"
+val protobufVersion: String = rootProject.extra.get("protobufVersion") as String
 
 dependencies {
     implementation ("com.google.protobuf:protobuf-java:$protobufVersion")
