@@ -14,6 +14,11 @@ public class TimeConverter {
         return LocalDateTime.parse(inputDate + " 00:00:00", formatter);
     }
 
+    public static OffsetDateTime fromUSDateString(String inputDate) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneOffset.UTC);
+        return OffsetDateTime.parse(inputDate + " 00:00:00", formatter);
+    }
+
     public static LocalDateTime getStartOfDay() {
         return LocalDateTime
                 .now(ZoneOffset.UTC)

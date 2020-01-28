@@ -15,18 +15,25 @@ class AlphaVantageGateway(private val restTemplate: RestTemplate,
                           @Value("\${gateway.alphavantage.url}") private val API_URL: String,
                           @Value("\${gateway.alphavantage.key}") private val API_KEY: String) {
 
-    private final val URL_TEMPLATE = "query?function=GLOBAL_QUOTE&symbol={symbol}&apikey={apikey}&datatype=csv"
+    private final val URL_TEMPLATE = "/query"
 
     fun getQuoteResponse(symbol: String): SharePriceModel? {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
                 .path(URL_TEMPLATE)
+                .queryParam("function", "GLOBAL_QUOTE")
+                .queryParam("symbol", symbol)
+                .queryParam("interval", "5min")
+                .queryParam("outputsize", "full")
+                .queryParam("apikey", API_KEY)
+                .queryParam("datatype", "csv")
+
 
         val headers = HttpHeaders()
         headers.set("Content-Type", "application/json")
 
         val responseEntity = restTemplate
-                .exchange(builder.build(symbol, API_KEY).toString(), HttpMethod.GET, HttpEntity<Any>(headers), String::class.java)
+                .exchange(builder.build("").toString(), HttpMethod.GET, HttpEntity<Any>(headers), String::class.java)
 
         val responseCSV: String? = responseEntity.body
 
