@@ -22,4 +22,8 @@ class StockDataService(
             ampqSender.updatePrice(receivedPrice)
         }
     }
+
+    fun getSymbolsForUpdate(): List<String> {
+        return stockDataGateway.getSymbolsForUpdate()
+    }
 }
