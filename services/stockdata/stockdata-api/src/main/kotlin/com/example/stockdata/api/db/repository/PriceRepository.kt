@@ -31,9 +31,14 @@ class PriceRepository(private val jdbcTemplate: JdbcTemplate) {
 
     }
 
-    fun getOldestPrices(adjustedLimit: Int): List<String> {
+    fun getNotUpdatedSymbols(adjustedLimit: Int): List<String> {
         val parameters = arrayOf(adjustedLimit)
         return jdbcTemplate.query(GET_OLDEST_PRICES, parameters, SymbolRowMapper())
+    }
+
+    fun updateSymbols(symbolsList: List<String>) {
+        println(symbolsList)
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     companion object {

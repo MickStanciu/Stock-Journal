@@ -1,20 +1,33 @@
 package com.example.gateway.api.scheduler
 
 import com.example.gateway.api.core.service.StockDataService
+import com.example.gateway.api.core.service.TransactionService
 import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 
 @Service
-class Scheduler(private val stockDataService: StockDataService) {
+class Scheduler(
+        private val stockDataService: StockDataService,
+        private val transactionService: TransactionService) {
 
     companion object {
         private val LOG = LoggerFactory.getLogger(Scheduler::class.java)
     }
 
-    @Scheduled(cron = "0 * 9 * * ?")
-    fun bla() {
-        val symbols = stockDataService.getSymbolsForUpdate();
-        LOG.info("CRON TRIGGERED")
+    @Scheduled(cron = "0 * * * * ?")
+    fun updateActiveSymbols() {
+        val symbols = transactionService.getActiveSymbols()
+        stockDataService.updateSymbols(symbols)
+    }
+
+//    @Scheduled(cron = "0 * * * * ?")
+    fun updatePrices() {
+        val symbols = stockDataService.getSymbolsForUpdate()
+        symbols.forEach {
+            if ("XYZ" != it) {
+                LOG.info("Processing update price for $it")
+                stockDataService.updatePrice(it)
+        }}
     }
 }

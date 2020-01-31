@@ -39,6 +39,20 @@ class TransactionController(private val journalFacade: JournalFacade) {
                 .build()
     }
 
+    /*
+        Return the unique symbols that have been traded during last year
+    */
+    @RequestMapping(value = ["/active-symbols"], method = [RequestMethod.GET])
+    @ResponseStatus(HttpStatus.OK)
+    fun getAllActiveSymbols(): TLActiveSymbolsResponse {
+
+        val symbols = journalFacade.getActiveSymbols()
+
+        return TLActiveSymbolsResponse.newBuilder()
+                .addAllSymbols(symbols)
+                .build()
+    }
+
 
     @RequestMapping(value = ["/summary"], method = [RequestMethod.GET])
     @ResponseStatus(HttpStatus.OK)

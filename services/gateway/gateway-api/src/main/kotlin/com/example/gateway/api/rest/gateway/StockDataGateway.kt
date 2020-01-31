@@ -3,7 +3,7 @@ package com.example.gateway.api.rest.gateway
 import com.example.gateway.api.core.model.SharePriceModel
 import com.example.gateway.api.rest.converter.LastUpdatePriceResponseConverter
 import com.example.gateway.api.rest.converter.ShareDataConverter
-import com.example.stockdata.api.spec.model.SDLastUpdatePriceResponse
+import com.example.stockdata.api.spec.model.SDActiveSymbolsResponse
 import com.example.stockdata.api.spec.model.SDPriceItemResponse
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -25,14 +25,13 @@ class StockDataGateway(
         private const val PROTOBUF_MEDIA_TYPE_VALUE = "application/x-protobuf"
     }
 
-    fun getPrice(accountId: String, symbol: String): SharePriceModel? {
+    fun getPrice(symbol: String): SharePriceModel? {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("/price/last-close/{symbol}")
 
         val headers = HttpHeaders()
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
-        headers.set("accountId", accountId)
 
         val responseEntity = restTemplate
                 .exchange(builder.build(symbol).toString(), HttpMethod.GET, HttpEntity<Any>(headers), SDPriceItemResponse::class.java)
@@ -49,21 +48,33 @@ class StockDataGateway(
     fun getSymbolsForUpdate(): List<String> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
-                .path("/price/old")
-                .queryParam("limit", 10)
+                .path("/symbols/old")
+                .queryParam("limit", 3)
 
         val headers = HttpHeaders()
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
 
         val responseEntity = restTemplate
-                .exchange(builder.build("").toString(), HttpMethod.GET, HttpEntity<Any>(headers), SDLastUpdatePriceResponse::class.java)
+                .exchange(builder.build("").toString(), HttpMethod.GET, HttpEntity<Any>(headers), SDActiveSymbolsResponse::class.java)
 
-        val responseDto: SDLastUpdatePriceResponse? = responseEntity.body
+        val responseDto: SDActiveSymbolsResponse? = responseEntity.body
 
         return if (responseDto != null) {
             return LastUpdatePriceResponseConverter.toModel(responseDto)
         } else {
             Collections.emptyList()
         }
+    }
+
+    fun updateSymbols(symbols: List<String>) {
+        val builder = UriComponentsBuilder
+                .fromHttpUrl(url)
+                .path("/symbols")
+
+        val headers = HttpHeaders()
+        headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
+
+        val requestDto = LastUpdatePriceResponseConverter.toDto(symbols)
+        restTemplate.exchange(builder.build("").toString(), HttpMethod.POST, HttpEntity<Any>(requestDto, headers), Any::class.java)
     }
 }

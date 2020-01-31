@@ -25,13 +25,12 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         private const val PROTOBUF_MEDIA_TYPE_VALUE = "application/x-protobuf"
     }
 
-    fun getAllTradedSymbols(accountId: String): List<String> {
+    fun getAllActiveSymbols(): List<String> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
-                .path("/transactions/symbols")
+                .path("/transactions/active-symbols")
         val headers = HttpHeaders()
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
-        headers.set("accountId", accountId)
 
         val responseEntity = restTemplate
                 .exchange(builder.build("").toString(), HttpMethod.GET, HttpEntity<Any>(headers), TLActiveSymbolsResponse::class.java)

@@ -18,10 +18,17 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
         private val LOG = LoggerFactory.getLogger(TransactionRepository::class.java)
 
         private const val READ_SYMBOLS = """
-           SELECT DISTINCT symbol
-                FROM transaction_log
-                WHERE account_fk = CAST(? AS uuid)
-                ORDER BY symbol ASC;
+            SELECT DISTINCT symbol
+            FROM transaction_log
+            WHERE account_fk = CAST(? AS uuid)
+            ORDER BY symbol ASC;
+        """
+
+        private const val READ_LAST_YEAR_SYMBOLS = """
+            SELECT DISTINCT symbol
+            FROM transaction_log
+            WHERE date > date_trunc('month', CURRENT_DATE) - INTERVAL '1 year'
+            ORDER BY symbol ASC;
         """
 
         private const val CREATE_RECORD = """
@@ -43,6 +50,10 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
     fun getUniqueSymbols(accountId: String): List<String> {
         val parameters = arrayOf(accountId)
         return jdbcTemplate.query(READ_SYMBOLS, parameters, SymbolRowMapper())
+    }
+
+    fun getActiveSymbols(): List<String> {
+        return jdbcTemplate.query(READ_LAST_YEAR_SYMBOLS, SymbolRowMapper())
     }
 
     fun createSettings(transactionId: String, model: TransactionSettingsModel): Boolean {

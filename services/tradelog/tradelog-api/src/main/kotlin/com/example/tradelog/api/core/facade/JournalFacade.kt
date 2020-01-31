@@ -18,6 +18,11 @@ class JournalFacade(private val transactionService: TransactionService,
         return transactionService.getAllTradedSymbols(accountId)
     }
 
+    fun getActiveSymbols(): List<String> {
+        return transactionService.getActiveSymbols()
+    }
+
+
     fun getSummary(accountId: String): List<TradeSummaryModel> {
         //TODO: parallel
         val shareSummaries = shareService.getSummaries(accountId)

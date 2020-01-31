@@ -26,7 +26,7 @@ class StockDataController(private val stockDataService: StockDataService) {
 
         //todo: validate input
 
-        val shareDataModel = stockDataService.getPrice(accountId, symbol)
+        val shareDataModel = stockDataService.getPrice(symbol)
                 ?: throw GatewayApiException(ExceptionCode.SHARE_DATA_NOT_FOUND)
 
         return ShareDataConverter.toDto(shareDataModel)

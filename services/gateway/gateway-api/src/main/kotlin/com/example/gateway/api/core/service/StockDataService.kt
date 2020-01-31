@@ -12,8 +12,8 @@ class StockDataService(
         private val alphaVantageGateway: AlphaVantageGateway,
         private val ampqSender: AmqpSender) {
 
-    fun getPrice(accountId: String, symbol: String): SharePriceModel? {
-        return stockDataGateway.getPrice(accountId, symbol)
+    fun getPrice(symbol: String): SharePriceModel? {
+        return stockDataGateway.getPrice(symbol)
     }
 
     fun updatePrice(symbol: String) {
@@ -25,5 +25,9 @@ class StockDataService(
 
     fun getSymbolsForUpdate(): List<String> {
         return stockDataGateway.getSymbolsForUpdate()
+    }
+
+    fun updateSymbols(symbols: List<String>) {
+        stockDataGateway.updateSymbols(symbols)
     }
 }

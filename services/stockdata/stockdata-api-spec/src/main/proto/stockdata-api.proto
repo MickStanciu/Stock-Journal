@@ -26,7 +26,11 @@ message SDPriceItemUpdateRequest {
 }
 
 // Used to get last "n" symbols that need to be updated
-message SDLastUpdatePriceResponse {
+message SDActiveSymbolsResponse {
+    repeated string symbols = 1;
+}
+
+message SDUpdateSymbolsRequest {
     repeated string symbols = 1;
 }
 

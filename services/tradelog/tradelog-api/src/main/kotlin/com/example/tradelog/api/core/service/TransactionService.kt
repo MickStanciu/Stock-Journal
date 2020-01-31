@@ -15,6 +15,10 @@ class TransactionService(private val repository: TransactionRepository) {
         return repository.getUniqueSymbols(accountId)
     }
 
+    fun getActiveSymbols(): List<String> {
+        return repository.getActiveSymbols()
+    }
+
     fun updateSettings(model: TransactionSettingsModel): Boolean {
         return repository.updateSettings(model)
     }

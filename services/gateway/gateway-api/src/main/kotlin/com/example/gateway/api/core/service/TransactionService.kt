@@ -10,4 +10,8 @@ class TransactionService(private val tradeLogGateway: TradeLogGateway) {
     fun updateTransactionSettings(accountId: String, model: TransactionSettingsModel) {
         tradeLogGateway.updateTransactionSettings(accountId, model)
     }
+
+    fun getActiveSymbols(): List<String> {
+        return tradeLogGateway.getAllActiveSymbols()
+    }
 }
