@@ -2,15 +2,15 @@
     <div id="share-data">
         <div class="row table-header text-center align-items-center">
             <div class="col-md-1">Price</div>
-            <div class="col-md-2">Sector</div>
-            <div class="col-md-1">FinViz Target</div>
+<!--            <div class="col-md-2">Sector</div>-->
+<!--            <div class="col-md-1">FinViz Target</div>-->
             <div class="col-md-1">Computed Target</div>
             <div class="col-md-2">Updated On</div>
         </div>
         <div class="row pb-1 pt-1 text-center">
-            <div class="col-md-1">{{ share_model.price }}</div>
-            <div class="col-md-2">{{ share_model.sector }}</div>
-            <div class="col-md-1">{{ share_model.finvizTarget }}</div>
+            <div class="col-md-1">{{ share_model.lastClose }}</div>
+<!--            <div class="col-md-2">{{ share_model.sector }}</div>-->
+<!--            <div class="col-md-1">{{ share_model.finvizTarget }}</div>-->
             <div class="col-md-1">{{ share_model.calculatedTarget }}</div>
             <div class="col-md-2">{{dateTz(share_model.lastUpdatedOn) }}</div>
         </div>

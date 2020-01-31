@@ -31,10 +31,10 @@ const appService = {
         });
     },
 
-    getShareData(symbol) {
+    getSharePrice(symbol) {
         return new Promise(resolve => {
             axios
-                .get('/share/data/' + symbol.toUpperCase())
+                .get('/stockdata/' + symbol.toUpperCase())
                 .then(response => {
                     resolve(response.data);
                 })

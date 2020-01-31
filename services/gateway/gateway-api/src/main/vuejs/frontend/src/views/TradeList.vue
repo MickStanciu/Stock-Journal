@@ -508,7 +508,7 @@
 
         created() {
             service
-                .getShareData(this.$route.params.symbol)
+                .getSharePrice(this.$route.params.symbol)
                 .then(data => {
                     let self = this;
                     self.shareData = data;
