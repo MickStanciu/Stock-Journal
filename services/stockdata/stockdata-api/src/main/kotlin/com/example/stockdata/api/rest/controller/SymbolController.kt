@@ -22,7 +22,7 @@ class SymbolController(private val priceService: PriceService) {
     /*
         Return symbols where prices where not updated for a while
     */
-    @RequestMapping(value = ["/old"], method = [RequestMethod.GET])
+    @RequestMapping(value = ["/old", "/old/"], method = [RequestMethod.GET])
     @ResponseStatus(HttpStatus.OK)
     fun getOldestSymbols(
             @RequestParam(name = "limit") limit: Int): SDActiveSymbolsResponse {
@@ -46,7 +46,7 @@ class SymbolController(private val priceService: PriceService) {
     /*
         Return all symbols
     */
-    @RequestMapping(value = ["/"], method = [RequestMethod.POST])
+    @RequestMapping(value = ["/", ""], method = [RequestMethod.POST])
     @ResponseStatus(HttpStatus.OK)
     fun updateSymbols(@RequestBody request: SDUpdateSymbolsRequest) {
         priceService.updateSymbols(request.symbolsList)

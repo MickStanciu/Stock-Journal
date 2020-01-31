@@ -28,7 +28,6 @@ class PriceRepository(private val jdbcTemplate: JdbcTemplate) {
             ps.setTimestamp(3, TimeConverter.fromOffsetDateTime(priceModel.lastUpdatedOn))
             ps
         }
-
     }
 
     fun getNotUpdatedSymbols(adjustedLimit: Int): List<String> {
@@ -36,9 +35,14 @@ class PriceRepository(private val jdbcTemplate: JdbcTemplate) {
         return jdbcTemplate.query(GET_OLDEST_PRICES, parameters, SymbolRowMapper())
     }
 
-    fun updateSymbols(symbolsList: List<String>) {
-        println(symbolsList)
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    fun addSymbol(priceModel: PriceModel) {
+        jdbcTemplate.update { connection: Connection ->
+            val ps = connection.prepareStatement(STOCK_PRICE_ADD)
+            ps.setString(1, priceModel.symbol)
+            ps.setDouble(2, priceModel.lastClose)
+            ps.setTimestamp(3, TimeConverter.fromOffsetDateTime(priceModel.lastUpdatedOn))
+            ps
+        }
     }
 
     companion object {
@@ -52,6 +56,13 @@ class PriceRepository(private val jdbcTemplate: JdbcTemplate) {
                         "VALUES(?, ?, ?) " +
                         "ON CONFLICT ON CONSTRAINT price_pkey " +
                         "DO UPDATE SET last_close = excluded.last_close, last_updated_on = excluded.last_updated_on"
+
+        private const val STOCK_PRICE_ADD: String = """
+                INSERT INTO price(symbol, last_close, last_updated_on)
+                VALUES(?, ?, ?)
+                ON CONFLICT ON CONSTRAINT price_pkey
+                DO NOTHING;
+        """
 
         private const val GET_OLDEST_PRICES: String = "SELECT symbol FROM price ORDER BY last_updated_on ASC LIMIT ?"
     }
