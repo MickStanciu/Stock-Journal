@@ -46,10 +46,11 @@ class PriceRepository(private val jdbcTemplate: JdbcTemplate) {
     }
 
     companion object {
-        private const val STOCK_DATA_READ_BY_SYMBOL: String =
-                "SELECT symbol, last_updated_on, last_close " +
-                        "FROM price " +
-                        "WHERE symbol = ?"
+        private const val STOCK_DATA_READ_BY_SYMBOL: String = """
+                SELECT symbol, last_updated_on, last_close
+                FROM price
+                WHERE symbol = ?
+                """
 
         private const val STOCK_PRICE_UPSERT: String =
                 "INSERT INTO price(symbol, last_close, last_updated_on) " +
@@ -64,7 +65,12 @@ class PriceRepository(private val jdbcTemplate: JdbcTemplate) {
                 DO NOTHING;
         """
 
-        private const val GET_OLDEST_PRICES: String = "SELECT symbol FROM price ORDER BY last_updated_on ASC LIMIT ?"
+        private const val GET_OLDEST_PRICES: String = """
+            SELECT * FROM price
+            WHERE last_updated_on < CURRENT_DATE
+            ORDER BY last_updated_on ASC
+            LIMIT ?
+        """
     }
 }
 

@@ -2,7 +2,7 @@ package com.example.gateway.api.core.model
 
 import java.time.OffsetDateTime
 
-class ShareJournalModel(val transactionId: String,
+data class ShareJournalModel(val transactionId: String,
                         val accountId: String,
                         val symbol: String,
                         val date: OffsetDateTime,

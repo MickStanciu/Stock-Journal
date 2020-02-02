@@ -176,14 +176,24 @@ class TradeLogController(private val tradeLogService: TradeLogService,
 
     @RequestMapping(value = ["/settings/{transactionId}", "/settings/{transactionId}/"], method = [RequestMethod.PUT])
     @ResponseStatus(HttpStatus.OK)
-    fun updateSettings(
+    fun updateSetting(
             @RequestHeader("accountId") accountId: String,
             @PathVariable(name = "transactionId") transactionId: String,
             @RequestBody dto: GWTransactionSettingsDto) {
 
         //todo: validate input
         val model = TransactionSettingsConverter.toModel(dto)
-        transactionService.updateTransactionSettings(accountId, model)
+        transactionService.updateTransactionSetting(accountId, model)
     }
 
+    @RequestMapping(value = ["/settings/bulk", "/settings/bulk/"], method = [RequestMethod.PUT])
+    @ResponseStatus(HttpStatus.OK)
+    fun updateSettings(
+            @RequestHeader("accountId") accountId: String,
+            @RequestBody dto: GWTransactionSettingsBulkDto) {
+
+        //todo: validate input
+        val models = TransactionSettingsConverter.toModels(dto)
+        transactionService.updateTransactionSettings(accountId, models)
+    }
 }

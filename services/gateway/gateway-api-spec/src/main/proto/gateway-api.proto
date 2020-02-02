@@ -172,6 +172,10 @@ message GWTransactionSettingsDto {
     bool leg_closed = 4;
 }
 
+message GWTransactionSettingsBulkDto {
+    repeated GWTransactionSettingsDto items = 1;
+}
+
 message GWShareDataDto {
     string symbol = 1;
     string last_updated_on = 2;

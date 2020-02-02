@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { StockModule } from "./stock";
-import { OptionModule } from "./option";
-import { DividendModule } from "./dividend";
+import {StockModule} from "./stock";
+import {OptionModule} from "./option";
+import {DividendModule} from "./dividend";
 
 Vue.use(Vuex);
 
@@ -24,6 +24,10 @@ const store = new Vuex.Store({
             context.commit('showSyntheticShareModal');
         },
 
+        hideSyntheticShareModal(context) {
+            context.commit('hideSyntheticShareModal');
+        },
+
         showErrorModal(context) {
             context.commit('showErrorModal')
         },
@@ -40,8 +44,11 @@ const store = new Vuex.Store({
             state.isSyntheticModalEnabled = true;
         },
 
+        hideSyntheticShareModal(state) {
+            state.isSyntheticModalEnabled = false;
+        },
+
         refreshData() {
-            console.log("mutation refresh data")
             //do nothing
         },
 

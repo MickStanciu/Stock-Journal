@@ -7,11 +7,16 @@ import org.springframework.stereotype.Service
 @Service
 class TransactionService(private val tradeLogGateway: TradeLogGateway) {
 
-    fun updateTransactionSettings(accountId: String, model: TransactionSettingsModel) {
+    fun updateTransactionSetting(accountId: String, model: TransactionSettingsModel) {
         tradeLogGateway.updateTransactionSettings(accountId, model)
     }
 
     fun getActiveSymbols(): List<String> {
         return tradeLogGateway.getAllActiveSymbols()
+    }
+
+    fun updateTransactionSettings(accountId: String, models: List<TransactionSettingsModel>) {
+        //NOT THE BEST WAY
+        models.forEach{ updateTransactionSetting(accountId, it) }
     }
 }

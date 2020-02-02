@@ -56,6 +56,7 @@ class ShareJournalConverter {
                     .setDate(model.date.toString())
                     .setSymbol(model.symbol)
                     .setPrice(model.price)
+                    .setActualPrice(model.actualPrice)
                     .setPreferredPrice(model.preferredPrice)
                     .setQuantity(model.quantity)
                     .setBrokerFees(model.brokerFees)

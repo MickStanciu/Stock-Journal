@@ -53,7 +53,7 @@
         },
         methods: {
             closeModal: function () {
-                this.$store.dispatch('hideModalWithoutRefresh');
+                this.$store.dispatch('hideSyntheticShareModal');
             },
 
             submitAndClose: function () {
@@ -70,8 +70,12 @@
                     }
                 }
 
-                service.saveSettings(settings);
-                this.$store.dispatch('hideModalWithRefresh');
+                let request = {
+                    "items": settings
+                };
+                service.saveSettings(request);
+                this.$store.dispatch('hideSyntheticShareModal');
+                this.$store.dispatch('refreshData');
             },
 
             checkForm: function() {

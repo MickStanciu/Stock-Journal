@@ -1,13 +1,17 @@
 package com.example.gateway.api.core.service
 
+import com.example.common.converter.TimeConverter
 import com.example.gateway.api.core.model.*
+import com.example.gateway.api.core.util.HydrationContext
 import com.example.gateway.api.core.util.createSynthetic
+import com.example.gateway.api.rest.gateway.StockDataGateway
 import com.example.gateway.api.rest.gateway.TradeLogGateway
 import org.springframework.stereotype.Service
 import java.util.concurrent.CompletableFuture
 
 @Service
-class TradeLogService(private val tradeLogGateway: TradeLogGateway) {
+class TradeLogService(private val tradeLogGateway: TradeLogGateway,
+                      private val stockDataGateway: StockDataGateway) {
 
 //    fun getAllTradedSymbols(accountId: String): List<String> {
 //        return tradeLogGateway.getAllTradedSymbols(accountId)
@@ -19,16 +23,37 @@ class TradeLogService(private val tradeLogGateway: TradeLogGateway) {
         val futureDividendList = tradeLogGateway.getAllDividendTransactions(accountId, symbol)
 
         CompletableFuture.allOf(futureShareList, futureOptionList, futureDividendList).join()
+        var stockPrice = stockDataGateway.getPrice(symbol)
+        if (stockPrice == null) {
+            stockPrice = SharePriceModel(symbol = symbol, lastClose = 0.00, lastUpdatedOn = TimeConverter.getOffsetDateTimeNow())
+        }
 
-        //TODO: if requires more hydration, come with different solution
-        val shareList: ArrayList<ShareJournalModel> = futureShareList.get() as ArrayList<ShareJournalModel>
-        shareList.addAll(createSynthetic(shareList))
+
+        val hydrationContext = HydrationContext(
+                symbol = symbol,
+                shareList = ArrayList(futureShareList.get() as ArrayList<ShareJournalModel>),
+                priceModel = stockPrice
+        )
+
+        val shareList = ArrayList<ShareJournalModel>(hydrationContext.shareList)
+        addLastKnownPrice(shareList, hydrationContext)
+        generateSynthetic(shareList, hydrationContext)
 
         return TradeLogModel(
                 shareList = shareList,
                 optionList = futureOptionList.get(),
                 dividendList = futureDividendList.get()
         )
+    }
+
+    private fun generateSynthetic(shareList: ArrayList<ShareJournalModel>, hydrationContext: HydrationContext) {
+        shareList.addAll(createSynthetic(hydrationContext.shareList))
+    }
+
+    private fun addLastKnownPrice(shareList: ArrayList<ShareJournalModel>, hydrationContext: HydrationContext) {
+        for ( (index, model) in shareList.withIndex()) {
+            shareList[index] = model.copy(actualPrice = hydrationContext.priceModel.lastClose)
+        }
     }
 
     fun getSummary(accountId: String): List<TradeSummaryModel> {

@@ -191,7 +191,20 @@ const appService = {
                     resolve(null);
                 })
         });
-    }
+    },
+
+    saveSettings(settings) {
+        return new Promise(resolve => {
+            axios.put('/tradelog/settings/bulk', settings)
+                .then(response => {
+                    // console.debug("Bulk Settings saved");
+                })
+                .catch(error => {
+                    console.error(error);
+                    resolve(null);
+                })
+        });
+    },
 };
 
 export default appService;
