@@ -19,12 +19,10 @@ class ShareJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalRe
                    sl.quantity,
                    sl.action_fk,
                    tl.transaction_type_fk,
-                   sd.price AS current_price,
                    tsl.leg_closed
             FROM transaction_log tl
                      INNER JOIN shares_log sl ON tl.id = sl.transaction_fk
                      INNER JOIN transaction_settings_log tsl on tl.id = tsl.transaction_fk
-                     LEFT JOIN shares_data sd ON sd.symbol = tl.symbol
             WHERE tl.account_fk = CAST(? AS uuid)
                   AND tl.transaction_type_fk = 'SHARE'
                   AND tsl.leg_closed = true
