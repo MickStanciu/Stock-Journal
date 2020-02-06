@@ -199,3 +199,18 @@ message GWAuthTokenDto {
 message GWActiveSymbolsResponse {
     repeated string symbols = 1;
 }
+
+// Generic error response
+message ExceptionResponse {
+    ExceptionCode code = 1;
+    string message = 2;
+    string details = 3;
+    string timestamp = 4;
+
+    enum ExceptionCode {
+        UNKNOWN_CODE = 0;
+        BAD_REQUEST = 1;
+        NO_DATA = 2;
+        UNAUTHORIZED = 3;
+    }
+}

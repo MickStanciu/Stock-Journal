@@ -2,7 +2,7 @@ package com.example.gateway.api.rest.exception
 
 import com.example.common.converter.TimeConverter
 import com.example.gateway.api.rest.converter.toExceptionCode
-import com.example.tradelog.api.spec.model.ExceptionResponse
+import com.example.gateway.api.spec.model.ExceptionResponse
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

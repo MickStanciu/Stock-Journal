@@ -1,4 +1,4 @@
-package com.example.gateway.api.web.configuration
+package com.example.gateway.api.rest.configuration
 
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.servlet.config.annotation.CorsRegistry
