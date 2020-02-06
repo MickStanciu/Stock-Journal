@@ -28,10 +28,14 @@ class TradeLogService(private val tradeLogGateway: TradeLogGateway,
             stockPrice = SharePriceModel(symbol = symbol, lastClose = 0.00, lastUpdatedOn = TimeConverter.getOffsetDateTimeNow())
         }
 
+        var receivedShareList = ArrayList<ShareJournalModel>()
+        if (futureShareList.get().isNotEmpty()) {
+            receivedShareList = ArrayList(futureShareList.get() as ArrayList<ShareJournalModel>)
+        }
 
         val hydrationContext = HydrationContext(
                 symbol = symbol,
-                shareList = ArrayList(futureShareList.get() as ArrayList<ShareJournalModel>),
+                shareList = receivedShareList,
                 priceModel = stockPrice
         )
 

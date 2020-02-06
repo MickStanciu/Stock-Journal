@@ -33,10 +33,14 @@ class StockDataGateway(
         val headers = HttpHeaders()
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
 
-        val responseEntity = restTemplate
-                .exchange(builder.build(symbol).toString(), HttpMethod.GET, HttpEntity<Any>(headers), SDPriceItemResponse::class.java)
-
-        val responseDto: SDPriceItemResponse? = responseEntity.body
+        var responseDto: SDPriceItemResponse? = null
+        try {
+            val responseEntity = restTemplate
+                    .exchange(builder.build(symbol).toString(), HttpMethod.GET, HttpEntity<Any>(headers), SDPriceItemResponse::class.java)
+            responseDto = responseEntity.body
+        } catch (ex: Exception) {
+            LOG.error("Cannot get price for $symbol")
+        }
 
         return if (responseDto != null) {
             ShareDataConverter.toModel(responseDto)
