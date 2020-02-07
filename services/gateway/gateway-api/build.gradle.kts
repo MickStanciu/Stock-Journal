@@ -31,13 +31,13 @@ configurations {
 
 dependencies {
     implementation (kotlin("stdlib"))
-    implementation(project(":services:common"))
-    implementation(project(":services:gateway:gateway-api-spec"))
-    implementation(project(":services:account:account-api-spec"))
-    implementation(project(":services:tradelog:tradelog-api-spec"))
-    implementation(project(":services:stockdata:stockdata-api-spec"))
+    implementation (project(":services:common"))
+    implementation (project(":services:gateway:gateway-api-spec"))
+    implementation (project(":services:account:account-api-spec"))
+    implementation (project(":services:tradelog:tradelog-api-spec"))
+    implementation (project(":services:stockdata:stockdata-api-spec"))
 
-    implementation("org.springframework.boot:spring-boot-starter-web");
+    implementation ("org.springframework.boot:spring-boot-starter-web");
     implementation ("org.springframework.boot:spring-boot-starter-undertow")
     implementation ("org.springframework.boot:spring-boot-starter-amqp")
     implementation ("org.springframework.boot:spring-boot-starter-thymeleaf")
@@ -45,11 +45,12 @@ dependencies {
 
     implementation ("com.google.protobuf:protobuf-java-util:$protobufVersion")
     implementation ("com.google.code.findbugs:jsr305:3.0.2")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
+    implementation ("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation ("com.fasterxml.jackson.core:jackson-databind:2.10.0")
+    implementation (group = "javax.xml.bind",  name = "jaxb-api", version = "2.3.1")
     implementation("io.jsonwebtoken:jjwt:$jwtVersion")
 
-    runtimeOnly("org.springframework.boot:spring-boot-devtools")
+    runtimeOnly ("org.springframework.boot:spring-boot-devtools")
 
     testImplementation ("org.junit.jupiter:junit-jupiter:$junitVersion")
     testImplementation ("org.springframework.boot:spring-boot-starter-test")

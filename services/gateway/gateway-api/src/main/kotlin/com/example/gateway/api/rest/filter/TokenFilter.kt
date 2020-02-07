@@ -1,5 +1,6 @@
 package com.example.gateway.api.rest.filter
 
+import com.example.gateway.api.rest.converter.TokenConverter
 import javax.servlet.Filter
 import javax.servlet.FilterChain
 import javax.servlet.ServletRequest
@@ -17,6 +18,7 @@ class TokenFilter: Filter {
             response.sendRedirect("/api/v1/error/401")
             return
         }
+        println(TokenConverter.decode(token))
 
         filterChain?.doFilter(request, response)
     }

@@ -212,5 +212,6 @@ message ExceptionResponse {
         BAD_REQUEST = 1;
         NO_DATA = 2;
         UNAUTHORIZED = 3;
+        INTERNAL_ERROR = 4;
     }
 }

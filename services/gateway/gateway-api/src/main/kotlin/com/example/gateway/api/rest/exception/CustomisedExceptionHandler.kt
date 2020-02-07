@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
+import org.springframework.web.client.ResourceAccessException
 import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
 
@@ -21,15 +22,26 @@ class CustomisedExceptionHandler: ResponseEntityExceptionHandler() {
     @ExceptionHandler(Exception::class)
     fun handleAllExceptions(ex: Exception, request: WebRequest): ResponseEntity<ExceptionResponse> {
         val exceptionResponse = ExceptionResponse.newBuilder()
-                .setCode(ExceptionResponse.ExceptionCode.UNKNOWN_CODE)
-                .setMessage(ex.message)
-                .setDetails(request.getDescription(false))
+                .setCode(ExceptionResponse.ExceptionCode.INTERNAL_ERROR)
+                .setMessage("Critical Internal Error")
+                .setDetails("")
                 .setTimestamp(TimeConverter.getOffsetDateTimeNow().toString())
                 .build()
         LOG.error(ex.message, ex)
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionResponse)
     }
 
+    @ExceptionHandler(ResourceAccessException::class)
+    fun handleResourceAccessExceptions(ex: ResourceAccessException, request: WebRequest): ResponseEntity<ExceptionResponse> {
+        val exceptionResponse = ExceptionResponse.newBuilder()
+                .setCode(ExceptionResponse.ExceptionCode.INTERNAL_ERROR)
+                .setMessage("Critical Internal Error")
+                .setDetails("")
+                .setTimestamp(TimeConverter.getOffsetDateTimeNow().toString())
+                .build()
+        LOG.error(ex.message, ex)
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionResponse)
+    }
 
     @ExceptionHandler(GatewayApiException::class)
     fun handleTradeLogExceptions(ex: GatewayApiException, request: WebRequest): ResponseEntity<ExceptionResponse> {

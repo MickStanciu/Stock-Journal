@@ -35,7 +35,7 @@ class RestConfiguration {
     fun registerTokenFilter(): FilterRegistrationBean<TokenFilter> {
         val filterRegistration = FilterRegistrationBean<TokenFilter>()
         filterRegistration.filter = TokenFilter()
-        filterRegistration.urlPatterns = listOf("/xapi/v1/tradelog/*", "/xapi/v1/stockdata/*")
+        filterRegistration.urlPatterns = listOf("/api/v1/tradelog/*", "/api/v1/stockdata/*")
         filterRegistration.setDispatcherTypes(DispatcherType.REQUEST)
         filterRegistration.order = Ordered.LOWEST_PRECEDENCE - 1
         return filterRegistration
