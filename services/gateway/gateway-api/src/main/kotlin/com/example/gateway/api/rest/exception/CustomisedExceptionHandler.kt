@@ -54,6 +54,7 @@ class CustomisedExceptionHandler: ResponseEntityExceptionHandler() {
         LOG.error(ex.message, ex)
         return when (ex.code) {
             ExceptionCode.BAD_REQUEST -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse)
+            ExceptionCode.REQUEST_NOT_AUTHORIZED -> ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(exceptionResponse)
 
 //            ExceptionCode.CREATE_SHARE_FAILED -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse)
 //            ExceptionCode.EDIT_SHARE_FAILED -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse)

@@ -1,6 +1,7 @@
 package com.example.gateway.api.rest.filter
 
 import com.example.gateway.api.rest.converter.TokenConverter
+import org.slf4j.LoggerFactory
 import javax.servlet.Filter
 import javax.servlet.FilterChain
 import javax.servlet.ServletRequest
@@ -14,16 +15,18 @@ class TokenFilter: Filter {
         val request = servletRequest as HttpServletRequest
         val response = servletResponse as HttpServletResponse
         val token = request.getHeader(AUTH_KEY)
-        if (token == null || token.isNullOrBlank()) {
+
+        if (!TokenConverter.validate(token)) {
+            LOG.error("Token validation error")
             response.sendRedirect("/api/v1/error/401")
             return
         }
-        println(TokenConverter.decode(token))
 
         filterChain?.doFilter(request, response)
     }
 
     companion object {
+        private val LOG = LoggerFactory.getLogger(TokenFilter::class.java)
         const val AUTH_KEY = "auth-key";
     }
 }

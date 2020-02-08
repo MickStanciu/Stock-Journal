@@ -1,6 +1,8 @@
 package com.example.gateway.api.rest.converter
 
 import com.example.gateway.api.core.model.TokenClaims
+import com.example.gateway.api.rest.exception.ExceptionCode
+import com.example.gateway.api.rest.exception.GatewayApiException
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
@@ -19,16 +21,17 @@ class TokenConverter {
         private const val TTL = 1209600000L //14 days
 
 
-        fun decode(token: String): TokenClaims? {
-            try {
-                val claims = getClaims(token)
-                return TokenClaims(tenantId = claims["tenantId"] as String,
-                        issuer = claims.issuer,
-                        accountId = claims["accountId"] as Int,
-                        roleId = claims["roleId"] as Int)
+        fun decode(token: String): TokenClaims {
+            val claims = getClaims(token)
+
+            return try {
+                TokenClaims(
+                        accountId = claims["accountId"] as String,
+                        roleId = claims["roleId"] as Int
+                )
             } catch (ex: Exception) {
                 LOG.error("Token validation error!", ex.message)
-                return null
+                throw GatewayApiException(code = ExceptionCode.TOKEN_FAIL)
             }
         }
 
@@ -51,6 +54,21 @@ class TokenConverter {
                     .setSigningKey(SIGNATURE)
                     .parseClaimsJws(token)
                     .body
+        }
+
+        fun validate(token: String): Boolean {
+            if (token.isBlank()) {
+                return false
+            }
+
+            return try {
+                val claims = getClaims(token)
+                return ISSUER == claims.issuer
+                        && claims.containsKey("accountId")
+                        && claims.containsKey("roleId")
+            } catch (ex: Exception) {
+                false
+            }
         }
     }
 }

@@ -15,6 +15,7 @@ enum class ExceptionCode(val message: String) {
     TRADEJOURNAL_EMPTY("No trades found"),
     TRADEJOURNAL_CANNOT_DELETE("Cannot delete"),
     TRADEJOURNAL_NO_SYMBOLS("No symbols found"),
-    RESOURCE_NOT_FOUND("Resource not found")
+    RESOURCE_NOT_FOUND("Resource not found"),
+    TOKEN_FAIL("Token failed to decode")
 }
 
