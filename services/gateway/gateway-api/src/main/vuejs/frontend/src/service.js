@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:8085/api/v1';
-const account_id = 'd79ec11a-2011-4423-ba01-3af8de0a3e14';
-axios.defaults.headers.common['accountId'] = account_id;
+const token = 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJCZW5kaXMiLCJzdWIiOiJhdXRoIiwidGVuYW50SWQiOiJkNzllYzExYS0yMDExLTQ0MjMtYmEwMS0zYWY4ZGUwYTNlMTAiLCJhY2NvdW50SWQiOjYsInJvbGVJZCI6NywiaWF0IjoxNTM0MzA1NTM1LCJleHAiOjE1MzU1MTUxMzV9.SLyLQ7fj7MbbxIXa1E-QNWJeZwLwKqdvhmev4qw7-Pw';
+axios.defaults.headers.common['auth-key'] = token;
 
 const appService = {
     // getTradedSymbols() {
