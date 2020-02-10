@@ -38,7 +38,7 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         val dto: TLActiveSymbolsResponse? = responseEntity.body
 
         return if (dto != null) {
-            ActiveSymbolsResponseConverter.toModel(responseEntity.body!!)
+            ActiveSymbolsResponseConverter.toModel(dto)
         } else {
             Collections.emptyList()
         }
