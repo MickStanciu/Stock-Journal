@@ -14,12 +14,15 @@ class TokenFilter: Filter {
     override fun doFilter(servletRequest: ServletRequest?, servletResponse: ServletResponse?, filterChain: FilterChain?) {
         val request = servletRequest as HttpServletRequest
         val response = servletResponse as HttpServletResponse
-        val token = request.getHeader(AUTH_KEY)
 
-        if (!TokenConverter.validate(token)) {
-            LOG.error("Token validation error")
-            response.sendRedirect("/api/v1/error/401")
-            return
+        if (request.method in listOf<String>("GET", "PUT", "DELETE", "POST")) {
+            val token = request.getHeader(AUTH_KEY)
+
+            if (!TokenConverter.validate(token)) {
+                LOG.error("Token validation error while serving: ${request.method} ${request.requestURI}")
+                request.getRequestDispatcher("/api/v1/error/401").forward(request, response)
+                return
+            }
         }
 
         filterChain?.doFilter(request, response)

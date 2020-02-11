@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping(value = ["/api/v1/error"], produces = [TradeLogController.PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE])
+@RequestMapping(value = ["/api/v1/error"], produces = [MediaType.APPLICATION_JSON_VALUE])
 class ErrorController {
 
     @RequestMapping(value = ["/401", "/401/"], method = [RequestMethod.GET])
@@ -19,7 +19,6 @@ class ErrorController {
        return ExceptionResponse.newBuilder()
                .setCode(ExceptionResponse.ExceptionCode.UNAUTHORIZED)
                .setMessage("Invalid api key")
-               .setDetails("")
                .setTimestamp(TimeConverter.getOffsetDateTimeNow().toString())
                .build()
     }

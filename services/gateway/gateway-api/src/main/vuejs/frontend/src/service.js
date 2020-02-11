@@ -1,8 +1,22 @@
 import axios from 'axios';
+import router from './router'
 
 axios.defaults.baseURL = 'http://localhost:8085/api/v1';
 const token = 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJCZW5kaXMiLCJzdWIiOiJhdXRoIiwidGVuYW50SWQiOiJkNzllYzExYS0yMDExLTQ0MjMtYmEwMS0zYWY4ZGUwYTNlMTAiLCJhY2NvdW50SWQiOjYsInJvbGVJZCI6NywiaWF0IjoxNTM0MzA1NTM1LCJleHAiOjE1MzU1MTUxMzV9.SLyLQ7fj7MbbxIXa1E-QNWJeZwLwKqdvhmev4qw7-Pw';
 axios.defaults.headers.common['auth-key'] = token;
+
+
+axios.interceptors.response.use(
+    (response) => {
+        return response
+    },
+    (error => {
+        if (error.response.status === 401) {
+            router.push('/Login')
+        }
+        return Promise.reject(error)
+    })
+);
 
 const appService = {
     // getTradedSymbols() {
@@ -21,9 +35,15 @@ const appService = {
     getSummary() {
         return new Promise(resolve => {
             axios
-                .get('/tradelog/summary')
+                .get('/tradelog/summary' )
                 .then(response => {
-                    resolve(response.data)
+                    if (response.status === 200) {
+                        resolve(response.data)
+                    } else if (response.status === 401) {
+                        console.debug("PIELE")
+                    } else {
+                        console.debug(response)
+                    }
                 })
                 .catch(error => {
                     console.error(error);

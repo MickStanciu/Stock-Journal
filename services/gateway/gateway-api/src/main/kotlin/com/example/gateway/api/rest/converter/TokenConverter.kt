@@ -59,8 +59,8 @@ class TokenConverter {
         /**
          * TODO: might need to return an ENUM in the future: INVALID, EXPIRED...
          */
-        fun validate(token: String): Boolean {
-            if (token.isBlank()) {
+        fun validate(token: String?): Boolean {
+            if (token.isNullOrBlank()) {
                 return false
             }
 
