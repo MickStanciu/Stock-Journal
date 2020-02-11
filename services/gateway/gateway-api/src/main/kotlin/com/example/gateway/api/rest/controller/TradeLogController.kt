@@ -37,7 +37,7 @@ class TradeLogController(private val tradeLogService: TradeLogService,
     @RequestMapping(value = ["/all/{symbol}", "/all/{symbol}/"], method = [RequestMethod.GET])
     @ResponseStatus(HttpStatus.OK)
     fun getAll(
-            @RequestHeader("token") token: String,
+            @RequestHeader("auth-key") token: String,
             @PathVariable(name = "symbol") symbol: String): GWTradeLogDto {
 
         //todo: validate input
