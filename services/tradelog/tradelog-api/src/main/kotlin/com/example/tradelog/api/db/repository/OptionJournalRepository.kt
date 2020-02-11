@@ -26,8 +26,7 @@ class OptionJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalR
                      INNER JOIN transaction_settings_log tsl on tl.id = tsl.transaction_fk
             WHERE tl.account_fk = CAST(? AS uuid)
               AND transaction_type_fk = 'OPTION'
-              AND tsl.leg_closed = true
-              AND now() > ol.expiry_date
+              AND (tsl.leg_closed = true OR now() > ol.expiry_date)
             ORDER BY tl.symbol;
         """
 
