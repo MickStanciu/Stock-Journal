@@ -1,5 +1,6 @@
 package com.example.tradelog.api.core.service
 
+import com.example.tradelog.api.core.model.SummaryMatrixModel
 import com.example.tradelog.api.core.model.TransactionModel
 import com.example.tradelog.api.core.model.TransactionSettingsModel
 import com.example.tradelog.api.db.repository.TransactionRepository
@@ -52,6 +53,10 @@ class TransactionService(private val repository: TransactionRepository) {
 
     fun deleteSettings(transactionId: String): Boolean {
         return repository.deleteSettings(transactionId)
+    }
+
+    fun getSummaryMatrix(accountId: String): List<SummaryMatrixModel> {
+        return repository.getSummaryMatrix(accountId)
     }
 
 }

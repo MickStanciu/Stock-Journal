@@ -14,6 +14,10 @@ class RequestValidator: FieldValidator() {
             return FieldValidator.accountId.test(accountId)
         }
 
+        fun validateSummaryMatrix(accountId: String): Boolean {
+            return FieldValidator.accountId.test(accountId)
+        }
+
         fun validateUpdateSettings(accountId: String, transactionId: String, dto: TLTransactionSettingsDto): Boolean {
             return FieldValidator.accountId.test(accountId)
                     && transactionId == dto.transactionId

@@ -1,8 +1,10 @@
 package com.example.tradelog.api.db.repository
 
 import com.example.common.converter.TimeConverter
+import com.example.tradelog.api.core.model.SummaryMatrixModel
 import com.example.tradelog.api.core.model.TransactionModel
 import com.example.tradelog.api.core.model.TransactionSettingsModel
+import com.example.tradelog.api.db.converter.SummaryMatrixRowMapper
 import com.example.tradelog.api.db.converter.SymbolRowMapper
 import org.slf4j.LoggerFactory
 import org.springframework.jdbc.core.JdbcTemplate
@@ -34,6 +36,23 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
         private const val CREATE_RECORD = """
             INSERT INTO transaction_log (account_fk, date, symbol, transaction_type_fk, broker_fees)
                     VALUES (CAST(? AS uuid), ?, ?, ?, ?);
+        """
+
+        private const val SUMMARY_MATRIX = """
+            SELECT EXTRACT('year' FROM tl.date) as year, EXTRACT('month' FROM tl.date) as month,
+                       COALESCE(sl.price * sl.quantity, 0) * CASE WHEN sl.action_fk = 'BUY' THEN -1 ELSE 1 END +
+                       COALESCE(ol.premium * ol.contract_number * 100, 0) * CASE WHEN ol.action_fk = 'BUY' THEN -1 ELSE 1 END +
+                       COALESCE(dl.dividend * dl.quantity, 0) -
+                       tl.broker_fees as total
+            FROM transaction_log tl
+            INNER JOIN transaction_settings_log tsl ON tl.id = tsl.transaction_fk
+            LEFT JOIN shares_log sl on tl.id = sl.transaction_fk
+            LEFT JOIN option_log ol on tl.id = ol.transaction_fk
+            LEFT JOIN dividend_log dl on tl.id = dl.transaction_fk
+            WHERE tsl.leg_closed = true
+                AND tl.date > date_trunc('month', CURRENT_DATE) - INTERVAL '5 year'
+                AND account_fk = CAST(? AS uuid)
+            ORDER BY year, month;
         """
 
         private const val UPDATE_RECORD = "UPDATE transaction_log SET broker_fees = ?, date = ? where id = CAST(? AS uuid) and account_fk = CAST(? AS uuid);"
@@ -132,5 +151,9 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
         } == 1
     }
 
+    fun getSummaryMatrix(accountId: String): List<SummaryMatrixModel> {
+        val parameters = arrayOf(accountId)
+        return jdbcTemplate.query(SUMMARY_MATRIX, parameters, SummaryMatrixRowMapper())
+    }
 }
 

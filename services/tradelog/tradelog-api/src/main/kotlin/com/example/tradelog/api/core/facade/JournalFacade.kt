@@ -69,6 +69,29 @@ class JournalFacade(private val transactionService: TransactionService,
                 .collect(Collectors.toList())
     }
 
+    fun getSummaryMatrix(accountId: String): List<SummaryMatrixModel> {
+        val models = transactionService.getSummaryMatrix(accountId)
+        val groupedMap = groupByYearAndMonth(models)
+
+        return groupedMap.entries.stream()
+                .map { SummaryMatrixModel(year = it.key.first, month = it.key.second, total = it.value) }
+                .collect(Collectors.toList())
+    }
+
+    private fun groupByYearAndMonth(models: List<SummaryMatrixModel>): Map<Pair<Int, Int>, Double> {
+        val map = HashMap<Pair<Int, Int>, Double>()
+        models.forEach {
+            if (map.containsKey(Pair(it.year, it.month))) {
+                val storedTotal = map.getValue(Pair(it.year, it.month))
+                map[Pair(it.year, it.month)] = storedTotal.plus(it.total)
+            } else {
+                map[Pair(it.year, it.month)] = it.total
+            }
+        }
+
+        return map
+    }
+
     fun updateSettings(model: TransactionSettingsModel): Boolean {
         return transactionService.updateSettings(model)
     }

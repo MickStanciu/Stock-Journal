@@ -2,12 +2,14 @@ package com.example.tradelog.api.rest.controller
 
 import com.example.tradelog.api.core.facade.JournalFacade
 import com.example.tradelog.api.rest.controller.TransactionController.Companion.PROTOBUF_MEDIA_TYPE_VALUE
+import com.example.tradelog.api.rest.converter.SummaryMatrixConverter
 import com.example.tradelog.api.rest.converter.TradeSummaryConverter
 import com.example.tradelog.api.rest.converter.TransactionSettingsModelConverter
 import com.example.tradelog.api.rest.exception.ExceptionCode
 import com.example.tradelog.api.rest.exception.TradeLogException
 import com.example.tradelog.api.rest.validator.RequestValidator
 import com.example.tradelog.api.spec.model.TLActiveSymbolsResponse
+import com.example.tradelog.api.spec.model.TLSummaryMatrixResponse
 import com.example.tradelog.api.spec.model.TLTradeSummaryResponse
 import com.example.tradelog.api.spec.model.TLTransactionSettingsDto
 import org.slf4j.LoggerFactory
@@ -64,6 +66,17 @@ class TransactionController(private val journalFacade: JournalFacade) {
 
         val summaryList = journalFacade.getSummary(accountId)
         return TradeSummaryConverter.toTradeSummaryResponse(summaryList)
+    }
+
+    @RequestMapping(value = ["/summary/matrix", "/summary/matrix/"], method = [RequestMethod.GET])
+    @ResponseStatus(HttpStatus.OK)
+    fun getSummaryMatrix(@RequestHeader("accountId") accountId: String): TLSummaryMatrixResponse {
+        if (!RequestValidator.validateSummaryMatrix(accountId)) {
+            throw TradeLogException(ExceptionCode.BAD_REQUEST);
+        }
+
+        val summaryList = journalFacade.getSummaryMatrix(accountId)
+        return SummaryMatrixConverter.toSummaryMatrixResponse(summaryList)
     }
 
 

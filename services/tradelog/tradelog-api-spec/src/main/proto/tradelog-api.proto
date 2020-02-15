@@ -101,6 +101,16 @@ message TLTradeSummaryItem {
     bool leg_closed = 4;
 }
 
+message TLSummaryMatrixResponse {
+    repeated TLSummaryMatrixItem items = 1;
+}
+
+message TLSummaryMatrixItem {
+    int32 year = 1;
+    int32 month = 2;
+    double total = 3;
+}
+
 // Used to get all symbols traded
 message TLActiveSymbolsResponse {
     repeated string symbols = 1;
