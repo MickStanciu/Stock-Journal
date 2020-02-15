@@ -9,6 +9,9 @@
                     <li class="nav-item">
                         <router-link class="nav-link" to="/log" exact>Log</router-link>
                     </li>
+                    <li class="nav-item">
+                        <router-link class="nav-link" to="/summary" exact>Summary</router-link>
+                    </li>
                 </ul>
             </div>
         </nav>

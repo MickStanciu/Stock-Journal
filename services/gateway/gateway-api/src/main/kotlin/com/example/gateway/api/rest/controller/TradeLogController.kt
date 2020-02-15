@@ -67,12 +67,11 @@ class TradeLogController(private val tradeLogService: TradeLogService,
         val support = getSupportData(token)
         val summaryModels = transactionService.getSummaryMatrix(support.accountId)
 
-        val dtos = summaryModels.stream().map { SummaryMatrixConverter.toDto(it) }
-                .collect(Collectors.toList())
+        val mapDto = SummaryMatrixConverter.toGWDto(summaryModels)
 
         return GWSummaryMatrixResponse.newBuilder()
-                .addAllItems(dtos)
-                .build();
+                .putAllYears(mapDto)
+                .build()
     }
 
 

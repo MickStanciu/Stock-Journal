@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home'
 import TradeList from './views/TradeList'
 import SymbolSelector from "./views/SymbolSelector";
+import Summary from "./views/Summary";
 import NotFound from "./views/NotFound";
 
 Vue.use(Router);
@@ -21,6 +22,11 @@ export default new Router({
       path: '/log/',
       name: 'log',
       component: SymbolSelector
+    },
+    {
+      path: '/summary/',
+      name: 'summary',
+      component: Summary
     },
     {
       path: '/log/:symbol',

@@ -39,8 +39,6 @@ const appService = {
                 .then(response => {
                     if (response.status === 200) {
                         resolve(response.data)
-                    } else if (response.status === 401) {
-                        console.debug("PIELE")
                     } else {
                         console.debug(response)
                     }
@@ -48,6 +46,23 @@ const appService = {
                 .catch(error => {
                     console.error(error);
             })
+        });
+    },
+
+    getSummaryMatrix() {
+        return new Promise(resolve => {
+            axios
+                .get('/tradelog/summary/matrix' )
+                .then(response => {
+                    if (response.status === 200) {
+                        resolve(response.data)
+                    } else {
+                        console.debug(response)
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                })
         });
     },
 
