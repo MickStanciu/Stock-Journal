@@ -172,8 +172,8 @@ class SyntheticSharesGeneratorTest {
 
         val xyz = syn[0]
         Assertions.assertEquals(ActionType.SELL, xyz.action)
-        Assertions.assertEquals(150, xyz.quantity)
-        Assertions.assertEquals(51.666666666666664, xyz.price)
+        Assertions.assertEquals(700, xyz.quantity)
+        Assertions.assertEquals(73.92857142857143, xyz.price)
         Assertions.assertEquals(60.0, xyz.actualPrice)
         Assertions.assertEquals(99.00, xyz.preferredPrice)
     }

@@ -21,8 +21,8 @@ class StockDataController(private val stockDataService: StockDataService) {
     @RequestMapping(value = ["/{symbol}", "/{symbol}/"], method = [RequestMethod.GET])
     @ResponseStatus(HttpStatus.OK)
     fun getDataBySymbol(
-            @RequestHeader("accountId") accountId: String,
-            @PathVariable(name = "symbol") symbol: String): GWShareDataDto {
+            @RequestHeader(value = "auth-key", required = true) token: String,
+            @PathVariable(name = "symbol", required = true) symbol: String): GWShareDataDto {
 
         //todo: validate input
 

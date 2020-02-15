@@ -51,7 +51,7 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
             LEFT JOIN dividend_log dl on tl.id = dl.transaction_fk
             WHERE tsl.leg_closed = true
                 AND tl.date > date_trunc('month', CURRENT_DATE) - INTERVAL '5 year'
-                AND account_fk = CAST(? AS uuid)
+                AND tl.account_fk = CAST(? AS uuid)
             ORDER BY year, month;
         """
 

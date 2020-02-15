@@ -200,6 +200,16 @@ message GWActiveSymbolsResponse {
     repeated string symbols = 1;
 }
 
+message GWSummaryMatrixResponse {
+    repeated GWSummaryMatrixItem items = 1;
+}
+
+message GWSummaryMatrixItem {
+    int32 year = 1;
+    int32 month = 2;
+    double total = 3;
+}
+
 // Generic error response
 message ExceptionResponse {
     ExceptionCode code = 1;

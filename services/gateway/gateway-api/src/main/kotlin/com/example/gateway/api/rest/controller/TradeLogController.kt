@@ -37,8 +37,8 @@ class TradeLogController(private val tradeLogService: TradeLogService,
     @RequestMapping(value = ["/all/{symbol}", "/all/{symbol}/"], method = [RequestMethod.GET])
     @ResponseStatus(HttpStatus.OK)
     fun getAll(
-            @RequestHeader("auth-key") token: String,
-            @PathVariable(name = "symbol") symbol: String): GWTradeLogDto {
+            @RequestHeader(value = "auth-key", required = true) token: String,
+            @PathVariable(name = "symbol", required = true) symbol: String): GWTradeLogDto {
 
         //todo: validate input
         val support = getSupportData(token)
@@ -49,7 +49,7 @@ class TradeLogController(private val tradeLogService: TradeLogService,
 
     @RequestMapping(value = ["/summary", "/summary/"], method = [RequestMethod.GET])
     @ResponseStatus(HttpStatus.OK)
-    fun getSummary(@RequestHeader("auth-key") token: String): GWTradeSummaryResponse {
+    fun getSummary(@RequestHeader(value = "auth-key", required = true) token: String): GWTradeSummaryResponse {
         val support = getSupportData(token)
         val summaryModels = tradeLogService.getSummary(support.accountId)
 
@@ -61,10 +61,25 @@ class TradeLogController(private val tradeLogService: TradeLogService,
                 .build();
     }
 
+    @RequestMapping(value = ["/summary/matrix", "/summary/matrix/"], method = [RequestMethod.GET])
+    @ResponseStatus(HttpStatus.OK)
+    fun getSummaryMatrix(@RequestHeader(value = "auth-key", required = true) token: String): GWSummaryMatrixResponse {
+        val support = getSupportData(token)
+        val summaryModels = transactionService.getSummaryMatrix(support.accountId)
+
+        val dtos = summaryModels.stream().map { SummaryMatrixConverter.toDto(it) }
+                .collect(Collectors.toList())
+
+        return GWSummaryMatrixResponse.newBuilder()
+                .addAllItems(dtos)
+                .build();
+    }
+
+
     @RequestMapping(value = ["/shares", "/shares/"], method = [RequestMethod.POST])
     @ResponseStatus(HttpStatus.OK)
     fun createShareTransaction(
-            @RequestHeader("auth-key") token: String,
+            @RequestHeader(value = "auth-key", required = true) token: String,
             @RequestBody dto: GWCreateShareJournalDto): GWShareJournalDto {
 
         //todo: validate input
@@ -82,8 +97,8 @@ class TradeLogController(private val tradeLogService: TradeLogService,
     @RequestMapping(value = ["/shares/{transactionId}", "/shares/{transactionId}/"], method = [RequestMethod.PUT])
     @ResponseStatus(HttpStatus.OK)
     fun editShareTransaction(
-            @RequestHeader("auth-key") token: String,
-            @PathVariable(name = "transactionId") transactionId: String,
+            @RequestHeader(value = "auth-key", required = true) token: String,
+            @PathVariable(name = "transactionId", required = true) transactionId: String,
             @RequestBody dto: GWShareJournalDto) {
 
         //todo: validate input
@@ -95,8 +110,8 @@ class TradeLogController(private val tradeLogService: TradeLogService,
     @RequestMapping(value = ["/shares/{transactionId}", "/shares/{transactionId}/"], method = [RequestMethod.DELETE])
     @ResponseStatus(HttpStatus.OK)
     fun deleteShareTransaction(
-            @RequestHeader("auth-key") token: String,
-            @PathVariable(name = "transactionId") transactionId: String) {
+            @RequestHeader(value = "auth-key", required = true) token: String,
+            @PathVariable(name = "transactionId", required = true) transactionId: String) {
 
         //todo: validate input
         val support = getSupportData(token)
@@ -106,7 +121,7 @@ class TradeLogController(private val tradeLogService: TradeLogService,
     @RequestMapping(value = ["/options", "/options/"], method = [RequestMethod.POST])
     @ResponseStatus(HttpStatus.OK)
     fun createOptionTransaction(
-            @RequestHeader("auth-key") token: String,
+            @RequestHeader(value = "auth-key", required = true) token: String,
             @RequestBody dto: GWCreateOptionJournalDto): GWOptionJournalDto {
 
         //todo: validate input
@@ -124,8 +139,8 @@ class TradeLogController(private val tradeLogService: TradeLogService,
     @RequestMapping(value = ["/options/{transactionId}", "/options/{transactionId}/"], method = [RequestMethod.PUT])
     @ResponseStatus(HttpStatus.OK)
     fun editOptionTransaction(
-            @RequestHeader("auth-key") token: String,
-            @PathVariable(name = "transactionId") transactionId: String,
+            @RequestHeader(value = "auth-key", required = true) token: String,
+            @PathVariable(name = "transactionId", required = true) transactionId: String,
             @RequestBody dto: GWOptionJournalDto) {
 
         //todo: validate input
@@ -137,8 +152,8 @@ class TradeLogController(private val tradeLogService: TradeLogService,
     @RequestMapping(value = ["/options/{transactionId}", "/options/{transactionId}/"], method = [RequestMethod.DELETE])
     @ResponseStatus(HttpStatus.OK)
     fun deleteOptionTransaction(
-            @RequestHeader("auth-key") token: String,
-            @PathVariable(name = "transactionId") transactionId: String) {
+            @RequestHeader(value = "auth-key", required = true) token: String,
+            @PathVariable(name = "transactionId", required = true) transactionId: String) {
 
         //todo: validate input
         val support = getSupportData(token)
@@ -148,7 +163,7 @@ class TradeLogController(private val tradeLogService: TradeLogService,
     @RequestMapping(value = ["/dividends", "/dividends/"], method = [RequestMethod.POST])
     @ResponseStatus(HttpStatus.OK)
     fun createDividendTransaction(
-            @RequestHeader("auth-key") token: String,
+            @RequestHeader(value = "auth-key", required = true) token: String,
             @RequestBody dto: GWCreateDividendJournalDto): GWDividendJournalDto {
 
         //todo: validate input
@@ -166,8 +181,8 @@ class TradeLogController(private val tradeLogService: TradeLogService,
     @RequestMapping(value = ["/dividends/{transactionId}", "/dividends/{transactionId}/"], method = [RequestMethod.DELETE])
     @ResponseStatus(HttpStatus.OK)
     fun deleteDividendTransaction(
-            @RequestHeader("auth-key") token: String,
-            @PathVariable(name = "transactionId") transactionId: String) {
+            @RequestHeader(value = "auth-key", required = true) token: String,
+            @PathVariable(name = "transactionId", required = true) transactionId: String) {
 
         //todo: validate input
         val support = getSupportData(token)
@@ -177,8 +192,8 @@ class TradeLogController(private val tradeLogService: TradeLogService,
     @RequestMapping(value = ["/settings/{transactionId}", "/settings/{transactionId}/"], method = [RequestMethod.PUT])
     @ResponseStatus(HttpStatus.OK)
     fun updateSetting(
-            @RequestHeader("auth-key") token: String,
-            @PathVariable(name = "transactionId") transactionId: String,
+            @RequestHeader(value = "auth-key", required = true) token: String,
+            @PathVariable(name = "transactionId", required = true) transactionId: String,
             @RequestBody dto: GWTransactionSettingsDto) {
 
         //todo: validate input
@@ -190,7 +205,7 @@ class TradeLogController(private val tradeLogService: TradeLogService,
     @RequestMapping(value = ["/settings/bulk", "/settings/bulk/"], method = [RequestMethod.PUT])
     @ResponseStatus(HttpStatus.OK)
     fun updateSettings(
-            @RequestHeader("auth-key") token: String,
+            @RequestHeader(value = "auth-key", required = true) token: String,
             @RequestBody dto: GWTransactionSettingsBulkDto) {
 
         //todo: validate input

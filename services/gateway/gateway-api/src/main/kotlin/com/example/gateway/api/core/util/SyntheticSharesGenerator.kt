@@ -12,7 +12,6 @@ fun createSynthetic(models: List<ShareJournalModel>): List<ShareJournalModel> {
 
     models.stream()
             .filter {it.transactionType == TransactionType.SHARE}
-            .filter {!it.legClosed}
             .forEach {
                 val quantity = if (ActionType.BUY === it.action) {
                     it.quantity

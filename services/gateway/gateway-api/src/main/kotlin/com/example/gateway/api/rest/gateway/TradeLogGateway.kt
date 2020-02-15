@@ -137,6 +137,27 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         }
     }
 
+    fun getSummaryMatrix(accountId: String): List<SummaryMatrixModel> {
+        val builder = UriComponentsBuilder
+                .fromHttpUrl(url)
+                .path("/transactions/summary/matrix")
+
+        val headers = HttpHeaders()
+        headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
+        headers.set("accountId", accountId)
+
+        val responseEntity = restTemplate
+                .exchange(builder.build("").toString(), HttpMethod.GET, HttpEntity<Any>(headers), TLSummaryMatrixResponse::class.java)
+
+        val dto = responseEntity.body
+
+        return if (dto != null) {
+            dto.itemsList.stream().map { SummaryMatrixConverter.toModel(it) }.collect(Collectors.toList())
+        } else {
+            Collections.emptyList()
+        }
+    }
+
     fun createShareTransaction(accountId: String, model: ShareJournalModel): ShareJournalModel? {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
