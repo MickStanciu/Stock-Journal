@@ -22,10 +22,11 @@ GRANT ALL PRIVILEGES ON TABLE fundamental TO admin;
 
 CREATE TABLE price
 (
-    symbol          VARCHAR(16) NOT NULL
+    symbol          VARCHAR(16)   NOT NULL
         CONSTRAINT price_pkey PRIMARY KEY,
-    last_updated_on TIMESTAMPTZ NOT NULL,
-    last_close      FLOAT       NOT NULL
+    last_updated_on TIMESTAMPTZ   NOT NULL,
+    last_close      NUMERIC(8, 4) NOT NULL
 );
+
 
 GRANT ALL PRIVILEGES ON TABLE price TO admin;

@@ -4,8 +4,8 @@
             <div class="col">Month</div>
             <div class="col" v-for="(key, idx) in keys" v-bind:key="idx">{{key}}</div>
         </div>
-        <div class="row" v-for="(month, monthIdx) in months" v-bind:key="monthIdx">
-            <div class="col">{{month}}</div>
+        <div class="row table-cell" v-for="(month, monthIdx) in months" v-bind:key="monthIdx">
+            <div class="col month-header">{{month}}</div>
             <div class="col" v-for="(year, yearIdx) in keys" v-bind:key="yearIdx">{{printCurrencyFormat(getMonthlyTotal(year, monthIdx + 1))}}</div>
         </div>
 
@@ -137,5 +137,13 @@
         font-weight: bold;
         vertical-align: center;
         border: #9fcdff 1px solid;
+    }
+
+    .table-cell {
+        background-color: whitesmoke;
+    }
+
+    .table-cell .month-header {
+        font-weight: bold;
     }
 </style>

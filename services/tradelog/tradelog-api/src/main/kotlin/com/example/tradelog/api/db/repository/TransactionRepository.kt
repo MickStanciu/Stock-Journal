@@ -40,17 +40,16 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
 
         private const val SUMMARY_MATRIX = """
             SELECT EXTRACT('year' FROM tl.date) as year, EXTRACT('month' FROM tl.date) as month,
-                       COALESCE(sl.price * sl.quantity, 0) * CASE WHEN sl.action_fk = 'BUY' THEN -1 ELSE 1 END +
                        COALESCE(ol.premium * ol.contract_number * 100, 0) * CASE WHEN ol.action_fk = 'BUY' THEN -1 ELSE 1 END +
                        COALESCE(dl.dividend * dl.quantity, 0) -
                        tl.broker_fees as total
             FROM transaction_log tl
             INNER JOIN transaction_settings_log tsl ON tl.id = tsl.transaction_fk
-            LEFT JOIN shares_log sl on tl.id = sl.transaction_fk
             LEFT JOIN option_log ol on tl.id = ol.transaction_fk
             LEFT JOIN dividend_log dl on tl.id = dl.transaction_fk
             WHERE tsl.leg_closed = true
                 AND tl.date > date_trunc('month', CURRENT_DATE) - INTERVAL '5 year'
+                AND tl.symbol != 'XYZ'
                 AND tl.account_fk = CAST(? AS uuid)
             ORDER BY year, month;
         """
