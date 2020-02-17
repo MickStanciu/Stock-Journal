@@ -25,7 +25,6 @@ class ShareJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalRe
                      INNER JOIN transaction_settings_log tsl on tl.id = tsl.transaction_fk
             WHERE tl.account_fk = CAST(? AS uuid)
                   AND tl.transaction_type_fk = 'SHARE'
-                  AND tsl.leg_closed = true
             ORDER BY symbol;
         """
 

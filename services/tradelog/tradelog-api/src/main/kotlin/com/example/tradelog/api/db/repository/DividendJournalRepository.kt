@@ -19,7 +19,6 @@ class DividendJournalRepository(private val jdbcTemplate: JdbcTemplate) : Journa
                  INNER JOIN transaction_settings_log tsl on tl.id = tsl.transaction_fk
                 WHERE tl.account_fk = CAST(? AS uuid)
                   AND transaction_type_fk = 'DIVIDEND'
-                  AND tsl.leg_closed = true
                 ORDER BY symbol;
         """
 

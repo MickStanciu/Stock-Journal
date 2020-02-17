@@ -26,6 +26,7 @@
 
 <script>
     import service from '../service';
+
     export default {
         name: "SymbolSelector",
         data: function () {
@@ -80,7 +81,23 @@
             service
                 .getSummary()
                 .then(data => {
-                    this.items = data.items;
+                    let localItems = [];
+                    data.items.forEach(function (item) {
+                        let obj = {};
+                        obj.symbol = item.symbol;
+                        if (typeof item.trades === 'undefined') {
+                            obj.trades = 0;
+                        } else {
+                            obj.trades = item.trades;
+                        }
+                        if (typeof item.total === 'undefined') {
+                            obj.total = 0;
+                        } else {
+                            obj.total = item.total;
+                        }
+                        localItems.push(obj);
+                    });
+                    this.items = localItems;
                 });
         }
     }
