@@ -342,4 +342,96 @@ class SyntheticSharesGeneratorTest {
         Assertions.assertEquals("XYZ", xyz.symbol)
     }
 
+    @Test
+    fun testComplex() {
+        val shareModel1 = ShareJournalModel(
+                transactionId = "1234",
+                accountId = "123",
+                symbol = "XYZ",
+                date = OffsetDateTime.now(),
+                price = 55.245,
+                preferredPrice = 0.00,
+                actualPrice = 46.29,
+                quantity = 400,
+                brokerFees = 1.0,
+                groupSelected = false,
+                legClosed = true,
+                transactionType = TransactionType.SHARE,
+                action = ActionType.BUY
+        )
+
+        val shareModel2 = ShareJournalModel(
+                transactionId = "1234",
+                accountId = "123",
+                symbol = "XYZ",
+                date = OffsetDateTime.now(),
+                price = 54.5,
+                preferredPrice =0.00,
+                actualPrice = 46.29,
+                quantity = 400,
+                brokerFees = 0.0,
+                groupSelected = false,
+                legClosed = true,
+                transactionType = TransactionType.SHARE,
+                action = ActionType.SELL
+        )
+
+        val shareModel3 = ShareJournalModel(
+                transactionId = "1234",
+                accountId = "123",
+                symbol = "XYZ",
+                date = OffsetDateTime.now(),
+                price = 55.81,
+                preferredPrice = 44.0,
+                actualPrice = 10.0,
+                quantity = 200,
+                brokerFees = 0.0,
+                groupSelected = false,
+                legClosed = false,
+                transactionType = TransactionType.SHARE,
+                action = ActionType.BUY
+        )
+
+        val shareModel4 = ShareJournalModel(
+                transactionId = "1234",
+                accountId = "123",
+                symbol = "XYZ",
+                date = OffsetDateTime.now(),
+                price = 52.5,
+                preferredPrice = 0.00,
+                actualPrice = 46.29,
+                quantity = 200,
+                brokerFees = 0.0,
+                groupSelected = true,
+                legClosed = false,
+                transactionType = TransactionType.SHARE,
+                action = ActionType.BUY
+        )
+
+        val shareModel5 = ShareJournalModel(
+                transactionId = "1234",
+                accountId = "123",
+                symbol = "XYZ",
+                date = OffsetDateTime.now(),
+                price = 48.868,
+                preferredPrice = 0.00,
+                actualPrice = 46.29,
+                quantity = 200,
+                brokerFees = 1.0,
+                groupSelected = true,
+                legClosed = false,
+                transactionType = TransactionType.SHARE,
+                action = ActionType.BUY
+        )
+
+        shareList.add(shareModel1)
+        shareList.add(shareModel2)
+        shareList.add(shareModel3)
+        shareList.add(shareModel4)
+        shareList.add(shareModel5)
+        val syn = createSynthetic(shareList)
+        Assertions.assertEquals(1, syn.size)
+        Assertions.assertEquals(52.88933333333333, syn[0].price)
+    }
+
 }

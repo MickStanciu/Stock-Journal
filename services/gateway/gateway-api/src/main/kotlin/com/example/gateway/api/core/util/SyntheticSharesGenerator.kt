@@ -11,7 +11,7 @@ fun createSynthetic(models: List<ShareJournalModel>): List<ShareJournalModel> {
     val stockMap = HashMap<String, ShareAggregator>()
 
     models.stream()
-            .filter {it.transactionType == TransactionType.SHARE}
+            .filter { it.transactionType == TransactionType.SHARE && it.groupSelected }
             .forEach {
                 val quantity = if (ActionType.BUY === it.action) {
                     it.quantity
@@ -26,17 +26,16 @@ fun createSynthetic(models: List<ShareJournalModel>): List<ShareJournalModel> {
                             actualPrice = it.actualPrice,
                             preferredPrice = it.preferredPrice)
                 }
-
                 aggregator.addQuantityAndPrice(quantity, it.price)
                 stockMap[it.symbol] = aggregator
             }
 
     val synthetics = ArrayList<ShareJournalModel>()
     stockMap.forEach {(symbol, aggregator) ->
-        if (aggregator.quantity != 0) {
+        if (aggregator.outstandingShares != 0) {
             val averageBoughPrice = aggregator.averageBoughtPrice
             var syntheticActionType = ActionType.SELL
-            if (aggregator.quantity < 0) {
+            if (aggregator.outstandingShares < 0) {
                 syntheticActionType = ActionType.BUY
             }
 
@@ -48,7 +47,7 @@ fun createSynthetic(models: List<ShareJournalModel>): List<ShareJournalModel> {
                     price = averageBoughPrice,
                     preferredPrice = aggregator.preferredPrice,
                     actualPrice = aggregator.actualPrice,
-                    quantity = abs(aggregator.quantity),
+                    quantity = abs(aggregator.outstandingShares),
                     brokerFees = 0.0,
                     groupSelected = true,
                     legClosed = true,

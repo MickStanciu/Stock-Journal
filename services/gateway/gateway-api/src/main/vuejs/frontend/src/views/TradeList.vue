@@ -392,21 +392,15 @@
                 let totalRealisedPremium = 0;
                 let selectedRealisedPremium = 0;
                 let sharesNumber = 0;
+                let selectedSharesNumber = 0;
                 let shareAveragePrice = 0;
+                let selectedAveragePrice = 0;
 
                 this.items.forEach(function (item) {
                     if (item.type === 'SYNTHETIC_SHARE') {
                         totalRealisedPremium += parseFloat(context.calculateSyntheticShareLineItemPL(item, false));
                     } else {
                         totalRealisedPremium += parseFloat(context.calculateLineItemTotal(item));
-                    }
-
-                    if (item.groupSelected === true) {
-                        if (item.type === 'SYNTHETIC_SHARE') {
-                            selectedRealisedPremium += parseFloat(context.calculateSyntheticShareLineItemPL(item, false));
-                        } else {
-                            selectedRealisedPremium += parseFloat(context.calculateLineItemTotal(item));
-                        }
                     }
 
                     if (item.type === 'SHARE') {
@@ -416,6 +410,23 @@
                             sharesNumber -= item.quantity;
                         }
                     }
+
+                    if (item.groupSelected === true) {
+                        if (item.type === 'SYNTHETIC_SHARE') {
+                            selectedRealisedPremium += parseFloat(context.calculateSyntheticShareLineItemPL(item, false));
+                        } else {
+                            selectedRealisedPremium += parseFloat(context.calculateLineItemTotal(item));
+                        }
+
+                        if (item.type === 'SHARE') {
+                            if (item.action === 'BUY') {
+                                selectedSharesNumber += item.quantity;
+                            } else {
+                                selectedSharesNumber -= item.quantity;
+                            }
+                        }
+                    }
+
 
                     if (item.type === 'SYNTHETIC_SHARE') {
                         shareAveragePrice = item.price;

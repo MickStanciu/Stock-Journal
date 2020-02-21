@@ -4,17 +4,15 @@ class ShareAggregator(val symbol: String,
                       var averageBoughtPrice: Double = 0.00,
                       val actualPrice: Double = 0.00,
                       val preferredPrice: Double = 0.00,
-                      var quantity: Int = 0) {
+                      var outstandingShares: Int = 0) {
+
+    private var totalPL: Double = 0.00
 
     fun addQuantityAndPrice(quantity: Int, price: Double) {
-        if (averageBoughtPrice == 0.00 && this.quantity == 0) {
-            this.quantity = quantity
-            this.averageBoughtPrice = price
-        } else {
-            var tempValue: Double = this.quantity * this.averageBoughtPrice
-            tempValue += quantity * price
-            this.quantity += quantity
-            this.averageBoughtPrice = tempValue / this.quantity
+        this.totalPL += quantity * price
+        this.outstandingShares += quantity
+        if (this.outstandingShares != 0) {
+            this.averageBoughtPrice = this.totalPL / this.outstandingShares
         }
     }
 }
