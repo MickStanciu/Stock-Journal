@@ -1,5 +1,6 @@
 <template>
     <div id="summary">
+        <h2>Options and Dividends Cashflow</h2>
         <div class="row mt-3 pb-2 pt-2 table-header">
             <div class="col">Month</div>
             <div class="col" v-for="(key, idx) in keys" v-bind:key="idx">{{key}}</div>
