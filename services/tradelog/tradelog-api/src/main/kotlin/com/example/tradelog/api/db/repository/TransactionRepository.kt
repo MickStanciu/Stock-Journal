@@ -50,6 +50,7 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
             WHERE tsl.leg_closed = true
                 AND tl.date > date_trunc('month', CURRENT_DATE) - INTERVAL '5 year'
                 AND tl.symbol != 'XYZ'
+                AND tl.transaction_type_fk in ('OPTION', 'DIVIDEND')
                 AND tl.account_fk = CAST(? AS uuid)
             ORDER BY year, month;
         """
