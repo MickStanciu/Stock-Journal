@@ -156,7 +156,7 @@ class SyntheticSharesGeneratorTest {
                 quantity = 550,
                 brokerFees = 0.0,
                 groupSelected = true,
-                legClosed = true,
+                legClosed = false,
                 transactionType = TransactionType.SHARE,
                 action = ActionType.BUY
         )
@@ -281,8 +281,8 @@ class SyntheticSharesGeneratorTest {
                 actualPrice = 0.0,
                 quantity = 100,
                 brokerFees = 0.0,
-                groupSelected = false,
-                legClosed = true,
+                groupSelected = true,
+                legClosed = false,
                 transactionType = TransactionType.SHARE,
                 action = ActionType.BUY
         )
@@ -297,8 +297,8 @@ class SyntheticSharesGeneratorTest {
                 actualPrice = 0.0,
                 quantity = 100,
                 brokerFees = 0.0,
-                groupSelected = false,
-                legClosed = true,
+                groupSelected = true,
+                legClosed = false,
                 transactionType = TransactionType.SHARE,
                 action = ActionType.SELL
         )
@@ -355,7 +355,7 @@ class SyntheticSharesGeneratorTest {
                 quantity = 400,
                 brokerFees = 1.0,
                 groupSelected = true,
-                legClosed = true,
+                legClosed = false,
                 transactionType = TransactionType.SHARE,
                 action = ActionType.BUY
         )
@@ -371,7 +371,7 @@ class SyntheticSharesGeneratorTest {
                 quantity = 400,
                 brokerFees = 0.0,
                 groupSelected = true,
-                legClosed = true,
+                legClosed = false,
                 transactionType = TransactionType.SHARE,
                 action = ActionType.SELL
         )
@@ -447,7 +447,7 @@ class SyntheticSharesGeneratorTest {
                 quantity = 100,
                 brokerFees = 0.0,
                 groupSelected = true,
-                legClosed = true,
+                legClosed = false,
                 transactionType = TransactionType.SHARE,
                 action = ActionType.BUY
         )
@@ -463,7 +463,7 @@ class SyntheticSharesGeneratorTest {
                 quantity = 300,
                 brokerFees = 0.0,
                 groupSelected = true,
-                legClosed = true,
+                legClosed = false,
                 transactionType = TransactionType.SHARE,
                 action = ActionType.BUY
         )
