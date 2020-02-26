@@ -434,4 +434,44 @@ class SyntheticSharesGeneratorTest {
         Assertions.assertEquals(52.88933333333333, syn[0].price)
     }
 
+    @Test
+    fun testWBA() {
+        val shareModel1 = ShareJournalModel(
+                transactionId = "1234",
+                accountId = "123",
+                symbol = "WBA",
+                date = OffsetDateTime.now(),
+                price = 72.50,
+                preferredPrice = 0.00,
+                actualPrice = 0.00,
+                quantity = 100,
+                brokerFees = 0.0,
+                groupSelected = true,
+                legClosed = true,
+                transactionType = TransactionType.SHARE,
+                action = ActionType.BUY
+        )
+
+        val shareModel2 = ShareJournalModel(
+                transactionId = "1234",
+                accountId = "123",
+                symbol = "WBA",
+                date = OffsetDateTime.now(),
+                price = 55.00,
+                preferredPrice = 0.00,
+                actualPrice = 0.00,
+                quantity = 300,
+                brokerFees = 0.0,
+                groupSelected = true,
+                legClosed = true,
+                transactionType = TransactionType.SHARE,
+                action = ActionType.BUY
+        )
+
+        shareList.add(shareModel1)
+        shareList.add(shareModel2)
+        val syn = createSynthetic(shareList)
+        Assertions.assertEquals(1, syn.size)
+        Assertions.assertEquals(59.375, syn[0].price)
+    }
 }

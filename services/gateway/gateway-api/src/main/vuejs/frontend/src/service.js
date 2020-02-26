@@ -2,7 +2,7 @@ import axios from 'axios';
 import router from './router'
 
 axios.defaults.baseURL = 'http://localhost:8085/api/v1';
-const token = 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJCZW5kaXMiLCJzdWIiOiJhdXRoIiwicm9sZUlkIjoxLCJhY2NvdW50SWQiOiJkNzllYzExYS0yMDExLTQ0MjMtYmEwMS0zYWY4ZGUwYTNlMTQiLCJpYXQiOjE1ODE0NTIyOTksImV4cCI6MTU4MjY2MTg5OX0.QUAleYGCyp_-YrE3ahnBXcVHfPdeZdBJU4MFUCsKpM8';
+const token = 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJCZW5kaXMiLCJzdWIiOiJhdXRoIiwicm9sZUlkIjoxLCJhY2NvdW50SWQiOiJkNzllYzExYS0yMDExLTQ0MjMtYmEwMS0zYWY4ZGUwYTNlMTQiLCJpYXQiOjE1ODI2OTY0MjksImV4cCI6MTU4MzkwNjAyOX0.cqd6x5J2EA4ZwUb9LdfkjDjTSnVKSZIQiYRny0_YfqE';
 axios.defaults.headers.common['auth-key'] = token;
 
 
