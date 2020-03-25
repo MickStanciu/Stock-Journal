@@ -5,6 +5,7 @@ import TradeList from './views/TradeList'
 import SymbolSelector from "./views/SymbolSelector";
 import Summary from "./views/Summary";
 import NotFound from "./views/NotFound";
+import Login from "./views/Login";
 
 Vue.use(Router);
 
@@ -32,6 +33,11 @@ export default new Router({
       path: '/log/:symbol',
       name: 'log_symbol',
       component: TradeList
+    },
+    {
+      path: '/login/',
+      name: 'login',
+      component: Login
     },
     {
       path: '*',

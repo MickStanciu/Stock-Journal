@@ -12,7 +12,7 @@ axios.interceptors.response.use(
     },
     (error => {
         if (error.response.status === 401) {
-            router.push('/Login')
+            router.push('/login')
         }
         return Promise.reject(error)
     })
