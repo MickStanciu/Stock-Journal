@@ -31,7 +31,7 @@ class TransactionController(private val journalFacade: JournalFacade) {
     fun getAllTradedSymbols(@RequestHeader("accountId") accountId: String): TLActiveSymbolsResponse {
 
         if (!RequestValidator.validateGetAllTradedSymbols(accountId)) {
-            throw TradeLogException(ExceptionCode.BAD_REQUEST);
+            throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
         val symbols = journalFacade.getAllTradedSymbols(accountId)
@@ -61,7 +61,7 @@ class TransactionController(private val journalFacade: JournalFacade) {
     fun getSummary(@RequestHeader("accountId") accountId: String): TLTradeSummaryResponse {
 
         if (!RequestValidator.validateGetSummary(accountId)) {
-            throw TradeLogException(ExceptionCode.BAD_REQUEST);
+            throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
         val summaryList = journalFacade.getSummary(accountId)
@@ -72,7 +72,7 @@ class TransactionController(private val journalFacade: JournalFacade) {
     @ResponseStatus(HttpStatus.OK)
     fun getSummaryMatrix(@RequestHeader("accountId") accountId: String): TLSummaryMatrixResponse {
         if (!RequestValidator.validateSummaryMatrix(accountId)) {
-            throw TradeLogException(ExceptionCode.BAD_REQUEST);
+            throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
         val summaryList = journalFacade.getSummaryMatrix(accountId)
@@ -87,7 +87,7 @@ class TransactionController(private val journalFacade: JournalFacade) {
                        @RequestBody dto: TLTransactionSettingsDto) {
 
         if (!RequestValidator.validateUpdateSettings(accountId, transactionId, dto)) {
-            throw TradeLogException(ExceptionCode.BAD_REQUEST);
+            throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
         if (!journalFacade.updateSettings(TransactionSettingsModelConverter.toModel(dto))) {

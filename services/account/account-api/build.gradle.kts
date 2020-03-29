@@ -1,3 +1,6 @@
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 description = "Account API"
 group = "com.example.account.api"
 version = "0.0.1-SNAPSHOT"
@@ -34,11 +37,17 @@ dependencies {
     implementation (project(":services:common"))
     implementation (project(":services:account:account-api-spec"))
 
+    implementation("org.springframework.boot:spring-boot-starter-web")
     implementation ("org.springframework.boot:spring-boot-starter-undertow")
     implementation ("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation ("org.springframework.boot:spring-boot-starter-actuator")
     implementation ("org.postgresql:postgresql:${postgreSqlVersion}")
     implementation ("org.flywaydb:flyway-core:${flywayDbVersion}")
+
+    implementation ("com.google.protobuf:protobuf-java-util:$protobufVersion")
+    implementation ("com.google.code.findbugs:jsr305:3.0.2")
+    implementation ("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
+    implementation ("com.fasterxml.jackson.core:jackson-databind:2.10.0")
 
     runtimeOnly("org.springframework.boot:spring-boot-devtools")
 
@@ -64,19 +73,19 @@ tasks {
         testLogging.showExceptions = true
         testLogging {
             events = setOf(
-                    org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED,
-                    org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED,
-                    org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED)
+                    TestLogEvent.PASSED,
+                    TestLogEvent.FAILED,
+                    TestLogEvent.SKIPPED)
         }
     }
 }
 
-val compileKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
+val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
     jvmTarget = "1.8"
 }
 
-val compileTestKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
+val compileTestKotlin: KotlinCompile by tasks
 compileTestKotlin.kotlinOptions {
     jvmTarget = "1.8"
 }

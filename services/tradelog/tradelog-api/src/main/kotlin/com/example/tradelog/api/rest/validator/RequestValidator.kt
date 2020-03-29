@@ -88,7 +88,7 @@ class RequestValidator: FieldValidator() {
                     && dto.transactionDetails.type === TLTransactionDto.TransactionType.DIVIDEND
                     && dto.transactionDetails.date != null
                     && symbol.test(dto.transactionDetails.symbol)
-                    && FieldValidator.accountId.test(dto.transactionDetails.accountId)
+                    && accountId.test(dto.transactionDetails.accountId)
                     && dto.quantity >= 0
                     && dto.dividend >= 0)
         }
@@ -98,7 +98,7 @@ class RequestValidator: FieldValidator() {
                     && dto.transactionDetails.type === TLTransactionDto.TransactionType.SHARE
                     && dto.transactionDetails.date != null
                     && symbol.test(dto.transactionDetails.symbol)
-                    && FieldValidator.accountId.test(dto.transactionDetails.accountId)
+                    && accountId.test(dto.transactionDetails.accountId)
                     && dto.action != null
                     && dto.action !== TLShareJournalDto.ActionType.UNKNOWN_ACTION_TYPE
                     && dto.price >= 0.00 && dto.quantity >= 1)
@@ -109,7 +109,7 @@ class RequestValidator: FieldValidator() {
                     && dto.transactionDetails.type === TLTransactionDto.TransactionType.OPTION
                     && dto.transactionDetails.date != null
                     && symbol.test(dto.transactionDetails.symbol)
-                    && FieldValidator.accountId.test(dto.transactionDetails.accountId)
+                    && accountId.test(dto.transactionDetails.accountId)
                     && dto.action != null
                     && dto.action !== TLOptionJournalDto.ActionType.UNKNOWN_ACTION_TYPE
                     && (dto.optionType === TLOptionJournalDto.OptionType.CALL || dto.optionType === TLOptionJournalDto.OptionType.PUT)

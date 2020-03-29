@@ -36,7 +36,7 @@ dependencies {
     implementation (project(":services:common"))
     implementation (project(":services:tradelog:tradelog-api-spec"))
 
-    implementation("org.springframework.boot:spring-boot-starter-web");
+    implementation("org.springframework.boot:spring-boot-starter-web")
     implementation ("org.springframework.boot:spring-boot-starter-undertow")
     implementation ("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation ("org.springframework.boot:spring-boot-starter-actuator")
