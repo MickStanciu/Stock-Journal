@@ -1,5 +1,5 @@
-description = "StockData API"
-group = "com.example.stockdata.api"
+description = "Account API"
+group = "com.example.account.api"
 version = "0.0.1-SNAPSHOT"
 
 plugins {
@@ -32,26 +32,18 @@ configurations {
 dependencies {
     implementation (kotlin("stdlib"))
     implementation (project(":services:common"))
-    implementation (project(":services:stockdata:stockdata-api-spec"))
+    implementation (project(":services:account:account-api-spec"))
 
-    implementation ("org.springframework.boot:spring-boot-starter-web")
     implementation ("org.springframework.boot:spring-boot-starter-undertow")
     implementation ("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation ("org.springframework.boot:spring-boot-starter-amqp")
     implementation ("org.springframework.boot:spring-boot-starter-actuator")
-    implementation ("org.postgresql:postgresql:$postgreSqlVersion")
-    implementation ("org.flywaydb:flyway-core:$flywayDbVersion")
+    implementation ("org.postgresql:postgresql:${postgreSqlVersion}")
+    implementation ("org.flywaydb:flyway-core:${flywayDbVersion}")
 
-    implementation ("com.google.protobuf:protobuf-java-util:$protobufVersion")
-    implementation ("com.google.code.findbugs:jsr305:3.0.2")
-    implementation ("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
-    implementation ("com.fasterxml.jackson.core:jackson-databind:2.10.0")
+    runtimeOnly("org.springframework.boot:spring-boot-devtools")
 
-    runtimeOnly ("org.springframework.boot:spring-boot-devtools")
-
-    testImplementation ("org.junit.jupiter:junit-jupiter:$junitVersion")
+    testImplementation ("org.junit.jupiter:junit-jupiter:${junitVersion}")
     testImplementation ("org.springframework.boot:spring-boot-starter-test")
-    testImplementation ("org.springframework.amqp:spring-rabbit-test")
 }
 
 sourceSets {
@@ -90,6 +82,5 @@ compileTestKotlin.kotlinOptions {
 }
 
 application {
-    mainClassName = "com.example.stockdata.api.StockDataApi"
+    mainClassName = "com.example.account.api.AccountApi"
 }
-
