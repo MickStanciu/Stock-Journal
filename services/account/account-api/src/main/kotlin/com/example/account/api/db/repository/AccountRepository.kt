@@ -13,7 +13,7 @@ class AccountRepository(private val jdbcTemplate: JdbcTemplate) {
         private val LOG = LoggerFactory.getLogger(AccountRepository::class.java)
 
         private const val GET_ACCOUNT = """
-            SELECT acs.id, ad.display_name, ad.login_name, ad.email, acs.password, acs.rainbow, ad.active
+            SELECT acs.id, ad.display_name, ad.login_name, ad.email, acs.password, ad.active
             FROM account_secure acs
             INNER JOIN account_detail ad ON acs.id = ad.account_fk
             WHERE login_name = ?;

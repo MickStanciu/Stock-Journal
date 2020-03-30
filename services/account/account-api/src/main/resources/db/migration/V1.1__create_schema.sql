@@ -8,8 +8,7 @@ CREATE TABLE account_secure
 (
     id       UUID DEFAULT uuid_generate_v4() NOT NULL
         CONSTRAINT account_pkey PRIMARY KEY,
-    password VARCHAR(20)                     NOT NULL,
-    rainbow  VARCHAR(64)                     NOT NULL
+    password VARCHAR(200)                    NOT NULL
 );
 
 GRANT ALL PRIVILEGES ON TABLE account_secure TO admin;
@@ -26,10 +25,3 @@ CREATE TABLE account_detail
 );
 
 GRANT ALL PRIVILEGES ON TABLE account_detail TO admin;
-
-CREATE TABLE rainbow
-(
-    rainbow VARCHAR(64) NOT NULL
-);
-
-GRANT ALL PRIVILEGES ON TABLE rainbow TO admin;

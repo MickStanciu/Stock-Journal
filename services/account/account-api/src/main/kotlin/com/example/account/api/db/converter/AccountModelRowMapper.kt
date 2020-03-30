@@ -10,7 +10,6 @@ class AccountModelRowMapper: RowMapper<AccountModel> {
                 displayName = rs.getString("display_name"),
                 loginName = rs.getString("login_name"),
                 password = rs.getString("password"),
-                rainbow = rs.getString("rainbow"),
                 email = rs.getString("email"),
                 active = rs.getBoolean("active"))
     }

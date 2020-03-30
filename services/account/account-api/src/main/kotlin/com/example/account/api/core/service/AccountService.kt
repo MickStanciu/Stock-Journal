@@ -15,18 +15,12 @@ class AccountService(private val repository: AccountRepository) {
     fun getAccount(username: String, password: String): AccountModel? {
         val model = repository.getAccount(username) ?: return null
 
-        //TODO: check password here
-        val encrypted = getEncryptedPassword(password, model.rainbow)
-        if (encrypted == model.password) {
+        val valid = HashUtils.validatePassword(password, model.password)
+        if (valid) {
             return model
         }
         LOG.error("Authentication failure for {}", model.loginName)
         return null
     }
 
-    fun getEncryptedPassword(textPassword: String, rainbow: String): String {
-        val encrypted = "";
-
-        return encrypted;
-    }
 }
