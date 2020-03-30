@@ -13,15 +13,15 @@ class AccountRepository(private val jdbcTemplate: JdbcTemplate) {
         private val LOG = LoggerFactory.getLogger(AccountRepository::class.java)
 
         private const val GET_ACCOUNT = """
-            SELECT acs.id, ad.display_name, ad.login_name, ad.email, ad.active
+            SELECT acs.id, ad.display_name, ad.login_name, ad.email, acs.password, acs.rainbow, ad.active
             FROM account_secure acs
             INNER JOIN account_detail ad ON acs.id = ad.account_fk
-            WHERE login_name = ? AND password = ?;
+            WHERE login_name = ?;
         """
     }
 
-    fun getAccount(loginName: String, password: String): AccountModel? {
-        val parameters = arrayOf<Any>(loginName, password)
+    fun getAccount(loginName: String): AccountModel? {
+        val parameters = arrayOf<Any>(loginName)
         val models = jdbcTemplate.query(GET_ACCOUNT, parameters, AccountModelRowMapper())
         if (models.size == 1) {
             return models[0]

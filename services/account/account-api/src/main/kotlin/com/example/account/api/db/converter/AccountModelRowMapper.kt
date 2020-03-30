@@ -9,6 +9,8 @@ class AccountModelRowMapper: RowMapper<AccountModel> {
         return AccountModel(id = rs.getString("id"),
                 displayName = rs.getString("display_name"),
                 loginName = rs.getString("login_name"),
+                password = rs.getString("password"),
+                rainbow = rs.getString("rainbow"),
                 email = rs.getString("email"),
                 active = rs.getBoolean("active"))
     }

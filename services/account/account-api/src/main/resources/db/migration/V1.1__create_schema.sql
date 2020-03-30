@@ -18,7 +18,8 @@ CREATE TABLE account_detail
 (
     account_fk   UUID                  NOT NULL
         CONSTRAINT account_pkey REFERENCES account_secure (id),
-    login_name   VARCHAR(20)           NOT NULL,
+    login_name   VARCHAR(20)           NOT NULL
+        CONSTRAINT login_name_uq UNIQUE,
     display_name VARCHAR(20)           NOT NULL,
     email        VARCHAR(64)           NOT NULL,
     active       BOOLEAN DEFAULT FALSE NOT NULL
