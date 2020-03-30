@@ -6,7 +6,6 @@ group = "com.example.account.api"
 version = "0.0.1-SNAPSHOT"
 
 plugins {
-    java
     kotlin("jvm")
     kotlin ("plugin.spring")
     application

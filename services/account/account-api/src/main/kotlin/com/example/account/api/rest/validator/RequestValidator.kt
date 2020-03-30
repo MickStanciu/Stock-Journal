@@ -12,15 +12,18 @@ class RequestValidator: FieldValidator() {
         }
 
         //TODO: add regex
-        private var testUsername = Predicate { s: String? -> StringValidator(s)
+        private var testUsername = Predicate { s: String? ->
+            StringValidator(s)
                     .notNull()
-                    .sizeEqualTo(36)
+                    .sizeGreaterOrEqualTo(5)
+                    .sizeLessOrEqualTo(20)
                     .isValid
         }
 
         private var testPassword = Predicate { s: String? -> StringValidator(s)
                 .notNull()
-                .sizeEqualTo(36)
+                .sizeGreaterOrEqualTo(5)
+                .sizeLessOrEqualTo(20)
                 .isValid
         }
 

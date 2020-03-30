@@ -1,6 +1,6 @@
 package com.example.account.api.rest.controller
 
-import com.example.account.api.facade.AccountFacade
+import com.example.account.api.core.service.AccountService
 import com.example.account.api.rest.controller.AccountController.Companion.PROTOBUF_MEDIA_TYPE_VALUE
 import com.example.account.api.rest.converter.AccountModelConverter
 import com.example.account.api.rest.exception.AccountException
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping(value = ["/api/v1"], produces = [PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE])
-class AccountController(private val accountFacade: AccountFacade) {
+class AccountController(private val accountService: AccountService) {
 
     companion object {
         const val PROTOBUF_MEDIA_TYPE_VALUE = "application/x-protobuf"
@@ -31,11 +31,9 @@ class AccountController(private val accountFacade: AccountFacade) {
         if (!RequestValidator.validateGetAccountByUserAndPassword(username, password)) {
             throw AccountException(ExceptionCode.BAD_REQUEST)
         }
-        val accountModel = accountFacade.getAccount(username, password)
+        val accountModel = accountService.getAccount(username, password)
+                ?: throw AccountException(ExceptionCode.ACCOUNT_NOT_FOUND)
 
-        if (accountModel == null || accountModel.isEmpty) {
-            throw AccountException(ExceptionCode.ACCOUNT_NOT_FOUND)
-        }
-        return AccountModelConverter.toDto(accountModel.get())
+        return AccountModelConverter.toDto(accountModel)
     }
 }
