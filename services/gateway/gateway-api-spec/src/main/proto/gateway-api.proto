@@ -191,9 +191,6 @@ message GWShareDataDto {
 //    double calculated_target = 12;
 }
 
-message GWAuthTokenDto {
-    string token = 1;
-}
 
 // Used to get all symbols traded
 message GWActiveSymbolsResponse {
@@ -207,6 +204,19 @@ message GWSummaryMatrixResponse {
 message GWSummaryMatrixItem {
     map<int32, double> months = 1;
     double total = 3;
+}
+
+message GWAuthRequestDto {
+    string login_name = 1;
+    string password = 2;
+}
+
+message GWAuthResponseDto {
+    string account_id = 1;
+    string login_name = 2;
+    string display_name = 3;
+    string email = 4;
+    string api_token = 5;
 }
 
 // Generic error response

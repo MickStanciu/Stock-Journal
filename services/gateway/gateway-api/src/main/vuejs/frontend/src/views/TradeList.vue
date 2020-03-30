@@ -301,7 +301,7 @@
 
                 let params = {
                     style: 'decimal',
-                    minimumFractionDigits: 2
+                    minimumFractionDigits: 4
                 };
 
 
