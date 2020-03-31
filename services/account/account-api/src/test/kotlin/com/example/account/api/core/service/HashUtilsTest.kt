@@ -18,6 +18,16 @@ class HashUtilsTest {
         val password = "secret"
         val hash = HashUtils.hashPassword(password)
         Assertions.assertNotNull(hash)
+        println(hash?.length)
+    }
+
+    @Test
+    fun testComplexHashPassword() {
+        val password = "!SecretP@55w0rd la m@r3 !SecretP@55w0rd la m@r3"
+        println(password.length)
+        val hash = HashUtils.hashPassword(password)
+        Assertions.assertNotNull(hash)
+        println(hash?.length)
     }
 
     @Test

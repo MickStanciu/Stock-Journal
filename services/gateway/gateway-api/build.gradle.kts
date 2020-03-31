@@ -1,4 +1,4 @@
-description = "GateWay API"
+description = "Gateway API"
 group = "com.example.gateway.api"
 version = "0.0.1-SNAPSHOT"
 
@@ -87,8 +87,6 @@ tasks {
         }
     }
 }
-
-
 
 application {
     mainClassName = "com.example.gateway.api.GatewayApi"

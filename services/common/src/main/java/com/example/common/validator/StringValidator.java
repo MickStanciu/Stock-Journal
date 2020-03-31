@@ -35,6 +35,11 @@ public class StringValidator implements Validator {
         return this;
     }
 
+    public StringValidator regex(String pattern) {
+        this.result &= this.string != null && this.string.matches(pattern);
+        return this;
+    }
+
     @Override
     public boolean isValid() {
         return this.result;

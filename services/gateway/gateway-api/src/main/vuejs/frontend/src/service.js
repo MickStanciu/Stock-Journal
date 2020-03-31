@@ -19,19 +19,6 @@ axios.interceptors.response.use(
 );
 
 const appService = {
-    // getTradedSymbols() {
-    //     return new Promise(resolve => {
-    //         axios
-    //             .get('/tradelog/symbols')
-    //             .then(response => {
-    //                 resolve(response.data)
-    //             })
-    //             .catch(error => {
-    //                 console.error(error);
-    //             })
-    //     });
-    // },
-
     getSummary() {
         return new Promise(resolve => {
             axios
