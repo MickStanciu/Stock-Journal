@@ -1,9 +1,9 @@
 package com.example.gateway.api.rest.converter
 
-import com.example.gateway.api.core.model.TokenClaims
 import com.example.gateway.api.rest.exception.ExceptionCode
 import com.example.gateway.api.rest.exception.GatewayApiException
 import io.jsonwebtoken.Claims
+import io.jsonwebtoken.JwtException
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
 import io.jsonwebtoken.impl.TextCodec
@@ -17,19 +17,17 @@ class TokenConverter {
         private val LOG = LoggerFactory.getLogger(TokenConverter::class.java)
         private val ALGORITHM = SignatureAlgorithm.HS256
         private const val SIGNATURE = "e8SZbGZiw59dw7E4IXDDuA=="
-        private const val ISSUER = "Bendis"
-        private const val TTL = 1209600000L //14 days
+        private const val ISSUER = "JadeBaboon"
+//        private const val TTL = 1209600000L //14 days
+        private const val TTL = 86400 //14 days
 
 
-        fun decode(token: String): TokenClaims {
+        fun decode(token: String): String {
             val claims = getClaims(token)
 
             return try {
-                TokenClaims(
-                        accountId = claims["accountId"] as String,
-                        roleId = claims["roleId"] as Int
-                )
-            } catch (ex: Exception) {
+                claims["accountId"] as String
+            } catch (ex: JwtException) {
                 LOG.error("Token validation error!", ex.message)
                 throw GatewayApiException(code = ExceptionCode.TOKEN_FAIL)
             }
@@ -41,7 +39,6 @@ class TokenConverter {
             return Jwts.builder()
                     .setIssuer(ISSUER)
                     .setSubject("auth")
-                    .claim("roleId", 1)
                     .claim("accountId", accountId)
                     .setIssuedAt(Date(nowMillis))
                     .setExpiration(Date(nowMillis + TTL))
@@ -56,9 +53,6 @@ class TokenConverter {
                     .body
         }
 
-        /**
-         * TODO: might need to return an ENUM in the future: INVALID, EXPIRED...
-         */
         fun validate(token: String?): Boolean {
             if (token.isNullOrBlank()) {
                 return false
@@ -66,9 +60,7 @@ class TokenConverter {
 
             return try {
                 val claims = getClaims(token)
-                return ISSUER == claims.issuer
-                        && claims.containsKey("accountId")
-                        && claims.containsKey("roleId")
+                return ISSUER == claims.issuer && claims.containsKey("accountId")
             } catch (ex: Exception) {
                 false
             }

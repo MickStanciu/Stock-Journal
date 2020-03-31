@@ -7,7 +7,6 @@ import com.example.gateway.api.rest.converter.TokenConverter
 interface SecureController {
 
     fun getSupportData(token: String): SupportMetadata {
-        val claims = TokenConverter.decode(token)
-        return SupportMetadataConverter.build(accountId = claims.accountId)
+        return SupportMetadataConverter.build(accountId = TokenConverter.decode(token))
     }
 }

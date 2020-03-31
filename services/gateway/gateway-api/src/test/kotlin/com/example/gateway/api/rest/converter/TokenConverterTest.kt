@@ -11,9 +11,9 @@ class TokenConverterTest {
         val token = TokenConverter.encode(accountId)
         Assertions.assertFalse(token.isBlank())
 
-        val tokenClaims = TokenConverter.decode(token)
-        Assertions.assertNotNull(tokenClaims)
-        Assertions.assertEquals(accountId, tokenClaims.accountId)
+        val storedAccountId = TokenConverter.decode(token)
+        Assertions.assertNotNull(storedAccountId)
+        Assertions.assertEquals(accountId, storedAccountId)
     }
 
     @Test
@@ -34,5 +34,4 @@ class TokenConverterTest {
         val badToken = "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBQkNEIiwic3ViIjoiYXV0aCIsInJvbGVJZCI6MSwiYWNjb3VudElkIjoiMzY2YjViZjgtMmYzNy00ZTE3LTg2MmQtNDYxM2VlMjAzZTYzIiwiaWF0IjoxNTgxMTUwMDczLCJleHAiOjE1ODIzNTk2NzN9.5MTu16d9Ss1dez3X5QxzmmPDYyoHxEMUFdQtCnSH3jg"
         Assertions.assertFalse(TokenConverter.validate(badToken))
     }
-
 }

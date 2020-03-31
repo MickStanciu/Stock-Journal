@@ -21,18 +21,6 @@ class TradeLogController(private val tradeLogService: TradeLogService,
         const val PROTOBUF_MEDIA_TYPE_VALUE = "application/x-protobuf"
     }
 
-//    @RequestMapping(value = ["/symbols", "/symbols/"], method = [RequestMethod.GET])
-//    @ResponseStatus(HttpStatus.OK)
-//    fun getAllTradedSymbols(@RequestHeader("auth-key") token: String): ActiveSymbolsResponse {
-//
-//        //todo: validate input
-//
-//        val tradedSymbols: List<String> = tradeLogService.getAllTradedSymbols(accountId)
-//
-//        return ActiveSymbolsResponse.newBuilder()
-//                .addAllSymbols(tradedSymbols)
-//                .build()
-//    }
 
     @RequestMapping(value = ["/all/{symbol}", "/all/{symbol}/"], method = [RequestMethod.GET])
     @ResponseStatus(HttpStatus.OK)
