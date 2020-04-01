@@ -18,8 +18,8 @@ class TokenConverter {
         private val ALGORITHM = SignatureAlgorithm.HS256
         private const val SIGNATURE = "e8SZbGZiw59dw7E4IXDDuA=="
         private const val ISSUER = "JadeBaboon"
-//        private const val TTL = 1209600000L //14 days
-        private const val TTL = 86400 //1 day
+        private const val TTL = 1209600000L //14 days
+//        private const val TTL = 86400000 //1 day
 
 
         fun decode(token: String): String {
