@@ -8,8 +8,8 @@ axios.interceptors.response.use(
         return response
     },
     (error => {
+        console.debug(error);
         if (error.response.status === 401) {
-            this.$store.dispatch('auth/fail');
             router.push('/login');
         }
         return Promise.reject(error)

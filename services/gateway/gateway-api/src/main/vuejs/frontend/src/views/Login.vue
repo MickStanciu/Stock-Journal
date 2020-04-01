@@ -80,7 +80,10 @@
                 this.form_validation.username = validation.isUserName(this.form_element.username) !== false;
                 this.form_validation.password = validation.isPassword(this.form_element.password) !== false;
                 return this.form_validation.isValid();
-            }
+            },
+        },
+        created() {
+            this.$store.dispatch('auth/fail');
         }
     }
 </script>

@@ -70,6 +70,11 @@
             console.debug("CREATED");
             let model = JSON.parse( localStorage.getItem('auth'));
             console.debug(model);
+            if (model === null) {
+                router.push('/login');
+                return
+            }
+
             if (this.$store.state.auth.isAuthenticated === false) {
                 if ("undefined" !== typeof model && "undefined" !== typeof(model["api_token"])) {
                     this.$store.dispatch('auth/success', model);
