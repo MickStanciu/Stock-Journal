@@ -37,6 +37,14 @@ const validation = {
 
     isExpDate(test) {
         return dateTimeUtil.checkIfExpDateIsCorrect(test);
+    },
+
+    isUserName(test) {
+        return test.trim().length >= 5
+    },
+
+    isPassword(test) {
+        return test.trim().length >= 5
     }
 };
 

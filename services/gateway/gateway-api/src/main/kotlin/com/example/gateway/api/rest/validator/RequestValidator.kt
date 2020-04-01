@@ -16,7 +16,7 @@ class RequestValidator: FieldValidator() {
         fun validateAuthenticate(username: String, password: String): Boolean {
             return testUsername.test(username)
                     && testPassword.test(password)
-                    && analysePassword(password)
+//                    && analysePassword(password)
         }
 
         private var testUsername = Predicate { s: String ->

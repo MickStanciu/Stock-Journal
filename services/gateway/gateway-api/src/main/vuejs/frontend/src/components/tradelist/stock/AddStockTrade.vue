@@ -66,7 +66,6 @@
     import service from '../../../service';
     import dateTimeUtil from '../../../utils/time'
     import validation from "../../../utils/validation";
-    import ShareApiModel from '../../../models/ShareApiModel'
     import CreateShareApiModel from "../../../models/CreateShareApiModel";
 
     export default {
@@ -116,8 +115,6 @@
                 shareDto.quantity = this.form_element.quantity;
                 shareDto.brokerFees = this.form_element.fees;
 
-                console.debug("saving shareDto");
-                console.debug(shareDto);
                 service.recordShareTrade(shareDto).then(data => {
                   if (data === null) {
                       this.$store.dispatch('stock/hideModal');

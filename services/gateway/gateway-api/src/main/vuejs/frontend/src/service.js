@@ -2,9 +2,6 @@ import axios from 'axios';
 import router from './router'
 
 axios.defaults.baseURL = 'http://localhost:8085/api/v1';
-const token = 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJCZW5kaXMiLCJzdWIiOiJhdXRoIiwicm9sZUlkIjoxLCJhY2NvdW50SWQiOiJkNzllYzExYS0yMDExLTQ0MjMtYmEwMS0zYWY4ZGUwYTNlMTQiLCJpYXQiOjE1ODU1OTcxOTMsImV4cCI6MTU4NjgwNjc5M30.JEWHDYjGSAHfuConpPGGLPV277meHaBV4-wAczOsiJU';
-axios.defaults.headers.common['auth-key'] = token;
-
 
 axios.interceptors.response.use(
     (response) => {
@@ -12,17 +9,41 @@ axios.interceptors.response.use(
     },
     (error => {
         if (error.response.status === 401) {
-            router.push('/login')
+            this.$store.dispatch('auth/fail');
+            router.push('/login');
         }
         return Promise.reject(error)
     })
 );
 
 const appService = {
-    getSummary() {
+    auth(username, password) {
         return new Promise(resolve => {
             axios
-                .get('/tradelog/summary' )
+                .post('/auth', {
+                    "login_name": username,
+                    "password": password
+                })
+                .then(response => {
+                    resolve(response.data);
+                })
+                .catch(error => {
+                    console.error(error);
+                    resolve(null);
+                })
+        });
+    },
+
+    getSummary(token) {
+        const config = {
+            headers: {
+                'x-auth-key': token
+            }
+        };
+
+        return new Promise(resolve => {
+            axios
+                .get('/tradelog/summary', config)
                 .then(response => {
                     if (response.status === 200) {
                         resolve(response.data)
@@ -36,10 +57,16 @@ const appService = {
         });
     },
 
-    getSummaryMatrix() {
+    getSummaryMatrix(token) {
+        const config = {
+            headers: {
+                'x-auth-key': token
+            }
+        };
+
         return new Promise(resolve => {
             axios
-                .get('/tradelog/summary/matrix' )
+                .get('/tradelog/summary/matrix', config)
                 .then(response => {
                     if (response.status === 200) {
                         resolve(response.data)

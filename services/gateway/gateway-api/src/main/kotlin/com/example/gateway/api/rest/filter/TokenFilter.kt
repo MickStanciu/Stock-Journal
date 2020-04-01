@@ -15,7 +15,7 @@ class TokenFilter: Filter {
         val request = servletRequest as HttpServletRequest
         val response = servletResponse as HttpServletResponse
 
-        if (request.method in listOf<String>("GET", "PUT", "DELETE", "POST")) {
+        if (request.method in listOf("GET", "PUT", "DELETE", "POST")) {
             val token = request.getHeader(AUTH_KEY)
 
             if (!TokenConverter.validate(token)) {
@@ -30,6 +30,6 @@ class TokenFilter: Filter {
 
     companion object {
         private val LOG = LoggerFactory.getLogger(TokenFilter::class.java)
-        const val AUTH_KEY = "auth-key";
+        const val AUTH_KEY = "x-auth-key";
     }
 }

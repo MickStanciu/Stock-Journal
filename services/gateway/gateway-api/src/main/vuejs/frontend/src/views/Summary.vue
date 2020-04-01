@@ -19,6 +19,7 @@
 
 <script>
     import service from '../service';
+    import router from "../router";
 
     export default {
         name: "Summary",
@@ -66,8 +67,20 @@
             },
         },
         created() {
+            console.debug("CREATED");
+            let model = JSON.parse( localStorage.getItem('auth'));
+            console.debug(model);
+            if (this.$store.state.auth.isAuthenticated === false) {
+                if ("undefined" !== typeof model && "undefined" !== typeof(model["api_token"])) {
+                    this.$store.dispatch('auth/success', model);
+                } else {
+                    router.push('/login');
+                    return
+                }
+            }
+
             service
-                .getSummaryMatrix()
+                .getSummaryMatrix(model["api_token"])
                 .then(data => {
                     //NOTE: months index starts with 1 (January). Not 0
                     let self = this;
@@ -114,6 +127,10 @@
                         self.keys.push(key);
                     }
                 })
+        },
+        mounted() {
+            //try local storage auth
+            console.debug("MOUNTED");
         }
     }
 

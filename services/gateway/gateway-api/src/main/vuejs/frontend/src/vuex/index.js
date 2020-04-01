@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import {StockModule} from "./stock";
 import {OptionModule} from "./option";
 import {DividendModule} from "./dividend";
+import {AuthModule} from "./auth";
 
 Vue.use(Vuex);
 
@@ -11,7 +12,8 @@ const store = new Vuex.Store({
     modules: {
         stock: StockModule,
         option: OptionModule,
-        dividend: DividendModule
+        dividend: DividendModule,
+        auth: AuthModule
     },
 
     state: {

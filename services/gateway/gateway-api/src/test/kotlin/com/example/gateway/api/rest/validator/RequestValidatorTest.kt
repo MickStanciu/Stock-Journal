@@ -41,11 +41,11 @@ class RequestValidatorTest {
                 Arguments.of("", false),
                 Arguments.of("  ", false),
                 Arguments.of("not", false),
-                Arguments.of("LolaWhite44", false),
-                Arguments.of("Lola44White44", false),
-                Arguments.of("LolaWhite", false),
+                Arguments.of("LolaWhite44", true),
+                Arguments.of("Lola44White44", true),
+                Arguments.of("LolaWhite", true),
                 Arguments.of("!aA0", false),
-                Arguments.of("!LolaWhite", false),
+                Arguments.of("!LolaWhite", true),
                 Arguments.of("!1LolaWhite~", true)
         )
     }

@@ -19,7 +19,7 @@ class TokenConverter {
         private const val SIGNATURE = "e8SZbGZiw59dw7E4IXDDuA=="
         private const val ISSUER = "JadeBaboon"
 //        private const val TTL = 1209600000L //14 days
-        private const val TTL = 86400 //14 days
+        private const val TTL = 86400 //1 day
 
 
         fun decode(token: String): String {
@@ -60,8 +60,9 @@ class TokenConverter {
 
             return try {
                 val claims = getClaims(token)
-                return ISSUER == claims.issuer && claims.containsKey("accountId")
+                ISSUER == claims.issuer && claims.containsKey("accountId")
             } catch (ex: Exception) {
+                LOG.error(ex.toString())
                 false
             }
         }

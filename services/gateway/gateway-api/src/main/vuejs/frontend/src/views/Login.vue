@@ -28,6 +28,8 @@
 
 <script>
     import validation from "../utils/validation";
+    import service from '../service';
+    import AccountModel from "../models/AccountModel";
 
     export default {
         name: "Login",
@@ -52,10 +54,31 @@
                 if (this.checkForm() === false) {
                     return false;
                 }
+
+                service.auth(this.form_element.username, this.form_element.password)
+                .then(data => {
+                    let model = new AccountModel();
+                    model.account_id = data.accountId;
+                    model.api_token = data.apiToken;
+                    model.display_name = data.displayName;
+                    model.email = data.email;
+                    model.login_name = data.login_name;
+
+                    if (model.display_name === '') {
+                        model.display_name = model.login_name;
+                    }
+
+                    this.$store.dispatch('auth/success', model);
+                })
+                .catch(error => {
+                    this.$store.dispatch('auth/fail');
+                    this.form_validation.username = false;
+                    this.form_validation.password = false;
+                })
             },
             checkForm: function() {
-                this.form_validation.username = validation.isDate(this.form_element.username) !== false;
-                this.form_validation.password = validation.isNumber(this.form_element.password) !== false;
+                this.form_validation.username = validation.isUserName(this.form_element.username) !== false;
+                this.form_validation.password = validation.isPassword(this.form_element.password) !== false;
                 return this.form_validation.isValid();
             }
         }
