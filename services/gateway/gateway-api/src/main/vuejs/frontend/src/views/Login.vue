@@ -30,6 +30,7 @@
     import validation from "../utils/validation";
     import service from '../service';
     import AccountModel from "../models/AccountModel";
+    import router from "../router";
 
     export default {
         name: "Login",
@@ -69,6 +70,7 @@
                     }
 
                     this.$store.dispatch('auth/success', model);
+                    router.push('/')
                 })
                 .catch(error => {
                     this.$store.dispatch('auth/fail');
