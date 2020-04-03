@@ -11,6 +11,7 @@ plugins {
     application
     id("io.spring.dependency-management")
     id("org.springframework.boot")
+    id("com.google.cloud.tools.appengine")
 }
 
 repositories {
@@ -29,6 +30,7 @@ configurations {
     all {
         exclude(group = "org.springframework.boot", module = "spring-boot-starter-tomcat")
         exclude(group = "junit", module = "junit")
+        exclude(group = "org.slf4j", module = "slf4j-log4j12")
     }
 }
 
@@ -37,8 +39,9 @@ dependencies {
     implementation(project(":services:common"))
     implementation(project(":services:account:account-api-spec"))
 
+    implementation(group = "javax.servlet", name = "javax.servlet-api", version = "3.1.0")
+
     implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-undertow")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.postgresql:postgresql:${postgreSqlVersion}")
@@ -93,5 +96,14 @@ compileTestKotlin.kotlinOptions {
 }
 
 application {
-    mainClassName = "com.example.account.api.AccountApi"
+    mainClassName = "com.example.account.api.AccountApiKt"
+}
+
+appengine {
+    deploy {
+        stopPreviousVersion = true
+        promote = true
+        projectId = "pt20200316"
+        version = "v1"
+    }
 }
