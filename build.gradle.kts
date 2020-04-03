@@ -13,4 +13,5 @@ buildscript {
     extra.set("jwtVersion", "0.9.0")
     extra.set("flywayDbVersion", "6.2.0")
     extra.set("postgreSqlVersion", "42.2.9")
+    extra.set("jasyptVersion", "3.0.2")
 }

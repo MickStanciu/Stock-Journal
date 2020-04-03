@@ -34,10 +34,4 @@ class TokenConverterTest {
         val badToken = "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJBQkNEIiwic3ViIjoiYXV0aCIsInJvbGVJZCI6MSwiYWNjb3VudElkIjoiMzY2YjViZjgtMmYzNy00ZTE3LTg2MmQtNDYxM2VlMjAzZTYzIiwiaWF0IjoxNTgxMTUwMDczLCJleHAiOjE1ODIzNTk2NzN9.5MTu16d9Ss1dez3X5QxzmmPDYyoHxEMUFdQtCnSH3jg"
         Assertions.assertFalse(TokenConverter.validate(badToken))
     }
-
-    @Test
-    fun debugRealKey() {
-        val token = "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJKYWRlQmFib29uIiwic3ViIjoiYXV0aCIsImFjY291bnRJZCI6ImQ3OWVjMTFhLTIwMTEtNDQyMy1iYTAxLTNhZjhkZTBhM2UxNCIsImlhdCI6MTU4NTY5OTUxMCwiZXhwIjoxNTg1Njk5NTk2fQ.s_U0Tv_PS7w9lHEDkupF8sA2qSEz-_DxiPOdMvcYqh8"
-        Assertions.assertTrue(TokenConverter.validate(token))
-    }
 }

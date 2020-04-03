@@ -37,4 +37,41 @@ class HashUtilsTest {
         val identical = HashUtils.validatePassword(password, storedHash)
         Assertions.assertTrue(identical)
     }
+
+//    @Test
+//    fun createPassword() {
+//        val input = "xxx" //SERVICE PASSWORD
+//        val password = "xxx" //DECRYPT PASSWORD
+//        val algorithm = "PBEWITHHMACSHA512ANDAES_256"
+//
+//        val service = JasyptStatelessService()
+//
+//        val result = service.encrypt(
+//                input,
+//                password,
+//                null,
+//                null,
+//                algorithm,
+//                null,
+//                null,
+//                "1000",
+//                null,
+//                null,
+//                "org.jasypt.salt.RandomSaltGenerator",
+//                null,
+//                null,
+//                null,
+//                null,
+//                null,
+//                null,
+//                null,
+//                null,
+//                "base64",
+//                null,
+//                null,
+//                "org.jasypt.iv.RandomIvGenerator",
+//                null,
+//                null)
+//        println(result)
+//    }
 }
