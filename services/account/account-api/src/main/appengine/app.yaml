@@ -1,5 +1,6 @@
-runtime: java
+runtime: java11
 env: flex
+instance_class: F1
 
 #service: library
 
@@ -10,6 +11,9 @@ env: flex
 automatic_scaling:
   min_num_instances: 1
   max_num_instances: 1
+
+env_variables:
+  SPRING_PROFILES_ACTIVE: "prod"
 
 #resources:
 #  cpu: 1

@@ -9,9 +9,11 @@ plugins {
     kotlin("jvm")
     kotlin ("plugin.spring")
     application
+    war
     id("io.spring.dependency-management")
     id("org.springframework.boot")
     id("com.google.cloud.tools.appengine")
+//    id("org.akhikhl.gretty")
 }
 
 repositories {
@@ -30,6 +32,7 @@ configurations {
     all {
         exclude(group = "org.springframework.boot", module = "spring-boot-starter-tomcat")
         exclude(group = "junit", module = "junit")
+        exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
         exclude(group = "org.slf4j", module = "slf4j-log4j12")
     }
 }
@@ -39,11 +42,15 @@ dependencies {
     implementation(project(":services:common"))
     implementation(project(":services:account:account-api-spec"))
 
-    implementation(group = "javax.servlet", name = "javax.servlet-api", version = "3.1.0")
+    providedRuntime(group = "javax.servlet", name = "javax.servlet-api", version = "3.1.0")
+    implementation(group = "com.google.appengine", name = "appengine-api-1.0-sdk", version = "+")
 
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation(group = "org.springframework.boot", name = "spring-boot-starter-web")
+    providedRuntime(group = "org.springframework.boot", name = "spring-boot-starter-jetty")
+
+    implementation(group = "org.springframework.boot", name = "spring-boot-starter-data-jpa")
+    implementation(group = "org.springframework.boot", name = "spring-boot-starter-actuator")
+
     implementation("org.postgresql:postgresql:${postgreSqlVersion}")
     implementation("org.flywaydb:flyway-core:${flywayDbVersion}")
 
@@ -99,11 +106,23 @@ application {
     mainClassName = "com.example.account.api.AccountApiKt"
 }
 
+springBoot {
+    mainClassName = "com.example.account.api.AccountApiKt"
+}
+
 appengine {
     deploy {
         stopPreviousVersion = true
-        promote = true
+        promote = false
         projectId = "pt20200316"
-        version = "v1"
+        version = "v0005"
     }
 }
+
+//gretty {
+//    springBoot = true
+//    springBootVersion = "2.2.4.RELEASE"
+//    httpPort = 8082
+//    contextPath = "/"
+//    servletContainer = "jetty9.4"
+//}
