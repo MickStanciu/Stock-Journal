@@ -103,7 +103,6 @@
     import service from '../../../service';
     import dateTimeUtil from '../../../utils/time'
     import validation from "../../../utils/validation";
-    import OptionApiModel from "../../../models/OptionApiModel";
     import CreateOptionApiModel from "../../../models/CreateOptionApiModel";
 
     export default {
@@ -112,6 +111,7 @@
         data: function () {
             return {
                 is_form_readonly: false,
+                token: this.post.token,
 
                 form_element: {
                     symbol : this.post.symbol,
@@ -169,7 +169,7 @@
                 optionDto.optionType = this.form_element.type;
                 optionDto.brokerFees = this.form_element.fees;
 
-                service.recordOptionTrade(optionDto).then(data => {
+                service.recordOptionTrade(optionDto, this.token).then(data => {
                     if (data === null) {
                         this.$store.dispatch('option/hideModal');
                         this.$store.dispatch('showErrorModal');

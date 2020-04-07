@@ -44,7 +44,6 @@
     import service from '../../../service';
     import dateTimeUtil from '../../../utils/time'
     import validation from "../../../utils/validation";
-    import DividendApiModel from "../../../models/DividendApiModel";
     import CreateDividendApiModel from "../../../models/CreateDividendApiModel";
 
     export default {
@@ -52,6 +51,8 @@
         props: ['post'],
         data: function () {
             return {
+                token: this.post.token,
+
                 form_element: {
                     symbol : this.post.symbol,
                     date: dateTimeUtil.createTodayDateFormatted(),
@@ -85,7 +86,7 @@
                 dividendDto.quantity = this.form_element.quantity;
                 // console.debug(dividendDto.date);
 
-                service.recordDividendTrade(dividendDto).then(data => {
+                service.recordDividendTrade(dividendDto, this.token).then(data => {
                     if (data === null) {
                         this.$store.dispatch('dividend/hideModal');
                         this.$store.dispatch('showErrorModal');

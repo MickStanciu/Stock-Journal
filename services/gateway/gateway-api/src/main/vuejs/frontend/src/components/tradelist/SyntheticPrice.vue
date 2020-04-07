@@ -38,6 +38,8 @@
         },
         data: function () {
             return {
+                token: this.post.token,
+
                 form_element: {
                     symbol : this.post.model[0].symbol,
                     price: this.post.model[0].preferredPrice !== null ? this.post.model[0].preferredPrice : this.post.model[0].price
@@ -73,7 +75,7 @@
                 let request = {
                     "items": settings
                 };
-                service.saveSettings(request);
+                service.saveSettings(request, this.token);
                 this.$store.dispatch('hideSyntheticShareModal');
                 this.$store.dispatch('refreshData');
             },

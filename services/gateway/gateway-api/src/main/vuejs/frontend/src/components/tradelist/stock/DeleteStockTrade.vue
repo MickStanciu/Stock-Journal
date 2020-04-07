@@ -75,6 +75,7 @@
         data: function () {
             return {
                 is_form_readonly: true,
+                token: this.post.token,
 
                 form_element: {
                     date: dateTimeUtil.convertFromOffsetZuluToDisplay(this.post.model.date),
@@ -98,7 +99,7 @@
             },
 
             submitAndClose: function () {
-                service.deleteShareTrade(this.post.model)
+                service.deleteShareTrade(this.post.model, this.token)
                     .then(() => {
                         this.$store.dispatch('stock/hideModal');
                         this.$store.dispatch('refreshData');

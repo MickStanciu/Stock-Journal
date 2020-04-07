@@ -67,24 +67,25 @@
     import dateTimeUtil from "../../../utils/time";
     import validation from "../../../utils/validation";
     import service from '../../../service';
-    import ShareApiModel from "../../../models/ShareApiModel";
     import UpdateShareApiModel from "../../../models/UpdateShareApiModel";
 
     export default {
         name: "EditStockTrade",
         props: {
-            stock_model: Object
+            post: Object
         },
         data: function () {
             return {
+                token: this.post.token,
+
                 form_element: {
-                    symbol : this.stock_model.symbol,
-                    id: this.stock_model.transactionId,
-                    date: dateTimeUtil.convertFromOffsetZuluToDisplay(this.stock_model.date),
-                    action: this.stock_model.action,
-                    price: this.stock_model.price,
-                    quantity: this.stock_model.quantity,
-                    fees: this.stock_model.brokerFees,
+                    symbol : this.post.model.symbol,
+                    id: this.post.model.transactionId,
+                    date: dateTimeUtil.convertFromOffsetZuluToDisplay(this.post.model.date),
+                    action: this.post.model.action,
+                    price: this.post.model.price,
+                    quantity: this.post.model.quantity,
+                    fees: this.post.model.brokerFees,
                 },
 
                 form_validation: {
@@ -119,7 +120,7 @@
                 shareDto.brokerFees = this.form_element.fees;
                 shareDto.transactionId = this.form_element.id;
 
-                service.editShareTrade(shareDto).then(data => {
+                service.editShareTrade(shareDto, this.token).then(data => {
                     this.$store.dispatch('stock/hideModal');
                     this.$store.dispatch('refreshData');
                 });

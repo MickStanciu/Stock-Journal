@@ -108,25 +108,26 @@
     export default {
         name: "EditOptionTrade",
         props: {
-            stock_model: Object
+            post: Object
         },
         data: function () {
             // console.debug(this.stock_model);
             return {
                 is_form_readonly: false,
+                token: this.post.token,
 
                 form_element: {
-                    symbol : this.stock_model.stockSymbol,
-                    id: this.stock_model.transactionId,
-                    date: dateTimeUtil.convertFromOffsetZuluToDisplay(this.stock_model.date),
-                    action : this.stock_model.action,
-                    stock_price : this.stock_model.stockPrice,
-                    strike_price: this.stock_model.strikePrice,
-                    type: this.stock_model.optionType,
-                    exp_date: dateTimeUtil.convertFromOffsetZuluToExpDateDisplay(this.stock_model.expiryDate),
-                    contracts: this.stock_model.contracts,
-                    premium : this.stock_model.premium,
-                    fees: this.stock_model.brokerFees
+                    symbol : this.post.model.stockSymbol,
+                    id: this.post.model.transactionId,
+                    date: dateTimeUtil.convertFromOffsetZuluToDisplay(this.post.model.date),
+                    action : this.post.model.action,
+                    stock_price : this.post.model.stockPrice,
+                    strike_price: this.post.model.strikePrice,
+                    type: this.post.model.optionType,
+                    exp_date: dateTimeUtil.convertFromOffsetZuluToExpDateDisplay(this.post.model.expiryDate),
+                    contracts: this.post.model.contracts,
+                    premium : this.post.model.premium,
+                    fees: this.post.model.brokerFees
                 },
 
                 form_validation: {
@@ -174,7 +175,7 @@
 
                 optionDto.transactionId = this.form_element.id;
 
-                service.editOptionTrade(optionDto).then(data => {
+                service.editOptionTrade(optionDto, this.token).then(data => {
                     this.$store.dispatch('option/hideModal');
                     this.$store.dispatch('refreshData');
                 });

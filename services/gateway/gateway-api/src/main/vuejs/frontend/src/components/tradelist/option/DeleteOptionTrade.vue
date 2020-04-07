@@ -111,6 +111,7 @@
         data: function () {
             return {
                 is_form_readonly: true,
+                token: this.post.token,
 
                 form_element: {
                     date: dateTimeUtil.convertFromOffsetZuluToDisplay(this.post.model.date),
@@ -141,7 +142,7 @@
             },
 
             submitAndClose: function () {
-                service.deleteOptionTrade(this.post.model)
+                service.deleteOptionTrade(this.post.model, this.token)
                     .then(() => {
                         this.$store.dispatch('option/hideModal');
                         this.$store.dispatch('refreshData');

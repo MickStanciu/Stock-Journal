@@ -77,17 +77,17 @@
         <statistics v-bind:datamodel="statisticsModel" />
 
         <transition name="fade">
-            <add-stock-trade v-if="this.$store.state.stock.isAddStockModalEnabled" v-bind:post="{symbol: symbol.toUpperCase()}"/>
-            <edit-stock-trade v-if="this.$store.state.stock.isEditStockModelEnabled" v-bind:stock_model="selectedModel"/>
-            <delete-stock-trade v-if="this.$store.state.stock.isDeleteStockModalEnabled" v-bind:post="{model: selectedModel}"/>
-            <synthetic-price v-if="this.$store.state.isSyntheticModalEnabled" v-bind:post="{model: selectedModels}"/>
+            <add-stock-trade v-if="this.$store.state.stock.isAddStockModalEnabled" v-bind:post="{symbol: symbol.toUpperCase(), token: authModel['api_token']}"/>
+            <edit-stock-trade v-if="this.$store.state.stock.isEditStockModelEnabled" v-bind:post="{model: selectedModel, token: authModel['api_token']}"/>
+            <delete-stock-trade v-if="this.$store.state.stock.isDeleteStockModalEnabled" v-bind:post="{model: selectedModel, token: authModel['api_token']}"/>
+            <synthetic-price v-if="this.$store.state.isSyntheticModalEnabled" v-bind:post="{model: selectedModels, token: authModel['api_token']}"/>
 
-            <add-option-trade v-if="this.$store.state.option.isAddOptionModalEnabled" v-bind:post="{symbol: symbol.toUpperCase()}"/>
-            <edit-option-trade v-if="this.$store.state.option.isEditOptionModelEnabled" v-bind:stock_model="selectedModel"/>
-            <delete-option-trade v-if="this.$store.state.option.isDeleteOptionModalEnabled" v-bind:post="{model: selectedModel}"/>
+            <add-option-trade v-if="this.$store.state.option.isAddOptionModalEnabled" v-bind:post="{symbol: symbol.toUpperCase(), token: authModel['api_token']}"/>
+            <edit-option-trade v-if="this.$store.state.option.isEditOptionModelEnabled" v-bind:post="{model: selectedModel, token: authModel['api_token']}"/>
+            <delete-option-trade v-if="this.$store.state.option.isDeleteOptionModalEnabled" v-bind:post="{model: selectedModel, token: authModel['api_token']}"/>
 
-            <add-dividend-trade v-if="this.$store.state.dividend.isAddDividendModalEnabled" v-bind:post="{symbol: symbol.toUpperCase()}"/>
-            <delete-dividend-trade v-if="this.$store.state.dividend.isDeleteDividendModalEnabled" v-bind:post="{model: selectedModel}"/>
+            <add-dividend-trade v-if="this.$store.state.dividend.isAddDividendModalEnabled" v-bind:post="{symbol: symbol.toUpperCase(), token: authModel['api_token']}"/>
+            <delete-dividend-trade v-if="this.$store.state.dividend.isDeleteDividendModalEnabled" v-bind:post="{model: selectedModel, token: authModel['api_token']}"/>
 
             <add-error v-if="isAddErrorEnabled"/>
         </transition>
@@ -115,6 +115,7 @@
     import SyntheticPrice from "../components/tradelist/SyntheticPrice";
     import Statistics from "../components/tradelist/Statistics";
     import statisticsModel from "../models/StatisticsModel";
+    import router from "../router";
 
     export default {
         name: "TradeList",
@@ -135,9 +136,10 @@
                 shareDataLoaded: false,
                 currency: 'USD',
                 symbol: this.$route.params.symbol,
-                selectedModel : undefined,
-                selectedModels : [],
-                statisticsModel : statisticsModel
+                selectedModel: undefined,
+                selectedModels: [],
+                statisticsModel: statisticsModel,
+                authModel: undefined
             }
         },
 
@@ -212,7 +214,7 @@
                 settingModel.legClosed = item.legClosed;
                 settingModel.preferredPrice = 0;
 
-                service.saveSetting(settingModel);
+                service.saveSetting(settingModel, this.authModel['api_token']);
                 this.loadStats(this);
             },
 
@@ -225,7 +227,7 @@
                 settingModel.legClosed = item.legClosed;
                 settingModel.preferredPrice = 0;
 
-                service.saveSetting(settingModel);
+                service.saveSetting(settingModel, this.authModel['api_token']);
                 this.loadStats(this);
             },
 
@@ -445,7 +447,7 @@
             loadData: function () {
                 console.log("RELOADING");
                 service
-                    .getTradesPerSymbol(this.$route.params.symbol)
+                    .getTradesPerSymbol(this.$route.params.symbol, this.authModel["api_token"])
                     .then(data => {
                         // console.log("DATA RELOADED");
                         let self = this;
@@ -518,8 +520,25 @@
         },
 
         created() {
+            console.debug("CREATED");
+            this.authModel = JSON.parse( localStorage.getItem('auth'));
+            console.debug(this.authModel);
+            if (this.authModel === null) {
+                router.push('/login');
+                return
+            }
+
+            if (this.$store.state.auth.isAuthenticated === false) {
+                if ("undefined" !== typeof this.authModel && "undefined" !== typeof(this.authModel["api_token"])) {
+                    this.$store.dispatch('auth/success', this.authModel);
+                } else {
+                    router.push('/login');
+                    return
+                }
+            }
+
             service
-                .getSharePrice(this.$route.params.symbol)
+                .getSharePrice(this.$route.params.symbol, this.authModel["api_token"])
                 .then(data => {
                     let self = this;
                     self.shareData = data;

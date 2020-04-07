@@ -36,9 +36,7 @@ const dateTimeUtil = {
 
     //Converts Java Date from 2020-01-18T02:33Z to DD-MMM-YYYY
     convertFromOffsetZuluToDisplay: function(text) {
-        // console.debug(parsedVal);
         let dt = this.createDateTimeFromFullString(text).toLocal();
-        // console.debug(dt.toLocal().toString());
         return dt.toFormat(DATE_DMY);
     },
 

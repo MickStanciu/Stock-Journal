@@ -80,10 +80,16 @@ const appService = {
         });
     },
 
-    getSharePrice(symbol) {
+    getSharePrice(symbol, token) {
+        const config = {
+            headers: {
+                'x-auth-key': token
+            }
+        };
+
         return new Promise(resolve => {
             axios
-                .get('/stockdata/' + symbol.toUpperCase())
+                .get('/stockdata/' + symbol.toUpperCase(), config)
                 .then(response => {
                     resolve(response.data);
                 })
@@ -93,10 +99,16 @@ const appService = {
         });
     },
 
-    getTradesPerSymbol(symbol) {
+    getTradesPerSymbol(symbol, token) {
+        const config = {
+            headers: {
+                'x-auth-key': token
+            }
+        };
+
         return new Promise(resolve => {
             axios
-                .get('/tradelog/all/' + symbol.toUpperCase())
+                .get('/tradelog/all/' + symbol.toUpperCase(), config)
                 .then(response => {
                     resolve(response.data);
                 })
@@ -106,10 +118,16 @@ const appService = {
             });
     },
 
-    recordShareTrade(dto) {
+    recordShareTrade(dto, token) {
+        const config = {
+            headers: {
+                'x-auth-key': token
+            }
+        };
+
         return new Promise(resolve => {
             axios
-                .post('/tradelog/shares', dto)
+                .post('/tradelog/shares', dto, config)
                 .then(response => {
                     resolve(response.data);
                 })
@@ -120,10 +138,16 @@ const appService = {
         });
     },
 
-    editShareTrade(dto) {
+    editShareTrade(dto, token) {
+        const config = {
+            headers: {
+                'x-auth-key': token
+            }
+        };
+
         return new Promise(resolve => {
             axios
-                .put('/tradelog/shares/' + dto.transactionId, dto)
+                .put('/tradelog/shares/' + dto.transactionId, dto, config)
                 .then(() => {
                         // console.debug("AXIOS FINISHED");
                         resolve(null);
@@ -136,10 +160,16 @@ const appService = {
         })
     },
 
-    deleteShareTrade(dto) {
+    deleteShareTrade(dto, token) {
+        const config = {
+            headers: {
+                'x-auth-key': token
+            }
+        };
+
         return new Promise(resolve => {
             axios
-                .delete('/tradelog/shares/' + dto.transactionId)
+                .delete('/tradelog/shares/' + dto.transactionId, config)
                 .then(() => {
                         // console.debug("AXIOS FINISHED");
                         resolve(null);
@@ -152,10 +182,16 @@ const appService = {
         })
     },
 
-    recordOptionTrade(dto) {
+    recordOptionTrade(dto, token) {
+        const config = {
+            headers: {
+                'x-auth-key': token
+            }
+        };
+
         return new Promise(resolve => {
             axios
-                .post('/tradelog/options', dto)
+                .post('/tradelog/options', dto, config)
                 .then(response => {
                     resolve(response.data);
                 })
@@ -166,10 +202,16 @@ const appService = {
         });
     },
 
-    editOptionTrade(dto) {
+    editOptionTrade(dto, token) {
+        const config = {
+            headers: {
+                'x-auth-key': token
+            }
+        };
+
         return new Promise(resolve => {
             axios
-                .put('/tradelog/options/' + dto.transactionId, dto)
+                .put('/tradelog/options/' + dto.transactionId, dto, config)
                 .then(() => {
                         // console.debug("AXIOS FINISHED");
                         resolve(null);
@@ -182,10 +224,16 @@ const appService = {
         })
     },
 
-    deleteOptionTrade(dto) {
+    deleteOptionTrade(dto, token) {
+        const config = {
+            headers: {
+                'x-auth-key': token
+            }
+        };
+
         return new Promise(resolve => {
             axios
-                .delete('/tradelog/options/' + dto.transactionId)
+                .delete('/tradelog/options/' + dto.transactionId, config)
                 .then(() => {
                         // console.debug("AXIOS FINISHED");
                         resolve(null);
@@ -198,10 +246,16 @@ const appService = {
         })
     },
 
-    recordDividendTrade(dto) {
+    recordDividendTrade(dto, token) {
+        const config = {
+            headers: {
+                'x-auth-key': token
+            }
+        };
+
         return new Promise(resolve => {
             axios
-                .post('/tradelog/dividends', dto)
+                .post('/tradelog/dividends', dto, config)
                 .then(response => {
                     resolve(response.data);
                 })
@@ -212,11 +266,17 @@ const appService = {
         })
     },
 
-    deleteDividendRecord(dto) {
+    deleteDividendRecord(dto, token) {
+        const config = {
+            headers: {
+                'x-auth-key': token
+            }
+        };
+
         return new Promise(resolve => {
             // console.debug("DELETING DIVIDEND started");
             axios
-                .delete('/tradelog/dividends/' + dto.transactionId)
+                .delete('/tradelog/dividends/' + dto.transactionId, config)
                 .then(() => {
                         // console.debug("AXIOS FINISHED");
                         resolve(null);
@@ -229,9 +289,15 @@ const appService = {
         })
     },
 
-    saveSetting(setting) {
+    saveSetting(setting, token) {
+        const config = {
+            headers: {
+                'x-auth-key': token
+            }
+        };
+
         return new Promise(resolve => {
-            axios.put('/tradelog/settings/' + setting.transactionId, setting)
+            axios.put('/tradelog/settings/' + setting.transactionId, setting, config)
                 .then(response => {
                     // console.debug("Settings saved");
                 })
@@ -242,9 +308,15 @@ const appService = {
         });
     },
 
-    saveSettings(settings) {
+    saveSettings(settings, token) {
+        const config = {
+            headers: {
+                'x-auth-key': token
+            }
+        };
+
         return new Promise(resolve => {
-            axios.put('/tradelog/settings/bulk', settings)
+            axios.put('/tradelog/settings/bulk', settings, config)
                 .then(response => {
                     // console.debug("Bulk Settings saved");
                 })

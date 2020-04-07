@@ -52,6 +52,7 @@
         data: function () {
             return {
                 is_form_readonly: true,
+                token: this.post.token,
 
                 form_element: {
                     symbol : this.post.model.symbol,
@@ -73,7 +74,7 @@
             },
 
             submitAndClose: function () {
-                service.deleteDividendRecord(this.post.model)
+                service.deleteDividendRecord(this.post.model, this.token)
                     .then(() => {
                         this.$store.dispatch('dividend/hideModal');
                         this.$store.dispatch('refreshData');

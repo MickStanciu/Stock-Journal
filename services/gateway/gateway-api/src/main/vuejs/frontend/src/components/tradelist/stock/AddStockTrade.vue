@@ -75,6 +75,8 @@
         },
         data: function () {
             return {
+                token: this.post.token,
+
                 form_element: {
                     symbol : this.post.symbol,
                     date: dateTimeUtil.createTodayDateFormatted(),
@@ -115,7 +117,7 @@
                 shareDto.quantity = this.form_element.quantity;
                 shareDto.brokerFees = this.form_element.fees;
 
-                service.recordShareTrade(shareDto).then(data => {
+                service.recordShareTrade(shareDto, this.token).then(data => {
                   if (data === null) {
                       this.$store.dispatch('stock/hideModal');
                       this.$store.dispatch('showErrorModal');
