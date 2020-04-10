@@ -13,7 +13,6 @@ plugins {
     id("io.spring.dependency-management")
     id("org.springframework.boot")
     id("com.google.cloud.tools.appengine")
-//    id("org.akhikhl.gretty")
 }
 
 repositories {
@@ -44,6 +43,7 @@ dependencies {
 
     providedRuntime(group = "javax.servlet", name = "javax.servlet-api", version = "3.1.0")
     implementation(group = "com.google.appengine", name = "appengine-api-1.0-sdk", version = "+")
+    implementation(group = "org.ow2.asm", name = "asm", version = "8.0.1")
 
     implementation(group = "org.springframework.boot", name = "spring-boot-starter-web")
     providedRuntime(group = "org.springframework.boot", name = "spring-boot-starter-jetty")
@@ -51,6 +51,7 @@ dependencies {
     implementation(group = "org.springframework.boot", name = "spring-boot-starter-data-jpa")
     implementation(group = "org.springframework.boot", name = "spring-boot-starter-actuator")
 
+    implementation(group = "com.google.cloud.sql", name = "postgres-socket-factory", version = "1.0.15")
     implementation("org.postgresql:postgresql:${postgreSqlVersion}")
     implementation("org.flywaydb:flyway-core:${flywayDbVersion}")
 
@@ -75,8 +76,8 @@ sourceSets {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 tasks {
@@ -113,16 +114,10 @@ springBoot {
 appengine {
     deploy {
         stopPreviousVersion = true
-        promote = false
+        promote = true
         projectId = "pt20200316"
-        version = "v0005"
+        version = "v0015"
     }
 }
 
-//gretty {
-//    springBoot = true
-//    springBootVersion = "2.2.4.RELEASE"
-//    httpPort = 8082
-//    contextPath = "/"
-//    servletContainer = "jetty9.4"
-//}
+

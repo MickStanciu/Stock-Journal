@@ -1,16 +1,15 @@
-runtime: java11
+runtime: java
 env: flex
 instance_class: F1
 
-#service: library
+service: library
+
+#beta_settings:
+#  cloud_sql_instances: pt20200316:us-central1:db-pt-001
 
 #handlers:
 #  - url: /.*
 #    script: ignored
-
-automatic_scaling:
-  min_num_instances: 1
-  max_num_instances: 1
 
 env_variables:
   SPRING_PROFILES_ACTIVE: "prod"
