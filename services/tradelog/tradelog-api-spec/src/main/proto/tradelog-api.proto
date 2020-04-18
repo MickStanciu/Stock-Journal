@@ -116,6 +116,15 @@ message TLActiveSymbolsResponse {
     repeated string symbols = 1;
 }
 
+message TLPortfolioDto {
+    string id = 1;
+    string name = 2;
+}
+
+message TLPortfolioResponse {
+    repeated TLPortfolioDto items = 1;
+}
+
 // Generic error response
 message ExceptionResponse {
     ExceptionCode code = 1;

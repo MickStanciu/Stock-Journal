@@ -6,6 +6,10 @@ import com.example.tradelog.api.spec.model.*
 class RequestValidator: FieldValidator() {
 
     companion object {
+        fun validateGetPortfolios(accountId: String): Boolean {
+            return FieldValidator.accountId.test(accountId)
+        }
+
         fun validateGetAllTradedSymbols(accountId: String): Boolean {
             return FieldValidator.accountId.test(accountId)
         }

@@ -11,6 +11,7 @@ DROP TABLE IF EXISTS shares_data;
 DROP TABLE IF EXISTS action;
 DROP TABLE IF EXISTS option_type;
 DROP TABLE IF EXISTS transaction_type;
+DROP TABLE IF EXISTS portfolio;
 
 CREATE TABLE transaction_type (
     name VARCHAR(32) NOT NULL PRIMARY KEY
@@ -28,19 +29,29 @@ CREATE TABLE option_type (
 );
 GRANT ALL PRIVILEGES ON TABLE option_type TO admin;
 
-CREATE TABLE transaction_log
+CREATE TABLE portfolio
 (
-    id                  UUID  DEFAULT uuid_generate_v4() NOT NULL
-        CONSTRAINT transaction_log_pkey PRIMARY KEY,
-    account_fk          UUID                             NOT NULL,
-    date                TIMESTAMPTZ                      NOT NULL,
-    symbol              VARCHAR(16)                      NOT NULL,
-    transaction_type_fk VARCHAR(32)                      NOT NULL
-        CONSTRAINT transaction_log_action_type_fk_fkey REFERENCES transaction_type (name),
-    broker_fees         NUMERIC(8,2) DEFAULT 0.00
+    id         UUID DEFAULT uuid_generate_v4() NOT NULL
+        CONSTRAINT portfolio_log_pkey PRIMARY KEY,
+    name       VARCHAR(64),
+    account_fk UUID                            NOT NULL
 );
 
+GRANT ALL PRIVILEGES ON TABLE portfolio TO admin;
 
+CREATE TABLE transaction_log
+(
+    id                  UUID          DEFAULT uuid_generate_v4() NOT NULL
+        CONSTRAINT transaction_log_pkey PRIMARY KEY,
+    account_fk          UUID                                     NOT NULL,
+    date                TIMESTAMPTZ                              NOT NULL,
+    symbol              VARCHAR(16)                              NOT NULL,
+    transaction_type_fk VARCHAR(32)                              NOT NULL
+        CONSTRAINT transaction_log_action_type_fk_fkey REFERENCES transaction_type (name),
+    portfolio_fk        UUID                                     NOT NULL
+        CONSTRAINT transaction_log_portfolio_fk_fkey REFERENCES portfolio (id),
+    broker_fees         NUMERIC(8, 2) DEFAULT 0.00
+);
 GRANT ALL PRIVILEGES ON TABLE transaction_log TO admin;
 
 

@@ -1,10 +1,7 @@
 package com.example.tradelog.api.core.facade
 
 import com.example.tradelog.api.core.model.*
-import com.example.tradelog.api.core.service.DividendJournalService
-import com.example.tradelog.api.core.service.OptionJournalService
-import com.example.tradelog.api.core.service.ShareJournalService
-import com.example.tradelog.api.core.service.TransactionService
+import com.example.tradelog.api.core.service.*
 import org.springframework.stereotype.Service
 import java.util.stream.Collectors
 
@@ -12,7 +9,9 @@ import java.util.stream.Collectors
 class JournalFacade(private val transactionService: TransactionService,
                     private val shareService: ShareJournalService,
                     private val optionService: OptionJournalService,
-                    private val dividendService: DividendJournalService) {
+                    private val dividendService: DividendJournalService,
+                    private val portfolioService: PortfolioService
+) {
 
     fun getAllTradedSymbols(accountId: String): List<String> {
         return transactionService.getAllTradedSymbols(accountId)
@@ -181,6 +180,10 @@ class JournalFacade(private val transactionService: TransactionService,
         return dividendService.deleteRecord(transactionId)
                 && transactionService.deleteSettings(transactionId)
                 && transactionService.deleteRecord(accountId, transactionId)
+    }
+
+    fun getPortfolios(accountId: String): List<PortfolioModel> {
+        return portfolioService.getPortfolios(accountId)
     }
 
 }
