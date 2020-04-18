@@ -9,6 +9,8 @@ class PortfolioMapper: RowMapper<PortfolioModel> {
     override fun mapRow(rs: ResultSet, rowNum: Int): PortfolioModel {
         return PortfolioModel(
                 id = rs.getString("id"),
-                name = rs.getString("name"))
+                name = rs.getString("name"),
+                default = rs.getBoolean("is_default")
+        )
     }
 }

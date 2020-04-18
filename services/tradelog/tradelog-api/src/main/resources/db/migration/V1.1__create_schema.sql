@@ -31,12 +31,12 @@ GRANT ALL PRIVILEGES ON TABLE option_type TO admin;
 
 CREATE TABLE portfolio
 (
-    id         UUID DEFAULT uuid_generate_v4() NOT NULL
+    id         UUID    DEFAULT uuid_generate_v4() NOT NULL
         CONSTRAINT portfolio_log_pkey PRIMARY KEY,
     name       VARCHAR(64),
-    account_fk UUID                            NOT NULL
+    is_default BOOLEAN DEFAULT FALSE,
+    account_fk UUID                               NOT NULL
 );
-
 GRANT ALL PRIVILEGES ON TABLE portfolio TO admin;
 
 CREATE TABLE transaction_log

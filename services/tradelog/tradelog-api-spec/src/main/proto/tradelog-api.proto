@@ -119,6 +119,7 @@ message TLActiveSymbolsResponse {
 message TLPortfolioDto {
     string id = 1;
     string name = 2;
+    bool is_default = 3;
 }
 
 message TLPortfolioResponse {

@@ -11,6 +11,7 @@ class PortfolioModelConverter {
             return TLPortfolioDto.newBuilder()
                     .setId(model.id)
                     .setName(model.name)
+                    .setIsDefault(model.default)
                     .build()
         }
     }
