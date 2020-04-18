@@ -37,6 +37,7 @@ class RequestValidator: FieldValidator() {
 
         fun validateCreateShareRecord(accountId: String, dto: TLShareJournalDto): Boolean {
             return FieldValidator.UUID.test(accountId)
+                    && FieldValidator.UUID.test(dto.transactionDetails.portfolioId)
                     && validateShareJournalModel(dto)
         }
 
@@ -55,6 +56,7 @@ class RequestValidator: FieldValidator() {
 
         fun validateCreateOptionRecord(accountId: String, dto: TLOptionJournalDto): Boolean {
             return FieldValidator.UUID.test(accountId)
+                    && FieldValidator.UUID.test(dto.transactionDetails.portfolioId)
                     && validateOptionJournalModel(dto)
         }
 
@@ -73,6 +75,7 @@ class RequestValidator: FieldValidator() {
 
         fun validateCreateDividendRecord(accountId: String, dto: TLDividendJournalDto): Boolean {
             return FieldValidator.UUID.test(accountId)
+                    && FieldValidator.UUID.test(dto.transactionDetails.portfolioId)
                     && validateDividendJournalModel(dto)
         }
 

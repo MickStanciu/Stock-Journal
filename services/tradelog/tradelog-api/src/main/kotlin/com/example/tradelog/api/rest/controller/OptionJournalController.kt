@@ -29,13 +29,14 @@ class OptionJournalController(private val journalFacade: JournalFacade) {
     @ResponseStatus(HttpStatus.OK)
     fun getAllBySymbol(
             @RequestHeader("accountId") accountId: String,
+            @RequestParam("portfolio-id", required = true) portfolioId: String,
             @PathVariable("symbol") symbol: String) : TLOptionTransactionsResponse {
 
         if (!RequestValidator.validateGetAllBySymbol(accountId, symbol)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        val models = journalFacade.getAllOptionTradesBySymbol(accountId, symbol)
+        val models = journalFacade.getAllOptionTradesBySymbol(accountId, portfolioId, symbol)
         val dtos = models.stream()
                 .map { m -> OptionJournalModelConverter.toDto(m) }
                 .collect(Collectors.toList())

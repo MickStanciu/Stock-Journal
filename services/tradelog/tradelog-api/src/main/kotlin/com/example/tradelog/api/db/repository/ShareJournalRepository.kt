@@ -31,6 +31,7 @@ class ShareJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalRe
         private const val GET_BY_SYMBOL = """
             SELECT CAST(tl.id AS VARCHAR(36)),
                                CAST(tl.account_fk AS VARCHAR(36)),
+                               CAST(tl.portfolio_fk AS VARCHAR(36)),
                                tl.date,
                                tl.symbol,
                                tl.transaction_type_fk,
@@ -45,14 +46,16 @@ class ShareJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalRe
                                  INNER JOIN shares_log sl ON tl.id = sl.transaction_fk
                                  INNER JOIN transaction_settings_log tsl ON tl.id = tsl.transaction_fk
                         WHERE account_fk = CAST(? AS uuid)
-                          and tl.transaction_type_fk = 'SHARE'
-                          and tl.symbol = ?
+                            AND tl.portfolio_fk = CAST(? AS uuid)
+                            AND tl.transaction_type_fk = 'SHARE'
+                            AND tl.symbol = ?
                         ORDER BY date;
         """
 
         private const val GET_BY_ID = """
             SELECT CAST(tl.id AS VARCHAR(36)),
                            CAST(tl.account_fk AS VARCHAR(36)),
+                           CAST(tl.portfolio_fk AS VARCHAR(36)),
                            tl.date,
                            tl.symbol,
                            tl.transaction_type_fk,
@@ -66,7 +69,8 @@ class ShareJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalRe
                     FROM transaction_log tl
                              INNER JOIN shares_log sl ON tl.id = sl.transaction_fk
                              INNER JOIN transaction_settings_log tsl ON tl.id = tsl.transaction_fk
-                    WHERE tl.account_fk = CAST(? as uuid) AND tl.id = CAST(? AS uuid);
+                    WHERE tl.account_fk = CAST(? as uuid) 
+                        AND tl.id = CAST(? AS uuid);
         """
 
         private const val CREATE_RECORD = "INSERT INTO shares_log (transaction_fk, price, quantity, action_fk) VALUES (CAST(? AS uuid), ?, ?, ?);"
@@ -102,8 +106,8 @@ class ShareJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalRe
         return null
     }
 
-    override fun getAllBySymbol(accountId: String, symbol: String): List<ShareJournalModel> {
-        val parameters = arrayOf<Any>(accountId, symbol)
+    override fun getAllBySymbol(accountId: String, portfolioId: String, symbol: String): List<ShareJournalModel> {
+        val parameters = arrayOf<Any>(accountId, portfolioId, symbol)
         return jdbcTemplate.query(GET_BY_SYMBOL, parameters, ShareJournalModelRowMapper())
     }
 

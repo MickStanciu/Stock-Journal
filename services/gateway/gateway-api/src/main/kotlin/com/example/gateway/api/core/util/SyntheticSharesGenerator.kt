@@ -42,6 +42,7 @@ fun createSynthetic(models: List<ShareJournalModel>): List<ShareJournalModel> {
             synthetics.add(ShareJournalModel(
                     transactionId = "",
                     accountId = "",
+                    portfolioId = "",
                     symbol = symbol,
                     date = TimeConverter.nextYear(),
                     price = averageBoughPrice,

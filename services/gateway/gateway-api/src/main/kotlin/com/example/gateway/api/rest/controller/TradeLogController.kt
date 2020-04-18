@@ -26,11 +26,12 @@ class TradeLogController(private val tradeLogService: TradeLogService,
     @ResponseStatus(HttpStatus.OK)
     fun getAll(
             @RequestHeader(value = "x-auth-key", required = true) token: String,
+            @RequestParam(name = "portfolio-id", required = true) portfolioId: String,
             @PathVariable(name = "symbol", required = true) symbol: String): GWTradeLogDto {
 
         //todo: validate input
         val support = getSupportData(token)
-        val tradeLogModel = tradeLogService.getAll(support.accountId, symbol)
+        val tradeLogModel = tradeLogService.getAll(support.accountId, portfolioId, symbol)
 
         return TradeLogConverter.toDto(tradeLogModel)
     }
@@ -51,9 +52,11 @@ class TradeLogController(private val tradeLogService: TradeLogService,
 
     @RequestMapping(value = ["/summary/matrix", "/summary/matrix/"], method = [RequestMethod.GET])
     @ResponseStatus(HttpStatus.OK)
-    fun getSummaryMatrix(@RequestHeader(value = "x-auth-key", required = true) token: String): GWSummaryMatrixResponse {
+    fun getSummaryMatrix(@RequestHeader(value = "x-auth-key", required = true) token: String,
+                         @RequestParam(name = "portfolio-id", required = true) portfolioId: String
+    ): GWSummaryMatrixResponse {
         val support = getSupportData(token)
-        val summaryModels = transactionService.getSummaryMatrix(support.accountId)
+        val summaryModels = transactionService.getSummaryMatrix(support.accountId, portfolioId)
 
         val mapDto = SummaryMatrixConverter.toGWDto(summaryModels)
 
@@ -67,11 +70,12 @@ class TradeLogController(private val tradeLogService: TradeLogService,
     @ResponseStatus(HttpStatus.OK)
     fun createShareTransaction(
             @RequestHeader(value = "x-auth-key", required = true) token: String,
+            @RequestParam(name = "portfolio-id", required = true) portfolioId: String,
             @RequestBody dto: GWCreateShareJournalDto): GWShareJournalDto {
 
         //todo: validate input
         val support = getSupportData(token)
-        val createModel = CreateShareJournalConverter.toModel(support.accountId, dto)
+        val createModel = CreateShareJournalConverter.toModel(support.accountId, portfolioId, dto)
         val createdModel = tradeLogService.createShareTransaction(support.accountId, createModel)
 
         if (createdModel != null) {
@@ -109,11 +113,12 @@ class TradeLogController(private val tradeLogService: TradeLogService,
     @ResponseStatus(HttpStatus.OK)
     fun createOptionTransaction(
             @RequestHeader(value = "x-auth-key", required = true) token: String,
+            @RequestParam(name = "portfolio-id", required = true) portfolioId: String,
             @RequestBody dto: GWCreateOptionJournalDto): GWOptionJournalDto {
 
         //todo: validate input
         val support = getSupportData(token)
-        val createModel = CreateOptionJournalConverter.toModel(support.accountId, dto)
+        val createModel = CreateOptionJournalConverter.toModel(support.accountId, portfolioId, dto)
         val createdModel = tradeLogService.createOptionTransaction(support.accountId, createModel)
 
         if (createdModel != null) {
@@ -151,11 +156,12 @@ class TradeLogController(private val tradeLogService: TradeLogService,
     @ResponseStatus(HttpStatus.OK)
     fun createDividendTransaction(
             @RequestHeader(value = "x-auth-key", required = true) token: String,
+            @RequestParam(name = "portfolio-id", required = true) portfolioId: String,
             @RequestBody dto: GWCreateDividendJournalDto): GWDividendJournalDto {
 
         //todo: validate input
         val support = getSupportData(token)
-        val createModel = CreateDividendJournalConverter.toModel(support.accountId, dto)
+        val createModel = CreateDividendJournalConverter.toModel(support.accountId, portfolioId, dto)
         val createdModel = tradeLogService.createDividendTransaction(support.accountId, createModel)
 
         if (createdModel != null) {

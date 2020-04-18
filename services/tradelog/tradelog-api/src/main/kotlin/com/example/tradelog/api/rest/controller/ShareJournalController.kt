@@ -29,13 +29,14 @@ class ShareJournalController(private val journalFacade: JournalFacade) {
     @ResponseStatus(HttpStatus.OK)
     fun getAllBySymbol(
             @RequestHeader("accountId") accountId: String,
+            @RequestParam("portfolio-id", required = true) portfolioId: String,
             @PathVariable("symbol") symbol: String) : TLShareTransactionsResponse {
 
         if (!RequestValidator.validateGetAllBySymbol(accountId, symbol)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        val models = journalFacade.getAllShareTradesBySymbol(accountId, symbol)
+        val models = journalFacade.getAllShareTradesBySymbol(accountId, portfolioId, symbol)
         val dtos = models.stream()
                 .map { ShareJournalModelConverter.toDto(it) }
                 .collect(Collectors.toList())

@@ -9,10 +9,11 @@ import com.example.gateway.api.spec.model.GWCreateShareJournalDto
 class CreateShareJournalConverter {
 
     companion object {
-        fun toModel(accountId: String, dto: GWCreateShareJournalDto): ShareJournalModel {
+        fun toModel(accountId: String, portfolioId: String, dto: GWCreateShareJournalDto): ShareJournalModel {
             return ShareJournalModel(
                     transactionId = "",
                     accountId = accountId,
+                    portfolioId = portfolioId,
                     date = TimeConverter.toOffsetDateTime.apply(dto.date),
                     symbol = dto.symbol,
                     price = dto.price,

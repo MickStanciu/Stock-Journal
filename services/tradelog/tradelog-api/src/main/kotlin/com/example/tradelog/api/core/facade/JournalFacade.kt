@@ -94,8 +94,8 @@ class JournalFacade(private val transactionService: TransactionService,
         return transactionService.updateSettings(model)
     }
 
-    fun getAllShareTradesBySymbol(accountId: String, symbol: String): List<ShareJournalModel> {
-        return shareService.getAllBySymbol(accountId, symbol)
+    fun getAllShareTradesBySymbol(accountId: String, portfolioId: String, symbol: String): List<ShareJournalModel> {
+        return shareService.getAllBySymbol(accountId, portfolioId, symbol)
     }
 
     fun createShareRecord(model: ShareJournalModel): ShareJournalModel? {
@@ -123,8 +123,8 @@ class JournalFacade(private val transactionService: TransactionService,
                 && transactionService.deleteRecord(accountId, transactionId)
     }
 
-    fun getAllOptionTradesBySymbol(accountId: String, symbol: String): List<OptionJournalModel> {
-        return optionService.getAllBySymbol(accountId, symbol)
+    fun getAllOptionTradesBySymbol(accountId: String, portfolioId: String, symbol: String): List<OptionJournalModel> {
+        return optionService.getAllBySymbol(accountId, portfolioId, symbol)
     }
 
     fun createOptionRecord(model: OptionJournalModel): OptionJournalModel? {
@@ -152,8 +152,8 @@ class JournalFacade(private val transactionService: TransactionService,
                 && transactionService.deleteRecord(accountId, transactionId)
     }
 
-    fun getAllDividendTradesBySymbol(accountId: String, symbol: String): List<DividendJournalModel> {
-        return dividendService.getAllBySymbol(accountId, symbol)
+    fun getAllDividendTradesBySymbol(accountId: String, portfolioId: String, symbol: String): List<DividendJournalModel> {
+        return dividendService.getAllBySymbol(accountId, portfolioId, symbol)
     }
 
     fun createDividendRecord(model: DividendJournalModel): DividendJournalModel? {

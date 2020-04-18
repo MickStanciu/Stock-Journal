@@ -14,8 +14,8 @@ class DividendJournalService(private val repository: DividendJournalRepository) 
         return TradeSummaryUtil.toMap(models = modelList)
     }
 
-    override fun getAllBySymbol(accountId: String, symbol: String): List<DividendJournalModel> {
-        return repository.getAllBySymbol(accountId, symbol)
+    override fun getAllBySymbol(accountId: String, portfolioId: String, symbol: String): List<DividendJournalModel> {
+        return repository.getAllBySymbol(accountId, portfolioId, symbol)
     }
 
     override fun createRecord(transactionId: String, model: DividendJournalModel): DividendJournalModel? {

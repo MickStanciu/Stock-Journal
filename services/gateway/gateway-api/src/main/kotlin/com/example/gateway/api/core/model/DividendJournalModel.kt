@@ -4,6 +4,7 @@ import java.time.OffsetDateTime
 
 class DividendJournalModel(val transactionId: String,
                            val accountId: String,
+                           val portfolioId: String,
                            val symbol: String,
                            val date: OffsetDateTime,
                            val dividend: Double,

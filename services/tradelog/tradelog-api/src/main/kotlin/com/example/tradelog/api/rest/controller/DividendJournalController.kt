@@ -27,13 +27,14 @@ class DividendJournalController(private val journalFacade: JournalFacade) {
     @ResponseStatus(HttpStatus.OK)
     fun getAllBySymbol(
             @RequestHeader("accountId") accountId: String,
+            @RequestParam("portfolio-id", required = true) portfolioId: String,
             @PathVariable("symbol") symbol: String) : TLDividendTransactionsResponse {
 
         if (!RequestValidator.validateGetAllBySymbol(accountId, symbol)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        val models = journalFacade.getAllDividendTradesBySymbol(accountId, symbol)
+        val models = journalFacade.getAllDividendTradesBySymbol(accountId, portfolioId, symbol)
         val dtos = models.stream()
                 .map { DividendJournalModelConverter.toDto(it) }
                 .collect(Collectors.toList())

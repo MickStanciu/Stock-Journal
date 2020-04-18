@@ -1,6 +1,8 @@
 import axios from 'axios';
 import router from './router'
 
+let portfolioId = '99ca7bad-196e-4122-9d3e-f3b445db980d';
+
 axios.defaults.baseURL = 'http://localhost:8085/api/v1';
 
 axios.interceptors.response.use(
@@ -61,6 +63,9 @@ const appService = {
         const config = {
             headers: {
                 'x-auth-key': token
+            },
+            params: {
+                'portfolio-id': portfolioId
             }
         };
 
@@ -103,6 +108,9 @@ const appService = {
         const config = {
             headers: {
                 'x-auth-key': token
+            },
+            params: {
+                'portfolio-id': portfolioId
             }
         };
 
@@ -122,6 +130,9 @@ const appService = {
         const config = {
             headers: {
                 'x-auth-key': token
+            },
+            params: {
+                'portfolio-id': portfolioId
             }
         };
 
@@ -186,6 +197,9 @@ const appService = {
         const config = {
             headers: {
                 'x-auth-key': token
+            },
+            params: {
+                'portfolio-id': portfolioId
             }
         };
 
@@ -250,6 +264,9 @@ const appService = {
         const config = {
             headers: {
                 'x-auth-key': token
+            },
+            params: {
+                'portfolio-id': portfolioId
             }
         };
 

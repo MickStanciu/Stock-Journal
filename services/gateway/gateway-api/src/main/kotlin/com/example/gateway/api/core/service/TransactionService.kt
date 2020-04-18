@@ -21,7 +21,7 @@ class TransactionService(private val tradeLogGateway: TradeLogGateway) {
         models.forEach{ updateTransactionSetting(accountId, it) }
     }
 
-    fun getSummaryMatrix(accountId: String): List<SummaryMatrixModel> {
-        return tradeLogGateway.getSummaryMatrix(accountId)
+    fun getSummaryMatrix(accountId: String, portfolioId: String): List<SummaryMatrixModel> {
+        return tradeLogGateway.getSummaryMatrix(accountId, portfolioId)
     }
 }

@@ -127,10 +127,10 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
             val ps = connection.prepareStatement(CREATE_RECORD, Statement.RETURN_GENERATED_KEYS)
             ps.setString(1, model.accountId)
             ps.setString(2, model.portfolioId)
-            ps.setTimestamp(2, TimeConverter.fromOffsetDateTime(model.date))
-            ps.setString(3, model.symbol)
-            ps.setString(4, model.type.name)
-            ps.setDouble(5, model.brokerFees)
+            ps.setTimestamp(3, TimeConverter.fromOffsetDateTime(model.date))
+            ps.setString(4, model.symbol)
+            ps.setString(5, model.type.name)
+            ps.setDouble(6, model.brokerFees)
             ps
         }, keyHolder)
 

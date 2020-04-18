@@ -4,6 +4,7 @@ import java.time.OffsetDateTime
 
 class OptionJournalModel(val transactionId: String,
                          val accountId: String,
+                         val portfolioId: String,
                          val stockSymbol: String,
                          val stockPrice: Double,
                          val strikePrice: Double,

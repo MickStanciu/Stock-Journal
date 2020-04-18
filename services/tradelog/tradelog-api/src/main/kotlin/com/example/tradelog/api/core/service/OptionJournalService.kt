@@ -14,8 +14,8 @@ class OptionJournalService(private val repository: OptionJournalRepository) : Jo
         return TradeSummaryUtil.toMap(models = modelList)
     }
 
-    override fun getAllBySymbol(accountId: String, symbol: String): List<OptionJournalModel> {
-        return repository.getAllBySymbol(accountId, symbol)
+    override fun getAllBySymbol(accountId: String, portfolioId: String, symbol: String): List<OptionJournalModel> {
+        return repository.getAllBySymbol(accountId, portfolioId, symbol)
     }
 
     override fun createRecord(transactionId: String, model: OptionJournalModel): OptionJournalModel? {

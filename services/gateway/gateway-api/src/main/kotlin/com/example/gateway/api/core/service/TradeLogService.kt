@@ -13,14 +13,10 @@ import java.util.concurrent.CompletableFuture
 class TradeLogService(private val tradeLogGateway: TradeLogGateway,
                       private val stockDataGateway: StockDataGateway) {
 
-//    fun getAllTradedSymbols(accountId: String): List<String> {
-//        return tradeLogGateway.getAllTradedSymbols(accountId)
-//    }
-
-    fun getAll(accountId: String, symbol: String): TradeLogModel {
-        val futureShareList = tradeLogGateway.getAllShareTransactions(accountId, symbol)
-        val futureOptionList = tradeLogGateway.getAllOptionTransactions(accountId, symbol)
-        val futureDividendList = tradeLogGateway.getAllDividendTransactions(accountId, symbol)
+    fun getAll(accountId: String, portfolioId: String, symbol: String): TradeLogModel {
+        val futureShareList = tradeLogGateway.getAllShareTransactions(accountId, portfolioId, symbol)
+        val futureOptionList = tradeLogGateway.getAllOptionTransactions(accountId, portfolioId, symbol)
+        val futureDividendList = tradeLogGateway.getAllDividendTransactions(accountId, portfolioId, symbol)
 
         CompletableFuture.allOf(futureShareList, futureOptionList, futureDividendList).join()
         var stockPrice = stockDataGateway.getPrice(symbol)

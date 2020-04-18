@@ -18,6 +18,7 @@ class ShareJournalConverter {
             return ShareJournalModel(
                     transactionId = dto.transactionDetails.id,
                     accountId = dto.transactionDetails.accountId,
+                    portfolioId = dto.transactionDetails.portfolioId,
                     date = TimeConverter.toOffsetDateTime.apply(dto.transactionDetails.date),
                     symbol = dto.transactionDetails.symbol,
                     price = dto.price,
@@ -36,6 +37,7 @@ class ShareJournalConverter {
             return ShareJournalModel(
                     transactionId = dto.transactionId,
                     accountId = accountId,
+                    portfolioId = "", /* NOT USED */
                     date = TimeConverter.toOffsetDateTime.apply(dto.date),
                     symbol = dto.symbol,
                     price = dto.price,
@@ -73,6 +75,7 @@ class ShareJournalConverter {
                             TLTransactionDto.newBuilder()
                                     .setId(model.transactionId)
                                     .setAccountId(model.accountId)
+                                    .setPortfolioId(model.portfolioId)
                                     .setDate(model.date.toString())
                                     .setSymbol(model.symbol)
                                     .setBrokerFees(model.brokerFees)

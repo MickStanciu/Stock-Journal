@@ -17,6 +17,7 @@ class OptionJournalConverter {
             return OptionJournalModel(
                     transactionId = dto.transactionDetails.id,
                     accountId = dto.transactionDetails.accountId,
+                    portfolioId = dto.transactionDetails.portfolioId,
                     stockSymbol = dto.transactionDetails.symbol,
                     stockPrice = dto.stockPrice,
                     strikePrice = dto.strikePrice,
@@ -37,6 +38,7 @@ class OptionJournalConverter {
             return OptionJournalModel(
                     transactionId = dto.transactionId,
                     accountId = accountId,
+                    portfolioId = "", /* NOT USED */
                     stockSymbol = dto.stockSymbol,
                     stockPrice = dto.stockPrice,
                     strikePrice = dto.strikePrice,
@@ -78,6 +80,7 @@ class OptionJournalConverter {
                             TLTransactionDto.newBuilder()
                                     .setId(model.transactionId)
                                     .setAccountId(model.accountId)
+                                    .setPortfolioId(model.portfolioId)
                                     .setDate(model.date.toString())
                                     .setSymbol(model.stockSymbol)
                                     .setBrokerFees(model.brokerFees)

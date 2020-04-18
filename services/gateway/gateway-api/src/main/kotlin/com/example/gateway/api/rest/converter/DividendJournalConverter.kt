@@ -14,6 +14,7 @@ class DividendJournalConverter {
             return DividendJournalModel(
                     transactionId = dto.transactionDetails.id,
                     accountId = dto.transactionDetails.accountId,
+                    portfolioId = dto.transactionDetails.portfolioId,
                     symbol = dto.transactionDetails.symbol,
                     date = TimeConverter.toOffsetDateTime.apply(dto.transactionDetails.date),
                     dividend = dto.dividend,
@@ -41,6 +42,7 @@ class DividendJournalConverter {
                             TLTransactionDto.newBuilder()
                                     .setId(model.transactionId)
                                     .setAccountId(model.accountId)
+                                    .setPortfolioId(model.portfolioId)
                                     .setDate(model.date.toString())
                                     .setSymbol(model.symbol)
                                     .setBrokerFees(0.00)

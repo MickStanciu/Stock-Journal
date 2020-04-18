@@ -14,8 +14,8 @@ class ShareJournalService(private val repository: ShareJournalRepository) : Jour
         return TradeSummaryUtil.toMap(models = modelList)
     }
 
-    override fun getAllBySymbol(accountId: String, symbol: String): List<ShareJournalModel> {
-        return ArrayList(repository.getAllBySymbol(accountId, symbol))
+    override fun getAllBySymbol(accountId: String, portfolioId: String, symbol: String): List<ShareJournalModel> {
+        return ArrayList(repository.getAllBySymbol(accountId, portfolioId, symbol))
     }
 
     override fun createRecord(transactionId: String, model: ShareJournalModel): ShareJournalModel? {

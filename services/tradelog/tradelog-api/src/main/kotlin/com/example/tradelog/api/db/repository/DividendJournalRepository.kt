@@ -25,6 +25,7 @@ class DividendJournalRepository(private val jdbcTemplate: JdbcTemplate) : Journa
         private const val GET_BY_SYMBOL = """
                 SELECT CAST(tl.id AS VARCHAR(36)),
                     CAST(tl.account_fk AS VARCHAR(36)),
+                    CAST(tl.portfolio_fk AS VARCHAR(36)),
                     tl.date,
                     tl.symbol,
                     tl.broker_fees,
@@ -38,8 +39,9 @@ class DividendJournalRepository(private val jdbcTemplate: JdbcTemplate) : Journa
                       INNER JOIN dividend_log dl ON tl.id = dl.transaction_fk 
                       INNER JOIN transaction_settings_log tsl ON tl.id = tsl.transaction_fk 
                 WHERE account_fk = CAST(? AS uuid) 
-                    and tl.transaction_type_fk = 'DIVIDEND' 
-                    and symbol = ?
+                    AND tl.portfolio_fk = CAST(? AS uuid)
+                    AND tl.transaction_type_fk = 'DIVIDEND' 
+                    AND symbol = ?
                 ORDER BY date;
         """
 
@@ -94,8 +96,8 @@ class DividendJournalRepository(private val jdbcTemplate: JdbcTemplate) : Journa
         return null
     }
 
-    override fun getAllBySymbol(accountId: String, symbol: String): List<DividendJournalModel> {
-        val parameters = arrayOf(accountId, symbol)
+    override fun getAllBySymbol(accountId: String, portfolioId: String, symbol: String): List<DividendJournalModel> {
+        val parameters = arrayOf(accountId, portfolioId, symbol)
         return jdbcTemplate.query(GET_BY_SYMBOL, parameters, DividendModelRowMapper())
     }
 

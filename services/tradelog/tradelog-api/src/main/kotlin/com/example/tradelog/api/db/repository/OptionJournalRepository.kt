@@ -33,6 +33,7 @@ class OptionJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalR
         private const val GET_BY_ID = """
             SELECT CAST(tl.id AS VARCHAR(36)),
                     CAST(tl.account_fk AS VARCHAR(36)),
+                    CAST(tl.portfolio_fk AS VARCHAR(36)),
                     tl.date,
                     tl.symbol,
                     tl.transaction_type_fk,
@@ -56,6 +57,7 @@ class OptionJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalR
         private const val GET_BY_SYMBOL = """
                 SELECT CAST(tl.id AS VARCHAR(36)),
                     CAST(tl.account_fk AS VARCHAR(36)),
+                    CAST(tl.portfolio_fk AS VARCHAR(36)),
                     tl.date,
                     tl.symbol,
                     tl.transaction_type_fk,
@@ -73,7 +75,10 @@ class OptionJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalR
                     FROM transaction_log tl
                       INNER JOIN option_log ol on tl.id = ol.transaction_fk
                       INNER JOIN transaction_settings_log tsl on tl.id = tsl.transaction_fk
-                    WHERE account_fk = CAST(? AS uuid) and symbol = ?
+                    WHERE account_fk = CAST(? AS uuid) 
+                        AND tl.portfolio_fk = CAST(? AS uuid)
+                        AND tl.transaction_type_fk = 'OPTION' 
+                        AND symbol = ?
                     ORDER BY date;
         """
 
@@ -120,8 +125,8 @@ class OptionJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalR
         return null
     }
 
-    override fun getAllBySymbol(accountId: String, symbol: String): List<OptionJournalModel> {
-        val parameters = arrayOf(accountId, symbol)
+    override fun getAllBySymbol(accountId: String, portfolioId: String, symbol: String): List<OptionJournalModel> {
+        val parameters = arrayOf(accountId, portfolioId, symbol)
         return jdbcTemplate.query(GET_BY_SYMBOL, parameters, OptionJournalModelRowMapper())
     }
 
