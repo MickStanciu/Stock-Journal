@@ -12,8 +12,8 @@ class TransactionService(private val repository: TransactionRepository) {
 
     private val log = LoggerFactory.getLogger(TransactionService::class.java)
 
-    fun getAllTradedSymbols(accountId: String): List<String> {
-        return repository.getUniqueSymbols(accountId)
+    fun getAllTradedSymbols(accountId: String, portfolioId: String): List<String> {
+        return repository.getUniqueSymbols(accountId, portfolioId)
     }
 
     fun getActiveSymbols(): List<String> {
@@ -55,8 +55,7 @@ class TransactionService(private val repository: TransactionRepository) {
         return repository.deleteSettings(transactionId)
     }
 
-    fun getSummaryMatrix(accountId: String): List<SummaryMatrixModel> {
-        return repository.getSummaryMatrix(accountId)
+    fun getSummaryMatrix(accountId: String, portfolioId: String): List<SummaryMatrixModel> {
+        return repository.getSummaryMatrix(accountId, portfolioId)
     }
-
 }

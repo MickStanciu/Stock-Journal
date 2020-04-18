@@ -4,12 +4,7 @@ import java.util.function.Predicate;
 
 public class FieldValidator {
 
-    protected static Predicate<String> accountId = s -> new StringValidator(s)
-            .notNull()
-            .sizeEqualTo(36)
-            .isValid();
-
-    protected static Predicate<String> transactionId = s -> new StringValidator(s)
+    protected static Predicate<String> UUID = s -> new StringValidator(s)
             .notNull()
             .sizeEqualTo(36)
             .isValid();

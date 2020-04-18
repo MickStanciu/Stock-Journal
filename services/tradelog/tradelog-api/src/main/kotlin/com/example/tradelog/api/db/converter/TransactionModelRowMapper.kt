@@ -23,6 +23,7 @@ class TransactionModelRowMapper(private var rs: ResultSet) {
         return TransactionModel(
                 id = rs.getString("id"),
                 accountId = rs.getString("account_fk"),
+                portfolioId = rs.getString("portfolio_fk"),
                 date = TimeConverter.fromTimestamp(rs.getTimestamp("date")),
                 symbol = rs.getString("symbol"),
                 type = TransactionType.lookup(rs.getString("transaction_type_fk")),

@@ -13,6 +13,7 @@ class TransactionModelConverter {
             return TransactionModel(
                     id = dto.id,
                     accountId = dto.accountId,
+                    portfolioId = dto.portfolioId,
                     date = TimeConverter.toOffsetDateTime.apply(dto.date),
                     symbol = dto.symbol,
                     type = TransactionType.lookup(dto.type.name),

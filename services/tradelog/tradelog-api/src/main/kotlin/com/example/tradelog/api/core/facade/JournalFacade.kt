@@ -13,14 +13,13 @@ class JournalFacade(private val transactionService: TransactionService,
                     private val portfolioService: PortfolioService
 ) {
 
-    fun getAllTradedSymbols(accountId: String): List<String> {
-        return transactionService.getAllTradedSymbols(accountId)
+    fun getAllTradedSymbols(accountId: String, portfolioId: String): List<String> {
+        return transactionService.getAllTradedSymbols(accountId, portfolioId)
     }
 
     fun getActiveSymbols(): List<String> {
         return transactionService.getActiveSymbols()
     }
-
 
     fun getSummary(accountId: String): List<TradeSummaryModel> {
         //TODO: parallel
@@ -68,8 +67,8 @@ class JournalFacade(private val transactionService: TransactionService,
                 .collect(Collectors.toList())
     }
 
-    fun getSummaryMatrix(accountId: String): List<SummaryMatrixModel> {
-        val models = transactionService.getSummaryMatrix(accountId)
+    fun getSummaryMatrix(accountId: String, portfolioId: String): List<SummaryMatrixModel> {
+        val models = transactionService.getSummaryMatrix(accountId, portfolioId)
         val groupedMap = groupByYearAndMonth(models)
 
         return groupedMap.entries.stream()

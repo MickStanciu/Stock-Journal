@@ -14,11 +14,12 @@ message TLTransactionSettingsDto {
 message TLTransactionDto {
     string id = 1;
     string accountId = 2;
-    string date = 3;
-    string symbol = 4;
-    double brokerFees = 5;
-    TransactionType type = 6;
-    TLTransactionSettingsDto settings = 7;
+    string portfolioId = 3;
+    string date = 4;
+    string symbol = 5;
+    double brokerFees = 6;
+    TransactionType type = 7;
+    TLTransactionSettingsDto settings = 8;
 
     enum TransactionType {
         UNKNOWN_TRANSACTION_TYPE = 0;

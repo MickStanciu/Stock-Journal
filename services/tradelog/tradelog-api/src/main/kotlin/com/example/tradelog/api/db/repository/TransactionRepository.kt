@@ -19,23 +19,26 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
     companion object {
         private val LOG = LoggerFactory.getLogger(TransactionRepository::class.java)
 
+        //TODO: not sure this one works or it's used
         private const val READ_SYMBOLS = """
-            SELECT DISTINCT symbol
-            FROM transaction_log
-            WHERE account_fk = CAST(? AS uuid)
-            ORDER BY symbol ASC;
+            SELECT DISTINCT tl.symbol
+            FROM transaction_log tl
+            INNER JOIN portfolio p ON tl.portfolio_fk = p.id
+            WHERE tl.account_fk = CAST(? AS uuid)
+            AND tl.portfolio_fk = CAST(? AS uuid)
+            ORDER BY tl.symbol;
         """
 
         private const val READ_LAST_YEAR_SYMBOLS = """
             SELECT DISTINCT symbol
             FROM transaction_log
             WHERE date > date_trunc('month', CURRENT_DATE) - INTERVAL '1 year'
-            ORDER BY symbol ASC;
+            ORDER BY symbol;
         """
 
         private const val CREATE_RECORD = """
-            INSERT INTO transaction_log (account_fk, date, symbol, transaction_type_fk, broker_fees)
-                    VALUES (CAST(? AS uuid), ?, ?, ?, ?);
+            INSERT INTO transaction_log (account_fk, portfolio_fk, date, symbol, transaction_type_fk, broker_fees)
+                    VALUES (CAST(? AS uuid), CAST(? AS uuid), ?, ?, ?, ?);
         """
 
         private const val SUMMARY_MATRIX = """
@@ -45,6 +48,7 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
                        tl.broker_fees as total
             FROM transaction_log tl
             INNER JOIN transaction_settings_log tsl ON tl.id = tsl.transaction_fk
+            INNER JOIN portfolio p ON tl.portfolio_fk = p.id
             LEFT JOIN option_log ol on tl.id = ol.transaction_fk
             LEFT JOIN dividend_log dl on tl.id = dl.transaction_fk
             WHERE tsl.leg_closed = true
@@ -52,6 +56,7 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
                 AND tl.symbol != 'XYZ'
                 AND tl.transaction_type_fk in ('OPTION', 'DIVIDEND')
                 AND tl.account_fk = CAST(? AS uuid)
+                AND tl.portfolio_fk = CAST(? AS uuid)
             ORDER BY year, month;
         """
 
@@ -66,8 +71,8 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
         private const val DELETE_SETTINGS = "DELETE FROM transaction_settings_log WHERE transaction_fk = CAST(? AS uuid);"
     }
 
-    fun getUniqueSymbols(accountId: String): List<String> {
-        val parameters = arrayOf(accountId)
+    fun getUniqueSymbols(accountId: String, portfolioId: String): List<String> {
+        val parameters = arrayOf(accountId, portfolioId)
         return jdbcTemplate.query(READ_SYMBOLS, parameters, SymbolRowMapper())
     }
 
@@ -121,6 +126,7 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
         jdbcTemplate.update({ connection: Connection ->
             val ps = connection.prepareStatement(CREATE_RECORD, Statement.RETURN_GENERATED_KEYS)
             ps.setString(1, model.accountId)
+            ps.setString(2, model.portfolioId)
             ps.setTimestamp(2, TimeConverter.fromOffsetDateTime(model.date))
             ps.setString(3, model.symbol)
             ps.setString(4, model.type.name)
@@ -151,8 +157,8 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
         } == 1
     }
 
-    fun getSummaryMatrix(accountId: String): List<SummaryMatrixModel> {
-        val parameters = arrayOf(accountId)
+    fun getSummaryMatrix(accountId: String, portfolioId: String): List<SummaryMatrixModel> {
+        val parameters = arrayOf(accountId, portfolioId)
         return jdbcTemplate.query(SUMMARY_MATRIX, parameters, SummaryMatrixRowMapper())
     }
 }

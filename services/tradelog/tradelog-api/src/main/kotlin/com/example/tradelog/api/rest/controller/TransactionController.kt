@@ -28,13 +28,14 @@ class TransactionController(private val journalFacade: JournalFacade) {
 
     @RequestMapping(value = ["/symbols"], method = [RequestMethod.GET])
     @ResponseStatus(HttpStatus.OK)
-    fun getAllTradedSymbols(@RequestHeader("accountId") accountId: String): TLActiveSymbolsResponse {
+    fun getAllTradedSymbols(@RequestHeader("accountId", required = true) accountId: String,
+                            @RequestParam("portfolio-id", required = true) portfolioId: String): TLActiveSymbolsResponse {
 
-        if (!RequestValidator.validateGetAllTradedSymbols(accountId)) {
+        if (!RequestValidator.validateGetAllTradedSymbols(accountId, portfolioId)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        val symbols = journalFacade.getAllTradedSymbols(accountId)
+        val symbols = journalFacade.getAllTradedSymbols(accountId, portfolioId)
 
         return TLActiveSymbolsResponse.newBuilder()
                 .addAllSymbols(symbols)
@@ -47,7 +48,6 @@ class TransactionController(private val journalFacade: JournalFacade) {
     @RequestMapping(value = ["/active-symbols"], method = [RequestMethod.GET])
     @ResponseStatus(HttpStatus.OK)
     fun getAllActiveSymbols(): TLActiveSymbolsResponse {
-
         val symbols = journalFacade.getActiveSymbols()
 
         return TLActiveSymbolsResponse.newBuilder()
@@ -58,7 +58,7 @@ class TransactionController(private val journalFacade: JournalFacade) {
 
     @RequestMapping(value = ["/summary"], method = [RequestMethod.GET])
     @ResponseStatus(HttpStatus.OK)
-    fun getSummary(@RequestHeader("accountId") accountId: String): TLTradeSummaryResponse {
+    fun getSummary(@RequestHeader("accountId", required = true) accountId: String): TLTradeSummaryResponse {
 
         if (!RequestValidator.validateGetSummary(accountId)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
@@ -70,19 +70,20 @@ class TransactionController(private val journalFacade: JournalFacade) {
 
     @RequestMapping(value = ["/summary/matrix", "/summary/matrix/"], method = [RequestMethod.GET])
     @ResponseStatus(HttpStatus.OK)
-    fun getSummaryMatrix(@RequestHeader("accountId") accountId: String): TLSummaryMatrixResponse {
-        if (!RequestValidator.validateSummaryMatrix(accountId)) {
+    fun getSummaryMatrix(@RequestHeader("accountId", required = true) accountId: String,
+                         @RequestParam("portfolio-id", required = true) portfolioId: String): TLSummaryMatrixResponse {
+        if (!RequestValidator.validateSummaryMatrix(accountId, portfolioId)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        val summaryList = journalFacade.getSummaryMatrix(accountId)
+        val summaryList = journalFacade.getSummaryMatrix(accountId, portfolioId)
         return SummaryMatrixConverter.toSummaryMatrixResponse(summaryList)
     }
 
 
     @RequestMapping(value = ["/settings/{transactionId}"], method = [RequestMethod.PUT])
     @ResponseStatus(HttpStatus.OK)
-    fun updateSettings(@RequestHeader("accountId") accountId: String,
+    fun updateSettings(@RequestHeader("accountId", required = true) accountId: String,
                        @PathVariable("transactionId") transactionId: String,
                        @RequestBody dto: TLTransactionSettingsDto) {
 
