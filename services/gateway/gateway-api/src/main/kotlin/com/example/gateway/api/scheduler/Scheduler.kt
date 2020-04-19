@@ -24,8 +24,8 @@ class Scheduler(
         }
     }
 
-    //EVERY MINUTE
-    @Scheduled(cron = "0 * * * * ?")
+    //EVERY MINUTE -> disabled for now, need to find a way to link this to the exchange
+//    @Scheduled(cron = "0 * * * * ?")
     fun updatePrices() {
         val symbols = stockDataService.getSymbolsForUpdate()
         symbols.forEach {

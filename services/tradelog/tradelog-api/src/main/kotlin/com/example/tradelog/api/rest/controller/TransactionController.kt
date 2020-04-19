@@ -1,6 +1,7 @@
 package com.example.tradelog.api.rest.controller
 
 import com.example.tradelog.api.core.facade.JournalFacade
+import com.example.tradelog.api.rest.TransactionRestInterface
 import com.example.tradelog.api.rest.controller.TransactionController.Companion.PROTOBUF_MEDIA_TYPE_VALUE
 import com.example.tradelog.api.rest.converter.SummaryMatrixConverter
 import com.example.tradelog.api.rest.converter.TradeSummaryConverter
@@ -13,41 +14,40 @@ import com.example.tradelog.api.spec.model.TLSummaryMatrixResponse
 import com.example.tradelog.api.spec.model.TLTradeSummaryResponse
 import com.example.tradelog.api.spec.model.TLTransactionSettingsDto
 import org.slf4j.LoggerFactory
-import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping(value = ["/api/v1/transactions"], produces = [PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE])
-class TransactionController(private val journalFacade: JournalFacade) {
+class TransactionController(private val journalFacade: JournalFacade) : TransactionRestInterface {
 
     companion object {
         const val PROTOBUF_MEDIA_TYPE_VALUE = "application/x-protobuf"
         private val LOG = LoggerFactory.getLogger(TransactionController::class.java)
+        private const val ACCOUNT_ID_HEADER_NAME = "x-account-id"
     }
 
-    @RequestMapping(value = ["/symbols"], method = [RequestMethod.GET])
-    @ResponseStatus(HttpStatus.OK)
-    fun getAllTradedSymbols(@RequestHeader("accountId", required = true) accountId: String,
-                            @RequestParam("portfolio-id", required = true) portfolioId: String): TLActiveSymbolsResponse {
-
-        if (!RequestValidator.validateGetAllTradedSymbols(accountId, portfolioId)) {
-            throw TradeLogException(ExceptionCode.BAD_REQUEST)
-        }
-
-        val symbols = journalFacade.getAllTradedSymbols(accountId, portfolioId)
-
-        return TLActiveSymbolsResponse.newBuilder()
-                .addAllSymbols(symbols)
-                .build()
-    }
+//    @RequestMapping(value = ["/symbols"], method = [RequestMethod.GET])
+//    @ResponseStatus(HttpStatus.OK)
+//    fun getAllTradedSymbols(@RequestHeader("accountId", required = true) accountId: String,
+//                            @RequestParam("portfolio-id", required = true) portfolioId: String): TLActiveSymbolsResponse {
+//
+//        if (!RequestValidator.validateGetAllTradedSymbols(accountId, portfolioId)) {
+//            throw TradeLogException(ExceptionCode.BAD_REQUEST)
+//        }
+//
+//        val symbols = journalFacade.getAllTradedSymbols(accountId, portfolioId)
+//
+//        return TLActiveSymbolsResponse.newBuilder()
+//                .addAllSymbols(symbols)
+//                .build()
+//    }
 
     /*
         Return the unique symbols that have been traded during last year
     */
-    @RequestMapping(value = ["/active-symbols"], method = [RequestMethod.GET])
-    @ResponseStatus(HttpStatus.OK)
-    fun getAllActiveSymbols(): TLActiveSymbolsResponse {
+    override fun getAllActiveSymbols(): TLActiveSymbolsResponse {
         val symbols = journalFacade.getActiveSymbols()
 
         return TLActiveSymbolsResponse.newBuilder()
@@ -56,10 +56,7 @@ class TransactionController(private val journalFacade: JournalFacade) {
     }
 
 
-    @RequestMapping(value = ["/summary"], method = [RequestMethod.GET])
-    @ResponseStatus(HttpStatus.OK)
-    fun getSummary(@RequestHeader("accountId", required = true) accountId: String): TLTradeSummaryResponse {
-
+    override fun getSummary(accountId: String): TLTradeSummaryResponse {
         if (!RequestValidator.validateGetSummary(accountId)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
@@ -68,10 +65,7 @@ class TransactionController(private val journalFacade: JournalFacade) {
         return TradeSummaryConverter.toTradeSummaryResponse(summaryList)
     }
 
-    @RequestMapping(value = ["/summary/matrix", "/summary/matrix/"], method = [RequestMethod.GET])
-    @ResponseStatus(HttpStatus.OK)
-    fun getSummaryMatrix(@RequestHeader("accountId", required = true) accountId: String,
-                         @RequestParam("portfolio-id", required = true) portfolioId: String): TLSummaryMatrixResponse {
+    override fun getSummaryMatrix(accountId: String, portfolioId: String): TLSummaryMatrixResponse {
         if (!RequestValidator.validateSummaryMatrix(accountId, portfolioId)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
@@ -81,16 +75,12 @@ class TransactionController(private val journalFacade: JournalFacade) {
     }
 
 
-    @RequestMapping(value = ["/settings/{transactionId}"], method = [RequestMethod.PUT])
-    @ResponseStatus(HttpStatus.OK)
-    fun updateSettings(@RequestHeader("accountId", required = true) accountId: String,
-                       @PathVariable("transactionId") transactionId: String,
-                       @RequestBody dto: TLTransactionSettingsDto) {
-
+    override fun updateSettings(accountId: String, transactionId: String, dto: TLTransactionSettingsDto) {
         if (!RequestValidator.validateUpdateSettings(accountId, transactionId, dto)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
+        //Todo: enforce account id
         if (!journalFacade.updateSettings(TransactionSettingsModelConverter.toModel(dto))) {
             LOG.error("Could not update settings for transaction: $transactionId")
             throw TradeLogException(ExceptionCode.UPDATE_TRANSACTION_OPTIONS_FAILED)
