@@ -1,5 +1,6 @@
 package com.example.tradelog.api.rest
 
+import com.example.tradelog.api.spec.model.TLPortfolioDto
 import com.example.tradelog.api.spec.model.TLPortfolioResponse
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.RequestHeader
@@ -18,4 +19,8 @@ interface PortfolioRestInterface {
     @RequestMapping(value = ["/", ""], method = [RequestMethod.GET])
     @ResponseStatus(HttpStatus.OK)
     fun getPortfolios(@RequestHeader(ACCOUNT_ID_HEADER_NAME) accountId: String): TLPortfolioResponse
+
+    @RequestMapping(value = ["/default", "/default/"], method = [RequestMethod.GET])
+    @ResponseStatus(HttpStatus.OK)
+    fun getDefaultPortfolio(@RequestHeader(ACCOUNT_ID_HEADER_NAME) accountId: String): TLPortfolioDto
 }

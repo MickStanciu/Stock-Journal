@@ -91,4 +91,8 @@ class TradeLogService(private val tradeLogGateway: TradeLogGateway,
     fun deleteDividendTransaction(accountId: String, transactionId: String) {
         tradeLogGateway.deleteDividendTransaction(accountId, transactionId)
     }
+
+    fun getDefaultPortfolio(accountId: String): PortfolioModel? {
+        return tradeLogGateway.getDefaultPortfolio(accountId)
+    }
 }

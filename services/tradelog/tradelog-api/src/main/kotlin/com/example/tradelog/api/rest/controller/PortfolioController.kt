@@ -7,6 +7,7 @@ import com.example.tradelog.api.rest.converter.PortfolioModelConverter
 import com.example.tradelog.api.rest.exception.ExceptionCode
 import com.example.tradelog.api.rest.exception.TradeLogException
 import com.example.tradelog.api.rest.validator.RequestValidator
+import com.example.tradelog.api.spec.model.TLPortfolioDto
 import com.example.tradelog.api.spec.model.TLPortfolioResponse
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.RequestMapping
@@ -22,7 +23,6 @@ class PortfolioController(private val journalFacade: JournalFacade) : PortfolioR
     }
 
     override fun getPortfolios(accountId: String): TLPortfolioResponse {
-
         if (!RequestValidator.validateGetPortfolios(accountId)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
@@ -35,5 +35,14 @@ class PortfolioController(private val journalFacade: JournalFacade) : PortfolioR
         return TLPortfolioResponse.newBuilder()
                 .addAllItems(portfolioDtos)
                 .build()
+    }
+
+    override fun getDefaultPortfolio(accountId: String): TLPortfolioDto {
+        if (!RequestValidator.validateGetPortfolios(accountId)) {
+            throw TradeLogException(ExceptionCode.BAD_REQUEST)
+        }
+
+        val model = journalFacade.getDefaultPortfolio(accountId) ?: throw TradeLogException(ExceptionCode.NO_DEFAULT_PORTFOLIO)
+        return PortfolioModelConverter.toDto(model = model)
     }
 }

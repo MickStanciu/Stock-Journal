@@ -16,5 +16,6 @@ enum class ExceptionCode(val message: String) {
     CREATE_DIVIDEND_FAILED("Could not create dividend record"),
     EDIT_DIVIDEND_FAILED("Could not edit dividend record"),
     DELETE_DIVIDEND_FAILED("Could not delete dividend record"),
-    UPDATE_TRANSACTION_OPTIONS_FAILED("Could not update transaction options record")
+    UPDATE_TRANSACTION_OPTIONS_FAILED("Could not update transaction options record"),
+    NO_DEFAULT_PORTFOLIO("No default portfolio found")
 }

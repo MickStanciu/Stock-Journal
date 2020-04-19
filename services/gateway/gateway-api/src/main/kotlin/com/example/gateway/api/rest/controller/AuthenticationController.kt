@@ -1,6 +1,7 @@
 package com.example.gateway.api.rest.controller
 
 import com.example.gateway.api.core.service.AccountService
+import com.example.gateway.api.core.service.TradeLogService
 import com.example.gateway.api.rest.controller.AuthenticationController.Companion.PROTOBUF_MEDIA_TYPE_VALUE
 import com.example.gateway.api.rest.converter.TokenConverter
 import com.example.gateway.api.rest.exception.ExceptionCode
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping(value = ["/api/v1/auth"], produces = [PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE])
-class AuthenticationController(private val accountService: AccountService) {
+class AuthenticationController(private val accountService: AccountService,
+                               private val tradeLogService: TradeLogService) {
+
 
     companion object {
         const val PROTOBUF_MEDIA_TYPE_VALUE = "application/x-protobuf"
@@ -30,8 +33,10 @@ class AuthenticationController(private val accountService: AccountService) {
 
         val activeAccount = accountService.getActiveAccount(authRequestDto.loginName, authRequestDto.password) ?:
                 throw GatewayApiException(ExceptionCode.ACCOUNT_NOT_FOUND)
-
         val token = TokenConverter.encode(activeAccount.id)
+
+        val defaultPortfolio = tradeLogService.getDefaultPortfolio(accountId = activeAccount.id) ?:
+                throw GatewayApiException(code = ExceptionCode.NO_DEFAULT_PORTFOLIO)
 
         return GWAuthResponseDto.newBuilder()
                 .setApiToken(token)
@@ -39,6 +44,8 @@ class AuthenticationController(private val accountService: AccountService) {
                 .setDisplayName(activeAccount.displayName)
                 .setEmail(activeAccount.email)
                 .setLoginName(activeAccount.loginName)
+                .setPortfolioId(defaultPortfolio.id)
+                .setPortfolioName(defaultPortfolio.name)
                 .build()
     }
 }

@@ -167,7 +167,7 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
 
         val headers = HttpHeaders()
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
-        headers.set("accountId", accountId)
+        headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
 
         val requestDto = ShareJournalConverter.toTLDto(model)
         val responseEntity = restTemplate
@@ -191,7 +191,7 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         val headers = HttpHeaders()
 
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
-        headers.set("accountId", accountId)
+        headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
 
         val requestDto = ShareJournalConverter.toTLDto(model)
         restTemplate
@@ -205,7 +205,7 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
 
         val headers = HttpHeaders()
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
-        headers.set("accountId", accountId)
+        headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
 
         restTemplate.exchange(builder.build(transactionId).toString(), HttpMethod.DELETE, HttpEntity<Any>(headers), Any::class.java)
     }
@@ -217,7 +217,7 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
 
         val headers = HttpHeaders()
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
-        headers.set("accountId", accountId)
+        headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
 
         val requestDto = OptionJournalConverter.toTLDto(model)
         val responseEntity = restTemplate
@@ -240,7 +240,7 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         val headers = HttpHeaders()
 
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
-        headers.set("accountId", accountId)
+        headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
 
         val requestDto = OptionJournalConverter.toTLDto(model)
         restTemplate
@@ -254,7 +254,7 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
 
         val headers = HttpHeaders()
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
-        headers.set("accountId", accountId)
+        headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
 
         restTemplate.exchange(builder.build(transactionId).toString(), HttpMethod.DELETE, HttpEntity<Any>(headers), Any::class.java)
     }
@@ -279,7 +279,7 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
 
         val headers = HttpHeaders()
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
-        headers.set("accountId", accountId)
+        headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
 
         val requestDto = DividendJournalConverter.toTLDto(model)
         val responseEntity = restTemplate
@@ -301,8 +301,27 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
 
         val headers = HttpHeaders()
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
-        headers.set("accountId", accountId)
+        headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
 
         restTemplate.exchange(builder.build(transactionId).toString(), HttpMethod.DELETE, HttpEntity<Any>(headers), Any::class.java)
+    }
+
+    fun getDefaultPortfolio(accountId: String): PortfolioModel? {
+        val builder = UriComponentsBuilder
+                .fromHttpUrl(url)
+                .path("/portfolios/default/")
+
+        val headers = HttpHeaders()
+        headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
+        headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
+
+        val responseEntity = restTemplate.exchange(builder.build("").toString(), HttpMethod.GET, HttpEntity<Any>(headers), TLPortfolioDto::class.java)
+        val responseDto: TLPortfolioDto? = responseEntity.body
+
+        return if (responseDto != null) {
+            PortfolioConverter.toModel(responseDto)
+        } else {
+            null
+        }
     }
 }

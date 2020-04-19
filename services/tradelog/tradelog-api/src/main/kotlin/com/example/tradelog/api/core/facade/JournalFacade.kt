@@ -185,4 +185,8 @@ class JournalFacade(private val transactionService: TransactionService,
         return portfolioService.getPortfolios(accountId)
     }
 
+    fun getDefaultPortfolio(accountId: String): PortfolioModel? {
+        return portfolioService.getDefaultPortfolio(accountId)
+    }
+
 }

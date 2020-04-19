@@ -217,6 +217,8 @@ message GWAuthResponseDto {
     string display_name = 3;
     string email = 4;
     string api_token = 5;
+    string portfolio_id = 6;
+    string portfolio_name = 7;
 }
 
 // Generic error response

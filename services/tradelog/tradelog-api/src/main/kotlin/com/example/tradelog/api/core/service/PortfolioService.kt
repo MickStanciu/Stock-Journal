@@ -10,4 +10,8 @@ class PortfolioService(private val repository: PortfolioRepository) {
     fun getPortfolios(accountId: String): List<PortfolioModel> {
         return repository.getPortfolios(accountId)
     }
+
+    fun getDefaultPortfolio(accountId: String): PortfolioModel? {
+        return repository.getDefaultPortfolio(accountId)
+    }
 }
