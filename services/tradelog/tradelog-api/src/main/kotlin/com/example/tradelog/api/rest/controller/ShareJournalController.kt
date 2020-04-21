@@ -25,8 +25,7 @@ class ShareJournalController(private val journalFacade: JournalFacade) : ShareJo
         private val LOG = LoggerFactory.getLogger(ShareJournalController::class.java)
     }
 
-    override fun getAllBySymbol(accountId: String, portfolioId: String, symbol: String) : TLShareTransactionsResponse {
-
+    override fun getAllBySymbol(accountId: String, symbol: String, portfolioId: String) : TLShareTransactionsResponse {
         if (!RequestValidator.validateGetAllBySymbol(accountId, symbol)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }

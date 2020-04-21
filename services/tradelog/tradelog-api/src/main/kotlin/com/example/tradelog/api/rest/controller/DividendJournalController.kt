@@ -23,7 +23,7 @@ class DividendJournalController(private val journalFacade: JournalFacade) : Divi
         private val LOG = LoggerFactory.getLogger(DividendJournalController::class.java)
     }
 
-    override fun getAllBySymbol(accountId: String, portfolioId: String, symbol: String) : TLDividendTransactionsResponse {
+    override fun getAllBySymbol(accountId: String, symbol: String, portfolioId: String) : TLDividendTransactionsResponse {
         if (!RequestValidator.validateGetAllBySymbol(accountId, symbol)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }

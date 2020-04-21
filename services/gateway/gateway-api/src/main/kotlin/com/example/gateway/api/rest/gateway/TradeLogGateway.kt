@@ -50,7 +50,7 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
     fun getAllShareTransactions(accountId: String, portfolioId: String, symbol: String): CompletableFuture<List<ShareJournalModel>> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
-                .path("/shares/{symbol}/{portfolioId}/")
+                .path("/shares/{symbol}/{portfolio-id}/")
 
         val headers = HttpHeaders()
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
@@ -74,7 +74,7 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
     fun getAllOptionTransactions(accountId: String, portfolioId: String, symbol: String): CompletableFuture<List<OptionJournalModel>> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
-                .path("/options/{symbol}/{portfolioId}/")
+                .path("/options/{symbol}/{portfolio-id}/")
 
         val headers = HttpHeaders()
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
@@ -98,7 +98,7 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
     fun getAllDividendTransactions(accountId: String, portfolioId: String, symbol: String): CompletableFuture<List<DividendJournalModel>> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
-                .path("/dividends/{symbol}/{portfolioId}/")
+                .path("/dividends/{symbol}/{portfolio-id}/")
 
         val headers = HttpHeaders()
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)

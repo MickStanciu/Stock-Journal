@@ -13,12 +13,12 @@ interface ShareJournalRestInterface {
         private const val ACCOUNT_ID_HEADER_NAME = "x-account-id"
     }
 
-    @RequestMapping(value = ["/{symbol}/{portfolioId}", "/{symbol}/{portfolioId}/"], method = [RequestMethod.GET])
+    @RequestMapping(value = ["/{symbol}/{portfolio-id}", "/{symbol}/{portfolio-id}/"], method = [RequestMethod.GET])
     @ResponseStatus(HttpStatus.OK)
     fun getAllBySymbol(
             @RequestHeader(ACCOUNT_ID_HEADER_NAME) accountId: String,
-            @PathVariable("portfolio-id", required = true) portfolioId: String,
-            @PathVariable("symbol") symbol: String) : TLShareTransactionsResponse
+            @PathVariable("symbol") symbol: String,
+            @PathVariable("portfolio-id") portfolioId: String) : TLShareTransactionsResponse
 
     @RequestMapping(value = ["", "/"], method = [RequestMethod.POST])
     @ResponseStatus(HttpStatus.OK)

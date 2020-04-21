@@ -25,7 +25,7 @@ class OptionJournalController(private val journalFacade: JournalFacade) : Option
         private val LOG = LoggerFactory.getLogger(OptionJournalController::class.java)
     }
 
-    override fun getAllBySymbol(accountId: String, portfolioId: String, symbol: String) : TLOptionTransactionsResponse {
+    override fun getAllBySymbol(accountId: String, symbol: String, portfolioId: String) : TLOptionTransactionsResponse {
         if (!RequestValidator.validateGetAllBySymbol(accountId, symbol)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
