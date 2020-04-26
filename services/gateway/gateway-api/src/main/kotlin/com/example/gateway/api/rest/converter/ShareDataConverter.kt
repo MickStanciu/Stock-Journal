@@ -4,6 +4,7 @@ import com.example.common.converter.TimeConverter
 import com.example.gateway.api.core.model.SharePriceModel
 import com.example.gateway.api.spec.model.GWShareDataDto
 import com.example.stockdata.api.spec.model.SDPriceItem
+import java.time.OffsetDateTime
 
 class ShareDataConverter {
 
@@ -17,11 +18,15 @@ class ShareDataConverter {
         }
 
         fun toModel(dto: SDPriceItem): SharePriceModel {
+            var lastFailedOn: OffsetDateTime? = null
+            if (dto.lastFailedOn.isNotEmpty()) {
+                lastFailedOn = TimeConverter.toOffsetDateTime.apply(dto.lastFailedOn)
+            }
             return SharePriceModel(
                     symbol = dto.symbol,
                     lastClose = dto.lastClose,
                     lastUpdatedOn = TimeConverter.toOffsetDateTime.apply(dto.lastUpdatedOn),
-                    lastFailedOn = TimeConverter.toOffsetDateTime.apply(dto.lastUpdatedOn),
+                    lastFailedOn = lastFailedOn,
                     active = dto.active
             )
         }

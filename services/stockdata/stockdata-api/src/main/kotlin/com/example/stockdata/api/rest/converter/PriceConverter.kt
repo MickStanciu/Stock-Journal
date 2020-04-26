@@ -7,11 +7,16 @@ class PriceConverter {
 
     companion object {
         fun toPriceItemResponse(model: PriceModel) : SDPriceItem {
+            var lastFailedOn: String = ""
+            if (model.lastFailedOn != null) {
+                lastFailedOn = model.lastFailedOn.toString()
+            }
+
             return SDPriceItem.newBuilder()
                     .setLastClose(model.lastClose)
                     .setSymbol(model.symbol)
                     .setLastUpdatedOn(model.lastUpdatedOn.toString())
-                    .setLastFailedOn(model.lastFailedOn.toString())
+                    .setLastFailedOn(lastFailedOn)
                     .setActive(model.active)
                     .build()
         }
