@@ -3,7 +3,6 @@ package com.example.stockdata.api.db.repository
 import com.example.common.converter.TimeConverter
 import com.example.stockdata.api.core.model.PriceModel
 import com.example.stockdata.api.db.converter.PriceModelRowMapper
-import com.example.stockdata.api.db.converter.SymbolRowMapper
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Repository
 import java.sql.Connection
@@ -26,13 +25,15 @@ class PriceRepository(private val jdbcTemplate: JdbcTemplate) {
             ps.setString(1, priceModel.symbol)
             ps.setDouble(2, priceModel.lastClose)
             ps.setTimestamp(3, TimeConverter.fromOffsetDateTime(priceModel.lastUpdatedOn))
+            ps.setTimestamp(4, TimeConverter.fromOffsetDateTime(priceModel.lastFailedOn))
+            ps.setBoolean(5, priceModel.active)
             ps
         }
     }
 
-    fun getNotUpdatedSymbols(adjustedLimit: Int): List<String> {
+    fun getNotUpdatedSymbols(adjustedLimit: Int): List<PriceModel> {
         val parameters = arrayOf(adjustedLimit)
-        return jdbcTemplate.query(GET_OLDEST_PRICES, parameters, SymbolRowMapper())
+        return jdbcTemplate.query(GET_OLDEST_PRICES, parameters, PriceModelRowMapper())
     }
 
     fun addSymbol(priceModel: PriceModel) {
@@ -47,28 +48,34 @@ class PriceRepository(private val jdbcTemplate: JdbcTemplate) {
 
     companion object {
         private const val STOCK_DATA_READ_BY_SYMBOL: String = """
-                SELECT symbol, last_updated_on, last_close
+                SELECT symbol, last_updated_on, last_close, last_failed_on, active
                 FROM price
                 WHERE symbol = ?
                 """
 
-        private const val STOCK_PRICE_UPSERT: String =
-                "INSERT INTO price(symbol, last_close, last_updated_on) " +
-                        "VALUES(?, ?, ?) " +
-                        "ON CONFLICT ON CONSTRAINT price_pkey " +
-                        "DO UPDATE SET last_close = excluded.last_close, last_updated_on = excluded.last_updated_on"
+        private const val STOCK_PRICE_UPSERT: String = """
+            INSERT INTO price(symbol, last_close, last_updated_on, last_failed_on, active)
+            VALUES (?, ?, ?, ?, ?)
+            ON CONFLICT ON CONSTRAINT price_pkey
+                DO UPDATE SET last_close      = excluded.last_close,
+                              last_updated_on = excluded.last_updated_on,
+                              last_failed_on  = excluded.last_failed_on,
+                              active          = excluded.active
+        """
+
 
         private const val STOCK_PRICE_ADD: String = """
-                INSERT INTO price(symbol, last_close, last_updated_on)
-                VALUES(?, ?, ?)
+                INSERT INTO price(symbol, last_close, last_updated_on, last_failed_on, active)
+                VALUES(?, ?, ?, null, true)
                 ON CONFLICT ON CONSTRAINT price_pkey
                 DO NOTHING;
         """
 
         private const val GET_OLDEST_PRICES: String = """
-            SELECT * FROM price
+            SELECT symbol, last_close, last_updated_on, last_failed_on, active FROM price
             WHERE last_updated_on < CURRENT_DATE
-            ORDER BY last_updated_on ASC
+              AND active = TRUE
+            ORDER BY  last_failed_on DESC, last_updated_on
             LIMIT ?
         """
     }

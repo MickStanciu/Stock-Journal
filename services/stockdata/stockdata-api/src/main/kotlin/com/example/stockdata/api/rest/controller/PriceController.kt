@@ -6,7 +6,7 @@ import com.example.stockdata.api.rest.converter.PriceConverter
 import com.example.stockdata.api.rest.exception.ExceptionCode
 import com.example.stockdata.api.rest.exception.PriceException
 import com.example.stockdata.api.rest.validator.RequestValidator
-import com.example.stockdata.api.spec.model.SDPriceItemResponse
+import com.example.stockdata.api.spec.model.SDPriceItem
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
@@ -22,7 +22,7 @@ class PriceController(private val priceService: PriceService) {
     @RequestMapping(value = ["/last-close/{symbol}"], method = [RequestMethod.GET])
     @ResponseStatus(HttpStatus.OK)
     fun getPriceForSymbol(
-            @PathVariable symbol: String) : SDPriceItemResponse {
+            @PathVariable symbol: String) : SDPriceItem {
 
         if (!RequestValidator.validateGetPriceForSymbol(symbol)) {
             throw PriceException(ExceptionCode.BAD_REQUEST)

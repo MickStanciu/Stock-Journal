@@ -2,7 +2,10 @@ package com.example.gateway.api.core.model
 
 import java.time.OffsetDateTime
 
-class SharePriceModel(
+data class SharePriceModel(
         val symbol: String,
         val lastClose: Double,
-        val lastUpdatedOn: OffsetDateTime)
+        val lastUpdatedOn: OffsetDateTime,
+        val lastFailedOn: OffsetDateTime?,
+        var active: Boolean
+)

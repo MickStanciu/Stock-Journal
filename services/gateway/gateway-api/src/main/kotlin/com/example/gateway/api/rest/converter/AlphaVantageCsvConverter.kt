@@ -14,7 +14,9 @@ class AlphaVantageCsvConverter {
             return SharePriceModel(
                     symbol = bits["symbol"]!!,
                     lastClose = bits["previousClose"]!!.toDouble(),
-                    lastUpdatedOn = TimeConverter.fromUSDateString(bits["latestDay"]!!)
+                    lastUpdatedOn = TimeConverter.fromUSDateString(bits["latestDay"]!!),
+                    lastFailedOn = null,
+                    active = true
             )
         }
     }

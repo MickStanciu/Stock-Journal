@@ -24,13 +24,13 @@ class Scheduler(
         }
     }
 
-    //EVERY MINUTE -> disabled for now, need to find a way to link this to the exchange
-//    @Scheduled(cron = "0 * * * * ?")
+    //EVERY MINUTE
+    @Scheduled(cron = "0 * * * * ?")
     fun updatePrices() {
         val symbols = stockDataService.getSymbolsForUpdate()
         symbols.forEach {
-            if ("XYZ" != it) {
-                LOG.info("Processing update price for $it")
+            if ("XYZ" != it.symbol) {
+                LOG.info("Processing update price for ${it.symbol}")
                 stockDataService.updatePrice(it)
         }}
     }

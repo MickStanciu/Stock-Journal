@@ -3,8 +3,8 @@ package com.example.gateway.api.rest.gateway
 import com.example.gateway.api.core.model.SharePriceModel
 import com.example.gateway.api.rest.converter.LastUpdatePriceResponseConverter
 import com.example.gateway.api.rest.converter.ShareDataConverter
-import com.example.stockdata.api.spec.model.SDActiveSymbolsResponse
-import com.example.stockdata.api.spec.model.SDPriceItemResponse
+import com.example.stockdata.api.spec.model.SDPriceItem
+import com.example.stockdata.api.spec.model.SDPriceResponse
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
@@ -33,10 +33,10 @@ class StockDataGateway(
         val headers = HttpHeaders()
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
 
-        var responseDto: SDPriceItemResponse? = null
+        var responseDto: SDPriceItem? = null
         try {
             val responseEntity = restTemplate
-                    .exchange(builder.build(symbol).toString(), HttpMethod.GET, HttpEntity<Any>(headers), SDPriceItemResponse::class.java)
+                    .exchange(builder.build(symbol).toString(), HttpMethod.GET, HttpEntity<Any>(headers), SDPriceItem::class.java)
             responseDto = responseEntity.body
         } catch (ex: Exception) {
             LOG.error("Cannot get price for $symbol")
@@ -49,7 +49,7 @@ class StockDataGateway(
         }
     }
 
-    fun getSymbolsForUpdate(): List<String> {
+    fun getSymbolsForUpdate(): List<SharePriceModel> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("/symbols/old")
@@ -59,9 +59,9 @@ class StockDataGateway(
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
 
         val responseEntity = restTemplate
-                .exchange(builder.build("").toString(), HttpMethod.GET, HttpEntity<Any>(headers), SDActiveSymbolsResponse::class.java)
+                .exchange(builder.build("").toString(), HttpMethod.GET, HttpEntity<Any>(headers), SDPriceResponse::class.java)
 
-        val responseDto: SDActiveSymbolsResponse? = responseEntity.body
+        val responseDto: SDPriceResponse? = responseEntity.body
 
         return if (responseDto != null) {
             return LastUpdatePriceResponseConverter.toModel(responseDto)

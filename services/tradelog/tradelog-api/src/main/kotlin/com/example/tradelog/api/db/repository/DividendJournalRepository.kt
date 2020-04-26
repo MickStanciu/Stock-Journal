@@ -48,6 +48,7 @@ class DividendJournalRepository(private val jdbcTemplate: JdbcTemplate) : Journa
         private const val GET_BY_ID = """
                     SELECT CAST(tl.id AS uuid),
                         CAST(tl.account_fk AS uuid),
+                        CAST(tl.portfolio_fk AS VARCHAR(36)),
                         tl.date,
                         tl.symbol,
                         tl.transaction_type_fk,

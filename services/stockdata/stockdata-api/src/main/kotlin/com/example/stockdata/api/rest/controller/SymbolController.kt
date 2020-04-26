@@ -2,10 +2,11 @@ package com.example.stockdata.api.rest.controller
 
 import com.example.stockdata.api.core.service.PriceService
 import com.example.stockdata.api.rest.controller.SymbolController.Companion.PROTOBUF_MEDIA_TYPE_VALUE
+import com.example.stockdata.api.rest.converter.PriceConverter
 import com.example.stockdata.api.rest.exception.ExceptionCode
 import com.example.stockdata.api.rest.exception.PriceException
 import com.example.stockdata.api.rest.validator.RequestValidator
-import com.example.stockdata.api.spec.model.SDActiveSymbolsResponse
+import com.example.stockdata.api.spec.model.SDPriceResponse
 import com.example.stockdata.api.spec.model.SDUpdateSymbolsRequest
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -25,7 +26,7 @@ class SymbolController(private val priceService: PriceService) {
     @RequestMapping(value = ["/old", "/old/"], method = [RequestMethod.GET])
     @ResponseStatus(HttpStatus.OK)
     fun getOldestSymbols(
-            @RequestParam(name = "limit") limit: Int): SDActiveSymbolsResponse {
+            @RequestParam(name = "limit") limit: Int): SDPriceResponse {
 
         if (!RequestValidator.validateGetOldestSymbols(limit)) {
             throw PriceException(ExceptionCode.BAD_REQUEST)
@@ -36,10 +37,11 @@ class SymbolController(private val priceService: PriceService) {
             adjustedLimit = 10
         }
 
-        val symbols = priceService.getNotUpdatedSymbols(adjustedLimit)
+        val models = priceService.getNotUpdatedSymbols(adjustedLimit)
+        val dtos = models.map { PriceConverter.toPriceItemResponse(it) }
 
-        return SDActiveSymbolsResponse.newBuilder()
-                .addAllSymbols(symbols)
+        return SDPriceResponse.newBuilder()
+                .addAllPrice(dtos)
                 .build()
     }
 

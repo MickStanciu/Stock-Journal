@@ -25,7 +25,9 @@ CREATE TABLE price
     symbol          VARCHAR(16)   NOT NULL
         CONSTRAINT price_pkey PRIMARY KEY,
     last_updated_on TIMESTAMPTZ   NOT NULL,
-    last_close      NUMERIC(8, 4) NOT NULL
+    last_failed_on TIMESTAMPTZ,
+    last_close      NUMERIC(8, 4) NOT NULL,
+    active          BOOLEAN DEFAULT TRUE NOT NULL
 );
 
 

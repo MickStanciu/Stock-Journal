@@ -1,5 +1,6 @@
 package com.example.gateway.api.core.service
 
+import com.example.common.converter.TimeConverter
 import com.example.gateway.api.amqp.AmqpSender
 import com.example.gateway.api.core.model.SharePriceModel
 import com.example.gateway.api.rest.gateway.AlphaVantageGateway
@@ -16,14 +17,22 @@ class StockDataService(
         return stockDataGateway.getPrice(symbol)
     }
 
-    fun updatePrice(symbol: String) {
-        val receivedPrice = alphaVantageGateway.getQuoteResponse(symbol)
+    fun updatePrice(model: SharePriceModel) {
+        val receivedPrice = alphaVantageGateway.getQuoteResponse(model.symbol)
         if (receivedPrice != null) {
             ampqSender.updatePrice(receivedPrice)
+        } else {
+            var active = model.active
+            if (model.lastFailedOn != null) {
+                active = false
+            }
+            ampqSender.updatePrice(model.copy(
+                    lastFailedOn = TimeConverter.getOffsetDateTimeNow(),
+                    active = active))
         }
     }
 
-    fun getSymbolsForUpdate(): List<String> {
+    fun getSymbolsForUpdate(): List<SharePriceModel> {
         return stockDataGateway.getSymbolsForUpdate()
     }
 

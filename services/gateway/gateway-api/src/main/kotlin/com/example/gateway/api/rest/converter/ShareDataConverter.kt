@@ -3,7 +3,7 @@ package com.example.gateway.api.rest.converter
 import com.example.common.converter.TimeConverter
 import com.example.gateway.api.core.model.SharePriceModel
 import com.example.gateway.api.spec.model.GWShareDataDto
-import com.example.stockdata.api.spec.model.SDPriceItemResponse
+import com.example.stockdata.api.spec.model.SDPriceItem
 
 class ShareDataConverter {
 
@@ -16,11 +16,25 @@ class ShareDataConverter {
                     .build()
         }
 
-        fun toModel(dto: SDPriceItemResponse): SharePriceModel {
+        fun toModel(dto: SDPriceItem): SharePriceModel {
             return SharePriceModel(
                     symbol = dto.symbol,
                     lastClose = dto.lastClose,
-                    lastUpdatedOn = TimeConverter.toOffsetDateTime.apply(dto.lastUpdatedOn))
+                    lastUpdatedOn = TimeConverter.toOffsetDateTime.apply(dto.lastUpdatedOn),
+                    lastFailedOn = TimeConverter.toOffsetDateTime.apply(dto.lastUpdatedOn),
+                    active = dto.active
+            )
+        }
+
+        /* Used only by util controller for debugging */
+        fun toModel(dto: GWShareDataDto): SharePriceModel {
+            return SharePriceModel(
+                    symbol = dto.symbol,
+                    lastClose = dto.lastClose,
+                    lastUpdatedOn = TimeConverter.toOffsetDateTime.apply(dto.lastUpdatedOn),
+                    lastFailedOn = null,
+                    active = true
+            )
         }
     }
 }

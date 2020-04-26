@@ -21,7 +21,13 @@ class TradeLogService(private val tradeLogGateway: TradeLogGateway,
         CompletableFuture.allOf(futureShareList, futureOptionList, futureDividendList).join()
         var stockPrice = stockDataGateway.getPrice(symbol)
         if (stockPrice == null) {
-            stockPrice = SharePriceModel(symbol = symbol, lastClose = 0.00, lastUpdatedOn = TimeConverter.getOffsetDateTimeNow())
+            stockPrice = SharePriceModel(
+                    symbol = symbol,
+                    lastClose = 0.00,
+                    lastUpdatedOn = TimeConverter.getOffsetDateTimeNow(),
+                    lastFailedOn = null,
+                    active = true
+            )
         }
 
         var receivedShareList = ArrayList<ShareJournalModel>()

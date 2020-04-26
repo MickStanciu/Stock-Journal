@@ -16,14 +16,20 @@ class PriceService(private val priceRepository: PriceRepository) {
         priceRepository.updateForSymbol(priceModel)
     }
 
-    fun getNotUpdatedSymbols(adjustedLimit: Int): List<String> {
+    fun getNotUpdatedSymbols(adjustedLimit: Int): List<PriceModel> {
         return priceRepository.getNotUpdatedSymbols(adjustedLimit)
     }
 
     fun updateSymbols(symbolsList: List<String>) {
         //NOTE: not optimal
         symbolsList.forEach {
-            val priceModel = PriceModel(symbol = it, lastClose = 0.00, lastUpdatedOn = TimeConverter.getOffsetDateTimeNow())
+            val priceModel = PriceModel(
+                    symbol = it,
+                    lastClose = 0.00,
+                    lastUpdatedOn = TimeConverter.getOffsetDateTimeNow(),
+                    lastFailedOn = null,
+                    active = true
+            )
             priceRepository.addSymbol(priceModel)
         }
     }

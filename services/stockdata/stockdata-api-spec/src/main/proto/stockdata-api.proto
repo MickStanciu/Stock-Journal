@@ -6,23 +6,26 @@ option java_package = "com.example.stockdata.api.spec.model";
 
 // Used to get price for a symbol or a collection of symbols
 message SDPriceResponse {
-    repeated SDPriceItemResponse price = 1;
+    repeated SDPriceItem price = 1;
 }
 
-message SDPriceItemResponse {
+message SDPriceItem {
     string symbol = 1;
     string last_updated_on = 2;
-    double last_close = 3;
+    string last_failed_on = 3;
+    double last_close = 4;
+    bool active = 5;
 }
 
 // Used to update price for a symbol or a collection of symbols
 message SDPriceUpdateRequest {
-    repeated SDPriceItemUpdateRequest price = 1;
+    repeated SDPriceItem price = 1;
 }
 
-message SDPriceItemUpdateRequest {
+message SDShareDataResponse {
     string symbol = 1;
-    double last_close = 2;
+    string last_updated_on = 2;
+    double price = 3;
 }
 
 // Used to get last "n" symbols that need to be updated
@@ -32,12 +35,6 @@ message SDActiveSymbolsResponse {
 
 message SDUpdateSymbolsRequest {
     repeated string symbols = 1;
-}
-
-message SDShareDataResponse {
-    string symbol = 1;
-    string last_updated_on = 2;
-    double price = 3;
 }
 
 message ExceptionResponse {

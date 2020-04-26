@@ -39,6 +39,9 @@ public class TimeConverter {
 
 
     public static Timestamp fromOffsetDateTime(OffsetDateTime offsetDateTime) {
+        if (offsetDateTime == null) {
+            return null;
+        }
         return Timestamp.from(offsetDateTime.toInstant());
     }
 
@@ -47,6 +50,9 @@ public class TimeConverter {
     }
 
     public static OffsetDateTime fromTimestamp(Timestamp timestamp) {
+        if (timestamp == null) {
+            return null;
+        }
         return OffsetDateTime.ofInstant(
                 Instant.ofEpochMilli(timestamp.getTime()), ZoneId.of("UTC"));
     }

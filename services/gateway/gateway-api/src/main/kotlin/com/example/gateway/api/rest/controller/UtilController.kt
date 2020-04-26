@@ -1,7 +1,9 @@
 package com.example.gateway.api.rest.controller
 
 import com.example.gateway.api.core.service.StockDataService
+import com.example.gateway.api.rest.converter.ShareDataConverter
 import com.example.gateway.api.rest.converter.TokenConverter
+import com.example.gateway.api.spec.model.GWShareDataDto
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
@@ -19,8 +21,12 @@ class UtilController(private val stockDataService: StockDataService) {
 
     @RequestMapping(value = ["/price/{symbol}", "/price/{symbol}/"], method = [RequestMethod.POST])
     @ResponseStatus(HttpStatus.OK)
-    fun updatePriceForSymbol(@PathVariable(name = "symbol") symbol: String) {
-        stockDataService.updatePrice(symbol)
+    fun updatePriceForSymbol(
+            @PathVariable(name = "symbol") symbol: String,
+            @RequestBody dto: GWShareDataDto
+    ) {
+        val model = ShareDataConverter.toModel(dto)
+        stockDataService.updatePrice(model)
     }
 
     @RequestMapping(value = ["/token/{accountId}", "/token/{accountId}/"], method = [RequestMethod.GET])
