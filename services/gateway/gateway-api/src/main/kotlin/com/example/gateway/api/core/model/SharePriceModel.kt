@@ -5,7 +5,7 @@ import java.time.OffsetDateTime
 data class SharePriceModel(
         val symbol: String,
         val lastClose: Double,
-        val lastUpdatedOn: OffsetDateTime,
-        val lastFailedOn: OffsetDateTime?,
+        var lastUpdatedOn: OffsetDateTime,
+        var lastFailedOn: OffsetDateTime?,
         var active: Boolean
 )

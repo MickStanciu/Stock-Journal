@@ -19,16 +19,20 @@ class StockDataService(
 
     fun updatePrice(model: SharePriceModel) {
         val receivedPrice = alphaVantageGateway.getQuoteResponse(model.symbol)
+        val now = TimeConverter.getOffsetDateTimeNow()
         if (receivedPrice != null) {
+            receivedPrice.lastUpdatedOn = now
             ampqSender.updatePrice(receivedPrice)
         } else {
             var active = model.active
             if (model.lastFailedOn != null) {
                 active = false
             }
-            ampqSender.updatePrice(model.copy(
-                    lastFailedOn = TimeConverter.getOffsetDateTimeNow(),
-                    active = active))
+
+            model.lastFailedOn = now
+            model.lastUpdatedOn = now
+            model.active = active
+            ampqSender.updatePrice(model)
         }
     }
 
