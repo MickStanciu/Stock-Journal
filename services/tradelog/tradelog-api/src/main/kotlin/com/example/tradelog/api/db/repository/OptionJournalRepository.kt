@@ -1,6 +1,8 @@
 package com.example.tradelog.api.db.repository
 
 import com.example.common.converter.TimeConverter
+import com.example.common.error.DataAccessError
+import com.example.common.types.Either
 import com.example.tradelog.api.core.model.OptionJournalModel
 import com.example.tradelog.api.core.model.TradeSummaryModel
 import com.example.tradelog.api.db.converter.OptionJournalModelRowMapper
@@ -8,6 +10,7 @@ import com.example.tradelog.api.db.converter.TradeSummaryModelRowMapper
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Service
 import java.sql.Connection
+import javax.xml.crypto.Data
 
 @Service
 class OptionJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalRepository<OptionJournalModel> {
@@ -116,13 +119,13 @@ class OptionJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalR
         }
     }
 
-    override fun getById(accountId: String, transactionId: String): OptionJournalModel? {
+    override fun getById(accountId: String, transactionId: String): Either<DataAccessError, OptionJournalModel> {
         val parameters = arrayOf(accountId, transactionId)
         val models = jdbcTemplate.query(GET_BY_ID, parameters, OptionJournalModelRowMapper())
         if (models.size == 1) {
-            return models[0]
+            return Either.Value(models[0])
         }
-        return null
+        return Either.Error(DataAccessError.RecordNotFound("Couldn't find option record with id $transactionId"))
     }
 
     override fun getAllBySymbol(accountId: String, portfolioId: String, symbol: String): List<OptionJournalModel> {

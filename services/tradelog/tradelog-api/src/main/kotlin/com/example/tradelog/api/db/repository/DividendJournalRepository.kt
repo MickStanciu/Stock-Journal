@@ -1,5 +1,7 @@
 package com.example.tradelog.api.db.repository
 
+import com.example.common.error.DataAccessError
+import com.example.common.types.Either
 import com.example.tradelog.api.core.model.DividendJournalModel
 import com.example.tradelog.api.core.model.TradeSummaryModel
 import com.example.tradelog.api.db.converter.DividendModelRowMapper
@@ -87,14 +89,14 @@ class DividendJournalRepository(private val jdbcTemplate: JdbcTemplate) : Journa
         }
     }
 
-    override fun getById(accountId: String, transactionId: String): DividendJournalModel? {
+    override fun getById(accountId: String, transactionId: String): Either<DataAccessError, DividendJournalModel> {
         val parameters = arrayOf(transactionId)
         val models = jdbcTemplate.query(GET_BY_ID, parameters, DividendModelRowMapper())
         if (models.size == 1) {
-            return models[0]
+            return Either.Value(models[0])
         }
 
-        return null
+        return Either.Error(DataAccessError.RecordNotFound("Couldn't find dividend record with id $transactionId"))
     }
 
     override fun getAllBySymbol(accountId: String, portfolioId: String, symbol: String): List<DividendJournalModel> {

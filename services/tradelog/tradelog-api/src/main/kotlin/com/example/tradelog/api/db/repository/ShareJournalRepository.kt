@@ -1,5 +1,7 @@
 package com.example.tradelog.api.db.repository
 
+import com.example.common.error.DataAccessError
+import com.example.common.types.Either
 import com.example.tradelog.api.core.model.ShareJournalModel
 import com.example.tradelog.api.core.model.TradeSummaryModel
 import com.example.tradelog.api.db.converter.ShareJournalModelRowMapper
@@ -97,13 +99,13 @@ class ShareJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalRe
         }
     }
 
-    override fun getById(accountId: String, transactionId: String): ShareJournalModel? {
+    override fun getById(accountId: String, transactionId: String): Either<DataAccessError, ShareJournalModel> {
         val parameters = arrayOf<Any>(accountId, transactionId)
         val models = jdbcTemplate.query(GET_BY_ID, parameters, ShareJournalModelRowMapper())
         if (models.size == 1) {
-            return models[0]
+            return Either.Value(models[0])
         }
-        return null
+        return Either.Error(DataAccessError.RecordNotFound("Couldn't find share record with id $transactionId"))
     }
 
     override fun getAllBySymbol(accountId: String, portfolioId: String, symbol: String): List<ShareJournalModel> {
