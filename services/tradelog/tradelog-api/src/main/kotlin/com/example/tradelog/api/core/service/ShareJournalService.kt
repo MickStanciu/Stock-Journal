@@ -1,6 +1,7 @@
 package com.example.tradelog.api.core.service
 
 import com.example.common.types.Either
+import com.example.common.types.Either.Companion.mapError
 import com.example.tradelog.api.core.converter.TradeSummaryUtil
 import com.example.tradelog.api.core.model.ShareJournalModel
 import com.example.tradelog.api.core.model.TradeSummaryModel

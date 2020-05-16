@@ -2,6 +2,8 @@ package com.example.tradelog.api.db.repository
 
 import com.example.common.error.DataAccessError
 import com.example.common.types.Either
+import com.example.common.types.Either.Companion.bind
+import com.example.common.types.Either.Companion.mapError
 import com.example.tradelog.api.core.model.ShareJournalModel
 import com.example.tradelog.api.core.model.TradeSummaryModel
 import com.example.tradelog.api.db.converter.ShareJournalModelRowMapper
@@ -9,6 +11,7 @@ import com.example.tradelog.api.db.converter.TradeSummaryModelRowMapper
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Service
 import java.sql.Connection
+import javax.xml.crypto.Data
 
 @Service
 class ShareJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalRepository<ShareJournalModel> {
@@ -101,14 +104,25 @@ class ShareJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalRe
 
     override fun getById(accountId: String, transactionId: String): Either<DataAccessError, ShareJournalModel> {
         val parameters = arrayOf<Any>(accountId, transactionId)
-        val models = jdbcTemplate.query(GET_BY_ID, parameters, ShareJournalModelRowMapper())
-        if (models.size == 1) {
-            return Either.Value(models[0])
+
+        val dbResponse: Either<DataAccessError, List<ShareJournalModel>> = performDataBaseCall {
+            jdbcTemplate.query(GET_BY_ID, parameters, ShareJournalModelRowMapper())
         }
-        return Either.Error(DataAccessError.RecordNotFound("Couldn't find share record with id $transactionId"))
+
+        val checkSize: (List<ShareJournalModel>) -> Either<DataAccessError, ShareJournalModel> = {
+            when (it.size == 1) {
+                true -> Either.Value(it[0])
+                false -> Either.Error(DataAccessError.RecordNotFound())
+            }
+        }
+
+        return dbResponse
+                .mapError { DataAccessError.RecordNotFound("Couldn't find share record with id $transactionId") }
+                .bind(checkSize)
+
     }
 
-    override fun getAllBySymbol(accountId: String, portfolioId: String, symbol: String): List<ShareJournalModel> {
+    override fun getAllBySymbol(accountId: String, portfolioId: String, symbol: String): Either<Data, List<ShareJournalModel>> {
         val parameters = arrayOf<Any>(accountId, portfolioId, symbol)
         return jdbcTemplate.query(GET_BY_SYMBOL, parameters, ShareJournalModelRowMapper())
     }
