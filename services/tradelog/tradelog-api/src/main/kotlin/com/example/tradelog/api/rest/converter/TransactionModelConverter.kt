@@ -14,7 +14,7 @@ class TransactionModelConverter {
                     id = dto.id,
                     accountId = dto.accountId,
                     portfolioId = dto.portfolioId,
-                    date = TimeConverter.toOffsetDateTime.apply(dto.date),
+                    date = TimeConverter.toOffsetDateTime(dto.date),
                     symbol = dto.symbol,
                     type = TransactionType.lookup(dto.type.name),
                     brokerFees = dto.brokerFees,

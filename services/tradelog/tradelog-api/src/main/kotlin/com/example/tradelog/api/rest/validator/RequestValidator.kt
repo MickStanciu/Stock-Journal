@@ -7,95 +7,92 @@ class RequestValidator: FieldValidator() {
 
     companion object {
         fun validateGetPortfolios(accountId: String): Boolean {
-            return FieldValidator.UUID.test(accountId)
+            return UUID(accountId)
         }
 
-        fun validateGetAllTradedSymbols(accountId: String, portfolioId: String): Boolean {
-            return FieldValidator.UUID.test(accountId) && FieldValidator.UUID.test(portfolioId)
+        fun validateGetAllTradedSymbols(accountId: String): Boolean {
+            return UUID(accountId)
         }
 
         fun validateGetSummary(accountId: String): Boolean {
-            return FieldValidator.UUID.test(accountId)
+            return UUID(accountId)
         }
 
         fun validateSummaryMatrix(accountId: String, portfolioId: String): Boolean {
-            return FieldValidator.UUID.test(accountId) && FieldValidator.UUID.test(portfolioId)
+            return UUID(accountId) && UUID(portfolioId)
         }
 
         fun validateUpdateSettings(accountId: String, transactionId: String, dto: TLTransactionSettingsDto): Boolean {
-            return FieldValidator.UUID.test(accountId)
+            return UUID(accountId)
                     && transactionId == dto.transactionId
-                    && FieldValidator.UUID.test(transactionId)
+                    && UUID(transactionId)
                     && validateTransactionSettingsModel(dto)
 
         }
 
         fun validateGetAllBySymbol(accountId: String, symbol: String): Boolean {
-            return FieldValidator.UUID.test(accountId)
-                    && FieldValidator.symbol.test(symbol)
+            return UUID(accountId)
+                    && FieldValidator.symbol(symbol)
         }
 
         fun validateCreateShareRecord(accountId: String, dto: TLShareJournalDto): Boolean {
-            return FieldValidator.UUID.test(accountId)
-                    && FieldValidator.UUID.test(dto.transactionDetails.portfolioId)
+            return UUID(accountId)
                     && validateShareJournalModel(dto)
         }
 
         fun validateEditShareRecord(accountId: String, transactionId: String, dto: TLShareJournalDto): Boolean {
-            return FieldValidator.UUID.test(accountId)
+            return UUID(accountId)
                     && transactionId == dto.transactionDetails.id
-                    && FieldValidator.UUID.test(transactionId)
+                    && UUID(transactionId)
                     && validateShareJournalModel(dto)
         }
 
 
         fun validateDeleteShareRecord(accountId: String, transactionId: String): Boolean {
-            return FieldValidator.UUID.test(accountId)
-                    && FieldValidator.UUID.test(transactionId)
+            return UUID(accountId)
+                    && UUID(transactionId)
         }
 
         fun validateCreateOptionRecord(accountId: String, dto: TLOptionJournalDto): Boolean {
-            return FieldValidator.UUID.test(accountId)
-                    && FieldValidator.UUID.test(dto.transactionDetails.portfolioId)
+            return UUID(accountId)
                     && validateOptionJournalModel(dto)
         }
 
         fun validateEditOptionRecord(accountId: String, transactionId: String, dto: TLOptionJournalDto): Boolean {
-            return FieldValidator.UUID.test(accountId)
+            return UUID(accountId)
                     && transactionId == dto.transactionDetails.id
-                    && FieldValidator.UUID.test(transactionId)
+                    && UUID(transactionId)
                     && validateOptionJournalModel(dto)
         }
 
         fun validateDeleteOptionRecord(accountId: String, transactionId: String): Boolean {
-            return FieldValidator.UUID.test(accountId)
-                    && FieldValidator.UUID.test(transactionId)
+            return UUID(accountId)
+                    && UUID(transactionId)
         }
 
 
         fun validateCreateDividendRecord(accountId: String, dto: TLDividendJournalDto): Boolean {
-            return FieldValidator.UUID.test(accountId)
-                    && FieldValidator.UUID.test(dto.transactionDetails.portfolioId)
+            return UUID(accountId)
                     && validateDividendJournalModel(dto)
         }
 
         fun validateEditDividendRecord(accountId: String, transactionId: String, dto: TLDividendJournalDto): Boolean {
-            return FieldValidator.UUID.test(accountId)
+            return UUID(accountId)
                     && transactionId == dto.transactionDetails.id
                     && validateDividendJournalModel(dto)
         }
 
         fun validateDeleteDividendRecord(accountId: String, transactionId: String): Boolean {
-            return FieldValidator.UUID.test(accountId)
-                    && FieldValidator.UUID.test(transactionId)
+            return UUID(accountId)
+                    && UUID(transactionId)
         }
 
         fun validateDividendJournalModel(dto: TLDividendJournalDto): Boolean {
             return (dto.transactionDetails != null
                     && dto.transactionDetails.type === TLTransactionDto.TransactionType.DIVIDEND
                     && dto.transactionDetails.date != null
-                    && symbol.test(dto.transactionDetails.symbol)
-                    && UUID.test(dto.transactionDetails.accountId)
+                    && symbol(dto.transactionDetails.symbol)
+                    && UUID(dto.transactionDetails.accountId)
                     && dto.quantity >= 0
                     && dto.dividend >= 0)
         }
@@ -104,8 +101,8 @@ class RequestValidator: FieldValidator() {
             return (dto.transactionDetails != null
                     && dto.transactionDetails.type === TLTransactionDto.TransactionType.SHARE
                     && dto.transactionDetails.date != null
-                    && symbol.test(dto.transactionDetails.symbol)
-                    && UUID.test(dto.transactionDetails.accountId)
+                    && symbol(dto.transactionDetails.symbol)
+                    && UUID(dto.transactionDetails.accountId)
                     && dto.action != null
                     && dto.action !== TLShareJournalDto.ActionType.UNKNOWN_ACTION_TYPE
                     && dto.price >= 0.00 && dto.quantity >= 1)
@@ -115,8 +112,8 @@ class RequestValidator: FieldValidator() {
             return (dto.transactionDetails != null
                     && dto.transactionDetails.type === TLTransactionDto.TransactionType.OPTION
                     && dto.transactionDetails.date != null
-                    && symbol.test(dto.transactionDetails.symbol)
-                    && UUID.test(dto.transactionDetails.accountId)
+                    && symbol(dto.transactionDetails.symbol)
+                    && UUID(dto.transactionDetails.accountId)
                     && dto.action != null
                     && dto.action !== TLOptionJournalDto.ActionType.UNKNOWN_ACTION_TYPE
                     && (dto.optionType === TLOptionJournalDto.OptionType.CALL || dto.optionType === TLOptionJournalDto.OptionType.PUT)
@@ -128,7 +125,7 @@ class RequestValidator: FieldValidator() {
         }
 
         fun validateTransactionSettingsModel(dto: TLTransactionSettingsDto): Boolean {
-            return FieldValidator.UUID.test(dto.transactionId)
+            return UUID(dto.transactionId)
         }
 
     }

@@ -25,7 +25,7 @@ class PriceRepository(private val jdbcTemplate: JdbcTemplate) {
             ps.setString(1, priceModel.symbol)
             ps.setDouble(2, priceModel.lastClose)
             ps.setTimestamp(3, TimeConverter.fromOffsetDateTime(priceModel.lastUpdatedOn))
-            ps.setTimestamp(4, TimeConverter.fromOffsetDateTime(priceModel.lastFailedOn))
+            ps.setTimestamp(4, if (priceModel.lastFailedOn != null) TimeConverter.fromOffsetDateTime(priceModel.lastFailedOn!!) else null)
             ps.setBoolean(5, priceModel.active)
             ps
         }

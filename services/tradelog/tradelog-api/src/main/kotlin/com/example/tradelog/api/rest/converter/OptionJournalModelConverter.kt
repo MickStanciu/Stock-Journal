@@ -15,7 +15,7 @@ class OptionJournalModelConverter {
                     stockPrice = dto.stockPrice,
                     action = ActionType.lookup(dto.action.name),
                     contracts = dto.contracts,
-                    expiryDate = TimeConverter.toOffsetDateTime.apply(dto.expiryDate),
+                    expiryDate = TimeConverter.toOffsetDateTime(dto.expiryDate),
                     optionType = OptionType.lookup(dto.optionType.name),
                     premium = dto.premium,
                     strikePrice = dto.strikePrice

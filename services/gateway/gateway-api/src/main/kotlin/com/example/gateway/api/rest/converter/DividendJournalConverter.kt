@@ -16,7 +16,7 @@ class DividendJournalConverter {
                     accountId = dto.transactionDetails.accountId,
                     portfolioId = dto.transactionDetails.portfolioId,
                     symbol = dto.transactionDetails.symbol,
-                    date = TimeConverter.toOffsetDateTime.apply(dto.transactionDetails.date),
+                    date = TimeConverter.toOffsetDateTime(dto.transactionDetails.date),
                     dividend = dto.dividend,
                     quantity = dto.quantity,
                     groupSelected = dto.transactionDetails.settings.groupSelected,

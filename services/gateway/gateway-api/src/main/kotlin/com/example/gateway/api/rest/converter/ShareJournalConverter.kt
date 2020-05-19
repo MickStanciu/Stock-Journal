@@ -19,7 +19,7 @@ class ShareJournalConverter {
                     transactionId = dto.transactionDetails.id,
                     accountId = dto.transactionDetails.accountId,
                     portfolioId = dto.transactionDetails.portfolioId,
-                    date = TimeConverter.toOffsetDateTime.apply(dto.transactionDetails.date),
+                    date = TimeConverter.toOffsetDateTime(dto.transactionDetails.date),
                     symbol = dto.transactionDetails.symbol,
                     price = dto.price,
                     preferredPrice = dto.transactionDetails.settings.preferredPrice,
@@ -38,7 +38,7 @@ class ShareJournalConverter {
                     transactionId = dto.transactionId,
                     accountId = accountId,
                     portfolioId = "", /* NOT USED */
-                    date = TimeConverter.toOffsetDateTime.apply(dto.date),
+                    date = TimeConverter.toOffsetDateTime(dto.date),
                     symbol = dto.symbol,
                     price = dto.price,
                     preferredPrice = dto.preferredPrice,

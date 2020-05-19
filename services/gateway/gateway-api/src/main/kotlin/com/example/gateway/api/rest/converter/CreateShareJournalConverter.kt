@@ -14,7 +14,7 @@ class CreateShareJournalConverter {
                     transactionId = "",
                     accountId = accountId,
                     portfolioId = portfolioId,
-                    date = TimeConverter.toOffsetDateTime.apply(dto.date),
+                    date = TimeConverter.toOffsetDateTime(dto.date),
                     symbol = dto.symbol,
                     price = dto.price,
                     preferredPrice = 0.00,

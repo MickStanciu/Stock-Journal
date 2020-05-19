@@ -20,12 +20,13 @@ class ShareDataConverter {
         fun toModel(dto: SDPriceItem): SharePriceModel {
             var lastFailedOn: OffsetDateTime? = null
             if (dto.lastFailedOn.isNotEmpty()) {
-                lastFailedOn = TimeConverter.toOffsetDateTime.apply(dto.lastFailedOn)
+                lastFailedOn = TimeConverter.toOffsetDateTime(dto.lastFailedOn)
             }
+
             return SharePriceModel(
                     symbol = dto.symbol,
                     lastClose = dto.lastClose,
-                    lastUpdatedOn = TimeConverter.toOffsetDateTime.apply(dto.lastUpdatedOn),
+                    lastUpdatedOn = TimeConverter.toOffsetDateTime(dto.lastUpdatedOn),
                     lastFailedOn = lastFailedOn,
                     active = dto.active
             )
@@ -36,7 +37,7 @@ class ShareDataConverter {
             return SharePriceModel(
                     symbol = dto.symbol,
                     lastClose = dto.lastClose,
-                    lastUpdatedOn = TimeConverter.toOffsetDateTime.apply(dto.lastUpdatedOn),
+                    lastUpdatedOn = TimeConverter.toOffsetDateTime(dto.lastUpdatedOn),
                     lastFailedOn = null,
                     active = true
             )

@@ -12,7 +12,7 @@ class CreateDividendJournalConverter {
                     transactionId = "",
                     accountId = accountId,
                     portfolioId = portfolioId,
-                    date = TimeConverter.toOffsetDateTime.apply(dto.date),
+                    date = TimeConverter.toOffsetDateTime(dto.date),
                     symbol = dto.symbol,
                     quantity = dto.quantity,
                     dividend = dto.dividend,

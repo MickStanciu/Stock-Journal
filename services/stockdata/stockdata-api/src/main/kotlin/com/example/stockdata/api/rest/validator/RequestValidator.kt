@@ -6,11 +6,11 @@ class RequestValidator: FieldValidator() {
 
     companion object {
         fun validateGetPriceForSymbol(symbol: String): Boolean {
-            return FieldValidator.symbol.test(symbol)
+            return FieldValidator.symbol(symbol)
         }
 
         fun validateGetOldestSymbols(limit: Int): Boolean {
-            return FieldValidator.limit.test(limit)
+            return FieldValidator.limit(limit)
         }
     }
 }

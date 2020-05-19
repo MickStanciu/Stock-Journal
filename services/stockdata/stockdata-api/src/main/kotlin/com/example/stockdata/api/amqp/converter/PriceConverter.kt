@@ -12,11 +12,12 @@ class PriceConverter {
             //hack
             var lastFailedOn: OffsetDateTime? = null
             if ("null" != request.lastFailedOn) {
-                lastFailedOn = TimeConverter.toOffsetDateTime.apply(request.lastFailedOn)
+                lastFailedOn = TimeConverter.toOffsetDateTime(request.lastFailedOn)
             }
+
             return PriceModel(symbol = request.symbol,
                     lastClose = request.lastClose,
-                    lastUpdatedOn = TimeConverter.toOffsetDateTime.apply(request.lastUpdatedOn),
+                    lastUpdatedOn = TimeConverter.toOffsetDateTime(request.lastUpdatedOn!!),
                     lastFailedOn = lastFailedOn,
                     active = request.active)
         }

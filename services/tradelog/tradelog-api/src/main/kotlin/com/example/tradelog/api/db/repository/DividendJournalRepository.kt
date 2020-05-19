@@ -73,7 +73,7 @@ class DividendJournalRepository(private val jdbcTemplate: JdbcTemplate) : Journa
         private const val DELETE_RECORD = "DELETE FROM dividend_log WHERE transaction_fk = CAST(? AS uuid);"
     }
 
-    override fun getSummaries(accountId: String): List<TradeSummaryModel> {
+    override fun getSummaries(accountId: String): Either<DataAccessError, List<TradeSummaryModel>> {
         val parameters = arrayOf(accountId)
         return jdbcTemplate.query(GET_SUMMARIES, parameters, TradeSummaryModelRowMapper())
     }

@@ -2,7 +2,6 @@ package com.example.gateway.api.rest.validator
 
 import com.example.common.validator.FieldValidator
 import com.example.common.validator.StringValidator
-import java.util.function.Predicate
 
 class RequestValidator: FieldValidator() {
 
@@ -14,23 +13,21 @@ class RequestValidator: FieldValidator() {
 
 
         fun validateAuthenticate(username: String, password: String): Boolean {
-            return testUsername.test(username)
-                    && testPassword.test(password)
-//                    && analysePassword(password)
+            return testUsername(username) && testPassword(password)
         }
 
-        private var testUsername = Predicate { s: String ->
+        private var testUsername = { s: String ->
             StringValidator(s)
                     .sizeGreaterOrEqualTo(5)
                     .sizeLessOrEqualTo(20)
                     .regex(USERNAME_PATTERN)
-                    .isValid
+                    .isValid()
         }
 
-        private var testPassword = Predicate { s: String -> StringValidator(s)
+        private var testPassword = { s: String -> StringValidator(s)
                 .sizeGreaterOrEqualTo(5)
                 .sizeLessOrEqualTo(50)
-                .isValid
+                .isValid()
         }
 
         private fun analysePassword(text: String): Boolean {
