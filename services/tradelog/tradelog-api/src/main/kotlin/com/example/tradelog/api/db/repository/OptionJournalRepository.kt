@@ -1,7 +1,7 @@
 package com.example.tradelog.api.db.repository
 
 import com.example.common.converter.TimeConverter
-import com.example.common.error.DataAccessError
+import com.example.common.repository.DataAccessError
 import com.example.common.types.Either
 import com.example.tradelog.api.core.model.OptionJournalModel
 import com.example.tradelog.api.core.model.TradeSummaryModel
@@ -10,7 +10,6 @@ import com.example.tradelog.api.db.converter.TradeSummaryModelRowMapper
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Service
 import java.sql.Connection
-import javax.xml.crypto.Data
 
 @Service
 class OptionJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalRepository<OptionJournalModel> {

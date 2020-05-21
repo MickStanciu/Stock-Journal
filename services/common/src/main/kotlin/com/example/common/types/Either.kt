@@ -55,6 +55,13 @@ sealed class Either<out E, out V> {
                     is Value -> v(value)
                 }
 
+        fun <E,V> performSafeCall(f: () -> V, g: (message: String) -> E): Either<E, V> =
+                try {
+                    Either.Value(f())
+                } catch (exception: Exception) {
+                    Either.Error(g(exception.toString()))
+                }
+
         //    fun <E2,V2> mapErrorAndValue(f: (E) -> E2, g: (V) -> V2): Either<E2, V2> =
 //        when (this) {
 //            is Error -> Error(f(error))

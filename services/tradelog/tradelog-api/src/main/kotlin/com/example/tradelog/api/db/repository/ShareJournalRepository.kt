@@ -1,9 +1,9 @@
 package com.example.tradelog.api.db.repository
 
-import com.example.common.error.DataAccessError
+import com.example.common.repository.DataAccessError
 import com.example.common.types.Either
 import com.example.common.types.Either.Companion.bind
-import com.example.common.types.Either.Companion.mapError
+import com.example.common.types.Either.Companion.performSafeCall
 import com.example.tradelog.api.core.model.ShareJournalModel
 import com.example.tradelog.api.core.model.TradeSummaryModel
 import com.example.tradelog.api.db.converter.ShareJournalModelRowMapper
@@ -11,7 +11,6 @@ import com.example.tradelog.api.db.converter.TradeSummaryModelRowMapper
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Service
 import java.sql.Connection
-import javax.xml.crypto.Data
 
 @Service
 class ShareJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalRepository<ShareJournalModel> {
@@ -86,63 +85,114 @@ class ShareJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalRe
 
     }
 
-    override fun getSummaries(accountId: String): List<TradeSummaryModel> {
+    override fun getSummaries(accountId: String): Either<DataAccessError, List<TradeSummaryModel>> {
         val parameters = arrayOf(accountId)
-        return jdbcTemplate.query(GET_SUMMARIES, parameters, TradeSummaryModelRowMapper())
+        return performSafeCall (
+            { jdbcTemplate.query(GET_SUMMARIES, parameters, TradeSummaryModelRowMapper()) },
+            { DataAccessError.DatabaseAccessError() }
+        )
     }
 
-    override fun createRecord(transactionId: String, model: ShareJournalModel) {
-        jdbcTemplate.update { connection: Connection ->
-            val ps = connection.prepareStatement(CREATE_RECORD)
-            ps.setString(1, transactionId)
-            ps.setDouble(2, model.price)
-            ps.setInt(3, model.quantity)
-            ps.setString(4, model.action.name)
-            ps
+    override fun createRecord(transactionId: String, model: ShareJournalModel): Either<DataAccessError, Unit> {
+        val dbResponse: Either<DataAccessError, Boolean> = performSafeCall(
+                {
+                    jdbcTemplate.update { connection: Connection ->
+                        val ps = connection.prepareStatement(CREATE_RECORD)
+                        ps.setString(1, transactionId)
+                        ps.setDouble(2, model.price)
+                        ps.setInt(3, model.quantity)
+                        ps.setString(4, model.action.name)
+                        ps
+                    } == 1
+                },
+                { DataAccessError.DatabaseAccessError() }
+        )
+
+        val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
+            when (it) {
+                true -> Either.Value(Unit)
+                false -> Either.Error(DataAccessError.DatabaseAccessError())
+            }
         }
+
+        return dbResponse
+                .bind(checkResponse)
     }
 
     override fun getById(accountId: String, transactionId: String): Either<DataAccessError, ShareJournalModel> {
         val parameters = arrayOf<Any>(accountId, transactionId)
 
-        val dbResponse: Either<DataAccessError, List<ShareJournalModel>> = performDataBaseCall {
-            jdbcTemplate.query(GET_BY_ID, parameters, ShareJournalModelRowMapper())
-        }
+        val dbResponse: Either<DataAccessError, List<ShareJournalModel>> = performSafeCall(
+                { jdbcTemplate.query(GET_BY_ID, parameters, ShareJournalModelRowMapper()) },
+                { DataAccessError.DatabaseAccessError() }
+        )
 
         val checkSize: (List<ShareJournalModel>) -> Either<DataAccessError, ShareJournalModel> = {
             when (it.size == 1) {
                 true -> Either.Value(it[0])
-                false -> Either.Error(DataAccessError.RecordNotFound())
+                false -> Either.Error(DataAccessError.RecordNotFound("Couldn't find share record with id $transactionId"))
             }
         }
 
         return dbResponse
-                .mapError { DataAccessError.RecordNotFound("Couldn't find share record with id $transactionId") }
                 .bind(checkSize)
 
     }
 
-    override fun getAllBySymbol(accountId: String, portfolioId: String, symbol: String): Either<Data, List<ShareJournalModel>> {
+    override fun getAllBySymbol(accountId: String, portfolioId: String, symbol: String): Either<DataAccessError, List<ShareJournalModel>> {
         val parameters = arrayOf<Any>(accountId, portfolioId, symbol)
-        return jdbcTemplate.query(GET_BY_SYMBOL, parameters, ShareJournalModelRowMapper())
+        return performSafeCall(
+                { jdbcTemplate.query(GET_BY_SYMBOL, parameters, ShareJournalModelRowMapper()) },
+                { DataAccessError.DatabaseAccessError() }
+        )
     }
 
-    override fun editRecord(model: ShareJournalModel): Boolean {
-        return jdbcTemplate.update { connection: Connection ->
-            val ps = connection.prepareStatement(EDIT_RECORD)
-            ps.setDouble(1, model.price)
-            ps.setInt(2, model.quantity)
-            ps.setString(3, model.action.name)
-            ps.setString(4, model.transactionDetails.id)
-            ps
-        } == 1
+    override fun editRecord(model: ShareJournalModel): Either<DataAccessError, Unit> {
+        val dbResponse: Either<DataAccessError, Boolean> = performSafeCall(
+                {
+                    jdbcTemplate.update { connection: Connection ->
+                        val ps = connection.prepareStatement(EDIT_RECORD)
+                        ps.setDouble(1, model.price)
+                        ps.setInt(2, model.quantity)
+                        ps.setString(3, model.action.name)
+                        ps.setString(4, model.transactionDetails.id)
+                        ps
+                    } == 1
+                },
+                { DataAccessError.DatabaseAccessError() }
+        )
+
+        val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
+            when (it) {
+                true -> Either.Value(Unit)
+                false -> Either.Error(DataAccessError.DatabaseAccessError())
+            }
+        }
+
+        return dbResponse
+                .bind(checkResponse)
     }
 
-    override fun deleteRecord(transactionId: String): Boolean {
-        return jdbcTemplate.update { connection: Connection ->
-            val ps = connection.prepareStatement(DELETE_RECORD)
-            ps.setString(1, transactionId)
-            ps
-        } == 1
+    override fun deleteRecord(transactionId: String): Either<DataAccessError, Unit> {
+        val dbResponse: Either<DataAccessError, Boolean> = performSafeCall(
+                {
+                    jdbcTemplate.update { connection: Connection ->
+                        val ps = connection.prepareStatement(DELETE_RECORD)
+                        ps.setString(1, transactionId)
+                        ps
+                    } == 1
+                },
+                { DataAccessError.DatabaseAccessError() }
+        )
+
+        val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
+            when (it) {
+                true -> Either.Value(Unit)
+                false -> Either.Error(DataAccessError.DatabaseAccessError())
+            }
+        }
+
+        return dbResponse
+            .bind(checkResponse)
     }
 }

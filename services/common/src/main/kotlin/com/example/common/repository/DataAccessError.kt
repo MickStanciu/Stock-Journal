@@ -1,4 +1,4 @@
-package com.example.common.error
+package com.example.common.repository
 
 sealed class DataAccessError {
     class RecordNotFound(val message: String = "Record not found"): DataAccessError()

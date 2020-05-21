@@ -1,6 +1,6 @@
 package com.example.tradelog.api.core.service
 
-import com.example.common.error.DataAccessError
+import com.example.common.repository.DataAccessError
 import com.example.common.types.Either
 import com.example.tradelog.api.core.model.TradeSummaryModel
 
