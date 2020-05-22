@@ -60,10 +60,12 @@ class OptionJournalController(private val journalFacade: JournalFacade) : Option
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        if (!journalFacade.editOptionRecord(transactionId, OptionJournalModelConverter.toModel(dto))) {
-            LOG.error("Could not edit for: $transactionId")
-            throw TradeLogException(ExceptionCode.EDIT_SHARE_FAILED)
-        }
+        //TODO: HACK
+        journalFacade.editOptionRecord(transactionId, OptionJournalModelConverter.toModel(dto))
+//        if (!journalFacade.editOptionRecord(transactionId, OptionJournalModelConverter.toModel(dto))) {
+//            LOG.error("Could not edit for: $transactionId")
+//            throw TradeLogException(ExceptionCode.EDIT_SHARE_FAILED)
+//        }
     }
 
     override fun deleteRecord(accountId: String, transactionId: String) {
@@ -71,10 +73,12 @@ class OptionJournalController(private val journalFacade: JournalFacade) : Option
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        if (!journalFacade.deleteOptionRecord(accountId, transactionId)) {
-            LOG.error("Could not delete for: $transactionId")
-            throw TradeLogException(ExceptionCode.DELETE_OPTION_FAILED)
-        }
+        //TODO: HACK
+        journalFacade.deleteOptionRecord(accountId, transactionId)
+//        if (!journalFacade.deleteOptionRecord(accountId, transactionId)) {
+//            LOG.error("Could not delete for: $transactionId")
+//            throw TradeLogException(ExceptionCode.DELETE_OPTION_FAILED)
+//        }
     }
 
 }

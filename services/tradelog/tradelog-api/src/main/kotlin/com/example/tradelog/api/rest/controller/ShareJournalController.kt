@@ -64,10 +64,12 @@ class ShareJournalController(private val journalFacade: JournalFacade) : ShareJo
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        if (!journalFacade.editShareRecord(transactionId, ShareJournalModelConverter.toModel(dto))) {
-            LOG.error("Could not edit for: $transactionId")
-            throw TradeLogException(ExceptionCode.EDIT_SHARE_FAILED)
-        }
+        //TODO: HACK
+        journalFacade.editShareRecord(transactionId, ShareJournalModelConverter.toModel(dto))
+//        if (!journalFacade.editShareRecord(transactionId, ShareJournalModelConverter.toModel(dto))) {
+//            LOG.error("Could not edit for: $transactionId")
+//            throw TradeLogException(ExceptionCode.EDIT_SHARE_FAILED)
+//        }
     }
 
 
@@ -77,9 +79,11 @@ class ShareJournalController(private val journalFacade: JournalFacade) : ShareJo
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        if (!journalFacade.deleteShareRecord(accountId, transactionId)) {
-            LOG.error("Could not delete for: $transactionId")
-            throw TradeLogException(ExceptionCode.DELETE_SHARE_FAILED)
-        }
+        //TODO: HACK
+        journalFacade.deleteShareRecord(accountId, transactionId)
+//        if (!journalFacade.deleteShareRecord(accountId, transactionId)) {
+//            LOG.error("Could not delete for: $transactionId")
+//            throw TradeLogException(ExceptionCode.DELETE_SHARE_FAILED)
+//        }
     }
 }

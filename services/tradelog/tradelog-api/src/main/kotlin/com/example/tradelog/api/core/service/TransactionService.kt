@@ -13,49 +13,65 @@ class TransactionService(private val repository: TransactionRepository) {
     private val log = LoggerFactory.getLogger(TransactionService::class.java)
 
     fun getAllTradedSymbols(accountId: String, portfolioId: String): List<String> {
-        return repository.getUniqueSymbols(accountId, portfolioId)
+        //TODO: HACK
+        return repository.getUniqueSymbols(accountId, portfolioId).valueOrNull()!!
     }
 
     fun getActiveSymbols(): List<String> {
-        return repository.getActiveSymbols()
+        //TODO: HACK
+        return repository.getActiveSymbols().valueOrNull()!!
     }
 
     fun updateSettings(model: TransactionSettingsModel): Boolean {
-        return repository.updateSettings(model)
+        //TODO: HACK
+        repository.updateSettings(model)
+        return true
     }
 
     fun updateSettingsBulk(models: List<TransactionSettingsModel>) {
         //todo: find a better way
+        //TODO: HACK
         for (model in models) {
-            if (!repository.updateSettings(model)) {
-                log.error("Failed to update settings for ${model.transactionId}")
-            }
+            repository.updateSettings(model)
+//            if (!repository.updateSettings(model)) {
+//                log.error("Failed to update settings for ${model.transactionId}")
+//            }
         }
     }
 
     fun deleteRecord(accountId: String, transactionId: String): Boolean {
-        return repository.deleteRecord(accountId, transactionId)
+        //TODO: HACK
+        repository.deleteRecord(accountId, transactionId)
+        return true
     }
 
     fun editRecord(model: TransactionModel): Boolean {
-        return repository.updateRecord(model)
+        //TODO: HACK
+        repository.updateRecord(model)
+        return true
     }
 
-    fun createRecord(model: TransactionModel): String? {
-        val id = repository.createRecord(model) ?: return null
+    fun createRecord(model: TransactionModel): String {
+        //TODO: HACK
+        val id = repository.createRecord(model).valueOrNull()
 
-        val settingsModel = TransactionSettingsModel(transactionId = id, preferredPrice = 0.0, groupSelected = true, legClosed = false)
-        if (repository.createSettings(id, settingsModel)) {
-            return id
-        }
-        return null
+        val settingsModel = TransactionSettingsModel(transactionId = id!!, preferredPrice = 0.0, groupSelected = true, legClosed = false)
+        repository.createSettings(id, settingsModel)
+//        if (repository.createSettings(id, settingsModel)) {
+//            return id
+//        }
+        return id
+//        return null
     }
 
     fun deleteSettings(transactionId: String): Boolean {
-        return repository.deleteSettings(transactionId)
+        //TODO: HACK
+        repository.deleteSettings(transactionId)
+        return true
     }
 
     fun getSummaryMatrix(accountId: String, portfolioId: String): List<SummaryMatrixModel> {
-        return repository.getSummaryMatrix(accountId, portfolioId)
+        //TODO: HACK
+        return repository.getSummaryMatrix(accountId, portfolioId).valueOrNull()!!
     }
 }

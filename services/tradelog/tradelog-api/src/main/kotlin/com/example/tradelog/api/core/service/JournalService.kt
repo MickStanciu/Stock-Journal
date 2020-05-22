@@ -9,9 +9,9 @@ interface JournalService<E, V> {
     fun getSummaries(accountId: String): Map<String, TradeSummaryModel>
     fun getAllBySymbol(accountId: String, portfolioId: String, symbol: String): List<V>
     fun getById(accountId: String, transactionId: String): Either<E, V>
-    fun createRecord(transactionId: String, model: V): V?
-    fun editRecord(model: V): Boolean
-    fun deleteRecord(transactionId: String): Boolean
+    fun createRecord(transactionId: String, model: V): V
+    fun editRecord(model: V)
+    fun deleteRecord(transactionId: String)
 
     sealed class TradeLogBusinessError {
         class RecordNotFound(val message: String): TradeLogBusinessError()

@@ -60,10 +60,12 @@ class DividendJournalController(private val journalFacade: JournalFacade) : Divi
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        if (!journalFacade.editDividendRecord(transactionId, DividendJournalModelConverter.toModel(dto))) {
-            LOG.error("Could not edit for: $transactionId")
-            throw TradeLogException(ExceptionCode.EDIT_DIVIDEND_FAILED)
-        }
+        //TODO: HACK
+        journalFacade.editDividendRecord(transactionId, DividendJournalModelConverter.toModel(dto))
+//        if (!journalFacade.editDividendRecord(transactionId, DividendJournalModelConverter.toModel(dto))) {
+//            LOG.error("Could not edit for: $transactionId")
+//            throw TradeLogException(ExceptionCode.EDIT_DIVIDEND_FAILED)
+//        }
     }
 
 
@@ -72,9 +74,11 @@ class DividendJournalController(private val journalFacade: JournalFacade) : Divi
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        if (!journalFacade.deleteDividendRecord(accountId, transactionId)) {
-            LOG.error("Could not delete for: $transactionId")
-            throw TradeLogException(ExceptionCode.DELETE_DIVIDEND_FAILED)
-        }
+        //TODO: HACK
+        journalFacade.deleteDividendRecord(accountId, transactionId)
+//        if (!journalFacade.deleteDividendRecord(accountId, transactionId)) {
+//            LOG.error("Could not delete for: $transactionId")
+//            throw TradeLogException(ExceptionCode.DELETE_DIVIDEND_FAILED)
+//        }
     }
 }

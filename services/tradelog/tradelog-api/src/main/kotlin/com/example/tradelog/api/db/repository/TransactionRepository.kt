@@ -1,6 +1,12 @@
 package com.example.tradelog.api.db.repository
 
 import com.example.common.converter.TimeConverter
+import com.example.common.repository.DataAccessError
+import com.example.common.types.Either
+import com.example.common.types.Either.Companion.bind
+import com.example.common.types.Either.Companion.performSafeCall
+import com.example.common.types.Either.Error
+import com.example.common.types.Either.Value
 import com.example.tradelog.api.core.model.SummaryMatrixModel
 import com.example.tradelog.api.core.model.TransactionModel
 import com.example.tradelog.api.core.model.TransactionSettingsModel
@@ -71,95 +77,188 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
         private const val DELETE_SETTINGS = "DELETE FROM transaction_settings_log WHERE transaction_fk = CAST(? AS uuid);"
     }
 
-    fun getUniqueSymbols(accountId: String, portfolioId: String): List<String> {
+    fun getUniqueSymbols(accountId: String, portfolioId: String): Either<DataAccessError, List<String>> {
         val parameters = arrayOf(accountId, portfolioId)
-        return jdbcTemplate.query(READ_SYMBOLS, parameters, SymbolRowMapper())
+        return performSafeCall(
+                { jdbcTemplate.query(READ_SYMBOLS, parameters, SymbolRowMapper()) },
+                { DataAccessError.DatabaseAccessError() }
+        )
     }
 
-    fun getActiveSymbols(): List<String> {
-        return jdbcTemplate.query(READ_LAST_YEAR_SYMBOLS, SymbolRowMapper())
+    fun getActiveSymbols(): Either<DataAccessError, List<String>> {
+        return performSafeCall(
+                { jdbcTemplate.query(READ_LAST_YEAR_SYMBOLS, SymbolRowMapper()) },
+                { DataAccessError.DatabaseAccessError() }
+        )
     }
 
-    fun createSettings(transactionId: String, model: TransactionSettingsModel): Boolean {
-        return jdbcTemplate.update { connection: Connection ->
-            val ps = connection.prepareStatement(CREATE_SETTINGS)
-            ps.setString(1, transactionId)
-            ps.setDouble(2, model.preferredPrice)
-            ps.setBoolean(3, model.groupSelected)
-            ps.setBoolean(4, model.legClosed)
-            ps
-        } == 1
-    }
+    fun createSettings(transactionId: String, model: TransactionSettingsModel): Either<DataAccessError, Unit> {
+        val dbResponse: Either<DataAccessError, Boolean> = performSafeCall(
+                {
+                    jdbcTemplate.update { connection: Connection ->
+                        val ps = connection.prepareStatement(CREATE_SETTINGS)
+                        ps.setString(1, transactionId)
+                        ps.setDouble(2, model.preferredPrice)
+                        ps.setBoolean(3, model.groupSelected)
+                        ps.setBoolean(4, model.legClosed)
+                        ps
+                    } == 1
+                },
+                { DataAccessError.DatabaseAccessError() }
+        )
 
-    fun updateSettings(model: TransactionSettingsModel): Boolean {
-        return jdbcTemplate.update { connection: Connection ->
-            val ps = connection.prepareStatement(EDIT_SETTINGS)
-            ps.setDouble(1, model.preferredPrice)
-            ps.setBoolean(2, model.groupSelected)
-            ps.setBoolean(3, model.legClosed)
-            ps.setString(4, model.transactionId)
-            ps
-        } == 1
-    }
-
-    fun deleteSettings(transactionId: String): Boolean {
-        return jdbcTemplate.update { connection: Connection ->
-            val ps = connection.prepareStatement(DELETE_SETTINGS)
-            ps.setString(1, transactionId)
-            ps
-        } == 1
-    }
-
-    fun updateRecord(model: TransactionModel): Boolean {
-        return jdbcTemplate.update { connection: Connection ->
-            val ps = connection.prepareStatement(UPDATE_RECORD)
-            ps.setDouble(1, model.brokerFees)
-            ps.setTimestamp(2, TimeConverter.fromOffsetDateTime(model.date))
-            ps.setString(3, model.id)
-            ps.setString(4, model.accountId)
-            ps
-        } == 1
-    }
-
-    fun createRecord(model: TransactionModel): String? {
-        val keyHolder = GeneratedKeyHolder()
-        jdbcTemplate.update({ connection: Connection ->
-            val ps = connection.prepareStatement(CREATE_RECORD, Statement.RETURN_GENERATED_KEYS)
-            ps.setString(1, model.accountId)
-            ps.setString(2, model.portfolioId)
-            ps.setTimestamp(3, TimeConverter.fromOffsetDateTime(model.date))
-            ps.setString(4, model.symbol)
-            ps.setString(5, model.type.name)
-            ps.setDouble(6, model.brokerFees)
-            ps
-        }, keyHolder)
-
-        if (keyHolder.keyList.isEmpty()) {
-            LOG.error("Failed to insert transaction")
-            return null
+        val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
+            when (it) {
+                true -> Value(Unit)
+                false -> Error(DataAccessError.DatabaseAccessError())
+            }
         }
 
-        val key = keyHolder.keyList[0]["id"].toString()
-        if (key.trim().isEmpty()) {
-            LOG.error("Failed to insert transaction")
-            return null
+        return dbResponse
+                .bind(checkResponse)
+    }
+
+    fun updateSettings(model: TransactionSettingsModel): Either<DataAccessError, Unit> {
+        val dbResponse: Either<DataAccessError, Boolean> = performSafeCall(
+                {
+                    jdbcTemplate.update { connection: Connection ->
+                        val ps = connection.prepareStatement(EDIT_SETTINGS)
+                        ps.setDouble(1, model.preferredPrice)
+                        ps.setBoolean(2, model.groupSelected)
+                        ps.setBoolean(3, model.legClosed)
+                        ps.setString(4, model.transactionId)
+                        ps
+                    } == 1
+                },
+                { DataAccessError.DatabaseAccessError() }
+        )
+
+        val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
+            when (it) {
+                true -> Value(Unit)
+                false -> Error(DataAccessError.DatabaseAccessError())
+            }
         }
 
-        return key
+        return dbResponse
+                .bind(checkResponse)
+
     }
 
-    fun deleteRecord(accountId: String, transactionId: String): Boolean {
-        return jdbcTemplate.update { connection: Connection ->
-            val ps = connection.prepareStatement(DELETE_RECORD)
-            ps.setString(1, transactionId)
-            ps.setString(2, accountId)
-            ps
-        } == 1
+    fun deleteSettings(transactionId: String): Either<DataAccessError, Unit> {
+        val dbResponse: Either<DataAccessError, Boolean> = performSafeCall(
+                {
+                    jdbcTemplate.update { connection: Connection ->
+                        val ps = connection.prepareStatement(DELETE_SETTINGS)
+                        ps.setString(1, transactionId)
+                        ps
+                    } == 1
+                },
+                { DataAccessError.DatabaseAccessError() }
+        )
+
+        val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
+            when (it) {
+                true -> Value(Unit)
+                false -> Error(DataAccessError.DatabaseAccessError())
+            }
+        }
+
+        return dbResponse
+                .bind(checkResponse)
     }
 
-    fun getSummaryMatrix(accountId: String, portfolioId: String): List<SummaryMatrixModel> {
+    fun updateRecord(model: TransactionModel): Either<DataAccessError, Unit> {
+        val dbResponse: Either<DataAccessError, Boolean> = performSafeCall(
+                {
+                    jdbcTemplate.update { connection: Connection ->
+                        val ps = connection.prepareStatement(UPDATE_RECORD)
+                        ps.setDouble(1, model.brokerFees)
+                        ps.setTimestamp(2, TimeConverter.fromOffsetDateTime(model.date))
+                        ps.setString(3, model.id)
+                        ps.setString(4, model.accountId)
+                        ps
+                    } == 1
+                },
+                { DataAccessError.DatabaseAccessError() }
+        )
+
+        val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
+            when (it) {
+                true -> Value(Unit)
+                false -> Error(DataAccessError.DatabaseAccessError())
+            }
+        }
+
+        return dbResponse
+                .bind(checkResponse)
+    }
+
+    fun createRecord(model: TransactionModel): Either<DataAccessError, String> {
+        val dbResponse: Either<DataAccessError, GeneratedKeyHolder> = performSafeCall(
+                {
+                    val keyHolder = GeneratedKeyHolder()
+                    jdbcTemplate.update({ connection: Connection ->
+                        val ps = connection.prepareStatement(CREATE_RECORD, Statement.RETURN_GENERATED_KEYS)
+                        ps.setString(1, model.accountId)
+                        ps.setString(2, model.portfolioId)
+                        ps.setTimestamp(3, TimeConverter.fromOffsetDateTime(model.date))
+                        ps.setString(4, model.symbol)
+                        ps.setString(5, model.type.name)
+                        ps.setDouble(6, model.brokerFees)
+                        ps
+                    }, keyHolder)
+                    keyHolder
+                },
+                { DataAccessError.DatabaseAccessError() }
+        )
+
+        val checkResponse: (GeneratedKeyHolder) -> Either<DataAccessError, String> = { keyHolder ->
+            if (keyHolder.keyList.isEmpty()) {
+                Error(DataAccessError.DatabaseAccessError("Failed to insert transaction"))
+            }
+
+            val key = keyHolder.keyList[0]["id"].toString()
+            if (key.trim().isEmpty()) {
+                Error(DataAccessError.DatabaseAccessError("Failed to insert transaction"))
+            }
+            Value(key)
+        }
+
+        return dbResponse
+                .bind(checkResponse)
+    }
+
+    fun deleteRecord(accountId: String, transactionId: String): Either<DataAccessError, Unit> {
+        val dbResponse: Either<DataAccessError, Boolean> = performSafeCall(
+                {
+                    jdbcTemplate.update { connection: Connection ->
+                        val ps = connection.prepareStatement(DELETE_RECORD)
+                        ps.setString(1, transactionId)
+                        ps.setString(2, accountId)
+                        ps
+                    } == 1
+                },
+                { DataAccessError.DatabaseAccessError() }
+        )
+
+        val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
+            when (it) {
+                true -> Value(Unit)
+                false -> Error(DataAccessError.DatabaseAccessError())
+            }
+        }
+
+        return dbResponse
+                .bind(checkResponse)
+    }
+
+    fun getSummaryMatrix(accountId: String, portfolioId: String): Either<DataAccessError, List<SummaryMatrixModel>> {
         val parameters = arrayOf(accountId, portfolioId)
-        return jdbcTemplate.query(SUMMARY_MATRIX, parameters, SummaryMatrixRowMapper())
+        return performSafeCall(
+                { jdbcTemplate.query(SUMMARY_MATRIX, parameters, SummaryMatrixRowMapper()) },
+                { DataAccessError.DatabaseAccessError() }
+        )
     }
 }
 

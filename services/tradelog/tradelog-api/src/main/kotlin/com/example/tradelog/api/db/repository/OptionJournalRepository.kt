@@ -3,6 +3,10 @@ package com.example.tradelog.api.db.repository
 import com.example.common.converter.TimeConverter
 import com.example.common.repository.DataAccessError
 import com.example.common.types.Either
+import com.example.common.types.Either.Companion.bind
+import com.example.common.types.Either.Companion.performSafeCall
+import com.example.common.types.Either.Error
+import com.example.common.types.Either.Value
 import com.example.tradelog.api.core.model.OptionJournalModel
 import com.example.tradelog.api.core.model.TradeSummaryModel
 import com.example.tradelog.api.db.converter.OptionJournalModelRowMapper
@@ -97,61 +101,121 @@ class OptionJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalR
         private const val DELETE_RECORD = "DELETE FROM option_log WHERE transaction_fk = CAST(? AS uuid) and option_type_fk in ('CALL', 'PUT')";
     }
 
-
-    override fun getSummaries(accountId: String): List<TradeSummaryModel> {
+    override fun getSummaries(accountId: String): Either<DataAccessError, List<TradeSummaryModel>> {
         val parameters = arrayOf(accountId)
-        return jdbcTemplate.query(GET_SUMMARIES, parameters, TradeSummaryModelRowMapper())
+        return performSafeCall(
+                { jdbcTemplate.query(GET_SUMMARIES, parameters, TradeSummaryModelRowMapper()) },
+                { DataAccessError.DatabaseAccessError() }
+        )
     }
 
-    override fun createRecord(transactionId: String, model: OptionJournalModel) {
-        jdbcTemplate.update { connection: Connection ->
-            val ps = connection.prepareStatement(CREATE_RECORD)
-            ps.setString(1, transactionId)
-            ps.setDouble(2, model.stockPrice)
-            ps.setDouble(3, model.strikePrice)
-            ps.setTimestamp(4, TimeConverter.fromOffsetDateTime(model.expiryDate))
-            ps.setInt(5, model.contracts)
-            ps.setDouble(6, model.premium)
-            ps.setString(7, model.action.name)
-            ps.setString(8, model.optionType.name)
-            ps
+    override fun createRecord(transactionId: String, model: OptionJournalModel): Either<DataAccessError, Unit> {
+        val dbResponse: Either<DataAccessError, Boolean> = performSafeCall(
+                {
+                    jdbcTemplate.update { connection: Connection ->
+                        val ps = connection.prepareStatement(CREATE_RECORD)
+                        ps.setString(1, transactionId)
+                        ps.setDouble(2, model.stockPrice)
+                        ps.setDouble(3, model.strikePrice)
+                        ps.setTimestamp(4, TimeConverter.fromOffsetDateTime(model.expiryDate))
+                        ps.setInt(5, model.contracts)
+                        ps.setDouble(6, model.premium)
+                        ps.setString(7, model.action.name)
+                        ps.setString(8, model.optionType.name)
+                        ps
+                    } == 1
+                },
+                { DataAccessError.DatabaseAccessError() }
+        )
+
+        val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
+            when (it) {
+                true -> Value(Unit)
+                false -> Error(DataAccessError.DatabaseAccessError())
+            }
         }
+
+        return dbResponse
+                .bind(checkResponse)
     }
 
     override fun getById(accountId: String, transactionId: String): Either<DataAccessError, OptionJournalModel> {
         val parameters = arrayOf(accountId, transactionId)
-        val models = jdbcTemplate.query(GET_BY_ID, parameters, OptionJournalModelRowMapper())
-        if (models.size == 1) {
-            return Either.Value(models[0])
+
+        val dbResponse: Either<DataAccessError, List<OptionJournalModel>> = performSafeCall(
+                { jdbcTemplate.query(GET_BY_ID, parameters, OptionJournalModelRowMapper()) },
+                { DataAccessError.DatabaseAccessError() }
+        )
+
+        val checkSize: (List<OptionJournalModel>) -> Either<DataAccessError, OptionJournalModel> = {
+            when (it.size == 1) {
+                true -> Either.Value(it[0])
+                false -> Either.Error(DataAccessError.RecordNotFound("Couldn't find option record with id $transactionId"))
+            }
         }
-        return Either.Error(DataAccessError.RecordNotFound("Couldn't find option record with id $transactionId"))
+
+        return dbResponse
+                .bind(checkSize)
     }
 
-    override fun getAllBySymbol(accountId: String, portfolioId: String, symbol: String): List<OptionJournalModel> {
+    override fun getAllBySymbol(accountId: String, portfolioId: String, symbol: String): Either<DataAccessError, List<OptionJournalModel>> {
         val parameters = arrayOf(accountId, portfolioId, symbol)
-        return jdbcTemplate.query(GET_BY_SYMBOL, parameters, OptionJournalModelRowMapper())
+        return performSafeCall(
+                { jdbcTemplate.query(GET_BY_SYMBOL, parameters, OptionJournalModelRowMapper()) },
+                { DataAccessError.DatabaseAccessError() }
+        )
     }
 
-    override fun editRecord(model: OptionJournalModel): Boolean {
-        return jdbcTemplate.update { connection: Connection ->
-            val ps = connection.prepareStatement(EDIT_RECORD)
-            ps.setDouble(1, model.stockPrice)
-            ps.setDouble(2, model.strikePrice)
-            ps.setTimestamp(3, TimeConverter.fromOffsetDateTime(model.expiryDate))
-            ps.setInt(4, model.contracts)
-            ps.setDouble(5, model.premium)
-            ps.setString(6, model.action.name)
-            ps.setString(7, model.optionType.name)
-            ps.setString(8, model.transactionDetails.id)
-            ps
-        } == 1
+    override fun editRecord(model: OptionJournalModel): Either<DataAccessError, Unit> {
+        val dbResponse: Either<DataAccessError, Boolean> = performSafeCall(
+                {
+                    jdbcTemplate.update { connection: Connection ->
+                        val ps = connection.prepareStatement(EDIT_RECORD)
+                        ps.setDouble(1, model.stockPrice)
+                        ps.setDouble(2, model.strikePrice)
+                        ps.setTimestamp(3, TimeConverter.fromOffsetDateTime(model.expiryDate))
+                        ps.setInt(4, model.contracts)
+                        ps.setDouble(5, model.premium)
+                        ps.setString(6, model.action.name)
+                        ps.setString(7, model.optionType.name)
+                        ps.setString(8, model.transactionDetails.id)
+                        ps
+                    } == 1
+                },
+                { DataAccessError.DatabaseAccessError() }
+        )
+
+        val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
+            when (it) {
+                true -> Either.Value(Unit)
+                false -> Either.Error(DataAccessError.DatabaseAccessError())
+            }
+        }
+
+        return dbResponse
+                .bind(checkResponse)
     }
 
-    override fun deleteRecord(transactionId: String): Boolean {
-        return jdbcTemplate.update { connection: Connection ->
-            val ps = connection.prepareStatement(DELETE_RECORD)
-            ps.setString(1, transactionId)
-            ps
-        } == 1
+    override fun deleteRecord(transactionId: String): Either<DataAccessError, Unit> {
+        val dbResponse: Either<DataAccessError, Boolean> = performSafeCall(
+                {
+                    jdbcTemplate.update { connection: Connection ->
+                        val ps = connection.prepareStatement(DELETE_RECORD)
+                        ps.setString(1, transactionId)
+                        ps
+                    } == 1
+                },
+                { DataAccessError.DatabaseAccessError() }
+        )
+
+        val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
+            when (it) {
+                true -> Either.Value(Unit)
+                false -> Either.Error(DataAccessError.DatabaseAccessError())
+            }
+        }
+
+        return dbResponse
+                .bind(checkResponse)
     }
 }

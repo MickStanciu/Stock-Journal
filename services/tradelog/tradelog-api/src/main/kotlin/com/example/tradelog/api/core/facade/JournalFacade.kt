@@ -98,95 +98,109 @@ class JournalFacade(private val transactionService: TransactionService,
         return shareService.getAllBySymbol(accountId, portfolioId, symbol)
     }
 
-    fun createShareRecord(model: ShareJournalModel): ShareJournalModel? {
+    fun createShareRecord(model: ShareJournalModel): ShareJournalModel {
+        //TODO: HACK
         val id = transactionService.createRecord(model.transactionDetails)
-        if (id != null) {
-            return shareService.createRecord(transactionId = id, model = model)
-        }
-        return null
+//        if (id != null) {
+            return shareService.createRecord(transactionId = id!!, model = model)!!
+//        }
+//        return null
     }
 
-    fun editShareRecord(transactionId: String, model: ShareJournalModel): Boolean {
+    fun editShareRecord(transactionId: String, model: ShareJournalModel) {
+        //TODO: HACK
         if (transactionId != model.transactionDetails.id) {
-            return false
+//            return false
         }
 
-        return transactionService.editRecord(model.transactionDetails)
-                && shareService.editRecord(model)
+        transactionService.editRecord(model.transactionDetails)
+        shareService.editRecord(model)
     }
 
-    fun deleteShareRecord(accountId: String, transactionId: String): Boolean {
-        shareService.getById(accountId, transactionId) ?: return false
+    fun deleteShareRecord(accountId: String, transactionId: String) {
+        //TODO: HACK
+        shareService.getById(accountId, transactionId)
 
-        return shareService.deleteRecord(transactionId)
-                && transactionService.deleteSettings(transactionId)
-                && transactionService.deleteRecord(accountId, transactionId)
+        //TODO: HACK
+        shareService.deleteRecord(transactionId)
+        transactionService.deleteSettings(transactionId)
+        transactionService.deleteRecord(accountId, transactionId)
     }
 
     fun getAllOptionTradesBySymbol(accountId: String, portfolioId: String, symbol: String): List<OptionJournalModel> {
         return optionService.getAllBySymbol(accountId, portfolioId, symbol)
     }
 
-    fun createOptionRecord(model: OptionJournalModel): OptionJournalModel? {
+    fun createOptionRecord(model: OptionJournalModel): OptionJournalModel {
+        //TODO: HACK
         val id = transactionService.createRecord(model.transactionDetails)
-        if (id != null) {
-            return optionService.createRecord(id, model)
-        }
-        return null
+//        if (id != null) {
+            return optionService.createRecord(id!!, model)!!
+//        }
+//        return null
     }
 
-    fun editOptionRecord(transactionId: String, model: OptionJournalModel): Boolean {
-        if (transactionId != model.transactionDetails.id) {
-            return false
-        }
+    fun editOptionRecord(transactionId: String, model: OptionJournalModel) {
+//        if (transactionId != model.transactionDetails.id) {
+//            return false
+//        }
 
-        return transactionService.editRecord(model.transactionDetails)
-                && optionService.editRecord(model)
+        //TODO: HACK
+        transactionService.editRecord(model.transactionDetails)
+        optionService.editRecord(model)
     }
 
-    fun deleteOptionRecord(accountId: String, transactionId: String): Boolean {
-        optionService.getById(accountId, transactionId) ?: return false
+    fun deleteOptionRecord(accountId: String, transactionId: String) {
+        //TODO: HACK
+        optionService.getById(accountId, transactionId)
 
-        return optionService.deleteRecord(transactionId)
-                && transactionService.deleteSettings(transactionId)
-                && transactionService.deleteRecord(accountId, transactionId)
+        //TODO: HACK
+        optionService.deleteRecord(transactionId)
+        transactionService.deleteSettings(transactionId)
+        transactionService.deleteRecord(accountId, transactionId)
     }
 
     fun getAllDividendTradesBySymbol(accountId: String, portfolioId: String, symbol: String): List<DividendJournalModel> {
         return dividendService.getAllBySymbol(accountId, portfolioId, symbol)
     }
 
-    fun createDividendRecord(model: DividendJournalModel): DividendJournalModel? {
+    fun createDividendRecord(model: DividendJournalModel): DividendJournalModel {
         val id = transactionService.createRecord(model.transactionDetails)
-        if (id != null) {
-            return dividendService.createRecord(id, model)
-        }
-        return null
+//        if (id != null) {
+            return dividendService.createRecord(id!!, model)
+//        }
+        //TODO: HACK
+//        return null
     }
 
-    fun editDividendRecord(transactionId: String, model: DividendJournalModel): Boolean {
+    fun editDividendRecord(transactionId: String, model: DividendJournalModel) {
         if (transactionId != model.transactionDetails.id) {
-            return false
+            //TODO: HACK
+            TODO()
         }
 
-        return transactionService.editRecord(model.transactionDetails)
-                && dividendService.editRecord(model)
+        //TODO: HACK
+        transactionService.editRecord(model.transactionDetails)
+        dividendService.editRecord(model)
     }
 
-    fun deleteDividendRecord(accountId: String, transactionId: String): Boolean {
-        dividendService.getById(accountId, transactionId) ?: return false
+    fun deleteDividendRecord(accountId: String, transactionId: String) {
+        //TODO: HACK
+        dividendService.getById(accountId, transactionId)
 
-        return dividendService.deleteRecord(transactionId)
-                && transactionService.deleteSettings(transactionId)
-                && transactionService.deleteRecord(accountId, transactionId)
+        //TODO: HACK
+        dividendService.deleteRecord(transactionId)
+        transactionService.deleteSettings(transactionId)
+        transactionService.deleteRecord(accountId, transactionId)
     }
 
     fun getPortfolios(accountId: String): List<PortfolioModel> {
         return portfolioService.getPortfolios(accountId)
     }
 
-    fun getDefaultPortfolio(accountId: String): PortfolioModel? {
-        return portfolioService.getDefaultPortfolio(accountId)
+    fun getDefaultPortfolio(accountId: String): PortfolioModel {
+        //TODO: HACK
+        return portfolioService.getDefaultPortfolio(accountId)!!
     }
 
 }
