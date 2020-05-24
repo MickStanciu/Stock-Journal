@@ -1,25 +1,15 @@
 package com.example.tradelog.api.core.service
 
-import com.example.common.repository.DataAccessError
+import com.example.common.service.ServiceError
 import com.example.common.types.Either
 import com.example.tradelog.api.core.model.TradeSummaryModel
 
-interface JournalService<E, V> {
+interface JournalService<T> {
 
-    fun getSummaries(accountId: String): Map<String, TradeSummaryModel>
-    fun getAllBySymbol(accountId: String, portfolioId: String, symbol: String): List<V>
-    fun getById(accountId: String, transactionId: String): Either<E, V>
-    fun createRecord(transactionId: String, model: V): V
-    fun editRecord(model: V)
-    fun deleteRecord(transactionId: String)
-
-    sealed class TradeLogBusinessError {
-        class RecordNotFound(val message: String): TradeLogBusinessError()
-        class UnknownError(val message: String = "Unknown error"): TradeLogBusinessError()
-    }
-
-    fun toBusinessError(e: DataAccessError): TradeLogBusinessError = when(e) {
-        is DataAccessError.RecordNotFound -> TradeLogBusinessError.RecordNotFound(e.message)
-        else -> TradeLogBusinessError.UnknownError()
-    }
+    fun getSummaries(accountId: String): Either<ServiceError, Map<String, TradeSummaryModel>>
+    fun getAllBySymbol(accountId: String, portfolioId: String, symbol: String): Either<ServiceError, List<T>>
+    fun getById(accountId: String, transactionId: String): Either<ServiceError, T>
+    fun createRecord(transactionId: String, model: T): Either<ServiceError, T>
+    fun editRecord(model: T): Either<ServiceError, T>
+    fun deleteRecord(transactionId: String): Either<ServiceError, Unit>
 }

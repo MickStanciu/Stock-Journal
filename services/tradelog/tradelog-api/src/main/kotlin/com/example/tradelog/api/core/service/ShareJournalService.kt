@@ -1,5 +1,6 @@
 package com.example.tradelog.api.core.service
 
+import com.example.common.service.ServiceError
 import com.example.common.types.Either
 import com.example.common.types.Either.Companion.mapError
 import com.example.tradelog.api.core.converter.TradeSummaryUtil
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service
 class ShareJournalService(private val repository: ShareJournalRepository):
         JournalService<JournalService.TradeLogBusinessError, ShareJournalModel> {
 
-    override fun getSummaries(accountId: String): Map<String, TradeSummaryModel> {
+    override fun getSummaries(accountId: String): Either<ServiceError, Map<String, TradeSummaryModel>> {
         val modelList = repository.getSummaries(accountId)
         return TradeSummaryUtil.toMap(models = modelList)
     }
