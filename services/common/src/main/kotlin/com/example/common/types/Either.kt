@@ -1,72 +1,58 @@
 package com.example.common.types
 
 
-sealed class Either<out E, out V> {
+sealed class Either<out L, out R> {
 
-    class Error<E>(val error: E): Either<E, Nothing>()
-    class Value<V>(val value: V): Either<Nothing, V>()
+    class Left<out L>(val value: L): Either<L, Nothing>()
+    class Right<out R>(val value: R): Either<Nothing, R>()
 
-    fun isError(): Boolean =
+    fun isLeft(): Boolean =
             when (this) {
-                is Error -> true
-                is Value -> false
+                is Left -> true
+                is Right -> false
             }
 
-    fun isValue(): Boolean =
+    fun isRight(): Boolean =
             when (this) {
-                is Error -> false
-                is Value -> true
+                is Left -> false
+                is Right -> true
             }
 
-    fun valueOrNull(): V? =
+    fun rightOrNull(): R? =
             when (this) {
-                is Error -> null
-                is Value -> value
+                is Left -> null
+                is Right -> this.value
             }
 
-    fun errorOrNull(): E? =
+    fun leftOrNull(): L? =
             when (this) {
-                is Error -> error
-                is Value -> null
+                is Left -> this.value
+                is Right -> null
+            }
+
+    fun <T> fold(lfn: (L) -> T, rfn: (R) -> T): T =
+            when (this) {
+                is Left -> lfn(this.value)
+                is Right -> rfn(this.value)
+            }
+
+    fun <L2> mapLeft(lfn: (L) -> L2): Either<L2, R> =
+            when (this) {
+                is Left -> Left(lfn(this.value))
+                is Right -> this
+            }
+
+    fun <R2> mapRight(rfn: (R) -> R2): Either<L, R2> =
+            when (this) {
+                is Left -> this
+                is Right -> Right(rfn(this.value))
             }
 
     companion object {
-        fun <E,V,V2> Either<E,V>.bind(f: (V) -> Either<E, V2>): Either<E, V2> =
+        fun <L,R,R2> Either<L,R>.bind(fn: (R) -> Either<L, R2>): Either<L, R2> =
                 when (this) {
-                    is Error -> Error(error)
-                    is Value -> f(value)
+                    is Left -> this
+                    is Right -> fn(this.value)
                 }
-
-        fun <E,E2,V> Either<E,V>.mapError(e: (E) -> E2): Either<E2, V> =
-                when (this) {
-                    is Error -> Error(e(error))
-                    is Value -> this
-                }
-
-        fun <E,V,V2> Either<E,V>.mapValue(f: (V) -> V2): Either<E, V2> =
-                when (this) {
-                    is Error -> this
-                    is Value -> Value(f(value))
-                }
-
-        fun <E,V,U> Either<E,V>.either(e: (E) -> U, v: (V) -> U): U =
-                when (this) {
-                    is Error -> e(error)
-                    is Value -> v(value)
-                }
-
-        fun <E,V> performSafeCall(f: () -> V, g: (message: String) -> E): Either<E, V> =
-                try {
-                    Either.Value(f())
-                } catch (exception: Exception) {
-                    Either.Error(g(exception.toString()))
-                }
-
-        //    fun <E2,V2> mapErrorAndValue(f: (E) -> E2, g: (V) -> V2): Either<E2, V2> =
-//        when (this) {
-//            is Error -> Error(f(error))
-//            is Value -> Value(g(value))
-//        }
-
     }
 }
