@@ -3,9 +3,9 @@ package com.example.tradelog.api.db.repository
 import com.example.common.repository.DataAccessError
 import com.example.common.types.Either
 import com.example.common.types.Either.Companion.bind
-import com.example.common.types.Either.Companion.performSafeCall
-import com.example.common.types.Either.Error
-import com.example.common.types.Either.Value
+import com.example.common.types.Either.Left
+import com.example.common.types.Either.Right
+import com.example.common.utils.performSafeCall
 import com.example.tradelog.api.core.model.PortfolioModel
 import com.example.tradelog.api.db.converter.PortfolioMapper
 import org.springframework.jdbc.core.JdbcTemplate
@@ -50,9 +50,9 @@ class PortfolioRepository(private val jdbcTemplate: JdbcTemplate) {
 
         val checkResponse: (List<PortfolioModel>) -> Either<DataAccessError, PortfolioModel> = { models ->
             if (models.size == 1)
-                Value(models[0])
+                Right(models[0])
             else
-                Error(DataAccessError.DatabaseAccessError())
+                Left(DataAccessError.DatabaseAccessError())
 
         }
 

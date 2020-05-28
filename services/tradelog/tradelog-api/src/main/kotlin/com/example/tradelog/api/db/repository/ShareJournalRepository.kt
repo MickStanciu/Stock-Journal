@@ -3,9 +3,9 @@ package com.example.tradelog.api.db.repository
 import com.example.common.repository.DataAccessError
 import com.example.common.types.Either
 import com.example.common.types.Either.Companion.bind
-import com.example.common.types.Either.Companion.performSafeCall
-import com.example.common.types.Either.Error
-import com.example.common.types.Either.Value
+import com.example.common.types.Either.Left
+import com.example.common.types.Either.Right
+import com.example.common.utils.performSafeCall
 import com.example.tradelog.api.core.model.ShareJournalModel
 import com.example.tradelog.api.core.model.TradeSummaryModel
 import com.example.tradelog.api.db.converter.ShareJournalModelRowMapper
@@ -112,8 +112,8 @@ class ShareJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalRe
 
         val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
             when (it) {
-                true -> Either.Value(Unit)
-                false -> Either.Error(DataAccessError.DatabaseAccessError())
+                true -> Either.Right(Unit)
+                false -> Either.Left(DataAccessError.DatabaseAccessError())
             }
         }
 
@@ -131,8 +131,8 @@ class ShareJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalRe
 
         val checkSize: (List<ShareJournalModel>) -> Either<DataAccessError, ShareJournalModel> = {
             when (it.size == 1) {
-                true -> Value(it[0])
-                false -> Error(DataAccessError.RecordNotFound("Couldn't find share record with id $transactionId"))
+                true -> Right(it[0])
+                false -> Left(DataAccessError.RecordNotFound("Couldn't find share record with id $transactionId"))
             }
         }
 
@@ -166,8 +166,8 @@ class ShareJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalRe
 
         val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
             when (it) {
-                true -> Value(Unit)
-                false -> Error(DataAccessError.DatabaseAccessError())
+                true -> Right(Unit)
+                false -> Left(DataAccessError.DatabaseAccessError())
             }
         }
 
@@ -189,8 +189,8 @@ class ShareJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalRe
 
         val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
             when (it) {
-                true -> Value(Unit)
-                false -> Error(DataAccessError.DatabaseAccessError())
+                true -> Right(Unit)
+                false -> Left(DataAccessError.DatabaseAccessError())
             }
         }
 

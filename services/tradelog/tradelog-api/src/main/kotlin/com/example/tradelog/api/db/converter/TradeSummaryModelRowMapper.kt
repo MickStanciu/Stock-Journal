@@ -7,7 +7,7 @@ import org.springframework.jdbc.core.RowMapper
 import java.math.BigDecimal
 import java.sql.ResultSet
 
-class TradeSummaryModelRowMapper : RowMapper<TradeSummaryModel> {
+class TradeSummaryModelRowMapper: RowMapper<TradeSummaryModel> {
 
     override fun mapRow(rs: ResultSet, rowNum: Int): TradeSummaryModel {
 

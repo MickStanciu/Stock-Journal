@@ -4,9 +4,9 @@ import com.example.common.converter.TimeConverter
 import com.example.common.repository.DataAccessError
 import com.example.common.types.Either
 import com.example.common.types.Either.Companion.bind
-import com.example.common.types.Either.Companion.performSafeCall
-import com.example.common.types.Either.Error
-import com.example.common.types.Either.Value
+import com.example.common.types.Either.Left
+import com.example.common.types.Either.Right
+import com.example.common.utils.performSafeCall
 import com.example.tradelog.api.core.model.SummaryMatrixModel
 import com.example.tradelog.api.core.model.TransactionModel
 import com.example.tradelog.api.core.model.TransactionSettingsModel
@@ -109,8 +109,8 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
 
         val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
             when (it) {
-                true -> Value(Unit)
-                false -> Error(DataAccessError.DatabaseAccessError())
+                true -> Right(Unit)
+                false -> Left(DataAccessError.DatabaseAccessError())
             }
         }
 
@@ -135,8 +135,8 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
 
         val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
             when (it) {
-                true -> Value(Unit)
-                false -> Error(DataAccessError.DatabaseAccessError())
+                true -> Right(Unit)
+                false -> Left(DataAccessError.DatabaseAccessError())
             }
         }
 
@@ -159,8 +159,8 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
 
         val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
             when (it) {
-                true -> Value(Unit)
-                false -> Error(DataAccessError.DatabaseAccessError())
+                true -> Right(Unit)
+                false -> Left(DataAccessError.DatabaseAccessError())
             }
         }
 
@@ -185,8 +185,8 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
 
         val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
             when (it) {
-                true -> Value(Unit)
-                false -> Error(DataAccessError.DatabaseAccessError())
+                true -> Right(Unit)
+                false -> Left(DataAccessError.DatabaseAccessError())
             }
         }
 
@@ -215,14 +215,14 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
 
         val checkResponse: (GeneratedKeyHolder) -> Either<DataAccessError, String> = { keyHolder ->
             if (keyHolder.keyList.isEmpty()) {
-                Error(DataAccessError.DatabaseAccessError("Failed to insert transaction"))
+                Left(DataAccessError.DatabaseAccessError("Failed to insert transaction"))
             }
 
             val key = keyHolder.keyList[0]["id"].toString()
             if (key.trim().isEmpty()) {
-                Error(DataAccessError.DatabaseAccessError("Failed to insert transaction"))
+                Left(DataAccessError.DatabaseAccessError("Failed to insert transaction"))
             }
-            Value(key)
+            Right(key)
         }
 
         return dbResponse
@@ -244,8 +244,8 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
 
         val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
             when (it) {
-                true -> Value(Unit)
-                false -> Error(DataAccessError.DatabaseAccessError())
+                true -> Right(Unit)
+                false -> Left(DataAccessError.DatabaseAccessError())
             }
         }
 

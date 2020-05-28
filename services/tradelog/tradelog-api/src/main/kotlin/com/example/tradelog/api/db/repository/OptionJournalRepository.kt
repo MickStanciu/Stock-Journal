@@ -4,9 +4,9 @@ import com.example.common.converter.TimeConverter
 import com.example.common.repository.DataAccessError
 import com.example.common.types.Either
 import com.example.common.types.Either.Companion.bind
-import com.example.common.types.Either.Companion.performSafeCall
-import com.example.common.types.Either.Error
-import com.example.common.types.Either.Value
+import com.example.common.types.Either.Left
+import com.example.common.types.Either.Right
+import com.example.common.utils.performSafeCall
 import com.example.tradelog.api.core.model.OptionJournalModel
 import com.example.tradelog.api.core.model.TradeSummaryModel
 import com.example.tradelog.api.db.converter.OptionJournalModelRowMapper
@@ -130,8 +130,8 @@ class OptionJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalR
 
         val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
             when (it) {
-                true -> Value(Unit)
-                false -> Error(DataAccessError.DatabaseAccessError())
+                true -> Right(Unit)
+                false -> Left(DataAccessError.DatabaseAccessError())
             }
         }
 
@@ -149,8 +149,8 @@ class OptionJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalR
 
         val checkSize: (List<OptionJournalModel>) -> Either<DataAccessError, OptionJournalModel> = {
             when (it.size == 1) {
-                true -> Either.Value(it[0])
-                false -> Either.Error(DataAccessError.RecordNotFound("Couldn't find option record with id $transactionId"))
+                true -> Either.Right(it[0])
+                false -> Either.Left(DataAccessError.RecordNotFound("Couldn't find option record with id $transactionId"))
             }
         }
 
@@ -187,8 +187,8 @@ class OptionJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalR
 
         val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
             when (it) {
-                true -> Either.Value(Unit)
-                false -> Either.Error(DataAccessError.DatabaseAccessError())
+                true -> Either.Right(Unit)
+                false -> Either.Left(DataAccessError.DatabaseAccessError())
             }
         }
 
@@ -210,8 +210,8 @@ class OptionJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalR
 
         val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
             when (it) {
-                true -> Either.Value(Unit)
-                false -> Either.Error(DataAccessError.DatabaseAccessError())
+                true -> Either.Right(Unit)
+                false -> Either.Left(DataAccessError.DatabaseAccessError())
             }
         }
 

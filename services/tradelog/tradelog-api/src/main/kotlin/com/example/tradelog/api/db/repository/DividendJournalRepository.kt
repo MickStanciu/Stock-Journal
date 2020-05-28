@@ -3,9 +3,9 @@ package com.example.tradelog.api.db.repository
 import com.example.common.repository.DataAccessError
 import com.example.common.types.Either
 import com.example.common.types.Either.Companion.bind
-import com.example.common.types.Either.Companion.performSafeCall
-import com.example.common.types.Either.Error
-import com.example.common.types.Either.Value
+import com.example.common.types.Either.Left
+import com.example.common.types.Either.Right
+import com.example.common.utils.performSafeCall
 import com.example.tradelog.api.core.model.DividendJournalModel
 import com.example.tradelog.api.core.model.TradeSummaryModel
 import com.example.tradelog.api.db.converter.DividendModelRowMapper
@@ -88,7 +88,7 @@ class DividendJournalRepository(private val jdbcTemplate: JdbcTemplate) : Journa
     override fun createRecord(transactionId: String, model: DividendJournalModel): Either<DataAccessError, Unit> {
         val dbResponse: Either<DataAccessError, Boolean> = performSafeCall(
                 {
-                    jdbcTemplate.update {connection: Connection ->
+                    jdbcTemplate.update { connection: Connection ->
                         val ps = connection.prepareStatement(CREATE_RECORD)
                         ps.setString(1, transactionId)
                         ps.setDouble(2, model.dividend)
@@ -101,8 +101,8 @@ class DividendJournalRepository(private val jdbcTemplate: JdbcTemplate) : Journa
 
         val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
             when (it) {
-                true -> Either.Value(Unit)
-                false -> Either.Error(DataAccessError.DatabaseAccessError())
+                true -> Either.Right(Unit)
+                false -> Either.Left(DataAccessError.DatabaseAccessError())
             }
         }
 
@@ -120,8 +120,8 @@ class DividendJournalRepository(private val jdbcTemplate: JdbcTemplate) : Journa
 
         val checkSize: (List<DividendJournalModel>) -> Either<DataAccessError, DividendJournalModel> = {
             when (it.size == 1) {
-                true -> Value(it[0])
-                false -> Error(DataAccessError.RecordNotFound("Couldn't find dividend record with id $transactionId"))
+                true -> Right(it[0])
+                false -> Left(DataAccessError.RecordNotFound("Couldn't find dividend record with id $transactionId"))
             }
         }
 
@@ -153,8 +153,8 @@ class DividendJournalRepository(private val jdbcTemplate: JdbcTemplate) : Journa
 
         val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
             when (it) {
-                true -> Value(Unit)
-                false -> Error(DataAccessError.DatabaseAccessError())
+                true -> Right(Unit)
+                false -> Left(DataAccessError.DatabaseAccessError())
             }
         }
 
@@ -176,8 +176,8 @@ class DividendJournalRepository(private val jdbcTemplate: JdbcTemplate) : Journa
 
         val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
             when (it) {
-                true -> Value(Unit)
-                false -> Error(DataAccessError.DatabaseAccessError())
+                true -> Right(Unit)
+                false -> Left(DataAccessError.DatabaseAccessError())
             }
         }
 
