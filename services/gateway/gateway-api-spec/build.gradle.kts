@@ -21,6 +21,12 @@ dependencies {
     implementation ("com.google.protobuf:protobuf-java:$protobufVersion")
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+
 sourceSets {
     main {
         java.srcDir("build/generated/source/proto/main/java")
