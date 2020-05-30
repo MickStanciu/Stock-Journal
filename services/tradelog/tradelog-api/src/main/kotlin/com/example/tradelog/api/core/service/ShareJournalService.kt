@@ -1,6 +1,7 @@
 package com.example.tradelog.api.core.service
 
 import com.example.common.service.ServiceError
+import com.example.common.service.toServiceError
 import com.example.common.types.Either
 import com.example.common.types.Either.Companion.bind
 import com.example.tradelog.api.core.converter.TradeSummaryUtil
@@ -15,7 +16,7 @@ class ShareJournalService(private val repository: ShareJournalRepository): Journ
     override fun getSummaries(accountId: String): Either<ServiceError, Map<String, TradeSummaryModel>> {
         return repository.getSummaries(accountId)
                 .mapLeft(::toServiceError)
-                .mapRight(TradeSummaryUtil::toMap)
+                .mapRight { TradeSummaryUtil.toMap(it) }
     }
 
     override fun getAllBySymbol(accountId: String, portfolioId: String, symbol: String): Either<ServiceError, List<ShareJournalModel>> {

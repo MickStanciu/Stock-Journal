@@ -1,6 +1,5 @@
 package com.example.tradelog.api.core.service
 
-import com.example.common.repository.DataAccessError
 import com.example.common.service.ServiceError
 import com.example.common.types.Either
 import com.example.tradelog.api.core.model.TradeSummaryModel
@@ -14,10 +13,10 @@ interface JournalService<T> {
     fun editRecord(model: T): Either<ServiceError, Unit>
     fun deleteRecord(transactionId: String): Either<ServiceError, Unit>
 
-    fun toServiceError(repositoryError: DataAccessError): ServiceError {
-        return when (repositoryError) {
-            is DataAccessError.RecordNotFound -> ServiceError.RecordNotFound(repositoryError.message)
-            is DataAccessError.DatabaseAccessError -> ServiceError.DataAccessError(repositoryError.message)
-        }
-    }
+//    fun toServiceError(repositoryError: DataAccessError): ServiceError {
+//        return when (repositoryError) {
+//            is DataAccessError.RecordNotFound -> ServiceError.RecordNotFound(repositoryError.message)
+//            is DataAccessError.DatabaseAccessError -> ServiceError.DataAccessError(repositoryError.message)
+//        }
+//    }
 }

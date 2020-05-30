@@ -1,5 +1,6 @@
 package com.example.common.repository
 
+
 sealed class DataAccessError {
     class RecordNotFound(val message: String = "Record not found"): DataAccessError()
     class DatabaseAccessError(val message: String = "Something went wrong in DAO"): DataAccessError()

@@ -1,77 +1,66 @@
 package com.example.tradelog.api.core.service
 
+import com.example.common.service.ServiceError
+import com.example.common.service.toServiceError
+import com.example.common.types.Either
+import com.example.common.types.Either.Companion.bind
 import com.example.tradelog.api.core.model.SummaryMatrixModel
 import com.example.tradelog.api.core.model.TransactionModel
 import com.example.tradelog.api.core.model.TransactionSettingsModel
 import com.example.tradelog.api.db.repository.TransactionRepository
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 @Service
 class TransactionService(private val repository: TransactionRepository) {
 
-    private val log = LoggerFactory.getLogger(TransactionService::class.java)
-
-    fun getAllTradedSymbols(accountId: String, portfolioId: String): List<String> {
-        //TODO: HACK
-        return repository.getUniqueSymbols(accountId, portfolioId).valueOrNull()!!
+    fun getAllTradedSymbols(accountId: String, portfolioId: String): Either<ServiceError, List<String>> {
+        return repository.getUniqueSymbols(accountId, portfolioId)
+                .mapLeft(::toServiceError)
     }
 
-    fun getActiveSymbols(): List<String> {
-        //TODO: HACK
-        return repository.getActiveSymbols().valueOrNull()!!
+    fun getActiveSymbols(): Either<ServiceError, List<String>> {
+        return repository.getActiveSymbols()
+                .mapLeft(::toServiceError)
     }
 
-    fun updateSettings(model: TransactionSettingsModel): Boolean {
-        //TODO: HACK
-        repository.updateSettings(model)
-        return true
+    fun updateSettings(model: TransactionSettingsModel): Either<ServiceError, Unit> {
+        return repository.updateSettings(model)
+                .mapLeft(::toServiceError)
     }
 
-    fun updateSettingsBulk(models: List<TransactionSettingsModel>) {
-        //todo: find a better way
-        //TODO: HACK
-        for (model in models) {
-            repository.updateSettings(model)
-//            if (!repository.updateSettings(model)) {
-//                log.error("Failed to update settings for ${model.transactionId}")
-//            }
+    fun deleteRecord(accountId: String, transactionId: String): Either<ServiceError, Unit> {
+        return repository.deleteRecord(accountId, transactionId)
+                .mapLeft(::toServiceError)
+    }
+
+    fun editRecord(model: TransactionModel): Either<ServiceError, Unit> {
+        return repository.updateRecord(model)
+                .mapLeft(::toServiceError)
+    }
+
+    fun createRecord(model: TransactionModel): Either<ServiceError, String> {
+        val createRecord = repository.createRecord(model)
+                .mapLeft(::toServiceError)
+
+        val createSettings: (String) -> Either<ServiceError, TransactionSettingsModel> = {id ->
+            val settingsModel = TransactionSettingsModel(transactionId = id, preferredPrice = 0.0, groupSelected = true, legClosed = false)
+            repository.createSettings(id, settingsModel)
+                    .mapLeft(::toServiceError)
+                    .mapRight { settingsModel }
         }
+
+        return createRecord
+                .bind(createSettings)
+                .mapRight { it.transactionId }
     }
 
-    fun deleteRecord(accountId: String, transactionId: String): Boolean {
-        //TODO: HACK
-        repository.deleteRecord(accountId, transactionId)
-        return true
+    fun deleteSettings(transactionId: String): Either<ServiceError, Unit> {
+        return repository.deleteSettings(transactionId)
+                .mapLeft(::toServiceError)
     }
 
-    fun editRecord(model: TransactionModel): Boolean {
-        //TODO: HACK
-        repository.updateRecord(model)
-        return true
-    }
-
-    fun createRecord(model: TransactionModel): String {
-        //TODO: HACK
-        val id = repository.createRecord(model).valueOrNull()
-
-        val settingsModel = TransactionSettingsModel(transactionId = id!!, preferredPrice = 0.0, groupSelected = true, legClosed = false)
-        repository.createSettings(id, settingsModel)
-//        if (repository.createSettings(id, settingsModel)) {
-//            return id
-//        }
-        return id
-//        return null
-    }
-
-    fun deleteSettings(transactionId: String): Boolean {
-        //TODO: HACK
-        repository.deleteSettings(transactionId)
-        return true
-    }
-
-    fun getSummaryMatrix(accountId: String, portfolioId: String): List<SummaryMatrixModel> {
-        //TODO: HACK
-        return repository.getSummaryMatrix(accountId, portfolioId).valueOrNull()!!
+    fun getSummaryMatrix(accountId: String, portfolioId: String): Either<ServiceError, List<SummaryMatrixModel>> {
+        return repository.getSummaryMatrix(accountId, portfolioId)
+                .mapLeft(::toServiceError)
     }
 }
