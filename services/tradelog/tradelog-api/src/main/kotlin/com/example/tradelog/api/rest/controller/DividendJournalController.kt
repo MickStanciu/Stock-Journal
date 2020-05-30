@@ -1,6 +1,7 @@
 package com.example.tradelog.api.rest.controller
 
 import com.example.tradelog.api.core.facade.JournalFacade
+import com.example.tradelog.api.core.service.DividendJournalService
 import com.example.tradelog.api.rest.DividendJournalRestInterface
 import com.example.tradelog.api.rest.converter.DividendJournalModelConverter
 import com.example.tradelog.api.rest.exception.ExceptionCode
@@ -12,26 +13,23 @@ import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import java.util.stream.Collectors
 
 @RestController
 @RequestMapping(value = ["/api/v1/dividends"], produces = [DividendJournalController.PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE])
-class DividendJournalController(private val journalFacade: JournalFacade) : DividendJournalRestInterface {
+class DividendJournalController(private val journalFacade: JournalFacade, private val journalService: DividendJournalService): DividendJournalRestInterface {
 
     companion object {
         const val PROTOBUF_MEDIA_TYPE_VALUE = "application/x-protobuf"
         private val LOG = LoggerFactory.getLogger(DividendJournalController::class.java)
     }
 
-    override fun getAllBySymbol(accountId: String, symbol: String, portfolioId: String) : TLDividendTransactionsResponse {
+    override fun getAllBySymbol(accountId: String, symbol: String, portfolioId: String): TLDividendTransactionsResponse {
         if (!RequestValidator.validateGetAllBySymbol(accountId, symbol)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        val models = journalFacade.getAllDividendTradesBySymbol(accountId, portfolioId, symbol)
-        val dtos = models.stream()
-                .map { DividendJournalModelConverter.toDto(it) }
-                .collect(Collectors.toList())
+        val models = journalService.getAllBySymbol(accountId, portfolioId, symbol).rightOrNull() ?: emptyList()
+        val dtos = models.map { DividendJournalModelConverter.toDto(it) }
 
         return TLDividendTransactionsResponse.newBuilder()
                 .addAllDividendItems(dtos)
@@ -44,14 +42,10 @@ class DividendJournalController(private val journalFacade: JournalFacade) : Divi
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        val model = journalFacade.createDividendRecord(DividendJournalModelConverter.toModel(dto))
-
-        if (model == null) {
-            LOG.error("Could not create for: ${dto.transactionDetails.symbol}")
-            throw TradeLogException(ExceptionCode.CREATE_DIVIDEND_FAILED)
-        }
-
-        return DividendJournalModelConverter.toDto(model)
+        //TODO: not sure this it.toString() works
+        return journalFacade.createDividendRecord(DividendJournalModelConverter.toModel(dto))
+                .mapRight { DividendJournalModelConverter.toDto(it) }
+                .rightOrThrow { TradeLogException(ExceptionCode.CREATE_DIVIDEND_FAILED, it.toString()) }
     }
 
 
@@ -60,12 +54,9 @@ class DividendJournalController(private val journalFacade: JournalFacade) : Divi
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        //TODO: HACK
-        journalFacade.editDividendRecord(transactionId, DividendJournalModelConverter.toModel(dto))
-//        if (!journalFacade.editDividendRecord(transactionId, DividendJournalModelConverter.toModel(dto))) {
-//            LOG.error("Could not edit for: $transactionId")
-//            throw TradeLogException(ExceptionCode.EDIT_DIVIDEND_FAILED)
-//        }
+        //TODO: not sure this it.toString() works
+        return journalFacade.editDividendRecord(transactionId, DividendJournalModelConverter.toModel(dto))
+                .rightOrThrow { TradeLogException(ExceptionCode.EDIT_DIVIDEND_FAILED, it.toString()) }
     }
 
 
@@ -75,10 +66,7 @@ class DividendJournalController(private val journalFacade: JournalFacade) : Divi
         }
 
         //TODO: HACK
-        journalFacade.deleteDividendRecord(accountId, transactionId)
-//        if (!journalFacade.deleteDividendRecord(accountId, transactionId)) {
-//            LOG.error("Could not delete for: $transactionId")
-//            throw TradeLogException(ExceptionCode.DELETE_DIVIDEND_FAILED)
-//        }
+        return journalFacade.deleteDividendRecord(accountId, transactionId)
+                .rightOrThrow { TradeLogException(ExceptionCode.DELETE_DIVIDEND_FAILED, it.toString()) }
     }
 }

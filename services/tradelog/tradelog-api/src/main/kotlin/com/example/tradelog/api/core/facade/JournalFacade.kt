@@ -1,7 +1,13 @@
 package com.example.tradelog.api.core.facade
 
+import com.example.common.service.ServiceError
+import com.example.common.types.Either
+import com.example.common.types.Either.Companion.bind
 import com.example.tradelog.api.core.model.*
-import com.example.tradelog.api.core.service.*
+import com.example.tradelog.api.core.service.DividendJournalService
+import com.example.tradelog.api.core.service.OptionJournalService
+import com.example.tradelog.api.core.service.ShareJournalService
+import com.example.tradelog.api.core.service.TransactionService
 import org.springframework.stereotype.Service
 import java.util.stream.Collectors
 
@@ -9,23 +15,15 @@ import java.util.stream.Collectors
 class JournalFacade(private val transactionService: TransactionService,
                     private val shareService: ShareJournalService,
                     private val optionService: OptionJournalService,
-                    private val dividendService: DividendJournalService,
-                    private val portfolioService: PortfolioService
+                    private val dividendService: DividendJournalService
 ) {
 
-    fun getAllTradedSymbols(accountId: String, portfolioId: String): List<String> {
-        return transactionService.getAllTradedSymbols(accountId, portfolioId)
-    }
-
-    fun getActiveSymbols(): List<String> {
-        return transactionService.getActiveSymbols()
-    }
-
-    fun getSummary(accountId: String): List<TradeSummaryModel> {
-        //TODO: parallel
-        val shareSummaries = shareService.getSummaries(accountId)
-        val optionSummaries = optionService.getSummaries(accountId)
-        val dividendSummaries = dividendService.getSummaries(accountId)
+    fun getSummary(accountId: String): Either<ServiceError, List<TradeSummaryModel>> {
+        //TODO: do parallel call
+        //TODO: rewrite it
+        val shareSummaries = shareService.getSummaries(accountId).rightOrNull() ?: return Either.Left(ServiceError.DataAccessError("Cannot get share summaries"))
+        val optionSummaries = optionService.getSummaries(accountId).rightOrNull() ?: return Either.Left(ServiceError.DataAccessError("Cannot get option summaries"))
+        val dividendSummaries = dividendService.getSummaries(accountId).rightOrNull() ?: return Either.Left(ServiceError.DataAccessError("Cannot get dividend summaries"))
 
         val summaryModelMap: HashMap<String, TradeSummaryModel> = HashMap()
 
@@ -61,19 +59,26 @@ class JournalFacade(private val transactionService: TransactionService,
             }
         }
 
-        return summaryModelMap.entries.stream()
-                .sorted(compareBy { it.key })
-                .map { it.value }
-                .collect(Collectors.toList())
+        return Either.Right(
+                summaryModelMap.entries.stream()
+                        .sorted(compareBy { it.key })
+                        .map { it.value }
+                        .collect(Collectors.toList())
+        )
     }
 
-    fun getSummaryMatrix(accountId: String, portfolioId: String): List<SummaryMatrixModel> {
-        val models = transactionService.getSummaryMatrix(accountId, portfolioId)
-        val groupedMap = groupByYearAndMonth(models)
+    fun getSummaryMatrix(accountId: String, portfolioId: String): Either<ServiceError, List<SummaryMatrixModel>> {
+        val summaryMatrixList  = transactionService.getSummaryMatrix(accountId, portfolioId)
 
-        return groupedMap.entries.stream()
-                .map { SummaryMatrixModel(year = it.key.first, month = it.key.second, total = it.value) }
-                .collect(Collectors.toList())
+        val groupedMap: (List<SummaryMatrixModel>) -> Map<Pair<Int, Int>, Double> = {
+            models -> groupByYearAndMonth(models)
+        }
+
+        return summaryMatrixList
+                .mapRight { groupedMap(it) }
+                .mapRight {
+                    it.entries.map { entry -> SummaryMatrixModel(year = entry.key.first, month = entry.key.second, total = entry.value) }
+                }
     }
 
     private fun groupByYearAndMonth(models: List<SummaryMatrixModel>): Map<Pair<Int, Int>, Double> {
@@ -90,117 +95,83 @@ class JournalFacade(private val transactionService: TransactionService,
         return map
     }
 
-    fun updateSettings(model: TransactionSettingsModel): Boolean {
-        return transactionService.updateSettings(model)
-    }
 
-    fun getAllShareTradesBySymbol(accountId: String, portfolioId: String, symbol: String): List<ShareJournalModel> {
-        return shareService.getAllBySymbol(accountId, portfolioId, symbol)
-    }
-
-    fun createShareRecord(model: ShareJournalModel): ShareJournalModel {
-        //TODO: HACK
-        val id = transactionService.createRecord(model.transactionDetails)
-//        if (id != null) {
-            return shareService.createRecord(transactionId = id!!, model = model)!!
-//        }
-//        return null
-    }
-
-    fun editShareRecord(transactionId: String, model: ShareJournalModel) {
-        //TODO: HACK
-        if (transactionId != model.transactionDetails.id) {
-//            return false
+    fun createShareRecord(model: ShareJournalModel): Either<ServiceError, ShareJournalModel> {
+        val createTransactionRecord = transactionService.createRecord(model.transactionDetails)
+        val createShareRecord: (String, ShareJournalModel) -> Either<ServiceError, ShareJournalModel> = { id, journalModel ->
+            shareService.createRecord(transactionId = id, model = journalModel)
         }
 
-        transactionService.editRecord(model.transactionDetails)
-        shareService.editRecord(model)
+        return createTransactionRecord
+                .bind { createShareRecord(it, model) }
     }
 
-    fun deleteShareRecord(accountId: String, transactionId: String) {
-        //TODO: HACK
-        shareService.getById(accountId, transactionId)
-
-        //TODO: HACK
-        shareService.deleteRecord(transactionId)
-        transactionService.deleteSettings(transactionId)
-        transactionService.deleteRecord(accountId, transactionId)
-    }
-
-    fun getAllOptionTradesBySymbol(accountId: String, portfolioId: String, symbol: String): List<OptionJournalModel> {
-        return optionService.getAllBySymbol(accountId, portfolioId, symbol)
-    }
-
-    fun createOptionRecord(model: OptionJournalModel): OptionJournalModel {
-        //TODO: HACK
-        val id = transactionService.createRecord(model.transactionDetails)
-//        if (id != null) {
-            return optionService.createRecord(id!!, model)!!
-//        }
-//        return null
-    }
-
-    fun editOptionRecord(transactionId: String, model: OptionJournalModel) {
-//        if (transactionId != model.transactionDetails.id) {
-//            return false
-//        }
-
-        //TODO: HACK
-        transactionService.editRecord(model.transactionDetails)
-        optionService.editRecord(model)
-    }
-
-    fun deleteOptionRecord(accountId: String, transactionId: String) {
-        //TODO: HACK
-        optionService.getById(accountId, transactionId)
-
-        //TODO: HACK
-        optionService.deleteRecord(transactionId)
-        transactionService.deleteSettings(transactionId)
-        transactionService.deleteRecord(accountId, transactionId)
-    }
-
-    fun getAllDividendTradesBySymbol(accountId: String, portfolioId: String, symbol: String): List<DividendJournalModel> {
-        return dividendService.getAllBySymbol(accountId, portfolioId, symbol)
-    }
-
-    fun createDividendRecord(model: DividendJournalModel): DividendJournalModel {
-        val id = transactionService.createRecord(model.transactionDetails)
-//        if (id != null) {
-            return dividendService.createRecord(id!!, model)
-//        }
-        //TODO: HACK
-//        return null
-    }
-
-    fun editDividendRecord(transactionId: String, model: DividendJournalModel) {
+    fun editShareRecord(transactionId: String, model: ShareJournalModel): Either<ServiceError, Unit> {
         if (transactionId != model.transactionDetails.id) {
-            //TODO: HACK
-            TODO()
+            return Either.Left(ServiceError.ValidationError("Transaction ID is not valid"))
         }
 
-        //TODO: HACK
-        transactionService.editRecord(model.transactionDetails)
-        dividendService.editRecord(model)
+        return transactionService.editRecord(model.transactionDetails)
+                .bind { shareService.editRecord(model) }
     }
 
-    fun deleteDividendRecord(accountId: String, transactionId: String) {
-        //TODO: HACK
-        dividendService.getById(accountId, transactionId)
-
-        //TODO: HACK
-        dividendService.deleteRecord(transactionId)
-        transactionService.deleteSettings(transactionId)
-        transactionService.deleteRecord(accountId, transactionId)
+    fun deleteShareRecord(accountId: String, transactionId: String): Either<ServiceError, Unit> {
+        return shareService.getById(accountId, transactionId)
+                .bind { shareService.deleteRecord(transactionId) }
+                .bind { transactionService.deleteSettings(transactionId) }
+                .bind { transactionService.deleteRecord(accountId, transactionId) }
     }
 
-    fun getPortfolios(accountId: String): List<PortfolioModel> {
-        return portfolioService.getPortfolios(accountId)
+
+    fun createOptionRecord(model: OptionJournalModel): Either<ServiceError, OptionJournalModel> {
+        val createTransactionRecord = transactionService.createRecord(model.transactionDetails)
+        val createOptionRecord: (String, OptionJournalModel) -> Either<ServiceError, OptionJournalModel> = { id, journalModel ->
+            optionService.createRecord(transactionId = id, model = journalModel)
+        }
+
+        return createTransactionRecord
+                .bind { createOptionRecord(it, model) }
     }
 
-    fun getDefaultPortfolio(accountId: String): PortfolioModel {
-        //TODO: HACK
-        return portfolioService.getDefaultPortfolio(accountId)!!
+    fun editOptionRecord(transactionId: String, model: OptionJournalModel): Either<ServiceError, Unit> {
+        if (transactionId != model.transactionDetails.id) {
+            return Either.Left(ServiceError.ValidationError("Transaction ID is not valid"))
+        }
+
+        return transactionService.editRecord(model.transactionDetails)
+                .bind { optionService.editRecord(model) }
     }
 
+    fun deleteOptionRecord(accountId: String, transactionId: String): Either<ServiceError, Unit> {
+        return optionService.getById(accountId, transactionId)
+                .bind { optionService.deleteRecord(transactionId) }
+                .bind { transactionService.deleteSettings(transactionId) }
+                .bind { transactionService.deleteRecord(accountId, transactionId) }
+    }
+
+    fun createDividendRecord(model: DividendJournalModel): Either<ServiceError, DividendJournalModel> {
+        val createTransactionRecord = transactionService.createRecord(model.transactionDetails)
+        val createDividendRecord: (String, DividendJournalModel) -> Either<ServiceError, DividendJournalModel> = { id, journalModel ->
+            dividendService.createRecord(transactionId = id, model = journalModel)
+        }
+
+        return createTransactionRecord
+                .bind { createDividendRecord(it, model) }
+    }
+
+    fun editDividendRecord(transactionId: String, model: DividendJournalModel): Either<ServiceError, Unit> {
+        if (transactionId != model.transactionDetails.id) {
+            return Either.Left(ServiceError.ValidationError("Transaction ID is not valid"))
+        }
+
+        return transactionService.editRecord(model.transactionDetails)
+                .bind { dividendService.editRecord(model) }
+    }
+
+    fun deleteDividendRecord(accountId: String, transactionId: String): Either<ServiceError, Unit> {
+        return dividendService.getById(accountId, transactionId)
+                .bind { dividendService.deleteRecord(transactionId) }
+                .bind { transactionService.deleteSettings(transactionId) }
+                .bind { transactionService.deleteRecord(accountId, transactionId) }
+    }
 }

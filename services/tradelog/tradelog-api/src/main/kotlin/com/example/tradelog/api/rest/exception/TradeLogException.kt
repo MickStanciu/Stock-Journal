@@ -1,6 +1,12 @@
 package com.example.tradelog.api.rest.exception
 
-class TradeLogException(var code: ExceptionCode): Exception(code.message)
+class TradeLogException(code: ExceptionCode, extraMessage: String = ""): Exception() {
+
+    override val message: String = code.message +
+            if (extraMessage.isNotEmpty()) {
+                " - $extraMessage"
+            } else {""}
+}
 
 enum class ExceptionCode(val message: String) {
     UNKNOWN("Unknown"),

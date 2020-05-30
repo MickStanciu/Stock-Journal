@@ -5,6 +5,7 @@ import com.example.common.repository.DataAccessError
 sealed class ServiceError {
     class DataAccessError(val message: String = ""): ServiceError()
     class RecordNotFound(val message: String = ""): ServiceError()
+    class ValidationError(val message: String = ""): ServiceError()
 }
 
 fun toServiceError(repositoryError: DataAccessError): ServiceError {

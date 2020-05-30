@@ -24,6 +24,12 @@ sealed class Either<out L, out R> {
                 is Right -> this.value
             }
 
+    fun rightOrThrow(lfn: (L) -> Throwable): R =
+            when (this) {
+                is Left -> throw lfn(this.value)
+                is Right -> this.value
+            }
+
     fun leftOrNull(): L? =
             when (this) {
                 is Left -> this.value
