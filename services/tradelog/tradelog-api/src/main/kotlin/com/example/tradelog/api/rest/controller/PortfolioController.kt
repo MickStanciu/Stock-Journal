@@ -1,6 +1,6 @@
 package com.example.tradelog.api.rest.controller
 
-import com.example.tradelog.api.core.facade.JournalFacade
+import com.example.tradelog.api.core.service.PortfolioService
 import com.example.tradelog.api.rest.PortfolioRestInterface
 import com.example.tradelog.api.rest.controller.PortfolioController.Companion.PROTOBUF_MEDIA_TYPE_VALUE
 import com.example.tradelog.api.rest.converter.PortfolioModelConverter
@@ -12,11 +12,13 @@ import com.example.tradelog.api.spec.model.TLPortfolioResponse
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import java.util.stream.Collectors
 
 @RestController
-@RequestMapping(value = ["/api/v1/portfolios"], produces = [PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE])
-class PortfolioController(private val journalFacade: JournalFacade) : PortfolioRestInterface {
+@RequestMapping(value = ["/api/v1/portfolios"],
+        produces = [PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE],
+        consumes = [PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE]
+)
+class PortfolioController(private val portfolioService: PortfolioService): PortfolioRestInterface {
 
     companion object {
         const val PROTOBUF_MEDIA_TYPE_VALUE = "application/x-protobuf"
@@ -27,10 +29,8 @@ class PortfolioController(private val journalFacade: JournalFacade) : PortfolioR
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        val portfolioModels = journalFacade.getPortfolios(accountId)
-        val portfolioDtos = portfolioModels.stream()
-                .map { PortfolioModelConverter.toDto(it) }
-                .collect(Collectors.toList())
+        val portfolioModels = portfolioService.getPortfolios(accountId).rightOrNull() ?: emptyList()
+        val portfolioDtos = portfolioModels.map { PortfolioModelConverter.toDto(it) }
 
         return TLPortfolioResponse.newBuilder()
                 .addAllItems(portfolioDtos)
@@ -42,7 +42,9 @@ class PortfolioController(private val journalFacade: JournalFacade) : PortfolioR
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        val model = journalFacade.getDefaultPortfolio(accountId) ?: throw TradeLogException(ExceptionCode.NO_DEFAULT_PORTFOLIO)
+        val model = portfolioService.getDefaultPortfolio(accountId).rightOrNull()
+                ?: throw TradeLogException(ExceptionCode.NO_DEFAULT_PORTFOLIO)
+
         return PortfolioModelConverter.toDto(model = model)
     }
 }

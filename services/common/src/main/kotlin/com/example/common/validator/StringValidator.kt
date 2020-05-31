@@ -25,7 +25,7 @@ class StringValidator(private val string: String): Validator {
     }
 
     fun regex(pattern: String): StringValidator {
-        result = result and string.matches(Regex.fromLiteral(pattern))
+        result = result and string.matches(pattern.toRegex())
         return this
     }
 

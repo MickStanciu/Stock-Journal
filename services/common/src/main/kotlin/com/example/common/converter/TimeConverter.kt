@@ -15,8 +15,8 @@ class TimeConverter {
         }
 
         fun fromUSDateString(inputDate: String): OffsetDateTime {
-            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneOffset.UTC)
-            return OffsetDateTime.parse("$inputDate 00:00:00", formatter)
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            return OffsetDateTime.of(LocalDateTime.parse("$inputDate 00:00:00", formatter), ZoneOffset.UTC)
         }
 
         fun getStartOfDay(): LocalDateTime {

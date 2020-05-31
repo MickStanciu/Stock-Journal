@@ -1,6 +1,6 @@
 package com.example.tradelog.api.rest.exception
 
-class TradeLogException(code: ExceptionCode, extraMessage: String = ""): Exception() {
+class TradeLogException(val code: ExceptionCode, extraMessage: String = ""): Exception() {
 
     override val message: String = code.message +
             if (extraMessage.isNotEmpty()) {

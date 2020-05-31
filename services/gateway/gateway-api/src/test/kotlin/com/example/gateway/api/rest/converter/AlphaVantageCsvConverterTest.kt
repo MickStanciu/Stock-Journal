@@ -1,6 +1,7 @@
 package com.example.gateway.api.rest.converter
 
-import org.junit.jupiter.api.Assertions
+import io.kotlintest.matchers.shouldBe
+import io.kotlintest.matchers.shouldNotBe
 import org.junit.jupiter.api.Test
 
 class AlphaVantageCsvConverterTest {
@@ -13,8 +14,8 @@ class AlphaVantageCsvConverterTest {
     @Test
     fun testConvert() {
         val response = AlphaVantageCsvConverter.toModel(csvResponse)
-        Assertions.assertNotNull(response)
-        Assertions.assertEquals(response?.lastClose, 166.7200)
+        response shouldNotBe null
+        response?.lastClose shouldBe 166.7200
     }
 
 }

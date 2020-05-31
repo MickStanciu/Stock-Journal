@@ -9,18 +9,18 @@ import com.example.tradelog.api.rest.exception.TradeLogException
 import com.example.tradelog.api.rest.validator.RequestValidator
 import com.example.tradelog.api.spec.model.TLDividendJournalDto
 import com.example.tradelog.api.spec.model.TLDividendTransactionsResponse
-import org.slf4j.LoggerFactory
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping(value = ["/api/v1/dividends"], produces = [DividendJournalController.PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE])
+@RequestMapping(value = ["/api/v1/dividends"],
+        produces = [DividendJournalController.PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE],
+        consumes = [DividendJournalController.PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE])
 class DividendJournalController(private val journalFacade: JournalFacade, private val journalService: DividendJournalService): DividendJournalRestInterface {
 
     companion object {
         const val PROTOBUF_MEDIA_TYPE_VALUE = "application/x-protobuf"
-        private val LOG = LoggerFactory.getLogger(DividendJournalController::class.java)
     }
 
     override fun getAllBySymbol(accountId: String, symbol: String, portfolioId: String): TLDividendTransactionsResponse {
@@ -65,7 +65,6 @@ class DividendJournalController(private val journalFacade: JournalFacade, privat
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        //TODO: HACK
         return journalFacade.deleteDividendRecord(accountId, transactionId)
                 .rightOrThrow { TradeLogException(ExceptionCode.DELETE_DIVIDEND_FAILED, it.toString()) }
     }

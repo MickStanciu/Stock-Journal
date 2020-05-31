@@ -6,6 +6,7 @@ buildscript {
     extra.set("flywayDbVersion", "6.2.0")
     extra.set("postgreSqlVersion", "42.2.9")
     extra.set("jasyptVersion", "3.0.2")
+    extra.set("kotlintestVersion", "2.0.7")
 
     repositories {
         jcenter()
@@ -14,8 +15,8 @@ buildscript {
 }
 
 plugins {
-    kotlin ("jvm") version "1.3.71" apply false
-    kotlin ("plugin.spring") version "1.3.71" apply false
+    kotlin ("jvm") version "1.3.72" apply false
+    kotlin ("plugin.spring") version "1.3.72" apply false
     id("io.spring.dependency-management") version "1.0.9.RELEASE" apply false
     id("org.springframework.boot") version "2.3.0.RELEASE" apply false
     id("com.google.protobuf") version "0.8.10" apply false
