@@ -9,7 +9,6 @@ plugins {
     kotlin("jvm")
     kotlin ("plugin.spring")
     application
-    war
     id("io.spring.dependency-management")
     id("org.springframework.boot")
     id("com.google.cloud.tools.appengine")
@@ -41,12 +40,12 @@ dependencies {
     implementation(project(":services:common"))
     implementation(project(":services:account:account-api-spec"))
 
-    providedRuntime(group = "javax.servlet", name = "javax.servlet-api", version = "3.1.0")
+//    providedRuntime(group = "javax.servlet", name = "javax.servlet-api", version = "3.1.0")
     implementation(group = "com.google.appengine", name = "appengine-api-1.0-sdk", version = "+")
     implementation(group = "org.ow2.asm", name = "asm", version = "8.0.1")
 
     implementation(group = "org.springframework.boot", name = "spring-boot-starter-web")
-    providedRuntime(group = "org.springframework.boot", name = "spring-boot-starter-jetty")
+//    providedRuntime(group = "org.springframework.boot", name = "spring-boot-starter-jetty")
 
     implementation(group = "org.springframework.boot", name = "spring-boot-starter-data-jpa")
     implementation(group = "org.springframework.boot", name = "spring-boot-starter-actuator")
@@ -76,8 +75,8 @@ sourceSets {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 tasks {
@@ -107,9 +106,9 @@ application {
     mainClassName = "com.example.account.api.AccountApiKt"
 }
 
-springBoot {
-    mainClassName = "com.example.account.api.AccountApiKt"
-}
+//springBoot {
+//    mainClassName = "com.example.account.api.AccountApiKt"
+//}
 
 appengine {
     deploy {
