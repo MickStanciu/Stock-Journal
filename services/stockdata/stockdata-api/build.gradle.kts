@@ -89,8 +89,3 @@ val compileTestKotlin: org.jetbrains.kotlin.gradle.tasks.KotlinCompile by tasks
 compileTestKotlin.kotlinOptions {
     jvmTarget = "1.8"
 }
-
-application {
-    mainClassName = "com.example.stockdata.api.StockDataApi"
-}
-

@@ -11,7 +11,7 @@ plugins {
     application
     id("io.spring.dependency-management")
     id("org.springframework.boot")
-    id("com.google.cloud.tools.appengine")
+    //id("com.google.cloud.tools.appengine")
 }
 
 repositories {
@@ -41,20 +41,21 @@ dependencies {
     implementation(project(":services:account:account-api-spec"))
 
 //    providedRuntime(group = "javax.servlet", name = "javax.servlet-api", version = "3.1.0")
-    implementation(group = "com.google.appengine", name = "appengine-api-1.0-sdk", version = "+")
-    implementation(group = "org.ow2.asm", name = "asm", version = "8.0.1")
+    // implementation(group = "com.google.appengine", name = "appengine-api-1.0-sdk", version = "+")
+    // implementation(group = "org.ow2.asm", name = "asm", version = "8.0.1")
 
     implementation(group = "org.springframework.boot", name = "spring-boot-starter-web")
+    implementation ("org.springframework.boot:spring-boot-starter-undertow")
 //    providedRuntime(group = "org.springframework.boot", name = "spring-boot-starter-jetty")
 
     implementation(group = "org.springframework.boot", name = "spring-boot-starter-data-jpa")
     implementation(group = "org.springframework.boot", name = "spring-boot-starter-actuator")
 
-    implementation(group = "com.google.cloud.sql", name = "postgres-socket-factory", version = "1.0.15")
+    // implementation(group = "com.google.cloud.sql", name = "postgres-socket-factory", version = "1.0.15")
     implementation("org.postgresql:postgresql:${postgreSqlVersion}")
     implementation("org.flywaydb:flyway-core:${flywayDbVersion}")
 
-    implementation(group = "com.github.ulisesbocchio", name = "jasypt-spring-boot-starter", version = jasyptVersion)
+    // implementation(group = "com.github.ulisesbocchio", name = "jasypt-spring-boot-starter", version = jasyptVersion)
 
     implementation("com.google.protobuf:protobuf-java-util:$protobufVersion")
     implementation("com.google.code.findbugs:jsr305:3.0.2")
@@ -102,14 +103,7 @@ compileTestKotlin.kotlinOptions {
     jvmTarget = "1.8"
 }
 
-application {
-    mainClassName = "com.example.account.api.AccountApiKt"
-}
-
-//springBoot {
-//    mainClassName = "com.example.account.api.AccountApiKt"
-//}
-
+/* 
 appengine {
     deploy {
         stopPreviousVersion = true
@@ -118,5 +112,4 @@ appengine {
         version = "v0015"
     }
 }
-
-
+*/

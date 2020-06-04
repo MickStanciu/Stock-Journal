@@ -90,7 +90,3 @@ tasks {
         }
     }
 }
-
-application {
-    mainClassName = "com.example.gateway.api.GatewayApi"
-}
