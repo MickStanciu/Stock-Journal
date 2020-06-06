@@ -11,7 +11,7 @@ class PriceModelRowMapper : RowMapper<PriceModel> {
                 symbol = rs.getString("symbol"),
                 lastClose = rs.getDouble("last_close"),
                 lastUpdatedOn = TimeConverter.fromTimestamp(rs.getTimestamp("last_updated_on")),
-                lastFailedOn = TimeConverter.fromTimestamp(rs.getTimestamp("last_failed_on")),
+                lastFailedOn = rs.getTimestamp("last_failed_on")?.let { TimeConverter.fromTimestamp(it) },
                 active = rs.getBoolean("active")
         )
     }

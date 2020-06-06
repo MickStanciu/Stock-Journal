@@ -1,8 +1,10 @@
-runtime: java11
-env: standard
-instance_class: F1
-
-service: account-api
-
+runtime: java
+env: flex
+runtime_config:
+  jdk: openjdk8
 env_variables:
   SPRING_PROFILES_ACTIVE: "prod"
+manual_scaling:
+  instances: 1
+service: account-api
+

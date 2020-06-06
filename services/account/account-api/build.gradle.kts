@@ -55,7 +55,7 @@ dependencies {
     implementation("org.postgresql:postgresql:${postgreSqlVersion}")
     implementation("org.flywaydb:flyway-core:${flywayDbVersion}")
 
-    // implementation(group = "com.github.ulisesbocchio", name = "jasypt-spring-boot-starter", version = jasyptVersion)
+    implementation(group = "com.github.ulisesbocchio", name = "jasypt-spring-boot-starter", version = jasyptVersion)
 
     implementation("com.google.protobuf:protobuf-java-util:$protobufVersion")
     implementation("com.google.code.findbugs:jsr305:3.0.2")
@@ -76,8 +76,8 @@ sourceSets {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 tasks {
