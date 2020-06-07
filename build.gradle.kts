@@ -7,6 +7,7 @@ buildscript {
     extra.set("postgreSqlVersion", "42.2.9")
     extra.set("jasyptVersion", "3.0.2")
     extra.set("kotlintestVersion", "2.0.7")
+    extra.set("isDev", System.getProperty("env") == "dev")
 
     repositories {
         jcenter()

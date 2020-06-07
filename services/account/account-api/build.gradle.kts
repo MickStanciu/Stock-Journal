@@ -5,13 +5,15 @@ description = "Account API"
 group = "com.example.account.api"
 version = "0.0.1-SNAPSHOT"
 
+var devProfile = "dev"
+
 plugins {
     kotlin("jvm")
     kotlin ("plugin.spring")
     application
     id("io.spring.dependency-management")
     id("org.springframework.boot")
-    //id("com.google.cloud.tools.appengine")
+    id("com.google.cloud.tools.appengine")
 }
 
 repositories {
@@ -25,6 +27,7 @@ val flywayDbVersion: String = rootProject.extra.get("flywayDbVersion") as String
 val jacksonVersion: String = rootProject.extra.get("jacksonVersion") as String
 val junitVersion: String = rootProject.extra.get("junitVersion") as String
 val jasyptVersion: String = rootProject.extra.get("jasyptVersion") as String
+val isDev: Boolean = rootProject.extra["isDev"] as Boolean
 
 configurations {
     all {
@@ -40,18 +43,21 @@ dependencies {
     implementation(project(":services:common"))
     implementation(project(":services:account:account-api-spec"))
 
-//    providedRuntime(group = "javax.servlet", name = "javax.servlet-api", version = "3.1.0")
-    // implementation(group = "com.google.appengine", name = "appengine-api-1.0-sdk", version = "+")
-    // implementation(group = "org.ow2.asm", name = "asm", version = "8.0.1")
+    runtimeOnly(group = "javax.servlet", name = "javax.servlet-api", version = "3.1.0")
+    implementation(group = "com.google.appengine", name = "appengine-api-1.0-sdk", version = "+")
 
     implementation(group = "org.springframework.boot", name = "spring-boot-starter-web")
-    implementation ("org.springframework.boot:spring-boot-starter-undertow")
-//    providedRuntime(group = "org.springframework.boot", name = "spring-boot-starter-jetty")
+
+    if (isDev) {
+        implementation(group = "org.springframework.boot", name = "spring-boot-starter-jetty")
+    } else {
+        runtimeOnly(group = "org.springframework.boot", name = "spring-boot-starter-jetty")
+    }
 
     implementation(group = "org.springframework.boot", name = "spring-boot-starter-data-jpa")
     implementation(group = "org.springframework.boot", name = "spring-boot-starter-actuator")
 
-    // implementation(group = "com.google.cloud.sql", name = "postgres-socket-factory", version = "1.0.15")
+    implementation(group = "com.google.cloud.sql", name = "postgres-socket-factory", version = "1.0.15")
     implementation("org.postgresql:postgresql:${postgreSqlVersion}")
     implementation("org.flywaydb:flyway-core:${flywayDbVersion}")
 
@@ -103,13 +109,11 @@ compileTestKotlin.kotlinOptions {
     jvmTarget = "1.8"
 }
 
-/* 
 appengine {
     deploy {
         stopPreviousVersion = true
         promote = true
         projectId = "pt20200316"
-        version = "v0015"
+        version = "account-v0006"
     }
 }
-*/
