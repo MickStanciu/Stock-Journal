@@ -10,7 +10,7 @@ import org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver
 import java.util.*
 
 @SpringBootApplication
-class AccountApi: SpringBootServletInitializer() {
+class AccountApi {
 
     @Bean
     fun localeResolver(): LocaleResolver? {
@@ -19,9 +19,9 @@ class AccountApi: SpringBootServletInitializer() {
         return localeResolver
     }
 
-    override fun configure(application: SpringApplicationBuilder): SpringApplicationBuilder {
-        return application.sources(AccountApi::class.java)
-    }
+    //override fun configure(application: SpringApplicationBuilder): SpringApplicationBuilder {
+     //   return application.sources(AccountApi::class.java)
+    //}
 }
 
 fun main(args: Array<String>) {

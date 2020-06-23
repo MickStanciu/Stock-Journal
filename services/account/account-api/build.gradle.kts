@@ -5,6 +5,8 @@ description = "Account API"
 group = "com.example.account.api"
 version = "0.0.1-SNAPSHOT"
 
+var devProfile = "dev"
+
 plugins {
     kotlin("jvm")
     kotlin ("plugin.spring")
@@ -25,6 +27,7 @@ val flywayDbVersion: String = rootProject.extra.get("flywayDbVersion") as String
 val jacksonVersion: String = rootProject.extra.get("jacksonVersion") as String
 val junitVersion: String = rootProject.extra.get("junitVersion") as String
 val jasyptVersion: String = rootProject.extra.get("jasyptVersion") as String
+val isDev: Boolean = rootProject.extra["isDev"] as Boolean
 
 configurations {
     all {
@@ -40,12 +43,16 @@ dependencies {
     implementation(project(":services:common"))
     implementation(project(":services:account:account-api-spec"))
 
-//    providedRuntime(group = "javax.servlet", name = "javax.servlet-api", version = "3.1.0")
+    runtimeOnly(group = "javax.servlet", name = "javax.servlet-api", version = "3.1.0")
     implementation(group = "com.google.appengine", name = "appengine-api-1.0-sdk", version = "+")
-    implementation(group = "org.ow2.asm", name = "asm", version = "8.0.1")
 
     implementation(group = "org.springframework.boot", name = "spring-boot-starter-web")
-//    providedRuntime(group = "org.springframework.boot", name = "spring-boot-starter-jetty")
+
+    if (isDev) {
+        implementation(group = "org.springframework.boot", name = "spring-boot-starter-jetty")
+    } else {
+        runtimeOnly(group = "org.springframework.boot", name = "spring-boot-starter-jetty")
+    }
 
     implementation(group = "org.springframework.boot", name = "spring-boot-starter-data-jpa")
     implementation(group = "org.springframework.boot", name = "spring-boot-starter-actuator")
@@ -75,8 +82,8 @@ sourceSets {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 tasks {
@@ -102,21 +109,11 @@ compileTestKotlin.kotlinOptions {
     jvmTarget = "1.8"
 }
 
-application {
-    mainClassName = "com.example.account.api.AccountApiKt"
-}
-
-//springBoot {
-//    mainClassName = "com.example.account.api.AccountApiKt"
-//}
-
 appengine {
     deploy {
         stopPreviousVersion = true
         promote = true
         projectId = "pt20200316"
-        version = "v0015"
+        version = "account-v0006"
     }
 }
-
-

@@ -89,7 +89,3 @@ val compileTestKotlin: KotlinCompile by tasks
 compileTestKotlin.kotlinOptions {
     jvmTarget = "1.8"
 }
-
-application {
-    mainClassName = "com.example.tradelog.api.TradeLogApi"
-}
