@@ -21,7 +21,5 @@ plugins {
     id("io.spring.dependency-management") version "1.0.9.RELEASE" apply false
     id("org.springframework.boot") version "2.3.1.RELEASE" apply false
     id("com.google.protobuf") version "0.8.10" apply false
-    id("com.google.cloud.tools.appengine") version "2.2.0" apply false
-//    id("org.gretty") version "3.0.2" apply false
 }
 
