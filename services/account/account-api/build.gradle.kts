@@ -13,7 +13,6 @@ plugins {
     application
     id("io.spring.dependency-management")
     id("org.springframework.boot")
-    id("com.google.cloud.tools.appengine")
 }
 
 repositories {
@@ -47,17 +46,11 @@ dependencies {
     implementation(group = "com.google.appengine", name = "appengine-api-1.0-sdk", version = "+")
 
     implementation(group = "org.springframework.boot", name = "spring-boot-starter-web")
-
-    if (isDev) {
-        implementation(group = "org.springframework.boot", name = "spring-boot-starter-jetty")
-    } else {
-        runtimeOnly(group = "org.springframework.boot", name = "spring-boot-starter-jetty")
-    }
+    implementation(group = "org.springframework.boot", name = "spring-boot-starter-undertow")
 
     implementation(group = "org.springframework.boot", name = "spring-boot-starter-data-jpa")
     implementation(group = "org.springframework.boot", name = "spring-boot-starter-actuator")
 
-    implementation(group = "com.google.cloud.sql", name = "postgres-socket-factory", version = "1.0.15")
     implementation("org.postgresql:postgresql:${postgreSqlVersion}")
     implementation("org.flywaydb:flyway-core:${flywayDbVersion}")
 
@@ -107,13 +100,4 @@ compileKotlin.kotlinOptions {
 val compileTestKotlin: KotlinCompile by tasks
 compileTestKotlin.kotlinOptions {
     jvmTarget = "1.8"
-}
-
-appengine {
-    deploy {
-        stopPreviousVersion = true
-        promote = true
-        projectId = "pt20200316"
-        version = "account-v0006"
-    }
 }
