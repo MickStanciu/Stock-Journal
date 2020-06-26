@@ -2,7 +2,7 @@ package com.example.tradelog.api.core.model
 
 import java.time.OffsetDateTime
 
-class OptionJournalModel(
+data class OptionJournalModel(
         val transactionDetails: TransactionModel,
         val stockPrice: Double,
         val strikePrice: Double,

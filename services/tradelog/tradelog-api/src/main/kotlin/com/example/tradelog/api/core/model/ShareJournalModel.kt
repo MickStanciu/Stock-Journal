@@ -1,6 +1,6 @@
 package com.example.tradelog.api.core.model
 
-class ShareJournalModel(
+data class ShareJournalModel(
         val transactionDetails: TransactionModel,
         val price: Double,
         val quantity: Int,

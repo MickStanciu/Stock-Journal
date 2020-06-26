@@ -3,7 +3,7 @@ package com.example.tradelog.api.core.model
 import java.math.BigDecimal
 import java.time.OffsetDateTime
 
-class ShareDataModel(
+data class ShareDataModel(
         val symbol: String,
         val lastUpdatedOn: OffsetDateTime,
         val sector: String,

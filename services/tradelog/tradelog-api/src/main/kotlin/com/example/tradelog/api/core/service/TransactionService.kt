@@ -9,14 +9,10 @@ import com.example.tradelog.api.core.model.TransactionModel
 import com.example.tradelog.api.core.model.TransactionSettingsModel
 import com.example.tradelog.api.db.repository.TransactionRepository
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class TransactionService(private val repository: TransactionRepository) {
-
-    fun getAllTradedSymbols(accountId: String, portfolioId: String): Either<ServiceError, List<String>> {
-        return repository.getUniqueSymbols(accountId, portfolioId)
-                .mapLeft(::toServiceError)
-    }
 
     fun getActiveSymbols(): Either<ServiceError, List<String>> {
         return repository.getActiveSymbols()
@@ -28,7 +24,7 @@ class TransactionService(private val repository: TransactionRepository) {
                 .mapLeft(::toServiceError)
     }
 
-    fun deleteRecord(accountId: String, transactionId: String): Either<ServiceError, Unit> {
+    fun deleteRecord(accountId: UUID, transactionId: UUID): Either<ServiceError, Unit> {
         return repository.deleteRecord(accountId, transactionId)
                 .mapLeft(::toServiceError)
     }
@@ -38,11 +34,11 @@ class TransactionService(private val repository: TransactionRepository) {
                 .mapLeft(::toServiceError)
     }
 
-    fun createRecord(model: TransactionModel): Either<ServiceError, String> {
+    fun createRecord(model: TransactionModel): Either<ServiceError, UUID> {
         val createRecord = repository.createRecord(model)
                 .mapLeft(::toServiceError)
 
-        val createSettings: (String) -> Either<ServiceError, TransactionSettingsModel> = {id ->
+        val createSettings: (UUID) -> Either<ServiceError, TransactionSettingsModel> = {id ->
             val settingsModel = TransactionSettingsModel(transactionId = id, preferredPrice = 0.0, groupSelected = true, legClosed = false)
             repository.createSettings(id, settingsModel)
                     .mapLeft(::toServiceError)
@@ -54,12 +50,12 @@ class TransactionService(private val repository: TransactionRepository) {
                 .mapRight { it.transactionId }
     }
 
-    fun deleteSettings(transactionId: String): Either<ServiceError, Unit> {
+    fun deleteSettings(transactionId: UUID): Either<ServiceError, Unit> {
         return repository.deleteSettings(transactionId)
                 .mapLeft(::toServiceError)
     }
 
-    fun getSummaryMatrix(accountId: String, portfolioId: String): Either<ServiceError, List<SummaryMatrixModel>> {
+    fun getSummaryMatrix(accountId: UUID, portfolioId: UUID): Either<ServiceError, List<SummaryMatrixModel>> {
         return repository.getSummaryMatrix(accountId, portfolioId)
                 .mapLeft(::toServiceError)
     }

@@ -4,6 +4,7 @@ import com.example.common.converter.TimeConverter
 import com.example.tradelog.api.core.model.TransactionModel
 import com.example.tradelog.api.core.model.TransactionType
 import com.example.tradelog.api.spec.model.TLTransactionDto
+import java.util.*
 
 class TransactionModelConverter {
 
@@ -11,9 +12,9 @@ class TransactionModelConverter {
 
         fun toModel(dto: TLTransactionDto): TransactionModel {
             return TransactionModel(
-                    id = dto.id,
-                    accountId = dto.accountId,
-                    portfolioId = dto.portfolioId,
+                    id = UUID.fromString(dto.id),
+                    accountId = UUID.fromString(dto.accountId),
+                    portfolioId = UUID.fromString(dto.portfolioId),
                     date = TimeConverter.toOffsetDateTime(dto.date),
                     symbol = dto.symbol,
                     type = TransactionType.lookup(dto.type.name),
@@ -24,8 +25,8 @@ class TransactionModelConverter {
 
         fun toDto(model: TransactionModel): TLTransactionDto {
             return TLTransactionDto.newBuilder()
-                    .setId(model.id)
-                    .setAccountId(model.accountId)
+                    .setId(model.id.toString())
+                    .setAccountId(model.accountId.toString())
                     .setDate(model.date.toString())
                     .setSymbol(model.symbol)
                     .setType(TLTransactionDto.TransactionType.valueOf(model.type.name))

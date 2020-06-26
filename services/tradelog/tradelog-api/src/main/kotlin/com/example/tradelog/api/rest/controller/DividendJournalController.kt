@@ -12,6 +12,7 @@ import com.example.tradelog.api.spec.model.TLDividendTransactionsResponse
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.util.*
 
 @RestController
 @RequestMapping(value = ["/api/v1/dividends"],
@@ -28,7 +29,7 @@ class DividendJournalController(private val journalFacade: JournalFacade, privat
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        val models = journalService.getAllBySymbol(accountId, portfolioId, symbol).rightOrNull() ?: emptyList()
+        val models = journalService.getAllBySymbol(UUID.fromString(accountId), UUID.fromString(portfolioId), symbol).rightOrNull() ?: emptyList()
         val dtos = models.map { DividendJournalModelConverter.toDto(it) }
 
         return TLDividendTransactionsResponse.newBuilder()
@@ -55,7 +56,7 @@ class DividendJournalController(private val journalFacade: JournalFacade, privat
         }
 
         //TODO: not sure this it.toString() works
-        return journalFacade.editDividendRecord(transactionId, DividendJournalModelConverter.toModel(dto))
+        return journalFacade.editDividendRecord(UUID.fromString(transactionId), DividendJournalModelConverter.toModel(dto))
                 .rightOrThrow { TradeLogException(ExceptionCode.EDIT_DIVIDEND_FAILED, it.toString()) }
     }
 
@@ -65,7 +66,7 @@ class DividendJournalController(private val journalFacade: JournalFacade, privat
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        return journalFacade.deleteDividendRecord(accountId, transactionId)
+        return journalFacade.deleteDividendRecord(UUID.fromString(accountId), UUID.fromString(transactionId))
                 .rightOrThrow { TradeLogException(ExceptionCode.DELETE_DIVIDEND_FAILED, it.toString()) }
     }
 }

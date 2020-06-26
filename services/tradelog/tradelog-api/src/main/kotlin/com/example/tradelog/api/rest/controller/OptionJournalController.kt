@@ -12,6 +12,7 @@ import com.example.tradelog.api.spec.model.TLOptionTransactionsResponse
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.util.*
 
 @RestController
 @RequestMapping(value = ["/api/v1/options"],
@@ -29,7 +30,7 @@ class OptionJournalController(private val journalFacade: JournalFacade, private 
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        val models = optionService.getAllBySymbol(accountId, portfolioId, symbol).rightOrNull() ?: emptyList()
+        val models = optionService.getAllBySymbol(UUID.fromString(accountId), UUID.fromString(portfolioId), symbol).rightOrNull() ?: emptyList()
         val dtos = models.map { m -> OptionJournalModelConverter.toDto(m) }
 
         return TLOptionTransactionsResponse.newBuilder()
@@ -54,7 +55,7 @@ class OptionJournalController(private val journalFacade: JournalFacade, private 
         }
 
         //TODO: not sure this it.toString() works
-        return journalFacade.editOptionRecord(transactionId, OptionJournalModelConverter.toModel(dto))
+        return journalFacade.editOptionRecord(UUID.fromString(transactionId), OptionJournalModelConverter.toModel(dto))
                 .rightOrThrow { TradeLogException(ExceptionCode.EDIT_OPTION_FAILED, it.toString()) }
     }
 
@@ -63,7 +64,7 @@ class OptionJournalController(private val journalFacade: JournalFacade, private 
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        return journalFacade.deleteOptionRecord(accountId, transactionId)
+        return journalFacade.deleteOptionRecord(UUID.fromString(accountId), UUID.fromString(transactionId))
                 .rightOrThrow { TradeLogException(ExceptionCode.DELETE_OPTION_FAILED, it.toString()) }
     }
 

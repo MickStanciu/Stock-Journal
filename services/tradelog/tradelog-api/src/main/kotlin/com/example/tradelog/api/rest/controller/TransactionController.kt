@@ -17,6 +17,7 @@ import com.example.tradelog.api.spec.model.TLTransactionSettingsDto
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.util.*
 
 @RestController
 @RequestMapping(value = ["/api/v1/transactions"],
@@ -48,7 +49,7 @@ class TransactionController(private val journalFacade: JournalFacade, private va
         }
 
         //TODO: not sure this it.toString() works
-        val summaryList = journalFacade.getSummary(accountId)
+        val summaryList = journalFacade.getSummary(UUID.fromString(accountId))
                 .rightOrThrow { TradeLogException(ExceptionCode.UNKNOWN, it.toString()) }
         return TradeSummaryConverter.toTradeSummaryResponse(summaryList)
     }
@@ -59,7 +60,7 @@ class TransactionController(private val journalFacade: JournalFacade, private va
         }
 
         //TODO: not sure this it.toString() works
-        val summaryList = journalFacade.getSummaryMatrix(accountId, portfolioId)
+        val summaryList = journalFacade.getSummaryMatrix(UUID.fromString(accountId), UUID.fromString(portfolioId))
                 .rightOrThrow { TradeLogException(ExceptionCode.UNKNOWN, it.toString()) }
         return SummaryMatrixConverter.toSummaryMatrixResponse(summaryList)
     }

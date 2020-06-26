@@ -9,7 +9,9 @@ import com.example.tradelog.api.core.service.OptionJournalService
 import com.example.tradelog.api.core.service.ShareJournalService
 import com.example.tradelog.api.core.service.TransactionService
 import org.springframework.stereotype.Service
+import java.util.*
 import java.util.stream.Collectors
+import kotlin.collections.HashMap
 
 @Service
 class JournalFacade(private val transactionService: TransactionService,
@@ -18,7 +20,7 @@ class JournalFacade(private val transactionService: TransactionService,
                     private val dividendService: DividendJournalService
 ) {
 
-    fun getSummary(accountId: String): Either<ServiceError, List<TradeSummaryModel>> {
+    fun getSummary(accountId: UUID): Either<ServiceError, List<TradeSummaryModel>> {
         //TODO: do parallel call
         //TODO: rewrite it
         val shareSummaries = shareService.getSummaries(accountId).rightOrNull() ?: return Either.Left(ServiceError.DataAccessError("Cannot get share summaries"))
@@ -67,7 +69,7 @@ class JournalFacade(private val transactionService: TransactionService,
         )
     }
 
-    fun getSummaryMatrix(accountId: String, portfolioId: String): Either<ServiceError, List<SummaryMatrixModel>> {
+    fun getSummaryMatrix(accountId: UUID, portfolioId: UUID): Either<ServiceError, List<SummaryMatrixModel>> {
         val summaryMatrixList  = transactionService.getSummaryMatrix(accountId, portfolioId)
 
         val groupedMap: (List<SummaryMatrixModel>) -> Map<Pair<Int, Int>, Double> = {
@@ -98,7 +100,7 @@ class JournalFacade(private val transactionService: TransactionService,
 
     fun createShareRecord(model: ShareJournalModel): Either<ServiceError, ShareJournalModel> {
         val createTransactionRecord = transactionService.createRecord(model.transactionDetails)
-        val createShareRecord: (String, ShareJournalModel) -> Either<ServiceError, ShareJournalModel> = { id, journalModel ->
+        val createShareRecord: (UUID, ShareJournalModel) -> Either<ServiceError, ShareJournalModel> = { id, journalModel ->
             shareService.createRecord(transactionId = id, model = journalModel)
         }
 
@@ -106,7 +108,7 @@ class JournalFacade(private val transactionService: TransactionService,
                 .bind { createShareRecord(it, model) }
     }
 
-    fun editShareRecord(transactionId: String, model: ShareJournalModel): Either<ServiceError, Unit> {
+    fun editShareRecord(transactionId: UUID, model: ShareJournalModel): Either<ServiceError, Unit> {
         if (transactionId != model.transactionDetails.id) {
             return Either.Left(ServiceError.ValidationError("Transaction ID is not valid"))
         }
@@ -115,7 +117,7 @@ class JournalFacade(private val transactionService: TransactionService,
                 .bind { shareService.editRecord(model) }
     }
 
-    fun deleteShareRecord(accountId: String, transactionId: String): Either<ServiceError, Unit> {
+    fun deleteShareRecord(accountId: UUID, transactionId: UUID): Either<ServiceError, Unit> {
         return shareService.getById(accountId, transactionId)
                 .bind { shareService.deleteRecord(transactionId) }
                 .bind { transactionService.deleteSettings(transactionId) }
@@ -125,7 +127,7 @@ class JournalFacade(private val transactionService: TransactionService,
 
     fun createOptionRecord(model: OptionJournalModel): Either<ServiceError, OptionJournalModel> {
         val createTransactionRecord = transactionService.createRecord(model.transactionDetails)
-        val createOptionRecord: (String, OptionJournalModel) -> Either<ServiceError, OptionJournalModel> = { id, journalModel ->
+        val createOptionRecord: (UUID, OptionJournalModel) -> Either<ServiceError, OptionJournalModel> = { id, journalModel ->
             optionService.createRecord(transactionId = id, model = journalModel)
         }
 
@@ -133,7 +135,7 @@ class JournalFacade(private val transactionService: TransactionService,
                 .bind { createOptionRecord(it, model) }
     }
 
-    fun editOptionRecord(transactionId: String, model: OptionJournalModel): Either<ServiceError, Unit> {
+    fun editOptionRecord(transactionId: UUID, model: OptionJournalModel): Either<ServiceError, Unit> {
         if (transactionId != model.transactionDetails.id) {
             return Either.Left(ServiceError.ValidationError("Transaction ID is not valid"))
         }
@@ -142,7 +144,7 @@ class JournalFacade(private val transactionService: TransactionService,
                 .bind { optionService.editRecord(model) }
     }
 
-    fun deleteOptionRecord(accountId: String, transactionId: String): Either<ServiceError, Unit> {
+    fun deleteOptionRecord(accountId: UUID, transactionId: UUID): Either<ServiceError, Unit> {
         return optionService.getById(accountId, transactionId)
                 .bind { optionService.deleteRecord(transactionId) }
                 .bind { transactionService.deleteSettings(transactionId) }
@@ -151,7 +153,7 @@ class JournalFacade(private val transactionService: TransactionService,
 
     fun createDividendRecord(model: DividendJournalModel): Either<ServiceError, DividendJournalModel> {
         val createTransactionRecord = transactionService.createRecord(model.transactionDetails)
-        val createDividendRecord: (String, DividendJournalModel) -> Either<ServiceError, DividendJournalModel> = { id, journalModel ->
+        val createDividendRecord: (UUID, DividendJournalModel) -> Either<ServiceError, DividendJournalModel> = { id, journalModel ->
             dividendService.createRecord(transactionId = id, model = journalModel)
         }
 
@@ -159,7 +161,7 @@ class JournalFacade(private val transactionService: TransactionService,
                 .bind { createDividendRecord(it, model) }
     }
 
-    fun editDividendRecord(transactionId: String, model: DividendJournalModel): Either<ServiceError, Unit> {
+    fun editDividendRecord(transactionId: UUID, model: DividendJournalModel): Either<ServiceError, Unit> {
         if (transactionId != model.transactionDetails.id) {
             return Either.Left(ServiceError.ValidationError("Transaction ID is not valid"))
         }
@@ -168,7 +170,7 @@ class JournalFacade(private val transactionService: TransactionService,
                 .bind { dividendService.editRecord(model) }
     }
 
-    fun deleteDividendRecord(accountId: String, transactionId: String): Either<ServiceError, Unit> {
+    fun deleteDividendRecord(accountId: UUID, transactionId: UUID): Either<ServiceError, Unit> {
         return dividendService.getById(accountId, transactionId)
                 .bind { dividendService.deleteRecord(transactionId) }
                 .bind { transactionService.deleteSettings(transactionId) }

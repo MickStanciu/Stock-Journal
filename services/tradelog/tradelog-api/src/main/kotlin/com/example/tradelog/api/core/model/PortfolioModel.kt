@@ -1,7 +1,9 @@
 package com.example.tradelog.api.core.model
 
-class PortfolioModel(
-        val id: String,
+import java.util.*
+
+data class PortfolioModel(
+        val id: UUID,
         val name: String,
         val default: Boolean
 )

@@ -9,7 +9,8 @@ class DividendModelRowMapper: RowMapper<DividendJournalModel> {
     override fun mapRow(rs: ResultSet, rowNum: Int): DividendJournalModel {
         val transactionModel = TransactionModelRowMapper(rs).invoke()
 
-        return DividendJournalModel(transactionDetails = transactionModel,
+        return DividendJournalModel(
+                transactionDetails = transactionModel,
                 dividend = rs.getDouble("dividend"),
                 quantity = rs.getInt("quantity")
         )

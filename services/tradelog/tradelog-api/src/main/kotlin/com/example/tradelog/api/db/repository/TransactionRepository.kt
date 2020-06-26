@@ -12,28 +12,17 @@ import com.example.tradelog.api.core.model.TransactionModel
 import com.example.tradelog.api.core.model.TransactionSettingsModel
 import com.example.tradelog.api.db.converter.SummaryMatrixRowMapper
 import com.example.tradelog.api.db.converter.SymbolRowMapper
-import org.slf4j.LoggerFactory
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.support.GeneratedKeyHolder
 import org.springframework.stereotype.Service
 import java.sql.Connection
 import java.sql.Statement
+import java.util.*
 
 @Service
 class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
 
     companion object {
-        private val LOG = LoggerFactory.getLogger(TransactionRepository::class.java)
-
-        //TODO: not sure this one works or it's used
-        private const val READ_SYMBOLS = """
-            SELECT DISTINCT tl.symbol
-            FROM transaction_log tl
-            INNER JOIN portfolio p ON tl.portfolio_fk = p.id
-            WHERE tl.account_fk = CAST(? AS uuid)
-            AND tl.portfolio_fk = CAST(? AS uuid)
-            ORDER BY tl.symbol;
-        """
 
         private const val READ_LAST_YEAR_SYMBOLS = """
             SELECT DISTINCT symbol
@@ -44,7 +33,7 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
 
         private const val CREATE_RECORD = """
             INSERT INTO transaction_log (account_fk, portfolio_fk, date, symbol, transaction_type_fk, broker_fees)
-                    VALUES (CAST(? AS uuid), CAST(? AS uuid), ?, ?, ?, ?);
+                    VALUES (?, ?, ?, ?, ?, ?);
         """
 
         private const val SUMMARY_MATRIX = """
@@ -61,28 +50,20 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
                 AND tl.date > date_trunc('month', CURRENT_DATE) - INTERVAL '5 year'
                 AND tl.symbol != 'XYZ'
                 AND tl.transaction_type_fk in ('OPTION', 'DIVIDEND')
-                AND tl.account_fk = CAST(? AS uuid)
-                AND tl.portfolio_fk = CAST(? AS uuid)
+                AND tl.account_fk = ?
+                AND tl.portfolio_fk = ?
             ORDER BY year, month;
         """
 
-        private const val UPDATE_RECORD = "UPDATE transaction_log SET broker_fees = ?, date = ? where id = CAST(? AS uuid) and account_fk = CAST(? AS uuid);"
+        private const val UPDATE_RECORD = "UPDATE transaction_log SET broker_fees = ?, date = ? where id = ? and account_fk = ?;"
 
-        private const val DELETE_RECORD = "DELETE FROM transaction_log WHERE id = CAST(? AS uuid) and account_fk = CAST(? AS uuid);"
+        private const val DELETE_RECORD = "DELETE FROM transaction_log WHERE id = ? and account_fk = ?;"
 
-        private const val CREATE_SETTINGS = "INSERT INTO transaction_settings_log (transaction_fk, preferred_price, group_selected, leg_closed) VALUES (CAST(? AS uuid), ?, ?, ?);"
+        private const val CREATE_SETTINGS = "INSERT INTO transaction_settings_log (transaction_fk, preferred_price, group_selected, leg_closed) VALUES (?, ?, ?, ?);"
 
-        private const val EDIT_SETTINGS = "UPDATE transaction_settings_log SET preferred_price = ?, group_selected = ?, leg_closed = ? WHERE transaction_fk = CAST(? AS uuid);"
+        private const val EDIT_SETTINGS = "UPDATE transaction_settings_log SET preferred_price = ?, group_selected = ?, leg_closed = ? WHERE transaction_fk = ?;"
 
-        private const val DELETE_SETTINGS = "DELETE FROM transaction_settings_log WHERE transaction_fk = CAST(? AS uuid);"
-    }
-
-    fun getUniqueSymbols(accountId: String, portfolioId: String): Either<DataAccessError, List<String>> {
-        val parameters = arrayOf(accountId, portfolioId)
-        return performSafeCall(
-                { jdbcTemplate.query(READ_SYMBOLS, parameters, SymbolRowMapper()) },
-                { DataAccessError.DatabaseAccessError() }
-        )
+        private const val DELETE_SETTINGS = "DELETE FROM transaction_settings_log WHERE transaction_fk = ?;"
     }
 
     fun getActiveSymbols(): Either<DataAccessError, List<String>> {
@@ -92,12 +73,12 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
         )
     }
 
-    fun createSettings(transactionId: String, model: TransactionSettingsModel): Either<DataAccessError, Unit> {
+    fun createSettings(transactionId: UUID, model: TransactionSettingsModel): Either<DataAccessError, Unit> {
         val dbResponse: Either<DataAccessError, Boolean> = performSafeCall(
                 {
                     jdbcTemplate.update { connection: Connection ->
                         val ps = connection.prepareStatement(CREATE_SETTINGS)
-                        ps.setString(1, transactionId)
+                        ps.setObject(1, transactionId, java.sql.Types.OTHER)
                         ps.setDouble(2, model.preferredPrice)
                         ps.setBoolean(3, model.groupSelected)
                         ps.setBoolean(4, model.legClosed)
@@ -126,7 +107,7 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
                         ps.setDouble(1, model.preferredPrice)
                         ps.setBoolean(2, model.groupSelected)
                         ps.setBoolean(3, model.legClosed)
-                        ps.setString(4, model.transactionId)
+                        ps.setObject(4, model.transactionId, java.sql.Types.OTHER)
                         ps
                     } == 1
                 },
@@ -145,12 +126,12 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
 
     }
 
-    fun deleteSettings(transactionId: String): Either<DataAccessError, Unit> {
+    fun deleteSettings(transactionId: UUID): Either<DataAccessError, Unit> {
         val dbResponse: Either<DataAccessError, Boolean> = performSafeCall(
                 {
                     jdbcTemplate.update { connection: Connection ->
                         val ps = connection.prepareStatement(DELETE_SETTINGS)
-                        ps.setString(1, transactionId)
+                        ps.setObject(1, transactionId, java.sql.Types.OTHER)
                         ps
                     } == 1
                 },
@@ -175,8 +156,8 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
                         val ps = connection.prepareStatement(UPDATE_RECORD)
                         ps.setDouble(1, model.brokerFees)
                         ps.setTimestamp(2, TimeConverter.fromOffsetDateTime(model.date))
-                        ps.setString(3, model.id)
-                        ps.setString(4, model.accountId)
+                        ps.setObject(3, model.id, java.sql.Types.OTHER)
+                        ps.setObject(4, model.accountId, java.sql.Types.OTHER)
                         ps
                     } == 1
                 },
@@ -194,14 +175,14 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
                 .bind(checkResponse)
     }
 
-    fun createRecord(model: TransactionModel): Either<DataAccessError, String> {
+    fun createRecord(model: TransactionModel): Either<DataAccessError, UUID> {
         val dbResponse: Either<DataAccessError, GeneratedKeyHolder> = performSafeCall(
                 {
                     val keyHolder = GeneratedKeyHolder()
                     jdbcTemplate.update({ connection: Connection ->
                         val ps = connection.prepareStatement(CREATE_RECORD, Statement.RETURN_GENERATED_KEYS)
-                        ps.setString(1, model.accountId)
-                        ps.setString(2, model.portfolioId)
+                        ps.setObject(1, model.accountId, java.sql.Types.OTHER)
+                        ps.setObject(2, model.portfolioId, java.sql.Types.OTHER)
                         ps.setTimestamp(3, TimeConverter.fromOffsetDateTime(model.date))
                         ps.setString(4, model.symbol)
                         ps.setString(5, model.type.name)
@@ -213,7 +194,7 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
                 { DataAccessError.DatabaseAccessError() }
         )
 
-        val checkResponse: (GeneratedKeyHolder) -> Either<DataAccessError, String> = { keyHolder ->
+        val checkResponse: (GeneratedKeyHolder) -> Either<DataAccessError, UUID> = { keyHolder ->
             if (keyHolder.keyList.isEmpty()) {
                 Left(DataAccessError.DatabaseAccessError("Failed to insert transaction"))
             }
@@ -222,20 +203,20 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
             if (key.trim().isEmpty()) {
                 Left(DataAccessError.DatabaseAccessError("Failed to insert transaction"))
             }
-            Right(key)
+            Right(UUID.fromString(key))
         }
 
         return dbResponse
                 .bind(checkResponse)
     }
 
-    fun deleteRecord(accountId: String, transactionId: String): Either<DataAccessError, Unit> {
+    fun deleteRecord(accountId: UUID, transactionId: UUID): Either<DataAccessError, Unit> {
         val dbResponse: Either<DataAccessError, Boolean> = performSafeCall(
                 {
                     jdbcTemplate.update { connection: Connection ->
                         val ps = connection.prepareStatement(DELETE_RECORD)
-                        ps.setString(1, transactionId)
-                        ps.setString(2, accountId)
+                        ps.setObject(1, transactionId, java.sql.Types.OTHER)
+                        ps.setObject(2, accountId, java.sql.Types.OTHER)
                         ps
                     } == 1
                 },
@@ -253,7 +234,7 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
                 .bind(checkResponse)
     }
 
-    fun getSummaryMatrix(accountId: String, portfolioId: String): Either<DataAccessError, List<SummaryMatrixModel>> {
+    fun getSummaryMatrix(accountId: UUID, portfolioId: UUID): Either<DataAccessError, List<SummaryMatrixModel>> {
         val parameters = arrayOf(accountId, portfolioId)
         return performSafeCall(
                 { jdbcTemplate.query(SUMMARY_MATRIX, parameters, SummaryMatrixRowMapper()) },

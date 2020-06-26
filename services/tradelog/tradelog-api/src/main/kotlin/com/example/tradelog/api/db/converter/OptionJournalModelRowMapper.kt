@@ -12,7 +12,8 @@ class OptionJournalModelRowMapper: RowMapper<OptionJournalModel> {
     override fun mapRow(rs: ResultSet, rowNum: Int): OptionJournalModel {
         val transactionModel = TransactionModelRowMapper(rs).invoke()
 
-        return OptionJournalModel(transactionDetails = transactionModel,
+        return OptionJournalModel(
+                transactionDetails = transactionModel,
                 stockPrice = rs.getDouble("stock_price"),
                 strikePrice = rs.getDouble("strike_price"),
                 expiryDate = TimeConverter.fromTimestamp(rs.getTimestamp("expiry_date")),

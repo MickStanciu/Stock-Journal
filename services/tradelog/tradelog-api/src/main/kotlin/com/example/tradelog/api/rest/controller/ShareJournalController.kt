@@ -12,6 +12,7 @@ import com.example.tradelog.api.spec.model.TLShareTransactionsResponse
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.util.*
 
 @RestController
 @RequestMapping(value = ["/api/v1/shares"],
@@ -29,7 +30,7 @@ class ShareJournalController(private val journalFacade: JournalFacade, private v
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        val models = shareService.getAllBySymbol(accountId, portfolioId, symbol).rightOrNull() ?: emptyList()
+        val models = shareService.getAllBySymbol(UUID.fromString(accountId), UUID.fromString(portfolioId), symbol).rightOrNull() ?: emptyList()
         val dtos = models.map { m -> ShareJournalModelConverter.toDto(m) }
 
         return TLShareTransactionsResponse.newBuilder()
@@ -58,7 +59,7 @@ class ShareJournalController(private val journalFacade: JournalFacade, private v
         }
 
         //TODO: not sure this it.toString() works
-        return journalFacade.editShareRecord(transactionId, ShareJournalModelConverter.toModel(dto))
+        return journalFacade.editShareRecord(UUID.fromString(transactionId), ShareJournalModelConverter.toModel(dto))
                 .rightOrThrow { TradeLogException(ExceptionCode.EDIT_SHARE_FAILED, it.toString()) }
     }
 
@@ -69,7 +70,7 @@ class ShareJournalController(private val journalFacade: JournalFacade, private v
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        return journalFacade.deleteShareRecord(accountId, transactionId)
+        return journalFacade.deleteShareRecord(UUID.fromString(accountId), UUID.fromString(transactionId))
                 .rightOrThrow { TradeLogException(ExceptionCode.DELETE_SHARE_FAILED, it.toString()) }
     }
 }

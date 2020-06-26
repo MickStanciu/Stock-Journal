@@ -12,6 +12,7 @@ import com.example.tradelog.api.spec.model.TLPortfolioResponse
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.util.*
 
 @RestController
 @RequestMapping(value = ["/api/v1/portfolios"],
@@ -29,7 +30,7 @@ class PortfolioController(private val portfolioService: PortfolioService): Portf
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        val portfolioModels = portfolioService.getPortfolios(accountId).rightOrNull() ?: emptyList()
+        val portfolioModels = portfolioService.getPortfolios(UUID.fromString(accountId)).rightOrNull() ?: emptyList()
         val portfolioDtos = portfolioModels.map { PortfolioModelConverter.toDto(it) }
 
         return TLPortfolioResponse.newBuilder()
@@ -42,7 +43,7 @@ class PortfolioController(private val portfolioService: PortfolioService): Portf
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        val model = portfolioService.getDefaultPortfolio(accountId).rightOrNull()
+        val model = portfolioService.getDefaultPortfolio(UUID.fromString(accountId)).rightOrNull()
                 ?: throw TradeLogException(ExceptionCode.NO_DEFAULT_PORTFOLIO)
 
         return PortfolioModelConverter.toDto(model = model)

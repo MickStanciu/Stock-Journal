@@ -1,5 +1,5 @@
 package com.example.tradelog.api.core.model
 
-class HealthModel(
+data class HealthModel(
         var firstRecordOk: Boolean
 )

@@ -9,7 +9,7 @@ class PortfolioModelConverter {
 
         fun toDto(model: PortfolioModel): TLPortfolioDto {
             return TLPortfolioDto.newBuilder()
-                    .setId(model.id)
+                    .setId(model.id.toString())
                     .setName(model.name)
                     .setIsDefault(model.default)
                     .build()

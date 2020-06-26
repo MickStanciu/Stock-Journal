@@ -2,6 +2,7 @@ package com.example.tradelog.api.rest.converter
 
 import com.example.tradelog.api.core.model.TransactionSettingsModel
 import com.example.tradelog.api.spec.model.TLTransactionSettingsDto
+import java.util.*
 
 
 class TransactionSettingsModelConverter {
@@ -10,7 +11,7 @@ class TransactionSettingsModelConverter {
 
         fun toModel(dto: TLTransactionSettingsDto): TransactionSettingsModel {
             return TransactionSettingsModel(
-                    transactionId = dto.transactionId,
+                    transactionId = UUID.fromString(dto.transactionId),
                     preferredPrice = dto.preferredPrice,
                     groupSelected = dto.groupSelected,
                     legClosed = dto.legClosed
@@ -19,7 +20,7 @@ class TransactionSettingsModelConverter {
 
         fun toDto(model: TransactionSettingsModel): TLTransactionSettingsDto {
             return TLTransactionSettingsDto.newBuilder()
-                    .setTransactionId(model.transactionId)
+                    .setTransactionId(model.transactionId.toString())
                     .setPreferredPrice(model.preferredPrice)
                     .setGroupSelected(model.groupSelected)
                     .setLegClosed(model.legClosed)

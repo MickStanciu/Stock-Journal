@@ -10,28 +10,28 @@ import com.example.tradelog.api.core.model.PortfolioModel
 import com.example.tradelog.api.db.converter.PortfolioMapper
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Service
+import java.util.*
 
 @Service
 class PortfolioRepository(private val jdbcTemplate: JdbcTemplate) {
 
     companion object {
-
         private const val READ_PORTFOLIOS = """
             SELECT id, name, is_default
             FROM portfolio
-            WHERE account_fk = CAST(? AS uuid)
+            WHERE account_fk = ?
             ORDER BY (case when is_default then 1 end), name;
         """
 
         private const val READ_DEFAULT_PORTFOLIO = """
             SELECT id, name, is_default
             FROM portfolio
-            WHERE account_fk = CAST(? AS uuid)
+            WHERE account_fk = ?
             AND is_default = true
         """
     }
 
-    fun getPortfolios(accountId: String): Either<DataAccessError, List<PortfolioModel>> {
+    fun getPortfolios(accountId: UUID): Either<DataAccessError, List<PortfolioModel>> {
         val parameters = arrayOf(accountId)
 
         return performSafeCall(
@@ -40,7 +40,7 @@ class PortfolioRepository(private val jdbcTemplate: JdbcTemplate) {
         )
     }
 
-    fun getDefaultPortfolio(accountId: String): Either<DataAccessError, PortfolioModel> {
+    fun getDefaultPortfolio(accountId: UUID): Either<DataAccessError, PortfolioModel> {
         val parameters = arrayOf(accountId)
 
         val dbResponse: Either<DataAccessError, List<PortfolioModel>> = performSafeCall(

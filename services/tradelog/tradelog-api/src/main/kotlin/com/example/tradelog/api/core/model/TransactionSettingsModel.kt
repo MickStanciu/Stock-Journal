@@ -1,7 +1,9 @@
 package com.example.tradelog.api.core.model
 
-class TransactionSettingsModel(
-        val transactionId: String,
+import java.util.*
+
+data class TransactionSettingsModel(
+        val transactionId: UUID,
         val preferredPrice: Double,
         val groupSelected: Boolean,
         val legClosed: Boolean)
