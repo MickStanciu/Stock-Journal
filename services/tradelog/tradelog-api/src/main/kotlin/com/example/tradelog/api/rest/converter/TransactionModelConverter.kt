@@ -12,7 +12,7 @@ class TransactionModelConverter {
 
         fun toModel(dto: TLTransactionDto): TransactionModel {
             return TransactionModel(
-                    id = UUID.fromString(dto.id),
+                    id = if (dto.id == null || dto.id.isEmpty()) { UUID.randomUUID() } else { UUID.fromString(dto.id) },
                     accountId = UUID.fromString(dto.accountId),
                     portfolioId = UUID.fromString(dto.portfolioId),
                     date = TimeConverter.toOffsetDateTime(dto.date),

@@ -11,7 +11,7 @@ class TransactionSettingsModelConverter {
 
         fun toModel(dto: TLTransactionSettingsDto): TransactionSettingsModel {
             return TransactionSettingsModel(
-                    transactionId = UUID.fromString(dto.transactionId),
+                    transactionId = if (dto.transactionId == null || dto.transactionId.isEmpty()) { UUID.randomUUID() } else { UUID.fromString(dto.transactionId) },
                     preferredPrice = dto.preferredPrice,
                     groupSelected = dto.groupSelected,
                     legClosed = dto.legClosed
