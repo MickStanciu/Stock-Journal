@@ -14,19 +14,8 @@ include (":services:stockdata:stockdata-api")
 include (":services:gateway:gateway-api-spec")
 include (":services:gateway:gateway-api")
 
-//include (":services:web")
-
-
 pluginManagement {
     repositories {
         gradlePluginPortal()
-        google()
-    }
-    resolutionStrategy {
-        eachPlugin {
-            if (requested.id.id == "com.google.cloud.tools.appengine") {
-                useModule("com.google.cloud.tools:appengine-gradle-plugin:${requested.version}")
-            }
-        }
     }
 }

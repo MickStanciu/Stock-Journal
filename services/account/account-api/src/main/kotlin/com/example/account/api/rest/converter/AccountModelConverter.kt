@@ -8,7 +8,7 @@ class AccountModelConverter {
     companion object {
         fun toDto(model: AccountModel): AAccountDto  {
             return AAccountDto.newBuilder()
-                    .setId(model.id)
+                    .setId(model.id.toString())
                     .setActive(model.active)
                     .setEmail(model.email)
                     .setDisplayName(model.displayName)
