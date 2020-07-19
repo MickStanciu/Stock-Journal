@@ -14,7 +14,7 @@ RUN rm -f /tmp/openjdk-11+28_linux-x64_bin.tar.gz
 # prepare java env
 ENV JAVA_HOME="/usr/lib/jvm/jdk-11/bin"
 
-EXPOSE 8083
+EXPOSE 8082
 
 # copy java app
 VOLUME /tmp
