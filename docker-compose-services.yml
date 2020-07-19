@@ -1,0 +1,50 @@
+version: '3.7'
+services:
+
+  gateway-api:
+    build:
+      context: ./
+      dockerfile: ./docker/gateway-api/Dockerfile
+    image: gateway-api
+    container_name: gateway-api
+    ports:
+      - "8085:8080"
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+    depends_on:
+      - tradelog-api
+      - stockdata-api
+      - account-api
+
+  tradelog-api:
+    build:
+      context: ./
+      dockerfile: ./docker/tradelog-api/Dockerfile
+    image: tradelog-api
+    container_name: tradelog-api
+    ports:
+      - "8083:8080"
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+
+  account-api:
+    build:
+      context: ./
+      dockerfile: ./docker/account-api/Dockerfile
+    image: accountapi
+    container_name: account-api
+    ports:
+      - "8082:8080"
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
+
+  stockdata-api:
+    build:
+      context: ./
+      dockerfile: ./docker/stockdata-api/Dockerfile
+    image: stockdata-api
+    container_name: stockdata-api
+    ports:
+      - "8086:8080"
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
