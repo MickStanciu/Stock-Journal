@@ -3,7 +3,7 @@ import router from './router'
 
 let portfolioId = '99ca7bad-196e-4122-9d3e-f3b445db980d';
 
-axios.defaults.baseURL = 'http://gateway-api:8085/api/v1';
+axios.defaults.baseURL = 'http://localhost:8085/api/v1';
 
 axios.interceptors.response.use(
     (response) => {
