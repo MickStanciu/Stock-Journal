@@ -42,9 +42,6 @@ dependencies {
     implementation(project(":services:common"))
     implementation(project(":services:account:account-api-spec"))
 
-    runtimeOnly(group = "javax.servlet", name = "javax.servlet-api", version = "3.1.0")
-    implementation(group = "com.google.appengine", name = "appengine-api-1.0-sdk", version = "+")
-
     implementation(group = "org.springframework.boot", name = "spring-boot-starter-web")
     implementation(group = "org.springframework.boot", name = "spring-boot-starter-undertow")
 
