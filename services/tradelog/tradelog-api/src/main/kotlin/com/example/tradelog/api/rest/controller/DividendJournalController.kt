@@ -1,5 +1,6 @@
 package com.example.tradelog.api.rest.controller
 
+import arrow.core.getOrElse
 import com.example.tradelog.api.core.facade.JournalFacade
 import com.example.tradelog.api.core.service.DividendJournalService
 import com.example.tradelog.api.rest.DividendJournalRestInterface
@@ -29,7 +30,7 @@ class DividendJournalController(private val journalFacade: JournalFacade, privat
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        val models = journalService.getAllBySymbol(UUID.fromString(accountId), UUID.fromString(portfolioId), symbol).rightOrNull() ?: emptyList()
+        val models = journalService.getAllBySymbol(UUID.fromString(accountId), UUID.fromString(portfolioId), symbol).orNull() ?: emptyList()
         val dtos = models.map { DividendJournalModelConverter.toDto(it) }
 
         return TLDividendTransactionsResponse.newBuilder()
@@ -45,8 +46,8 @@ class DividendJournalController(private val journalFacade: JournalFacade, privat
 
         //TODO: not sure this it.toString() works
         return journalFacade.createDividendRecord(DividendJournalModelConverter.toModel(dto))
-                .mapRight { DividendJournalModelConverter.toDto(it) }
-                .rightOrThrow { TradeLogException(ExceptionCode.CREATE_DIVIDEND_FAILED, it.toString()) }
+                .map { DividendJournalModelConverter.toDto(it) }
+                .getOrElse { TradeLogException(ExceptionCode.CREATE_DIVIDEND_FAILED, it.toString()) }
     }
 
 

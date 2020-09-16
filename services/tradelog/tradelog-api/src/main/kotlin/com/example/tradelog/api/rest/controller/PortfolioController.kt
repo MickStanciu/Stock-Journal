@@ -30,7 +30,7 @@ class PortfolioController(private val portfolioService: PortfolioService): Portf
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        val portfolioModels = portfolioService.getPortfolios(UUID.fromString(accountId)).rightOrNull() ?: emptyList()
+        val portfolioModels = portfolioService.getPortfolios(UUID.fromString(accountId)).orNull() ?: emptyList()
         val portfolioDtos = portfolioModels.map { PortfolioModelConverter.toDto(it) }
 
         return TLPortfolioResponse.newBuilder()
@@ -43,7 +43,7 @@ class PortfolioController(private val portfolioService: PortfolioService): Portf
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        val model = portfolioService.getDefaultPortfolio(UUID.fromString(accountId)).rightOrNull()
+        val model = portfolioService.getDefaultPortfolio(UUID.fromString(accountId)).orNull()
                 ?: throw TradeLogException(ExceptionCode.NO_DEFAULT_PORTFOLIO)
 
         return PortfolioModelConverter.toDto(model = model)

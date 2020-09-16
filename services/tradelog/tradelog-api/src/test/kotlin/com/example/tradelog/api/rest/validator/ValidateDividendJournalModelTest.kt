@@ -9,6 +9,29 @@ import java.time.OffsetDateTime
 
 class ValidateDividendJournalModelTest {
 
+    @Test fun plm() {
+
+        val text = """
+            >>>>>>>>> 
+            SELECT p.*
+            FROM fts_properties p
+            WHERE p.org_name = :orgName
+              AND p.address ILIKE :fullTextSearchQueryString
+              AND (p.agent_id IN (:agentUserIds) OR p.secondary_agent_id IN (:agentUserIds) OR p.sales_assistant_id IN (:agentUserIds))
+              AND 1 = 1
+              AND 1 = 1
+              AND 1 = 1
+              AND 1 = 1
+              AND 1 = 1
+              
+              LIMIT 20
+            >>>>>>>>> 
+        """.trimIndent()
+
+        println(text)
+        println(text.replace("  \n", ""))
+    }
+
     @Test
     fun testValidateDividendJournalModelWhenDividendIsNegative() {
         val transactionSettingsDto = TLTransactionSettingsDto.newBuilder()

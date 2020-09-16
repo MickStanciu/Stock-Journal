@@ -35,7 +35,7 @@ class TransactionController(private val journalFacade: JournalFacade, private va
         Return the unique symbols that have been traded during last year
     */
     override fun getAllActiveSymbols(): TLActiveSymbolsResponse {
-        val symbols = transactionService.getActiveSymbols().rightOrNull() ?: emptyList()
+        val symbols = transactionService.getActiveSymbols().orNull() ?: emptyList()
 
         return TLActiveSymbolsResponse.newBuilder()
                 .addAllSymbols(symbols)

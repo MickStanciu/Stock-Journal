@@ -30,7 +30,7 @@ class OptionJournalController(private val journalFacade: JournalFacade, private 
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        val models = optionService.getAllBySymbol(UUID.fromString(accountId), UUID.fromString(portfolioId), symbol).rightOrNull() ?: emptyList()
+        val models = optionService.getAllBySymbol(UUID.fromString(accountId), UUID.fromString(portfolioId), symbol).orNull() ?: emptyList()
         val dtos = models.map { m -> OptionJournalModelConverter.toDto(m) }
 
         return TLOptionTransactionsResponse.newBuilder()
@@ -45,7 +45,7 @@ class OptionJournalController(private val journalFacade: JournalFacade, private 
 
         //TODO: not sure this it.toString() works
         return journalFacade.createOptionRecord(OptionJournalModelConverter.toModel(dto))
-                .mapRight { OptionJournalModelConverter.toDto(it) }
+                .map { OptionJournalModelConverter.toDto(it) }
                 .rightOrThrow { TradeLogException(ExceptionCode.CREATE_OPTION_FAILED, it.toString()) }
     }
 

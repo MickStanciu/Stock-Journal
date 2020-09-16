@@ -1,10 +1,8 @@
 package com.example.tradelog.api.db.repository
 
+import arrow.core.Either
+import arrow.core.flatMap
 import com.example.common.repository.DataAccessError
-import com.example.common.types.Either
-import com.example.common.types.Either.Companion.bind
-import com.example.common.types.Either.Left
-import com.example.common.types.Either.Right
 import com.example.common.utils.performSafeCall
 import com.example.tradelog.api.core.model.PortfolioModel
 import com.example.tradelog.api.db.converter.PortfolioMapper
@@ -50,13 +48,13 @@ class PortfolioRepository(private val jdbcTemplate: JdbcTemplate) {
 
         val checkResponse: (List<PortfolioModel>) -> Either<DataAccessError, PortfolioModel> = { models ->
             if (models.size == 1)
-                Right(models[0])
+                Either.Right(models[0])
             else
-                Left(DataAccessError.DatabaseAccessError())
+                Either.Left(DataAccessError.DatabaseAccessError())
 
         }
 
         return dbResponse
-                .bind(checkResponse)
+                .flatMap(checkResponse)
     }
 }

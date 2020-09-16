@@ -1,7 +1,7 @@
 package com.example.tradelog.api.core.service
 
+import arrow.core.Either
 import com.example.common.service.ServiceError
-import com.example.common.types.Either
 import com.example.tradelog.api.core.model.TradeSummaryModel
 import java.util.*
 

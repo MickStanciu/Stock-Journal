@@ -1,8 +1,8 @@
 package com.example.tradelog.api.core.facade
 
+import arrow.core.Either
+import arrow.core.flatMap
 import com.example.common.service.ServiceError
-import com.example.common.types.Either
-import com.example.common.types.Either.Companion.bind
 import com.example.tradelog.api.core.model.*
 import com.example.tradelog.api.core.service.DividendJournalService
 import com.example.tradelog.api.core.service.OptionJournalService
@@ -23,9 +23,9 @@ class JournalFacade(private val transactionService: TransactionService,
     fun getSummary(accountId: UUID): Either<ServiceError, List<TradeSummaryModel>> {
         //TODO: do parallel call
         //TODO: rewrite it
-        val shareSummaries = shareService.getSummaries(accountId).rightOrNull() ?: return Either.Left(ServiceError.DataAccessError("Cannot get share summaries"))
-        val optionSummaries = optionService.getSummaries(accountId).rightOrNull() ?: return Either.Left(ServiceError.DataAccessError("Cannot get option summaries"))
-        val dividendSummaries = dividendService.getSummaries(accountId).rightOrNull() ?: return Either.Left(ServiceError.DataAccessError("Cannot get dividend summaries"))
+        val shareSummaries = shareService.getSummaries(accountId).orNull() ?: return Either.Left(ServiceError.DataAccessError("Cannot get share summaries"))
+        val optionSummaries = optionService.getSummaries(accountId).orNull() ?: return Either.Left(ServiceError.DataAccessError("Cannot get option summaries"))
+        val dividendSummaries = dividendService.getSummaries(accountId).orNull() ?: return Either.Left(ServiceError.DataAccessError("Cannot get dividend summaries"))
 
         val summaryModelMap: HashMap<String, TradeSummaryModel> = HashMap()
 
@@ -77,8 +77,8 @@ class JournalFacade(private val transactionService: TransactionService,
         }
 
         return summaryMatrixList
-                .mapRight { groupedMap(it) }
-                .mapRight {
+                .map { groupedMap(it) }
+                .map {
                     it.entries.map { entry -> SummaryMatrixModel(year = entry.key.first, month = entry.key.second, total = entry.value) }
                 }
     }
@@ -105,7 +105,7 @@ class JournalFacade(private val transactionService: TransactionService,
         }
 
         return createTransactionRecord
-                .bind { createShareRecord(it, model) }
+                .flatMap { createShareRecord(it, model) }
     }
 
     fun editShareRecord(transactionId: UUID, model: ShareJournalModel): Either<ServiceError, Unit> {
@@ -114,14 +114,14 @@ class JournalFacade(private val transactionService: TransactionService,
         }
 
         return transactionService.editRecord(model.transactionDetails)
-                .bind { shareService.editRecord(model) }
+                .flatMap { shareService.editRecord(model) }
     }
 
     fun deleteShareRecord(accountId: UUID, transactionId: UUID): Either<ServiceError, Unit> {
         return shareService.getById(accountId, transactionId)
-                .bind { shareService.deleteRecord(transactionId) }
-                .bind { transactionService.deleteSettings(transactionId) }
-                .bind { transactionService.deleteRecord(accountId, transactionId) }
+                .flatMap { shareService.deleteRecord(transactionId) }
+                .flatMap { transactionService.deleteSettings(transactionId) }
+                .flatMap { transactionService.deleteRecord(accountId, transactionId) }
     }
 
 
@@ -132,7 +132,7 @@ class JournalFacade(private val transactionService: TransactionService,
         }
 
         return createTransactionRecord
-                .bind { createOptionRecord(it, model) }
+                .flatMap { createOptionRecord(it, model) }
     }
 
     fun editOptionRecord(transactionId: UUID, model: OptionJournalModel): Either<ServiceError, Unit> {
@@ -141,14 +141,14 @@ class JournalFacade(private val transactionService: TransactionService,
         }
 
         return transactionService.editRecord(model.transactionDetails)
-                .bind { optionService.editRecord(model) }
+                .flatMap { optionService.editRecord(model) }
     }
 
     fun deleteOptionRecord(accountId: UUID, transactionId: UUID): Either<ServiceError, Unit> {
         return optionService.getById(accountId, transactionId)
-                .bind { optionService.deleteRecord(transactionId) }
-                .bind { transactionService.deleteSettings(transactionId) }
-                .bind { transactionService.deleteRecord(accountId, transactionId) }
+                .flatMap { optionService.deleteRecord(transactionId) }
+                .flatMap { transactionService.deleteSettings(transactionId) }
+                .flatMap { transactionService.deleteRecord(accountId, transactionId) }
     }
 
     fun createDividendRecord(model: DividendJournalModel): Either<ServiceError, DividendJournalModel> {
@@ -158,7 +158,7 @@ class JournalFacade(private val transactionService: TransactionService,
         }
 
         return createTransactionRecord
-                .bind { createDividendRecord(it, model) }
+                .flatMap { createDividendRecord(it, model) }
     }
 
     fun editDividendRecord(transactionId: UUID, model: DividendJournalModel): Either<ServiceError, Unit> {
@@ -167,13 +167,13 @@ class JournalFacade(private val transactionService: TransactionService,
         }
 
         return transactionService.editRecord(model.transactionDetails)
-                .bind { dividendService.editRecord(model) }
+                .flatMap { dividendService.editRecord(model) }
     }
 
     fun deleteDividendRecord(accountId: UUID, transactionId: UUID): Either<ServiceError, Unit> {
         return dividendService.getById(accountId, transactionId)
-                .bind { dividendService.deleteRecord(transactionId) }
-                .bind { transactionService.deleteSettings(transactionId) }
-                .bind { transactionService.deleteRecord(accountId, transactionId) }
+                .flatMap { dividendService.deleteRecord(transactionId) }
+                .flatMap { transactionService.deleteSettings(transactionId) }
+                .flatMap { transactionService.deleteRecord(accountId, transactionId) }
     }
 }

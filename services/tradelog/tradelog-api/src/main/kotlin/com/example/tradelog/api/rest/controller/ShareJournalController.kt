@@ -30,7 +30,7 @@ class ShareJournalController(private val journalFacade: JournalFacade, private v
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        val models = shareService.getAllBySymbol(UUID.fromString(accountId), UUID.fromString(portfolioId), symbol).rightOrNull() ?: emptyList()
+        val models = shareService.getAllBySymbol(UUID.fromString(accountId), UUID.fromString(portfolioId), symbol).orNull() ?: emptyList()
         val dtos = models.map { m -> ShareJournalModelConverter.toDto(m) }
 
         return TLShareTransactionsResponse.newBuilder()
@@ -47,7 +47,7 @@ class ShareJournalController(private val journalFacade: JournalFacade, private v
 
         //TODO: not sure this it.toString() works
         return journalFacade.createShareRecord(ShareJournalModelConverter.toModel(dto))
-                .mapRight { ShareJournalModelConverter.toDto(it) }
+                .map { ShareJournalModelConverter.toDto(it) }
                 .rightOrThrow { TradeLogException(ExceptionCode.CREATE_SHARE_FAILED, it.toString()) }
     }
 

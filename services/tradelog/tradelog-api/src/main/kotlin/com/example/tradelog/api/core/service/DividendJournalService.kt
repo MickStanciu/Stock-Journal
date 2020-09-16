@@ -1,9 +1,9 @@
 package com.example.tradelog.api.core.service
 
+import arrow.core.Either
+import arrow.core.flatMap
 import com.example.common.service.ServiceError
 import com.example.common.service.toServiceError
-import com.example.common.types.Either
-import com.example.common.types.Either.Companion.bind
 import com.example.tradelog.api.core.converter.TradeSummaryUtil
 import com.example.tradelog.api.core.model.DividendJournalModel
 import com.example.tradelog.api.core.model.TradeSummaryModel
@@ -17,7 +17,7 @@ class DividendJournalService(private val repository: DividendJournalRepository):
     override fun getSummaries(accountId: UUID): Either<ServiceError, Map<String, TradeSummaryModel>> {
         return repository.getSummaries(accountId)
                 .mapLeft(::toServiceError)
-                .mapRight { TradeSummaryUtil.toMap(it) }
+                .map { TradeSummaryUtil.toMap(it) }
     }
 
     override fun getAllBySymbol(accountId: UUID, portfolioId: UUID, symbol: String): Either<ServiceError, List<DividendJournalModel>> {
@@ -35,7 +35,7 @@ class DividendJournalService(private val repository: DividendJournalRepository):
         }
 
         return createRecord
-                .bind(readRecord)
+                .flatMap(readRecord)
     }
 
     override fun editRecord(model: DividendJournalModel): Either<ServiceError, Unit> {
