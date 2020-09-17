@@ -1,5 +1,6 @@
 package com.example.tradelog.api.rest.controller
 
+import arrow.core.getOrElse
 import com.example.tradelog.api.core.facade.JournalFacade
 import com.example.tradelog.api.core.service.ShareJournalService
 import com.example.tradelog.api.rest.ShareJournalRestInterface
@@ -48,7 +49,7 @@ class ShareJournalController(private val journalFacade: JournalFacade, private v
         //TODO: not sure this it.toString() works
         return journalFacade.createShareRecord(ShareJournalModelConverter.toModel(dto))
                 .map { ShareJournalModelConverter.toDto(it) }
-                .rightOrThrow { TradeLogException(ExceptionCode.CREATE_SHARE_FAILED, it.toString()) }
+                .getOrElse { throw TradeLogException(ExceptionCode.CREATE_SHARE_FAILED) }
     }
 
 
@@ -60,7 +61,7 @@ class ShareJournalController(private val journalFacade: JournalFacade, private v
 
         //TODO: not sure this it.toString() works
         return journalFacade.editShareRecord(UUID.fromString(transactionId), ShareJournalModelConverter.toModel(dto))
-                .rightOrThrow { TradeLogException(ExceptionCode.EDIT_SHARE_FAILED, it.toString()) }
+                .getOrElse { throw TradeLogException(ExceptionCode.EDIT_SHARE_FAILED) }
     }
 
 
@@ -71,6 +72,6 @@ class ShareJournalController(private val journalFacade: JournalFacade, private v
         }
 
         return journalFacade.deleteShareRecord(UUID.fromString(accountId), UUID.fromString(transactionId))
-                .rightOrThrow { TradeLogException(ExceptionCode.DELETE_SHARE_FAILED, it.toString()) }
+                .getOrElse { throw TradeLogException(ExceptionCode.DELETE_SHARE_FAILED) }
     }
 }
