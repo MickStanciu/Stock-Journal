@@ -1,10 +1,8 @@
 package com.example.tradelog.api.db.repository
 
+import arrow.core.Either
+import arrow.core.extensions.either.monad.flatMap
 import com.example.common.repository.DataAccessError
-import com.example.common.types.Either
-import com.example.common.types.Either.Companion.bind
-import com.example.common.types.Either.Left
-import com.example.common.types.Either.Right
 import com.example.common.utils.performSafeCall
 import com.example.tradelog.api.core.model.ShareJournalModel
 import com.example.tradelog.api.core.model.TradeSummaryModel
@@ -113,13 +111,13 @@ class ShareJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalRe
 
         val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
             when (it) {
-                true -> Right(Unit)
-                false -> Left(DataAccessError.DatabaseAccessError())
+                true -> Either.Right(Unit)
+                false -> Either.Left(DataAccessError.DatabaseAccessError())
             }
         }
 
         return dbResponse
-                .bind(checkResponse)
+                .flatMap(checkResponse)
     }
 
     override fun getById(accountId: UUID, transactionId: UUID): Either<DataAccessError, ShareJournalModel> {
@@ -132,13 +130,13 @@ class ShareJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalRe
 
         val checkSize: (List<ShareJournalModel>) -> Either<DataAccessError, ShareJournalModel> = {
             when (it.size == 1) {
-                true -> Right(it[0])
-                false -> Left(DataAccessError.RecordNotFound("Couldn't find share record with id $transactionId"))
+                true -> Either.Right(it[0])
+                false -> Either.Left(DataAccessError.RecordNotFound("Couldn't find share record with id $transactionId"))
             }
         }
 
         return dbResponse
-                .bind(checkSize)
+                .flatMap(checkSize)
 
     }
 
@@ -167,13 +165,13 @@ class ShareJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalRe
 
         val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
             when (it) {
-                true -> Right(Unit)
-                false -> Left(DataAccessError.DatabaseAccessError())
+                true -> Either.Right(Unit)
+                false -> Either.Left(DataAccessError.DatabaseAccessError())
             }
         }
 
         return dbResponse
-                .bind(checkResponse)
+                .flatMap(checkResponse)
     }
 
     override fun deleteRecord(transactionId: UUID): Either<DataAccessError, Unit> {
@@ -190,12 +188,12 @@ class ShareJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalRe
 
         val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
             when (it) {
-                true -> Right(Unit)
-                false -> Left(DataAccessError.DatabaseAccessError())
+                true -> Either.Right(Unit)
+                false -> Either.Left(DataAccessError.DatabaseAccessError())
             }
         }
 
         return dbResponse
-            .bind(checkResponse)
+            .flatMap(checkResponse)
     }
 }

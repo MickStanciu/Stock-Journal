@@ -23,6 +23,7 @@ val postgreSqlVersion: String = rootProject.extra.get("postgreSqlVersion") as St
 val flywayDbVersion: String = rootProject.extra.get("flywayDbVersion") as String
 val jacksonVersion: String = rootProject.extra.get("jacksonVersion") as String
 val junitVersion: String = rootProject.extra.get("junitVersion") as String
+val arrowVersion: String = rootProject.extra["arrowVersion"] as String
 
 configurations {
     all {
@@ -48,6 +49,8 @@ dependencies {
     implementation ("com.google.code.findbugs:jsr305:3.0.2")
     implementation ("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation ("com.fasterxml.jackson.core:jackson-databind:2.10.0")
+
+    implementation("io.arrow-kt:arrow-core:$arrowVersion")
 
     runtimeOnly("org.springframework.boot:spring-boot-devtools")
 

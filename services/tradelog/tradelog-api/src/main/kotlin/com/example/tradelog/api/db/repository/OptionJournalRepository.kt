@@ -1,11 +1,9 @@
 package com.example.tradelog.api.db.repository
 
+import arrow.core.Either
+import arrow.core.flatMap
 import com.example.common.converter.TimeConverter
 import com.example.common.repository.DataAccessError
-import com.example.common.types.Either
-import com.example.common.types.Either.Companion.bind
-import com.example.common.types.Either.Left
-import com.example.common.types.Either.Right
 import com.example.common.utils.performSafeCall
 import com.example.tradelog.api.core.model.OptionJournalModel
 import com.example.tradelog.api.core.model.TradeSummaryModel
@@ -131,13 +129,13 @@ class OptionJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalR
 
         val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
             when (it) {
-                true -> Right(Unit)
-                false -> Left(DataAccessError.DatabaseAccessError())
+                true -> Either.Right(Unit)
+                false -> Either.Left(DataAccessError.DatabaseAccessError())
             }
         }
 
         return dbResponse
-                .bind(checkResponse)
+                .flatMap(checkResponse)
     }
 
     override fun getById(accountId: UUID, transactionId: UUID): Either<DataAccessError, OptionJournalModel> {
@@ -150,13 +148,13 @@ class OptionJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalR
 
         val checkSize: (List<OptionJournalModel>) -> Either<DataAccessError, OptionJournalModel> = {
             when (it.size == 1) {
-                true -> Right(it[0])
-                false -> Left(DataAccessError.RecordNotFound("Couldn't find option record with id $transactionId"))
+                true -> Either.Right(it[0])
+                false -> Either.Left(DataAccessError.RecordNotFound("Couldn't find option record with id $transactionId"))
             }
         }
 
         return dbResponse
-                .bind(checkSize)
+                .flatMap(checkSize)
     }
 
     override fun getAllBySymbol(accountId: UUID, portfolioId: UUID, symbol: String): Either<DataAccessError, List<OptionJournalModel>> {
@@ -188,13 +186,13 @@ class OptionJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalR
 
         val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
             when (it) {
-                true -> Right(Unit)
-                false -> Left(DataAccessError.DatabaseAccessError())
+                true -> Either.Right(Unit)
+                false -> Either.Left(DataAccessError.DatabaseAccessError())
             }
         }
 
         return dbResponse
-                .bind(checkResponse)
+                .flatMap(checkResponse)
     }
 
     override fun deleteRecord(transactionId: UUID): Either<DataAccessError, Unit> {
@@ -211,12 +209,12 @@ class OptionJournalRepository(private val jdbcTemplate: JdbcTemplate) : JournalR
 
         val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
             when (it) {
-                true -> Right(Unit)
-                false -> Left(DataAccessError.DatabaseAccessError())
+                true -> Either.Right(Unit)
+                false -> Either.Left(DataAccessError.DatabaseAccessError())
             }
         }
 
         return dbResponse
-                .bind(checkResponse)
+                .flatMap(checkResponse)
     }
 }

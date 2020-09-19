@@ -1,5 +1,6 @@
 package com.example.tradelog.api.rest.controller
 
+import arrow.core.getOrElse
 import com.example.tradelog.api.core.facade.JournalFacade
 import com.example.tradelog.api.core.service.TransactionService
 import com.example.tradelog.api.rest.TransactionRestInterface
@@ -35,7 +36,7 @@ class TransactionController(private val journalFacade: JournalFacade, private va
         Return the unique symbols that have been traded during last year
     */
     override fun getAllActiveSymbols(): TLActiveSymbolsResponse {
-        val symbols = transactionService.getActiveSymbols().rightOrNull() ?: emptyList()
+        val symbols = transactionService.getActiveSymbols().orNull() ?: emptyList()
 
         return TLActiveSymbolsResponse.newBuilder()
                 .addAllSymbols(symbols)
@@ -50,7 +51,7 @@ class TransactionController(private val journalFacade: JournalFacade, private va
 
         //TODO: not sure this it.toString() works
         val summaryList = journalFacade.getSummary(UUID.fromString(accountId))
-                .rightOrThrow { TradeLogException(ExceptionCode.UNKNOWN, it.toString()) }
+                .getOrElse { throw TradeLogException(ExceptionCode.UNKNOWN) }
         return TradeSummaryConverter.toTradeSummaryResponse(summaryList)
     }
 
@@ -61,7 +62,7 @@ class TransactionController(private val journalFacade: JournalFacade, private va
 
         //TODO: not sure this it.toString() works
         val summaryList = journalFacade.getSummaryMatrix(UUID.fromString(accountId), UUID.fromString(portfolioId))
-                .rightOrThrow { TradeLogException(ExceptionCode.UNKNOWN, it.toString()) }
+                .getOrElse { throw TradeLogException(ExceptionCode.UNKNOWN) }
         return SummaryMatrixConverter.toSummaryMatrixResponse(summaryList)
     }
 
@@ -74,6 +75,6 @@ class TransactionController(private val journalFacade: JournalFacade, private va
         //Todo: enforce account id
         //TODO: not sure this it.toString() works
         transactionService.updateSettings(TransactionSettingsModelConverter.toModel(dto))
-                .rightOrThrow { TradeLogException(ExceptionCode.UPDATE_TRANSACTION_OPTIONS_FAILED, it.toString()) }
+                .getOrElse { throw TradeLogException(ExceptionCode.UPDATE_TRANSACTION_OPTIONS_FAILED) }
     }
 }

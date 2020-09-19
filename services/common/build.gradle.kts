@@ -12,7 +12,8 @@ repositories {
   mavenCentral()
 }
 
-val junitVersion: String = rootProject.extra.get("junitVersion") as String
+val junitVersion: String = rootProject.extra["junitVersion"] as String
+val arrowVersion: String = rootProject.extra["arrowVersion"] as String
 
 configurations {
   all {
@@ -22,6 +23,7 @@ configurations {
 
 dependencies {
   implementation (kotlin("stdlib"))
+  implementation("io.arrow-kt:arrow-core:$arrowVersion")
   testImplementation ("org.junit.jupiter:junit-jupiter:$junitVersion")
 }
 

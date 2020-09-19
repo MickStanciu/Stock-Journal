@@ -1,6 +1,6 @@
 package com.example.common.utils
 
-import com.example.common.types.Either
+import arrow.core.Either
 
 fun <L,R> performSafeCall(fn: () -> R, efn: (message: String) -> L): Either<L, R> =
         try {

@@ -1,5 +1,6 @@
 package com.example.tradelog.api.rest.controller
 
+import arrow.core.getOrElse
 import com.example.tradelog.api.core.facade.JournalFacade
 import com.example.tradelog.api.core.service.OptionJournalService
 import com.example.tradelog.api.rest.OptionJournalRestInterface
@@ -30,7 +31,7 @@ class OptionJournalController(private val journalFacade: JournalFacade, private 
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        val models = optionService.getAllBySymbol(UUID.fromString(accountId), UUID.fromString(portfolioId), symbol).rightOrNull() ?: emptyList()
+        val models = optionService.getAllBySymbol(UUID.fromString(accountId), UUID.fromString(portfolioId), symbol).orNull() ?: emptyList()
         val dtos = models.map { m -> OptionJournalModelConverter.toDto(m) }
 
         return TLOptionTransactionsResponse.newBuilder()
@@ -45,8 +46,8 @@ class OptionJournalController(private val journalFacade: JournalFacade, private 
 
         //TODO: not sure this it.toString() works
         return journalFacade.createOptionRecord(OptionJournalModelConverter.toModel(dto))
-                .mapRight { OptionJournalModelConverter.toDto(it) }
-                .rightOrThrow { TradeLogException(ExceptionCode.CREATE_OPTION_FAILED, it.toString()) }
+                .map { OptionJournalModelConverter.toDto(it) }
+                .getOrElse { throw TradeLogException(ExceptionCode.CREATE_OPTION_FAILED) }
     }
 
     override fun editRecord(accountId: String, transactionId: String, dto: TLOptionJournalDto) {
@@ -56,7 +57,7 @@ class OptionJournalController(private val journalFacade: JournalFacade, private 
 
         //TODO: not sure this it.toString() works
         return journalFacade.editOptionRecord(UUID.fromString(transactionId), OptionJournalModelConverter.toModel(dto))
-                .rightOrThrow { TradeLogException(ExceptionCode.EDIT_OPTION_FAILED, it.toString()) }
+                .getOrElse { throw TradeLogException(ExceptionCode.EDIT_OPTION_FAILED) }
     }
 
     override fun deleteRecord(accountId: String, transactionId: String) {
@@ -65,7 +66,7 @@ class OptionJournalController(private val journalFacade: JournalFacade, private 
         }
 
         return journalFacade.deleteOptionRecord(UUID.fromString(accountId), UUID.fromString(transactionId))
-                .rightOrThrow { TradeLogException(ExceptionCode.DELETE_OPTION_FAILED, it.toString()) }
+                .getOrElse { throw TradeLogException(ExceptionCode.DELETE_OPTION_FAILED) }
     }
 
 }

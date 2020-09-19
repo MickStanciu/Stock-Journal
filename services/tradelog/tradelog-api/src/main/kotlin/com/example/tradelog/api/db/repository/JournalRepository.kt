@@ -1,7 +1,7 @@
 package com.example.tradelog.api.db.repository
 
+import arrow.core.Either
 import com.example.common.repository.DataAccessError
-import com.example.common.types.Either
 import com.example.tradelog.api.core.model.TradeSummaryModel
 import java.util.*
 

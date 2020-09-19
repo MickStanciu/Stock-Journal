@@ -1,11 +1,9 @@
 package com.example.tradelog.api.db.repository
 
+import arrow.core.Either
+import arrow.core.flatMap
 import com.example.common.converter.TimeConverter
 import com.example.common.repository.DataAccessError
-import com.example.common.types.Either
-import com.example.common.types.Either.Companion.bind
-import com.example.common.types.Either.Left
-import com.example.common.types.Either.Right
 import com.example.common.utils.performSafeCall
 import com.example.tradelog.api.core.model.SummaryMatrixModel
 import com.example.tradelog.api.core.model.TransactionModel
@@ -90,13 +88,13 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
 
         val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
             when (it) {
-                true -> Right(Unit)
-                false -> Left(DataAccessError.DatabaseAccessError())
+                true -> Either.Right(Unit)
+                false -> Either.Left(DataAccessError.DatabaseAccessError())
             }
         }
 
         return dbResponse
-                .bind(checkResponse)
+                .flatMap(checkResponse)
     }
 
     fun updateSettings(model: TransactionSettingsModel): Either<DataAccessError, Unit> {
@@ -116,13 +114,13 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
 
         val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
             when (it) {
-                true -> Right(Unit)
-                false -> Left(DataAccessError.DatabaseAccessError())
+                true -> Either.Right(Unit)
+                false -> Either.Left(DataAccessError.DatabaseAccessError())
             }
         }
 
         return dbResponse
-                .bind(checkResponse)
+                .flatMap(checkResponse)
 
     }
 
@@ -140,13 +138,13 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
 
         val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
             when (it) {
-                true -> Right(Unit)
-                false -> Left(DataAccessError.DatabaseAccessError())
+                true -> Either.Right(Unit)
+                false -> Either.Left(DataAccessError.DatabaseAccessError())
             }
         }
 
         return dbResponse
-                .bind(checkResponse)
+                .flatMap(checkResponse)
     }
 
     fun updateRecord(model: TransactionModel): Either<DataAccessError, Unit> {
@@ -166,13 +164,13 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
 
         val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
             when (it) {
-                true -> Right(Unit)
-                false -> Left(DataAccessError.DatabaseAccessError())
+                true -> Either.Right(Unit)
+                false -> Either.Left(DataAccessError.DatabaseAccessError())
             }
         }
 
         return dbResponse
-                .bind(checkResponse)
+                .flatMap(checkResponse)
     }
 
     fun createRecord(model: TransactionModel): Either<DataAccessError, UUID> {
@@ -196,18 +194,18 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
 
         val checkResponse: (GeneratedKeyHolder) -> Either<DataAccessError, UUID> = { keyHolder ->
             if (keyHolder.keyList.isEmpty()) {
-                Left(DataAccessError.DatabaseAccessError("Failed to insert transaction"))
+                Either.Left(DataAccessError.DatabaseAccessError("Failed to insert transaction"))
             }
 
             val key = keyHolder.keyList[0]["id"].toString()
             if (key.trim().isEmpty()) {
-                Left(DataAccessError.DatabaseAccessError("Failed to insert transaction"))
+                Either.Left(DataAccessError.DatabaseAccessError("Failed to insert transaction"))
             }
-            Right(UUID.fromString(key))
+            Either.Right(UUID.fromString(key))
         }
 
         return dbResponse
-                .bind(checkResponse)
+                .flatMap(checkResponse)
     }
 
     fun deleteRecord(accountId: UUID, transactionId: UUID): Either<DataAccessError, Unit> {
@@ -225,13 +223,13 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
 
         val checkResponse: (Boolean) -> Either<DataAccessError, Unit> = {
             when (it) {
-                true -> Right(Unit)
-                false -> Left(DataAccessError.DatabaseAccessError())
+                true -> Either.Right(Unit)
+                false -> Either.Left(DataAccessError.DatabaseAccessError())
             }
         }
 
         return dbResponse
-                .bind(checkResponse)
+                .flatMap(checkResponse)
     }
 
     fun getSummaryMatrix(accountId: UUID, portfolioId: UUID): Either<DataAccessError, List<SummaryMatrixModel>> {

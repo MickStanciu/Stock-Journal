@@ -1,9 +1,9 @@
 package com.example.tradelog.api.core.service
 
+import arrow.core.Either
+import arrow.core.flatMap
 import com.example.common.service.ServiceError
 import com.example.common.service.toServiceError
-import com.example.common.types.Either
-import com.example.common.types.Either.Companion.bind
 import com.example.tradelog.api.core.model.SummaryMatrixModel
 import com.example.tradelog.api.core.model.TransactionModel
 import com.example.tradelog.api.core.model.TransactionSettingsModel
@@ -42,12 +42,12 @@ class TransactionService(private val repository: TransactionRepository) {
             val settingsModel = TransactionSettingsModel(transactionId = id, preferredPrice = 0.0, groupSelected = true, legClosed = false)
             repository.createSettings(id, settingsModel)
                     .mapLeft(::toServiceError)
-                    .mapRight { settingsModel }
+                    .map { settingsModel }
         }
 
         return createRecord
-                .bind(createSettings)
-                .mapRight { it.transactionId }
+                .flatMap(createSettings)
+                .map { it.transactionId }
     }
 
     fun deleteSettings(transactionId: UUID): Either<ServiceError, Unit> {

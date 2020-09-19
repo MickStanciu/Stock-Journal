@@ -1,8 +1,8 @@
 package com.example.tradelog.api.core.service
 
+import arrow.core.Either
 import com.example.common.service.ServiceError
 import com.example.common.service.toServiceError
-import com.example.common.types.Either
 import com.example.tradelog.api.core.model.PortfolioModel
 import com.example.tradelog.api.db.repository.PortfolioRepository
 import org.springframework.stereotype.Service
