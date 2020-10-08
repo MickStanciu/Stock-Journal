@@ -19,6 +19,10 @@ class JournalFacade(private val transactionService: TransactionService,
                     private val optionService: OptionJournalService,
                     private val dividendService: DividendJournalService
 ) {
+    enum class SummaryMatrixType {
+        SHARES,
+        OPTIONS_AND_DIVIDENDS
+    }
 
     fun getSummary(accountId: UUID): Either<ServiceError, List<TradeSummaryModel>> {
         //TODO: do parallel call
@@ -69,8 +73,13 @@ class JournalFacade(private val transactionService: TransactionService,
         )
     }
 
-    fun getSummaryMatrix(accountId: UUID, portfolioId: UUID): Either<ServiceError, List<SummaryMatrixModel>> {
-        val summaryMatrixList  = transactionService.getSummaryMatrix(accountId, portfolioId)
+
+    fun getSummaryMatrix(accountId: UUID, portfolioId: UUID, matrixType: SummaryMatrixType): Either<ServiceError, List<SummaryMatrixModel>> {
+        val summaryMatrixList = when(matrixType) {
+            SummaryMatrixType.OPTIONS_AND_DIVIDENDS -> transactionService.getOptionAndDividendSummaryMatrix(accountId, portfolioId)
+            SummaryMatrixType.SHARES -> transactionService.getSharesSummaryMatrix(accountId, portfolioId)
+        }
+
 
         val groupedMap: (List<SummaryMatrixModel>) -> Map<Pair<Int, Int>, Double> = {
             models -> groupByYearAndMonth(models)

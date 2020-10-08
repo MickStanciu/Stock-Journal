@@ -55,13 +55,13 @@ class TransactionController(private val journalFacade: JournalFacade, private va
         return TradeSummaryConverter.toTradeSummaryResponse(summaryList)
     }
 
-    override fun getSummaryMatrix(accountId: String, portfolioId: String): TLSummaryMatrixResponse {
+    override fun getSummaryMatrix(accountId: String, portfolioId: String, sharesOnly: Boolean): TLSummaryMatrixResponse {
         if (!RequestValidator.validateSummaryMatrix(accountId, portfolioId)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        //TODO: not sure this it.toString() works
-        val summaryList = journalFacade.getSummaryMatrix(UUID.fromString(accountId), UUID.fromString(portfolioId))
+        val type = if (sharesOnly) JournalFacade.SummaryMatrixType.SHARES else JournalFacade.SummaryMatrixType.OPTIONS_AND_DIVIDENDS
+        val summaryList = journalFacade.getSummaryMatrix(UUID.fromString(accountId), UUID.fromString(portfolioId), type)
                 .getOrElse { throw TradeLogException(ExceptionCode.UNKNOWN) }
         return SummaryMatrixConverter.toSummaryMatrixResponse(summaryList)
     }

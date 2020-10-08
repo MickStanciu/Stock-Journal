@@ -34,20 +34,39 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
                     VALUES (?, ?, ?, ?, ?, ?);
         """
 
-        private const val SUMMARY_MATRIX = """
+        private const val SUMMARY_MATRIX_OPTIONS_DIVIDENDS = """
             SELECT EXTRACT('year' FROM tl.date) as year, EXTRACT('month' FROM tl.date) as month,
                        COALESCE(ol.premium * ol.contract_number * 100, 0) * CASE WHEN ol.action_fk = 'BUY' THEN -1 ELSE 1 END +
-                       COALESCE(dl.dividend * dl.quantity, 0) -
+                       COALESCE(dl.dividend * dl.quantity, 0) +
+                       COALESCE(sl.price * sl.quantity, 0) * CASE WHEN sl.action_fk = 'BUY' THEN -1 ELSE 1 END -
                        tl.broker_fees as total
             FROM transaction_log tl
             INNER JOIN transaction_settings_log tsl ON tl.id = tsl.transaction_fk
             INNER JOIN portfolio p ON tl.portfolio_fk = p.id
             LEFT JOIN option_log ol on tl.id = ol.transaction_fk
             LEFT JOIN dividend_log dl on tl.id = dl.transaction_fk
+            LEFT JOIN shares_log sl on tl.id = sl.transaction_fk
             WHERE tsl.leg_closed = true
                 AND tl.date > date_trunc('month', CURRENT_DATE) - INTERVAL '5 year'
                 AND tl.symbol != 'XYZ'
                 AND tl.transaction_type_fk in ('OPTION', 'DIVIDEND')
+                AND tl.account_fk = ?
+                AND tl.portfolio_fk = ?
+            ORDER BY year, month;
+        """
+
+        private const val SUMMARY_MATRIX_SHARES = """
+            SELECT EXTRACT('year' FROM tl.date) as year, EXTRACT('month' FROM tl.date) as month,
+                       COALESCE(sl.price * sl.quantity, 0) * CASE WHEN sl.action_fk = 'BUY' THEN -1 ELSE 1 END -
+                       tl.broker_fees as total
+            FROM transaction_log tl
+            INNER JOIN transaction_settings_log tsl ON tl.id = tsl.transaction_fk
+            INNER JOIN portfolio p ON tl.portfolio_fk = p.id
+            LEFT JOIN shares_log sl on tl.id = sl.transaction_fk
+            WHERE tsl.leg_closed = true
+                AND tl.date > date_trunc('month', CURRENT_DATE) - INTERVAL '5 year'
+                AND tl.symbol != 'XYZ'
+                AND tl.transaction_type_fk = 'SHARE'
                 AND tl.account_fk = ?
                 AND tl.portfolio_fk = ?
             ORDER BY year, month;
@@ -232,10 +251,18 @@ class TransactionRepository(private val jdbcTemplate: JdbcTemplate) {
                 .flatMap(checkResponse)
     }
 
-    fun getSummaryMatrix(accountId: UUID, portfolioId: UUID): Either<DataAccessError, List<SummaryMatrixModel>> {
+    fun getOptionAndDividendSummaryMatrix(accountId: UUID, portfolioId: UUID): Either<DataAccessError, List<SummaryMatrixModel>> {
         val parameters = arrayOf(accountId, portfolioId)
         return performSafeCall(
-                { jdbcTemplate.query(SUMMARY_MATRIX, parameters, SummaryMatrixRowMapper()) },
+                { jdbcTemplate.query(SUMMARY_MATRIX_OPTIONS_DIVIDENDS, parameters, SummaryMatrixRowMapper()) },
+                { DataAccessError.DatabaseAccessError() }
+        )
+    }
+
+    fun getSharesSummaryMatrix(accountId: UUID, portfolioId: UUID): Either<DataAccessError, List<SummaryMatrixModel>> {
+        val parameters = arrayOf(accountId, portfolioId)
+        return performSafeCall(
+                { jdbcTemplate.query(SUMMARY_MATRIX_SHARES, parameters, SummaryMatrixRowMapper()) },
                 { DataAccessError.DatabaseAccessError() }
         )
     }

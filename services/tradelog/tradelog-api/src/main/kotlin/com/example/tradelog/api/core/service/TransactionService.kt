@@ -55,8 +55,13 @@ class TransactionService(private val repository: TransactionRepository) {
                 .mapLeft(::toServiceError)
     }
 
-    fun getSummaryMatrix(accountId: UUID, portfolioId: UUID): Either<ServiceError, List<SummaryMatrixModel>> {
-        return repository.getSummaryMatrix(accountId, portfolioId)
+    fun getOptionAndDividendSummaryMatrix(accountId: UUID, portfolioId: UUID): Either<ServiceError, List<SummaryMatrixModel>> {
+        return repository.getOptionAndDividendSummaryMatrix(accountId, portfolioId)
+                .mapLeft(::toServiceError)
+    }
+
+    fun getSharesSummaryMatrix(accountId: UUID, portfolioId: UUID): Either<ServiceError, List<SummaryMatrixModel>> {
+        return repository.getSharesSummaryMatrix(accountId, portfolioId)
                 .mapLeft(::toServiceError)
     }
 }

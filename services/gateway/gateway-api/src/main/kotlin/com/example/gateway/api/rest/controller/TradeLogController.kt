@@ -53,10 +53,12 @@ class TradeLogController(private val tradeLogService: TradeLogService,
     @RequestMapping(value = ["/summary/matrix", "/summary/matrix/"], method = [RequestMethod.GET])
     @ResponseStatus(HttpStatus.OK)
     fun getSummaryMatrix(@RequestHeader(value = "x-auth-key", required = true) token: String,
-                         @RequestParam(name = "portfolio-id", required = true) portfolioId: String
+                         @RequestParam(name = "portfolio-id", required = true) portfolioId: String,
+                         @RequestParam(name = "shares-only", required = false, defaultValue = "false") sharesOnly: Boolean
+
     ): GWSummaryMatrixResponse {
         val support = getSupportData(token)
-        val summaryModels = transactionService.getSummaryMatrix(support.accountId, portfolioId)
+        val summaryModels = transactionService.getSummaryMatrix(support.accountId, portfolioId, sharesOnly)
 
         val mapDto = SummaryMatrixConverter.toGWDto(summaryModels)
 

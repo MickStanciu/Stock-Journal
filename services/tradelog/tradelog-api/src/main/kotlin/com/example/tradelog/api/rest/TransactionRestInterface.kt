@@ -23,14 +23,16 @@ interface TransactionRestInterface {
     @ResponseStatus(HttpStatus.OK)
     fun getSummary(@RequestHeader(ACCOUNT_ID_HEADER_NAME, required = true) accountId: String): TLTradeSummaryResponse
 
-    @RequestMapping(value = ["/summary/matrix/{portfolioId}", "/summary/matrix/{portfolioId}/"], method = [RequestMethod.GET])
+    @RequestMapping(value = ["/summary/matrix/{portfolio-id}", "/summary/matrix/{portfolio-id}/"], method = [RequestMethod.GET])
     @ResponseStatus(HttpStatus.OK)
     fun getSummaryMatrix(@RequestHeader(ACCOUNT_ID_HEADER_NAME, required = true) accountId: String,
-                         @PathVariable("portfolioId") portfolioId: String): TLSummaryMatrixResponse
+                         @PathVariable("portfolio-id") portfolioId: String,
+                         @RequestParam(name = "shares-only", required = false, defaultValue = "false") sharesOnly: Boolean
+    ): TLSummaryMatrixResponse
 
     @RequestMapping(value = ["/settings/{transactionId}"], method = [RequestMethod.PUT])
     @ResponseStatus(HttpStatus.OK)
     fun updateSettings(@RequestHeader(ACCOUNT_ID_HEADER_NAME, required = true) accountId: String,
-                       @PathVariable("transactionId") transactionId: String,
+                       @PathVariable("transaction-id") transactionId: String,
                        @RequestBody dto: TLTransactionSettingsDto)
 }

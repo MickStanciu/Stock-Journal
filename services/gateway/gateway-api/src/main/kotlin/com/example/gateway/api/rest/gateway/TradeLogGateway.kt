@@ -139,10 +139,11 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         }
     }
 
-    fun getSummaryMatrix(accountId: String, portfolioId: String): List<SummaryMatrixModel> {
+    fun getSummaryMatrix(accountId: String, portfolioId: String, sharesOnly: Boolean): List<SummaryMatrixModel> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("/transactions/summary/matrix/{portfolioId}")
+                .queryParam("shares-only", sharesOnly)
 
         val headers = HttpHeaders()
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)

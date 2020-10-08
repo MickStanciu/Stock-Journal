@@ -59,13 +59,17 @@ const appService = {
         });
     },
 
-    getSummaryMatrix(token) {
+    getSummaryMatrix(token, sharesOnly) {
+        let onlyShares = false
+        if (sharesOnly) onlyShares = true
+
         const config = {
             headers: {
                 'x-auth-key': token
             },
             params: {
-                'portfolio-id': portfolioId
+                'portfolio-id': portfolioId,
+                'shares-only': onlyShares
             }
         };
 
