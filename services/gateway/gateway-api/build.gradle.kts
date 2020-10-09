@@ -57,6 +57,7 @@ dependencies {
     testImplementation ("org.junit.jupiter:junit-jupiter:$junitVersion")
     testImplementation (group = "io.kotest", name = "kotest-runner-junit5", version = kotlinTestVersion)
     testImplementation (group = "io.kotest", name = "kotest-assertions-core", version = kotlinTestVersion)
+    testImplementation (group = "io.kotest", name = "kotest-extensions-spring", version = kotlinTestVersion)
     testImplementation ("org.springframework.boot:spring-boot-starter-test")
 }
 
