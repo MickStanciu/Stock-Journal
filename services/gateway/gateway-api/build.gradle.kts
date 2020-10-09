@@ -20,7 +20,7 @@ val protobufVersion: String = rootProject.extra.get("protobufVersion") as String
 val jacksonVersion: String = rootProject.extra.get("jacksonVersion") as String
 val jwtVersion: String = rootProject.extra.get("jwtVersion") as String
 val junitVersion: String = rootProject.extra.get("junitVersion") as String
-val kotlintestVersion: String = rootProject.extra.get("kotlintestVersion") as String
+val kotlinTestVersion: String = rootProject.extra.get("kotlinTestVersion") as String
 
 
 configurations {
@@ -55,7 +55,8 @@ dependencies {
     runtimeOnly ("org.springframework.boot:spring-boot-devtools")
 
     testImplementation ("org.junit.jupiter:junit-jupiter:$junitVersion")
-    testImplementation (group = "io.kotlintest", name = "kotlintest", version = kotlintestVersion)
+    testImplementation (group = "io.kotest", name = "kotest-runner-junit5", version = kotlinTestVersion)
+    testImplementation (group = "io.kotest", name = "kotest-assertions-core", version = kotlinTestVersion)
     testImplementation ("org.springframework.boot:spring-boot-starter-test")
 }
 

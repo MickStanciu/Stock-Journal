@@ -1,7 +1,7 @@
 package com.example.gateway.api.rest.converter
 
-import io.kotlintest.matchers.shouldBe
-import io.kotlintest.matchers.shouldNotBe
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import org.junit.jupiter.api.Test
 
 class AlphaVantageCsvConverterTest {
