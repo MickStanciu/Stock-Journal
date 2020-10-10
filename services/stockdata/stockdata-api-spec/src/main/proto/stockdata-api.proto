@@ -45,7 +45,8 @@ message ExceptionResponse {
 
     enum ExceptionCode {
         UNKNOWN = 0;
-        BAD_REQUEST = 1;
-        NO_DATA = 2;
+        DATABASE_RECORD_NOT_FOUND = 1;
+        DATABASE_ACCESS_ERROR = 2;
+        DATABASE_MORE_THAN_ONE_RECORD = 3;
     }
 }

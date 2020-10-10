@@ -1,5 +1,6 @@
 package com.example.stockdata.api.rest.controller
 
+import arrow.core.getOrHandle
 import com.example.stockdata.api.core.service.PriceService
 import com.example.stockdata.api.rest.controller.SymbolController.Companion.PROTOBUF_MEDIA_TYPE_VALUE
 import com.example.stockdata.api.rest.converter.PriceConverter
@@ -25,8 +26,7 @@ class SymbolController(private val priceService: PriceService) {
     */
     @RequestMapping(value = ["/old", "/old/"], method = [RequestMethod.GET])
     @ResponseStatus(HttpStatus.OK)
-    fun getOldestSymbols(
-            @RequestParam(name = "limit") limit: Int): SDPriceResponse {
+    fun getOldestSymbols(@RequestParam(name = "limit") limit: Int): SDPriceResponse {
 
         if (!RequestValidator.validateGetOldestSymbols(limit)) {
             throw PriceException(ExceptionCode.BAD_REQUEST)
@@ -37,7 +37,7 @@ class SymbolController(private val priceService: PriceService) {
             adjustedLimit = 10
         }
 
-        val models = priceService.getNotUpdatedSymbols(adjustedLimit)
+        val models = priceService.getNotUpdatedSymbols(adjustedLimit).getOrHandle { throw it }
         val dtos = models.map { PriceConverter.toPriceItemResponse(it) }
 
         return SDPriceResponse.newBuilder()
@@ -51,6 +51,6 @@ class SymbolController(private val priceService: PriceService) {
     @RequestMapping(value = ["/", ""], method = [RequestMethod.POST])
     @ResponseStatus(HttpStatus.OK)
     fun updateSymbols(@RequestBody request: SDUpdateSymbolsRequest) {
-        priceService.updateSymbols(request.symbolsList)
+        priceService.updateSymbols(request.symbolsList).getOrHandle { throw it }
     }
 }

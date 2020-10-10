@@ -1,5 +1,6 @@
 package com.example.stockdata.api.rest.controller
 
+import arrow.core.getOrHandle
 import com.example.stockdata.api.core.service.PriceService
 import com.example.stockdata.api.rest.controller.PriceController.Companion.PROTOBUF_MEDIA_TYPE_VALUE
 import com.example.stockdata.api.rest.converter.PriceConverter
@@ -28,7 +29,8 @@ class PriceController(private val priceService: PriceService) {
             throw PriceException(ExceptionCode.BAD_REQUEST)
         }
 
-        val sharedPriceModel = priceService.getPrice(symbol) ?: throw PriceException(ExceptionCode.NO_DATA)
+        val sharedPriceModel = priceService.getPrice(symbol)
+                .getOrHandle { throw it }
         return PriceConverter.toPriceItemResponse(sharedPriceModel)
     }
 }
