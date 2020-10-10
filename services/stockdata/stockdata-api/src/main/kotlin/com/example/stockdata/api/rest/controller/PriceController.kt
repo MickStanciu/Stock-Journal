@@ -28,7 +28,8 @@ class PriceController(private val priceService: PriceService) {
             throw PriceException(ExceptionCode.BAD_REQUEST)
         }
 
-        val sharedPriceModel = priceService.getPrice(symbol) ?: throw PriceException(ExceptionCode.NO_DATA)
+        val sharedPriceModel = priceService.getPrice(symbol)
+                .fold({ throw it }, { it })
         return PriceConverter.toPriceItemResponse(sharedPriceModel)
     }
 }

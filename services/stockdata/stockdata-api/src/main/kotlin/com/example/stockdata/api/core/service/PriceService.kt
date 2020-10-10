@@ -1,6 +1,8 @@
 package com.example.stockdata.api.core.service
 
+import arrow.core.Either
 import com.example.common.converter.TimeConverter
+import com.example.common.exception.ApiException
 import com.example.stockdata.api.core.model.PriceModel
 import com.example.stockdata.api.db.repository.PriceRepository
 import org.springframework.stereotype.Service
@@ -8,7 +10,7 @@ import org.springframework.stereotype.Service
 @Service
 class PriceService(private val priceRepository: PriceRepository) {
 
-    fun getPrice(symbol: String): PriceModel? {
+    fun getPrice(symbol: String): Either<ApiException, PriceModel> {
         return priceRepository.getBySymbol(symbol)
     }
 

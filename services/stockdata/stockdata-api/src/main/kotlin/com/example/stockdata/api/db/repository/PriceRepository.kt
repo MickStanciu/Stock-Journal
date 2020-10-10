@@ -1,6 +1,11 @@
 package com.example.stockdata.api.db.repository
 
+import arrow.core.Either
+import arrow.core.flatMap
 import com.example.common.converter.TimeConverter
+import com.example.common.exception.ApiException
+import com.example.common.exception.ApiExceptionCode
+import com.example.common.utils.performSafeCall
 import com.example.stockdata.api.core.model.PriceModel
 import com.example.stockdata.api.db.converter.PriceModelRowMapper
 import org.springframework.jdbc.core.JdbcTemplate
@@ -10,13 +15,24 @@ import java.sql.Connection
 @Repository
 class PriceRepository(private val jdbcTemplate: JdbcTemplate) {
 
-    fun getBySymbol(symbol: String) : PriceModel? {
+    fun getBySymbol(symbol: String) : Either<ApiException, PriceModel> {
         val parameters = arrayOf(symbol)
-        val modelList : List<PriceModel> = jdbcTemplate.query(STOCK_DATA_READ_BY_SYMBOL, parameters, PriceModelRowMapper());
-        if (modelList.size == 1) {
-            return modelList[0]
+
+        val dbResponse = performSafeCall(
+                { jdbcTemplate.query(STOCK_DATA_READ_BY_SYMBOL, parameters, PriceModelRowMapper()) },
+                { ApiException(ApiExceptionCode.DATABASE_ACCESS_ERROR, it) }
+        )
+
+        val checkResponse: (List<PriceModel>) -> Either<ApiException, PriceModel> = {
+            when (it.size) {
+                0 -> Either.Left(ApiException(ApiExceptionCode.DATABASE_RECORD_NOT_FOUND, "Record not found for $symbol"))
+                1 -> Either.Right(it[0])
+                else -> Either.Left(ApiException(ApiExceptionCode.DATABASE_MORE_THAN_ONE_RECORD))
+            }
         }
-        return null
+
+        return dbResponse
+                .flatMap(checkResponse)
     }
 
     fun updateForSymbol(priceModel: PriceModel) {

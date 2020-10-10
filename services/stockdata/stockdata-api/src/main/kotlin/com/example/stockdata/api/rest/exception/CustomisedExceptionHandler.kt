@@ -1,7 +1,9 @@
 package com.example.stockdata.api.rest.exception
 
 import com.example.common.converter.TimeConverter
-import com.example.stockdata.api.rest.converter.PriceExceptionConverter
+import com.example.common.exception.ApiException
+import com.example.common.exception.ApiExceptionCode
+import com.example.stockdata.api.rest.converter.ApiExceptionConverter
 import com.example.stockdata.api.spec.model.ExceptionResponse
 import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
@@ -29,7 +31,7 @@ class CustomisedExceptionHandler : ResponseEntityExceptionHandler() {
     @ExceptionHandler(PriceException::class)
     fun handlePriceException(ex: PriceException, request: WebRequest): ResponseEntity<ExceptionResponse> {
         val exceptionResponse = ExceptionResponse.newBuilder()
-                .setCode(PriceExceptionConverter.toExceptionCode(ex.code))
+                .setCode(ExceptionResponse.ExceptionCode.DATABASE_ACCESS_ERROR)
                 .setMessage(ex.message)
                 .setDetails(request.getDescription(false))
                 .setTimestamp(TimeConverter.getOffsetDateTimeNow().toString())
@@ -38,6 +40,22 @@ class CustomisedExceptionHandler : ResponseEntityExceptionHandler() {
         return when (ex.code) {
             ExceptionCode.BAD_REQUEST -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse)
             ExceptionCode.NO_DATA -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponse)
+            else -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionResponse)
+        }
+    }
+
+    @ExceptionHandler(ApiException::class)
+    fun handleApiException(ex: ApiException, request: WebRequest): ResponseEntity<ExceptionResponse> {
+        val exceptionResponse = ExceptionResponse.newBuilder()
+                .setCode(ApiExceptionConverter.toExceptionCode(ex))
+                .setMessage(ex.message)
+                .setDetails(request.getDescription(false))
+                .setTimestamp(TimeConverter.getOffsetDateTimeNow().toString())
+                .build()
+
+        LOG.error(ex.message, ex)
+        return when (ex.code) {
+            ApiExceptionCode.DATABASE_RECORD_NOT_FOUND -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponse)
             else -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionResponse)
         }
     }
