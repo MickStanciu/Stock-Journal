@@ -1,5 +1,6 @@
 package com.example.stockdata.api.amqp
 
+import arrow.core.getOrHandle
 import com.example.stockdata.api.amqp.converter.PriceConverter
 import com.example.stockdata.api.core.service.PriceService
 import com.example.stockdata.api.spec.model.SDPriceItem
@@ -19,5 +20,6 @@ class AmqpReceiver(val priceService: PriceService) {
         val priceModel = PriceConverter.toPriceModel(request)
         LOG.info("Received message to update price for ${priceModel.symbol}")
         priceService.updatePrice(priceModel)
+                .getOrHandle { throw it }
     }
 }

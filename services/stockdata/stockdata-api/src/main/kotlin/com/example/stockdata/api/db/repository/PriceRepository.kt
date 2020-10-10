@@ -15,7 +15,7 @@ import java.sql.Connection
 @Repository
 class PriceRepository(private val jdbcTemplate: JdbcTemplate) {
 
-    fun getBySymbol(symbol: String) : Either<ApiException, PriceModel> {
+    fun getBySymbol(symbol: String): Either<ApiException, PriceModel> {
         val parameters = arrayOf(symbol)
 
         val dbResponse = performSafeCall(
@@ -35,31 +35,66 @@ class PriceRepository(private val jdbcTemplate: JdbcTemplate) {
                 .flatMap(checkResponse)
     }
 
-    fun updateForSymbol(priceModel: PriceModel) {
-        jdbcTemplate.update { connection: Connection ->
-            val ps = connection.prepareStatement(STOCK_PRICE_UPSERT)
-            ps.setString(1, priceModel.symbol)
-            ps.setDouble(2, priceModel.lastClose)
-            ps.setTimestamp(3, TimeConverter.fromOffsetDateTime(priceModel.lastUpdatedOn))
-            ps.setTimestamp(4, if (priceModel.lastFailedOn != null) TimeConverter.fromOffsetDateTime(priceModel.lastFailedOn!!) else null)
-            ps.setBoolean(5, priceModel.active)
-            ps
+    fun updateForSymbol(priceModel: PriceModel): Either<ApiException, Unit> {
+
+        val dbResponse = performSafeCall(
+                {
+                    jdbcTemplate.update { connection: Connection ->
+                        val ps = connection.prepareStatement(STOCK_PRICE_UPSERT)
+                        ps.setString(1, priceModel.symbol)
+                        ps.setDouble(2, priceModel.lastClose)
+                        ps.setTimestamp(3, TimeConverter.fromOffsetDateTime(priceModel.lastUpdatedOn))
+                        ps.setTimestamp(4, if (priceModel.lastFailedOn != null) TimeConverter.fromOffsetDateTime(priceModel.lastFailedOn!!) else null)
+                        ps.setBoolean(5, priceModel.active)
+                        ps
+                    }
+                },
+                { ApiException(ApiExceptionCode.DATABASE_ACCESS_ERROR, it) }
+        )
+
+        val checkResponse: (Int) -> Either<ApiException, Unit> = {
+            when (it) {
+                1 -> Either.Right(Unit)
+                else -> Either.Left(ApiException(ApiExceptionCode.DATABASE_ACCESS_ERROR, "Could not update for ${priceModel.symbol}"))
+            }
         }
+
+        return dbResponse
+                .flatMap(checkResponse)
     }
 
-    fun getNotUpdatedSymbols(adjustedLimit: Int): List<PriceModel> {
+    fun getNotUpdatedSymbols(adjustedLimit: Int): Either<ApiException, List<PriceModel>> {
         val parameters = arrayOf(adjustedLimit)
-        return jdbcTemplate.query(GET_OLDEST_PRICES, parameters, PriceModelRowMapper())
+
+        return performSafeCall(
+                { jdbcTemplate.query(GET_OLDEST_PRICES, parameters, PriceModelRowMapper()) },
+                { ApiException(ApiExceptionCode.DATABASE_ACCESS_ERROR, it) }
+        )
     }
 
-    fun addSymbol(priceModel: PriceModel) {
-        jdbcTemplate.update { connection: Connection ->
-            val ps = connection.prepareStatement(STOCK_PRICE_ADD)
-            ps.setString(1, priceModel.symbol)
-            ps.setDouble(2, priceModel.lastClose)
-            ps.setTimestamp(3, TimeConverter.fromOffsetDateTime(priceModel.lastUpdatedOn))
-            ps
+    fun addSymbol(priceModel: PriceModel): Either<ApiException, Unit> {
+        val dbResponse = performSafeCall(
+                {
+                    jdbcTemplate.update { connection: Connection ->
+                        val ps = connection.prepareStatement(STOCK_PRICE_ADD)
+                        ps.setString(1, priceModel.symbol)
+                        ps.setDouble(2, priceModel.lastClose)
+                        ps.setTimestamp(3, TimeConverter.fromOffsetDateTime(priceModel.lastUpdatedOn))
+                        ps
+                    }
+                },
+                { ApiException(ApiExceptionCode.DATABASE_ACCESS_ERROR, it) }
+        )
+
+        val checkResponse: (Int) -> Either<ApiException, Unit> = {
+            when (it) {
+                1 -> Either.Right(Unit)
+                else -> Either.Left(ApiException(ApiExceptionCode.DATABASE_ACCESS_ERROR, "Could not add for ${priceModel.symbol}"))
+            }
         }
+
+        return dbResponse
+                .flatMap(checkResponse)
     }
 
     companion object {

@@ -10,20 +10,15 @@ import org.springframework.stereotype.Service
 @Service
 class PriceService(private val priceRepository: PriceRepository) {
 
-    fun getPrice(symbol: String): Either<ApiException, PriceModel> {
-        return priceRepository.getBySymbol(symbol)
-    }
+    fun getPrice(symbol: String): Either<ApiException, PriceModel> = priceRepository.getBySymbol(symbol)
 
-    fun updatePrice(priceModel: PriceModel) {
-        priceRepository.updateForSymbol(priceModel)
-    }
+    fun updatePrice(priceModel: PriceModel): Either<ApiException, Unit> = priceRepository.updateForSymbol(priceModel)
 
-    fun getNotUpdatedSymbols(adjustedLimit: Int): List<PriceModel> {
-        return priceRepository.getNotUpdatedSymbols(adjustedLimit)
-    }
+    fun getNotUpdatedSymbols(adjustedLimit: Int): Either<ApiException, List<PriceModel>> = priceRepository.getNotUpdatedSymbols(adjustedLimit)
 
-    fun updateSymbols(symbolsList: List<String>) {
-        //NOTE: not optimal
+    fun updateSymbols(symbolsList: List<String>): Either<ApiException, Unit> {
+        //NOTE: not optimal, use batch next time
+        var exception: ApiException? = null
         symbolsList.forEach {
             val priceModel = PriceModel(
                     symbol = it,
@@ -32,7 +27,9 @@ class PriceService(private val priceRepository: PriceRepository) {
                     lastFailedOn = null,
                     active = true
             )
-            priceRepository.addSymbol(priceModel)
+            val response = priceRepository.addSymbol(priceModel)
+            if (response.isLeft() && exception == null) exception = response.fold({ ex -> ex }, { null })
         }
+        return exception?.let { Either.Left(it) } ?: Either.Right(Unit)
     }
 }
