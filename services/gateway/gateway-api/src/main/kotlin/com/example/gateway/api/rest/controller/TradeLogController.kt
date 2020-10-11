@@ -1,11 +1,10 @@
 package com.example.gateway.api.rest.controller
 
+import arrow.core.getOrHandle
 import com.example.gateway.api.core.service.TradeLogService
 import com.example.gateway.api.core.service.TransactionService
 import com.example.gateway.api.rest.controller.TradeLogController.Companion.PROTOBUF_MEDIA_TYPE_VALUE
 import com.example.gateway.api.rest.converter.*
-import com.example.gateway.api.rest.exception.ExceptionCode
-import com.example.gateway.api.rest.exception.GatewayApiException
 import com.example.gateway.api.spec.model.*
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -42,7 +41,9 @@ class TradeLogController(private val tradeLogService: TradeLogService,
         val support = getSupportData(token)
         val summaryModels = tradeLogService.getSummary(support.accountId)
 
-        val dtos = summaryModels.stream().map { TradeSummaryConverter.toDto(it) }
+        val dtos = summaryModels
+                .getOrHandle { throw it }
+                .stream().map { TradeSummaryConverter.toDto(it) }
                 .collect(Collectors.toList())
 
         return GWTradeSummaryResponse.newBuilder()
@@ -58,7 +59,9 @@ class TradeLogController(private val tradeLogService: TradeLogService,
 
     ): GWSummaryMatrixResponse {
         val support = getSupportData(token)
-        val summaryModels = transactionService.getSummaryMatrix(support.accountId, portfolioId, sharesOnly)
+        val summaryModels = transactionService
+                .getSummaryMatrix(support.accountId, portfolioId, sharesOnly)
+                .getOrHandle { throw it }
 
         val mapDto = SummaryMatrixConverter.toGWDto(summaryModels)
 
@@ -78,13 +81,11 @@ class TradeLogController(private val tradeLogService: TradeLogService,
         //todo: validate input
         val support = getSupportData(token)
         val createModel = CreateShareJournalConverter.toModel(support.accountId, portfolioId, dto)
-        val createdModel = tradeLogService.createShareTransaction(support.accountId, createModel)
+        val createdModel = tradeLogService
+                .createShareTransaction(support.accountId, createModel)
+                .getOrHandle { throw it }
 
-        if (createdModel != null) {
-            return ShareJournalConverter.toGWDto(createdModel)
-        } else {
-            throw GatewayApiException(ExceptionCode.CREATE_RESOURCE_FAILED)
-        }
+        return ShareJournalConverter.toGWDto(createdModel)
     }
 
     @RequestMapping(value = ["/shares/{transactionId}", "/shares/{transactionId}/"], method = [RequestMethod.PUT])
@@ -97,7 +98,9 @@ class TradeLogController(private val tradeLogService: TradeLogService,
         //todo: validate input
         val support = getSupportData(token)
         val updateModel = ShareJournalConverter.toModel(support.accountId, dto)
-        tradeLogService.editShareTransaction(support.accountId, updateModel)
+        tradeLogService
+                .editShareTransaction(support.accountId, updateModel)
+                .getOrHandle { throw it }
     }
 
     @RequestMapping(value = ["/shares/{transactionId}", "/shares/{transactionId}/"], method = [RequestMethod.DELETE])
@@ -108,7 +111,9 @@ class TradeLogController(private val tradeLogService: TradeLogService,
 
         //todo: validate input
         val support = getSupportData(token)
-        tradeLogService.deleteShareTransaction(support.accountId, transactionId)
+        tradeLogService
+                .deleteShareTransaction(support.accountId, transactionId)
+                .getOrHandle { throw it }
     }
 
     @RequestMapping(value = ["/options", "/options/"], method = [RequestMethod.POST])
@@ -121,13 +126,11 @@ class TradeLogController(private val tradeLogService: TradeLogService,
         //todo: validate input
         val support = getSupportData(token)
         val createModel = CreateOptionJournalConverter.toModel(support.accountId, portfolioId, dto)
-        val createdModel = tradeLogService.createOptionTransaction(support.accountId, createModel)
+        val createdModel = tradeLogService
+                .createOptionTransaction(support.accountId, createModel)
+                .getOrHandle { throw it }
 
-        if (createdModel != null) {
-            return OptionJournalConverter.toGWDto(createdModel)
-        } else {
-            throw GatewayApiException(ExceptionCode.CREATE_RESOURCE_FAILED)
-        }
+        return OptionJournalConverter.toGWDto(createdModel)
     }
 
     @RequestMapping(value = ["/options/{transactionId}", "/options/{transactionId}/"], method = [RequestMethod.PUT])
@@ -140,7 +143,9 @@ class TradeLogController(private val tradeLogService: TradeLogService,
         //todo: validate input
         val support = getSupportData(token)
         val updateModel = OptionJournalConverter.toModel(support.accountId, dto)
-        tradeLogService.editOptionTransaction(support.accountId, updateModel)
+        tradeLogService
+                .editOptionTransaction(support.accountId, updateModel)
+                .getOrHandle { throw it }
     }
 
     @RequestMapping(value = ["/options/{transactionId}", "/options/{transactionId}/"], method = [RequestMethod.DELETE])
@@ -151,7 +156,9 @@ class TradeLogController(private val tradeLogService: TradeLogService,
 
         //todo: validate input
         val support = getSupportData(token)
-        tradeLogService.deleteOptionTransaction(support.accountId, transactionId)
+        tradeLogService
+                .deleteOptionTransaction(support.accountId, transactionId)
+                .getOrHandle { throw it }
     }
 
     @RequestMapping(value = ["/dividends", "/dividends/"], method = [RequestMethod.POST])
@@ -164,13 +171,11 @@ class TradeLogController(private val tradeLogService: TradeLogService,
         //todo: validate input
         val support = getSupportData(token)
         val createModel = CreateDividendJournalConverter.toModel(support.accountId, portfolioId, dto)
-        val createdModel = tradeLogService.createDividendTransaction(support.accountId, createModel)
+        val createdModel = tradeLogService
+                .createDividendTransaction(support.accountId, createModel)
+                .getOrHandle { throw it }
 
-        if (createdModel != null) {
-            return DividendJournalConverter.toGWDto(createdModel)
-        } else {
-            throw GatewayApiException(ExceptionCode.CREATE_RESOURCE_FAILED)
-        }
+        return DividendJournalConverter.toGWDto(createdModel)
     }
 
     @RequestMapping(value = ["/dividends/{transactionId}", "/dividends/{transactionId}/"], method = [RequestMethod.DELETE])
@@ -181,7 +186,9 @@ class TradeLogController(private val tradeLogService: TradeLogService,
 
         //todo: validate input
         val support = getSupportData(token)
-        tradeLogService.deleteDividendTransaction(support.accountId, transactionId)
+        tradeLogService
+                .deleteDividendTransaction(support.accountId, transactionId)
+                .getOrHandle { throw it }
     }
 
     @RequestMapping(value = ["/settings/{transactionId}", "/settings/{transactionId}/"], method = [RequestMethod.PUT])
@@ -194,7 +201,9 @@ class TradeLogController(private val tradeLogService: TradeLogService,
         //todo: validate input
         val support = getSupportData(token)
         val model = TransactionSettingsConverter.toModel(dto)
-        transactionService.updateTransactionSetting(support.accountId, model)
+        transactionService
+                .updateTransactionSetting(support.accountId, model)
+                .getOrHandle { throw it }
     }
 
     @RequestMapping(value = ["/settings/bulk", "/settings/bulk/"], method = [RequestMethod.PUT])
@@ -206,6 +215,8 @@ class TradeLogController(private val tradeLogService: TradeLogService,
         //todo: validate input
         val support = getSupportData(token)
         val models = TransactionSettingsConverter.toModels(dto)
-        transactionService.updateTransactionSettings(support.accountId, models)
+        transactionService
+                .updateTransactionSettings(support.accountId, models)
+                .getOrHandle { throw it }
     }
 }

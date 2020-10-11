@@ -62,43 +62,23 @@ class TradeLogService(private val tradeLogGateway: TradeLogGateway,
         }
     }
 
-    fun getSummary(accountId: String): List<TradeSummaryModel> {
-        return tradeLogGateway.getSummary(accountId)
-    }
+    fun getSummary(accountId: String) = tradeLogGateway.getSummary(accountId)
 
-    fun createShareTransaction(accountId: String, model: ShareJournalModel): ShareJournalModel? {
-        return tradeLogGateway.createShareTransaction(accountId, model)
-    }
+    fun createShareTransaction(accountId: String, model: ShareJournalModel) = tradeLogGateway.createShareTransaction(accountId, model)
 
-    fun editShareTransaction(accountId: String, updateModel: ShareJournalModel) {
-        tradeLogGateway.editShareTransaction(accountId, updateModel)
-    }
+    fun editShareTransaction(accountId: String, updateModel: ShareJournalModel) = tradeLogGateway.editShareTransaction(accountId, updateModel)
 
-    fun deleteShareTransaction(accountId: String, transactionId: String) {
-        tradeLogGateway.deleteShareTransaction(accountId, transactionId)
-    }
+    fun deleteShareTransaction(accountId: String, transactionId: String) = tradeLogGateway.deleteShareTransaction(accountId, transactionId)
 
-    fun createOptionTransaction(accountId: String, model: OptionJournalModel): OptionJournalModel? {
-        return tradeLogGateway.createOptionTransaction(accountId, model)
-    }
+    fun createOptionTransaction(accountId: String, model: OptionJournalModel) = tradeLogGateway.createOptionTransaction(accountId, model)
 
-    fun editOptionTransaction(accountId: String, updateModel: OptionJournalModel) {
-        tradeLogGateway.editOptionTransaction(accountId, updateModel)
-    }
+    fun editOptionTransaction(accountId: String, updateModel: OptionJournalModel) = tradeLogGateway.editOptionTransaction(accountId, updateModel)
 
-    fun deleteOptionTransaction(accountId: String, transactionId: String) {
-        tradeLogGateway.deleteOptionTransaction(accountId, transactionId)
-    }
+    fun deleteOptionTransaction(accountId: String, transactionId: String) = tradeLogGateway.deleteOptionTransaction(accountId, transactionId)
 
-    fun createDividendTransaction(accountId: String, model: DividendJournalModel): DividendJournalModel? {
-        return tradeLogGateway.createDividendTransaction(accountId, model)
-    }
+    fun createDividendTransaction(accountId: String, model: DividendJournalModel) = tradeLogGateway.createDividendTransaction(accountId, model)
 
-    fun deleteDividendTransaction(accountId: String, transactionId: String) {
-        tradeLogGateway.deleteDividendTransaction(accountId, transactionId)
-    }
+    fun deleteDividendTransaction(accountId: String, transactionId: String) = tradeLogGateway.deleteDividendTransaction(accountId, transactionId)
 
-    fun getDefaultPortfolio(accountId: String): PortfolioModel? {
-        return tradeLogGateway.getDefaultPortfolio(accountId)
-    }
+    fun getDefaultPortfolio(accountId: String) = tradeLogGateway.getDefaultPortfolio(accountId)
 }

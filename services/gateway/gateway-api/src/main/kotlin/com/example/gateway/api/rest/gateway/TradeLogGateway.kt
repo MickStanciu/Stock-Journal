@@ -1,5 +1,8 @@
 package com.example.gateway.api.rest.gateway
 
+import arrow.core.Either
+import com.example.common.exception.ApiException
+import com.example.common.exception.ApiExceptionCode
 import com.example.gateway.api.core.model.*
 import com.example.gateway.api.rest.converter.*
 import com.example.tradelog.api.spec.model.*
@@ -10,6 +13,7 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Service
+import org.springframework.web.client.RestClientException
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.util.UriComponentsBuilder
 import java.util.*
@@ -27,22 +31,28 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         private const val ACCOUNT_ID_HEADER_NAME = "x-account-id"
     }
 
-    fun getAllActiveSymbols(): List<String> {
+    fun getAllActiveSymbols(): Either<ApiException, List<String>> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("/transactions/active-symbols")
         val headers = HttpHeaders()
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
 
-        val responseEntity = restTemplate
-                .exchange(builder.build("").toString(), HttpMethod.GET, HttpEntity<Any>(headers), TLActiveSymbolsResponse::class.java)
+        return try {
+            val responseEntity = restTemplate
+                    .exchange(builder.build("").toString(), HttpMethod.GET, HttpEntity<Any>(headers), TLActiveSymbolsResponse::class.java)
 
-        val dto: TLActiveSymbolsResponse? = responseEntity.body
+            val dto: TLActiveSymbolsResponse? = responseEntity.body
 
-        return if (dto != null) {
-            ActiveSymbolsResponseConverter.toModel(dto)
-        } else {
-            Collections.emptyList()
+            return if (dto != null) {
+                Either.Right(ActiveSymbolsResponseConverter.toModel(dto))
+            } else {
+                Either.Right(Collections.emptyList())
+            }
+        } catch (rce: RestClientException) {
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR, "Could not connect to TradingLogApi"))
+        } catch (ex: Exception) {
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER, ex.message))
         }
     }
 
@@ -118,7 +128,7 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         }
     }
 
-    fun getSummary(accountId: String): List<TradeSummaryModel> {
+    fun getSummary(accountId: String): Either<ApiException, List<TradeSummaryModel>> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("/transactions/summary")
@@ -127,19 +137,26 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
         headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
 
-        val responseEntity = restTemplate
-                .exchange(builder.build("").toString(), HttpMethod.GET, HttpEntity<Any>(headers), TLTradeSummaryResponse::class.java)
+        return try {
+            val responseEntity = restTemplate
+                    .exchange(builder.build("").toString(), HttpMethod.GET, HttpEntity<Any>(headers), TLTradeSummaryResponse::class.java)
 
-        val dto: TLTradeSummaryResponse? = responseEntity.body
+            val dto: TLTradeSummaryResponse? = responseEntity.body
 
-        return if (dto != null) {
-                dto.itemsList.stream().map { TradeSummaryItemConverter.toModel(it) }.collect(Collectors.toList())
-        } else {
-            Collections.emptyList()
+            return if (dto != null) {
+                Either.Right(dto.itemsList.stream().map { TradeSummaryItemConverter.toModel(it) }.collect(Collectors.toList()))
+            } else {
+                Either.Right(Collections.emptyList())
+            }
+        } catch (rce: RestClientException) {
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR, "Could not connect to TradingLogApi"))
+        } catch (ex: Exception) {
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER, ex.message))
         }
+
     }
 
-    fun getSummaryMatrix(accountId: String, portfolioId: String, sharesOnly: Boolean): List<SummaryMatrixModel> {
+    fun getSummaryMatrix(accountId: String, portfolioId: String, sharesOnly: Boolean): Either<ApiException, List<SummaryMatrixModel>> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("/transactions/summary/matrix/{portfolioId}")
@@ -149,19 +166,25 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
         headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
 
-        val responseEntity = restTemplate
-                .exchange(builder.build(portfolioId).toString(), HttpMethod.GET, HttpEntity<Any>(headers), TLSummaryMatrixResponse::class.java)
+        return try {
+            val responseEntity = restTemplate
+                    .exchange(builder.build(portfolioId).toString(), HttpMethod.GET, HttpEntity<Any>(headers), TLSummaryMatrixResponse::class.java)
 
-        val dto = responseEntity.body
+            val dto = responseEntity.body
 
-        return if (dto != null) {
-            dto.itemsList.stream().map { SummaryMatrixConverter.toModel(it) }.collect(Collectors.toList())
-        } else {
-            Collections.emptyList()
+            return if (dto != null) {
+                Either.Right(dto.itemsList.stream().map { SummaryMatrixConverter.toModel(it) }.collect(Collectors.toList()))
+            } else {
+                Either.Right(Collections.emptyList())
+            }
+        } catch (rce: RestClientException) {
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR, "Could not connect to TradingLogApi"))
+        } catch (ex: Exception) {
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER, ex.message))
         }
     }
 
-    fun createShareTransaction(accountId: String, model: ShareJournalModel): ShareJournalModel? {
+    fun createShareTransaction(accountId: String, model: ShareJournalModel): Either<ApiException, ShareJournalModel> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("/shares")
@@ -171,20 +194,27 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
 
         val requestDto = ShareJournalConverter.toTLDto(model)
-        val responseEntity = restTemplate
-                .exchange(builder.build("").toString(), HttpMethod.POST, HttpEntity<Any>(requestDto, headers), TLShareJournalDto::class.java)
 
-        val responseDto: TLShareJournalDto? = responseEntity.body
+        return try {
+            val responseEntity = restTemplate
+                    .exchange(builder.build("").toString(), HttpMethod.POST, HttpEntity<Any>(requestDto, headers), TLShareJournalDto::class.java)
 
-        return if (responseDto != null) {
-            ShareJournalConverter.toModel(responseDto)
-        } else {
-            null
+            val responseDto: TLShareJournalDto? = responseEntity.body
+
+            return if (responseDto != null) {
+                Either.Right(ShareJournalConverter.toModel(responseDto))
+            } else {
+                Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_DATA_CONVERSION_ERROR, "Cannot process the response"))
+            }
+        } catch (rce: RestClientException) {
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR, "Could not connect to TradingLogApi"))
+        } catch (ex: Exception) {
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER, ex.message))
         }
+
     }
 
-
-    fun editShareTransaction(accountId: String, model: ShareJournalModel) {
+    fun editShareTransaction(accountId: String, model: ShareJournalModel): Either<ApiException, Unit> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("/shares/{id}")
@@ -195,11 +225,19 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
 
         val requestDto = ShareJournalConverter.toTLDto(model)
-        restTemplate
-                .exchange(builder.build(model.transactionId).toString(), HttpMethod.PUT, HttpEntity<Any>(requestDto, headers), Any::class.java)
+
+        return try {
+            restTemplate
+                    .exchange(builder.build(model.transactionId).toString(), HttpMethod.PUT, HttpEntity<Any>(requestDto, headers), Any::class.java)
+            Either.Right(Unit)
+        } catch (rce: RestClientException) {
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR, "Could not connect to TradingLogApi"))
+        } catch (ex: Exception) {
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER, ex.message))
+        }
     }
 
-    fun deleteShareTransaction(accountId: String, transactionId: String) {
+    fun deleteShareTransaction(accountId: String, transactionId: String): Either<ApiException, Unit> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("/shares/{id}")
@@ -208,10 +246,17 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
         headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
 
-        restTemplate.exchange(builder.build(transactionId).toString(), HttpMethod.DELETE, HttpEntity<Any>(headers), Any::class.java)
+        return try {
+            restTemplate.exchange(builder.build(transactionId).toString(), HttpMethod.DELETE, HttpEntity<Any>(headers), Any::class.java)
+            Either.Right(Unit)
+        } catch (rce: RestClientException) {
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR, "Could not connect to TradingLogApi"))
+        } catch (ex: Exception) {
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER, ex.message))
+        }
     }
 
-    fun createOptionTransaction(accountId: String, model: OptionJournalModel): OptionJournalModel? {
+    fun createOptionTransaction(accountId: String, model: OptionJournalModel): Either<ApiException, OptionJournalModel> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("/options")
@@ -221,19 +266,27 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
 
         val requestDto = OptionJournalConverter.toTLDto(model)
-        val responseEntity = restTemplate
-                .exchange(builder.build("").toString(), HttpMethod.POST, HttpEntity<Any>(requestDto, headers), TLOptionJournalDto::class.java)
 
-        val responseDto: TLOptionJournalDto? = responseEntity.body
+        return try {
+            val responseEntity = restTemplate
+                    .exchange(builder.build("").toString(), HttpMethod.POST, HttpEntity<Any>(requestDto, headers), TLOptionJournalDto::class.java)
 
-        return if (responseDto != null) {
-            OptionJournalConverter.toModel(responseDto)
-        } else {
-            null
+            val responseDto: TLOptionJournalDto? = responseEntity.body
+
+            return if (responseDto != null) {
+                Either.Right(OptionJournalConverter.toModel(responseDto))
+            } else {
+                Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_DATA_CONVERSION_ERROR, "Cannot process the response"))
+            }
+        } catch (rce: RestClientException) {
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR, "Could not connect to TradingLogApi"))
+        } catch (ex: Exception) {
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER, ex.message))
         }
+
     }
 
-    fun editOptionTransaction(accountId: String, model: OptionJournalModel) {
+    fun editOptionTransaction(accountId: String, model: OptionJournalModel): Either<ApiException, Unit> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("/options/{id}")
@@ -244,11 +297,18 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
 
         val requestDto = OptionJournalConverter.toTLDto(model)
-        restTemplate
-                .exchange(builder.build(model.transactionId).toString(), HttpMethod.PUT, HttpEntity<Any>(requestDto, headers), Any::class.java)
+        return try {
+            restTemplate
+                    .exchange(builder.build(model.transactionId).toString(), HttpMethod.PUT, HttpEntity<Any>(requestDto, headers), Any::class.java)
+            Either.Right(Unit)
+        } catch (rce: RestClientException) {
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR, "Could not connect to TradingLogApi"))
+        } catch (ex: Exception) {
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER, ex.message))
+        }
     }
 
-    fun deleteOptionTransaction(accountId: String, transactionId: String) {
+    fun deleteOptionTransaction(accountId: String, transactionId: String): Either<ApiException, Unit> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("/options/{id}")
@@ -257,10 +317,17 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
         headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
 
-        restTemplate.exchange(builder.build(transactionId).toString(), HttpMethod.DELETE, HttpEntity<Any>(headers), Any::class.java)
+        return try {
+            restTemplate.exchange(builder.build(transactionId).toString(), HttpMethod.DELETE, HttpEntity<Any>(headers), Any::class.java)
+            Either.Right(Unit)
+        } catch (rce: RestClientException) {
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR, "Could not connect to TradingLogApi"))
+        } catch (ex: Exception) {
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER, ex.message))
+        }
     }
 
-    fun updateTransactionSettings(accountId: String, model: TransactionSettingsModel) {
+    fun updateTransactionSettings(accountId: String, model: TransactionSettingsModel): Either<ApiException, Unit> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("transactions/settings/{id}")
@@ -270,10 +337,18 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
 
         val requestDto = TransactionSettingsConverter.toDto(model)
-        restTemplate.exchange(builder.build(model.transactionId).toString(), HttpMethod.PUT, HttpEntity<Any>(requestDto, headers), Any::class.java)
+
+        return try {
+            restTemplate.exchange(builder.build(model.transactionId).toString(), HttpMethod.PUT, HttpEntity<Any>(requestDto, headers), Any::class.java)
+            Either.Right(Unit)
+        } catch (rce: RestClientException) {
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR, "Could not connect to TradingLogApi"))
+        } catch (ex: Exception) {
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER, ex.message))
+        }
     }
 
-    fun createDividendTransaction(accountId: String, model: DividendJournalModel): DividendJournalModel? {
+    fun createDividendTransaction(accountId: String, model: DividendJournalModel): Either<ApiException, DividendJournalModel> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("/dividends")
@@ -283,19 +358,27 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
 
         val requestDto = DividendJournalConverter.toTLDto(model)
-        val responseEntity = restTemplate
-                .exchange(builder.build("").toString(), HttpMethod.POST, HttpEntity<Any>(requestDto, headers), TLDividendJournalDto::class.java)
 
-        val responseDto: TLDividendJournalDto? = responseEntity.body
+        return try {
+            val responseEntity = restTemplate
+                    .exchange(builder.build("").toString(), HttpMethod.POST, HttpEntity<Any>(requestDto, headers), TLDividendJournalDto::class.java)
 
-        return if (responseDto != null) {
-            DividendJournalConverter.toModel(responseDto)
-        } else {
-            null
+            val responseDto: TLDividendJournalDto? = responseEntity.body
+
+            if (responseDto != null) {
+                Either.Right(DividendJournalConverter.toModel(responseDto))
+            } else {
+                Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_DATA_CONVERSION_ERROR, "Cannot process the response"))
+            }
+        } catch (rce: RestClientException) {
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR, "Could not connect to TradingLogApi"))
+        } catch (ex: Exception) {
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER, ex.message))
         }
+
     }
 
-    fun deleteDividendTransaction(accountId: String, transactionId: String) {
+    fun deleteDividendTransaction(accountId: String, transactionId: String): Either<ApiException, Unit> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("/dividends/{id}")
@@ -304,10 +387,17 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
         headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
 
-        restTemplate.exchange(builder.build(transactionId).toString(), HttpMethod.DELETE, HttpEntity<Any>(headers), Any::class.java)
+        return try {
+            restTemplate.exchange(builder.build(transactionId).toString(), HttpMethod.DELETE, HttpEntity<Any>(headers), Any::class.java)
+            Either.Right(Unit)
+        } catch (rce: RestClientException) {
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR, "Could not connect to TradingLogApi"))
+        } catch (ex: Exception) {
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER, ex.message))
+        }
     }
 
-    fun getDefaultPortfolio(accountId: String): PortfolioModel? {
+    fun getDefaultPortfolio(accountId: String): Either<ApiException, PortfolioModel> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("/portfolios/default/")
@@ -316,13 +406,19 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
         headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
 
-        val responseEntity = restTemplate.exchange(builder.build("").toString(), HttpMethod.GET, HttpEntity<Any>(headers), TLPortfolioDto::class.java)
-        val responseDto: TLPortfolioDto? = responseEntity.body
+        return try {
+            val responseEntity = restTemplate.exchange(builder.build("").toString(), HttpMethod.GET, HttpEntity<Any>(headers), TLPortfolioDto::class.java)
+            val responseDto: TLPortfolioDto? = responseEntity.body
 
-        return if (responseDto != null) {
-            PortfolioConverter.toModel(responseDto)
-        } else {
-            null
+            if (responseDto != null) {
+                Either.Right(PortfolioConverter.toModel(responseDto))
+            } else {
+                Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_DATA_CONVERSION_ERROR, "Cannot process the response"))
+            }
+        } catch (rce: RestClientException) {
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR, "Could not connect to TradingLogApi"))
+        } catch (ex: Exception) {
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER, ex.message))
         }
     }
 }

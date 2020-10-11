@@ -1,6 +1,8 @@
 package com.example.gateway.api.rest.exception
 
 import com.example.common.converter.TimeConverter
+import com.example.common.exception.ApiException
+import com.example.common.exception.ApiExceptionCode
 import com.example.gateway.api.rest.converter.toExceptionCode
 import com.example.gateway.api.spec.model.ExceptionResponse
 import org.slf4j.LoggerFactory
@@ -70,6 +72,23 @@ class CustomisedExceptionHandler: ResponseEntityExceptionHandler() {
 //
 //            ExceptionCode.UPDATE_TRANSACTION_OPTIONS_FAILED -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse)
 
+            else -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionResponse)
+        }
+    }
+
+    @ExceptionHandler(ApiException::class)
+    fun handleApiException(ex: ApiException, request: WebRequest): ResponseEntity<ExceptionResponse> {
+        val exceptionResponse = ExceptionResponse.newBuilder()
+                .setCode(toExceptionCode(ex.code))
+                .setMessage(ex.message)
+                .setDetails(request.getDescription(false))
+                .setTimestamp(TimeConverter.getOffsetDateTimeNow().toString())
+                .build()
+
+        LOG.error(ex.message, ex)
+        return when (ex.code) {
+            ApiExceptionCode.EXTERNAL_API_DATA_CONVERSION_ERROR -> ResponseEntity.status(HttpStatus.NO_CONTENT).body(exceptionResponse)
+            ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionResponse)
             else -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionResponse)
         }
     }

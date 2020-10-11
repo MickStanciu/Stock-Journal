@@ -19,5 +19,7 @@ enum class ApiExceptionCode(val defaultMessage: String = "") {
     USER_NOT_FOUND("User not found"),
 
     // 3rd Party API related
+    EXTERNAL_API_CONNECTION_ERROR(),
+    EXTERNAL_API_DATA_CONVERSION_ERROR("Could not interpret the API response"),
     EXTERNAL_API_OTHER("External API returned an error"),
 }
