@@ -1,5 +1,6 @@
 package com.example.gateway.api.rest.controller
 
+import arrow.core.getOrHandle
 import com.example.gateway.api.core.service.AccountService
 import com.example.gateway.api.core.service.TradeLogService
 import com.example.gateway.api.rest.controller.AuthenticationController.Companion.PROTOBUF_MEDIA_TYPE_VALUE
@@ -35,8 +36,7 @@ class AuthenticationController(private val accountService: AccountService,
                 throw GatewayApiException(ExceptionCode.ACCOUNT_NOT_FOUND)
         val token = TokenConverter.encode(activeAccount.id)
 
-        val defaultPortfolio = tradeLogService.getDefaultPortfolio(accountId = activeAccount.id) ?:
-                throw GatewayApiException(code = ExceptionCode.NO_DEFAULT_PORTFOLIO)
+        val defaultPortfolio = tradeLogService.getDefaultPortfolio(accountId = activeAccount.id).getOrHandle { throw it }
 
         return GWAuthResponseDto.newBuilder()
                 .setApiToken(token)

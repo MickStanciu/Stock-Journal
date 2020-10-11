@@ -23,7 +23,7 @@ configurations {
 
 dependencies {
   implementation (kotlin("stdlib"))
-  implementation("io.arrow-kt:arrow-core:$arrowVersion")
+  implementation (group = "io.arrow-kt", name = "arrow-core", version = arrowVersion)
   testImplementation ("org.junit.jupiter:junit-jupiter:$junitVersion")
 }
 

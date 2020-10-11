@@ -1,5 +1,6 @@
 package com.example.gateway.api.scheduler
 
+import arrow.core.getOrHandle
 import com.example.gateway.api.core.service.StockDataService
 import com.example.gateway.api.core.service.TransactionService
 import org.slf4j.LoggerFactory
@@ -18,7 +19,7 @@ class Scheduler(
     //EVERY HOUR
     @Scheduled(cron = "0 0 * * * ?")
     fun updateActiveSymbols() {
-        val symbols = transactionService.getActiveSymbols()
+        val symbols = transactionService.getActiveSymbols().getOrHandle { throw it }
         if (symbols.isNotEmpty()) {
             stockDataService.updateSymbols(symbols)
         }

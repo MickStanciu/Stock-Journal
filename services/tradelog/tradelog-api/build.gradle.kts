@@ -50,7 +50,7 @@ dependencies {
     implementation ("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation ("com.fasterxml.jackson.core:jackson-databind:2.10.0")
 
-    implementation("io.arrow-kt:arrow-core:$arrowVersion")
+    implementation(group = "io.arrow-kt", name = "arrow-core", version = arrowVersion)
 
     runtimeOnly("org.springframework.boot:spring-boot-devtools")
 

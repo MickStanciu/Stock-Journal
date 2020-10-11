@@ -21,6 +21,7 @@ val jacksonVersion: String = rootProject.extra.get("jacksonVersion") as String
 val jwtVersion: String = rootProject.extra.get("jwtVersion") as String
 val junitVersion: String = rootProject.extra.get("junitVersion") as String
 val kotlinTestVersion: String = rootProject.extra.get("kotlinTestVersion") as String
+val arrowVersion: String = rootProject.extra["arrowVersion"] as String
 
 
 configurations {
@@ -49,9 +50,10 @@ dependencies {
     implementation ("com.google.code.findbugs:jsr305:3.0.2")
     implementation ("com.fasterxml.jackson.module:jackson-module-kotlin:$jacksonVersion")
     implementation ("com.fasterxml.jackson.core:jackson-databind:2.10.0")
-    implementation (group = "javax.xml.bind",  name = "jaxb-api", version = "2.3.1")
-    implementation("io.jsonwebtoken:jjwt:$jwtVersion")
-
+    implementation (group = "javax.xml.bind", name = "jaxb-api", version = "2.3.1")
+    implementation ("io.jsonwebtoken:jjwt:$jwtVersion")
+    implementation (group = "io.arrow-kt", name = "arrow-core", version = arrowVersion)
+    
     runtimeOnly ("org.springframework.boot:spring-boot-devtools")
 
     testImplementation ("org.junit.jupiter:junit-jupiter:$junitVersion")
