@@ -13,8 +13,9 @@ fun toExceptionCode(model: ExceptionCode): ExceptionResponse.ExceptionCode {
 
 fun toExceptionCode(code: ApiExceptionCode): ExceptionResponse.ExceptionCode {
     return when(code) {
-        ApiExceptionCode.EXTERNAL_API_DATA_CONVERSION_ERROR -> ExceptionResponse.ExceptionCode.UNKNOWN_CODE
-        ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR -> ExceptionResponse.ExceptionCode.INTERNAL_ERROR
-        else -> ExceptionResponse.ExceptionCode.INTERNAL_ERROR
+        ApiExceptionCode.EXTERNAL_API_DATA_CONVERSION_ERROR -> ExceptionResponse.ExceptionCode.EXTERNAL_API_DATA_CONVERSION_ERROR
+        ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR -> ExceptionResponse.ExceptionCode.EXTERNAL_API_CONNECTION_ERROR
+        ApiExceptionCode.EXTERNAL_API_OTHER_ERROR -> ExceptionResponse.ExceptionCode.EXTERNAL_API_OTHER_ERROR
+        else -> ExceptionResponse.ExceptionCode.EXTERNAL_API_OTHER_ERROR
     }
 }

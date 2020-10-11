@@ -1,5 +1,6 @@
 package com.example.gateway.api.core.service
 
+import arrow.core.getOrElse
 import com.example.common.converter.TimeConverter
 import com.example.gateway.api.core.model.*
 import com.example.gateway.api.core.util.HydrationContext
@@ -19,16 +20,15 @@ class TradeLogService(private val tradeLogGateway: TradeLogGateway,
         val futureDividendList = tradeLogGateway.getAllDividendTransactions(accountId, portfolioId, symbol)
 
         CompletableFuture.allOf(futureShareList, futureOptionList, futureDividendList).join()
-        var stockPrice = stockDataGateway.getPrice(symbol)
-        if (stockPrice == null) {
-            stockPrice = SharePriceModel(
-                    symbol = symbol,
-                    lastClose = 0.00,
-                    lastUpdatedOn = TimeConverter.getOffsetDateTimeNow(),
-                    lastFailedOn = null,
-                    active = true
-            )
-        }
+        val stockPrice = stockDataGateway
+                .getPrice(symbol)
+                .getOrElse { SharePriceModel(
+                        symbol = symbol,
+                        lastClose = 0.00,
+                        lastUpdatedOn = TimeConverter.getOffsetDateTimeNow(),
+                        lastFailedOn = null,
+                        active = true)
+                }
 
         var receivedShareList = ArrayList<ShareJournalModel>()
         if (futureShareList.get().isNotEmpty()) {

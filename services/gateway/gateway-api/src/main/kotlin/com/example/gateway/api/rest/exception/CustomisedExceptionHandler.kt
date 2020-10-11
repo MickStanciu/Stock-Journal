@@ -2,7 +2,6 @@ package com.example.gateway.api.rest.exception
 
 import com.example.common.converter.TimeConverter
 import com.example.common.exception.ApiException
-import com.example.common.exception.ApiExceptionCode
 import com.example.gateway.api.rest.converter.toExceptionCode
 import com.example.gateway.api.spec.model.ExceptionResponse
 import org.slf4j.LoggerFactory
@@ -86,12 +85,7 @@ class CustomisedExceptionHandler: ResponseEntityExceptionHandler() {
                 .build()
 
         LOG.error(ex.message, ex)
-        return when (ex.code) {
-            ApiExceptionCode.EXTERNAL_API_DATA_CONVERSION_ERROR -> ResponseEntity.status(HttpStatus.NO_CONTENT).body(exceptionResponse)
-            ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionResponse)
-            else -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionResponse)
-        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionResponse)
     }
-
 
 }

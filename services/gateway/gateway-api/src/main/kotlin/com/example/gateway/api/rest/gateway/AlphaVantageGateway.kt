@@ -1,5 +1,8 @@
 package com.example.gateway.api.rest.gateway
 
+import arrow.core.Either
+import com.example.common.exception.ApiException
+import com.example.common.exception.ApiExceptionCode
 import com.example.gateway.api.core.model.SharePriceModel
 import com.example.gateway.api.rest.converter.AlphaVantageCsvConverter
 import org.springframework.beans.factory.annotation.Value
@@ -7,6 +10,7 @@ import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.stereotype.Service
+import org.springframework.web.client.RestClientException
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.util.UriComponentsBuilder
 
@@ -17,7 +21,7 @@ class AlphaVantageGateway(private val restTemplate: RestTemplate,
 
     private final val URL_TEMPLATE = "/query"
 
-    fun getQuoteResponse(symbol: String): SharePriceModel? {
+    fun getQuoteResponse(symbol: String): Either<ApiException, SharePriceModel> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(API_URL)
                 .path(URL_TEMPLATE)
@@ -32,15 +36,19 @@ class AlphaVantageGateway(private val restTemplate: RestTemplate,
         val headers = HttpHeaders()
         headers.set("Content-Type", "application/json")
 
-        val responseEntity = restTemplate
-                .exchange(builder.build("").toString(), HttpMethod.GET, HttpEntity<Any>(headers), String::class.java)
+        return try {
+            val responseEntity = restTemplate
+                    .exchange(builder.build("").toString(), HttpMethod.GET, HttpEntity<Any>(headers), String::class.java)
 
-        val responseCSV: String? = responseEntity.body
-
-        return if (responseCSV != null) {
-            AlphaVantageCsvConverter.toModel(responseCSV)
-        } else {
-            null
+            if (responseEntity.body != null) {
+                AlphaVantageCsvConverter.toModel(responseEntity.body!!)
+            } else {
+                Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_DATA_CONVERSION_ERROR))
+            }
+        } catch (rce: RestClientException) {
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR, "Could not connect to AlphaVantageApi"))
+        } catch (ex: Exception) {
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER_ERROR, ex.message))
         }
     }
 }

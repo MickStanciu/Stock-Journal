@@ -1,31 +1,31 @@
 package com.example.gateway.api.rest.converter
 
+import arrow.core.Either
 import com.example.common.converter.TimeConverter
+import com.example.common.exception.ApiException
+import com.example.common.exception.ApiExceptionCode
 import com.example.gateway.api.core.model.SharePriceModel
-import org.slf4j.LoggerFactory
 
 class AlphaVantageCsvConverter {
 
     companion object {
-        private val LOG = LoggerFactory.getLogger(AlphaVantageCsvConverter::class.java)
-
-        fun toModel(csv: String): SharePriceModel? {
+        fun toModel(csv: String): Either<ApiException, SharePriceModel> {
             if ("{}" == csv) {
-                LOG.info("Error parsing CSV: $csv")
-                return null
+                return Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_DATA_CONVERSION_ERROR, "Error parsing CSV: $csv"))
             }
 
             val bits = CsvProcessor.getCsvBits(csv)
             if (bits.isEmpty() || !bits.containsKey("symbol") || !bits.containsKey("previousClose") || !bits.containsKey("latestDay")) {
-                LOG.info("Error parsing CSV: $bits")
-                return null
+                return Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_DATA_CONVERSION_ERROR, "Error parsing CSV: $bits"))
             }
-            return SharePriceModel(
-                    symbol = bits["symbol"]!!,
-                    lastClose = bits["previousClose"]!!.toDouble(),
-                    lastUpdatedOn = TimeConverter.fromUSDateString(bits["latestDay"]!!),
-                    lastFailedOn = null,
-                    active = true
+            return Either.Right(
+                    SharePriceModel(
+                        symbol = bits["symbol"]!!,
+                        lastClose = bits["previousClose"]!!.toDouble(),
+                        lastUpdatedOn = TimeConverter.fromUSDateString(bits["latestDay"]!!),
+                        lastFailedOn = null,
+                        active = true
+                    )
             )
         }
     }

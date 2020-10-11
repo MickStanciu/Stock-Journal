@@ -52,7 +52,7 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         } catch (rce: RestClientException) {
             Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR, "Could not connect to TradingLogApi"))
         } catch (ex: Exception) {
-            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER, ex.message))
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER_ERROR, ex.message))
         }
     }
 
@@ -151,7 +151,7 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         } catch (rce: RestClientException) {
             Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR, "Could not connect to TradingLogApi"))
         } catch (ex: Exception) {
-            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER, ex.message))
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER_ERROR, ex.message))
         }
 
     }
@@ -180,7 +180,7 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         } catch (rce: RestClientException) {
             Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR, "Could not connect to TradingLogApi"))
         } catch (ex: Exception) {
-            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER, ex.message))
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER_ERROR, ex.message))
         }
     }
 
@@ -209,7 +209,7 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         } catch (rce: RestClientException) {
             Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR, "Could not connect to TradingLogApi"))
         } catch (ex: Exception) {
-            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER, ex.message))
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER_ERROR, ex.message))
         }
 
     }
@@ -233,7 +233,7 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         } catch (rce: RestClientException) {
             Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR, "Could not connect to TradingLogApi"))
         } catch (ex: Exception) {
-            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER, ex.message))
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER_ERROR, ex.message))
         }
     }
 
@@ -252,7 +252,7 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         } catch (rce: RestClientException) {
             Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR, "Could not connect to TradingLogApi"))
         } catch (ex: Exception) {
-            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER, ex.message))
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER_ERROR, ex.message))
         }
     }
 
@@ -281,7 +281,7 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         } catch (rce: RestClientException) {
             Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR, "Could not connect to TradingLogApi"))
         } catch (ex: Exception) {
-            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER, ex.message))
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER_ERROR, ex.message))
         }
 
     }
@@ -304,7 +304,7 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         } catch (rce: RestClientException) {
             Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR, "Could not connect to TradingLogApi"))
         } catch (ex: Exception) {
-            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER, ex.message))
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER_ERROR, ex.message))
         }
     }
 
@@ -323,7 +323,7 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         } catch (rce: RestClientException) {
             Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR, "Could not connect to TradingLogApi"))
         } catch (ex: Exception) {
-            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER, ex.message))
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER_ERROR, ex.message))
         }
     }
 
@@ -344,7 +344,7 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         } catch (rce: RestClientException) {
             Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR, "Could not connect to TradingLogApi"))
         } catch (ex: Exception) {
-            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER, ex.message))
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER_ERROR, ex.message))
         }
     }
 
@@ -373,7 +373,7 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         } catch (rce: RestClientException) {
             Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR, "Could not connect to TradingLogApi"))
         } catch (ex: Exception) {
-            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER, ex.message))
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER_ERROR, ex.message))
         }
 
     }
@@ -393,7 +393,7 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         } catch (rce: RestClientException) {
             Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR, "Could not connect to TradingLogApi"))
         } catch (ex: Exception) {
-            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER, ex.message))
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER_ERROR, ex.message))
         }
     }
 
@@ -418,7 +418,7 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         } catch (rce: RestClientException) {
             Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR, "Could not connect to TradingLogApi"))
         } catch (ex: Exception) {
-            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER, ex.message))
+            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER_ERROR, ex.message))
         }
     }
 }

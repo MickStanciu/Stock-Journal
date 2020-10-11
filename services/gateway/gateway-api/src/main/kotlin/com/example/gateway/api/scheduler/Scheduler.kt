@@ -28,7 +28,7 @@ class Scheduler(
     //EVERY MINUTE
     @Scheduled(cron = "0 * * * * ?")
     fun updatePrices() {
-        val priceModels = stockDataService.getSymbolsForUpdate()
+        val priceModels = stockDataService.getSymbolsForUpdate().getOrHandle { throw it }
         priceModels.forEach {
             if ("XYZ" != it.symbol) {
                 LOG.info("Processing update price for ${it.symbol}")

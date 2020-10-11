@@ -234,5 +234,8 @@ message ExceptionResponse {
         NO_DATA = 2;
         UNAUTHORIZED = 3;
         INTERNAL_ERROR = 4;
+        EXTERNAL_API_CONNECTION_ERROR = 5;
+        EXTERNAL_API_DATA_CONVERSION_ERROR = 6;
+        EXTERNAL_API_OTHER_ERROR = 7;
     }
 }

@@ -1,8 +1,9 @@
 package com.example.gateway.api.rest.converter
 
+import arrow.core.getOrHandle
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNotBe
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.fail
 
 class AlphaVantageCsvConverterTest {
 
@@ -13,9 +14,11 @@ class AlphaVantageCsvConverterTest {
 
     @Test
     fun testConvert() {
-        val response = AlphaVantageCsvConverter.toModel(csvResponse)
-        response shouldNotBe null
-        response?.lastClose shouldBe 166.7200
+        val response = AlphaVantageCsvConverter
+                .toModel(csvResponse)
+                .getOrHandle { fail(it) }
+
+        response.lastClose shouldBe 166.7200
     }
 
 }

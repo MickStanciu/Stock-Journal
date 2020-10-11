@@ -1,6 +1,8 @@
 package com.example.gateway.api.core.service
 
+import arrow.core.Either
 import com.example.common.converter.TimeConverter
+import com.example.common.exception.ApiException
 import com.example.gateway.api.amqp.AmqpSender
 import com.example.gateway.api.core.model.SharePriceModel
 import com.example.gateway.api.rest.gateway.AlphaVantageGateway
@@ -13,34 +15,35 @@ class StockDataService(
         private val alphaVantageGateway: AlphaVantageGateway,
         private val ampqSender: AmqpSender) {
 
-    fun getPrice(symbol: String): SharePriceModel? {
-        return stockDataGateway.getPrice(symbol)
-    }
+    fun getPrice(symbol: String) = stockDataGateway.getPrice(symbol)
 
-    fun updatePrice(model: SharePriceModel) {
-        val receivedPrice = alphaVantageGateway.getQuoteResponse(model.symbol)
+    fun updatePrice(model: SharePriceModel): Either<ApiException, Unit> {
         val now = TimeConverter.getOffsetDateTimeNow()
-        if (receivedPrice != null) {
-            receivedPrice.lastUpdatedOn = now
-            ampqSender.updatePrice(receivedPrice)
-        } else {
-            var active = model.active
-            if (model.lastFailedOn != null) {
-                active = false
-            }
 
-            model.lastFailedOn = now
-            model.lastUpdatedOn = now
-            model.active = active
-            ampqSender.updatePrice(model)
-        }
+        return alphaVantageGateway
+                .getQuoteResponse(model.symbol)
+                .bimap(
+                        {
+                            var active = model.active
+                            if (model.lastFailedOn != null) {
+                                active = false
+                            }
+
+                            model.lastFailedOn = now
+                            model.lastUpdatedOn = now
+                            model.active = active
+                            ampqSender.updatePrice(model)
+                            it
+                        },
+                        {
+                            it.lastUpdatedOn = now
+                            ampqSender.updatePrice(it)
+                        }
+                )
+
     }
 
-    fun getSymbolsForUpdate(): List<SharePriceModel> {
-        return stockDataGateway.getSymbolsForUpdate()
-    }
+    fun getSymbolsForUpdate() = stockDataGateway.getSymbolsForUpdate()
 
-    fun updateSymbols(symbols: List<String>) {
-        stockDataGateway.updateSymbols(symbols)
-    }
+    fun updateSymbols(symbols: List<String>) = stockDataGateway.updateSymbols(symbols)
 }

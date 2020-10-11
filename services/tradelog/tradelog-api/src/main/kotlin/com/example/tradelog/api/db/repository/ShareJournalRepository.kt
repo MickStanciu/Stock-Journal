@@ -1,7 +1,7 @@
 package com.example.tradelog.api.db.repository
 
 import arrow.core.Either
-import arrow.core.extensions.either.monad.flatMap
+import arrow.core.flatMap
 import com.example.common.repository.DataAccessError
 import com.example.common.utils.performSafeCall
 import com.example.tradelog.api.core.model.ShareJournalModel

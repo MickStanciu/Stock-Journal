@@ -1,7 +1,7 @@
 package com.example.tradelog.api.core.service
 
 import arrow.core.Either
-import arrow.core.extensions.either.monad.flatMap
+import arrow.core.flatMap
 import com.example.common.service.ServiceError
 import com.example.common.service.toServiceError
 import com.example.tradelog.api.core.converter.TradeSummaryUtil

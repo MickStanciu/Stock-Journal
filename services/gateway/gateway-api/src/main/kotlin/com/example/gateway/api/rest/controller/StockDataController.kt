@@ -1,10 +1,9 @@
 package com.example.gateway.api.rest.controller
 
+import arrow.core.getOrHandle
 import com.example.gateway.api.core.service.StockDataService
 import com.example.gateway.api.rest.controller.StockDataController.Companion.PROTOBUF_MEDIA_TYPE_VALUE
 import com.example.gateway.api.rest.converter.ShareDataConverter
-import com.example.gateway.api.rest.exception.ExceptionCode
-import com.example.gateway.api.rest.exception.GatewayApiException
 import com.example.gateway.api.spec.model.GWShareDataDto
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -26,8 +25,9 @@ class StockDataController(private val stockDataService: StockDataService) {
 
         //todo: validate input
 
-        val shareDataModel = stockDataService.getPrice(symbol)
-                ?: throw GatewayApiException(ExceptionCode.SHARE_DATA_NOT_FOUND)
+        val shareDataModel = stockDataService
+                .getPrice(symbol)
+                .getOrHandle { throw it }
 
         return ShareDataConverter.toDto(shareDataModel)
     }

@@ -32,11 +32,14 @@ class AuthenticationController(private val accountService: AccountService,
             throw GatewayApiException(ExceptionCode.BAD_REQUEST)
         }
 
-        val activeAccount = accountService.getActiveAccount(authRequestDto.loginName, authRequestDto.password) ?:
-                throw GatewayApiException(ExceptionCode.ACCOUNT_NOT_FOUND)
+        val activeAccount = accountService
+                .getActiveAccount(authRequestDto.loginName, authRequestDto.password)
+                .getOrHandle { throw it }
         val token = TokenConverter.encode(activeAccount.id)
 
-        val defaultPortfolio = tradeLogService.getDefaultPortfolio(accountId = activeAccount.id).getOrHandle { throw it }
+        val defaultPortfolio = tradeLogService
+                .getDefaultPortfolio(accountId = activeAccount.id)
+                .getOrHandle { throw it }
 
         return GWAuthResponseDto.newBuilder()
                 .setApiToken(token)

@@ -17,9 +17,10 @@ enum class ApiExceptionCode(val defaultMessage: String = "") {
 
     // Core related
     USER_NOT_FOUND("User not found"),
+    ACCOUNT_NOT_ACTIVE("Account is not active"),
 
     // 3rd Party API related
     EXTERNAL_API_CONNECTION_ERROR(),
     EXTERNAL_API_DATA_CONVERSION_ERROR("Could not interpret the API response"),
-    EXTERNAL_API_OTHER("External API returned an error"),
+    EXTERNAL_API_OTHER_ERROR("External API returned an error"),
 }
