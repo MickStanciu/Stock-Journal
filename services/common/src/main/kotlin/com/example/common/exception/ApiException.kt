@@ -8,8 +8,9 @@ class ApiException(val code: ApiExceptionCode, private val customMessage: String
 enum class ApiExceptionCode(val defaultMessage: String = "") {
 
     // Database related
-//    RECORD_NOT_FOUND("We could not find the specified record"),
-//    DATABASE_ACCESS_ERROR("Unknown Database Error"),
+    DATABASE_RECORD_NOT_FOUND("We could not find the specified record"),
+    DATABASE_ACCESS_ERROR("Unknown Database Error"),
+    DATABASE_MORE_THAN_ONE_RECORD("Found more than one record"),
 
     // Data quality related
     VALIDATION_ERROR("Model has invalid data"),
