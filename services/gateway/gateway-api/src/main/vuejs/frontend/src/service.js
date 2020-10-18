@@ -39,7 +39,8 @@ const appService = {
     getSummary(token) {
         const config = {
             headers: {
-                'x-auth-key': token
+                'x-auth-key': token,
+                'portfolio-id': portfolioId
             }
         };
 
@@ -65,10 +66,10 @@ const appService = {
 
         const config = {
             headers: {
-                'x-auth-key': token
+                'x-auth-key': token,
+                'portfolio-id': portfolioId
             },
             params: {
-                'portfolio-id': portfolioId,
                 'shares-only': onlyShares
             }
         };
@@ -111,9 +112,7 @@ const appService = {
     getTradesPerSymbol(symbol, token) {
         const config = {
             headers: {
-                'x-auth-key': token
-            },
-            params: {
+                'x-auth-key': token,
                 'portfolio-id': portfolioId
             }
         };
@@ -133,9 +132,7 @@ const appService = {
     recordShareTrade(dto, token) {
         const config = {
             headers: {
-                'x-auth-key': token
-            },
-            params: {
+                'x-auth-key': token,
                 'portfolio-id': portfolioId
             }
         };
@@ -156,7 +153,8 @@ const appService = {
     editShareTrade(dto, token) {
         const config = {
             headers: {
-                'x-auth-key': token
+                'x-auth-key': token,
+                'portfolio-id': portfolioId
             }
         };
 
@@ -178,7 +176,8 @@ const appService = {
     deleteShareTrade(dto, token) {
         const config = {
             headers: {
-                'x-auth-key': token
+                'x-auth-key': token,
+                'portfolio-id': portfolioId
             }
         };
 
@@ -200,9 +199,7 @@ const appService = {
     recordOptionTrade(dto, token) {
         const config = {
             headers: {
-                'x-auth-key': token
-            },
-            params: {
+                'x-auth-key': token,
                 'portfolio-id': portfolioId
             }
         };
@@ -223,7 +220,8 @@ const appService = {
     editOptionTrade(dto, token) {
         const config = {
             headers: {
-                'x-auth-key': token
+                'x-auth-key': token,
+                'portfolio-id': portfolioId
             }
         };
 
@@ -245,7 +243,8 @@ const appService = {
     deleteOptionTrade(dto, token) {
         const config = {
             headers: {
-                'x-auth-key': token
+                'x-auth-key': token,
+                'portfolio-id': portfolioId
             }
         };
 
@@ -267,9 +266,7 @@ const appService = {
     recordDividendTrade(dto, token) {
         const config = {
             headers: {
-                'x-auth-key': token
-            },
-            params: {
+                'x-auth-key': token,
                 'portfolio-id': portfolioId
             }
         };
@@ -290,7 +287,8 @@ const appService = {
     deleteDividendRecord(dto, token) {
         const config = {
             headers: {
-                'x-auth-key': token
+                'x-auth-key': token,
+                'portfolio-id': portfolioId
             }
         };
 
@@ -313,7 +311,8 @@ const appService = {
     saveSetting(setting, token) {
         const config = {
             headers: {
-                'x-auth-key': token
+                'x-auth-key': token,
+                'portfolio-id': portfolioId
             }
         };
 
@@ -332,7 +331,8 @@ const appService = {
     saveSettings(settings, token) {
         const config = {
             headers: {
-                'x-auth-key': token
+                'x-auth-key': token,
+                'portfolio-id': portfolioId
             }
         };
 
