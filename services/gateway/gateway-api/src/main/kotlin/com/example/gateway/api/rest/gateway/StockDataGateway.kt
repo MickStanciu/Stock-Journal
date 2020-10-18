@@ -35,11 +35,10 @@ class StockDataGateway(
         val headers = HttpHeaders()
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
 
-        var responseDto: SDPriceItem? = null
         return try {
             val responseEntity = restTemplate
                     .exchange(builder.build(symbol).toString(), HttpMethod.GET, HttpEntity<Any>(headers), SDPriceItem::class.java)
-            responseDto = responseEntity.body
+            val responseDto = responseEntity.body
             if (responseDto != null) {
                 Either.Right(ShareDataConverter.toModel(responseDto))
             } else {

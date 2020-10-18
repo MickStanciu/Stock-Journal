@@ -35,7 +35,7 @@ class AuthenticationController(private val accountService: AccountService,
         val activeAccount = accountService
                 .getActiveAccount(authRequestDto.loginName, authRequestDto.password)
                 .getOrHandle { throw it }
-        val token = TokenConverter.encode(activeAccount.id)
+        val token = TokenConverter.encode(activeAccount.id.toString())
 
         val defaultPortfolio = tradeLogService
                 .getDefaultPortfolio(accountId = activeAccount.id)
@@ -43,7 +43,7 @@ class AuthenticationController(private val accountService: AccountService,
 
         return GWAuthResponseDto.newBuilder()
                 .setApiToken(token)
-                .setAccountId(activeAccount.id)
+                .setAccountId(activeAccount.id.toString())
                 .setDisplayName(activeAccount.displayName)
                 .setEmail(activeAccount.email)
                 .setLoginName(activeAccount.loginName)

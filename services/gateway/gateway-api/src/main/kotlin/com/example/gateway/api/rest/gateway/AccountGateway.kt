@@ -32,7 +32,7 @@ class AccountGateway(private val restTemplate: RestTemplate,
         val headers = HttpHeaders()
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
 
-        var responseDto: AAccountDto? = null
+        val responseDto: AAccountDto?
         return try {
             val responseEntity = restTemplate.exchange(builder.build("").toString(), HttpMethod.GET, HttpEntity<Any>(headers), AAccountDto::class.java)
             responseDto = responseEntity.body

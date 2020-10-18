@@ -1,4 +1,8 @@
 package com.example.gateway.api.core.model
 
-class SupportMetadata(val accountId: String) {
-}
+import java.util.*
+
+data class SupportMetadata(
+        val accountId: UUID,
+        val portfolioId: UUID
+)

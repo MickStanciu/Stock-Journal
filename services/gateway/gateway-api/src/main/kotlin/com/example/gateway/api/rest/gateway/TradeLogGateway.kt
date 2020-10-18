@@ -6,7 +6,6 @@ import com.example.common.exception.ApiExceptionCode
 import com.example.gateway.api.core.model.*
 import com.example.gateway.api.rest.converter.*
 import com.example.tradelog.api.spec.model.*
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
@@ -21,11 +20,12 @@ import java.util.concurrent.CompletableFuture
 import java.util.stream.Collectors
 
 @Service
-class TradeLogGateway(private val restTemplate: RestTemplate,
-                      @Value("\${gateway.tradelog.url}") private val url: String) {
+class TradeLogGateway(
+        private val restTemplate: RestTemplate,
+        @Value("\${gateway.tradelog.url}") private val url: String
+) {
 
     companion object {
-        private val LOG = LoggerFactory.getLogger(TradeLogGateway::class.java)
         private const val PROTOBUF_MEDIA_TYPE_VALUE = "application/x-protobuf"
         private const val PORTFOLIO_ID_PARAM_NAME = "portfolio-id"
         private const val ACCOUNT_ID_HEADER_NAME = "x-account-id"
@@ -57,17 +57,18 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
     }
 
     @Async("asyncExecutor")
-    fun getAllShareTransactions(accountId: String, portfolioId: String, symbol: String): CompletableFuture<List<ShareJournalModel>> {
+    fun getAllShareTransactions(supportMetadata: SupportMetadata, symbol: String): CompletableFuture<List<ShareJournalModel>> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
-                .path("/shares/{symbol}/{portfolio-id}/")
+                .path("/shares/{symbol}")
 
         val headers = HttpHeaders()
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
-        headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
+        headers.set(ACCOUNT_ID_HEADER_NAME, supportMetadata.accountId.toString())
+        headers.set(PORTFOLIO_ID_PARAM_NAME, supportMetadata.portfolioId.toString())
 
         val responseEntity = restTemplate
-                .exchange(builder.build(symbol, portfolioId).toString(), HttpMethod.GET, HttpEntity<Any>(headers), TLShareTransactionsResponse::class.java)
+                .exchange(builder.build(symbol).toString(), HttpMethod.GET, HttpEntity<Any>(headers), TLShareTransactionsResponse::class.java)
 
         val dto: TLShareTransactionsResponse? = responseEntity.body
 
@@ -81,17 +82,18 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
     }
 
     @Async("asyncExecutor")
-    fun getAllOptionTransactions(accountId: String, portfolioId: String, symbol: String): CompletableFuture<List<OptionJournalModel>> {
+    fun getAllOptionTransactions(supportMetadata: SupportMetadata, symbol: String): CompletableFuture<List<OptionJournalModel>> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
-                .path("/options/{symbol}/{portfolio-id}/")
+                .path("/options/{symbol}/")
 
         val headers = HttpHeaders()
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
-        headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
+        headers.set(ACCOUNT_ID_HEADER_NAME, supportMetadata.accountId.toString())
+        headers.set(PORTFOLIO_ID_PARAM_NAME, supportMetadata.portfolioId.toString())
 
         val responseEntity = restTemplate
-                .exchange(builder.build(symbol, portfolioId).toString(), HttpMethod.GET, HttpEntity<Any>(headers), TLOptionTransactionsResponse::class.java)
+                .exchange(builder.build(symbol).toString(), HttpMethod.GET, HttpEntity<Any>(headers), TLOptionTransactionsResponse::class.java)
 
         val dto: TLOptionTransactionsResponse? = responseEntity.body
 
@@ -105,17 +107,18 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
     }
 
     @Async("asyncExecutor")
-    fun getAllDividendTransactions(accountId: String, portfolioId: String, symbol: String): CompletableFuture<List<DividendJournalModel>> {
+    fun getAllDividendTransactions(supportMetadata: SupportMetadata, symbol: String): CompletableFuture<List<DividendJournalModel>> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
-                .path("/dividends/{symbol}/{portfolio-id}/")
+                .path("/dividends/{symbol}/")
 
         val headers = HttpHeaders()
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
-        headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
+        headers.set(ACCOUNT_ID_HEADER_NAME, supportMetadata.accountId.toString())
+        headers.set(PORTFOLIO_ID_PARAM_NAME, supportMetadata.portfolioId.toString())
 
         val responseEntity = restTemplate
-                .exchange(builder.build(symbol, portfolioId).toString(), HttpMethod.GET, HttpEntity<Any>(headers), TLDividendTransactionsResponse::class.java)
+                .exchange(builder.build(symbol).toString(), HttpMethod.GET, HttpEntity<Any>(headers), TLDividendTransactionsResponse::class.java)
 
         val dto: TLDividendTransactionsResponse? = responseEntity.body
 
@@ -128,14 +131,15 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         }
     }
 
-    fun getSummary(accountId: String): Either<ApiException, List<TradeSummaryModel>> {
+    fun getSummary(supportMetadata: SupportMetadata): Either<ApiException, List<TradeSummaryModel>> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("/transactions/summary")
 
         val headers = HttpHeaders()
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
-        headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
+        headers.set(ACCOUNT_ID_HEADER_NAME, supportMetadata.accountId.toString())
+        headers.set(PORTFOLIO_ID_PARAM_NAME, supportMetadata.portfolioId.toString())
 
         return try {
             val responseEntity = restTemplate
@@ -156,19 +160,20 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
 
     }
 
-    fun getSummaryMatrix(accountId: String, portfolioId: String, sharesOnly: Boolean): Either<ApiException, List<SummaryMatrixModel>> {
+    fun getSummaryMatrix(supportMetadata: SupportMetadata, sharesOnly: Boolean): Either<ApiException, List<SummaryMatrixModel>> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
-                .path("/transactions/summary/matrix/{portfolioId}")
+                .path("/transactions/summary/matrix/")
                 .queryParam("shares-only", sharesOnly)
 
         val headers = HttpHeaders()
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
-        headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
+        headers.set(ACCOUNT_ID_HEADER_NAME, supportMetadata.accountId.toString())
+        headers.set(PORTFOLIO_ID_PARAM_NAME, supportMetadata.portfolioId.toString())
 
         return try {
             val responseEntity = restTemplate
-                    .exchange(builder.build(portfolioId).toString(), HttpMethod.GET, HttpEntity<Any>(headers), TLSummaryMatrixResponse::class.java)
+                    .exchange(builder.build("").toString(), HttpMethod.GET, HttpEntity<Any>(headers), TLSummaryMatrixResponse::class.java)
 
             val dto = responseEntity.body
 
@@ -184,14 +189,15 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         }
     }
 
-    fun createShareTransaction(accountId: String, model: ShareJournalModel): Either<ApiException, ShareJournalModel> {
+    fun createShareTransaction(supportMetadata: SupportMetadata, model: ShareJournalModel): Either<ApiException, ShareJournalModel> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("/shares")
 
         val headers = HttpHeaders()
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
-        headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
+        headers.set(ACCOUNT_ID_HEADER_NAME, supportMetadata.accountId.toString())
+        headers.set(PORTFOLIO_ID_PARAM_NAME, supportMetadata.portfolioId.toString())
 
         val requestDto = ShareJournalConverter.toTLDto(model)
 
@@ -214,7 +220,7 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
 
     }
 
-    fun editShareTransaction(accountId: String, model: ShareJournalModel): Either<ApiException, Unit> {
+    fun editShareTransaction(supportMetadata: SupportMetadata, model: ShareJournalModel): Either<ApiException, Unit> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("/shares/{id}")
@@ -222,7 +228,8 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         val headers = HttpHeaders()
 
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
-        headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
+        headers.set(ACCOUNT_ID_HEADER_NAME, supportMetadata.accountId.toString())
+        headers.set(PORTFOLIO_ID_PARAM_NAME, supportMetadata.portfolioId.toString())
 
         val requestDto = ShareJournalConverter.toTLDto(model)
 
@@ -237,14 +244,15 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         }
     }
 
-    fun deleteShareTransaction(accountId: String, transactionId: String): Either<ApiException, Unit> {
+    fun deleteShareTransaction(supportMetadata: SupportMetadata, transactionId: String): Either<ApiException, Unit> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("/shares/{id}")
 
         val headers = HttpHeaders()
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
-        headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
+        headers.set(ACCOUNT_ID_HEADER_NAME, supportMetadata.accountId.toString())
+        headers.set(PORTFOLIO_ID_PARAM_NAME, supportMetadata.portfolioId.toString())
 
         return try {
             restTemplate.exchange(builder.build(transactionId).toString(), HttpMethod.DELETE, HttpEntity<Any>(headers), Any::class.java)
@@ -256,14 +264,15 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         }
     }
 
-    fun createOptionTransaction(accountId: String, model: OptionJournalModel): Either<ApiException, OptionJournalModel> {
+    fun createOptionTransaction(supportMetadata: SupportMetadata, model: OptionJournalModel): Either<ApiException, OptionJournalModel> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("/options")
 
         val headers = HttpHeaders()
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
-        headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
+        headers.set(ACCOUNT_ID_HEADER_NAME, supportMetadata.accountId.toString())
+        headers.set(PORTFOLIO_ID_PARAM_NAME, supportMetadata.portfolioId.toString())
 
         val requestDto = OptionJournalConverter.toTLDto(model)
 
@@ -286,7 +295,7 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
 
     }
 
-    fun editOptionTransaction(accountId: String, model: OptionJournalModel): Either<ApiException, Unit> {
+    fun editOptionTransaction(supportMetadata: SupportMetadata, model: OptionJournalModel): Either<ApiException, Unit> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("/options/{id}")
@@ -294,7 +303,8 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         val headers = HttpHeaders()
 
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
-        headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
+        headers.set(ACCOUNT_ID_HEADER_NAME, supportMetadata.accountId.toString())
+        headers.set(PORTFOLIO_ID_PARAM_NAME, supportMetadata.portfolioId.toString())
 
         val requestDto = OptionJournalConverter.toTLDto(model)
         return try {
@@ -308,14 +318,15 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         }
     }
 
-    fun deleteOptionTransaction(accountId: String, transactionId: String): Either<ApiException, Unit> {
+    fun deleteOptionTransaction(supportMetadata: SupportMetadata, transactionId: String): Either<ApiException, Unit> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("/options/{id}")
 
         val headers = HttpHeaders()
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
-        headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
+        headers.set(ACCOUNT_ID_HEADER_NAME, supportMetadata.accountId.toString())
+        headers.set(PORTFOLIO_ID_PARAM_NAME, supportMetadata.portfolioId.toString())
 
         return try {
             restTemplate.exchange(builder.build(transactionId).toString(), HttpMethod.DELETE, HttpEntity<Any>(headers), Any::class.java)
@@ -327,14 +338,15 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         }
     }
 
-    fun updateTransactionSettings(accountId: String, model: TransactionSettingsModel): Either<ApiException, Unit> {
+    fun updateTransactionSettings(supportMetadata: SupportMetadata, model: TransactionSettingsModel): Either<ApiException, Unit> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("transactions/settings/{id}")
 
         val headers = HttpHeaders()
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
-        headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
+        headers.set(ACCOUNT_ID_HEADER_NAME, supportMetadata.accountId.toString())
+        headers.set(PORTFOLIO_ID_PARAM_NAME, supportMetadata.portfolioId.toString())
 
         val requestDto = TransactionSettingsConverter.toDto(model)
 
@@ -348,14 +360,15 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         }
     }
 
-    fun createDividendTransaction(accountId: String, model: DividendJournalModel): Either<ApiException, DividendJournalModel> {
+    fun createDividendTransaction(supportMetadata: SupportMetadata, model: DividendJournalModel): Either<ApiException, DividendJournalModel> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("/dividends")
 
         val headers = HttpHeaders()
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
-        headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
+        headers.set(ACCOUNT_ID_HEADER_NAME, supportMetadata.accountId.toString())
+        headers.set(PORTFOLIO_ID_PARAM_NAME, supportMetadata.portfolioId.toString())
 
         val requestDto = DividendJournalConverter.toTLDto(model)
 
@@ -378,14 +391,15 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
 
     }
 
-    fun deleteDividendTransaction(accountId: String, transactionId: String): Either<ApiException, Unit> {
+    fun deleteDividendTransaction(supportMetadata: SupportMetadata, transactionId: String): Either<ApiException, Unit> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("/dividends/{id}")
 
         val headers = HttpHeaders()
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
-        headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
+        headers.set(ACCOUNT_ID_HEADER_NAME, supportMetadata.accountId.toString())
+        headers.set(PORTFOLIO_ID_PARAM_NAME, supportMetadata.portfolioId.toString())
 
         return try {
             restTemplate.exchange(builder.build(transactionId).toString(), HttpMethod.DELETE, HttpEntity<Any>(headers), Any::class.java)
@@ -397,14 +411,14 @@ class TradeLogGateway(private val restTemplate: RestTemplate,
         }
     }
 
-    fun getDefaultPortfolio(accountId: String): Either<ApiException, PortfolioModel> {
+    fun getDefaultPortfolio(accountId: UUID): Either<ApiException, PortfolioModel> {
         val builder = UriComponentsBuilder
                 .fromHttpUrl(url)
                 .path("/portfolios/default/")
 
         val headers = HttpHeaders()
         headers.set("Content-Type", PROTOBUF_MEDIA_TYPE_VALUE)
-        headers.set(ACCOUNT_ID_HEADER_NAME, accountId)
+        headers.set(ACCOUNT_ID_HEADER_NAME, accountId.toString())
 
         return try {
             val responseEntity = restTemplate.exchange(builder.build("").toString(), HttpMethod.GET, HttpEntity<Any>(headers), TLPortfolioDto::class.java)

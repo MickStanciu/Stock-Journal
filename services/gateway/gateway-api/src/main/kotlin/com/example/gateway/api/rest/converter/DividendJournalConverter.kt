@@ -6,15 +6,16 @@ import com.example.gateway.api.spec.model.GWDividendJournalDto
 import com.example.tradelog.api.spec.model.TLDividendJournalDto
 import com.example.tradelog.api.spec.model.TLTransactionDto
 import com.example.tradelog.api.spec.model.TLTransactionSettingsDto
+import java.util.*
 
 class DividendJournalConverter {
 
     companion object {
         fun toModel(dto: TLDividendJournalDto): DividendJournalModel {
             return DividendJournalModel(
-                    transactionId = dto.transactionDetails.id,
-                    accountId = dto.transactionDetails.accountId,
-                    portfolioId = dto.transactionDetails.portfolioId,
+                    transactionId = UUID.fromString(dto.transactionDetails.id),
+                    accountId = UUID.fromString(dto.transactionDetails.accountId),
+                    portfolioId = UUID.fromString(dto.transactionDetails.portfolioId),
                     symbol = dto.transactionDetails.symbol,
                     date = TimeConverter.toOffsetDateTime(dto.transactionDetails.date),
                     dividend = dto.dividend,
@@ -26,7 +27,7 @@ class DividendJournalConverter {
 
         fun toGWDto(model: DividendJournalModel): GWDividendJournalDto {
             return GWDividendJournalDto.newBuilder()
-                    .setTransactionId(model.transactionId)
+                    .setTransactionId(model.transactionId.toString())
                     .setDate(model.date.toString())
                     .setSymbol(model.symbol)
                     .setDividend(model.dividend)
@@ -40,9 +41,9 @@ class DividendJournalConverter {
             return TLDividendJournalDto.newBuilder()
                     .setTransactionDetails(
                             TLTransactionDto.newBuilder()
-                                    .setId(model.transactionId)
-                                    .setAccountId(model.accountId)
-                                    .setPortfolioId(model.portfolioId)
+                                    .setId(model.transactionId.toString())
+                                    .setAccountId(model.accountId.toString())
+                                    .setPortfolioId(model.portfolioId.toString())
                                     .setDate(model.date.toString())
                                     .setSymbol(model.symbol)
                                     .setBrokerFees(0.00)

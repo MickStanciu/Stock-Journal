@@ -3,11 +3,13 @@ package com.example.gateway.api.rest.converter
 import com.example.common.converter.TimeConverter
 import com.example.gateway.api.core.model.ActionType
 import com.example.gateway.api.core.model.ShareJournalModel
+import com.example.gateway.api.core.model.SupportMetadata
 import com.example.gateway.api.core.model.TransactionType
 import com.example.gateway.api.spec.model.GWShareJournalDto
 import com.example.tradelog.api.spec.model.TLShareJournalDto
 import com.example.tradelog.api.spec.model.TLTransactionDto
 import com.example.tradelog.api.spec.model.TLTransactionSettingsDto
+import java.util.*
 
 class ShareJournalConverter {
 
@@ -16,9 +18,9 @@ class ShareJournalConverter {
     companion object {
         fun toModel(dto: TLShareJournalDto): ShareJournalModel {
             return ShareJournalModel(
-                    transactionId = dto.transactionDetails.id,
-                    accountId = dto.transactionDetails.accountId,
-                    portfolioId = dto.transactionDetails.portfolioId,
+                    transactionId = UUID.fromString(dto.transactionDetails.id),
+                    accountId = UUID.fromString(dto.transactionDetails.accountId),
+                    portfolioId = UUID.fromString(dto.transactionDetails.portfolioId),
                     date = TimeConverter.toOffsetDateTime(dto.transactionDetails.date),
                     symbol = dto.transactionDetails.symbol,
                     price = dto.price,
@@ -33,11 +35,11 @@ class ShareJournalConverter {
             )
         }
 
-        fun toModel(accountId: String, dto: GWShareJournalDto): ShareJournalModel {
+        fun toModel(supportMetadata: SupportMetadata, dto: GWShareJournalDto): ShareJournalModel {
             return ShareJournalModel(
-                    transactionId = dto.transactionId,
-                    accountId = accountId,
-                    portfolioId = "", /* NOT USED */
+                    transactionId = UUID.fromString(dto.transactionId),
+                    accountId = supportMetadata.accountId,
+                    portfolioId = supportMetadata.portfolioId,
                     date = TimeConverter.toOffsetDateTime(dto.date),
                     symbol = dto.symbol,
                     price = dto.price,
@@ -54,7 +56,7 @@ class ShareJournalConverter {
 
         fun toGWDto(model: ShareJournalModel): GWShareJournalDto {
             return GWShareJournalDto.newBuilder()
-                    .setTransactionId(model.transactionId)
+                    .setTransactionId(model.transactionId.toString())
                     .setDate(model.date.toString())
                     .setSymbol(model.symbol)
                     .setPrice(model.price)
@@ -73,9 +75,9 @@ class ShareJournalConverter {
             return TLShareJournalDto.newBuilder()
                     .setTransactionDetails(
                             TLTransactionDto.newBuilder()
-                                    .setId(model.transactionId)
-                                    .setAccountId(model.accountId)
-                                    .setPortfolioId(model.portfolioId)
+                                    .setId(model.transactionId.toString())
+                                    .setAccountId(model.accountId.toString())
+                                    .setPortfolioId(model.portfolioId.toString())
                                     .setDate(model.date.toString())
                                     .setSymbol(model.symbol)
                                     .setBrokerFees(model.brokerFees)

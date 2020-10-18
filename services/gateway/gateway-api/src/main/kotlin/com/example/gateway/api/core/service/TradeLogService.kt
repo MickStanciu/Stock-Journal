@@ -8,16 +8,18 @@ import com.example.gateway.api.core.util.createSynthetic
 import com.example.gateway.api.rest.gateway.StockDataGateway
 import com.example.gateway.api.rest.gateway.TradeLogGateway
 import org.springframework.stereotype.Service
+import java.util.*
 import java.util.concurrent.CompletableFuture
+import kotlin.collections.ArrayList
 
 @Service
 class TradeLogService(private val tradeLogGateway: TradeLogGateway,
                       private val stockDataGateway: StockDataGateway) {
 
-    fun getAll(accountId: String, portfolioId: String, symbol: String): TradeLogModel {
-        val futureShareList = tradeLogGateway.getAllShareTransactions(accountId, portfolioId, symbol)
-        val futureOptionList = tradeLogGateway.getAllOptionTransactions(accountId, portfolioId, symbol)
-        val futureDividendList = tradeLogGateway.getAllDividendTransactions(accountId, portfolioId, symbol)
+    fun getAll(supportMetadata: SupportMetadata, symbol: String): TradeLogModel {
+        val futureShareList = tradeLogGateway.getAllShareTransactions(supportMetadata, symbol)
+        val futureOptionList = tradeLogGateway.getAllOptionTransactions(supportMetadata, symbol)
+        val futureDividendList = tradeLogGateway.getAllDividendTransactions(supportMetadata, symbol)
 
         CompletableFuture.allOf(futureShareList, futureOptionList, futureDividendList).join()
         val stockPrice = stockDataGateway
@@ -62,23 +64,23 @@ class TradeLogService(private val tradeLogGateway: TradeLogGateway,
         }
     }
 
-    fun getSummary(accountId: String) = tradeLogGateway.getSummary(accountId)
+    fun getSummary(supportMetadata: SupportMetadata) = tradeLogGateway.getSummary(supportMetadata)
 
-    fun createShareTransaction(accountId: String, model: ShareJournalModel) = tradeLogGateway.createShareTransaction(accountId, model)
+    fun createShareTransaction(supportMetadata: SupportMetadata, model: ShareJournalModel) = tradeLogGateway.createShareTransaction(supportMetadata, model)
 
-    fun editShareTransaction(accountId: String, updateModel: ShareJournalModel) = tradeLogGateway.editShareTransaction(accountId, updateModel)
+    fun editShareTransaction(supportMetadata: SupportMetadata, updateModel: ShareJournalModel) = tradeLogGateway.editShareTransaction(supportMetadata, updateModel)
 
-    fun deleteShareTransaction(accountId: String, transactionId: String) = tradeLogGateway.deleteShareTransaction(accountId, transactionId)
+    fun deleteShareTransaction(supportMetadata: SupportMetadata, transactionId: String) = tradeLogGateway.deleteShareTransaction(supportMetadata, transactionId)
 
-    fun createOptionTransaction(accountId: String, model: OptionJournalModel) = tradeLogGateway.createOptionTransaction(accountId, model)
+    fun createOptionTransaction(supportMetadata: SupportMetadata, model: OptionJournalModel) = tradeLogGateway.createOptionTransaction(supportMetadata, model)
 
-    fun editOptionTransaction(accountId: String, updateModel: OptionJournalModel) = tradeLogGateway.editOptionTransaction(accountId, updateModel)
+    fun editOptionTransaction(supportMetadata: SupportMetadata, updateModel: OptionJournalModel) = tradeLogGateway.editOptionTransaction(supportMetadata, updateModel)
 
-    fun deleteOptionTransaction(accountId: String, transactionId: String) = tradeLogGateway.deleteOptionTransaction(accountId, transactionId)
+    fun deleteOptionTransaction(supportMetadata: SupportMetadata, transactionId: String) = tradeLogGateway.deleteOptionTransaction(supportMetadata, transactionId)
 
-    fun createDividendTransaction(accountId: String, model: DividendJournalModel) = tradeLogGateway.createDividendTransaction(accountId, model)
+    fun createDividendTransaction(supportMetadata: SupportMetadata, model: DividendJournalModel) = tradeLogGateway.createDividendTransaction(supportMetadata, model)
 
-    fun deleteDividendTransaction(accountId: String, transactionId: String) = tradeLogGateway.deleteDividendTransaction(accountId, transactionId)
+    fun deleteDividendTransaction(supportMetadata: SupportMetadata, transactionId: String) = tradeLogGateway.deleteDividendTransaction(supportMetadata, transactionId)
 
-    fun getDefaultPortfolio(accountId: String) = tradeLogGateway.getDefaultPortfolio(accountId)
+    fun getDefaultPortfolio(accountId: UUID) = tradeLogGateway.getDefaultPortfolio(accountId)
 }

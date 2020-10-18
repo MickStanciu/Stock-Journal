@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import java.time.OffsetDateTime
+import java.util.*
+import kotlin.collections.ArrayList
 
 class SyntheticSharesGeneratorTest {
 
@@ -21,9 +23,9 @@ class SyntheticSharesGeneratorTest {
     @Test
     fun testWhereThereIsNoNeedToGenerate() {
         val shareModel1 = ShareJournalModel(
-                transactionId = "1234",
-                accountId = "123",
-                portfolioId = "123",
+                transactionId = UUID.randomUUID(),
+                accountId = UUID.randomUUID(),
+                portfolioId = UUID.randomUUID(),
                 symbol = "XYZ",
                 date = OffsetDateTime.now(),
                 price = 10.0,
@@ -38,9 +40,9 @@ class SyntheticSharesGeneratorTest {
         )
 
         val shareModel2 = ShareJournalModel(
-                transactionId = "1234",
-                accountId = "123",
-                portfolioId = "123",
+                transactionId = UUID.randomUUID(),
+                accountId = UUID.randomUUID(),
+                portfolioId = UUID.randomUUID(),
                 symbol = "XYZ",
                 date = OffsetDateTime.now(),
                 price = 10.0,
@@ -66,9 +68,9 @@ class SyntheticSharesGeneratorTest {
     @Test
     fun testAveragePrice_1() {
         val shareModel1 = ShareJournalModel(
-                transactionId = "1234",
-                accountId = "123",
-                portfolioId = "123",
+                transactionId = UUID.randomUUID(),
+                accountId = UUID.randomUUID(),
+                portfolioId = UUID.randomUUID(),
                 symbol = "XYZ",
                 date = OffsetDateTime.now(),
                 price = 55.0,
@@ -83,9 +85,9 @@ class SyntheticSharesGeneratorTest {
         )
 
         val shareModel2 = ShareJournalModel(
-                transactionId = "1234",
-                accountId = "123",
-                portfolioId = "123",
+                transactionId = UUID.randomUUID(),
+                accountId = UUID.randomUUID(),
+                portfolioId = UUID.randomUUID(),
                 symbol = "XYZ",
                 date = OffsetDateTime.now(),
                 price = 66.0,
@@ -118,9 +120,9 @@ class SyntheticSharesGeneratorTest {
     @Test
     fun testAveragePrice_2() {
         val shareModel1 = ShareJournalModel(
-                transactionId = "1234",
-                accountId = "123",
-                portfolioId = "123",
+                transactionId = UUID.randomUUID(),
+                accountId = UUID.randomUUID(),
+                portfolioId = UUID.randomUUID(),
                 symbol = "XYZ",
                 date = OffsetDateTime.now(),
                 price = 55.0,
@@ -135,9 +137,9 @@ class SyntheticSharesGeneratorTest {
         )
 
         val shareModel2 = ShareJournalModel(
-                transactionId = "1234",
-                accountId = "123",
-                portfolioId = "123",
+                transactionId = UUID.randomUUID(),
+                accountId = UUID.randomUUID(),
+                portfolioId = UUID.randomUUID(),
                 symbol = "XYZ",
                 date = OffsetDateTime.now(),
                 price = 45.0,
@@ -152,9 +154,9 @@ class SyntheticSharesGeneratorTest {
         )
 
         val shareModel3 = ShareJournalModel(
-                transactionId = "1234",
-                accountId = "123",
-                portfolioId = "123",
+                transactionId = UUID.randomUUID(),
+                accountId = UUID.randomUUID(),
+                portfolioId = UUID.randomUUID(),
                 symbol = "XYZ",
                 date = OffsetDateTime.now(),
                 price = 80.0,
@@ -189,9 +191,9 @@ class SyntheticSharesGeneratorTest {
     @Test
     fun testSynCSCO100AndADBE200() {
         val csco1 = ShareJournalModel(
-                transactionId = "1234",
-                accountId = "123",
-                portfolioId = "123",
+                transactionId = UUID.randomUUID(),
+                accountId = UUID.randomUUID(),
+                portfolioId = UUID.randomUUID(),
                 symbol = "CSCO",
                 date = OffsetDateTime.now(),
                 price = 10.0,
@@ -206,9 +208,9 @@ class SyntheticSharesGeneratorTest {
         )
 
         val csco2 = ShareJournalModel(
-                transactionId = "1234",
-                accountId = "123",
-                portfolioId = "123",
+                transactionId = UUID.randomUUID(),
+                accountId = UUID.randomUUID(),
+                portfolioId = UUID.randomUUID(),
                 symbol = "CSCO",
                 date = OffsetDateTime.now(),
                 price = 10.0,
@@ -223,9 +225,9 @@ class SyntheticSharesGeneratorTest {
         )
 
         val adbe1 = ShareJournalModel(
-                transactionId = "1234",
-                accountId = "123",
-                portfolioId = "123",
+                transactionId = UUID.randomUUID(),
+                accountId = UUID.randomUUID(),
+                portfolioId = UUID.randomUUID(),
                 symbol = "ADBE",
                 date = OffsetDateTime.now(),
                 price = 10.0,
@@ -240,9 +242,9 @@ class SyntheticSharesGeneratorTest {
         )
 
         val adbe2 = ShareJournalModel(
-                transactionId = "1234",
-                accountId = "123",
-                portfolioId = "123",
+                transactionId = UUID.randomUUID(),
+                accountId = UUID.randomUUID(),
+                portfolioId = UUID.randomUUID(),
                 symbol = "ADBE",
                 date = OffsetDateTime.now(),
                 price = 10.0,
@@ -283,9 +285,9 @@ class SyntheticSharesGeneratorTest {
     @Test
     fun testBuySellKO() {
         val shareModel1 = ShareJournalModel(
-                transactionId = "1234",
-                accountId = "123",
-                portfolioId = "123",
+                transactionId = UUID.randomUUID(),
+                accountId = UUID.randomUUID(),
+                portfolioId = UUID.randomUUID(),
                 symbol = "XYZ",
                 date = OffsetDateTime.now(),
                 price = 55.77,
@@ -300,9 +302,9 @@ class SyntheticSharesGeneratorTest {
         )
 
         val shareModel2 = ShareJournalModel(
-                transactionId = "1234",
-                accountId = "123",
-                portfolioId = "123",
+                transactionId = UUID.randomUUID(),
+                accountId = UUID.randomUUID(),
+                portfolioId = UUID.randomUUID(),
                 symbol = "XYZ",
                 date = OffsetDateTime.now(),
                 price = 56.00,
@@ -327,9 +329,9 @@ class SyntheticSharesGeneratorTest {
     @Test
     fun testSingleBuyTrade() {
         val shareModel1 = ShareJournalModel(
-                transactionId = "1234",
-                accountId = "123",
-                portfolioId = "123",
+                transactionId = UUID.randomUUID(),
+                accountId = UUID.randomUUID(),
+                portfolioId = UUID.randomUUID(),
                 symbol = "XYZ",
                 date = OffsetDateTime.now(),
                 price = 10.0,
@@ -359,9 +361,9 @@ class SyntheticSharesGeneratorTest {
     @Test
     fun testComplex() {
         val shareModel1 = ShareJournalModel(
-                transactionId = "1234",
-                accountId = "123",
-                portfolioId = "123",
+                transactionId = UUID.randomUUID(),
+                accountId = UUID.randomUUID(),
+                portfolioId = UUID.randomUUID(),
                 symbol = "XYZ",
                 date = OffsetDateTime.now(),
                 price = 55.245,
@@ -376,9 +378,9 @@ class SyntheticSharesGeneratorTest {
         )
 
         val shareModel2 = ShareJournalModel(
-                transactionId = "1234",
-                accountId = "123",
-                portfolioId = "123",
+                transactionId = UUID.randomUUID(),
+                accountId = UUID.randomUUID(),
+                portfolioId = UUID.randomUUID(),
                 symbol = "XYZ",
                 date = OffsetDateTime.now(),
                 price = 54.5,
@@ -393,9 +395,9 @@ class SyntheticSharesGeneratorTest {
         )
 
         val shareModel3 = ShareJournalModel(
-                transactionId = "1234",
-                accountId = "123",
-                portfolioId = "123",
+                transactionId = UUID.randomUUID(),
+                accountId = UUID.randomUUID(),
+                portfolioId = UUID.randomUUID(),
                 symbol = "XYZ",
                 date = OffsetDateTime.now(),
                 price = 55.81,
@@ -410,9 +412,9 @@ class SyntheticSharesGeneratorTest {
         )
 
         val shareModel4 = ShareJournalModel(
-                transactionId = "1234",
-                accountId = "123",
-                portfolioId = "123",
+                transactionId = UUID.randomUUID(),
+                accountId = UUID.randomUUID(),
+                portfolioId = UUID.randomUUID(),
                 symbol = "XYZ",
                 date = OffsetDateTime.now(),
                 price = 52.5,
@@ -427,9 +429,9 @@ class SyntheticSharesGeneratorTest {
         )
 
         val shareModel5 = ShareJournalModel(
-                transactionId = "1234",
-                accountId = "123",
-                portfolioId = "123",
+                transactionId = UUID.randomUUID(),
+                accountId = UUID.randomUUID(),
+                portfolioId = UUID.randomUUID(),
                 symbol = "XYZ",
                 date = OffsetDateTime.now(),
                 price = 48.868,
@@ -456,9 +458,9 @@ class SyntheticSharesGeneratorTest {
     @Test
     fun testWBA() {
         val shareModel1 = ShareJournalModel(
-                transactionId = "1234",
-                accountId = "123",
-                portfolioId = "123",
+                transactionId = UUID.randomUUID(),
+                accountId = UUID.randomUUID(),
+                portfolioId = UUID.randomUUID(),
                 symbol = "WBA",
                 date = OffsetDateTime.now(),
                 price = 72.50,
@@ -473,9 +475,9 @@ class SyntheticSharesGeneratorTest {
         )
 
         val shareModel2 = ShareJournalModel(
-                transactionId = "1234",
-                accountId = "123",
-                portfolioId = "123",
+                transactionId = UUID.randomUUID(),
+                accountId = UUID.randomUUID(),
+                portfolioId = UUID.randomUUID(),
                 symbol = "WBA",
                 date = OffsetDateTime.now(),
                 price = 55.00,

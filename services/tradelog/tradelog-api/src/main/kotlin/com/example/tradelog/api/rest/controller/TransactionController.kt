@@ -25,11 +25,12 @@ import java.util.*
         produces = [PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE],
         consumes = [PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE]
 )
-class TransactionController(private val journalFacade: JournalFacade, private val transactionService: TransactionService): TransactionRestInterface {
+class TransactionController(
+        private val journalFacade: JournalFacade,
+        private val transactionService: TransactionService): TransactionRestInterface {
 
     companion object {
         const val PROTOBUF_MEDIA_TYPE_VALUE = "application/x-protobuf"
-        private const val ACCOUNT_ID_HEADER_NAME = "x-account-id"
     }
 
     /*
@@ -44,36 +45,28 @@ class TransactionController(private val journalFacade: JournalFacade, private va
     }
 
 
-    override fun getSummary(accountId: String): TLTradeSummaryResponse {
-        if (!RequestValidator.validateGetSummary(accountId)) {
-            throw TradeLogException(ExceptionCode.BAD_REQUEST)
-        }
-
-        //TODO: not sure this it.toString() works
-        val summaryList = journalFacade.getSummary(UUID.fromString(accountId))
+    override fun getSummary(accountId: UUID, portfolioId: UUID): TLTradeSummaryResponse {
+        val summaryList = journalFacade.getSummary(accountId)
                 .getOrElse { throw TradeLogException(ExceptionCode.UNKNOWN) }
+
         return TradeSummaryConverter.toTradeSummaryResponse(summaryList)
     }
 
-    override fun getSummaryMatrix(accountId: String, portfolioId: String, sharesOnly: Boolean): TLSummaryMatrixResponse {
-        if (!RequestValidator.validateSummaryMatrix(accountId, portfolioId)) {
-            throw TradeLogException(ExceptionCode.BAD_REQUEST)
-        }
-
+    override fun getSummaryMatrix(accountId: UUID, portfolioId: UUID, sharesOnly: Boolean): TLSummaryMatrixResponse {
         val type = if (sharesOnly) JournalFacade.SummaryMatrixType.SHARES else JournalFacade.SummaryMatrixType.OPTIONS_AND_DIVIDENDS
-        val summaryList = journalFacade.getSummaryMatrix(UUID.fromString(accountId), UUID.fromString(portfolioId), type)
+        val summaryList = journalFacade.getSummaryMatrix(accountId, portfolioId, type)
                 .getOrElse { throw TradeLogException(ExceptionCode.UNKNOWN) }
+
         return SummaryMatrixConverter.toSummaryMatrixResponse(summaryList)
     }
 
 
-    override fun updateSettings(accountId: String, transactionId: String, dto: TLTransactionSettingsDto) {
-        if (!RequestValidator.validateUpdateSettings(accountId, transactionId, dto)) {
+    override fun updateSettings(accountId: UUID, portfolioId: UUID, transactionId: UUID, dto: TLTransactionSettingsDto) {
+        if (!RequestValidator.validateUpdateSettings(transactionId, dto)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
         //Todo: enforce account id
-        //TODO: not sure this it.toString() works
         transactionService.updateSettings(TransactionSettingsModelConverter.toModel(dto))
                 .getOrElse { throw TradeLogException(ExceptionCode.UPDATE_TRANSACTION_OPTIONS_FAILED) }
     }

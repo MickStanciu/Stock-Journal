@@ -1,23 +1,21 @@
 package com.example.gateway.api.rest.converter
 
 import com.example.common.converter.TimeConverter
-import com.example.gateway.api.core.model.ActionType
-import com.example.gateway.api.core.model.OptionJournalModel
-import com.example.gateway.api.core.model.OptionType
-import com.example.gateway.api.core.model.TransactionType
+import com.example.gateway.api.core.model.*
 import com.example.gateway.api.spec.model.GWOptionJournalDto
 import com.example.tradelog.api.spec.model.TLOptionJournalDto
 import com.example.tradelog.api.spec.model.TLTransactionDto
 import com.example.tradelog.api.spec.model.TLTransactionSettingsDto
+import java.util.*
 
 class OptionJournalConverter {
 
     companion object {
         fun toModel(dto: TLOptionJournalDto): OptionJournalModel {
             return OptionJournalModel(
-                    transactionId = dto.transactionDetails.id,
-                    accountId = dto.transactionDetails.accountId,
-                    portfolioId = dto.transactionDetails.portfolioId,
+                    transactionId = UUID.fromString(dto.transactionDetails.id),
+                    accountId = UUID.fromString(dto.transactionDetails.accountId),
+                    portfolioId = UUID.fromString(dto.transactionDetails.portfolioId),
                     stockSymbol = dto.transactionDetails.symbol,
                     stockPrice = dto.stockPrice,
                     strikePrice = dto.strikePrice,
@@ -34,11 +32,11 @@ class OptionJournalConverter {
             )
         }
 
-        fun toModel(accountId: String, dto: GWOptionJournalDto): OptionJournalModel {
+        fun toModel(supportMetadata: SupportMetadata, dto: GWOptionJournalDto): OptionJournalModel {
             return OptionJournalModel(
-                    transactionId = dto.transactionId,
-                    accountId = accountId,
-                    portfolioId = "", /* NOT USED */
+                    transactionId = UUID.fromString(dto.transactionId),
+                    accountId = supportMetadata.accountId,
+                    portfolioId = supportMetadata.portfolioId,
                     stockSymbol = dto.stockSymbol,
                     stockPrice = dto.stockPrice,
                     strikePrice = dto.strikePrice,
@@ -57,7 +55,7 @@ class OptionJournalConverter {
 
         fun toGWDto(model: OptionJournalModel): GWOptionJournalDto {
             return GWOptionJournalDto.newBuilder()
-                    .setTransactionId(model.transactionId)
+                    .setTransactionId(model.transactionId.toString())
                     .setStockSymbol(model.stockSymbol)
                     .setStockPrice(model.stockPrice)
                     .setStrikePrice(model.strikePrice)
@@ -78,9 +76,9 @@ class OptionJournalConverter {
             return TLOptionJournalDto.newBuilder()
                     .setTransactionDetails(
                             TLTransactionDto.newBuilder()
-                                    .setId(model.transactionId)
-                                    .setAccountId(model.accountId)
-                                    .setPortfolioId(model.portfolioId)
+                                    .setId(model.transactionId.toString())
+                                    .setAccountId(model.accountId.toString())
+                                    .setPortfolioId(model.portfolioId.toString())
                                     .setDate(model.date.toString())
                                     .setSymbol(model.stockSymbol)
                                     .setBrokerFees(model.brokerFees)
@@ -95,6 +93,7 @@ class OptionJournalConverter {
                                     .build()
                     )
                     .setStrikePrice(model.strikePrice)
+                    .setStockPrice(model.stockPrice)
                     .setContracts(model.contracts)
                     .setPremium(model.premium)
                     .setExpiryDate(model.expiryDate.toString())

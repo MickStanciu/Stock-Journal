@@ -2,89 +2,45 @@ package com.example.tradelog.api.rest.validator
 
 import com.example.common.validator.FieldValidator
 import com.example.tradelog.api.spec.model.*
+import java.util.*
 
 class RequestValidator: FieldValidator() {
 
     companion object {
-        fun validateGetPortfolios(accountId: String): Boolean {
-            return UUID(accountId)
-        }
-
-        fun validateGetAllTradedSymbols(accountId: String): Boolean {
-            return UUID(accountId)
-        }
-
-        fun validateGetSummary(accountId: String): Boolean {
-            return UUID(accountId)
-        }
-
-        fun validateSummaryMatrix(accountId: String, portfolioId: String): Boolean {
-            return UUID(accountId) && UUID(portfolioId)
-        }
-
-        fun validateUpdateSettings(accountId: String, transactionId: String, dto: TLTransactionSettingsDto): Boolean {
-            return UUID(accountId)
-                    && transactionId == dto.transactionId
-                    && UUID(transactionId)
+        fun validateUpdateSettings(transactionId: UUID, dto: TLTransactionSettingsDto): Boolean {
+            return transactionId.toString() == dto.transactionId
                     && validateTransactionSettingsModel(dto)
-
         }
 
-        fun validateGetAllBySymbol(accountId: String, symbol: String): Boolean {
-            return UUID(accountId)
-                    && FieldValidator.symbol(symbol)
+        fun validateGetAllBySymbol(symbol: String): Boolean {
+            return symbol(symbol)
         }
 
-        fun validateCreateShareRecord(accountId: String, dto: TLShareJournalDto): Boolean {
-            return UUID(accountId)
+        fun validateCreateShareRecord(dto: TLShareJournalDto): Boolean {
+            return validateShareJournalModel(dto)
+        }
+
+        fun validateEditShareRecord(transactionId: UUID, dto: TLShareJournalDto): Boolean {
+            return transactionId.toString() == dto.transactionDetails.id
                     && validateShareJournalModel(dto)
         }
 
-        fun validateEditShareRecord(accountId: String, transactionId: String, dto: TLShareJournalDto): Boolean {
-            return UUID(accountId)
-                    && transactionId == dto.transactionDetails.id
-                    && UUID(transactionId)
-                    && validateShareJournalModel(dto)
+        fun validateCreateOptionRecord(dto: TLOptionJournalDto): Boolean {
+            return validateOptionJournalModel(dto)
         }
 
-
-        fun validateDeleteShareRecord(accountId: String, transactionId: String): Boolean {
-            return UUID(accountId)
-                    && UUID(transactionId)
-        }
-
-        fun validateCreateOptionRecord(accountId: String, dto: TLOptionJournalDto): Boolean {
-            return UUID(accountId)
+        fun validateEditOptionRecord(transactionId: UUID, dto: TLOptionJournalDto): Boolean {
+            return transactionId.toString() == dto.transactionDetails.id
                     && validateOptionJournalModel(dto)
         }
 
-        fun validateEditOptionRecord(accountId: String, transactionId: String, dto: TLOptionJournalDto): Boolean {
-            return UUID(accountId)
-                    && transactionId == dto.transactionDetails.id
-                    && UUID(transactionId)
-                    && validateOptionJournalModel(dto)
+        fun validateCreateDividendRecord(dto: TLDividendJournalDto): Boolean {
+            return validateDividendJournalModel(dto)
         }
 
-        fun validateDeleteOptionRecord(accountId: String, transactionId: String): Boolean {
-            return UUID(accountId)
-                    && UUID(transactionId)
-        }
-
-
-        fun validateCreateDividendRecord(accountId: String, dto: TLDividendJournalDto): Boolean {
-            return UUID(accountId)
+        fun validateEditDividendRecord(transactionId: UUID, dto: TLDividendJournalDto): Boolean {
+            return transactionId.toString() == dto.transactionDetails.id
                     && validateDividendJournalModel(dto)
-        }
-
-        fun validateEditDividendRecord(accountId: String, transactionId: String, dto: TLDividendJournalDto): Boolean {
-            return UUID(accountId)
-                    && transactionId == dto.transactionDetails.id
-                    && validateDividendJournalModel(dto)
-        }
-
-        fun validateDeleteDividendRecord(accountId: String, transactionId: String): Boolean {
-            return UUID(accountId)
-                    && UUID(transactionId)
         }
 
         fun validateDividendJournalModel(dto: TLDividendJournalDto): Boolean {

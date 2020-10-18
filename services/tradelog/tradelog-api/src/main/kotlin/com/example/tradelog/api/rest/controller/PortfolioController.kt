@@ -6,7 +6,6 @@ import com.example.tradelog.api.rest.controller.PortfolioController.Companion.PR
 import com.example.tradelog.api.rest.converter.PortfolioModelConverter
 import com.example.tradelog.api.rest.exception.ExceptionCode
 import com.example.tradelog.api.rest.exception.TradeLogException
-import com.example.tradelog.api.rest.validator.RequestValidator
 import com.example.tradelog.api.spec.model.TLPortfolioDto
 import com.example.tradelog.api.spec.model.TLPortfolioResponse
 import org.springframework.http.MediaType
@@ -25,12 +24,8 @@ class PortfolioController(private val portfolioService: PortfolioService): Portf
         const val PROTOBUF_MEDIA_TYPE_VALUE = "application/x-protobuf"
     }
 
-    override fun getPortfolios(accountId: String): TLPortfolioResponse {
-        if (!RequestValidator.validateGetPortfolios(accountId)) {
-            throw TradeLogException(ExceptionCode.BAD_REQUEST)
-        }
-
-        val portfolioModels = portfolioService.getPortfolios(UUID.fromString(accountId)).orNull() ?: emptyList()
+    override fun getPortfolios(accountId: UUID): TLPortfolioResponse {
+        val portfolioModels = portfolioService.getPortfolios(accountId).orNull() ?: emptyList()
         val portfolioDtos = portfolioModels.map { PortfolioModelConverter.toDto(it) }
 
         return TLPortfolioResponse.newBuilder()
@@ -38,12 +33,8 @@ class PortfolioController(private val portfolioService: PortfolioService): Portf
                 .build()
     }
 
-    override fun getDefaultPortfolio(accountId: String): TLPortfolioDto {
-        if (!RequestValidator.validateGetPortfolios(accountId)) {
-            throw TradeLogException(ExceptionCode.BAD_REQUEST)
-        }
-
-        val model = portfolioService.getDefaultPortfolio(UUID.fromString(accountId)).orNull()
+    override fun getDefaultPortfolio(accountId: UUID): TLPortfolioDto {
+        val model = portfolioService.getDefaultPortfolio(accountId).orNull()
                 ?: throw TradeLogException(ExceptionCode.NO_DEFAULT_PORTFOLIO)
 
         return PortfolioModelConverter.toDto(model = model)

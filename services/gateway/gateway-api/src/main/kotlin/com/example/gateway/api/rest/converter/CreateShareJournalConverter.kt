@@ -3,17 +3,18 @@ package com.example.gateway.api.rest.converter
 import com.example.common.converter.TimeConverter
 import com.example.gateway.api.core.model.ActionType
 import com.example.gateway.api.core.model.ShareJournalModel
+import com.example.gateway.api.core.model.SupportMetadata
 import com.example.gateway.api.core.model.TransactionType
 import com.example.gateway.api.spec.model.GWCreateShareJournalDto
 
 class CreateShareJournalConverter {
 
     companion object {
-        fun toModel(accountId: String, portfolioId: String, dto: GWCreateShareJournalDto): ShareJournalModel {
+        fun toModel(supportMetadata: SupportMetadata, dto: GWCreateShareJournalDto): ShareJournalModel {
             return ShareJournalModel(
-                    transactionId = "",
-                    accountId = accountId,
-                    portfolioId = portfolioId,
+                    transactionId = null,
+                    accountId = supportMetadata.accountId,
+                    portfolioId = supportMetadata.portfolioId,
                     date = TimeConverter.toOffsetDateTime(dto.date),
                     symbol = dto.symbol,
                     price = dto.price,

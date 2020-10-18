@@ -19,18 +19,20 @@ import java.util.*
 @RequestMapping(value = ["/api/v1/dividends"],
         produces = [DividendJournalController.PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE],
         consumes = [DividendJournalController.PROTOBUF_MEDIA_TYPE_VALUE, MediaType.APPLICATION_JSON_VALUE])
-class DividendJournalController(private val journalFacade: JournalFacade, private val journalService: DividendJournalService): DividendJournalRestInterface {
+class DividendJournalController(
+        private val journalFacade: JournalFacade,
+        private val journalService: DividendJournalService): DividendJournalRestInterface {
 
     companion object {
         const val PROTOBUF_MEDIA_TYPE_VALUE = "application/x-protobuf"
     }
 
-    override fun getAllBySymbol(accountId: String, symbol: String, portfolioId: String): TLDividendTransactionsResponse {
-        if (!RequestValidator.validateGetAllBySymbol(accountId, symbol)) {
+    override fun getAllBySymbol(accountId: UUID, portfolioId: UUID, symbol: String): TLDividendTransactionsResponse {
+        if (!RequestValidator.validateGetAllBySymbol(symbol)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        val models = journalService.getAllBySymbol(UUID.fromString(accountId), UUID.fromString(portfolioId), symbol).orNull() ?: emptyList()
+        val models = journalService.getAllBySymbol(accountId, portfolioId, symbol).orNull() ?: emptyList()
         val dtos = models.map { DividendJournalModelConverter.toDto(it) }
 
         return TLDividendTransactionsResponse.newBuilder()
@@ -39,35 +41,29 @@ class DividendJournalController(private val journalFacade: JournalFacade, privat
     }
 
 
-    override fun createRecord(accountId: String, dto: TLDividendJournalDto): TLDividendJournalDto {
-        if (!RequestValidator.validateCreateDividendRecord(accountId, dto)) {
+    override fun createRecord(accountId: UUID, portfolioId: UUID, dto: TLDividendJournalDto): TLDividendJournalDto {
+        if (!RequestValidator.validateCreateDividendRecord(dto)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        //TODO: not sure this it.toString() works
         return journalFacade.createDividendRecord(DividendJournalModelConverter.toModel(dto))
                 .map { DividendJournalModelConverter.toDto(it) }
                 .getOrElse { throw TradeLogException(ExceptionCode.CREATE_DIVIDEND_FAILED) }
     }
 
 
-    override fun editRecord(accountId: String, transactionId: String, dto: TLDividendJournalDto) {
-        if (!RequestValidator.validateEditDividendRecord(accountId, transactionId, dto)) {
+    override fun editRecord(accountId: UUID, portfolioId: UUID, transactionId: UUID, dto: TLDividendJournalDto) {
+        if (!RequestValidator.validateEditDividendRecord(transactionId, dto)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        //TODO: not sure this it.toString() works
-        return journalFacade.editDividendRecord(UUID.fromString(transactionId), DividendJournalModelConverter.toModel(dto))
+        return journalFacade.editDividendRecord(transactionId, DividendJournalModelConverter.toModel(dto))
                 .getOrElse { throw TradeLogException(ExceptionCode.EDIT_DIVIDEND_FAILED) }
     }
 
 
-    override fun deleteRecord(accountId: String, transactionId: String) {
-        if (!RequestValidator.validateDeleteDividendRecord(accountId, transactionId)) {
-            throw TradeLogException(ExceptionCode.BAD_REQUEST)
-        }
-
-        return journalFacade.deleteDividendRecord(UUID.fromString(accountId), UUID.fromString(transactionId))
+    override fun deleteRecord(accountId: UUID, portfolioId: UUID, transactionId: UUID) {
+        return journalFacade.deleteDividendRecord(accountId, transactionId)
                 .getOrElse { throw TradeLogException(ExceptionCode.DELETE_DIVIDEND_FAILED) }
     }
 }

@@ -5,6 +5,9 @@ import com.example.gateway.api.core.model.ActionType
 import com.example.gateway.api.core.model.ShareAggregator
 import com.example.gateway.api.core.model.ShareJournalModel
 import com.example.gateway.api.core.model.TransactionType
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 import kotlin.math.abs
 
 fun createSynthetic(models: List<ShareJournalModel>): List<ShareJournalModel> {
@@ -40,9 +43,9 @@ fun createSynthetic(models: List<ShareJournalModel>): List<ShareJournalModel> {
             }
 
             synthetics.add(ShareJournalModel(
-                    transactionId = "",
-                    accountId = "",
-                    portfolioId = "",
+                    transactionId = UUID.randomUUID(),
+                    accountId = UUID.randomUUID(),
+                    portfolioId = UUID.randomUUID(),
                     symbol = symbol,
                     date = TimeConverter.nextYear(),
                     price = averageBoughPrice,

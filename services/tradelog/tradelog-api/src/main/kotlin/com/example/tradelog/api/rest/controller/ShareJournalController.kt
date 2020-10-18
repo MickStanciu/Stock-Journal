@@ -26,12 +26,12 @@ class ShareJournalController(private val journalFacade: JournalFacade, private v
         const val PROTOBUF_MEDIA_TYPE_VALUE = "application/x-protobuf"
     }
 
-    override fun getAllBySymbol(accountId: String, symbol: String, portfolioId: String) : TLShareTransactionsResponse {
-        if (!RequestValidator.validateGetAllBySymbol(accountId, symbol)) {
+    override fun getAllBySymbol(accountId: UUID, portfolioId: UUID, symbol: String) : TLShareTransactionsResponse {
+        if (!RequestValidator.validateGetAllBySymbol(symbol)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        val models = shareService.getAllBySymbol(UUID.fromString(accountId), UUID.fromString(portfolioId), symbol).orNull() ?: emptyList()
+        val models = shareService.getAllBySymbol(accountId, portfolioId, symbol).orNull() ?: emptyList()
         val dtos = models.map { m -> ShareJournalModelConverter.toDto(m) }
 
         return TLShareTransactionsResponse.newBuilder()
@@ -40,38 +40,31 @@ class ShareJournalController(private val journalFacade: JournalFacade, private v
     }
 
 
-    override fun createRecord(accountId: String, dto: TLShareJournalDto): TLShareJournalDto {
+    override fun createRecord(accountId: UUID, portfolioId: UUID, dto: TLShareJournalDto): TLShareJournalDto {
 
-        if (!RequestValidator.validateCreateShareRecord(accountId, dto)) {
+        if (!RequestValidator.validateCreateShareRecord(dto)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        //TODO: not sure this it.toString() works
         return journalFacade.createShareRecord(ShareJournalModelConverter.toModel(dto))
                 .map { ShareJournalModelConverter.toDto(it) }
                 .getOrElse { throw TradeLogException(ExceptionCode.CREATE_SHARE_FAILED) }
     }
 
 
-    override fun editRecord(accountId: String, transactionId: String, dto: TLShareJournalDto) {
+    override fun editRecord(accountId: UUID, portfolioId: UUID, transactionId: UUID, dto: TLShareJournalDto) {
 
-        if (!RequestValidator.validateEditShareRecord(accountId, transactionId, dto)) {
+        if (!RequestValidator.validateEditShareRecord(transactionId, dto)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        //TODO: not sure this it.toString() works
-        return journalFacade.editShareRecord(UUID.fromString(transactionId), ShareJournalModelConverter.toModel(dto))
+        return journalFacade.editShareRecord(transactionId, ShareJournalModelConverter.toModel(dto))
                 .getOrElse { throw TradeLogException(ExceptionCode.EDIT_SHARE_FAILED) }
     }
 
 
-    override fun deleteRecord(accountId: String, transactionId: String) {
-
-        if (!RequestValidator.validateDeleteShareRecord(accountId, transactionId)) {
-            throw TradeLogException(ExceptionCode.BAD_REQUEST)
-        }
-
-        return journalFacade.deleteShareRecord(UUID.fromString(accountId), UUID.fromString(transactionId))
+    override fun deleteRecord(accountId: UUID, portfolioId: UUID, transactionId: UUID) {
+        return journalFacade.deleteShareRecord(accountId, transactionId)
                 .getOrElse { throw TradeLogException(ExceptionCode.DELETE_SHARE_FAILED) }
     }
 }

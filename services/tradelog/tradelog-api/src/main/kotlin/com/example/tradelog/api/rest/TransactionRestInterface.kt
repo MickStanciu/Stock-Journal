@@ -6,6 +6,7 @@ import com.example.tradelog.api.spec.model.TLTradeSummaryResponse
 import com.example.tradelog.api.spec.model.TLTransactionSettingsDto
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
+import java.util.*
 
 /*
     Note: the problem with this interface: depends on spring, but makes controller more pretty
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*
 interface TransactionRestInterface {
     companion object {
         private const val ACCOUNT_ID_HEADER_NAME = "x-account-id"
+        private const val PORTFOLIO_ID_PARAM_NAME = "portfolio-id"
     }
 
     @RequestMapping(value = ["/active-symbols"], method = [RequestMethod.GET])
@@ -21,18 +23,24 @@ interface TransactionRestInterface {
 
     @RequestMapping(value = ["/summary"], method = [RequestMethod.GET])
     @ResponseStatus(HttpStatus.OK)
-    fun getSummary(@RequestHeader(ACCOUNT_ID_HEADER_NAME, required = true) accountId: String): TLTradeSummaryResponse
+    fun getSummary(
+            @RequestHeader(ACCOUNT_ID_HEADER_NAME) accountId: UUID,
+            @RequestHeader(PORTFOLIO_ID_PARAM_NAME) portfolioId: UUID,
+    ): TLTradeSummaryResponse
 
-    @RequestMapping(value = ["/summary/matrix/{portfolio-id}", "/summary/matrix/{portfolio-id}/"], method = [RequestMethod.GET])
+    @RequestMapping(value = ["/summary/matrix", "/summary/matrix/"], method = [RequestMethod.GET])
     @ResponseStatus(HttpStatus.OK)
-    fun getSummaryMatrix(@RequestHeader(ACCOUNT_ID_HEADER_NAME, required = true) accountId: String,
-                         @PathVariable("portfolio-id") portfolioId: String,
-                         @RequestParam(name = "shares-only", required = false, defaultValue = "false") sharesOnly: Boolean
+    fun getSummaryMatrix(
+            @RequestHeader(ACCOUNT_ID_HEADER_NAME) accountId: UUID,
+            @RequestHeader(PORTFOLIO_ID_PARAM_NAME) portfolioId: UUID,
+            @RequestParam(name = "shares-only", required = false, defaultValue = "false") sharesOnly: Boolean
     ): TLSummaryMatrixResponse
 
-    @RequestMapping(value = ["/settings/{transactionId}"], method = [RequestMethod.PUT])
+    @RequestMapping(value = ["/settings/{transaction-id}"], method = [RequestMethod.PUT])
     @ResponseStatus(HttpStatus.OK)
-    fun updateSettings(@RequestHeader(ACCOUNT_ID_HEADER_NAME, required = true) accountId: String,
-                       @PathVariable("transaction-id") transactionId: String,
-                       @RequestBody dto: TLTransactionSettingsDto)
+    fun updateSettings(
+            @RequestHeader(ACCOUNT_ID_HEADER_NAME) accountId: UUID,
+            @RequestHeader(PORTFOLIO_ID_PARAM_NAME) portfolioId: UUID,
+            @PathVariable("transaction-id") transactionId: UUID,
+            @RequestBody dto: TLTransactionSettingsDto)
 }

@@ -1,10 +1,11 @@
 package com.example.gateway.api.core.model
 
 import java.time.OffsetDateTime
+import java.util.*
 
-class OptionJournalModel(val transactionId: String,
-                         val accountId: String,
-                         val portfolioId: String,
+class OptionJournalModel(val transactionId: UUID?,
+                         val accountId: UUID,
+                         val portfolioId: UUID,
                          val stockSymbol: String,
                          val stockPrice: Double,
                          val strikePrice: Double,

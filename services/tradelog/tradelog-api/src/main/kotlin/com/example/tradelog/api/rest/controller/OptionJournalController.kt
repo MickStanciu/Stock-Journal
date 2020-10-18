@@ -26,12 +26,12 @@ class OptionJournalController(private val journalFacade: JournalFacade, private 
         const val PROTOBUF_MEDIA_TYPE_VALUE = "application/x-protobuf"
     }
 
-    override fun getAllBySymbol(accountId: String, symbol: String, portfolioId: String): TLOptionTransactionsResponse {
-        if (!RequestValidator.validateGetAllBySymbol(accountId, symbol)) {
+    override fun getAllBySymbol(accountId: UUID, portfolioId: UUID, symbol: String): TLOptionTransactionsResponse {
+        if (!RequestValidator.validateGetAllBySymbol(symbol)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        val models = optionService.getAllBySymbol(UUID.fromString(accountId), UUID.fromString(portfolioId), symbol).orNull() ?: emptyList()
+        val models = optionService.getAllBySymbol(accountId, portfolioId, symbol).orNull() ?: emptyList()
         val dtos = models.map { m -> OptionJournalModelConverter.toDto(m) }
 
         return TLOptionTransactionsResponse.newBuilder()
@@ -39,33 +39,27 @@ class OptionJournalController(private val journalFacade: JournalFacade, private 
                 .build()
     }
 
-    override fun createRecord(accountId: String, dto: TLOptionJournalDto): TLOptionJournalDto {
-        if (!RequestValidator.validateCreateOptionRecord(accountId, dto)) {
+    override fun createRecord(accountId: UUID, portfolioId: UUID, dto: TLOptionJournalDto): TLOptionJournalDto {
+        if (!RequestValidator.validateCreateOptionRecord(dto)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        //TODO: not sure this it.toString() works
         return journalFacade.createOptionRecord(OptionJournalModelConverter.toModel(dto))
                 .map { OptionJournalModelConverter.toDto(it) }
                 .getOrElse { throw TradeLogException(ExceptionCode.CREATE_OPTION_FAILED) }
     }
 
-    override fun editRecord(accountId: String, transactionId: String, dto: TLOptionJournalDto) {
-        if (!RequestValidator.validateEditOptionRecord(accountId, transactionId, dto)) {
+    override fun editRecord(accountId: UUID, portfolioId: UUID, transactionId: UUID, dto: TLOptionJournalDto) {
+        if (!RequestValidator.validateEditOptionRecord(transactionId, dto)) {
             throw TradeLogException(ExceptionCode.BAD_REQUEST)
         }
 
-        //TODO: not sure this it.toString() works
-        return journalFacade.editOptionRecord(UUID.fromString(transactionId), OptionJournalModelConverter.toModel(dto))
+        return journalFacade.editOptionRecord(transactionId, OptionJournalModelConverter.toModel(dto))
                 .getOrElse { throw TradeLogException(ExceptionCode.EDIT_OPTION_FAILED) }
     }
 
-    override fun deleteRecord(accountId: String, transactionId: String) {
-        if (!RequestValidator.validateDeleteOptionRecord(accountId, transactionId)) {
-            throw TradeLogException(ExceptionCode.BAD_REQUEST)
-        }
-
-        return journalFacade.deleteOptionRecord(UUID.fromString(accountId), UUID.fromString(transactionId))
+    override fun deleteRecord(accountId: UUID, portfolioId: UUID, transactionId: UUID) {
+        return journalFacade.deleteOptionRecord(accountId, transactionId)
                 .getOrElse { throw TradeLogException(ExceptionCode.DELETE_OPTION_FAILED) }
     }
 

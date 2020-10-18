@@ -1,20 +1,17 @@
 package com.example.gateway.api.rest.converter
 
 import com.example.common.converter.TimeConverter
-import com.example.gateway.api.core.model.ActionType
-import com.example.gateway.api.core.model.OptionJournalModel
-import com.example.gateway.api.core.model.OptionType
-import com.example.gateway.api.core.model.TransactionType
+import com.example.gateway.api.core.model.*
 import com.example.gateway.api.spec.model.GWCreateOptionJournalDto
 
 class CreateOptionJournalConverter {
 
     companion object {
-        fun toModel(accountId: String, portfolioId: String, dto: GWCreateOptionJournalDto): OptionJournalModel {
+        fun toModel(supportMetadata: SupportMetadata, dto: GWCreateOptionJournalDto): OptionJournalModel {
             return OptionJournalModel(
-                    transactionId = "",
-                    accountId = accountId,
-                    portfolioId = portfolioId,
+                    transactionId = null,
+                    accountId = supportMetadata.accountId,
+                    portfolioId = supportMetadata.portfolioId,
                     date = TimeConverter.toOffsetDateTime(dto.date),
                     stockSymbol = dto.stockSymbol,
                     stockPrice = dto.stockPrice,
