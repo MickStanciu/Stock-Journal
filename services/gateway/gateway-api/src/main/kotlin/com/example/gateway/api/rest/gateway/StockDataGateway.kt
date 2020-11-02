@@ -13,6 +13,7 @@ import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.stereotype.Service
+import org.springframework.web.client.HttpClientErrorException
 import org.springframework.web.client.RestClientException
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.util.UriComponentsBuilder
@@ -45,7 +46,11 @@ class StockDataGateway(
                 Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_DATA_CONVERSION_ERROR))
             }
         } catch (rce: RestClientException) {
-            Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR, "Could not connect to StockDataApi"))
+            when ((rce as HttpClientErrorException.NotFound).statusCode.value()) {
+                404 -> Either.Left(ApiException(ApiExceptionCode.DATABASE_RECORD_NOT_FOUND))
+                else -> Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_CONNECTION_ERROR, "Could not connect to StockDataApi"))
+            }
+
         } catch (ex: Exception) {
             Either.Left(ApiException(ApiExceptionCode.EXTERNAL_API_OTHER_ERROR, ex.message))
         }

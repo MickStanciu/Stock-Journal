@@ -30,17 +30,25 @@ class CustomisedExceptionHandler : ResponseEntityExceptionHandler() {
 
     @ExceptionHandler(PriceException::class)
     fun handlePriceException(ex: PriceException, request: WebRequest): ResponseEntity<ExceptionResponse> {
-        val exceptionResponse = ExceptionResponse.newBuilder()
+        val exceptionResponseBuilder = ExceptionResponse.newBuilder()
                 .setCode(ExceptionResponse.ExceptionCode.DATABASE_ACCESS_ERROR)
                 .setMessage(ex.message)
                 .setDetails(request.getDescription(false))
                 .setTimestamp(TimeConverter.getOffsetDateTimeNow().toString())
-                .build()
         LOG.error(ex.message, ex)
         return when (ex.code) {
-            ExceptionCode.BAD_REQUEST -> ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse)
-            ExceptionCode.NO_DATA -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponse)
-            else -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionResponse)
+            ExceptionCode.BAD_REQUEST -> {
+                val exceptionResponse = exceptionResponseBuilder.setCode(ExceptionResponse.ExceptionCode.DATABASE_RECORD_NOT_FOUND).build()
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionResponse)
+            }
+            ExceptionCode.NO_DATA -> {
+                val exceptionResponse = exceptionResponseBuilder.setCode(ExceptionResponse.ExceptionCode.UNKNOWN).build()
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body(exceptionResponse)
+            }
+            else -> {
+                val exceptionResponse = exceptionResponseBuilder.setCode(ExceptionResponse.ExceptionCode.UNKNOWN).build()
+                ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(exceptionResponse)
+            }
         }
     }
 
